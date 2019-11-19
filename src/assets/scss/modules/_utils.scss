@@ -1,0 +1,258 @@
+.container {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  @include tablet {
+    // max-width: 600px;
+  }
+  @include desktop {
+    width: 100%;
+    max-width: 1400px;
+  }
+  &--lg {
+    max-width: 1560px;
+    @media #{$tablet} {
+      max-width: 980px;
+      padding-left: 0;
+      padding-right: 0;
+      margin-bottom: 4rem;
+    }
+    @media #{$mobile} {
+      max-width: 640px;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+.section {
+  &__caption {
+    color: $grey-cool;
+    font-size: 0.75rem;
+    line-height: 3.25;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: 2.125rem;
+
+    @include tablet {
+      font-size: 2.5rem;
+    }
+    @include desktop {
+      font-size: 3.4rem;
+      line-height: 1.2;
+    }
+  }
+}
+
+.cta {
+  text-align: center;
+  padding: 1em 0;
+  font-size: 1rem;
+
+  @media #{$mobile} {
+    margin-bottom: 0;
+  }
+
+  &__title {
+    font-size: 2em;
+    padding-bottom: 0.5em;
+  }
+
+  &__intro {
+    padding-top: 0.875em;
+  }
+
+  &__body {
+    max-width: 60%;
+    margin: 0 auto;
+    padding: 4.375em 0;
+
+    @media #{$mobile} {
+      max-width: 80%;
+    }
+  }
+
+  &__wrapper {
+    color: $white;
+    background: $primary-dark;
+
+    .btn {
+      margin: 0 auto;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(347px, 1fr));
+    overflow-x: auto;
+    grid-gap: 3rem;
+
+    @media #{$mobile} {
+      padding: 3rem 0;
+    }
+  }
+
+  &__card-wrapper {
+    padding: 1.5rem 0;
+
+    @include tablet {
+      padding: 3rem 0;
+    }
+    @include desktop {
+      padding: 3rem 0;
+    }
+  }
+
+  &__card {
+    color: $text-dark;
+    margin: 3rem 0;
+    background: $white;
+    padding: 3rem 1.5rem;
+    box-shadow: none;
+    &:first-child {
+      background-color: #fbebee;
+    }
+    &:nth-child(2) {
+      background-color: #e9f2eb;
+    }
+    &:nth-child(3) {
+      background-color: #e7f3ff;
+    }
+
+    @media #{$mobile} {
+      margin: 0;
+    }
+    h4 {
+      letter-spacing: 1.2px;
+    }
+  }
+
+  &__icon {
+    margin-bottom: 2rem;
+  }
+
+  &__text {
+    line-height: 2rem;
+    font-size: 1rem;
+    padding-top: 1.14rem;
+  }
+}
+
+.subscribe {
+  padding: 6.125rem;
+
+  @media #{$mobile} {
+    padding: 3rem 1.25rem;
+  }
+
+  @media #{$tablet} {
+    padding: 4rem 2rem;
+  }
+
+  &__body {
+    margin: 0;
+    text-align: center;
+    padding-right: 15px;
+    padding-left: 15px;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    * {
+      max-width: 600px;
+    }
+
+    @include tablet {
+      text-align: left;
+      padding-right: 3rem;
+      max-width: 58.3333%;
+      flex: 0 0 58.3333%;
+    }
+    @include desktop {
+      text-align: left;
+      padding-right: 3rem;
+      max-width: 66.6666%;
+      flex: 0 0 66.6666%;
+    }
+  }
+
+  &__form {
+    padding-left: 5em;
+    border-left: 1px solid $black;
+
+    @media screen and (max-width: 768px) {
+      padding: 0;
+      border: none;
+    }
+  }
+
+  &__text {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    @include tablet {
+      max-width: 0 0 41.6666%;
+      flex: 0 0 41.6666%;
+    }
+    @include desktop {
+      max-width: 0 0 33.3333%;
+      flex: 0 0 33.3333%;
+    }
+  }
+
+  &__input {
+    height: 60px;
+    width: 100%;
+    padding: 0 1.125em;
+    border-radius: 3px;
+    border: 1px solid $silver;
+    background-color: $white;
+  }
+
+  &__btn {
+    height: 65px;
+    width: 100%;
+    color: $white;
+    background: $primary-dark;
+    border: none;
+    margin-top: 1rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: 200ms ease-in-out;
+    &[disabled] {
+      transition: 200ms ease-in-out;
+      background: rgba($color: $primary-dark, $alpha: 0.9);
+      cursor: no-drop;
+    }
+  }
+
+  &__row {
+    align-items: center;
+  }
+
+  &__text {
+    padding: 1rem 0;
+
+    @media #{$mobile} {
+      margin-top: 2rem;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  &__wrapper {
+    padding-top: 1rem;
+  }
+}
+
+.primary {
+  color: $primary;
+}
+.white {
+  color: $white;
+}
