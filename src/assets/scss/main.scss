@@ -5,9 +5,11 @@
 @import "base/mixins";
 
 @import "layouts/home";
-// @import "layouts/header";
 @import "layouts/navbar";
 
 @import "modules/forms";
 @import "modules/buttons";
 @import "modules/utils";
+
+@import "components/watchlist";
+@import "components/portfolio";

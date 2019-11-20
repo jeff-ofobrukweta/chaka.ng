@@ -1,18 +1,22 @@
 <template>
-  <main role="main">
+  <Fragment>
     <Navbar />
-    <section class="container">
-      <router-view />
-    </section>
-  </main>
+    <main role="main">
+      <section class="container">
+        <router-view />
+      </section>
+    </main>
+  </Fragment>
 </template>
 
 <script>
+import { Fragment } from "vue-fragment";
 import Navbar from "../components/Navbar";
 export default {
   name: "dashboard-layout",
   components: {
-    Navbar
+    Navbar,
+    Fragment
   }
 };
 </script>
