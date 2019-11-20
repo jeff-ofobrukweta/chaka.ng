@@ -1,5 +1,4 @@
 body {
-  font-size: 16px;
   font-family: $font-family;
   background: $white;
   width: 100%;
@@ -12,6 +11,17 @@ body {
   color: $text-color;
   &.no-scroll {
     overflow: hidden;
+  }
+}
+* {
+  transition: all 200ms;
+  box-sizing: border-box;
+}
+html,
+body {
+  font-size: 12px;
+  @include tablet {
+    font-size: 16px;
   }
 }
 h1,

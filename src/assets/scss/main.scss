@@ -4,7 +4,10 @@
 @import "base/base";
 @import "base/mixins";
 
-@import "layouts/main";
+@import "layouts/home";
+// @import "layouts/header";
+@import "layouts/navbar";
 
 @import "modules/forms";
+@import "modules/buttons";
 @import "modules/utils";

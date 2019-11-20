@@ -28,6 +28,12 @@
   }
 }
 
+main {
+  overflow-x: hidden;
+  padding-top: 5rem;
+  min-height: 100vh;
+}
+
 .section {
   &__caption {
     color: $grey-cool;
