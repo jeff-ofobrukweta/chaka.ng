@@ -1,17 +1,10 @@
 <template>
-  <input
-    :type="type"
-    :name="name"
-    v-model="content"
-    @input="handleInput"
-    :placeholder="placeholder"
-    class="form__input"
-  />
+  <button class="btn" :class="{  }">{{ text }}</button>
 </template>
 
 <script>
 export default {
-  name: "form-input",
+  name: "form-button",
   props: {
     name: {
       type: String,
@@ -24,12 +17,15 @@ export default {
     value: {
       type: String
     },
-    type: {
+    primary: {
+      type: Boolean
+    },
+    white: {
+      type: Boolean
+    },
+    text: {
       type: String,
       required: true
-    },
-    label: {
-      type: String
     }
   },
   data() {

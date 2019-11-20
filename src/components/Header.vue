@@ -139,7 +139,7 @@
               type="text"
               placeholder="Search stocks by name, symbol, tag..."
             />-->
-            <FormInput
+            <form-input
               type="text"
               placeholder="Search stocks by name, symbol, tag..."
               name="search"
@@ -166,16 +166,12 @@
 </template>
 
 <script>
-import FormInput from "./form/Input";
 export default {
   name: "app-header",
-  components: {
-    FormInput
-  },
   data() {
     return {
       isSidebarOpen: false,
-      isLoggedIn: false,
+      isLoggedIn: true,
       search: null
     };
   },
