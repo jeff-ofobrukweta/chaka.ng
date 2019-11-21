@@ -11,36 +11,43 @@
   z-index: 200;
   background: transparent;
   transition: all 200ms;
+
   @include tablet {
     padding: 1rem;
     padding-bottom: 0;
     margin: 0;
   }
+
   &.scroll {
     position: sticky;
     background: rgba($color: $white, $alpha: 0.95);
     box-shadow: 0px -1px 10px 1px rgba($color: $text-color, $alpha: 0.1);
     padding-top: 0.5rem;
+
     .nav__menu--auth {
       .btn {
         padding: 0.25rem 1.825rem;
       }
     }
+
     .v2-btn__login {
       background: none;
       color: $text-dark;
       border: 2px solid transparent;
+
       &:hover {
         color: $primary;
         border: 2px solid $primary;
       }
     }
+
     .nav__link {
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
     }
   }
 }
+
 // .btn {
 //   &.dropdown-toggle {
 //     border-radius: 0;
@@ -67,6 +74,7 @@
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   position: relative;
+
   //   &__dashboard {
   //     padding: 1.375rem 2.75rem;
   //     max-width: none;
@@ -94,40 +102,50 @@
   &-left {
     display: flex;
     align-items: center;
+
     &__form {
       display: none;
       margin-left: 1rem;
       border-left: 1px solid $grey-light;
       padding: 0rem 1rem;
       width: 100%;
+
       input {
         &::before {
           content: url("/assets/img/search.svg");
         }
       }
+
       @include tablet {
         display: block;
       }
     }
+
     &__icon {
       display: inline-flex;
       margin-left: 2rem;
+
       @include tablet {
         display: none;
       }
     }
   }
+
   &__item {
     padding: 0 0.875em;
+
     &--dropdown {
       cursor: pointer;
       position: relative;
       border-bottom: 4px solid transparent;
+
       &:hover {
         border-bottom: 4px solid transparent;
+
         path {
           stroke: $primary;
         }
+
         .nav__dropdown-menu {
           background: $white;
           opacity: 1;
@@ -136,33 +154,41 @@
       }
     }
   }
+
   &__link {
-    padding-bottom: 1rem;
+    padding-bottom: .75rem;
     display: inline-block;
-    padding-top: 0.75em;
-    letter-spacing: 0.05em;
+    padding-top: 0.75rem;
+    letter-spacing: 0.05rem;
+
     &:hover {
       color: $primary;
     }
+
     &.active {
       color: $primary;
       border-bottom: 4px solid $primary;
     }
+
     &--dropdown {
       &:hover {
         border-bottom: none;
+
         path {
           stroke: $primary;
         }
       }
     }
   }
+
   &__menu {
     margin-left: 1em;
     display: none;
+
     @include desktop {
       display: flex;
     }
+
     &--mobile {
       position: fixed;
       background: rgba($color: $black, $alpha: 0.15);
@@ -172,13 +198,16 @@
       top: 0;
       z-index: 10;
       display: none;
+
       &.show {
         display: block;
+
         .nav__menu-wrapper {
           transform: translateX(0);
         }
       }
     }
+
     &-wrapper {
       background: $white;
       padding: 5em 2em;
@@ -189,18 +218,22 @@
       height: 100vh;
       transform: translateX(100%);
       transition: all 300ms;
+
       .nav__link {
         padding-bottom: 1.5em;
       }
     }
+
     &--auth {
       &:first-child {
         margin-right: 1rem;
       }
     }
   }
+
   &__dropdown {
     display: hidden;
+
     &-menu {
       background: $white;
       padding: 1rem 3rem;
@@ -212,10 +245,12 @@
       left: -20%;
       z-index: 5;
       transition: all ease 0.3s;
+
       a {
         white-space: nowrap;
         line-height: 2rem;
         font-weight: normal;
+
         &:hover {
           color: $primary;
           cursor: pointer;
@@ -223,6 +258,7 @@
       }
     }
   }
+
   &__mobile {
     &-button {
       position: absolute;
@@ -232,9 +268,11 @@
       margin: auto 0;
       cursor: pointer;
       display: block;
+
       @include desktop {
         display: none;
       }
+
       span {
         background-color: $primary-dark;
         display: block;
@@ -247,35 +285,43 @@
         width: 1.5rem;
         color: white;
       }
+
       &.is-active {
         span {
           &:nth-child(2) {
             opacity: 0;
           }
+
           &:first-child {
             transform: rotate(-45deg) translate(-8px, 8px);
           }
+
           &:last-child {
             transform: rotate(45deg) translate(0px, 0px);
           }
         }
       }
     }
+
     &-list {
       padding-top: 2rem;
     }
   }
+
   &__dashboard {
     &--menu {
       display: flex;
       align-items: center;
+
       button {
         margin-left: 0.5rem;
       }
+
       p {
         margin: 0;
       }
     }
+
     &--left {
       @extend .nav-left;
       flex: 1 1 40%;

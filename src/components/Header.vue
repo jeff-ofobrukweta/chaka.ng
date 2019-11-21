@@ -1,6 +1,6 @@
 <template>
   <header id="header">
-    <nav class="nav" role="navigation" :class="{ 'nav__dashboard': isLoggedIn }">
+    <nav class="nav" role="navigation" :class="{ nav__dashboard: isLoggedIn }">
       <template v-if="!isLoggedIn">
         <div class="nav-left">
           <router-link class="nav__logo" :to="{ name: 'home' }" exact-active-class="active">
@@ -20,14 +20,14 @@
           </router-link>
           <ul class="nav__menu">
             <li class="nav__item">
-              <router-link
-                class="nav__link"
-                to="/calculators"
-                exact-active-class="active"
-              >Calculator</router-link>
+              <router-link class="nav__link" to="/calculators" exact-active-class="active"
+                >Calculator</router-link
+              >
             </li>
             <li class="nav__item">
-              <router-link class="nav__link" to="/developers" active-class="active">Developers</router-link>
+              <router-link class="nav__link" to="/developers" active-class="active"
+                >Developers</router-link
+              >
             </li>
             <li class="nav__item">
               <router-link class="nav__link" to="/faq" active-class="active">Help</router-link>
@@ -53,10 +53,12 @@
 
         <ul class="nav__menu">
           <li class="nav__menu--auth">
-            <router-link class="btn btn__primary" :to="{name: 'login'}">Log In</router-link>
+            <router-link class="btn btn__primary" :to="{ name: 'login' }">Log In</router-link>
           </li>
           <li class="nav__menu--auth">
-            <router-link class="btn btn__primary--outline" :to="{name: 'register'}">Sign Up</router-link>
+            <router-link class="btn btn__primary--outline" :to="{ name: 'register' }"
+              >Sign Up</router-link
+            >
           </li>
         </ul>
 
@@ -84,33 +86,39 @@
             </router-link>
             <ul class="nav__mobile-list">
               <li class="nav__item">
-                <router-link class="nav__link" :to="{name: 'login'}">Log In</router-link>
+                <router-link class="nav__link" :to="{ name: 'login' }">Log In</router-link>
               </li>
               <li class="nav__item">
-                <router-link class="nav__link" :to="{name: 'calculator'}">Calculator</router-link>
+                <router-link class="nav__link" :to="{ name: 'calculator' }">Calculator</router-link>
               </li>
               <li class="nav__item">
-                <router-link class="nav__link" :to="{name: 'developers'}">Developers</router-link>
+                <router-link class="nav__link" :to="{ name: 'developers' }">Developers</router-link>
               </li>
               <!-- <li class="nav__item">
 									<router-link class="nav__link" to="/blog">Blog</router-link>
               </li>-->
               <li class="nav__item">
-                <router-link class="nav__link" :to="{name: 'faq'}">Help</router-link>
+                <router-link class="nav__link" :to="{ name: 'faq' }">Help</router-link>
               </li>
               <li class="nav__item">
-                <router-link class="nav__link" :to="{name: 'about'}">About us</router-link>
+                <router-link class="nav__link" :to="{ name: 'about' }">About us</router-link>
               </li>
             </ul>
             <ul class="nav__meta">
               <li class="nav__item">
-                <router-link :to="{ name: 'terms' }" class="nav__meta-link">Terms & Conditions</router-link>
+                <router-link :to="{ name: 'terms' }" class="nav__meta-link"
+                  >Terms & Conditions</router-link
+                >
               </li>
               <li class="nav__item">
-                <router-link :to="{ name: 'policies' }" class="nav__meta-link">Policies & procedures</router-link>
+                <router-link :to="{ name: 'policies' }" class="nav__meta-link"
+                  >Policies & procedures</router-link
+                >
               </li>
               <li class="nav__item">
-                <router-link :to="{ name: 'privacy' }" class="nav__meta-link">Privacy Policy</router-link>
+                <router-link :to="{ name: 'privacy' }" class="nav__meta-link"
+                  >Privacy Policy</router-link
+                >
               </li>
             </ul>
           </div>
@@ -171,7 +179,7 @@ export default {
   data() {
     return {
       isSidebarOpen: false,
-      isLoggedIn: true,
+      isLoggedIn: false,
       search: null
     };
   },
@@ -198,5 +206,4 @@ export default {
 };
 </script>
 
-<style src="../assets/scss/layouts/_header.scss" lang="scss" scoped>
-</style>
+<style src="../assets/scss/layouts/_header.scss" lang="scss" scoped></style>
