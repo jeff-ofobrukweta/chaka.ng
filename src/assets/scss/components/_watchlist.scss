@@ -1,0 +1,82 @@
+.watchlist {
+  &-portfolio {
+    &__box {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    &__card {
+      max-width: 100%;
+      flex: 0 0 100%;
+      width: 100%;
+      border: 1px solid $white;
+      display: flex;
+      justify-content: space-between;
+      flex-flow: row wrap;
+      padding: 0.825rem 0.9rem;
+      color: $white;
+
+      @include tablet {
+        max-width: 33.3333%;
+        flex: 0 0 33.3333%;
+      }
+      @include desktop {
+        max-width: 25%;
+        flex: 0 0 25%;
+      }
+      &.dark-green {
+        background-color: #205317;
+      }
+      &.green {
+        background-color: #33612b;
+      }
+      &.light-green {
+        background-color: #51774a;
+      }
+      &.dark-red {
+        background-color: #7d1608;
+      }
+      &.red {
+        background-color: #8b3327;
+      }
+      &.light-red {
+        background-color: #a76b63;
+      }
+    }
+    &__left {
+      flex: 0 1 70%;
+      max-width: 70%;
+    }
+    &__right {
+      flex: 1 0 30%;
+      max-width: 30%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    &__name {
+      margin-bottom: 0.5rem;
+      font-size: 14px;
+    }
+    &__change {
+      margin-bottom: 4px;
+      img {
+        margin-right: 4px;
+      }
+    }
+    &__buy {
+      width: 100%;
+      font-size: 0.825rem;
+      margin-bottom: 0.825rem;
+      padding: 0.5rem;
+      padding-right: 0;
+      cursor: pointer;
+      &:hover {
+        transition: all 0.5s;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+    }
+  }
+}

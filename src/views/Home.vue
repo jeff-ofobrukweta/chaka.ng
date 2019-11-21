@@ -35,7 +35,7 @@
                 class="alert alert-danger"
                 role="alert"
               >{{ Object.values(errors)[0]}}</div>
-              <form class="v2-landing__form v2-layer__signup" @submit.prevent="create">
+              <form class="v2-landing__form row v2-layer__signup" @submit.prevent="create">
                 <input
                   class="v2-landing__input"
                   v-model="itemData.email"

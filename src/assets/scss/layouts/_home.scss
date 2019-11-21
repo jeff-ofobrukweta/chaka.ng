@@ -200,7 +200,7 @@
         position: absolute;
         display: none;
         right: -20%;
-        top: -100vh;
+        top: -1300px;
         z-index: -1;
         animation: move-down 800ms ease-in-out 1000ms forwards;
 
@@ -221,8 +221,7 @@
     }
 
     &__form {
-      display: inline-flex;
-      flex-flow: row wrap;
+      justify-content: space-between;
       border-top-right-radius: 30px;
       border-bottom-right-radius: 30px;
       padding: 0.125em;
@@ -235,9 +234,10 @@
       background: transparent !important;
       padding: 0.5em;
       padding-left: 0;
-      flex: 1 1 50px;
+      flex: 0 0 100%;
+      margin-bottom: 2rem;
       margin-right: 10px;
-      margin-bottom: 1em;
+      margin-bottom: 1rem;
       transition: all 200ms linear;
 
       &:focus {
@@ -246,14 +246,9 @@
         border-bottom: 1px solid $primary-dark;
       }
 
-      @include mobile {
-        flex: 1 1 100%;
-        margin-bottom: 2em;
-      }
-
-      @include tablet {
-        flex: 1 1 100%;
-        margin-bottom: 2em;
+      @include desktop {
+        flex: 0 0 48%;
+        max-width: 48%;
       }
     }
 
@@ -1139,7 +1134,7 @@
 
 @keyframes move-down {
   0% {
-    top: -100vh;
+    top: -1300px;
   }
 
   100% {
