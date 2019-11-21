@@ -1,0 +1,62 @@
+.accounts {
+    padding: 1.5rem 0;
+
+    &__title {
+        margin-bottom: 2rem
+    }
+
+    &-overview {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+
+        &__text {
+            flex: 1 0 50%;
+            max-width: 50%;
+            margin-bottom: 2rem;
+            padding-right: .325rem;
+
+            &:first-child {
+                flex: 0 0 100%;
+                max-width: 100%;
+
+                @include desktop {
+                    flex: 0 0 200px;
+                    max-width: 200px
+                }
+            }
+
+            @include tablet {
+                flex: 0 0 19%;
+                max-width: 100%;
+                ;
+            }
+
+            h4 {
+                color: $primary-dark
+            }
+
+            p {
+                color: $grey-cool;
+                font-size: 1.2rem;
+                margin-bottom: .5rem;
+            }
+        }
+
+        &__cards {
+            @extend .accounts-overview;
+            align-items: flex-start;
+        }
+
+        &__card {
+            flex: 0 0 100%;
+            max-width: 100%;
+
+            @include tablet {
+                flex: 0 0 30%;
+                max-width: 30%;
+            }
+        }
+    }
+}

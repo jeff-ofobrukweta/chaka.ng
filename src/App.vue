@@ -17,12 +17,14 @@ export default {
   created() {
     window.onscroll = () => {
       const currentScrollPos = window.pageYOffset;
+      const nav = document.getElementById("nav");
+      const header = document.getElementById("header");
       if (currentScrollPos > 20) {
-        document.getElementById("header").classList.add("scroll");
-        document.getElementById("nav").classList.add("scroll");
+        header.classList.add("scroll");
+        if (nav) nav.classList.add("scroll");
       } else {
-        document.getElementById("header").classList.remove("scroll");
-        document.getElementById("nav").classList.remove("scroll");
+        header.classList.remove("scroll");
+        if (nav) nav.classList.remove("scroll");
       }
       if (currentScrollPos > 100) {
       } else {
