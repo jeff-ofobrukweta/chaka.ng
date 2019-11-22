@@ -1,8 +1,16 @@
 .accounts {
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 6rem;
 
     &__title {
-        margin-bottom: 2rem
+        margin-bottom: 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        select {
+            width: 10rem;
+            height: 2.5rem;
+        }
     }
 
     &-overview {
@@ -54,8 +62,243 @@
             max-width: 100%;
 
             @include tablet {
+                flex: 0 0 48%;
+                max-width: 48%;
+            }
+
+            @include desktop {
                 flex: 0 0 30%;
                 max-width: 30%;
+            }
+        }
+
+        &__flex {
+            display: flex;
+            align-items: center;
+
+            margin-bottom: 1rem;
+        }
+
+        &__symbol {
+            margin-right: 1rem;
+        }
+
+        &__currency {
+            min-width: 90px;
+            // padding-right: 1rem;
+            font-weight: bold;
+        }
+
+        &__approved {
+            &--img {
+                margin-left: 6px;
+            }
+        }
+    }
+
+    &-wallet {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        @include mobile {
+            justify-content: center;
+        }
+
+        &__value {
+            background-color: $primary;
+            color: $white;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-radius: 5px;
+            box-shadow: 6px 14px 15px rgba($color: $box-shadow, $alpha: 0.3);
+
+            width: 100%;
+
+            h2 {
+                font-size: 1.825rem;
+                color: $white;
+                margin-top: 1rem;
+                word-break: break-word;
+            }
+
+            @include tablet {
+                flex: 0 0 320px;
+                max-width: 320px;
+            }
+        }
+
+        &__graphics {
+            display: inline-flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+
+            img {
+                width: 48%
+            }
+        }
+
+        &__text {
+            flex-grow: 1 1 100%;
+            margin-top: 2rem;
+            padding-left: 0;
+            text-align: center;
+
+            @include tablet {
+                flex-basis: unset;
+                margin-top: 0;
+                padding-left: 2rem;
+                text-align: left;
+                flex: 1 1;
+            }
+
+            hr {
+                margin-top: .825rem;
+                margin-bottom: .825rem;
+                border-width: 0.5px;
+                border-color: $border-color;
+            }
+
+            h3 {
+                color: $primary-dark;
+                margin-bottom: .25rem;
+            }
+
+            p {
+                color: $grey-cool
+            }
+        }
+
+        &__currency {
+            margin-bottom: 2rem;
+        }
+
+        &__money {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            &>div {
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-bottom: 2rem;
+
+
+                @include tablet {
+                    flex: 0 0 48%;
+                    max-width: 48%;
+                }
+
+                @include desktop {
+                    flex: 0 0 30%;
+                    max-width: 30%;
+                }
+            }
+        }
+
+        &__buttons {
+            // display: flex;
+
+            button {
+                width: 100%;
+                margin-bottom: .825rem;
+                font-weight: bold;
+
+                @include tablet {
+                    width: 25%;
+                    max-width: 200px;
+                    margin-right: 5%;
+                }
+            }
+        }
+    }
+
+    &-history {
+        &__all {
+            display: flex;
+            padding: 0.325rem 0.5rem;
+            border: 1px solid $border-color;
+            margin-bottom: 1rem;
+
+            .btn {
+                flex: 0 0 20%;
+                max-width: 20%;
+                font-size: 70%;
+                padding-left: 0;
+                padding-right: 0;
+                border-color: transparent;
+
+                @include tablet {
+                    font-size: 100%;
+                }
+
+                &.active {
+                    @extend .btn__primary;
+
+                    &:hover {
+                        background-color: $primary !important;
+                        color: $white !important
+                    }
+                }
+
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+
+        &__date {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 2.5rem;
+
+            input {
+                @include mobile {
+                    width: 45%
+                }
+
+                width: 10rem;
+
+                &:first-child {
+                    margin-right: 10px;
+                }
+
+                &:last-child {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+
+    &-statements {
+        &__all {
+            @extend .accounts-history__all;
+            justify-content: space-between;
+
+            .btn {
+                flex: 0 0 30%;
+                max-width: 33.33%;
+            }
+        }
+
+        &__date {
+            @extend .accounts-history__date
+        }
+
+        &__downloads {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            &>div {
+                flex: 0 0 100%;
+
+                @include tablet {
+                    flex: 0 0 48%;
+                    max-width: 48%;
+                }
             }
         }
     }

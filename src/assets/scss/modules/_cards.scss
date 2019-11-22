@@ -64,6 +64,12 @@
         box-shadow: 14px 30px 30px rgba($color: $box-shadow, $alpha: 0.3);
         border-radius: 10px;
         padding: 3.5rem 1.5rem;
+        height: 13.5rem;
+        margin-bottom: 3rem;
+
+        // @include tablet{
+        //     heigh
+        // }
 
         &__title {
             margin-bottom: 1rem;
@@ -85,6 +91,95 @@
 
         hr {
             margin-bottom: 1rem;
+            border-width: 0.5px;
+            border-color: $border-color;
+        }
+
+    }
+
+    &-statement {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        transition: all 200ms;
+
+        &:hover {
+            box-shadow: 13px 30px 32px rgba($color: $box-shadow, $alpha: 0.2);
+
+            .card-statement__download {
+                background-color: $green;
+                border-top-right-radius: 12px;
+                border-bottom-right-radius: 12px;
+
+                path {
+                    fill: $white
+                }
+            }
+        }
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            padding-left: 2rem;
+
+            @include tablet {
+                flex-direction: row;
+                align-items: center;
+                flex: 1 0 70%;
+                max-width: 70%;
+            }
+
+            @include desktop {
+                flex: 1 0 60%;
+                max-width: 60%;
+            }
+        }
+
+        &__summary {
+            p {
+                margin-bottom: .5rem;
+            }
+        }
+
+        &__details {
+            text-align: left;
+            margin-top: .3rem;
+
+            @include tablet {
+                text-align: center;
+                margin-top: unset;
+                max-width: 100px;
+            }
+        }
+
+        &__download {
+            display: flex;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            transition: all 200ms;
+
+            path {
+                fill: $silver;
+            }
+
+            &:hover {
+                background-color: $green;
+                border-top-right-radius: 12px;
+                border-bottom-right-radius: 12px;
+
+                path {
+                    fill: $white
+                }
+            }
         }
 
     }
