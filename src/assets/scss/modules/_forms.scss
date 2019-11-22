@@ -2,12 +2,15 @@
   padding-top: 3em;
   position: relative;
   text-align: left;
+
   &__input {
     width: 100%;
     padding: 0.5rem 1rem;
     border: 1px solid $silver;
     background-color: $white;
     border-radius: 5px;
+    margin-top: .5rem;
+
     &--file {
       position: absolute;
       left: 0;
@@ -25,19 +28,27 @@
       border-radius: 50%;
       text-transform: capitalize;
       font-size: 1rem;
+
       &:hover {
         cursor: pointer;
         background: rgba(0, 0, 0, 0.6);
       }
+
       input {
         visibility: hidden;
         overflow: hidden;
       }
     }
+
     &-wrapper {
       width: 100%;
     }
   }
+
+  &__label {
+    color: rgba($color: $black, $alpha: 0.5);
+  }
+
   &-control {
     &.is-invalid {
       border-color: $orange;
@@ -45,13 +56,16 @@
       background-size: 24px 24px;
       background-position: 96%;
       padding-right: 1em;
+
       &:hover {
         border-color: $orange;
       }
+
       &:focus {
         border-color: $orange;
       }
     }
+
     &__error {
       color: $orange;
       font-size: 10px;
