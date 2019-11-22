@@ -302,4 +302,66 @@
             }
         }
     }
+
+    &-settings {
+        &__uploads {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 800px;
+            justify-content: space-between;
+
+            &>div {
+                flex: 0 0 40%;
+                max-width: 40%;
+                margin-bottom: 2rem;
+
+                @include tablet {
+                    flex: unset;
+                    max-width: unset;
+                }
+            }
+        }
+
+        &__form {
+            margin-bottom: 1.5rem;
+        }
+
+        &__hero {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        &__group {
+            flex: 0 0 100%;
+            margin-bottom: 1.25rem;
+            position: relative;
+
+            @include tablet {
+                flex: 0 0 30%;
+                max-width: 30%;
+                margin-right: 3.33%;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+
+        &__title {
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+
+            h5 {
+                text-transform: uppercase;
+                color: #4f4f4f;
+            }
+        }
+
+        &__edit {
+            color: $grey-cool;
+            text-decoration: underline;
+            margin-left: 20px;
+        }
+    }
 }

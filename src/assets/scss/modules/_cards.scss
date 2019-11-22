@@ -110,12 +110,14 @@
             box-shadow: 13px 30px 32px rgba($color: $box-shadow, $alpha: 0.2);
 
             .card-statement__download {
-                background-color: $green;
-                border-top-right-radius: 12px;
-                border-bottom-right-radius: 12px;
+                button {
+                    background-color: $green;
+                    border-top-right-radius: 12px;
+                    border-bottom-right-radius: 12px;
 
-                path {
-                    fill: $white
+                    path {
+                        fill: $white
+                    }
                 }
             }
         }
@@ -160,24 +162,33 @@
 
         &__download {
             display: flex;
-            padding-left: 1rem;
-            padding-right: 1rem;
             flex-direction: column;
             justify-content: center;
             height: 100%;
-            transition: all 200ms;
 
-            path {
-                fill: $silver;
-            }
+            button {
+                width: 100%;
+                height: 100%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                transition: all 200ms;
 
-            &:hover {
-                background-color: $green;
-                border-top-right-radius: 12px;
-                border-bottom-right-radius: 12px;
+                &:focus {
+                    outline: none;
+                }
 
                 path {
-                    fill: $white
+                    fill: $silver;
+                }
+
+                &:hover {
+                    background-color: $green;
+                    border-top-right-radius: 12px;
+                    border-bottom-right-radius: 12px;
+
+                    path {
+                        fill: $white
+                    }
                 }
             }
         }
