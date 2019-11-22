@@ -103,6 +103,7 @@
             tr {
                 margin-bottom: 0.5rem;
                 border: 1px solid transparent;
+                transition: all 200ms linear;
 
                 &:hover {
                     box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);

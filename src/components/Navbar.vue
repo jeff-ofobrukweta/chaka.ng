@@ -2,7 +2,7 @@
   <nav class="side__nav" id="nav">
     <ul class="side-nav container">
       <li class="side-nav__item">
-        <router-link class="side-nav__link" to="/dashboard/portfolio" active-class="active">
+        <router-link class="side-nav__link" to="/dashboard/portfolio">
           <span class="side-nav__text">
             <svg
               width="20"
@@ -22,7 +22,7 @@
         </router-link>
       </li>
       <li class="side-nav__item">
-        <router-link class="side-nav__link" :to="{name:'discover'}" active-class="active">
+        <router-link class="side-nav__link" :to="{ name: 'explore' }">
           <span class="side-nav__text">
             <svg
               width="20"
@@ -42,7 +42,7 @@
         </router-link>
       </li>
       <li class="side-nav__item">
-        <router-link class="side-nav__link" to="/dashboard/gift" active-class="active">
+        <router-link class="side-nav__link" :to="{ name: 'categories' }">
           <span class="side-nav__text">
             <svg
               width="20"
@@ -62,7 +62,7 @@
         </router-link>
       </li>
       <!-- <li class="side-nav__item">
-          <router-link class="side-nav__link" to="/dashboard/accumulate" active-class="active">
+          <router-link class="side-nav__link" to="/dashboard/accumulate">
             <svg width="20" height="21" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M7.5 14.667H5.835V8.833h1.667v5.834zm3.334 0H9.167V6.333h1.667v8.334zm3.333 0h-1.666v-3.334h1.666v3.334zm2.084 1.75H3.75V4.667h12.5v11.75zM16.25 3H3.75c-.917 0-1.667.75-1.667 1.667v11.666c0 .917.75 1.667 1.667 1.667h12.5c.916 0 1.666-.75 1.666-1.667V4.667c0-.917-.75-1.667-1.666-1.667z"
@@ -73,7 +73,7 @@
           </router-link>
       </li>-->
       <li class="side-nav__item">
-        <router-link class="side-nav__link" to="/dashboard/accounts" active-class="active">
+        <router-link class="side-nav__link" to="/dashboard/accounts">
           <span class="side-nav__text">
             <svg
               width="20"
@@ -95,3 +95,13 @@
     </ul>
   </nav>
 </template>
+
+<script>
+import dropdown from "./Dropdown";
+export default {
+  name: "navbar",
+  components: {
+    dropdown
+  }
+};
+</script>

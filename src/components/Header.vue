@@ -179,7 +179,7 @@ export default {
   data() {
     return {
       isSidebarOpen: false,
-      isLoggedIn: false,
+      isLoggedIn: true,
       search: null
     };
   },
