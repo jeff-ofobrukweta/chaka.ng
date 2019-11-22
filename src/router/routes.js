@@ -24,7 +24,7 @@ const routes = [
     component: DashboardLayout,
     children: [
       {
-        path: "",
+        path: "/portfolio",
         name: "portfolio",
         component: Portfolio
       },
