@@ -1,14 +1,14 @@
-const webpack = require("webpack");
-const CompressionPlugin = require("compression-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const webpack = require('webpack');
+const CompressionPlugin = require('compression-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   configureWebpack: {
     plugins: [
       new CompressionPlugin({
-        algorithm: "gzip"
-      })
+        algorithm: 'gzip',
+      }),
       // new BundleAnalyzerPlugin()
     ],
     optimization: {
@@ -18,14 +18,14 @@ module.exports = {
           parallel: 4,
           terserOptions: {
             output: {
-              comments: false
-            }
+              comments: false,
+            },
           },
-          extractComments: false
-        })
+          extractComments: false,
+        }),
       ],
       splitChunks: {
-        chunks: "all",
+        chunks: 'all',
         maxInitialRequests: Infinity,
         minSize: 0,
         cacheGroups: {
@@ -37,22 +37,22 @@ module.exports = {
               const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
 
               // npm package names are URL-safe, but some servers don't like @ symbols
-              return `npm.${packageName.replace("@", "")}`;
-            }
-          }
-        }
-      }
-    }
+              return `npm.${packageName.replace('@', '')}`;
+            },
+          },
+        },
+      },
+    },
   },
-  lintOnSave: process.env.NODE_ENV !== "production",
+  lintOnSave: process.env.NODE_ENV !== 'production',
   css: {
     loaderOptions: {
       sass: {
         prependData: `
           @import "@/assets/scss/base/_variables.scss";
           @import "@/assets/scss/base/_mixins.scss";
-        `
-      }
-    }
-  }
+        `,
+      },
+    },
+  },
 };

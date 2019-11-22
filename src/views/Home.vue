@@ -26,7 +26,7 @@
 								v-if="message || getErrorLog.type === 'register'"
 								class="alert"
 								:class="{
-								'alert-success' : getStatus === 'success', 
+								'alert-success' : getStatus === 'success',
 								'alert-danger' : getErrorLog.type === 'register' }"
 								role="alert"
               >{{ message || getErrorLog.message}}</div>-->
@@ -35,7 +35,7 @@
                 class="alert alert-danger"
                 role="alert"
               >{{ Object.values(errors)[0]}}</div>
-              <form class="v2-landing__form v2-layer__signup" @submit.prevent="create">
+              <form class="v2-landing__form row v2-layer__signup" @submit.prevent="create">
                 <input
                   class="v2-landing__input"
                   v-model="itemData.email"
@@ -776,34 +776,34 @@
 </template>
 
 <script>
-import EmailSubscribe from "../components/EmailSubscription";
-import Flickity from "vue-flickity";
+import Flickity from 'vue-flickity';
+import EmailSubscribe from '../components/EmailSubscription';
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     EmailSubscribe,
-    Flickity
+    Flickity,
   },
   data() {
     return {
       investNumber: 0,
       invest: [
         {
-          title: "Invest",
+          title: 'Invest',
           text:
-            "More options of assets from around the world than ever before. Start with as low as $10 or N1, 000."
+            'More options of assets from around the world than ever before. Start with as low as $10 or N1, 000.',
         },
         {
-          title: "Grow",
+          title: 'Grow',
           text:
-            "Upgrade your investment knowledge. Whether you're less experienced or a professional, get access to tools and content from our in-house team and guests from around the world. Learn more about fundamental, technical and sentimental investing."
+            "Upgrade your investment knowledge. Whether you're less experienced or a professional, get access to tools and content from our in-house team and guests from around the world. Learn more about fundamental, technical and sentimental investing.",
         },
         {
-          title: "Share Ownership",
+          title: 'Share Ownership',
           text:
-            "Own your favorite companies and share the gift of ownership with colleagues, friends and loved ones."
-        }
+            'Own your favorite companies and share the gift of ownership with colleagues, friends and loved ones.',
+        },
       ],
       itemData: {},
       errors: {},
@@ -820,29 +820,26 @@ export default {
         adaptiveHeight: true,
         selectedAttraction: 0.2,
         friction: 0.8,
-        cellAlign: "left"
-      }
+        cellAlign: 'left',
+      },
     };
   },
   computed: {
     slider() {
       const num = this.investNumber * 50;
       return `translateY(${num}px)`;
-    }
+    },
   },
   methods: {
     create() {
       console.log(this.itemData);
-    }
+    },
   },
   mounted() {
-    document.title =
-      "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
-    document.getElementsByTagName("meta")["keywords"].content =
-      "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
-    document.getElementsByTagName("meta")["description"].content =
-      "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
-  }
+    document.title = 'Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets';
+    document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+    document.getElementsByTagName('meta').description.content = 'Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.';
+  },
 };
 </script>
 
