@@ -1,8 +1,8 @@
-import Vue from "vue";
-import App from "./App.vue";
-import "./registerServiceWorker";
-import router from "./router";
-import store from "./store";
+import Vue from 'vue';
+import App from './App.vue';
+import './registerServiceWorker';
+import router from './router';
+import store from './store';
 
 import AOS from "aos";
 import GlobalComponents from "./plugins/globalComponents";
@@ -21,13 +21,13 @@ new Vue({
     AOS.init({
       duration: 500,
       delay: 100,
-      easing: "ease-in-out",
+      easing: 'ease-in-out',
       mirror: false,
-      startEvent: "DOMContentLoaded",
-      anchorPlacement: "top-center",
+      startEvent: 'DOMContentLoaded',
+      anchorPlacement: 'top-center',
       // once: true,
-      offset: 50
+      offset: 50,
     });
   },
-  render: h => h(App)
-}).$mount("#app");
+  render: h => h(App),
+}).$mount('#app');

@@ -54,18 +54,18 @@
 
 <script>
 export default {
-  name: "email-subscription",
+  name: 'email-subscription',
   data() {
     return {
       subscribed: false,
-      email: null
+      email: null,
     };
   },
   methods: {
     subscribe() {
       this.$refs.subscribe.submit();
       this.subscribed = true;
-    }
-  }
+    },
+  },
 };
 </script>
