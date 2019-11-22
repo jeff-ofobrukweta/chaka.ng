@@ -12,6 +12,8 @@ const AccountsStatements = () =>
   import(/* webpackChunkName: "accounts-statements" */ "../views/dashboard/accounts/Statements");
 const AccountsHistory = () =>
   import(/* webpackChunkName: "accounts-history" */ "../views/dashboard/accounts/History");
+const AccountsSettings = () =>
+  import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
 
 const routes = [
   {
@@ -61,6 +63,11 @@ const routes = [
             path: "history",
             name: "accounts-history",
             component: AccountsHistory
+          },
+          {
+            path: "settings",
+            name: "accounts-settings",
+            component: AccountsSettings
           }
         ]
       }
