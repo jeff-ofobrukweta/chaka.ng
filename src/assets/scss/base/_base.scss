@@ -1,11 +1,12 @@
 * {
-  transition: all 200ms;
+  // transition: all 200ms;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 body {
+  font-size: 16px;
   font-family: $font-family;
   background: $white;
   width: 100%;
@@ -16,21 +17,10 @@ body {
   font-style: normal;
   line-height: 1.5;
   color: $text-color;
-
   &.no-scroll {
     overflow: hidden;
   }
 }
-
-html,
-body {
-  font-size: 14px;
-
-  @include tablet {
-    font-size: 16px;
-  }
-}
-
 h1,
 h2,
 h3,
@@ -41,31 +31,25 @@ h6 {
   letter-spacing: 1.3px;
   color: $text-dark;
 }
-
 h1 {
   font-size: 3.325rem;
 }
-
 h2 {
   font-size: 2rem;
 }
-
 h3 {
   font-size: 1.5rem;
 }
-
 h4 {
   font-size: 1.325rem;
 }
-
 h5 {
   font-size: 1rem;
 }
-
 h6 {
   font-size: 0.825rem;
 }
 
 small {
-  font-size: 85%;
+  font-size: 0.85%;
 }
