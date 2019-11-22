@@ -16,19 +16,20 @@
 </template>
 
 <script>
-import PortfolioTable from "./PortfolioTable";
+import PortfolioTable from './PortfolioTable';
+
 export default {
-  name: "portfolio-tabs",
+  name: 'portfolio-tabs',
   components: {
-    PortfolioTable
+    PortfolioTable,
   },
   data() {
     return {
       activeTab: 0,
       localStocks: [
         {
-          name: "Tesla Inc",
-          symbol: "TSLA",
+          name: 'Tesla Inc',
+          symbol: 'TSLA',
           price: 123.4,
           unitsOwned: 0.0031,
           unitsOrdered: 0.1,
@@ -36,11 +37,11 @@ export default {
           investedPercentage: 60.65,
           percent: 0.67,
           change: 20,
-          currency: "USD"
+          currency: 'USD',
         },
         {
-          name: "Tesla Inc",
-          symbol: "TSLA",
+          name: 'Tesla Inc',
+          symbol: 'TSLA',
           price: 123.4,
           unitsOwned: 0.0031,
           unitsOrdered: 0.1,
@@ -48,11 +49,11 @@ export default {
           investedPercentage: 60.65,
           percent: 0.67,
           change: 20,
-          currency: "USD"
+          currency: 'USD',
         },
         {
-          name: "Tesla Inc",
-          symbol: "TSLA",
+          name: 'Tesla Inc',
+          symbol: 'TSLA',
           price: 123.4,
           unitsOwned: 0.0031,
           unitsOrdered: 0.1,
@@ -60,11 +61,11 @@ export default {
           investedPercentage: 60.65,
           percent: 0.67,
           change: 0,
-          currency: "USD"
+          currency: 'USD',
         },
         {
-          name: "Tesla Inc",
-          symbol: "TSLA",
+          name: 'Tesla Inc',
+          symbol: 'TSLA',
           price: 123.4,
           unitsOwned: 0.0031,
           unitsOrdered: 0.1,
@@ -72,10 +73,10 @@ export default {
           investedPercentage: 60.65,
           percent: 0.67,
           change: -10,
-          currency: "USD"
-        }
-      ]
+          currency: 'USD',
+        },
+      ],
     };
-  }
+  },
 };
 </script>

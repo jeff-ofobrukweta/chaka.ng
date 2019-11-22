@@ -97,11 +97,12 @@
 </template>
 
 <script>
-import dropdown from "./Dropdown";
+import dropdown from './Dropdown';
+
 export default {
-  name: "navbar",
+  name: 'navbar',
   components: {
-    dropdown
-  }
+    dropdown,
+  },
 };
 </script>

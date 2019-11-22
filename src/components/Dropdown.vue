@@ -10,35 +10,35 @@
 </template>
 
 <script>
-import dropdown from "vue-dropdowns";
+import dropdown from 'vue-dropdowns';
 
 export default {
   props: {
     options: {
       type: Object,
-      required: true
+      required: true,
     },
     placeholder: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       object: {
-        name: "Object Name"
-      }
+        name: 'Object Name',
+      },
     };
   },
 
   components: {
-    dropdown
+    dropdown,
   },
 
   methods: {
     methodToRunOnSelect(payload) {
       this.object = payload;
-    }
-  }
+    },
+  },
 };
 </script>

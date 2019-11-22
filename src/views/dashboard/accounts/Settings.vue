@@ -290,11 +290,12 @@
 </template>
 
 <script>
-import Uploads from "../../../components/FileUpload";
+import Uploads from '../../../components/FileUpload';
+
 export default {
-  name: "accounts-settings",
+  name: 'accounts-settings',
   components: {
-    Uploads
+    Uploads,
   },
   data() {
     return {
@@ -303,56 +304,56 @@ export default {
       employmentStatus: 1,
       statementButtons: [
         {
-          name: "Statement",
-          value: 1
+          name: 'Statement',
+          value: 1,
         },
         {
-          name: "Confirmations",
-          value: 2
+          name: 'Confirmations',
+          value: 2,
         },
         {
-          name: "Tax",
-          value: 3
-        }
+          name: 'Tax',
+          value: 3,
+        },
       ],
       settings: [
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
-        }
-      ]
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
+        },
+      ],
     };
-  }
+  },
 };
 </script>

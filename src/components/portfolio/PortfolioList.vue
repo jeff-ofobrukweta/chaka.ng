@@ -5,101 +5,102 @@
 </template>
 
 <script>
-import PortfolioCard from "./PortfolioCard";
+import PortfolioCard from './PortfolioCard';
+
 export default {
-  name: "portfolio-list",
+  name: 'portfolio-list',
   components: {
-    PortfolioCard
+    PortfolioCard,
   },
   data() {
     return {
       cards: [
         {
-          icon: "portfolio1",
+          icon: 'portfolio1',
           total: 343.661,
-          title: "Total Value on Local Stocks",
+          title: 'Total Value on Local Stocks',
           stocks: [
             {
-              name: "TSLA",
+              name: 'TSLA',
               quantity: 0.41455,
               price: 100.3,
               percent: 1.5,
-              currency: "USD"
+              currency: 'USD',
             },
             {
-              name: "GOOGL",
+              name: 'GOOGL',
               quantity: 1.3442,
               price: 201.3,
               percent: 0.23,
-              currency: "USD"
+              currency: 'USD',
             },
             {
-              name: "MTNN",
+              name: 'MTNN',
               quantity: 25.2233,
               price: 20.1,
               percent: 25,
-              currency: "NGN"
-            }
-          ]
+              currency: 'NGN',
+            },
+          ],
         },
         {
-          icon: "portfolio2",
+          icon: 'portfolio2',
           total: 343.661,
-          title: "Total Value on Global Stocks",
+          title: 'Total Value on Global Stocks',
           stocks: [
             {
-              name: "TSLA",
+              name: 'TSLA',
               quantity: 0.41455,
               price: 100.3,
               percent: 1.5,
-              currency: "USD"
+              currency: 'USD',
             },
             {
-              name: "GOOGL",
+              name: 'GOOGL',
               quantity: 1.3442,
               price: 201.3,
               percent: 0.23,
-              currency: "USD"
+              currency: 'USD',
             },
             {
-              name: "MTNN",
+              name: 'MTNN',
               quantity: 25.2233,
               price: 20.1,
               percent: 25,
-              currency: "NGN"
-            }
-          ]
+              currency: 'NGN',
+            },
+          ],
         },
         {
-          icon: "portfolio3",
+          icon: 'portfolio3',
           total: 343.661,
-          title: "Open Orders",
+          title: 'Open Orders',
           stocks: [
             {
-              name: "TSLA",
+              name: 'TSLA',
               quantity: 0.41455,
               price: 100.3,
               percent: 1.5,
-              currency: "USD"
+              currency: 'USD',
             },
             {
-              name: "GOOGL",
+              name: 'GOOGL',
               quantity: 1.3442,
               price: 201.3,
               percent: 0.23,
-              currency: "USD"
+              currency: 'USD',
             },
             {
-              name: "MTNN",
+              name: 'MTNN',
               quantity: 25.2233,
               price: 20.1,
               percent: 25,
-              currency: "NGN"
-            }
-          ]
-        }
-      ]
+              currency: 'NGN',
+            },
+          ],
+        },
+      ],
     };
-  }
+  },
 };
 </script>

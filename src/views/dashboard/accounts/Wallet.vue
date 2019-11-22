@@ -62,6 +62,6 @@
 
 <script>
 export default {
-  name: "accounts-wallet"
+  name: 'accounts-wallet',
 };
 </script>

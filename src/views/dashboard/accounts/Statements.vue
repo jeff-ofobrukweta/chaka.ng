@@ -31,67 +31,68 @@
 </template>
 
 <script>
-import StatementsCard from "../../../components/accounts/StatementsCard";
+import StatementsCard from '../../../components/accounts/StatementsCard';
+
 export default {
-  name: "accounts-statements",
+  name: 'accounts-statements',
   components: {
-    StatementsCard
+    StatementsCard,
   },
   data() {
     return {
       activeButton: 1,
       statementButtons: [
         {
-          name: "Statement",
-          value: 1
+          name: 'Statement',
+          value: 1,
         },
         {
-          name: "Confirmations",
-          value: 2
+          name: 'Confirmations',
+          value: 2,
         },
         {
-          name: "Tax",
-          value: 3
-        }
+          name: 'Tax',
+          value: 3,
+        },
       ],
       statements: [
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
         },
         {
-          description: "Description",
-          detail: "2018 Tax Year 1099-B",
-          link: ""
-        }
-      ]
+          description: 'Description',
+          detail: '2018 Tax Year 1099-B',
+          link: '',
+        },
+      ],
     };
-  }
+  },
 };
 </script>

@@ -14,19 +14,19 @@
 
 <script>
 export default {
-  name: "uploads",
+  name: 'uploads',
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     image: {
-      type: String
+      type: String,
     },
     description: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

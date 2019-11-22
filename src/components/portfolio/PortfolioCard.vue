@@ -18,12 +18,12 @@
 
 <script>
 export default {
-  name: "portfolio-card",
+  name: 'portfolio-card',
   props: {
     data: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>

@@ -25,27 +25,27 @@
 
 <script>
 export default {
-  name: "watchlist-card",
+  name: 'watchlist-card',
   props: {
     instrument: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     color() {
       return this.instrument.change > 3
-        ? "dark-green"
+        ? 'dark-green'
         : this.instrument.change > 2
-        ? "green"
-        : this.instrument.change >= 0
-        ? "light-green"
-        : this.instrument.change >= -1
-        ? "light-red"
-        : this.instrument.change >= -2
-        ? "red"
-        : "dark-red";
-    }
-  }
+          ? 'green'
+          : this.instrument.change >= 0
+            ? 'light-green'
+            : this.instrument.change >= -1
+              ? 'light-red'
+              : this.instrument.change >= -2
+                ? 'red'
+                : 'dark-red';
+    },
+  },
 };
 </script>

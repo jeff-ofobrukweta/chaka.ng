@@ -11,36 +11,36 @@
 
 <script>
 export default {
-  name: "form-input",
+  name: 'form-input',
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     placeholder: {
       type: String,
-      required: true
+      required: true,
     },
     value: {
-      type: String
+      type: String,
     },
     type: {
       type: String,
-      required: true
+      required: true,
     },
     label: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
-      content: this.value
+      content: this.value,
     };
   },
   methods: {
     handleInput(e) {
-      this.$emit("input", this.content);
-    }
-  }
+      this.$emit('input', this.content);
+    },
+  },
 };
 </script>

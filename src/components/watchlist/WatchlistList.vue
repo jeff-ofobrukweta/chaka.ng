@@ -5,65 +5,66 @@
 </template>
 
 <script>
-import WatchlistCard from "../../components/watchlist/WatchlistCard";
+import WatchlistCard from './WatchlistCard';
+
 export default {
-  name: "watchlist-list",
+  name: 'watchlist-list',
   components: {
-    WatchlistCard
+    WatchlistCard,
   },
   data() {
     return {
       watchlist: [
         {
-          name: "Spotify",
+          name: 'Spotify',
           price: 656.9,
           percent: 0.67,
-          change: 20
+          change: 20,
         },
         {
-          name: "Spotify",
+          name: 'Spotify',
           price: 656.9,
           percent: 0.67,
-          change: 20
+          change: 20,
         },
         {
-          name: "Spotify",
+          name: 'Spotify',
           price: 656.9,
           percent: 0.67,
-          change: 4
+          change: 4,
         },
         {
-          name: "Spotify",
+          name: 'Spotify',
           price: 656.9,
           percent: 0.67,
-          change: 2
+          change: 2,
         },
         {
-          name: "Spotify",
+          name: 'Spotify',
           price: 656.9,
           percent: 0.67,
-          change: 1
+          change: 1,
         },
         {
-          name: "Spotify",
+          name: 'Spotify',
           price: 656.9,
           percent: 0.67,
-          change: 0
+          change: 0,
         },
         {
-          name: "Spotify",
+          name: 'Spotify',
           price: 656.9,
           percent: 0.67,
-          change: -3
+          change: -3,
         },
         {
-          name: "Spotify",
+          name: 'Spotify',
           price: 656.9,
           percent: 0.67,
-          change: -10
-        }
-      ]
+          change: -10,
+        },
+      ],
     };
-  }
+  },
 };
 </script>

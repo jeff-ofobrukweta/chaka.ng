@@ -175,12 +175,12 @@
 
 <script>
 export default {
-  name: "app-header",
+  name: 'app-header',
   data() {
     return {
       isSidebarOpen: false,
       isLoggedIn: true,
-      search: null
+      search: null,
     };
   },
   methods: {
@@ -188,21 +188,21 @@ export default {
       this.isSidebarOpen = !this.isSidebarOpen;
     },
     toggleDropdown() {
-      this.$refs.trigger.classList.toggle("is-active");
-      this.$refs.trigger.nextElementSibling.classList.toggle("show");
-      document.body.classList.toggle("no-scroll");
+      this.$refs.trigger.classList.toggle('is-active');
+      this.$refs.trigger.nextElementSibling.classList.toggle('show');
+      document.body.classList.toggle('no-scroll');
       this.toggleSidebar();
-    }
+    },
   },
   watch: {
     isSidebarOpen(val) {
       if (!val) {
-        this.$refs.trigger.classList.remove("is-active");
-        this.$refs.trigger.nextElementSibling.classList.remove("show");
-        document.body.classList.remove("no-scroll");
+        this.$refs.trigger.classList.remove('is-active');
+        this.$refs.trigger.nextElementSibling.classList.remove('show');
+        document.body.classList.remove('no-scroll');
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

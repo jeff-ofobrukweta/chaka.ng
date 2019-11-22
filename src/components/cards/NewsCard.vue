@@ -14,12 +14,12 @@
 
 <script>
 export default {
-  name: "news-card",
+  name: 'news-card',
   props: {
     news: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     line1() {
@@ -27,7 +27,7 @@ export default {
     },
     line2() {
       return this.news.title.substring(20);
-    }
-  }
+    },
+  },
 };
 </script>

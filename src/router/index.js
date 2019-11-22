@@ -1,14 +1,14 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import routes from "./routes";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import routes from './routes';
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
-  linkActiveClass: "active",
-  routes
+  linkActiveClass: 'active',
+  routes,
 });
 
 export default router;
