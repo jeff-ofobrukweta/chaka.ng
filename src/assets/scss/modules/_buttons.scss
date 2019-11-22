@@ -1,0 +1,149 @@
+.btn {
+  border-radius: 30px;
+  border: 1px solid;
+  padding: 0.5rem 2rem;
+  margin: 0;
+  transition: all 200ms;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  &-block {
+    border-radius: 5px;
+  }
+
+  &--lg {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  &__icon {
+    border-radius: 50%;
+    padding: 0;
+    width: 1.2rem;
+    height: 1.2rem;
+
+    &--md {
+      width: 1.825rem;
+      // max-width: 24px;
+      // max-height: 24px;
+      height: 1.825rem;
+    }
+  }
+
+  &__primary {
+    border-color: $primary;
+    background: $primary;
+    color: $white;
+
+    &:disabled {
+      opacity: 0.65;
+      background: $grey-light;
+      color: $grey-dark;
+      border-color: $grey-light;
+
+      &:hover {
+        background: $grey-light;
+        color: $grey-dark;
+        border-color: $grey-light;
+      }
+    }
+
+    &:hover {
+      background: $white;
+      color: $primary;
+      border-color: $primary;
+
+      path {
+        fill: $primary;
+      }
+    }
+
+    &--outline {
+      background: $white;
+      color: $primary;
+      border-color: $primary;
+
+      &:hover {
+        background: $primary;
+        color: $white;
+        border-color: $white;
+
+        path {
+          fill: $white;
+        }
+      }
+    }
+
+    &--dark {
+
+      border-color: $primary-dark;
+      background: $primary-dark;
+      color: $white;
+
+      &:disabled {
+        opacity: 0.65;
+        background: $grey-light;
+        color: $grey-dark;
+        border-color: $grey-light;
+
+        &:hover {
+          background: $grey-light;
+          color: $grey-dark;
+          border-color: $grey-light;
+        }
+      }
+
+      &:hover {
+        background: $white;
+        color: $primary-dark;
+        border-color: $primary-dark;
+
+        path {
+          fill: $primary-dark;
+        }
+      }
+    }
+  }
+
+  &__white {
+    background: $white;
+    border-color: $white;
+    color: $primary-dark;
+
+    path {
+      fill: $primary-dark;
+    }
+
+    &:hover {
+      border-color: $white;
+      background: $primary-dark;
+      color: $white;
+
+      path {
+        fill: $white;
+      }
+    }
+
+    &--outline {
+      background: transparent;
+      border-color: $white;
+      color: $white;
+
+      path {
+        fill: $white;
+      }
+
+      &:hover {
+        border-color: $white;
+        background: $white;
+        color: $primary-dark;
+
+        path {
+          fill: $primary-dark;
+        }
+      }
+    }
+  }
+}

@@ -4,11 +4,11 @@ import './registerServiceWorker';
 import router from './router';
 import store from './store';
 
-import AOS from 'aos';
-import GlobalComponents from './plugins/globalComponents';
-import 'aos/dist/aos.css';
-import 'lazysizes';
-import 'lazysizes/plugins/parent-fit/ls.parent-fit';
+import AOS from "aos";
+import GlobalComponents from "./plugins/globalComponents";
+import "aos/dist/aos.css";
+import "lazysizes";
+import "lazysizes/plugins/parent-fit/ls.parent-fit";
 
 Vue.config.productionTip = false;
 

@@ -1,0 +1,186 @@
+.card {
+    &-news {
+        position: relative;
+        min-height: 150px;
+        display: flex;
+        align-items: flex-end;
+        margin-right: 10px;
+        margin-bottom: 1rem;
+        flex: 0 1 19%;
+        max-width: 19%;
+        min-width: 200px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            border-radius: 7px;
+            background: linear-gradient(to bottom, rgba($color: $black, $alpha: 0), rgba($color: $black, $alpha: 0.9));
+        }
+
+        @include tablet {
+            min-height: 200px;
+        }
+
+        &__img {
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            object-position: center;
+            object-fit: cover;
+            border-radius: 7px;
+        }
+
+        &__title {
+            position: relative;
+            z-index: 5;
+            padding: 0.825rem 1rem;
+
+            h5 {
+                color: $white;
+            }
+        }
+
+        &__ellipsis {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 150px;
+
+        }
+
+        &__box {
+            display: flex;
+            justify-content: space-between;
+            overflow-x: auto;
+        }
+    }
+
+    &-accounts {
+        background: $white;
+        box-shadow: 14px 30px 30px rgba($color: $box-shadow, $alpha: 0.3);
+        border-radius: 10px;
+        padding: 3.5rem 1.5rem;
+        height: 13.5rem;
+        margin-bottom: 3rem;
+
+        // @include tablet{
+        //     heigh
+        // }
+
+        &__title {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+
+            h5 {
+                color: $primary-dark
+            }
+        }
+
+        &__link {
+            text-decoration: underline;
+            font-style: italic;
+            font-size: 12px;
+
+        }
+
+        hr {
+            margin-bottom: 1rem;
+            border-width: 0.5px;
+            border-color: $border-color;
+        }
+
+    }
+
+    &-statement {
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        border-radius: 12px;
+        transition: all 200ms;
+
+        &:hover {
+            box-shadow: 13px 30px 32px rgba($color: $box-shadow, $alpha: 0.2);
+
+            .card-statement__download {
+                background-color: $green;
+                border-top-right-radius: 12px;
+                border-bottom-right-radius: 12px;
+
+                path {
+                    fill: $white
+                }
+            }
+        }
+
+        &__text {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            padding-left: 2rem;
+
+            @include tablet {
+                flex-direction: row;
+                align-items: center;
+                flex: 1 0 70%;
+                max-width: 70%;
+            }
+
+            @include desktop {
+                flex: 1 0 60%;
+                max-width: 60%;
+            }
+        }
+
+        &__summary {
+            p {
+                margin-bottom: .5rem;
+            }
+        }
+
+        &__details {
+            text-align: left;
+            margin-top: .3rem;
+
+            @include tablet {
+                text-align: center;
+                margin-top: unset;
+                max-width: 100px;
+            }
+        }
+
+        &__download {
+            display: flex;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            transition: all 200ms;
+
+            path {
+                fill: $silver;
+            }
+
+            &:hover {
+                background-color: $green;
+                border-top-right-radius: 12px;
+                border-bottom-right-radius: 12px;
+
+                path {
+                    fill: $white
+                }
+            }
+        }
+
+    }
+}
