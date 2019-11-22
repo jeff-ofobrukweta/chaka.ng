@@ -66,7 +66,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Bank Name
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">All</option>
               <option value="2">Local</option>
               <option value="3">Global</option>
@@ -113,7 +113,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Gender
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">Male</option>
               <option value="2">Female</option>
             </select></label
@@ -131,7 +131,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >LGA
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">Oshodi</option>
               <option value="2">Ikeja</option>
               <option value="3">Ikorodu</option>
@@ -150,7 +150,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Status
-            <select class="form__input" v-model="employmentStatus">
+            <select class="form__input form__select" v-model="employmentStatus">
               <option value="1">Employed</option>
               <option value="2">Self-Employed</option>
               <option value="3">Unemployed</option>
@@ -189,7 +189,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Investment Objectives
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">All</option>
               <option value="2">Local</option>
               <option value="3">Global</option>
@@ -199,7 +199,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Investment Experience
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">All</option>
               <option value="2">Local</option>
               <option value="3">Global</option>
@@ -209,7 +209,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Annual Income
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">All</option>
               <option value="2">Local</option>
               <option value="3">Global</option>
@@ -219,7 +219,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Net Worth Liquid
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">All</option>
               <option value="2">Local</option>
               <option value="3">Global</option>
@@ -229,7 +229,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Net Worth Total
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">All</option>
               <option value="2">Local</option>
               <option value="3">Global</option>
@@ -239,7 +239,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Risk Tolerance
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">All</option>
               <option value="2">Local</option>
               <option value="3">Global</option>
@@ -278,7 +278,7 @@
         <div class="accounts-settings__group">
           <label class="form__label"
             >Are you politically exposed?
-            <select class="form__input">
+            <select class="form__input form__select">
               <option value="1">Yes</option>
               <option value="2">No</option>
             </select></label

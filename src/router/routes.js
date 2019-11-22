@@ -24,9 +24,10 @@ const routes = [
   {
     path: "/dashboard",
     component: DashboardLayout,
+    redirect: "/dashboard/portfolio",
     children: [
       {
-        path: "",
+        path: "portfolio",
         name: "portfolio",
         component: Portfolio
       },
@@ -43,9 +44,10 @@ const routes = [
       {
         path: "accounts",
         component: AccountsIndex,
+        redirect: "/dashboard/accounts/overview",
         children: [
           {
-            path: "",
+            path: "overview",
             name: "accounts-overview",
             component: AccountsOverview
           },

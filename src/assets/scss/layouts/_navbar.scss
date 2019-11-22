@@ -15,7 +15,7 @@
       top: 55px;
 
       @include tablet {
-        top: 57px
+        top: 65px
       }
 
       .side-nav__link {
@@ -41,6 +41,11 @@
       width: 100%;
     }
 
+    &__inline {
+      position: relative;
+      display: inline-block;
+    }
+
     &__link {
       padding: 1rem 0;
       display: flex;
@@ -48,6 +53,7 @@
       align-items: center;
       border-left: none;
       font-size: 1rem;
+      transition: all 200ms;
 
       &:hover {
         color: $primary;
@@ -81,6 +87,17 @@
       svg {
         @include tablet {
           margin-right: 0.5rem;
+        }
+      }
+
+      &--inner {
+        text-align: center;
+        color: $text-color;
+        padding: 12px 16px;
+        display: block;
+
+        &:hover {
+          color: $primary
         }
       }
     }

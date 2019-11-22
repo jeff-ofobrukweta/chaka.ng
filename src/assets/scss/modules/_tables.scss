@@ -2,6 +2,10 @@
     &-accounts {
         @extend .portfolio-table;
 
+        &__box {
+            @extend .portfolio-table__box
+        }
+
         &__tbody {
             @extend .portfolio-table__tbody;
 

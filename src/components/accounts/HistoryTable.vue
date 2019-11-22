@@ -1,4 +1,5 @@
 <template>
+  <section class="table-accounts__box">
   <table class="table-accounts">
     <tbody class="table-accounts__tbody">
       <tr v-for="(item, index) in history" :key="index">
@@ -11,6 +12,7 @@
       </tr>
     </tbody>
   </table>
+  </section>
 </template>
 
 <script>

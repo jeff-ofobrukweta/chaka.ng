@@ -8,6 +8,7 @@
         border: 0.85px solid $border-color;
         margin-bottom: 1.5rem;
         cursor: pointer;
+        transition: all 200ms;
 
         @include tablet {
             max-width: 33.3333%;
@@ -70,6 +71,7 @@
         color: $white;
         cursor: pointer;
         padding: 2rem 1rem;
+        transition: all 200ms;
 
         &:hover {
             transform: translateY(-4px);
