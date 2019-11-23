@@ -61,8 +61,12 @@
           <div class="side-nav__dot"></div>
         </router-link>
       </li>
-      <li class="side-nav__item">
-        <router-link class="side-nav__link" :to="{ name: 'accounts-overview' }">
+      <li class="side-nav__item dropdown" ref="accounts">
+        <span
+          class="side-nav__link"
+          @hover="accountHover = true"
+          :class="{ active: isAccountActive || accountHover }"
+        >
           <span class="side-nav__text side-nav__inline">
             <svg
               width="20"
@@ -74,100 +78,161 @@
               <path
                 d="M9.99935 2.16699C5.39935 2.16699 1.66602 5.90033 1.66602 10.5003C1.66602 15.1003 5.39935 18.8337 9.99935 18.8337C14.5993 18.8337 18.3327 15.1003 18.3327 10.5003C18.3327 5.90033 14.5993 2.16699 9.99935 2.16699ZM9.99935 4.66699C11.3827 4.66699 12.4993 5.78366 12.4993 7.16699C12.4993 8.55033 11.3827 9.66699 9.99935 9.66699C8.61602 9.66699 7.49935 8.55033 7.49935 7.16699C7.49935 5.78366 8.61602 4.66699 9.99935 4.66699ZM9.99935 16.5003C7.91602 16.5003 6.07435 15.4337 4.99935 13.817C5.02435 12.1587 8.33268 11.2503 9.99935 11.2503C11.6577 11.2503 14.9743 12.1587 14.9993 13.817C13.9243 15.4337 12.0827 16.5003 9.99935 16.5003Z"
                 fill="#485964"
-              /></svg
-            >Accounts
-            <!-- <div class="dropdown">
-              <button class="dropbtn">Accounts</button>
-              <div class="dropdown-content">
-                <router-link
-                  class="side-nav__link--inner"
-                  v-for="(link, i) in routes"
-                  :key="i"
-                  :to="{ name: link.link }"
-                  >{{ link.name }}</router-link
-                >
-              </div>
-            </div> -->
+              />
+            </svg>
+            Accounts
+            <svg
+              class="chevron"
+              width="8"
+              height="6"
+              viewBox="0 0 8 6"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M1 1L4 4L7 1" stroke="#293D4A" stroke-width="1.5" />
+            </svg>
+
+            <div class="dropdown-content">
+              <a
+                class="side-nav__link--inner side-nav__link"
+                v-for="(link, i) in routes"
+                :key="i"
+                @click="linkClick(link.link)"
+                >{{ link.name }}</a
+              >
+            </div>
           </span>
           <div class="side-nav__dot"></div>
-        </router-link>
+        </span>
+      </li>
+      <li class="side-nav__item modal" @click="showMenu = true">
+        <a
+          class="side-nav__link"
+          @hover="accountHover = true"
+          :class="{ active: isAccountActive || accountHover }"
+        >
+          <span class="side-nav__text side-nav__inline">
+            <svg
+              width="20"
+              height="21"
+              viewBox="0 0 20 21"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.99935 2.16699C5.39935 2.16699 1.66602 5.90033 1.66602 10.5003C1.66602 15.1003 5.39935 18.8337 9.99935 18.8337C14.5993 18.8337 18.3327 15.1003 18.3327 10.5003C18.3327 5.90033 14.5993 2.16699 9.99935 2.16699ZM9.99935 4.66699C11.3827 4.66699 12.4993 5.78366 12.4993 7.16699C12.4993 8.55033 11.3827 9.66699 9.99935 9.66699C8.61602 9.66699 7.49935 8.55033 7.49935 7.16699C7.49935 5.78366 8.61602 4.66699 9.99935 4.66699ZM9.99935 16.5003C7.91602 16.5003 6.07435 15.4337 4.99935 13.817C5.02435 12.1587 8.33268 11.2503 9.99935 11.2503C11.6577 11.2503 14.9743 12.1587 14.9993 13.817C13.9243 15.4337 12.0827 16.5003 9.99935 16.5003Z"
+                fill="#485964"
+              />
+            </svg>
+            Accounts
+          </span>
+          <div class="side-nav__dot"></div>
+        </a>
       </li>
     </ul>
+
+    <AccountsMenu
+      :showModal="showMenu"
+      @close="showMenu = false"
+      v-if="showMenu"
+      :routes="routes"
+    />
   </nav>
 </template>
 
 <script>
-import dropdown from "./Dropdown";
+import AccountsMenu from './modals/AccountsMenu';
+
 export default {
-  name: "navbar",
-  components: {
-    dropdown
-  },
-  data() {
-    return {
-      routes: [
-        {
-          name: "Wallet",
-          link: "accounts-wallet"
-        },
-        {
-          name: "History",
-          link: "accounts-history"
-        },
-        {
-          name: "Statements",
-          link: "accounts-statements"
-        },
-        {
-          name: "Stamps",
-          link: "accounts-stamps"
-        },
-        {
-          name: "Settings",
-          link: "accounts-settings"
+    name: 'navbar',
+    components: {
+        AccountsMenu
+    },
+    data() {
+        return {
+            accountHover: false,
+            showMenu: false,
+            routes: [
+                {
+                    name: 'Overview',
+                    link: 'accounts-overview'
+                },
+                {
+                    name: 'Wallet',
+                    link: 'accounts-wallet'
+                },
+                {
+                    name: 'History',
+                    link: 'accounts-history'
+                },
+                {
+                    name: 'Statements',
+                    link: 'accounts-statements'
+                },
+                {
+                    name: 'Stamps',
+                    link: 'accounts-stamps'
+                },
+                {
+                    name: 'Settings',
+                    link: 'accounts-settings'
+                }
+            ]
+        };
+    },
+    computed: {
+        isAccountActive() {
+            return this.$route.name.startsWith('accounts');
         }
-      ]
-    };
-  }
+    },
+    methods: {
+        linkClick(route) {
+            if (this.$route.name !== route) this.$router.push({ name: route });
+            this.$refs.accounts.blur();
+        }
+    }
 };
 </script>
 
 <style lang="scss" scoped>
-/* Dropdown Button */
-// .dropbtn {
-//   background-color: #4caf50;
-//   color: white;
-//   padding: 16px;
-//   font-size: 16px;
-//   border: none;
-// }
-
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
   position: relative;
   display: inline-block;
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
-  // display: none;
   position: absolute;
   min-width: 200px;
   z-index: -200;
   opacity: 0;
-  top: 45px;
-  left: -100px;
+  top: 50px;
+  left: -90px;
+  max-height: 0;
   background-color: $white;
   box-shadow: 0px 7px 64px rgba($color: $black, $alpha: 0.07);
-  transition: all 200ms;
-  border: 1px solid $primary;
+  transition: all 100ms;
   border-radius: 3px;
+
+  .side-nav__link--inner {
+    font-size: 0;
+    opacity: 0;
+    transition: opacity 300ms linear 200ms, font-size 0s;
+    padding: 0;
+  }
 }
 
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
-  // display: block;
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content {
   opacity: 1;
   z-index: 1;
+  max-height: unset;
+  border-color: $primary;
+  padding: 1rem 0;
+
+  .side-nav__link--inner {
+    font-size: 100%;
+    opacity: 1;
+    padding: 12px 16px;
+  }
 }
 </style>

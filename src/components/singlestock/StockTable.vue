@@ -49,12 +49,12 @@
 
 <script>
 export default {
-  name: "stock-table",
-  props: {
-    instrument: {
-      type: Object,
-      required: true
+    name: 'stock-table',
+    props: {
+        instrument: {
+            type: Object,
+            required: true
+        }
     }
-  }
 };
 </script>

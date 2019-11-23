@@ -43,28 +43,35 @@
       background: $white;
       border-color: $white;
       color: $primary-dark;
+
       path {
         fill: $primary-dark;
       }
+
       &:hover {
         border-color: $white;
         background: $primary-dark;
         color: $white;
+
         path {
           fill: $white;
         }
       }
+
       &--outline {
         background: transparent;
         border-color: $white;
         color: $white;
+
         path {
           fill: $white;
         }
+
         &:hover {
           border-color: $white;
           background: $white;
           color: $primary-dark;
+
           path {
             fill: $primary-dark;
           }
@@ -122,6 +129,7 @@
       padding-right: 15px;
       position: relative;
       width: 100%;
+
       @include mobile {
         max-width: 100%;
         // overflow-x: hidden;
@@ -177,9 +185,11 @@
       align-self: center;
       position: absolute;
       left: 30%;
+
       @include tablet {
         left: 10%;
       }
+
       @include desktop {
         left: 5rem;
       }
@@ -339,7 +349,7 @@
       display: flex;
       justify-content: space-between;
 
-      & > div {
+      &>div {
         flex: 1 1 33.33%;
         width: 33.33%;
         margin-bottom: 20px;
@@ -437,9 +447,11 @@
 
     &__stocks {
       margin-bottom: 3em;
+
       &:last-child {
         margin-bottom: 0;
       }
+
       &--hide {
         @include tablet {
           display: none;
@@ -499,10 +511,12 @@
       justify-content: space-evenly;
       padding-left: 15px;
       padding-right: 15px;
+
       @include tablet {
         width: 100%;
         max-width: 100%;
       }
+
       @include desktop {
         flex: 0 0 50%;
         max-width: 50%;
@@ -535,10 +549,12 @@
     &__text {
       padding-left: 15px;
       padding-right: 15px;
+
       @include tablet {
         flex: 0 0 66.6666%;
         max-width: 66.6666%;
       }
+
       @include desktop {
         margin-left: 50%;
         flex: 0 0 50%;
@@ -577,14 +593,17 @@
       width: 100%;
       padding-left: 15px;
       padding-right: 15px;
+
       @include tablet {
         flex: 0 0 33.3333%;
         max-width: 33.3333%;
       }
+
       @include desktop {
         flex: 0 0 33.3333%;
         max-width: 33.3333%;
       }
+
       &:first-child {
         margin-top: 0;
 
@@ -733,6 +752,7 @@
 
     &__selector {
       z-index: 1;
+
       h6 {
         line-height: 50px;
         font-weight: normal;
@@ -766,6 +786,7 @@
         max-width: 58.3333%;
       }
     }
+
     &__height {
       height: 11em;
 
@@ -786,7 +807,7 @@
       max-width: 20%;
       padding: 0 4px;
 
-      & > div {
+      &>div {
         margin-bottom: 1em;
       }
 
@@ -833,10 +854,12 @@
     &__body {
       padding-left: 15px;
       padding-right: 15px;
+
       @include tablet {
         flex: 0 0 50%;
         max-width: 50%;
       }
+
       @include desktop {
         flex: 0 0 50%;
         max-width: 50%;
@@ -845,14 +868,14 @@
 
     &__row {
       @include mobile {
-        & > div:last-child {
+        &>div:last-child {
           order: 2;
           margin-top: 2em;
         }
       }
 
       @include tablet {
-        & > div:last-child {
+        &>div:last-child {
           order: 1;
           margin-top: 2em;
         }
@@ -877,14 +900,17 @@
         max-width: 100%;
         // overflow-x: hidden;
       }
+
       @include tablet {
         flex: 0 0 50%;
         max-width: 50%;
       }
+
       @include desktop {
         flex: 0 0 50%;
         max-width: 50%;
       }
+
       img {
         max-width: unset;
         width: 150%;
@@ -899,19 +925,19 @@
   &-testimonies {
     padding-top: 3em;
     padding-bottom: 5em;
-    background: linear-gradient(
-      180deg,
-      rgba(246, 252, 255, 0) 0%,
-      #f6fcff 100%
-    );
+    background: linear-gradient(180deg,
+        rgba(246, 252, 255, 0) 0%,
+        #f6fcff 100%);
 
     &__half {
       padding-left: 15px;
       padding-right: 15px;
+
       @include tablet {
         flex: 0 0 50%;
         max-width: 50%;
       }
+
       @include desktop {
         flex: 0 0 50%;
         max-width: 50%;
@@ -954,9 +980,11 @@
       box-shadow: 0px 4px 10px 1px rgba(33, 33, 33, 0.15);
       padding: 12px 24px;
       margin-left: 18px;
+
       @include mobile {
         margin-left: 6px;
       }
+
       @include tablet {
         margin-left: 6px;
       }
@@ -973,9 +1001,11 @@
     &__flickity {
       padding-bottom: 40px;
     }
+
     &__row {
       align-items: center;
     }
+
     &__text {
       @include mobile {
         max-width: 400px;
@@ -1030,25 +1060,31 @@
       @include desktop {
         margin: unset;
       }
+
       &--light {
         display: none;
+
         @include tablet {
           display: flex;
           justify-content: center;
         }
+
         @include desktop {
           justify-content: flex-start;
         }
       }
+
       &--dark {
         @include tablet {
           display: none;
         }
       }
+
       &--logo {
         display: none;
         margin-top: 1.5rem;
         margin-bottom: 1.5rem;
+
         @include tablet {
           display: block;
           //   justify-content: center;
@@ -1060,6 +1096,7 @@
       margin-top: -10%;
       text-align: center;
       display: none;
+
       img {
         width: 110%;
         max-width: 640px;
@@ -1122,6 +1159,7 @@
 }
 
 @keyframes to-left {
+
   0%,
   100% {
     transform: translateX(25px);

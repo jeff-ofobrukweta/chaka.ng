@@ -1,46 +1,46 @@
 <template>
-  <input
-    :type="type"
-    :name="name"
-    v-model="content"
-    @input="handleInput"
-    :placeholder="placeholder"
-    class="form__input"
-  />
+    <input
+        :type="type"
+        :name="name"
+        v-model="content"
+        @input="handleInput"
+        :placeholder="placeholder"
+        class="form__input"
+    />
 </template>
 
 <script>
 export default {
-  name: "form-input",
-  props: {
-    name: {
-      type: String,
-      required: true
+    name: 'form-input',
+    props: {
+        name: {
+            type: String,
+            required: true
+        },
+        placeholder: {
+            type: String,
+            required: true
+        },
+        value: {
+            type: String
+        },
+        type: {
+            type: String,
+            required: true
+        },
+        label: {
+            type: String
+        }
     },
-    placeholder: {
-      type: String,
-      required: true
+    data() {
+        return {
+            content: this.value
+        };
     },
-    value: {
-      type: String
-    },
-    type: {
-      type: String,
-      required: true
-    },
-    label: {
-      type: String
+    methods: {
+        handleInput() {
+            this.$emit('input', this.content);
+        }
     }
-  },
-  data() {
-    return {
-      content: this.value
-    };
-  },
-  methods: {
-    handleInput(e) {
-      this.$emit("input", this.content);
-    }
-  }
 };
 </script>

@@ -39,12 +39,12 @@
 
 <script>
 export default {
-  name: "portfolio-table",
-  props: {
-    data: {
-      type: Array,
-      required: true
+    name: 'portfolio-table',
+    props: {
+        data: {
+            type: Array,
+            required: true
+        }
     }
-  }
 };
 </script>

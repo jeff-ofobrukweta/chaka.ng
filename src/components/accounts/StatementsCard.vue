@@ -37,12 +37,12 @@
 
 <script>
 export default {
-  name: "statement-card",
-  props: {
-    statement: {
-      type: Object,
-      required: true
+    name: 'statement-card',
+    props: {
+        statement: {
+            type: Object,
+            required: true
+        }
     }
-  }
 };
 </script>

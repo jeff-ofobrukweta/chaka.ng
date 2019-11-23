@@ -10,13 +10,14 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import Navbar from "../components/Navbar";
+import { Fragment } from 'vue-fragment';
+import Navbar from '../components/Navbar';
+
 export default {
-  name: "dashboard-layout",
-  components: {
-    Navbar,
-    Fragment
-  }
+    name: 'dashboard-layout',
+    components: {
+        Navbar,
+        Fragment
+    }
 };
 </script>

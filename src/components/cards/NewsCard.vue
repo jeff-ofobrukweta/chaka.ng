@@ -14,20 +14,20 @@
 
 <script>
 export default {
-  name: "news-card",
-  props: {
-    news: {
-      type: Object,
-      required: true
-    }
-  },
-  computed: {
-    line1() {
-      return this.news.title.substring(0, 20);
+    name: 'news-card',
+    props: {
+        news: {
+            type: Object,
+            required: true
+        }
     },
-    line2() {
-      return this.news.title.substring(20);
+    computed: {
+        line1() {
+            return this.news.title.substring(0, 20);
+        },
+        line2() {
+            return this.news.title.substring(20);
+        }
     }
-  }
 };
 </script>

@@ -29,70 +29,71 @@
 </template>
 
 <script>
-import HistoryTable from "../../../components/accounts/HistoryTable";
+import HistoryTable from '../../../components/accounts/HistoryTable';
+
 export default {
-  name: "accounts-history",
-  components: {
-    HistoryTable
-  },
-  data() {
-    return {
-      activeButton: 1,
-      historyButtons: [
-        {
-          name: "All",
-          value: 1
-        },
-        {
-          name: "Order",
-          value: 2
-        },
-        {
-          name: "Withdrawal",
-          value: 3
-        },
-        {
-          name: "Transfer",
-          value: 4
-        },
-        {
-          name: "Deposit",
-          value: 5
-        }
-      ],
-      history: [
-        {
-          type: "Transfer",
-          amount: 21341.33,
-          status: "Success",
-          date: "21/03/1995"
-        },
-        {
-          type: "Transfer",
-          amount: 21341.33,
-          status: "Success",
-          date: "21/03/1995"
-        },
-        {
-          type: "Transfer",
-          amount: 21341.33,
-          status: "Success",
-          date: "21/03/1995"
-        },
-        {
-          type: "Transfer",
-          amount: 21341.33,
-          status: "Success",
-          date: "21/03/1995"
-        },
-        {
-          type: "Transfer",
-          amount: 21341.33,
-          status: "Success",
-          date: "21/03/1995"
-        }
-      ]
-    };
-  }
+    name: 'accounts-history',
+    components: {
+        HistoryTable
+    },
+    data() {
+        return {
+            activeButton: 1,
+            historyButtons: [
+                {
+                    name: 'All',
+                    value: 1
+                },
+                {
+                    name: 'Order',
+                    value: 2
+                },
+                {
+                    name: 'Withdrawal',
+                    value: 3
+                },
+                {
+                    name: 'Transfer',
+                    value: 4
+                },
+                {
+                    name: 'Deposit',
+                    value: 5
+                }
+            ],
+            history: [
+                {
+                    type: 'Transfer',
+                    amount: 21341.33,
+                    status: 'Success',
+                    date: '21/03/1995'
+                },
+                {
+                    type: 'Transfer',
+                    amount: 21341.33,
+                    status: 'Success',
+                    date: '21/03/1995'
+                },
+                {
+                    type: 'Transfer',
+                    amount: 21341.33,
+                    status: 'Success',
+                    date: '21/03/1995'
+                },
+                {
+                    type: 'Transfer',
+                    amount: 21341.33,
+                    status: 'Success',
+                    date: '21/03/1995'
+                },
+                {
+                    type: 'Transfer',
+                    amount: 21341.33,
+                    status: 'Success',
+                    date: '21/03/1995'
+                }
+            ]
+        };
+    }
 };
 </script>

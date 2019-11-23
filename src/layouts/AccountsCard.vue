@@ -13,15 +13,15 @@
 
 <script>
 export default {
-  name: "accounts-card",
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
-    action: {
-      type: Object
+    name: 'accounts-card',
+    props: {
+        title: {
+            type: String,
+            required: true
+        },
+        action: {
+            type: Object
+        }
     }
-  }
 };
 </script>
