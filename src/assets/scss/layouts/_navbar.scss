@@ -48,6 +48,9 @@
                 @include mobile {
                     display: none;
                 }
+
+                position: relative;
+                display: inline-block;
             }
 
             &.modal {
@@ -74,6 +77,15 @@
             font-size: 1rem;
             transition: all 200ms;
             cursor: pointer;
+
+            @include mobile {
+                font-size: 85%;
+
+                svg {
+                    width: 14px;
+                    height: 14px
+                }
+            }
 
             @include tablet {
                 padding: 2rem 0 1rem;
@@ -145,14 +157,11 @@
         &__dot {
             border-radius: 50%;
             border: 0.5px solid transparent;
-            width: 10px;
-            height: 10px;
+            width: .625rem;
+            height: .625rem;
             transition: all 500ms ease-in-out;
             background: transparent;
-
-            @include tablet {
-                margin-top: 5px;
-            }
+            margin-top: 5px;
         }
     }
 }

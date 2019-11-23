@@ -176,16 +176,12 @@
                         </svg>
                     </router-link>
                     <form class="nav-left__form">
-                        <!-- <input
-              class="form__input"
-              type="text"
-              placeholder="Search stocks by name, symbol, tag..."
-            />-->
-                        <form-input
+                        <input
                             type="text"
-                            placeholder="Search stocks by name, symbol, tag..."
                             name="search"
                             v-model="search"
+                            placeholder="Search stocks by name, symbol, tag.."
+                            class="nav-left__input"
                         />
                     </form>
                     <div class="nav-left__icon">
@@ -195,10 +191,12 @@
 
                 <ul class="nav__dashboard--menu">
                     <p>
-                        <strong>Avail</strong>
-                        <span>: ₦ Amount</span>
-                        <span>&nbsp;|&nbsp;</span>
-                        <span>$ Amount</span>
+                        <span class="nav__dashboard--mobile">
+                            <strong>Avail</strong>
+                            <span>: ₦ Amount</span>
+                            <span>&nbsp;|&nbsp;</span>
+                            <span>$ Amount</span></span
+                        >
                         <button type="button" class="btn btn__icon btn__icon--md btn__primary">
                             +
                         </button>
@@ -241,5 +239,3 @@ export default {
     }
 };
 </script>
-
-<style src="../assets/scss/layouts/_header.scss" lang="scss" scoped></style>

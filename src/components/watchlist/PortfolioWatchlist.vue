@@ -1,7 +1,7 @@
 <template>
     <div class="watchlist-portfolio__card" :class="color">
         <div class="watchlist-portfolio__left">
-            <p class="watchlist-portfolio__name">{{ instrument.name }}</p>
+            <p class="watchlist-portfolio__name capitalize">{{ instrument.name }}</p>
             <p class="watchlist-portfolio__change">
                 <img
                     v-if="instrument.change >= 0"
@@ -10,10 +10,14 @@
                 />
                 <img v-else src="../../assets/img/watchlist-down.svg" alt="Growth" />
                 <span>{{ instrument.change >= 0 ? "+" : "" }}</span>
-                <small>{{ instrument.change }} ({{ instrument.percent }}%)</small>
+                <small
+                    >{{ instrument.change | units(2) }} ({{
+                        instrument.percent | units(2)
+                    }}%)</small
+                >
             </p>
             <p>
-                <strong>{{ instrument.price }}</strong>
+                <strong>{{ instrument.price | currency(instrument.currency) }}</strong>
             </p>
         </div>
         <div class="watchlist-portfolio__right">
@@ -38,7 +42,7 @@ export default {
     },
     computed: {
         color() {
-            if (this.instrument.change > 3) return 'darl-green';
+            if (this.instrument.change > 3) return 'dark-green';
             if (this.instrument.change > 2) return 'green';
             if (this.instrument.change >= 0) return 'light-green';
             if (this.instrument.change >= -1) return 'light-red';

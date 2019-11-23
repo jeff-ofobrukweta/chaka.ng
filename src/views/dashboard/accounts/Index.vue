@@ -1,5 +1,5 @@
 <template>
-  <section class="accounts">
-    <router-view />
-  </section>
+    <section class="dashboard__main accounts">
+        <router-view />
+    </section>
 </template>

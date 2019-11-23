@@ -1,40 +1,44 @@
 <template>
-  <section class="portfolio-table__box">
-    <table class="portfolio-table">
-      <thead class="portfolio-table__thead">
-        <th>Name</th>
-        <th>Symbol</th>
-        <th>Price</th>
-        <th>Units Owned</th>
-        <th>Units<br />Ordered</th>
-        <th>Invested<br />Amount</th>
-        <th>
-          Invested<br />
-          Percentage
-        </th>
-        <th>P/L</th>
-        <th>+/-</th>
-      </thead>
-      <tbody class="portfolio-table__tbody">
-        <tr v-for="(item, index) in data" :key="index">
-          <td>{{ item.name }}</td>
-          <td>{{ item.symbol }}</td>
-          <td>{{ item.price }}</td>
-          <td>{{ item.unitsOwned }}</td>
-          <td>{{ item.unitsOrdered }}</td>
-          <td>{{ item.investedAmount }}</td>
-          <td>{{ item.investedPercentage }}%</td>
-          <td :class="[item.change >= 0 ? 'green' : 'red']">
-            <small>{{ item.change >= 0 ? "+" : "" }}{{ item.change }} ({{ item.percent }}%)</small>
-          </td>
-          <td>
-            <a class="portfolio-table__buy">+ Buy</a>
-            <a class="portfolio-table__buy">- Sell</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+    <section class="portfolio-table__box">
+        <table class="portfolio-table">
+            <thead class="portfolio-table__thead">
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Price</th>
+                <th>Units Owned</th>
+                <th>Units<br />Ordered</th>
+                <th>Invested<br />Amount</th>
+                <th>
+                    Invested<br />
+                    Percentage
+                </th>
+                <th>P/L</th>
+                <th>+/-</th>
+            </thead>
+            <tbody class="portfolio-table__tbody">
+                <tr v-for="(item, index) in data" :key="index">
+                    <td class="capitalize">{{ item.name }}</td>
+                    <td class="uppercase">{{ item.symbol }}</td>
+                    <td>{{ item.price | currency(item.currency) }}</td>
+                    <td>{{ item.unitsOwned | units }}</td>
+                    <td>{{ item.unitsOrdered | units }}</td>
+                    <td>{{ item.investedAmount | currency(item.currency) }}</td>
+                    <td>{{ item.investedPercentage | units(2) }}%</td>
+                    <td :class="[item.change >= 0 ? 'green' : 'red']">
+                        <small
+                            >{{ item.change >= 0 ? "+" : "" }}{{ item.change | units(2) }} ({{
+                                item.percent | units(2)
+                            }}%)</small
+                        >
+                    </td>
+                    <td>
+                        <a class="portfolio-table__buy">+ Buy</a>
+                        <a class="portfolio-table__buy">- Sell</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 </template>
 
 <script>

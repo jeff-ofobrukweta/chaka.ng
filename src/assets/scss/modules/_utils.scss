@@ -299,3 +299,11 @@ main {
 .green {
   color: $green
 }
+
+.capitalize{
+  text-transform: capitalize;
+}
+
+.uppercase{
+  text-transform: uppercase;
+}
