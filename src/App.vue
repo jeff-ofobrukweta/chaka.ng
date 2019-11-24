@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import Header from './components/Header';
-import Progressbar from './components/Progressbar';
+import Header from "./components/Header";
+import Progressbar from "./components/Progressbar";
 
 export default {
-    name: 'app',
+    name: "app",
     components: {
         Header,
         Progressbar
@@ -19,14 +19,14 @@ export default {
     created() {
         window.onscroll = () => {
             const currentScrollPos = window.pageYOffset;
-            const nav = document.getElementById('nav');
-            const header = document.getElementById('header');
-            if (currentScrollPos > 20) {
-                header.classList.add('scroll');
-                if (nav) nav.classList.add('scroll');
+            const nav = document.getElementById("nav");
+            const header = document.getElementById("header");
+            if (currentScrollPos > 30) {
+                header.classList.add("scroll");
+                if (nav) nav.classList.add("scroll");
             } else {
-                header.classList.remove('scroll');
-                if (nav) nav.classList.remove('scroll');
+                header.classList.remove("scroll");
+                if (nav) nav.classList.remove("scroll");
             }
         };
     }

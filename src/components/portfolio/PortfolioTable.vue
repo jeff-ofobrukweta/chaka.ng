@@ -24,11 +24,16 @@
                     <td>{{ item.unitsOrdered | units }}</td>
                     <td>{{ item.investedAmount | currency(item.currency) }}</td>
                     <td>{{ item.investedPercentage | units(2) }}%</td>
-                    <td :class="[item.change >= 0 ? 'green' : 'red']">
+                    <td :class="[checkChange(item.change) ? 'green' : 'red']">
+                        <img
+                            src="../../assets/img/green-arrow.svg"
+                            v-if="checkChange(item.change)"
+                            alt="Gain"
+                        />
+                        <img src="../../assets/img/red-arrow.svg" v-else alt="Loss" />
                         <small
-                            >{{ item.change >= 0 ? "+" : "" }}{{ item.change | units(2) }} ({{
-                                item.percent | units(2)
-                            }}%)</small
+                            >{{ checkChange(item.change) ? "+" : ""
+                            }}{{ item.change | units(2) }} ({{ item.percent | units(2) }}%)</small
                         >
                     </td>
                     <td>
@@ -43,11 +48,17 @@
 
 <script>
 export default {
-    name: 'portfolio-table',
+    name: "portfolio-table",
     props: {
         data: {
             type: Array,
             required: true
+        }
+    },
+    methods: {
+        checkChange(value) {
+            if (value >= 0) return true;
+            return false;
         }
     }
 };
