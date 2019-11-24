@@ -1,27 +1,27 @@
-const numberFormat = (value, currency, threshold, decimalPlaces) => {
+const numberFormat = (value, currency, threshold, decimalPlaces, showFull) => {
     let options = {};
-    let initial = '';
+    let initial = "";
     if (!currency) {
-        initial = 'en-US';
+        initial = "en-US";
         options = {
-            style: 'decimal',
+            style: "decimal",
             minimumFractionDigits: decimalPlaces,
             maximumFractionDigits: decimalPlaces
         };
     } else {
         initial = `en-${currency.substring(0, 2)}`;
         options = {
-            style: 'currency',
+            style: "currency",
             currency,
             minimumFractionDigits: decimalPlaces,
             maximumFractionDigits: decimalPlaces
         };
     }
-    if (value < threshold) {
+    if (value < threshold || showFull) {
         return new Intl.NumberFormat(initial, options).format(value);
     }
-    options.notation = 'compact';
-    options.compactDisplay = 'short';
+    options.notation = "compact";
+    options.compactDisplay = "short";
     return new Intl.NumberFormat(initial, options).format(value);
 };
 
@@ -31,38 +31,38 @@ export default {
         return value / 100;
     },
 
-    currency(value, currency, decimalPlaces = 2) {
+    currency(value, currency, showFull, decimalPlaces = 2) {
         if (value === 0 || !Number.isNaN(+value)) {
-            return numberFormat(value, currency, 500000, decimalPlaces);
+            return numberFormat(value, currency, 500000, decimalPlaces, showFull);
         }
         return value;
     },
 
-    units(value, decimalPlaces = 4) {
+    units(value, decimalPlaces = 4, showFull) {
         if (!Number.isNaN(+value)) {
-            return numberFormat(value, null, 100000, decimalPlaces);
+            return numberFormat(value, null, 100000, decimalPlaces, showFull);
         }
         return value;
     },
 
     resolveDate(value, format) {
         const date = new Date(value);
-        if (typeof date === 'object' && !Number.isNaN(date.getDate())) {
+        if (typeof date === "object" && !Number.isNaN(date.getDate())) {
             if (!format) {
-                return `${date.toLocaleString('en-NG', {
-                    year: 'numeric',
-                    day: '2-digit',
-                    month: '2-digit',
+                return `${date.toLocaleString("en-NG", {
+                    year: "numeric",
+                    day: "2-digit",
+                    month: "2-digit",
                     hour12: true
                 })}`;
             }
-            return `${date.toLocaleString('en-NG', {
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-                year: 'numeric',
-                day: '2-digit',
-                month: '2-digit',
+            return `${date.toLocaleString("en-NG", {
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+                year: "numeric",
+                day: "2-digit",
+                month: "2-digit",
                 hour12: true
             })}`;
         }

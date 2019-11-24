@@ -17,7 +17,11 @@
                 >
             </p>
             <p>
-                <strong>{{ instrument.price | currency(instrument.currency) }}</strong>
+                <strong
+                    class="cursor-context"
+                    :title="instrument.price | currency(instrument.currency, true)"
+                    >{{ instrument.price | currency(instrument.currency) }}</strong
+                >
             </p>
         </div>
         <div class="watchlist-portfolio__right">
@@ -33,7 +37,7 @@
 
 <script>
 export default {
-    name: 'watchlist-card',
+    name: "watchlist-card",
     props: {
         instrument: {
             type: Object,
@@ -42,12 +46,12 @@ export default {
     },
     computed: {
         color() {
-            if (this.instrument.change > 3) return 'dark-green';
-            if (this.instrument.change > 2) return 'green';
-            if (this.instrument.change >= 0) return 'light-green';
-            if (this.instrument.change >= -1) return 'light-red';
-            if (this.instrument.change >= -2) return 'red';
-            return 'dark-red';
+            if (this.instrument.change > 3) return "dark-green";
+            if (this.instrument.change > 2) return "green";
+            if (this.instrument.change >= 0) return "light-green";
+            if (this.instrument.change >= -1) return "light-red";
+            if (this.instrument.change >= -2) return "red";
+            return "dark-red";
         }
     }
 };

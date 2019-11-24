@@ -3,4 +3,15 @@
         padding-top: 3rem;
         padding-bottom: 3rem;
     }
+
+    &__title {
+        @extend .accounts__title;
+        display: block;
+
+        &--sub {
+            color: $grey-cool;
+            font-style: italic;
+            margin-top: .325rem;
+        }
+    }
 }

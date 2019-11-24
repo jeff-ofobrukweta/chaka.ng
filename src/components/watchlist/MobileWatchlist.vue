@@ -68,7 +68,11 @@
                 </p>
                 <p class="watchlist-mobile__price">
                     <img src="../../assets/img/flags/us-flag.svg" alt="US" /><span>|</span>
-                    <strong>{{ instrument.price | currency(instrument.currency) }}</strong>
+                    <strong
+                        class="cursor-context"
+                        :title="instrument.price | currency(instrument.currency, true)"
+                        >{{ instrument.price | currency(instrument.currency) }}</strong
+                    >
                 </p>
             </div>
         </div>

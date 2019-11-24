@@ -1,17 +1,17 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import VuexPersistence from 'vuex-persist';
+import Vue from "vue";
+import Vuex from "vuex";
+import VuexPersistence from "vuex-persist";
 
-import auth from './modules/auth';
-import explore from './modules/explore';
-import history from './modules/history';
-import kyc from './modules/kyc';
-import portfolio from './modules/portfolio';
-import stamps from './modules/stamps';
-import statements from './modules/statements';
-import stock from './modules/stock';
-import wallet from './modules/wallet';
-import watchlist from './modules/watchlist';
+import auth from "./modules/auth";
+import explore from "./modules/explore";
+import history from "./modules/history";
+import kyc from "./modules/kyc";
+import portfolio from "./modules/portfolio";
+import stamps from "./modules/stamps";
+import statements from "./modules/statements";
+import stock from "./modules/stock";
+import wallet from "./modules/wallet";
+import watchlist from "./modules/watchlist";
 
 Vue.use(Vuex);
 
@@ -20,10 +20,11 @@ const persist = new VuexPersistence({
 });
 
 let interval = null;
-const debug = process.env.VUE_APP_NODE_ENV !== 'production';
+const debug = process.env.VUE_APP_NODE_ENV !== "production";
 
 const initialState = {
     progressbar: 0,
+    windowWidth: "desktop",
     auth: { ...auth.state },
     explore: { ...explore.state },
     history: { ...history.state },
@@ -38,10 +39,12 @@ const initialState = {
 
 export default new Vuex.Store({
     state: {
-        progressbar: 50
+        progressbar: 50,
+        windowWidth: "desktop"
     },
     getters: {
-        getProgressbar: state => state.progressbar
+        getProgressbar: state => state.progressbar,
+        getWindowWidth: state => state.windowWidth
     },
     mutations: {
         BEGIN_LOADER(state) {
@@ -51,8 +54,11 @@ export default new Vuex.Store({
         END_LOADER(state, payload) {
             state.progressbar = payload;
         },
-        RESET_ALL: (state) => {
-            Object.keys(state).forEach((key) => {
+        SET_WINDOW_WIDTH: (state, width) => {
+            state.windowWidth = width;
+        },
+        RESET_ALL: state => {
+            Object.keys(state).forEach(key => {
                 Object.assign(state[key], initialState[key]);
             });
         }
@@ -61,17 +67,17 @@ export default new Vuex.Store({
         START_LOADER: ({ state, commit }) => {
             interval = setInterval(() => {
                 if (state.progressbar < 80) {
-                    commit('BEGIN_LOADER');
+                    commit("BEGIN_LOADER");
                 }
             }, 500);
         },
         STOP_LOADER: ({ commit }) => {
             clearInterval(interval);
             setTimeout(() => {
-                commit('END_LOADER', 100);
+                commit("END_LOADER", 100);
             }, 100);
             setTimeout(() => {
-                commit('END_LOADER', 0);
+                commit("END_LOADER", 0);
             }, 800);
         }
     },

@@ -19,11 +19,24 @@
                 <tr v-for="(item, index) in data" :key="index">
                     <td class="capitalize">{{ item.name }}</td>
                     <td class="uppercase">{{ item.symbol }}</td>
-                    <td>{{ item.price | currency(item.currency) }}</td>
-                    <td>{{ item.unitsOwned | units }}</td>
-                    <td>{{ item.unitsOrdered | units }}</td>
-                    <td>{{ item.investedAmount | currency(item.currency) }}</td>
-                    <td>{{ item.investedPercentage | units(2) }}%</td>
+                    <td class="cursor-context" :title="item.price | currency(item.currency, true)">
+                        {{ item.price | currency(item.currency) }}
+                    </td>
+                    <td class="cursor-context" :title="item.unitsOwned | units(2, true)">
+                        {{ item.unitsOwned | units }}
+                    </td>
+                    <td class="cursor-context" :title="item.unitsOrdered | units(2, true)">
+                        {{ item.unitsOrdered | units }}
+                    </td>
+                    <td
+                        class="cursor-context"
+                        :title="item.investedAmount | currency(item.currency, true)"
+                    >
+                        {{ item.investedAmount | currency(item.currency) }}
+                    </td>
+                    <td class="cursor-context" :title="item.investedPercentage | units(2, true)">
+                        {{ item.investedPercentage | units(2) }}%
+                    </td>
                     <td :class="[checkChange(item.change) ? 'green' : 'red']">
                         <img
                             src="../../assets/img/green-arrow.svg"

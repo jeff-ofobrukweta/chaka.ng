@@ -31,7 +31,11 @@
                 >
             </p>
             <p>
-                <strong>{{ instrument.price | currency(instrument.currency) }}</strong>
+                <strong
+                    class=" cursor-context"
+                    :title="instrument.price | currency(instrument.currency, true)"
+                    >{{ instrument.price | currency(instrument.currency) }}</strong
+                >
             </p>
         </div>
         <div class="watchlist-explore__graph">

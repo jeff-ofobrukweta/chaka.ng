@@ -1,0 +1,91 @@
+.explore {
+
+    &-section {
+        margin-bottom: 3.825rem;
+    }
+
+    &__title {
+        @extend .accounts__title;
+        display: flex;
+        justify-content: space-between;
+        flex-flow: row wrap;
+        align-items: flex-end;
+
+        p {
+            @extend .dashboard__title--sub
+        }
+    }
+
+    &-featured {
+        display: flex;
+        flex-wrap: wrap;
+
+
+        @include tablet {
+            justify-content: space-between;
+        }
+
+        &__image {
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin-bottom: 1rem;
+
+            img {
+                object-fit: cover;
+                width: 100%;
+                height: 300px;
+                border-radius: 7px;
+            }
+
+            @include tablet {
+                flex: 0 0 59%;
+                max-width: 59%;
+                margin-bottom: 0;
+            }
+        }
+
+        &__text {
+            flex: 0 0 100%;
+            max-width: 100%;
+            color: $primary-dark;
+
+            @include tablet {
+                flex: 0 0 39%;
+                max-width: 39%;
+            }
+
+            &--title {
+                margin-bottom: .825rem;
+                color: $primary-dark
+            }
+
+            p {
+                line-height: 2;
+
+            }
+        }
+    }
+
+    &__news {
+        margin-top: 1.5rem;
+    }
+
+    &-actions {
+        @extend .portfolio-table__buy;
+        font-style: italic;
+
+        &:first-child {
+            margin-right: 1rem;
+        }
+
+        &:last-child {
+            margin-right: 10px;
+        }
+
+        &__bottom {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+    }
+}

@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 import Header from "./components/Header";
 import Progressbar from "./components/Progressbar";
 
@@ -15,6 +16,17 @@ export default {
     components: {
         Header,
         Progressbar
+    },
+    methods: {
+        ...mapMutations(["SET_WINDOW_WIDTH"]),
+        handleResize() {
+            const width = window.innerWidth;
+            if (width < 640) {
+                this.SET_WINDOW_WIDTH("mobile");
+            } else if (width < 968) {
+                this.SET_WINDOW_WIDTH("tablet");
+            } else this.SET_WINDOW_WIDTH("desktop");
+        }
     },
     created() {
         window.onscroll = () => {
@@ -29,6 +41,11 @@ export default {
                 if (nav) nav.classList.remove("scroll");
             }
         };
+        window.addEventListener("resize", this.handleResize);
+        this.handleResize();
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.handleResize);
     }
 };
 </script>

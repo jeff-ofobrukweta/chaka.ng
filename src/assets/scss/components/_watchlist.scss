@@ -87,7 +87,7 @@
       cursor: pointer;
 
       &:hover {
-        transition: all 0.5s;
+        transition: all 200ms;
         font-size: 1.2rem;
         font-weight: bold;
       }
@@ -149,6 +149,8 @@
       }
 
       p {
+        word-break: break-word;
+
         @include desktop {
           flex: 0 0 48%;
         }

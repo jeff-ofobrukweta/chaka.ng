@@ -300,10 +300,14 @@ main {
   color: $green
 }
 
-.capitalize{
+.capitalize {
   text-transform: capitalize;
 }
 
-.uppercase{
+.uppercase {
   text-transform: uppercase;
+}
+
+.cursor-context {
+  cursor: context-menu
 }
