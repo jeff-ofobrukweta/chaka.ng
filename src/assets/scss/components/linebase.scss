@@ -18,9 +18,35 @@
         flex-direction: column;
         flex: 1 1 100%;
         text-align: right;
-        font-family: "SF Pro";
+        font-family: SF Pro Text;
         font-style: normal;
         font-weight: bolder;
+        .toogle-section{
+            display: flex;
+            justify-content: flex-end;
+            .option-container{
+                display: flex;
+                justify-content: space-between;
+                .btn-one{
+                    width: 30.21px;
+                    height: 30.21px;
+                    background:#22A4EF;
+                    color:#fff;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 13.1343px;
+                }
+                .btn-two{
+                    width: 30.21px;
+                    height: 30.21px;
+                    background:#FFFFFF;
+                    color: #CECECE;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 13.1343px;
+                }
+            }
+        }
         .cash-networth{
             font-family: SF Pro Text;
             font-style: normal;

@@ -1,6 +1,8 @@
 const Home = () => import(/* webpackChunkName: "home" */ '../views/Home');
 const DashboardLayout = () => import(/* webpackChunkName: "dashboard" */ '../layouts/DashboardLayout');
 const Portfolio = () => import(/* webpackChunkName: "portfolio" */ '../views/dashboard/Portfolio');
+const Categories = () => import(/* webpackChunkName: "portfolio" */ '../views/dashboard/Categories');
+
 const AccountsIndex = () => import(/* webpackChunkName: "accounts-index" */ '../views/dashboard/accounts/Index');
 const AccountsOverview = () => import(/* webpackChunkName: "accounts-overview" */ '../views/dashboard/accounts/Overview');
 const AccountsWallet = () => import(/* webpackChunkName: "accounts-wallet" */ '../views/dashboard/accounts/Wallet');
@@ -31,7 +33,7 @@ const routes = [
       {
         path: 'categories',
         name: 'categories',
-        component: Portfolio,
+        component: Categories,
       },
       {
         path: 'accounts',

@@ -13,7 +13,7 @@ import {
   mapGetters, mapMutations, mapActions, mapState,
 } from 'vuex';
 import numeral from 'numeral';
-import Doughnut from './doughnut_config';
+import Doughnut from './horizontalbar_config';
 
 export default {
   name: 'doughnutgraph',
@@ -66,21 +66,21 @@ export default {
       width: 20,
       options: {
         scales: {
-          // xAxes: [
-          // 	{
+          xAxes: [
+          	{
           // 		distribution: 'linear',
           // 		display: false,
           // 		ticks: {
           // 			maxTicksLimit: 8,
           // 			fontSize: 10
           // 		},
-          // 		gridLines: {
-          // 			display: true,
-          // 			// borderDash: [4, 4],
-          // 			// color: '#4394c7',
-          // 			labelString: 'Date',
-          // 			drawBorder: false
-          // 		},
+          		gridLines: {
+          			display: false,
+          			// borderDash: [4, 4],
+          			// color: '#4394c7',
+          			labelString: 'Date',
+          			drawBorder: false
+          		},
           // 		// type: 'time',
           // 		time: {
           // 			// unit: this.day,
@@ -99,35 +99,35 @@ export default {
           // 				year: 'MMM DD'
           // 			}
           // 		}
-          // 	}
-          // ],
+          	}
+          ],
 
-          // yAxes: [
-          // 	{
-          // 		scaleLabel: {
-          // 			display: false,
-          // 			// labelString: 'Price'
-          // 		},
-          // 		position: 'left',
-          // 		ticks: {
-          // 			beginAtZero: false,
-          // 			fontColor: '#8A939A',
-          // 			padding: 0,
-          // 			fontSize: 10,
-          // 			max: this.max,
-          // 			min: this.min,
-          // 			stepSize: this.interval,
-          // 			callback: (value) =>
-          // 				this.currency == 'USD'
-          // 					? `$${numeral(value).value()}`
-          // 					: `N${numeral(value).value()}`
-          // 		},
-          // 		gridLines: {
-          // 			display: false,
-          // 			drawBorder: false
-          // 		}
-          // 	}
-          // ]
+          yAxes: [
+          	{
+          		scaleLabel: {
+          			display: false,
+          			// labelString: 'Price'
+          		},
+          		position: 'left',
+          		ticks: {
+          			beginAtZero: false,
+          			fontColor: '#8A939A',
+          			padding: 0,
+          			fontSize: 10,
+          			max: this.max,
+          			min: this.min,
+          			stepSize: this.interval,
+          			callback: (value) =>
+          				this.currency == 'USD'
+          					? `$${numeral(value).value()}`
+          					: `N${numeral(value).value()}`
+          		},
+          		gridLines: {
+          			display: false,
+          			drawBorder: false
+          		}
+          	}
+          ]
         },
         layout: {
           padding: {
@@ -194,12 +194,12 @@ export default {
 
     fillData() {
       this.datacollection = {
-        // labels: ['jan','feb','march','april','jan','feb','march','april','may','june','july','august','sept','oct','nov','dec'],
-        datasets: [
+        labels: ['jan','feb','march'],
+       datasets: [
           {
-            label: 'Data One',
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF'],
-            data: [1, 10, 5],
+            label: 'Stocks2',
+            backgroundColor: ['#41B846', '#E46451', '#00D6EF'],
+            data: [2, 30, 5],
           },
         ],
       };

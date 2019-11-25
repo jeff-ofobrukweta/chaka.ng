@@ -8,7 +8,13 @@
                 <div class="right-menue-item">
                     <section class="btn-sell"><button>Buy</button></section>
                     <section class="cash-networth">123,345,567(123.34%)</section>
-                    <section><button>missing buttons</button></section>
+                    <section class="toogle-section">
+                        <section class="option-container">
+                            <button class="btn-one">$</button>
+                            <button  class="btn-two">N</button>
+                            <button>Month</button>
+                        </section>
+                    </section>
                 </div>
             </div>
         <Graph/>
