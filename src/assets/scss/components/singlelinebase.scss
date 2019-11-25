@@ -37,14 +37,23 @@
         font-family: SF Pro Text;
         font-style: normal;
         font-weight: bolder;
+        .parent-container-main{
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+        }
         .toogle-section{
             display: flex;
             justify-content: flex-end;
             .option-container{
                 display: flex;
                 justify-content: space-between;
+                justify-content: space-between;
+                align-content: center;
+                align-items: center;
                 font-family: "SF Pro";
                 font-style: normal;
+                flex-direction: row-reverse;
                 .btn-one{
                     width: 30.21px;
                     height: 30.21px;
@@ -65,16 +74,49 @@
                 }
             }
         }
-        .cash-networth{
+       .btn-parent-container{
             font-family: SF Pro Text;
             font-style: normal;
             font-weight: bold;
             font-size: 19.7203px;
-            color: #00C48C;
             font-family: "SF Pro";
             font-style: normal;
             font-weight: bolder;
             line-height: 45px;
+            display: flex;
+            justify-content: flex-end;
+            .btn-container{
+                margin: 10px 0px;
+                border: 0.467531px solid#C4C4C4;
+                box-sizing: border-box;
+                padding: 5px;
+                border-radius: 3.27272px;
+            }
+            .option{
+                padding: 0px 30px;
+                border: 1px solid #e6e6e6;
+                background:#FFFFFF;
+                outline: none;
+                border: none;
+                border-radius: 4.875px;
+                text-align: center;
+                color:#293D4A;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 15.42px;
+            }
+            .option:hover{
+                padding: 0px 30px;
+                border: 1px solid #e6e6e6;
+                background:#22A4EF;
+                outline: none;
+                border: none;
+                border-radius: 4.875px;
+                color:#fff;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 15.42px;
+            }
         }
         .btn-sell{
             button{
@@ -86,7 +128,7 @@
                 background:#22A4EF;
                 outline: none;
                 border: none;
-                border-radius: 4.875px;
+                border-radius: 3.875px;
                 color:#fff;
                 font-style: normal;
                 font-weight: bold;

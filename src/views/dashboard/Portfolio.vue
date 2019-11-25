@@ -3,6 +3,8 @@
     <Linebase/>
     <Doughnut/>
     <Horizontalbar/>
+    <Singlestockgraphbase/>
+    <Blackboard/>
     <div class="card-news__box">
       <news-card :news="item" v-for="(item, index) in news" :key="index" />
     </div>
@@ -20,7 +22,9 @@ import PortfolioTabs from '../../components/portfolio/PortfolioTabs';
 import StockTable from '../../components/singlestock/StockTable';
 import Linebase from '../../components/Linegraph/linebase';
 import Doughnut from '../../components/Doughnut/dbase';
-import Horizontalbar from '../../components/Horizontalbar/hbase'
+import Horizontalbar from '../../components/Horizontalbar/hbase';
+import Singlestockgraphbase from '../../components/Linegraph/singlestock_linegraph';
+import Blackboard from '../../components/Linegraph/blackpriceboard';
 
 export default {
   name: 'portfolio',
@@ -31,7 +35,9 @@ export default {
     StockTable,
     Linebase,
     Doughnut,
-    Horizontalbar
+    Horizontalbar,
+    Singlestockgraphbase,
+    Blackboard
   },
   data() {
     return {

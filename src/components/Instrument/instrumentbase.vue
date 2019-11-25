@@ -4,6 +4,7 @@
             <section class="title-tag">Popular</section>
             <section class="info-tag">Lorem ipsum blala</section>
         </div>
+        <!--container below for @desktop view  -->
         <section class="base_instrument">
             <Instrumentdesk/>
             <Instrumentdesk/>
@@ -18,6 +19,7 @@
             <Instrumentdesk/>
             <Instrumentdesk/>
         </section>
+        <!-- container below for @mobile view -->
        <section class="base_instrument-mobile">
            <Instrumentmobile/>
            <Instrumentmobile/>

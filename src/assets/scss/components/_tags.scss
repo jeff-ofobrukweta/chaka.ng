@@ -27,7 +27,9 @@
     margin: 0 auto;
     .tag-item{
         width: 217px;
+        min-width: 217px;
         height: 116px;
+        min-height: 116px;
         border: 1px solidrgba(175, 175, 175, 0.4);
         border-radius: 7px;
         margin: 5px;

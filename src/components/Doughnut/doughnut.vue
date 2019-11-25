@@ -172,7 +172,17 @@ export default {
         aspectRatio: 2,
         legend: {
           display: true,
+          position: "right",
+          align:'center',
+          fullWidth: true,
+          labels: {
+            boxWidth: 10,
+            fontSize: 14
+          }
         },
+         animation: {
+        animateScale: true
+      }
       },
     };
   },
@@ -194,12 +204,12 @@ export default {
 
     fillData() {
       this.datacollection = {
-        // labels: ['jan','feb','march','april','jan','feb','march','april','may','june','july','august','sept','oct','nov','dec'],
+        labels: ['jan','feb','march','april'],
         datasets: [
           {
             label: 'Data One',
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF'],
-            data: [1, 10, 5],
+            backgroundColor: ['#41B883', '#E46651', '#00D8FF' ,'#00F8FF'],
+            data: [1, 10, 5, 23],
           },
         ],
       };
