@@ -1,0 +1,31 @@
+.board-container-price{
+    width: 347px;
+    height: 498px;
+    top: 741px;
+    background:#293D4A;
+    box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
+    border-radius: 11.4872px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .direct{object-fit: contain;}
+    .price{
+        font-style: normal;
+        font-weight: 800;
+        font-size: 52.0575px;
+        line-height: 169px;
+        color:#FFFFFF;
+    }
+    .info-details{
+        font-style: normal;
+        font-weight: bold;
+        font-size: 17.1318px;
+        line-height: 69px;
+        color: #FFFFFF;
+        .increase{
+            color: #00C48C;
+            margin-right: 5px;
+        }
+    }
+}

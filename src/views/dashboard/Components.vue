@@ -29,6 +29,12 @@
         <section class="portfolio-card__box">
             <PortfolioCard v-for="(card, index) in getPortfolioSummary" :key="index" :data="card" />
         </section>
+        <Linebase />
+        <Doughnut />
+        <Horizontalbar />
+        <Singlestockgraphbase />
+        <Blackboard />
+        <Portfolio />
         <modal
             :close-on-click="false"
             no-header
@@ -46,6 +52,13 @@ import PortfolioCard from "../../components/portfolio/PortfolioCard";
 import StockTable from "../../components/singlestock/StockTable";
 import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
 import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
+import Portfolio from "../../components/portfolio/PortfolioList";
+import PortfolioTabs from "../../components/portfolio/PortfolioTabs";
+import Linebase from "../../components/Linegraph/linebase";
+import Doughnut from "../../components/Doughnut/dbase";
+import Horizontalbar from "../../components/Horizontalbar/hbase";
+import Singlestockgraphbase from "../../components/Linegraph/singlestock_linegraph";
+import Blackboard from "../../components/Linegraph/blackpriceboard";
 
 export default {
     name: "portfolio",
@@ -54,7 +67,13 @@ export default {
         PortfolioCard,
         StockTable,
         MobileWatchlist,
-        ExploreWatchlist
+        ExploreWatchlist,
+        Portfolio,
+        Linebase,
+        Doughnut,
+        Horizontalbar,
+        Singlestockgraphbase,
+        Blackboard
     },
     data() {
         return {

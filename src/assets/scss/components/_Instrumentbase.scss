@@ -1,0 +1,37 @@
+.base_instrument{
+    display: flex;
+    flex-wrap: wrap;
+    width: 1200px;
+    margin: 0 auto;
+}
+.base_instrument--mobile{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.topic-block{
+    width: 1200px;
+    margin: 0 auto;
+    .title-tag{
+        font-family: "SF Pro";
+        font-style: normal;
+        font-weight: 800;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 20px;
+        color: #293D4A;
+    }
+    .info-tag{
+        font-family: "SF Pro";
+        font-style: normal;
+        font-weight: 300;
+        font-style: italic;
+        font-weight: normal;
+        font-size: 14px;
+        color: #8A939A;
+    }
+}
