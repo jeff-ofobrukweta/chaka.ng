@@ -41,6 +41,7 @@
 
             h5 {
                 color: $white;
+                font-size: 14px;
             }
         }
 
@@ -84,8 +85,13 @@
 
         &__link {
             text-decoration: underline;
+            text-underline-position: under;
             font-style: italic;
             font-size: 12px;
+
+            &:hover {
+                text-decoration: underline;
+            }
 
         }
 

@@ -7,11 +7,15 @@
 @import "layouts/home";
 @import "layouts/navbar";
 @import "layouts/accounts";
+@import "layouts/explore";
+@import "layouts/header";
 
+@import "modules/main";
 @import "modules/forms";
 @import "modules/buttons";
 @import "modules/cards";
 @import "modules/tables";
+@import "modules/modals";
 @import "modules/utils";
 
 @import "components/watchlist";

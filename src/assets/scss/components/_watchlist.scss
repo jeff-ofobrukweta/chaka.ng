@@ -20,33 +20,42 @@
         max-width: 33.3333%;
         flex: 0 0 33.3333%;
       }
+
       @include desktop {
         max-width: 25%;
         flex: 0 0 25%;
       }
+
       &.dark-green {
         background-color: #205317;
       }
+
       &.green {
         background-color: #33612b;
       }
+
       &.light-green {
         background-color: #51774a;
       }
+
       &.dark-red {
         background-color: #7d1608;
       }
+
       &.red {
         background-color: #8b3327;
       }
+
       &.light-red {
         background-color: #a76b63;
       }
     }
+
     &__left {
       flex: 0 1 70%;
       max-width: 70%;
     }
+
     &__right {
       flex: 1 0 30%;
       max-width: 30%;
@@ -55,16 +64,20 @@
       justify-content: space-between;
       align-items: flex-end;
     }
+
     &__name {
       margin-bottom: 0.5rem;
       font-size: 14px;
     }
+
     &__change {
       margin-bottom: 4px;
+
       img {
         margin-right: 4px;
       }
     }
+
     &__buy {
       width: 100%;
       font-size: 0.825rem;
@@ -72,11 +85,241 @@
       padding: 0.5rem;
       padding-right: 0;
       cursor: pointer;
+
       &:hover {
-        transition: all 0.5s;
+        transition: all 200ms;
         font-size: 1.2rem;
         font-weight: bold;
       }
+    }
+  }
+
+  &-explore {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    color: $primary-dark;
+    transition: all 200ms;
+
+    &:hover {
+      box-shadow: 14px 30px 32px rgba($color: $box-shadow, $alpha: 0.2);
+
+      .watchlist-explore__actions {
+
+        button {
+          &:first-child {
+            background-color: $red;
+
+            path {
+              fill: $red
+            }
+          }
+
+          &:last-child {
+            background-color: $green;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+            color: $white;
+
+            path {
+              fill: $white
+            }
+          }
+        }
+      }
+    }
+
+    &__box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__flex {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 0 0 22%;
+      max-width: 22%;
+
+      @include desktop {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      p {
+        word-break: break-word;
+
+        @include desktop {
+          flex: 0 0 48%;
+        }
+
+        &.light {
+          color: $grey-cool
+        }
+      }
+    }
+
+    &__change {
+      @extend .watchlist-portfolio__change
+    }
+
+    &__name {
+      flex: 0 0 16%;
+      max-width: 16%;
+      margin-right: 2%;
+      padding-left: 1.5rem;
+      display: flex;
+      flex-direction: row wrap;
+      justify-content: space-between;
+      align-items: center;
+
+      img:first-child {
+        margin-right: 16px;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      flex: 0 0 10%;
+      max-width: 10%;
+
+      button {
+        text-align: center;
+        flex: 0 0 50%;
+        height: 100%;
+        transition: all 200ms;
+        padding-top: 2.325rem;
+        padding-bottom: 2.325rem;
+
+        &:focus {
+          outline: none;
+        }
+
+        path {
+          fill: $silver;
+        }
+
+        &:first-child {
+          svg {
+            display: block;
+            margin: auto;
+          }
+
+          &:hover {
+            background-color: $red;
+
+            path {
+              fill: $red
+            }
+          }
+        }
+
+        &:last-child {
+
+          font-weight: bold;
+          color: $silver;
+
+          &:hover {
+            background-color: $green;
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+            color: $white;
+
+            path {
+              fill: $white
+            }
+          }
+        }
+      }
+    }
+
+    &__graph {
+      flex: 0 0 25%;
+      max-width: 25%;
+    }
+  }
+
+  &-mobile {
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    background-color: $white;
+    margin-bottom: 2rem;
+    padding: 0.625rem;
+
+    &__box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: .5rem;
+    }
+
+    &__bottom {
+      @extend .watchlist-mobile__top;
+      flex-wrap: wrap;
+    }
+
+    &__right {
+      flex: 0 1 60%;
+      max-width: 60%;
+      text-align: right;
+
+      @include tablet {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
+
+    &__left {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 40%;
+      max-width: 40%;
+
+      @include tablet {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
+
+    &__price {
+      margin-top: .25rem;
+      color: $grey-dark;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      img {
+        width: 1rem;
+        height: 1rem;
+        object-fit: contain;
+      }
+
+      span {
+        margin-left: 1ch;
+        margin-right: 1ch;
+      }
+    }
+
+    &__name {
+      color: $text-color;
+      word-break: break-word;
+    }
+
+    &__shares {
+      color: $grey-cool;
+    }
+
+    &__logo {
+      margin-right: 10px;
+      object-fit: contain;
+      width: 40px;
     }
   }
 }

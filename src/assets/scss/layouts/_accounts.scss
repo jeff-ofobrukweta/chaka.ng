@@ -2,7 +2,8 @@
     padding: 1.5rem 0 6rem;
 
     &__title {
-        margin-bottom: 2.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -100,7 +101,6 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        align-items: flex-start;
 
         @include mobile {
             justify-content: center;
@@ -113,8 +113,15 @@
             padding: 3rem 2rem;
             border-radius: 5px;
             box-shadow: 6px 14px 15px rgba($color: $box-shadow, $alpha: 0.3);
-
             width: 100%;
+            margin-bottom: 1rem;
+
+            &>div {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                height: 100%;
+            }
 
             h2 {
                 font-size: 1.825rem;
@@ -126,6 +133,7 @@
             @include tablet {
                 flex: 0 0 320px;
                 max-width: 320px;
+                margin-bottom: 0;
             }
         }
 
@@ -209,6 +217,7 @@
                     width: 25%;
                     max-width: 200px;
                     margin-right: 5%;
+                    margin-bottom: 0;
                 }
             }
         }

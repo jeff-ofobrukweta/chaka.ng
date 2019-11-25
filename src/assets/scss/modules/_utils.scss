@@ -299,3 +299,15 @@ main {
 .green {
   color: $green
 }
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.cursor-context {
+  cursor: context-menu
+}
