@@ -68,7 +68,6 @@ export default {
         StockTable,
         MobileWatchlist,
         ExploreWatchlist,
-        Watchlist,
         Portfolio,
         Linebase,
         Doughnut,
