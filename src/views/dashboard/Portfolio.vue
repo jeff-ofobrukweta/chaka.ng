@@ -1,7 +1,14 @@
 <template>
     <section class="dashboard__main">
+      <section class="portfolio-line__graph">
+        <Linegraph/>
+      </section>
         <section class="portfolio-card__box">
             <PortfolioCard v-for="(card, index) in getPortfolioSummary" :key="index" :data="card" />
+        </section>
+        <section class="portfolio__charts">
+           <Doughnut/>
+           <Performancebarchart/>
         </section>
         <section class="explore__title">
             <div>
@@ -28,12 +35,18 @@
 import { mapGetters } from "vuex";
 import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
 import PortfolioCard from "../../components/portfolio/PortfolioCard";
+import Linegraph from '../../components/Linegraph/linebase';
+import Doughnut from '../../components/Doughnut/dbase';
+import Performancebarchart from '../../components/Performance_chart/performancebase'
 
 export default {
     name: "portfolio",
     components: {
         WatchlistCard,
-        PortfolioCard
+        PortfolioCard,
+        Linegraph,
+        Doughnut,
+        Performancebarchart
     },
     data() {
         return {
@@ -102,3 +115,4 @@ export default {
     }
 };
 </script>
+<style src="../../assets/scss/layouts/_portfoliobase.scss" lang="scss" scoped />

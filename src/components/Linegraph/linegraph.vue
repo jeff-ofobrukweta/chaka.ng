@@ -143,7 +143,13 @@ export default {
         tooltips: {
           mode: 'index',
           intersect: false,
-          backgroundColor: '#2DA5EC',
+          titleFontColor:'#293D4A',
+          bodyFontColor:'#293D4A',
+          titleFontSize:15,
+          bodyFontSize:'15',
+          // backgroundColor: '#2DA5EC',
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          displayColors: false,
           titleFontSize: 12, // default font-size
           title(tooltipItem, data) {
             return data.labels[tooltipItem[0].index];
