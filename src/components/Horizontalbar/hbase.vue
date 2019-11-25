@@ -1,21 +1,20 @@
 <template>
-    <Fragment >
+    <Fragment>
         <section class="graphholder">
-        <HorizontalGrapgh/>
+            <HorizontalGrapgh />
         </section>
     </Fragment>
 </template>
 <script>
-import {Fragment} from 'vue-fragment';
-import HorizontalGrapgh from './horizontalgraph';
+import { Fragment } from "vue-fragment";
+import HorizontalGrapgh from "./horizontalgraph";
 export default {
-    name:"base",
-    components:{
+    name: "hbase",
+    components: {
         Fragment,
         HorizontalGrapgh
     }
-}
+};
 </script>
-
 
 <style src="../../assets/scss/components/horizontal.scss" lang="scss" scoped />

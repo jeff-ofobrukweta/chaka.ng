@@ -11,7 +11,7 @@ import Instrumentbase from "../../components/Instrument/instrumentbase";
 import Tags from "../../components/Tags";
 
 export default {
-    name: "base",
+    name: "ibase",
     components: {
         Fragment,
         Instrumentbase,
