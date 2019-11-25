@@ -1,5 +1,6 @@
 import Input from "../components/form/Input";
 import Button from "../components/form/Button";
+import ActionButton from "../components/form/ActionButton";
 import NewsCard from "../components/cards/NewsCard";
 import Modal from "../components/modals/BaseModal";
 /**
@@ -10,6 +11,7 @@ const GlobalComponents = {
     install(Vue) {
         Vue.component("form-input", Input);
         Vue.component("form-button", Button);
+        Vue.component("action-button", ActionButton);
         Vue.component("news-card", NewsCard);
         Vue.component("modal", Modal);
     }

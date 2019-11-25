@@ -67,9 +67,24 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <button class="btn btn-block btn--lg btn__primary">Fund</button>
-                    <button class="btn btn-block btn--lg btn__primary--dark">Exchange</button>
-                    <button class="btn btn-block btn--lg btn__primary--outline">Withdraw</button>
+                    <action-button
+                        :pending="fundClick"
+                        @click="fund"
+                        :classes="['btn-block', 'btn--lg', 'btn__primary']"
+                        >Fund</action-button
+                    >
+                    <action-button
+                        :pending="exchangeClick"
+                        @click="exchange"
+                        :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
+                        >Exchange</action-button
+                    >
+                    <action-button
+                        :pending="withdrawClick"
+                        @click="withdraw"
+                        :classes="['btn-block', 'btn--lg', 'btn__primary--outline']"
+                        >Withdraw</action-button
+                    >
                 </div>
             </div>
         </section>
@@ -78,6 +93,33 @@
 
 <script>
 export default {
-    name: "accounts-wallet"
+    name: "accounts-wallet",
+    data() {
+        return {
+            fundClick: false,
+            exchangeClick: false,
+            withdrawClick: false
+        };
+    },
+    methods: {
+        fund() {
+            this.fundClick = true;
+            setTimeout(() => {
+                this.fundClick = false;
+            }, 5000);
+        },
+        exchange() {
+            this.exchangeClick = true;
+            setTimeout(() => {
+                this.exchangeClick = false;
+            }, 5000);
+        },
+        withdraw() {
+            this.withdrawClick = true;
+            setTimeout(() => {
+                this.withdrawClick = false;
+            }, 5000);
+        }
+    }
 };
 </script>

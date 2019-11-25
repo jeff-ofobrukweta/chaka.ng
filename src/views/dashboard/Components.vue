@@ -172,9 +172,6 @@ export default {
     },
     computed: {
         ...mapGetters(["getPortfolioSummary", "getWindowWidth"])
-    },
-    mounted() {
-        console.log(this.getWindowWidth);
     }
 };
 </script>

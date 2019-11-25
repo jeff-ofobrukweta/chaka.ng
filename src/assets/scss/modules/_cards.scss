@@ -179,10 +179,6 @@
                 padding-right: 1rem;
                 transition: all 200ms;
 
-                &:focus {
-                    outline: none;
-                }
-
                 path {
                     fill: $silver;
                 }

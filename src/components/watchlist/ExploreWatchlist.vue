@@ -38,8 +38,14 @@
                 >
             </p>
         </div>
-        <div class="watchlist-explore__graph">
-            SPARKLINES
+        <div class="watchlist-explore__graph--box">
+            <line-chart
+                class="watchlist-explore__graph"
+                :chart-data="datacollection"
+                :options="options"
+                :width="100"
+                :height="50"
+            ></line-chart>
         </div>
         <div class="watchlist-explore__actions">
             <button>
@@ -75,13 +81,128 @@
 </template>
 
 <script>
+import LineChart from "../Linegraph/linegraph_config.js";
 export default {
     name: "explore-watchlist",
+    components: {
+        LineChart
+    },
     props: {
         instrument: {
             type: Object,
             required: true
+        },
+        color: {
+            type: String,
+            default: "green"
         }
+    },
+    data() {
+        return {
+            datacollection: {},
+            options: {
+                responsive: false,
+                legend: {
+                    display: false
+                },
+                elements: {
+                    line: {
+                        borderColor: "#000000",
+                        borderWidth: 1
+                    },
+                    point: {
+                        radius: 0
+                    }
+                },
+                tooltips: {
+                    enabled: false
+                },
+                scales: {
+                    yAxes: [
+                        {
+                            display: false
+                        }
+                    ],
+                    xAxes: [
+                        {
+                            display: false
+                        }
+                    ]
+                }
+            }
+        };
+    },
+    methods: {
+        fillData() {
+            this.datacollection = {
+                labels: [
+                    "jan",
+                    "feb",
+                    "march",
+                    "april",
+                    "jan",
+                    "feb",
+                    "march",
+                    "april",
+                    "may",
+                    "june",
+                    "july",
+                    "august",
+                    "sept",
+                    "oct",
+                    "nov",
+                    "dec"
+                ],
+                datasets: [
+                    {
+                        label: "Stocks",
+                        lineTension: 0.4,
+                        fill: false,
+                        borderColor: this.color,
+                        borderWidth: 1.7,
+                        showLine: true,
+                        borderJoinStyle: "miter",
+                        pointBackgroundColor: "#484848",
+                        pointBorderWidth: 3,
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: "#2DA5EC",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBorderWidth: 2,
+                        pointRadius: 0,
+                        pointHitRadius: 1,
+                        data: [
+                            12,
+                            23,
+                            34,
+                            44,
+                            12,
+                            23,
+                            34,
+                            44,
+                            56,
+                            66,
+                            78,
+                            89,
+                            45,
+                            5,
+                            45,
+                            1,
+                            23,
+                            78,
+                            89,
+                            45,
+                            5,
+                            45,
+                            1
+                        ]
+                    }
+                ]
+            };
+        }
+    },
+
+    mounted() {
+        this.fillData();
     }
 };
 </script>

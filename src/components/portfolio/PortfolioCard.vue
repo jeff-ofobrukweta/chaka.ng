@@ -44,7 +44,6 @@ export default {
     },
     methods: {
         toDetailsPage(type) {
-            console.log("here: ", type);
             this.$router.push({ name: "portfolio-details", params: { type } });
         }
     }
