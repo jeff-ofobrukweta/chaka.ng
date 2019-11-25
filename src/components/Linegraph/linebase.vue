@@ -33,10 +33,10 @@
 import Graph from './linegraph';
 
 export default {
-  name: 'Linechartgraphchild',
-  components: {
-    Graph,
-  },
+    name: 'Linechartgraphchild',
+    components: {
+        Graph
+    }
 };
 </script>
 <style src="../../assets/scss/components/linebase.scss" lang="scss" scoped />

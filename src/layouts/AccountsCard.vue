@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    name: "accounts-card",
+    name: 'accounts-card',
     props: {
         title: {
             type: String,

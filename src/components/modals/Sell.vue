@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    name: "accounts-menu",
+    name: 'accounts-menu',
     props: {
         routes: {
             type: Array,
@@ -17,7 +17,7 @@ export default {
     },
     methods: {
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         linkClick(route) {
             this.$router.push({ name: route });

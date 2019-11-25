@@ -101,7 +101,7 @@
 
 <script>
 export default {
-    name: "accounts-wallet",
+    name: 'accounts-wallet',
     data() {
         return {
             showFund: false,

@@ -1,7 +1,7 @@
 <template>
     <modal :close-on-click="false" @close="closeModal">
         <template slot="header">Funds Withdrawal</template>
-        <form class="modal-form" @submit.prevent="fundWallet">
+        <form class="modal-form" @submit.prevent="withdraw">
             <div class="modal-form__group">
                 <label class="form__label"
                     >Amount
@@ -45,20 +45,11 @@ export default {
             loading: false
         };
     },
-    computed: {
-        paystackValue() {
-            if (!this.itemData.amount) return 0;
-            if (this.itemData.amount > 2500) {
-                return (this.itemData.amount + 100) / (1 - 0.015);
-            }
-            return this.itemData.amount / (1 - 0.015);
-        }
-    },
     methods: {
         closeModal() {
             this.$emit("close");
         },
-        fundWallet() {
+        withdraw() {
             this.loading = true;
             setTimeout(() => {
                 this.loading = false;

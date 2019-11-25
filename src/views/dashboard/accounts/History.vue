@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import HistoryTable from "../../../components/accounts/HistoryTable";
+import HistoryTable from '../../../components/accounts/HistoryTable';
 
 export default {
-    name: "accounts-history",
+    name: 'accounts-history',
     components: {
         HistoryTable
     },
@@ -41,56 +41,56 @@ export default {
             activeButton: 1,
             historyButtons: [
                 {
-                    name: "All",
+                    name: 'All',
                     value: 1
                 },
                 {
-                    name: "Order",
+                    name: 'Order',
                     value: 2
                 },
                 {
-                    name: "Withdrawal",
+                    name: 'Withdrawal',
                     value: 3
                 },
                 {
-                    name: "Transfer",
+                    name: 'Transfer',
                     value: 4
                 },
                 {
-                    name: "Deposit",
+                    name: 'Deposit',
                     value: 5
                 }
             ],
             history: [
                 {
-                    type: "Transfer",
+                    type: 'Transfer',
                     amount: 21341.33,
-                    status: "Success",
-                    date: "21/03/1995"
+                    status: 'Success',
+                    date: '21/03/1995'
                 },
                 {
-                    type: "Transfer",
+                    type: 'Transfer',
                     amount: 21341.33,
-                    status: "Success",
-                    date: "21/03/1995"
+                    status: 'Success',
+                    date: '21/03/1995'
                 },
                 {
-                    type: "Transfer",
+                    type: 'Transfer',
                     amount: 21341.33,
-                    status: "Success",
-                    date: "21/03/1995"
+                    status: 'Success',
+                    date: '21/03/1995'
                 },
                 {
-                    type: "Transfer",
+                    type: 'Transfer',
                     amount: 21341.33,
-                    status: "Success",
-                    date: "21/03/1995"
+                    status: 'Success',
+                    date: '21/03/1995'
                 },
                 {
-                    type: "Transfer",
+                    type: 'Transfer',
                     amount: 21341.33,
-                    status: "Success",
-                    date: "21/03/1995"
+                    status: 'Success',
+                    date: '21/03/1995'
                 }
             ]
         };

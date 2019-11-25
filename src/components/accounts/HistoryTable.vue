@@ -19,7 +19,7 @@
 
 <script>
 export default {
-    name: "table-accounts",
+    name: 'table-accounts',
     props: {
         history: {
             type: Array,

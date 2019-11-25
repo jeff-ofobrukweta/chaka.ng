@@ -36,6 +36,10 @@
         &__text {
             font-weight: lighter;
         }
+
+        a {
+            color: $text-color;
+        }
     }
 
     &-container {
@@ -153,6 +157,51 @@
             flex: 0 0 47%;
             max-width: 47%;
         }
+    }
+
+    &__buy {
+        color: $text-color;
+
+        &--details {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            &>div {
+                &:first-child {
+                    @include mobile {
+                        flex: 0 0 100%;
+                        max-width: 100%;
+                        width: 100%
+                    }
+                }
+            }
+        }
+
+        &-left {
+            display: flex;
+            align-items: center;
+        }
+
+        &--image {
+            margin-right: 10px;
+
+            img {
+                width: 60px;
+                height: 60px;
+                object-fit: contain;
+            }
+        }
+
+        &--symbol {
+            margin-right: 40px;
+        }
+
+        &--price {
+            font-size: 1.25rem;
+        }
+
     }
 
 

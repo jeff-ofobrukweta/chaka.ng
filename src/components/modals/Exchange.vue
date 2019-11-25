@@ -125,10 +125,10 @@
 
 <script>
 export default {
-    name: "exchange-modal",
+    name: 'exchange-modal',
     data() {
         return {
-            itemData: { currency: "NGN", fromWallet: "local", toWallet: "global" },
+            itemData: { currency: 'NGN', fromWallet: 'local', toWallet: 'global' },
             loading: false,
             selectedCurrency: null,
             exchangeAsk: 360,
@@ -146,7 +146,7 @@ export default {
     },
     methods: {
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         fundWallet() {
             this.loading = true;
@@ -158,21 +158,21 @@ export default {
     },
     mounted() {
         setTimeout(() => {
-            this.itemData.currency = "NGN";
-            this.itemData.fromWallet = "local";
-            this.itemData.toWallet = "global";
+            this.itemData.currency = 'NGN';
+            this.itemData.fromWallet = 'local';
+            this.itemData.toWallet = 'global';
         }, 1000);
     },
     watch: {
-        "itemData.fromWallet"(val) {
-            if (val === "local") {
-                this.selectedCurrency = "NGN";
+        'itemData.fromWallet': function (val) {
+            if (val === 'local') {
+                this.selectedCurrency = 'NGN';
                 this.itemData.currency = this.selectedCurrency;
-                this.itemData.toWallet = "global";
+                this.itemData.toWallet = 'global';
             } else {
-                this.selectedCurrency = "USD";
+                this.selectedCurrency = 'USD';
                 this.itemData.currency = this.selectedCurrency;
-                this.itemData.toWallet = "local";
+                this.itemData.toWallet = 'local';
             }
         }
     }

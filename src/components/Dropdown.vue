@@ -13,32 +13,32 @@
 import dropdown from 'vue-dropdowns';
 
 export default {
-  props: {
-    options: {
-      type: Object,
-      required: true,
+    props: {
+        options: {
+            type: Object,
+            required: true
+        },
+        placeholder: {
+            type: String,
+            required: true
+        }
     },
-    placeholder: {
-      type: String,
-      required: true,
+    data() {
+        return {
+            object: {
+                name: 'Object Name'
+            }
+        };
     },
-  },
-  data() {
-    return {
-      object: {
-        name: 'Object Name',
-      },
-    };
-  },
 
-  components: {
-    dropdown,
-  },
-
-  methods: {
-    methodToRunOnSelect(payload) {
-      this.object = payload;
+    components: {
+        dropdown
     },
-  },
+
+    methods: {
+        methodToRunOnSelect(payload) {
+            this.object = payload;
+        }
+    }
 };
 </script>

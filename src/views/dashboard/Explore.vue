@@ -103,19 +103,13 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
-import PortfolioCard from "../../components/portfolio/PortfolioCard";
-import StockTable from "../../components/singlestock/StockTable";
-import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
-import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
+import { mapGetters } from 'vuex';
+import ExploreWatchlist from '../../components/watchlist/ExploreWatchlist';
+import MobileWatchlist from '../../components/watchlist/MobileWatchlist';
 
 export default {
-    name: "portfolio",
+    name: 'portfolio',
     components: {
-        WatchlistCard,
-        PortfolioCard,
-        StockTable,
         ExploreWatchlist,
         MobileWatchlist
     },
@@ -125,88 +119,88 @@ export default {
             news: [
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 }
             ],
             watchlist: [
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 4
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 2
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 1
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 0
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: -3
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: -10
@@ -215,7 +209,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getPortfolioSummary", "getWindowWidth"])
+        ...mapGetters(['getPortfolioSummary', 'getWindowWidth'])
     }
 };
 </script>

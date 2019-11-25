@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    name: "modal",
+    name: 'modal',
     props: {
         closeOnClick: {
             type: Boolean,
@@ -38,7 +38,7 @@ export default {
     methods: {
         closeModal() {
             if (this.closeOnClick) {
-                this.$emit("close");
+                this.$emit('close');
             }
         }
     }

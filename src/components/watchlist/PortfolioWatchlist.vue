@@ -29,9 +29,16 @@
                 <img src="../../assets/img/watch-open.svg" alt="Watch" />
             </div>
             <div>
-                <a class="watchlist-portfolio__buy">+ Buy</a>
+                <a @click="showBuy = true" class="watchlist-portfolio__buy">+ Buy</a>
             </div>
         </div>
+        <buy-modal
+            @close="showBuy = false"
+            :currency="instrument.currency"
+            :symbol="instrument.symbol"
+            :instrument="instrument"
+            v-if="showBuy"
+        />
     </div>
 </template>
 
@@ -43,6 +50,11 @@ export default {
             type: Object,
             required: true
         }
+    },
+    data() {
+        return {
+            showBuy: false
+        };
     },
     computed: {
         color() {

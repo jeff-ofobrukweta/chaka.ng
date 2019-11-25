@@ -55,7 +55,7 @@
 
 <script>
 export default {
-    name: "fund-modal",
+    name: 'fund-modal',
     data() {
         return {
             itemData: {},
@@ -73,7 +73,7 @@ export default {
     },
     methods: {
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         fundWallet() {
             this.loading = true;

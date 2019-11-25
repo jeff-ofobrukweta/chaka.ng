@@ -81,9 +81,10 @@
 </template>
 
 <script>
-import LineChart from "../Linegraph/linegraph_config.js";
+import LineChart from '../Linegraph/linegraph_config.js';
+
 export default {
-    name: "explore-watchlist",
+    name: 'explore-watchlist',
     components: {
         LineChart
     },
@@ -94,7 +95,7 @@ export default {
         },
         color: {
             type: String,
-            default: "green"
+            default: 'green'
         }
     },
     data() {
@@ -107,7 +108,7 @@ export default {
                 },
                 elements: {
                     line: {
-                        borderColor: "#000000",
+                        borderColor: '#000000',
                         borderWidth: 1
                     },
                     point: {
@@ -136,37 +137,37 @@ export default {
         fillData() {
             this.datacollection = {
                 labels: [
-                    "jan",
-                    "feb",
-                    "march",
-                    "april",
-                    "jan",
-                    "feb",
-                    "march",
-                    "april",
-                    "may",
-                    "june",
-                    "july",
-                    "august",
-                    "sept",
-                    "oct",
-                    "nov",
-                    "dec"
+                    'jan',
+                    'feb',
+                    'march',
+                    'april',
+                    'jan',
+                    'feb',
+                    'march',
+                    'april',
+                    'may',
+                    'june',
+                    'july',
+                    'august',
+                    'sept',
+                    'oct',
+                    'nov',
+                    'dec'
                 ],
                 datasets: [
                     {
-                        label: "Stocks",
+                        label: 'Stocks',
                         lineTension: 0.4,
                         fill: false,
                         borderColor: this.color,
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: "miter",
-                        pointBackgroundColor: "#484848",
+                        borderJoinStyle: 'miter',
+                        pointBackgroundColor: '#484848',
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: "#2DA5EC",
-                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBackgroundColor: '#2DA5EC',
+                        pointHoverBorderColor: 'rgba(220,220,220,1)',
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,

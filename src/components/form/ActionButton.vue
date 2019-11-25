@@ -9,7 +9,7 @@
 
 <script>
 export default {
-    name: "form-button",
+    name: 'form-button',
     props: {
         classes: {
             type: Array,
@@ -28,7 +28,7 @@ export default {
     methods: {
         handleClick(e) {
             this.clicked = true;
-            this.$emit("click", e);
+            this.$emit('click', e);
         }
     }
 };
