@@ -141,10 +141,10 @@
 </template>
 
 <script>
-import AccountsMenu from './modals/AccountsMenu';
+import AccountsMenu from "./modals/AccountsMenu";
 
 export default {
-    name: 'navbar',
+    name: "navbar",
     components: {
         AccountsMenu
     },
@@ -154,35 +154,35 @@ export default {
             showMenu: false,
             routes: [
                 {
-                    name: 'Overview',
-                    link: 'accounts-overview'
+                    name: "Overview",
+                    link: "accounts-overview"
                 },
                 {
-                    name: 'Wallet',
-                    link: 'accounts-wallet'
+                    name: "Wallet",
+                    link: "accounts-wallet"
                 },
                 {
-                    name: 'History',
-                    link: 'accounts-history'
+                    name: "History",
+                    link: "accounts-history"
                 },
                 {
-                    name: 'Statements',
-                    link: 'accounts-statements'
+                    name: "Statements",
+                    link: "accounts-statements"
                 },
                 {
-                    name: 'Stamps',
-                    link: 'accounts-stamps'
+                    name: "Stamps",
+                    link: "accounts-stamps"
                 },
                 {
-                    name: 'Settings',
-                    link: 'accounts-settings'
+                    name: "Settings",
+                    link: "accounts-settings"
                 }
             ]
         };
     },
     computed: {
         isAccountActive() {
-            return this.$route.name.startsWith('accounts');
+            return this.$route.name.startsWith("accounts");
         }
     },
     methods: {
