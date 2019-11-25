@@ -191,18 +191,26 @@
 
                 <ul class="nav__dashboard--menu">
                     <p>
-                        <span class="nav__dashboard--mobile">
+                        <router-link
+                            class="nav__dashboard--mobile"
+                            :to="{ name: 'accounts-wallet' }"
+                        >
                             <strong>Avail</strong>
                             <span>: ₦ Amount</span>
                             <span>&nbsp;|&nbsp;</span>
-                            <span>$ Amount</span></span
+                            <span>$ Amount</span></router-link
                         >
-                        <button type="button" class="btn btn__icon btn__icon--md btn__primary">
+                        <button
+                            @click="showFund = true"
+                            type="button"
+                            class="btn btn__icon btn__icon--md btn__primary"
+                        >
                             +
                         </button>
                     </p>
                 </ul>
             </template>
+            <fund-modal :showModal="showFund" @close="showFund = false" v-if="showFund" />
         </nav>
     </header>
 </template>
@@ -214,7 +222,8 @@ export default {
         return {
             isSidebarOpen: false,
             isLoggedIn: true,
-            search: null
+            search: null,
+            showFund: false
         };
     },
     methods: {

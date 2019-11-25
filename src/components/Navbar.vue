@@ -61,7 +61,7 @@
                     <div class="side-nav__dot"></div>
                 </router-link>
             </li>
-            <li class="side-nav__item dropdown" ref="accounts">
+            <li class="side-nav__item dropdown" ref="accounts" v-if="getWindowWidth !== 'mobile'">
                 <span
                     class="side-nav__link"
                     @hover="accountHover = true"
@@ -105,7 +105,7 @@
                     <div class="side-nav__dot"></div>
                 </span>
             </li>
-            <li class="side-nav__item modal" @click="showMenu = true">
+            <li class="side-nav__item modal" @click="showMenu = true" v-else>
                 <a
                     class="side-nav__link"
                     @hover="accountHover = true"
@@ -141,6 +141,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import AccountsMenu from "./modals/AccountsMenu";
 
 export default {
@@ -181,6 +182,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(["getWindowWidth"]),
         isAccountActive() {
             return this.$route.name.startsWith("accounts");
         }

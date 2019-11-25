@@ -5,20 +5,12 @@
             <div class="modal-wrapper">
                 <div class="modal-container" :class="{ 'modal-container__full': fullOnMobile }">
                     <div class="modal-header" v-if="!noHeader">
-                        <slot name="header">Title</slot>
+                        <h4 class="modal-header__text"><slot name="header">Title</slot></h4>
                         <a @click="$emit('close')">CLOSE</a>
                     </div>
 
                     <div class="modal-body">
                         <slot> </slot>
-                    </div>
-
-                    <div class="modal-footer">
-                        <slot name="footer">
-                            <!-- <button class="modal-default-button" @click="$emit('close')">
-                CLOSE
-              </button> -->
-                        </slot>
                     </div>
                 </div>
             </div>
@@ -28,7 +20,7 @@
 
 <script>
 export default {
-    name: 'modal',
+    name: "modal",
     props: {
         closeOnClick: {
             type: Boolean,
@@ -40,13 +32,13 @@ export default {
         },
         noHeader: {
             type: Boolean,
-            default: true
+            default: false
         }
     },
     methods: {
         closeModal() {
             if (this.closeOnClick) {
-                this.$emit('close');
+                this.$emit("close");
             }
         }
     }

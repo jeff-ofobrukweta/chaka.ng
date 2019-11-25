@@ -67,27 +67,35 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <action-button
-                        :pending="fundClick"
-                        @click="fund"
-                        :classes="['btn-block', 'btn--lg', 'btn__primary']"
-                        >Fund</action-button
+                    <button @click="showFund = true" class="btn btn-block btn--lg btn__primary">
+                        Fund
+                    </button>
+                    <button
+                        @click="showExchange = true"
+                        class="btn btn-block btn--lg btn__primary--dark"
                     >
-                    <action-button
-                        :pending="exchangeClick"
-                        @click="exchange"
-                        :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
-                        >Exchange</action-button
+                        Exchange
+                    </button>
+                    <button
+                        @click="showWithdraw = true"
+                        class="btn btn-block btn--lg btn__primary--outline"
                     >
-                    <action-button
-                        :pending="withdrawClick"
-                        @click="withdraw"
-                        :classes="['btn-block', 'btn--lg', 'btn__primary--outline']"
-                        >Withdraw</action-button
-                    >
+                        Withdraw
+                    </button>
                 </div>
             </div>
         </section>
+        <fund-modal :showModal="showFund" @close="showFund = false" v-if="showFund" />
+        <exchange-modal
+            :showModal="showExchange"
+            @close="showExchange = false"
+            v-if="showExchange"
+        />
+        <withdraw-modal
+            :showModal="showWithdraw"
+            @close="showWithdraw = false"
+            v-if="showWithdraw"
+        />
     </div>
 </template>
 
@@ -96,30 +104,11 @@ export default {
     name: "accounts-wallet",
     data() {
         return {
-            fundClick: false,
-            exchangeClick: false,
-            withdrawClick: false
+            showFund: false,
+            showWithdraw: false,
+            showExchange: false
         };
     },
-    methods: {
-        fund() {
-            this.fundClick = true;
-            setTimeout(() => {
-                this.fundClick = false;
-            }, 5000);
-        },
-        exchange() {
-            this.exchangeClick = true;
-            setTimeout(() => {
-                this.exchangeClick = false;
-            }, 5000);
-        },
-        withdraw() {
-            this.withdrawClick = true;
-            setTimeout(() => {
-                this.withdrawClick = false;
-            }, 5000);
-        }
-    }
+    methods: {}
 };
 </script>

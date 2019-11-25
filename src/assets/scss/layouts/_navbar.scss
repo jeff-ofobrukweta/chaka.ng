@@ -45,20 +45,12 @@
             width: 100%;
 
             &.dropdown {
-                @include mobile {
-                    display: none;
-                }
-
                 position: relative;
                 display: inline-block;
             }
 
             &.modal {
                 display: flex;
-
-                @include tablet {
-                    display: none;
-                }
             }
         }
 
