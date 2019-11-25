@@ -5,12 +5,16 @@
         </section>
         <section class="accounts-wallet">
             <div class="accounts-wallet__value">
-                <div><img src="../../../assets/img/portfolio1-dark.svg" alt="Wallet" /></div>
-                <h2>$13,422,444.01</h2>
-                <p><small>My Portfolio Value</small></p>
-                <div class="accounts-wallet__graphics">
-                    <img src="../../../assets/img/wallet1.svg" alt="Wallet" />
-                    <img src="../../../assets/img/wallet2.svg" alt="Wallet" />
+                <div>
+                    <div><img src="../../../assets/img/portfolio1-dark.svg" alt="Wallet" /></div>
+                    <h2 class="cursor-context" :title="13422444.01 | currency('NGN', true)">
+                        {{ 13422444.01 | currency("NGN") }}
+                    </h2>
+                    <p><small>My Portfolio Value</small></p>
+                    <div class="accounts-wallet__graphics">
+                        <img src="../../../assets/img/wallet1.svg" alt="Wallet" />
+                        <img src="../../../assets/img/wallet2.svg" alt="Wallet" />
+                    </div>
                 </div>
             </div>
             <div class="accounts-wallet__text">
