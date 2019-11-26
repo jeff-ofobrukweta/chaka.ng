@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    name: "portfolio-card",
+    name: 'portfolio-card',
     props: {
         data: {
             type: Object,
@@ -44,8 +44,7 @@ export default {
     },
     methods: {
         toDetailsPage(type) {
-            console.log("here: ", type);
-            this.$router.push({ name: "portfolio-details", params: { type } });
+            this.$router.push({ name: 'portfolio-details', params: { type } });
         }
     }
 };

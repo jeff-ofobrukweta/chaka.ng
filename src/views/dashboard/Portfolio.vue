@@ -40,27 +40,31 @@ export default {
             watchlist: [
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Spotify",
+                    name: "Google",
+                    symbol: "GOOGL",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Spotify",
+                    name: "MTN Nigeria",
+                    symbol: "MTNN",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 4
                 },
                 {
-                    name: "Spotify",
+                    name: "Jumia Technologies",
+                    symbol: "JUMIA",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
@@ -68,6 +72,7 @@ export default {
                 },
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
@@ -75,6 +80,7 @@ export default {
                 },
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
@@ -82,6 +88,7 @@ export default {
                 },
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
@@ -89,6 +96,7 @@ export default {
                 },
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,

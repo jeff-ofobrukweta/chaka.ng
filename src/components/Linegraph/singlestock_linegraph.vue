@@ -29,7 +29,7 @@
                                 <button class="option">Technical</button>
                             </section>
                         </section>
-                   
+
                 </div>
             </div>
         <Graph/>
@@ -37,11 +37,12 @@
 </template>
 <script>
 import Graph from './linegraph';
+
 export default {
-  name: 'Linechartgraphchild',
-  components: {
-    Graph,
-  },
+    name: 'Linechartgraphchild',
+    components: {
+        Graph
+    }
 };
 </script>
 <style src="../../assets/scss/components/singlelinebase.scss" lang="scss" scoped />

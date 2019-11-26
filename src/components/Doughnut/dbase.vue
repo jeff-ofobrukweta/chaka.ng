@@ -6,10 +6,11 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import DoughnutGrapgh from "./doughnut";
+import { Fragment } from 'vue-fragment';
+import DoughnutGrapgh from './doughnut';
+
 export default {
-    name: "dbase",
+    name: 'dbase',
     components: {
         Fragment,
         DoughnutGrapgh

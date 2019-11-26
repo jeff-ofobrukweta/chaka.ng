@@ -6,12 +6,12 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import Instrumentbase from "../../components/Instrument/instrumentbase";
-import Tags from "../../components/Tags";
+import { Fragment } from 'vue-fragment';
+import Instrumentbase from '../../components/Instrument/instrumentbase';
+import Tags from '../../components/Tags';
 
 export default {
-    name: "ibase",
+    name: 'ibase',
     components: {
         Fragment,
         Instrumentbase,

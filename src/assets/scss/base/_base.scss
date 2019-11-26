@@ -69,3 +69,7 @@ h6 {
 small {
   font-size: 85%;
 }
+
+button:focus {
+  outline: none;
+}

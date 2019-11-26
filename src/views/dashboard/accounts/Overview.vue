@@ -85,10 +85,10 @@
 </template>
 
 <script>
-import Card from "../../../layouts/AccountsCard";
+import Card from '../../../layouts/AccountsCard';
 
 export default {
-    name: "accounts-overview",
+    name: 'accounts-overview',
     components: {
         Card
     }

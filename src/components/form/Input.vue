@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: "form-input",
+    name: 'form-input',
     props: {
         name: {
             type: String,
@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         handleInput() {
-            this.$emit("input", this.content);
+            this.$emit('input', this.content);
         }
     }
 };

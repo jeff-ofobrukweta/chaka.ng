@@ -6,10 +6,11 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import HorizontalGrapgh from "./horizontalgraph";
+import { Fragment } from 'vue-fragment';
+import HorizontalGrapgh from './horizontalgraph';
+
 export default {
-    name: "hbase",
+    name: 'hbase',
     components: {
         Fragment,
         HorizontalGrapgh

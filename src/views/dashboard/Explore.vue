@@ -104,18 +104,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
-import PortfolioCard from "../../components/portfolio/PortfolioCard";
-import StockTable from "../../components/singlestock/StockTable";
 import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
 import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
 
 export default {
     name: "portfolio",
     components: {
-        WatchlistCard,
-        PortfolioCard,
-        StockTable,
         ExploreWatchlist,
         MobileWatchlist
     },
@@ -157,27 +151,31 @@ export default {
             watchlist: [
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Spotify",
+                    name: "Google",
+                    symbol: "GOOGL",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Spotify",
+                    name: "MTN Nigeria",
+                    symbol: "MTNN",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 4
                 },
                 {
-                    name: "Spotify",
+                    name: "Jumia Technologies",
+                    symbol: "JUMIA",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
@@ -185,6 +183,7 @@ export default {
                 },
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
@@ -192,6 +191,7 @@ export default {
                 },
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
@@ -199,6 +199,7 @@ export default {
                 },
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
@@ -206,6 +207,7 @@ export default {
                 },
                 {
                     name: "Spotify",
+                    symbol: "SPOT",
                     currency: "USD",
                     price: 656.9,
                     percent: 0.67,
