@@ -1,87 +1,110 @@
-const Home = () => import(/* webpackChunkName: "home" */ '../views/Home');
-const DashboardLayout = () => import(/* webpackChunkName: "dashboard" */ '../layouts/DashboardLayout');
-const Portfolio = () => import(/* webpackChunkName: "portfolio" */ '../views/dashboard/Portfolio');
-const PortfolioDetails = () => import(/* webpackChunkName: "portfolio-details" */ '../views/dashboard/PortfolioDetails');
-const Explore = () => import(/* webpackChunkName: "portfolio" */ '../views/dashboard/Explore');
-const Components = () => import(/* webpackChunkName: "components" */ '../views/dashboard/Components');
-const Categories = () => import(/* webpackChunkName: "categories" */ '../views/dashboard/Categories');
-const AccountsIndex = () => import(/* webpackChunkName: "accounts-index" */ '../views/dashboard/accounts/Index');
-const AccountsOverview = () => import(/* webpackChunkName: "accounts-overview" */ '../views/dashboard/accounts/Overview');
-const AccountsWallet = () => import(/* webpackChunkName: "accounts-wallet" */ '../views/dashboard/accounts/Wallet');
-const AccountsStatements = () => import(/* webpackChunkName: "accounts-statements" */ '../views/dashboard/accounts/Statements');
-const AccountsHistory = () => import(/* webpackChunkName: "accounts-history" */ '../views/dashboard/accounts/History');
-const AccountsSettings = () => import(/* webpackChunkName: "accounts-settings" */ '../views/dashboard/accounts/Settings');
-const AccountStamps = () => import(/* webpackChunkName: "accounts-stamps" */ '../views/dashboard/accounts/Stamps');
+const Home = () => import(/* webpackChunkName: "home" */ "../views/Home");
+const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
+const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
+const DashboardLayout = () =>
+    import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
+const Portfolio = () => import(/* webpackChunkName: "portfolio" */ "../views/dashboard/Portfolio");
+const PortfolioDetails = () =>
+    import(/* webpackChunkName: "portfolio-details" */ "../views/dashboard/PortfolioDetails");
+const Explore = () => import(/* webpackChunkName: "portfolio" */ "../views/dashboard/Explore");
+const Components = () =>
+    import(/* webpackChunkName: "components" */ "../views/dashboard/Components");
+const Categories = () =>
+    import(/* webpackChunkName: "categories" */ "../views/dashboard/Categories");
+const AccountsIndex = () =>
+    import(/* webpackChunkName: "accounts-index" */ "../views/dashboard/accounts/Index");
+const AccountsOverview = () =>
+    import(/* webpackChunkName: "accounts-overview" */ "../views/dashboard/accounts/Overview");
+const AccountsWallet = () =>
+    import(/* webpackChunkName: "accounts-wallet" */ "../views/dashboard/accounts/Wallet");
+const AccountsStatements = () =>
+    import(/* webpackChunkName: "accounts-statements" */ "../views/dashboard/accounts/Statements");
+const AccountsHistory = () =>
+    import(/* webpackChunkName: "accounts-history" */ "../views/dashboard/accounts/History");
+const AccountsSettings = () =>
+    import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
+const AccountStamps = () =>
+    import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/accounts/Stamps");
 
 const routes = [
     {
-        path: '/',
-        name: 'home',
+        path: "/",
+        name: "home",
         component: Home
     },
     {
-        path: '/dashboard',
+        path: "/login",
+        name: "login",
+        component: Login
+    },
+    {
+        path: "/register",
+        name: "register",
+        component: Register
+    },
+    {
+        path: "/dashboard",
         component: DashboardLayout,
-        redirect: '/dashboard/portfolio',
+        redirect: "/dashboard/portfolio",
         children: [
             {
-                path: 'portfolio',
-                name: 'portfolio',
+                path: "portfolio",
+                name: "portfolio",
                 component: Portfolio
             },
             {
-                path: 'portfolio/details/:type',
-                name: 'portfolio-details',
+                path: "portfolio/details/:type",
+                name: "portfolio-details",
                 component: PortfolioDetails
             },
             {
-                path: 'explore',
-                name: 'explore',
+                path: "explore",
+                name: "explore",
                 component: Explore
             },
             {
-                path: 'components',
-                name: 'components',
+                path: "components",
+                name: "components",
                 component: Components
             },
             {
-                path: 'categories',
-                name: 'categories',
+                path: "categories",
+                name: "categories",
                 component: Categories
             },
             {
-                path: 'accounts',
+                path: "accounts",
                 component: AccountsIndex,
-                redirect: '/dashboard/accounts/overview',
+                redirect: "/dashboard/accounts/overview",
                 children: [
                     {
-                        path: 'overview',
-                        name: 'accounts-overview',
+                        path: "overview",
+                        name: "accounts-overview",
                         component: AccountsOverview
                     },
                     {
-                        path: 'wallet',
-                        name: 'accounts-wallet',
+                        path: "wallet",
+                        name: "accounts-wallet",
                         component: AccountsWallet
                     },
                     {
-                        path: 'statements',
-                        name: 'accounts-statements',
+                        path: "statements",
+                        name: "accounts-statements",
                         component: AccountsStatements
                     },
                     {
-                        path: 'history',
-                        name: 'accounts-history',
+                        path: "history",
+                        name: "accounts-history",
                         component: AccountsHistory
                     },
                     {
-                        path: 'settings',
-                        name: 'accounts-settings',
+                        path: "settings",
+                        name: "accounts-settings",
                         component: AccountsSettings
                     },
                     {
-                        path: 'stamps',
-                        name: 'accounts-stamps',
+                        path: "stamps",
+                        name: "accounts-stamps",
                         component: AccountStamps
                     }
                 ]

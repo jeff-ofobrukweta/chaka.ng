@@ -4,12 +4,6 @@
 @import "base/base";
 @import "base/mixins";
 
-@import "layouts/home";
-@import "layouts/navbar";
-@import "layouts/accounts";
-@import "layouts/explore";
-@import "layouts/header";
-
 @import "modules/main";
 @import "modules/forms";
 @import "modules/buttons";
@@ -17,6 +11,14 @@
 @import "modules/tables";
 @import "modules/modals";
 @import "modules/utils";
+
+@import "layouts/home";
+@import "layouts/kyc";
+@import "layouts/navbar";
+@import "layouts/accounts";
+@import "layouts/explore";
+@import "layouts/header";
+@import "layouts/auth.scss";
 
 @import "components/watchlist";
 @import "components/portfolio";

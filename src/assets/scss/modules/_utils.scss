@@ -1,15 +1,10 @@
 .container {
   position: relative;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 2rem;
+  padding-left: 2rem;
   margin-right: auto;
   margin-left: auto;
-  padding: 5px;
-
-  @include tablet {
-    // max-width: 600px;
-  }
 
   @include desktop {
     width: 100%;
@@ -36,7 +31,7 @@
 
 main {
   overflow-x: hidden;
-  padding-top: 5rem;
+  padding-top: 4.5rem;
   min-height: 100vh;
 }
 
@@ -301,11 +296,11 @@ main {
   color: $green
 }
 
-.grey-cool{
+.grey-cool {
   color: $grey-cool
 }
 
-.grey-dark{
+.grey-dark {
   color: $grey-dark;
 }
 

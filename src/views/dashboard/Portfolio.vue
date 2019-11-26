@@ -1,5 +1,9 @@
 <template>
     <section class="dashboard__main">
+        <section>
+            <KYCModal />
+        </section>
+
         <section class="portfolio-card__box">
             <PortfolioCard v-for="(card, index) in getPortfolioSummary" :key="index" :data="card" />
         </section>
@@ -28,12 +32,14 @@
 import { mapGetters } from "vuex";
 import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
 import PortfolioCard from "../../components/portfolio/PortfolioCard";
+import KYCModal from "../../components/kyc/ModalKYC";
 
 export default {
     name: "portfolio",
     components: {
         WatchlistCard,
-        PortfolioCard
+        PortfolioCard,
+        KYCModal
     },
     data() {
         return {

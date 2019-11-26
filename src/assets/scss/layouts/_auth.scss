@@ -1,0 +1,47 @@
+.auth {
+    &-box {
+        margin: 3rem auto;
+        max-width: 600px;
+        width: 100%;
+        padding: 3rem 2rem;
+        background-color: $white;
+        border-radius: 7px;
+
+        @include tablet {
+            width: 80%;
+            margin: 7rem auto;
+
+            padding: 3rem 7rem;
+            box-shadow: 6px 14px 15px rgba($color: $box-shadow, $alpha: 0.3);
+        }
+    }
+
+    &-form {
+        width: 100%;
+
+        &__group {
+            margin-bottom: 1.25rem;
+        }
+
+        &__title {
+            text-align: center;
+            font-weight: normal;
+        }
+
+        &__subtitle {
+            color: $grey-dark;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        &__meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            color: $grey-cool;
+            margin-top: .5rem;
+            font-size: 90%;
+        }
+    }
+}
