@@ -191,30 +191,39 @@
 
                 <ul class="nav__dashboard--menu">
                     <p>
-                        <span class="nav__dashboard--mobile">
+                        <router-link
+                            class="nav__dashboard--mobile"
+                            :to="{ name: 'accounts-wallet' }"
+                        >
                             <strong>Avail</strong>
                             <span>: ₦ Amount</span>
                             <span>&nbsp;|&nbsp;</span>
-                            <span>$ Amount</span></span
+                            <span>$ Amount</span></router-link
                         >
-                        <button type="button" class="btn btn__icon btn__icon--md btn__primary">
+                        <button
+                            @click="showFund = true"
+                            type="button"
+                            class="btn btn__icon btn__icon--md btn__primary"
+                        >
                             +
                         </button>
                     </p>
                 </ul>
             </template>
+            <fund-modal :showModal="showFund" @close="showFund = false" v-if="showFund" />
         </nav>
     </header>
 </template>
 
 <script>
 export default {
-    name: "app-header",
+    name: 'app-header',
     data() {
         return {
             isSidebarOpen: false,
             isLoggedIn: true,
-            search: null
+            search: null,
+            showFund: false
         };
     },
     methods: {
@@ -222,18 +231,18 @@ export default {
             this.isSidebarOpen = !this.isSidebarOpen;
         },
         toggleDropdown() {
-            this.$refs.trigger.classList.toggle("is-active");
-            this.$refs.trigger.nextElementSibling.classList.toggle("show");
-            document.body.classList.toggle("no-scroll");
+            this.$refs.trigger.classList.toggle('is-active');
+            this.$refs.trigger.nextElementSibling.classList.toggle('show');
+            document.body.classList.toggle('no-scroll');
             this.toggleSidebar();
         }
     },
     watch: {
         isSidebarOpen(val) {
             if (!val) {
-                this.$refs.trigger.classList.remove("is-active");
-                this.$refs.trigger.nextElementSibling.classList.remove("show");
-                document.body.classList.remove("no-scroll");
+                this.$refs.trigger.classList.remove('is-active');
+                this.$refs.trigger.nextElementSibling.classList.remove('show');
+                document.body.classList.remove('no-scroll');
             }
         }
     }

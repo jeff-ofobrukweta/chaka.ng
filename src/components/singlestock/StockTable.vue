@@ -68,7 +68,7 @@
 
 <script>
 export default {
-    name: "stock-table",
+    name: 'stock-table',
     props: {
         instrument: {
             type: Object,

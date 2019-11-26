@@ -9,10 +9,11 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import Analysisbarchart from "./analysisbarchart";
+import { Fragment } from 'vue-fragment';
+import Analysisbarchart from './analysisbarchart';
+
 export default {
-    name: "performancebase",
+    name: 'performancebase',
     components: {
         Fragment,
         Analysisbarchart

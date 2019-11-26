@@ -29,29 +29,41 @@
                 <img src="../../assets/img/watch-open.svg" alt="Watch" />
             </div>
             <div>
-                <a class="watchlist-portfolio__buy">+ Buy</a>
+                <a @click="showBuy = true" class="watchlist-portfolio__buy">+ Buy</a>
             </div>
         </div>
+        <buy-modal
+            @close="showBuy = false"
+            :currency="instrument.currency"
+            :symbol="instrument.symbol"
+            :instrument="instrument"
+            v-if="showBuy"
+        />
     </div>
 </template>
 
 <script>
 export default {
-    name: "watchlist-card",
+    name: 'watchlist-card',
     props: {
         instrument: {
             type: Object,
             required: true
         }
     },
+    data() {
+        return {
+            showBuy: false
+        };
+    },
     computed: {
         color() {
-            if (this.instrument.change > 3) return "dark-green";
-            if (this.instrument.change > 2) return "green";
-            if (this.instrument.change >= 0) return "light-green";
-            if (this.instrument.change >= -1) return "light-red";
-            if (this.instrument.change >= -2) return "red";
-            return "dark-red";
+            if (this.instrument.change > 3) return 'dark-green';
+            if (this.instrument.change > 2) return 'green';
+            if (this.instrument.change >= 0) return 'light-green';
+            if (this.instrument.change >= -1) return 'light-red';
+            if (this.instrument.change >= -2) return 'red';
+            return 'dark-red';
         }
     }
 };

@@ -1,6 +1,6 @@
 <template>
     <Fragment>
-        <flickity ref="flickity" 
+        <flickity ref="flickity"
         :options="flickityOptions">
                  <img
                     src="../../assets/img/stamps_dummy/stamp_test.png"
@@ -53,7 +53,7 @@
             <img
                     src="../../assets/img/stamps_dummy/rightarrow.png"
                     class="v2-landing__vector--img arrowright"
-                    @click="next()" 
+                    @click="next()"
                     alt="Landing Vector"
             />
             <!-- rightarrow.png -->
@@ -61,41 +61,43 @@
              @click="previous()"
              type="submit" value="Prev Button"/>
             <input
-            @click="next()" 
+            @click="next()"
             type="submit" value="Custom Next Button"/> -->
         </div>
     </Fragment>
 </template>
 <script>
 import Flickity from 'vue-flickity';
+
 export default {
-    name:'slider',
-    components:{
+    name: 'slider',
+    components: {
         Flickity
     },
     data() {
-    return {
-      flickityOptions: {
-        initialIndex: 0,
-        prevNextButtons: false,
-        pageDots: false,
-        resize: true,
-        wrapAround: false,
-        cellAlign: 'left'
-        
-    }
-}
-},
-methods: {
-    next() {
-      console.log('>>>>>> next')
-      this.$refs.flickity.next();
+        return {
+            flickityOptions: {
+                initialIndex: 0,
+                prevNextButtons: false,
+                pageDots: false,
+                resize: true,
+                wrapAround: false,
+                cellAlign: 'left',
+                contain: true
+
+            }
+        };
     },
-    previous() {
-      this.$refs.flickity.previous();
+    methods: {
+        next() {
+            console.log('>>>>>> next');
+            this.$refs.flickity.next();
+        },
+        previous() {
+            this.$refs.flickity.previous();
+        }
     }
-  }
-}
+};
 </script>
 
 <style src="../../assets/scss/components/_stamps.scss" lang="scss" scoped />

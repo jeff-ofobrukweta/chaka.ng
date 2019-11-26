@@ -74,6 +74,19 @@
           fill: $white;
         }
       }
+
+      &:disabled {
+        opacity: 0.65;
+        background: $grey-light;
+        color: $grey-dark;
+        border-color: $grey-light;
+
+        &:hover {
+          background: $grey-light;
+          color: $grey-dark;
+          border-color: $grey-light;
+        }
+      }
     }
 
     &--dark {

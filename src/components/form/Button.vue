@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: "form-button",
+    name: 'form-button',
     props: {
         name: {
             type: String,
@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         handleInput() {
-            this.$emit("input", this.content);
+            this.$emit('input', this.content);
         }
     }
 };

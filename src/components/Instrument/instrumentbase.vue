@@ -1,4 +1,4 @@
-<template>  
+<template>
     <Fragment>
         <div class="topic-block">
             <section class="title-tag">Popular</section>
@@ -29,21 +29,22 @@
     </Fragment>
 </template>
 <script>
-import {Fragment} from 'vue-fragment';
+import { Fragment } from 'vue-fragment';
 import Instrumentdesk from './instrument_desk';
 import Instrumentmobile from './instrument_mob';
+
 export default {
-    name:'GroupInstrument',
-    data(){
-        return{
-            cards:[1,2,3,4,5,6,7,8,9,10,11,12]
-        }
+    name: 'GroupInstrument',
+    data() {
+        return {
+            cards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        };
     },
-    components:{
+    components: {
         Fragment,
         Instrumentdesk,
         Instrumentmobile
     }
-}
+};
 </script>
 <style src="../../assets/scss/components/_Instrumentbase.scss" lang="scss" scoped/>

@@ -61,7 +61,7 @@
                     <div class="side-nav__dot"></div>
                 </router-link>
             </li>
-            <li class="side-nav__item dropdown" ref="accounts">
+            <li class="side-nav__item dropdown" ref="accounts" v-if="getWindowWidth !== 'mobile'">
                 <span
                     class="side-nav__link"
                     @hover="accountHover = true"
@@ -105,7 +105,7 @@
                     <div class="side-nav__dot"></div>
                 </span>
             </li>
-            <li class="side-nav__item modal" @click="showMenu = true">
+            <li class="side-nav__item modal" @click="showMenu = true" v-else>
                 <a
                     class="side-nav__link"
                     @hover="accountHover = true"
@@ -141,10 +141,11 @@
 </template>
 
 <script>
-import AccountsMenu from "./modals/AccountsMenu";
+import { mapGetters } from 'vuex';
+import AccountsMenu from './modals/AccountsMenu';
 
 export default {
-    name: "navbar",
+    name: 'navbar',
     components: {
         AccountsMenu
     },
@@ -154,35 +155,36 @@ export default {
             showMenu: false,
             routes: [
                 {
-                    name: "Overview",
-                    link: "accounts-overview"
+                    name: 'Overview',
+                    link: 'accounts-overview'
                 },
                 {
-                    name: "Wallet",
-                    link: "accounts-wallet"
+                    name: 'Wallet',
+                    link: 'accounts-wallet'
                 },
                 {
-                    name: "History",
-                    link: "accounts-history"
+                    name: 'History',
+                    link: 'accounts-history'
                 },
                 {
-                    name: "Statements",
-                    link: "accounts-statements"
+                    name: 'Statements',
+                    link: 'accounts-statements'
                 },
                 {
-                    name: "Stamps",
-                    link: "accounts-stamps"
+                    name: 'Stamps',
+                    link: 'accounts-stamps'
                 },
                 {
-                    name: "Settings",
-                    link: "accounts-settings"
+                    name: 'Settings',
+                    link: 'accounts-settings'
                 }
             ]
         };
     },
     computed: {
+        ...mapGetters(['getWindowWidth']),
         isAccountActive() {
-            return this.$route.name.startsWith("accounts");
+            return this.$route.name.startsWith('accounts');
         }
     },
     methods: {

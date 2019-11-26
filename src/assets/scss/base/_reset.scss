@@ -1,21 +1,25 @@
 html {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
   padding: 0;
 }
+
 *,
 *:before,
 *:after {
   box-sizing: inherit;
 }
+
 ul,
 ol {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
+
 article,
 aside,
 details,
@@ -30,18 +34,22 @@ section {
   display: block;
   margin: 0;
 }
+
 nav ul {
   list-style: none;
 }
+
 a {
   color: inherit;
   cursor: pointer;
   text-decoration: none;
+
   &:hover {
     text-decoration: none;
     color: inherit;
   }
 }
+
 label {
   font-weight: normal;
   padding-bottom: 10px;
@@ -49,17 +57,21 @@ label {
   margin: 0;
   padding: 0;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 .table td,
 .table th {
   vertical-align: middle;
 }
+
 p {
   margin-bottom: 0;
 }
+
 h1,
 h2,
 h3,
@@ -70,6 +82,7 @@ h6 {
   margin: 0;
   font-weight: bold;
 }
+
 button {
   appearance: none;
   background: transparent;
@@ -77,6 +90,7 @@ button {
   border: none;
   cursor: pointer;
 }
+
 img,
 video {
   max-width: 100%;
@@ -89,9 +103,11 @@ video {
 [disabled] {
   cursor: not-allowed;
 }
+
 blockquote {
   margin: 0;
 }
+
 button,
 input,
 select,
@@ -101,6 +117,7 @@ textarea {
   font-size: inherit;
   line-height: inherit;
 }
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-outer-spin-button,
@@ -111,4 +128,8 @@ input[type="date"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+a {
+  transition: all 200ms linear;
 }

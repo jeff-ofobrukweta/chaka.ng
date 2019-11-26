@@ -17,7 +17,7 @@
             <Analysischart/>
             <HorizontalBarchart/>
           </section>
-         
+
            <section class="portfolio-line__graph">
                <Singlecourselinegraph/>
             </section>
@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
-import PortfolioCard from "../../components/portfolio/PortfolioCard";
+import { mapGetters } from 'vuex';
+import WatchlistCard from '../../components/watchlist/PortfolioWatchlist';
+import PortfolioCard from '../../components/portfolio/PortfolioCard';
 import Linegraph from '../../components/Linegraph/linebase';
 import Doughnut from '../../components/Doughnut/dbase';
 import Performancebarchart from '../../components/Performance_chart/performancebase';
@@ -55,7 +55,7 @@ import HorizontalBarchart from '../../components/Horizontalbar/hbase';
 import Singlecourselinegraph from '../../components/Linegraph/singlestock_linegraph';
 
 export default {
-    name: "portfolio",
+    name: 'portfolio',
     components: {
         WatchlistCard,
         PortfolioCard,
@@ -70,57 +70,65 @@ export default {
         return {
             watchlist: [
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Google',
+                    symbol: 'GOOGL',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'MTN Nigeria',
+                    symbol: 'MTNN',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 4
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Jumia Technologies',
+                    symbol: 'JUMIA',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 2
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 1
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 0
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: -3
                 },
                 {
-                    name: "Spotify",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: -10
@@ -129,7 +137,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getPortfolioSummary"])
+        ...mapGetters(['getPortfolioSummary'])
     }
 };
 </script>

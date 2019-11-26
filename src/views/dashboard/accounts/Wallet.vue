@@ -67,17 +67,48 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <button class="btn btn-block btn--lg btn__primary">Fund</button>
-                    <button class="btn btn-block btn--lg btn__primary--dark">Exchange</button>
-                    <button class="btn btn-block btn--lg btn__primary--outline">Withdraw</button>
+                    <button @click="showFund = true" class="btn btn-block btn--lg btn__primary">
+                        Fund
+                    </button>
+                    <button
+                        @click="showExchange = true"
+                        class="btn btn-block btn--lg btn__primary--dark"
+                    >
+                        Exchange
+                    </button>
+                    <button
+                        @click="showWithdraw = true"
+                        class="btn btn-block btn--lg btn__primary--outline"
+                    >
+                        Withdraw
+                    </button>
                 </div>
             </div>
         </section>
+        <fund-modal :showModal="showFund" @close="showFund = false" v-if="showFund" />
+        <exchange-modal
+            :showModal="showExchange"
+            @close="showExchange = false"
+            v-if="showExchange"
+        />
+        <withdraw-modal
+            :showModal="showWithdraw"
+            @close="showWithdraw = false"
+            v-if="showWithdraw"
+        />
     </div>
 </template>
 
 <script>
 export default {
-    name: "accounts-wallet"
+    name: 'accounts-wallet',
+    data() {
+        return {
+            showFund: false,
+            showWithdraw: false,
+            showExchange: false
+        };
+    },
+    methods: {}
 };
 </script>
