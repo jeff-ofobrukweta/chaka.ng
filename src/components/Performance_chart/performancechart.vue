@@ -121,8 +121,8 @@ export default {
           			stepSize: this.interval,
           			callback: (value) =>
           				this.currency == 'USD'
-          					? `$${numeral(value).value()}`
-          					: `N${numeral(value).value()}`
+          					? `${numeral(value).value()}%`
+          					: `${numeral(value).value()}%`
           		},
           		gridLines: {
           			display: false,
@@ -155,7 +155,7 @@ export default {
           },
           callbacks: {
             label(tooltipItem, data) {
-              return `${'Price:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+              return `${' %:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
             },
             afterLabel(tooltipItem, data) {
               const dataset = data.datasets[0];

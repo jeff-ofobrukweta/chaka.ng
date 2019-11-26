@@ -1,8 +1,8 @@
 <template>
 <div>
-	<div :style="graphstyle" class="small chart__box">
+	<div class="small chart__box">
 		<div class="chart__aspect-ratio">
-			<Doughnut class="chart__graph" :chart-data="datacollection" :options="options"></Doughnut>
+			<Analysisbarchart class="chart__graph" :chart-data="datacollection" :options="options"></Analysisbarchart>
 		</div>
 	</div>
   </div>
@@ -13,20 +13,17 @@ import {
   mapGetters, mapMutations, mapActions, mapState,
 } from 'vuex';
 import numeral from 'numeral';
-import Doughnut from './horizontalbar_config';
+import Analysisbarchart from './analysisbarchart_config.js';
 
 export default {
   name: 'doughnutgraph',
   components: {
-    Doughnut,
+    Analysisbarchart,
   },
   data() {
     return {
       min: '',
       max: '',
-      graphstyle:{
-        width:'60%'
-      },
       interval: 10,
       datacollection: {},
       loaderGraph: true,
@@ -77,13 +74,15 @@ export default {
           // 			maxTicksLimit: 8,
           // 			fontSize: 10
           // 		},
-          		gridLines: {
-          			display: false,
-          			// borderDash: [4, 4],
-          			// color: '#4394c7',
-          			labelString: 'Date',
-          			drawBorder: false
-          		},
+           barPercentage: 1.0,
+           categoryPercentage: 1.0,
+          	gridLines: {
+          		display: false,
+          		// borderDash: [4, 4],
+          		// color: '#4394c7',
+          		labelString: 'Date',
+          		drawBorder: false
+          	},
           // 		// type: 'time',
           // 		time: {
           // 			// unit: this.day,
@@ -120,10 +119,10 @@ export default {
           			max: this.max,
           			min: this.min,
           			stepSize: this.interval,
-          			// callback: (value) =>
-          			// 	this.currency == 'USD'
-          			// 		? `$${numeral(value).value()}`
-          			// 		: `N${numeral(value).value()}`
+          			callback: (value) =>
+          				this.currency == 'USD'
+          					? `$${numeral(value).value()}`
+          					: `N${numeral(value).value()}`
           		},
           		gridLines: {
           			display: false,
@@ -194,6 +193,7 @@ export default {
     },
   },
   methods: {
+
     fillData() {
       this.datacollection = {
         labels: ['jan','feb','march','april','may','june','july','august'],
@@ -214,7 +214,7 @@ export default {
             pointHoverBorderWidth: 2,
             pointRadius: 0,
             pointHitRadius: 1,
-            data: [12, 23, 34, 44, 12, 23, 134, 44],
+            data: [12, 23, 34, 44, 12, 23, 34, 44],
           },
         ],
       };
@@ -222,4 +222,6 @@ export default {
   },
 };
 </script>
+
+
 

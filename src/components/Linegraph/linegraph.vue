@@ -1,7 +1,13 @@
 <template>
-	<div class="small chart__box">
-		<div class="chart__aspect-ratio">
-			<line-chart class="chart__graph" :chart-data="datacollection" :options="options"></line-chart>
+	<div 
+  class="small chart__box">
+		<div
+    class="chart__aspect-ratio">
+			<line-chart
+      :style="graphstyle"
+      class="chart__graph" 
+      :chart-data="datacollection" 
+      :options="options"></line-chart>
 		</div>
 	</div>
 </template>
@@ -22,6 +28,11 @@ export default {
     return {
       min: '',
       max: '',
+      graphstyle:{
+        width:'100%',
+        height:'274px',
+        margin:'0px -2em'
+      },
       interval: 10,
       datacollection: {},
       loaderGraph: true,

@@ -173,6 +173,7 @@ export default {
         legend: {
           display: true,
           position: "right",
+          boxWidth:100,
           align:'center',
           fullWidth: true,
           labels: {
@@ -204,7 +205,7 @@ export default {
 
     fillData() {
       this.datacollection = {
-        labels: ['jan','feb','march','april'],
+        labels: [`jan  ${5.2}% ` ,`feb  ${83}%`,`march ${53}%`,`april  ${100}%`],
         datasets: [
           {
             label: 'Data One',

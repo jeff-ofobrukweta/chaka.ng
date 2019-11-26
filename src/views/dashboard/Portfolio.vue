@@ -10,6 +10,18 @@
            <Doughnut/>
            <Performancebarchart/>
         </section>
+
+
+        <!-- test@heer -->
+          <section class="portfolio__charts">
+            <Analysischart/>
+            <HorizontalBarchart/>
+          </section>
+         
+           <section class="portfolio-line__graph">
+               <Singlecourselinegraph/>
+            </section>
+        <!-- ends here -->
         <section class="explore__title">
             <div>
                 <h3>Watchlist</h3>
@@ -37,7 +49,10 @@ import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
 import PortfolioCard from "../../components/portfolio/PortfolioCard";
 import Linegraph from '../../components/Linegraph/linebase';
 import Doughnut from '../../components/Doughnut/dbase';
-import Performancebarchart from '../../components/Performance_chart/performancebase'
+import Performancebarchart from '../../components/Performance_chart/performancebase';
+import Analysischart from '../../components/Analysisbarchart/analysisbarchartbase';
+import HorizontalBarchart from '../../components/Horizontalbar/hbase';
+import Singlecourselinegraph from '../../components/Linegraph/singlestock_linegraph';
 
 export default {
     name: "portfolio",
@@ -46,7 +61,10 @@ export default {
         PortfolioCard,
         Linegraph,
         Doughnut,
-        Performancebarchart
+        Performancebarchart,
+        Analysischart,
+        HorizontalBarchart,
+        Singlecourselinegraph
     },
     data() {
         return {
