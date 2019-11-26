@@ -88,7 +88,7 @@
 
 <script>
 export default {
-    name: "watchlist-card",
+    name: 'watchlist-card',
     props: {
         instrument: {
             type: Object,

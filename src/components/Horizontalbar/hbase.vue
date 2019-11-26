@@ -1,8 +1,11 @@
 <template>
     <Fragment>
+        <div class="container-packet">
+            <h1 class="title-name">Analyst Ratings</h1>
         <section class="graphholder">
             <HorizontalGrapgh />
         </section>
+    </div>
     </Fragment>
 </template>
 <script>
