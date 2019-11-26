@@ -38,7 +38,7 @@
 
 <script>
 export default {
-    name: "withdraw-modal",
+    name: 'withdraw-modal',
     data() {
         return {
             itemData: {},
@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         withdraw() {
             this.loading = true;

@@ -1,24 +1,24 @@
 <template>
     <Fragment>
         <div class="container-packet">
-            <h1 class="title-name">Positions</h1>
+            <h1 class="title-name">Performance</h1>
             <section class="graphholder">
-                <DoughnutGrapgh />
+                <Performancegraph />
             </section>
         </div>
     </Fragment>
 </template>
 <script>
 import { Fragment } from 'vue-fragment';
-import DoughnutGrapgh from './doughnut';
+import Performancegraph from './performancechart';
 
 export default {
-    name: 'dbase',
+    name: 'performancebase',
     components: {
         Fragment,
-        DoughnutGrapgh
+        Performancegraph
     }
 };
 </script>
 
-<style src="../../assets/scss/components/doughnut.scss" lang="scss" scoped />
+<style src="../../assets/scss/components/_performancegraph.scss" lang="scss" scoped />

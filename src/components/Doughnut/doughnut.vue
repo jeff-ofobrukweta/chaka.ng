@@ -105,6 +105,7 @@ export default {
                     // 		}
                     // 	}
                     // ],
+
                     // yAxes: [
                     // 	{
                     // 		scaleLabel: {
@@ -156,7 +157,7 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `Price: ${data.datasets[0].data[tooltipItem.index]}`;
+                            return `${'Price:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
@@ -176,6 +177,7 @@ export default {
                 legend: {
                     display: true,
                     position: 'right',
+                    boxWidth: 100,
                     align: 'center',
                     fullWidth: true,
                     labels: {
@@ -189,17 +191,29 @@ export default {
             }
         };
     },
-    computed: {},
+    computed: {
+
+    },
 
     mounted() {
         this.fillData();
     },
 
-    props: {
-        currency: {
-            type: String,
-            required: false
-        }
+    mounted() {
+        this.fillData();
+    },
+
+    fillData() {
+        this.datacollection = {
+            labels: [`jan  ${5.2}% `, `feb  ${83}%`, `march ${53}%`, `april  ${100}%`],
+            datasets: [
+                {
+                    label: 'Data One',
+                    backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#00F8FF'],
+                    data: [1, 10, 5, 23]
+                }
+            ]
+        };
     },
     methods: {
         fillData() {

@@ -1,29 +1,29 @@
 <template>
 <div>
-	<div :style="graphstyle" class="small chart__box">
+	<div class="small chart__box">
 		<div class="chart__aspect-ratio">
-			<Doughnut class="chart__graph" :chart-data="datacollection" :options="options"></Doughnut>
+			<Performancebarchart class="chart__graph" :chart-data="datacollection" :options="options"></Performancebarchart>
 		</div>
 	</div>
   </div>
 </template>
 
 <script>
+import {
+    mapGetters, mapMutations, mapActions, mapState
+} from 'vuex';
 import numeral from 'numeral';
-import Doughnut from './horizontalbar_config';
+import Performancebarchart from './performance_config.js';
 
 export default {
     name: 'doughnutgraph',
     components: {
-        Doughnut
+        Performancebarchart
     },
     data() {
         return {
             min: '',
             max: '',
-            graphstyle: {
-                width: '60%'
-            },
             interval: 10,
             datacollection: {},
             loaderGraph: true,
@@ -74,13 +74,15 @@ export default {
                             // 			maxTicksLimit: 8,
                             // 			fontSize: 10
                             // 		},
-          		gridLines: {
-          			display: false,
-          			// borderDash: [4, 4],
-          			// color: '#4394c7',
-          			labelString: 'Date',
-          			drawBorder: false
-          		}
+                            barPercentage: 0.1,
+                            categoryPercentage: 1.0,
+          	gridLines: {
+          		display: false,
+          		// borderDash: [4, 4],
+          		// color: '#4394c7',
+          		labelString: 'Date',
+          		drawBorder: false
+          	}
                             // 		// type: 'time',
                             // 		time: {
                             // 			// unit: this.day,
@@ -116,11 +118,10 @@ export default {
           			fontSize: 10,
           			max: this.max,
           			min: this.min,
-          			stepSize: this.interval
-          			// callback: (value) =>
-          			// 	this.currency == 'USD'
-          			// 		? `$${numeral(value).value()}`
-          			// 		: `N${numeral(value).value()}`
+          			stepSize: this.interval,
+          			callback: value => (this.currency == 'USD'
+          					? `${numeral(value).value()}%`
+          					: `${numeral(value).value()}%`)
           		},
           		gridLines: {
           			display: false,
@@ -153,7 +154,7 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${'Price:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+                            return `${' %:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
@@ -171,43 +172,39 @@ export default {
                 responsiveAnimationDuration: 0,
                 aspectRatio: 2,
                 legend: {
-                    display: true
+                    display: false
                 }
             }
         };
     },
+    computed: {
 
+    },
 
     mounted() {
         this.fillData();
     },
+
+    props: {
+        currency: {
+            type: String,
+            required: false
+        }
+    },
     methods: {
+
         fillData() {
             this.datacollection = {
                 labels: ['jan', 'feb', 'march', 'april', 'may', 'june', 'july', 'august'],
                 datasets: [
                     {
-                        label: 'Stocks',
-                        lineTension: 0.4,
-                        fill: true,
+                        label: 'Stocks2',
                         backgroundColor: ['#00C48C', '#E94F37', '#00C48C', '#E94F37', '#E46751', '#00D6EF', '#61K846', '#A76451'],
-                        borderWidth: 1.7,
-                        showLine: true,
-                        borderJoinStyle: 'miter',
-                        pointBackgroundColor: '#484848',
-                        pointBorderWidth: 3,
-                        pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#2DA5EC',
-                        pointHoverBorderColor: 'rgba(220,220,220,1)',
-                        pointHoverBorderWidth: 2,
-                        pointRadius: 0,
-                        pointHitRadius: 1,
-                        data: [12, 23, 34, 44, 12, 23, 134, 44]
+                        data: [2, 30, 5, -23, 2, 56, -88, 67]
                     }
                 ]
             };
         }
     }
-
 };
 </script>

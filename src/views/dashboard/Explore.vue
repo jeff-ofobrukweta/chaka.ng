@@ -103,12 +103,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
-import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
+import { mapGetters } from 'vuex';
+import ExploreWatchlist from '../../components/watchlist/ExploreWatchlist';
+import MobileWatchlist from '../../components/watchlist/MobileWatchlist';
 
 export default {
-    name: "portfolio",
+    name: 'portfolio',
     components: {
         ExploreWatchlist,
         MobileWatchlist
@@ -119,96 +119,96 @@ export default {
             news: [
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 }
             ],
             watchlist: [
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Google",
-                    symbol: "GOOGL",
-                    currency: "USD",
+                    name: 'Google',
+                    symbol: 'GOOGL',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "MTN Nigeria",
-                    symbol: "MTNN",
-                    currency: "USD",
+                    name: 'MTN Nigeria',
+                    symbol: 'MTNN',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 4
                 },
                 {
-                    name: "Jumia Technologies",
-                    symbol: "JUMIA",
-                    currency: "USD",
+                    name: 'Jumia Technologies',
+                    symbol: 'JUMIA',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 2
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 1
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 0
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: -3
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: -10
@@ -217,7 +217,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getPortfolioSummary", "getWindowWidth"])
+        ...mapGetters(['getPortfolioSummary', 'getWindowWidth'])
     }
 };
 </script>

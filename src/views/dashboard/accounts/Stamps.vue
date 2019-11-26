@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <Fragment>
+    <!-- <div>
         <section class="accounts__title">
             <h3>History</h3>
             <select class="form__input" name="" id="">
@@ -27,16 +28,26 @@
         <section class="accounts-statements__downloads">
             <StatementsCard v-for="(statement, i) in statements" :key="i" :statement="statement" />
         </section>
-    </div>
+    </div> -->
+
+
+    <!-- stamps componemt starts -->
+    <Stampscomponent/>
+    <!-- stamps end here -->
+    </Fragment>
 </template>
 
 <script>
+import { Fragment } from 'vue-fragment';
 import StatementsCard from '../../../components/accounts/StatementsCard';
+import Stampscomponent from '../../../components/stamps_and_certificates/stamps';
 
 export default {
     name: 'accounts-statements',
     components: {
-        StatementsCard
+        StatementsCard,
+        Stampscomponent,
+        Fragment
     },
     data() {
         return {

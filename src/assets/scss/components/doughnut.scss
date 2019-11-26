@@ -5,5 +5,18 @@
     padding: 1em;
     margin: 1em auto;
     width: 100%;
+    flex-basis: 49%;
 
+}
+
+.container-packet{
+    display: flex;
+    flex-direction:column;
+    flex-basis: 49%;
+    .title-name{
+        font-style: normal;
+        font-weight: bold;
+        font-size: 20px;
+        color:#293D4A;
+    }
 }

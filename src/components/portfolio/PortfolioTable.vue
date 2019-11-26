@@ -75,7 +75,7 @@
 
 <script>
 export default {
-    name: "portfolio-table",
+    name: 'portfolio-table',
     props: {
         data: {
             type: Array,

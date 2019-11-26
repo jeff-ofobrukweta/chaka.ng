@@ -97,7 +97,7 @@
 
 <script>
 export default {
-    name: "sell-modal",
+    name: 'sell-modal',
     props: {
         currency: {
             type: String,
@@ -116,12 +116,12 @@ export default {
         return {
             itemData: {},
             loading: false,
-            orderType: "MARKET"
+            orderType: 'MARKET'
         };
     },
     methods: {
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         switchOrder(value) {
             this.orderType = value;

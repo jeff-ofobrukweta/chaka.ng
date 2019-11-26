@@ -1,13 +1,15 @@
 <template>
-    <div class="small chart__box">
-        <div class="chart__aspect-ratio">
-            <line-chart
-                class="chart__graph"
-                :chart-data="datacollection"
-                :options="options"
-            ></line-chart>
-        </div>
-    </div>
+	<div
+  class="small chart__box">
+		<div
+    class="chart__aspect-ratio">
+			<line-chart
+      :style="graphstyle"
+      class="chart__graph"
+      :chart-data="datacollection"
+      :options="options"></line-chart>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -23,6 +25,11 @@ export default {
         return {
             min: '',
             max: '',
+            graphstyle: {
+                width: '100%',
+                height: '274px',
+                margin: '0px -2em'
+            },
             interval: 10,
             datacollection: {},
             loaderGraph: true,
@@ -116,7 +123,7 @@ export default {
                                 max: this.max,
                                 min: this.min,
                                 stepSize: this.interval,
-                                callback: value => (this.currency === 'USD'
+                                callback: value => (this.currency == 'USD'
                                     ? `$${numeral(value).value()}`
                                     : `N${numeral(value).value()}`)
                             },
@@ -144,7 +151,13 @@ export default {
                 tooltips: {
                     mode: 'index',
                     intersect: false,
-                    backgroundColor: '#2DA5EC',
+                    titleFontColor: '#293D4A',
+                    bodyFontColor: '#293D4A',
+                    titleFontSize: 15,
+                    bodyFontSize: '15',
+                    // backgroundColor: '#2DA5EC',
+                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    displayColors: false,
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
                         return data.labels[tooltipItem[0].index];
@@ -174,7 +187,9 @@ export default {
             }
         };
     },
-    computed: {},
+    computed: {
+
+    },
 
     mounted() {
         this.fillData();

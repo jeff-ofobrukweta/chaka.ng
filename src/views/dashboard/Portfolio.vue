@@ -1,12 +1,26 @@
 <template>
     <section class="dashboard__main">
-        <section>
-            <KYCModal />
+        <section class="portfolio-line__graph">
+            <Linegraph />
         </section>
-
         <section class="portfolio-card__box">
             <PortfolioCard v-for="(card, index) in getPortfolioSummary" :key="index" :data="card" />
         </section>
+        <section class="portfolio__charts">
+            <Doughnut />
+            <Performancebarchart />
+        </section>
+
+        <!-- test@heer -->
+        <section class="portfolio__charts">
+            <Analysischart />
+            <HorizontalBarchart />
+        </section>
+
+        <section class="portfolio-line__graph">
+            <Singlecourselinegraph />
+        </section>
+        <!-- ends here -->
         <section class="explore__title">
             <div>
                 <h3>Watchlist</h3>
@@ -32,14 +46,24 @@
 import { mapGetters } from "vuex";
 import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
 import PortfolioCard from "../../components/portfolio/PortfolioCard";
-import KYCModal from "../../components/kyc/ModalKYC";
+import Linegraph from "../../components/Linegraph/linebase";
+import Doughnut from "../../components/Doughnut/dbase";
+import Performancebarchart from "../../components/Performance_chart/performancebase";
+import Analysischart from "../../components/Analysisbarchart/analysisbarchartbase";
+import HorizontalBarchart from "../../components/Horizontalbar/hbase";
+import Singlecourselinegraph from "../../components/Linegraph/singlestock_linegraph";
 
 export default {
     name: "portfolio",
     components: {
         WatchlistCard,
         PortfolioCard,
-        KYCModal
+        Linegraph,
+        Doughnut,
+        Performancebarchart,
+        Analysischart,
+        HorizontalBarchart,
+        Singlecourselinegraph
     },
     data() {
         return {
@@ -116,3 +140,4 @@ export default {
     }
 };
 </script>
+<style src="../../assets/scss/layouts/_portfoliobase.scss" lang="scss" scoped />
