@@ -4,3 +4,23 @@
     flex:1 1 100%;
     justify-content: space-between;
 }
+
+
+@include tablet {
+    .portfolio__charts{
+        display: flex;
+        flex-direction: column;
+    }
+}
+@include mobile {
+    .portfolio__charts{
+        display: flex;
+        flex-direction: column;
+    }
+}
+@include desktop {
+    .portfolio__charts{
+        display: flex;
+        flex-direction: row;
+    }
+}
