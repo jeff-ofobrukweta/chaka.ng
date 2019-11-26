@@ -50,7 +50,7 @@
         </section>
         <form class="modal-form" @submit.prevent="fundWallet">
             <div class="modal-form__group">
-                <label class="form__label"
+                <label class="form__label" v-if="orderType === 'MARKET'"
                     >Amount
                     <form-input
                         type="number"
@@ -58,28 +58,40 @@
                         v-model="itemData.amount"
                         placeholder="Amount"
                 /></label>
+                <label class="form__label" v-else
+                    >Limit Order Price
+                    <form-input
+                        type="number"
+                        name="limit"
+                        v-model="itemData.price"
+                        placeholder="Limit Order Price"
+                /></label>
+            </div>
+            <div class="modal-form__group">
+                <label class="form__label"
+                    >Share Quantity
+                    <form-input
+                        type="number"
+                        name="quantity"
+                        v-model="itemData.quantity"
+                        placeholder="Quantity"
+                /></label>
+            </div>
+            <div>
+                <a class="primary" @click="switchOrder('LIMIT')" v-if="orderType === 'MARKET'"
+                    >Switch to Limit Order</a
+                >
+                <a class="primary" @click="switchOrder('MARKET')" v-else>Switch to Market Order</a>
             </div>
             <div class="modal-form__buttons">
                 <action-button
                     type="submit"
                     :pending="loading"
                     :classes="['btn-block', 'btn__primary']"
-                    >Withdraw</action-button
+                    >Buy</action-button
                 >
             </div>
         </form>
-
-        <section>
-            <p class="grey-dark">Allow up to 1 business day</p>
-            <br />
-            <p>
-                You're now requesting a withdrawal
-                <span v-if="itemData.amount"
-                    >of <span class="green">{{ itemData.amount | currency("NGN") }}</span></span
-                >&nbsp;into your United Bank For Africa account.
-            </p>
-            <br />
-        </section>
     </modal>
 </template>
 
@@ -103,12 +115,16 @@ export default {
     data() {
         return {
             itemData: {},
-            loading: false
+            loading: false,
+            orderType: "MARKET"
         };
     },
     methods: {
         closeModal() {
             this.$emit("close");
+        },
+        switchOrder(value) {
+            this.orderType = value;
         },
         fundWallet() {
             this.loading = true;

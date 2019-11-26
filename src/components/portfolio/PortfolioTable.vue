@@ -50,9 +50,23 @@
                         >
                     </td>
                     <td>
-                        <a class="portfolio-table__buy">+ Buy</a>
-                        <a class="portfolio-table__buy">- Sell</a>
+                        <a class="portfolio-table__buy" @click="showBuy = true">+ Buy</a>
+                        <a class="portfolio-table__buy" @click="showSell = true">- Sell</a>
                     </td>
+                    <buy-modal
+                        @close="showBuy = false"
+                        :currency="item.currency"
+                        :symbol="item.symbol"
+                        :instrument="item"
+                        v-if="showBuy"
+                    />
+                    <sell-modal
+                        @close="showSell = false"
+                        :currency="item.currency"
+                        :symbol="item.symbol"
+                        :instrument="item"
+                        v-if="showSell"
+                    />
                 </tr>
             </tbody>
         </table>
@@ -61,12 +75,18 @@
 
 <script>
 export default {
-    name: 'portfolio-table',
+    name: "portfolio-table",
     props: {
         data: {
             type: Array,
             required: true
         }
+    },
+    data() {
+        return {
+            showBuy: false,
+            showSell: false
+        };
     },
     methods: {
         checkChange(value) {

@@ -10,8 +10,12 @@
             />
         </div>
         <div class="watchlist-explore__flex">
-            <p class="light"><strong>GOOGL</strong></p>
-            <p><strong>Google Inc.</strong></p>
+            <p class="light">
+                <strong>{{ instrument.symbol }}</strong>
+            </p>
+            <p>
+                <strong>{{ instrument.name }}</strong>
+            </p>
         </div>
         <div class="watchlist-explore__flex">
             <p
@@ -75,16 +79,23 @@
                     </defs>
                 </svg>
             </button>
-            <button>+&nbsp;Buy</button>
+            <button @click="showBuy = true">+&nbsp;Buy</button>
         </div>
+        <buy-modal
+            @close="showBuy = false"
+            :currency="instrument.currency"
+            :symbol="instrument.symbol"
+            :instrument="instrument"
+            v-if="showBuy"
+        />
     </div>
 </template>
 
 <script>
-import LineChart from '../Linegraph/linegraph_config.js';
+import LineChart from "../Linegraph/linegraph_config.js";
 
 export default {
-    name: 'explore-watchlist',
+    name: "explore-watchlist",
     components: {
         LineChart
     },
@@ -95,11 +106,12 @@ export default {
         },
         color: {
             type: String,
-            default: 'green'
+            default: "green"
         }
     },
     data() {
         return {
+            showBuy: false,
             datacollection: {},
             options: {
                 responsive: false,
@@ -108,7 +120,7 @@ export default {
                 },
                 elements: {
                     line: {
-                        borderColor: '#000000',
+                        borderColor: "#000000",
                         borderWidth: 1
                     },
                     point: {
@@ -137,37 +149,37 @@ export default {
         fillData() {
             this.datacollection = {
                 labels: [
-                    'jan',
-                    'feb',
-                    'march',
-                    'april',
-                    'jan',
-                    'feb',
-                    'march',
-                    'april',
-                    'may',
-                    'june',
-                    'july',
-                    'august',
-                    'sept',
-                    'oct',
-                    'nov',
-                    'dec'
+                    "jan",
+                    "feb",
+                    "march",
+                    "april",
+                    "jan",
+                    "feb",
+                    "march",
+                    "april",
+                    "may",
+                    "june",
+                    "july",
+                    "august",
+                    "sept",
+                    "oct",
+                    "nov",
+                    "dec"
                 ],
                 datasets: [
                     {
-                        label: 'Stocks',
+                        label: "Stocks",
                         lineTension: 0.4,
                         fill: false,
                         borderColor: this.color,
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: 'miter',
-                        pointBackgroundColor: '#484848',
+                        borderJoinStyle: "miter",
+                        pointBackgroundColor: "#484848",
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#2DA5EC',
-                        pointHoverBorderColor: 'rgba(220,220,220,1)',
+                        pointHoverBackgroundColor: "#2DA5EC",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,

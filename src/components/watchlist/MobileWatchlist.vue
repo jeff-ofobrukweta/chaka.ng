@@ -31,7 +31,7 @@
             </svg>
 
             <div>
-                <a class="watchlist-mobile__buy">+ Buy</a>
+                <a class="watchlist-mobile__buy" @click="showBuy = true">+ Buy</a>
             </div>
         </div>
         <div class="watchlist-mobile__bottom">
@@ -76,17 +76,29 @@
                 </p>
             </div>
         </div>
+        <buy-modal
+            @close="showBuy = false"
+            :currency="instrument.currency"
+            :symbol="instrument.symbol"
+            :instrument="instrument"
+            v-if="showBuy"
+        />
     </div>
 </template>
 
 <script>
 export default {
-    name: 'watchlist-card',
+    name: "watchlist-card",
     props: {
         instrument: {
             type: Object,
             required: true
         }
+    },
+    data() {
+        return {
+            showBuy: false
+        };
     }
 };
 </script>
