@@ -2,7 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersistence from "vuex-persist";
 
-import auth from "./modules/auth";
+import auth from "./modules/accounts";
+import accounts from "./modules/accounts";
 import explore from "./modules/explore";
 import history from "./modules/history";
 import kyc from "./modules/kyc";
@@ -36,7 +37,8 @@ const initialState = {
     statements: { ...statements.state },
     stock: { ...stock.state },
     wallet: { ...wallet.state },
-    watchlist: { ...watchlist.state }
+    watchlist: { ...watchlist.state },
+    accounts: { ...accounts.state }
 };
 
 export default new Vuex.Store({
