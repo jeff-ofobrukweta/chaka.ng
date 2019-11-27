@@ -139,7 +139,10 @@
 
     &.active {
       color: $primary;
-      border-bottom: 4px solid $primary;
+
+      @include tablet {
+        border-bottom: 4px solid $primary;
+      }
     }
 
     &--dropdown {
