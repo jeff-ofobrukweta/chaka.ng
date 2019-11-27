@@ -10,17 +10,6 @@
             <Doughnut />
             <Performancebarchart />
         </section>
-
-        <!-- test@heer -->
-        <section class="portfolio__charts">
-            <Analysischart />
-            <HorizontalBarchart />
-        </section>
-
-        <section class="portfolio-line__graph">
-            <Singlecourselinegraph />
-        </section>
-        <!-- ends here -->
         <section class="explore__title">
             <div>
                 <h3>Watchlist</h3>

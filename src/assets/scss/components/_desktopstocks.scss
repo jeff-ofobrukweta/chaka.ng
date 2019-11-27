@@ -4,7 +4,7 @@
 }
 
 .card-container{
-    width: 150px;
+    width: 14%;
     height: auto;
     min-height: 224px;
     left: 534px;
@@ -14,7 +14,8 @@
     box-sizing: border-box;
     border-radius: 4px;
     cursor: pointer;
-    margin: 1em;
+    flex: 0 0 14%;
+    margin: .5em;
     .section1{
         display: flex;
         position: relative;

@@ -28,6 +28,8 @@ const AccountsSettings = () =>
     import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
 const AccountStamps = () =>
     import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/accounts/Stamps");
+const Singlestock = () =>
+    import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/Singlestock");
 
 const routes = [
     {
@@ -81,6 +83,11 @@ const routes = [
                 path: "categories",
                 name: "categories",
                 component: Categories
+            },
+            {
+                path: "singlestock",
+                name: "singlestock",
+                component: Singlestock
             },
             {
                 path: "accounts",

@@ -2,7 +2,10 @@
 <div>
 	<div class="small chart__box">
 		<div class="chart__aspect-ratio">
-			<Analysisbarchart class="chart__graph" :chart-data="datacollection" :options="options"></Analysisbarchart>
+			<Analysisbarchart 
+            :style="graphstyle"
+            class="chart__graph" :chart-data="datacollection" 
+            :options="options"></Analysisbarchart>
 		</div>
 	</div>
   </div>
@@ -24,6 +27,10 @@ export default {
         return {
             min: '',
             max: '',
+            graphstyle: {
+                width: '80%',
+                margin:'0 auto'
+            },
             interval: 10,
             datacollection: {},
             loaderGraph: true,
@@ -195,7 +202,7 @@ export default {
 
         fillData() {
             this.datacollection = {
-                labels: ['jan', 'feb', 'march', 'april', 'may', 'june', 'july', 'august'],
+                labels: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG'],
                 datasets: [
                     {
                         label: 'Stocks',
