@@ -216,15 +216,18 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
     name: "app-header",
     data() {
         return {
             isSidebarOpen: false,
-            isLoggedIn: false,
             search: null,
             showFund: false
         };
+    },
+    computed: {
+        ...mapGetters(["isLoggedIn"])
     },
     methods: {
         toggleSidebar() {

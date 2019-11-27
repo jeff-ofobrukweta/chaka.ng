@@ -1,7 +1,7 @@
 <template>
     <main class="main" role="main">
         <div class="auth-box">
-            <form class="auth-form" @submit.prevent="login" novalidate>
+            <form class="auth-form" @submit.prevent="register" novalidate>
                 <h3 class="auth-form__title">Create your profile</h3>
                 <p class="auth-form__subtitle">Set up your personal profile and get verified</p>
                 <div class="auth-form__group">
@@ -30,10 +30,10 @@
                             :invalid="$v.itemData.password"
                             @reset="resetError"
                     /></label>
-                    <div class="form-info" v-if="!$v.itemData.password">
+                    <div class="form-info" v-if="!$v.itemData.password.$error">
                         <small
                             >**Password should contain at least one uppercase character, number or
-                            symbol</small
+                            symbol and at least 7 characters</small
                         >
                     </div>
                 </div>
@@ -50,6 +50,7 @@
                             @reset="resetError"
                     /></label>
                 </div>
+                <error-block type="register" />
                 <div class="auth-form__group">
                     <div>
                         <action-button
@@ -76,6 +77,7 @@
 
 <script>
 import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+import { mapActions, mapMutations } from "vuex";
 export default {
     name: "Login",
     data() {
@@ -93,16 +95,27 @@ export default {
         }
     },
     methods: {
-        login() {
+        ...mapActions(["REGISTER"]),
+        ...mapMutations(["RESET_REQ"]),
+        register() {
             this.$v.itemData.$touch();
-            if (this.confirmPassword !== this.itemData.password || !this.confirmPassword) {
+            this.RESET_REQ();
+            if (
+                this.confirmPassword !== this.itemData.password ||
+                !this.confirmPassword ||
+                this.$v.itemData.$pending ||
+                this.$v.itemData.$error
+            ) {
                 this.passwordError = {
                     $error: true
                 };
-            }
-            if (this.$v.itemData.$pending || this.$v.itemData.$error) {
                 return false;
             }
+            this.loading = true;
+            this.REGISTER(this.itemData).then(resp => {
+                this.loading = false;
+                if (resp) this.$router.push({ name: "login" });
+            });
         },
         resetError() {
             this.$v.$reset();
@@ -110,8 +123,7 @@ export default {
         }
     },
     mounted() {
-        document.title =
-            "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
+        document.title = "Chaka - Create Your Chaka Account";
     },
     validations: {
         itemData: {

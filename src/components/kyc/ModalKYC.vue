@@ -29,7 +29,7 @@ export default {
             banks: Banks.banks,
             positions: Positions.position,
             types: Types.company,
-            requiredFields: ["bankAcctName", "investmentObjectives", "employmentPosition"]
+            requiredFields: ["bankAcctName", "nextOfKinPhone", "employmentPosition"]
         };
     },
     methods: {

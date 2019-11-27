@@ -22,12 +22,7 @@
                   class="hero__text"
                 >Own Local and Global Companies - Apple, GTBank, Google, Dangote Cement, Alibaba, Manchester United and thousands more of your favourite companies right from your phone.</p>
               </div>
-              <div
-                v-if="Object.keys(errors).length > 0"
-                class="alert alert-danger"
-                role="alert"
-              >{{ Object.values(errors)[0]}}</div>
-              <form class="v2-landing__form row v2-layer__signup" @submit.prevent="create">
+              <form class="v2-landing__form row v2-layer__signup" @submit.prevent="register">
                 <input
                   class="v2-landing__input"
                   v-model="itemData.email"
@@ -35,7 +30,6 @@
                   name="email"
                   placeholder="Email"
                   required
-                  @focus="clearErrors($event.target.name)"
                 />
                 <input
                   class="v2-landing__input"
@@ -44,10 +38,8 @@
                   placeholder="Create Password"
                   v-model="itemData.password"
                   required
-                  @focus="clearErrors($event.target.name)"
                 />
                 <button
-                  :to="{ name: 'register' }"
                   class="v2-btn v2-btn__primary v2-landing__btn"
                   type="submit"
                 >
@@ -65,6 +57,7 @@
                     />
                   </svg>
                 </button>
+                <error-block type="register" />
               </form>
               <div class="v2-landing__stocks">
                 <h5 class="section__caption">Featured In</h5>
@@ -770,6 +763,7 @@
 <script>
 import Flickity from 'vue-flickity';
 import EmailSubscribe from '../components/EmailSubscription';
+import { mapActions, mapMutations } from "vuex";
 
 export default {
     name: 'Home',
@@ -798,7 +792,6 @@ export default {
                 }
             ],
             itemData: {},
-            errors: {},
             loading: false,
             message: null,
             carouselOptions: {
@@ -823,8 +816,15 @@ export default {
         }
     },
     methods: {
-        create() {
-            console.log(this.itemData);
+        ...mapActions(["REGISTER"]),
+        ...mapMutations(["RESET_REQ"]),
+        register() {
+            this.RESET_REQ();
+            this.loading = true;
+            this.REGISTER(this.itemData).then(resp => {
+                this.loading = false;
+                if (resp) this.$router.push({ name: "login" });
+            });
         }
     },
     mounted() {

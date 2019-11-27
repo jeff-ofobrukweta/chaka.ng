@@ -1,5 +1,8 @@
+import { clearSession } from "../services/auth";
+
 const Home = () => import(/* webpackChunkName: "home" */ "../views/Home");
 const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
+const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
 const DashboardLayout = () =>
     import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
@@ -38,12 +41,19 @@ const routes = [
         component: Login
     },
     {
+        path: "/logout",
+        name: "logout",
+        component: Logout,
+        beforeEnter: clearSession
+    },
+    {
         path: "/register",
         name: "register",
         component: Register
     },
     {
         path: "/dashboard",
+        name: "dashboard",
         component: DashboardLayout,
         redirect: "/dashboard/portfolio",
         children: [

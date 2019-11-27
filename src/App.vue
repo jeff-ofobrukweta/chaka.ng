@@ -1,13 +1,13 @@
 <template>
     <div id="app">
-        <Progressbar />
+        <Progressbar v-if="getProgressbar !== 100" />
         <Header />
         <router-view />
     </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 import Header from "./components/Header";
 import Progressbar from "./components/Progressbar";
 
@@ -22,7 +22,11 @@ export default {
             prevScrollpos: 0
         };
     },
+    computed: {
+        ...mapGetters(["getStatus", "getProgressbar"])
+    },
     methods: {
+        ...mapActions(["START_LOADER", "STOP_LOADER"]),
         ...mapMutations(["SET_WINDOW_WIDTH"]),
         handleResize() {
             const width = window.innerWidth;
@@ -60,6 +64,15 @@ export default {
     },
     destroyed() {
         window.removeEventListener("resize", this.handleResize);
+    },
+    watch: {
+        getStatus(val) {
+            if (val === "loading") {
+                this.START_LOADER();
+            } else {
+                this.STOP_LOADER();
+            }
+        }
     }
 };
 </script>

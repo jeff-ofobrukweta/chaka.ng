@@ -30,6 +30,7 @@
                             @reset="resetError"
                     /></label>
                 </div>
+                <error-block type="login" />
                 <div class="auth-form__group">
                     <div>
                         <action-button
@@ -58,7 +59,8 @@
 </template>
 
 <script>
-import { required, minLength, email } from "vuelidate/lib/validators";
+import { required, email } from "vuelidate/lib/validators";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
     name: "Login",
@@ -75,20 +77,27 @@ export default {
         }
     },
     methods: {
+        ...mapActions(["LOGIN"]),
+        ...mapMutations(["RESET_REQ"]),
         login() {
             this.$v.itemData.$touch();
+            this.RESET_REQ();
 
             if (this.$v.itemData.$pending || this.$v.itemData.$error) {
                 return false;
             }
+            this.loading = true;
+            this.LOGIN(this.itemData).then(resp => {
+                this.loading = false;
+                if (resp) this.$router.push({ name: "dashboard" });
+            });
         },
         resetError() {
             this.$v.$reset();
         }
     },
     mounted() {
-        document.title =
-            "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
+        document.title = "Chaka - Login";
         document.getElementsByTagName("meta").keywords.content =
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
         document.getElementsByTagName("meta").description.content =
@@ -97,7 +106,7 @@ export default {
     validations: {
         itemData: {
             email: { required, email },
-            password: { required, minLength: minLength(7) }
+            password: { required }
         }
     }
 };

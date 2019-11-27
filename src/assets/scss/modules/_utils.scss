@@ -301,6 +301,22 @@ main {
   text-transform: uppercase;
 }
 
+.alert {
+  padding: 10px;
+  margin-bottom: .5rem;
+  border-radius: 5px;
+  font-size: 0.85;
+  width: 100%;
+
+  &-success {
+    background-color: rgba($color: $green, $alpha: 0.2);
+  }
+
+  &-danger {
+    background-color: rgba($color: $orange, $alpha: 0.3);
+  }
+}
+
 .cursor-context {
   cursor: context-menu
 }
