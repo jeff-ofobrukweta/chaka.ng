@@ -1,0 +1,156 @@
+{
+	"banks": [
+		{
+			"id": 2,
+			"name": "Access Bank",
+			"bankCode": "044",
+			"cscsCode": "4000470158",
+			"createdAt": "2019-09-19T05:00:00.515Z",
+			"updatedAt": "2019-09-19T05:00:00.515Z"
+		},
+		{
+			"id": 3,
+			"name": "Access Bank (Diamond)",
+			"bankCode": "063",
+			"cscsCode": "4000630109",
+			"createdAt": "2019-09-19T05:00:00.520Z",
+			"updatedAt": "2019-09-19T05:00:00.520Z"
+		},
+		{
+			"id": 8,
+			"name": "Fidelity Bank",
+			"bankCode": "070",
+			"cscsCode": "4010160155",
+			"createdAt": "2019-09-19T05:00:00.547Z",
+			"updatedAt": "2019-09-19T05:00:00.547Z"
+		},
+		{
+			"id": 9,
+			"name": "First Bank of Nigeria",
+			"bankCode": "011",
+			"cscsCode": "4000070135",
+			"createdAt": "2019-09-19T05:00:00.561Z",
+			"updatedAt": "2019-09-19T05:00:00.561Z"
+		},
+		{
+			"id": 14,
+			"name": "Keystone Bank",
+			"bankCode": "082",
+			"cscsCode": "4010270188",
+			"createdAt": "2019-09-19T05:00:00.579Z",
+			"updatedAt": "2019-09-19T05:00:00.579Z"
+		},
+		{
+			"id": 19,
+			"name": "Standard Chartered Bank",
+			"bankCode": "068",
+			"cscsCode": "4000710133",
+			"createdAt": "2019-09-19T05:00:00.594Z",
+			"updatedAt": "2019-09-19T05:00:00.594Z"
+		},
+		{
+			"id": 21,
+			"name": "Union Bank of Nigeria",
+			"bankCode": "032",
+			"cscsCode": "4000090141",
+			"createdAt": "2019-09-19T05:00:00.631Z",
+			"updatedAt": "2019-09-19T05:00:00.631Z"
+		},
+		{
+			"id": 23,
+			"name": "Unity Bank",
+			"bankCode": "215",
+			"cscsCode": "4000410140",
+			"createdAt": "2019-09-19T05:00:00.633Z",
+			"updatedAt": "2019-09-19T05:00:00.633Z"
+		},
+		{
+			"id": 26,
+			"name": "Zenith Bank",
+			"bankCode": "057",
+			"cscsCode": "4000540179",
+			"createdAt": "2019-09-19T05:00:00.648Z",
+			"updatedAt": "2019-09-19T05:00:00.648Z"
+		},
+		{
+			"id": 6,
+			"name": "Citibank Nigeria",
+			"bankCode": "023",
+			"cscsCode": "4000260192",
+			"createdAt": "2019-09-19T05:00:00.540Z",
+			"updatedAt": "2019-09-19T05:00:00.540Z"
+		},
+		{
+			"id": 5,
+			"name": "Ecobank Nigeria",
+			"bankCode": "050",
+			"cscsCode": "4000460155",
+			"createdAt": "2019-09-19T05:00:00.540Z",
+			"updatedAt": "2019-09-19T05:00:00.540Z"
+		},
+		{
+			"id": 10,
+			"name": "First City Monument Bank",
+			"bankCode": "214",
+			"cscsCode": "4010100137",
+			"createdAt": "2019-09-19T05:00:00.566Z",
+			"updatedAt": "2019-09-19T05:00:00.566Z"
+		},
+		{
+			"id": 12,
+			"name": "Heritage Bank",
+			"bankCode": "030",
+			"cscsCode": "4000015030",
+			"createdAt": "2019-09-19T05:00:00.570Z",
+			"updatedAt": "2019-09-19T05:00:00.570Z"
+		},
+		{
+			"id": 18,
+			"name": "Stanbic IBTC Bank",
+			"bankCode": "221",
+			"cscsCode": "4010250182",
+			"createdAt": "2019-09-19T05:00:00.587Z",
+			"updatedAt": "2019-09-19T05:00:00.587Z"
+		},
+		{
+			"id": 20,
+			"name": "Sterling Bank",
+			"bankCode": "232",
+			"cscsCode": "4010030116",
+			"createdAt": "2019-09-19T05:00:00.621Z",
+			"updatedAt": "2019-09-19T05:00:00.621Z"
+		},
+		{
+			"id": 22,
+			"name": "United Bank For Africa",
+			"bankCode": "033",
+			"cscsCode": "4000120150",
+			"createdAt": "2019-09-19T05:00:00.632Z",
+			"updatedAt": "2019-09-19T05:00:00.632Z"
+		},
+		{
+			"id": 25,
+			"name": "Wema Bank",
+			"bankCode": "035",
+			"cscsCode": "4000020120",
+			"createdAt": "2019-09-19T05:00:00.645Z",
+			"updatedAt": "2019-09-19T05:00:00.645Z"
+		},
+		{
+			"id": 11,
+			"name": "Guaranty Trust Bank",
+			"bankCode": "058",
+			"cscsCode": "4000560185",
+			"createdAt": "2019-09-19T05:00:00.567Z",
+			"updatedAt": "2019-09-19T05:00:00.567Z"
+		},
+		{
+			"id": 15,
+			"name": "Polaris Bank",
+			"bankCode": "076",
+			"cscsCode": "4010350115",
+			"createdAt": "2019-09-19T05:00:00.584Z",
+			"updatedAt": "2019-09-19T05:00:00.584Z"
+		}
+	]
+}

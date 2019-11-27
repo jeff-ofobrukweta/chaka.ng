@@ -1,0 +1,142 @@
+.kyc {
+    &-nav {
+        color: $white;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        @include tablet {
+            padding-right: 0;
+        }
+
+        label {
+            color: $white
+        }
+
+        &__section {
+            background-color: $primary-dark;
+        }
+
+        &__text {
+            flex: 0 0 100%;
+            max-width: 100%;
+            text-align: center;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            @include tablet {
+                flex: 0 0 35%;
+                max-width: 35%;
+                text-align: left;
+            }
+
+            h4 {
+                color: white;
+                margin-bottom: .5rem;
+                font-weight: normal;
+            }
+
+        }
+
+        &__field {
+            flex: 0 0 100%;
+            max-width: 100%;
+            padding-top: .825rem;
+            padding-bottom: .825rem;
+            display: flex;
+            align-items: center;
+
+            @include tablet {
+                padding-left: 1rem;
+                flex: 0 0 30%;
+                max-width: 30%;
+            }
+
+        }
+
+        &__actions {
+            flex: 0 0 100%;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+
+            a {
+                text-decoration: underline;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+
+                @include tablet {
+                    margin-right: 1rem;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+            }
+
+            @include tablet {
+                flex: 0 0 30%;
+                max-width: 30%;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
+                text-align: left;
+            }
+
+
+        }
+
+        &__button {
+            height: 100%;
+            line-height: 1.5rem;
+            background-color: $primary;
+            border-radius: 0;
+            border-color: $primary;
+
+            path {
+                fill: $white
+            }
+
+            &:hover {
+                background-color: $white;
+                border-color: $white;
+
+                path {
+                    fill: $primary
+                }
+            }
+        }
+
+        &__pill {
+            margin-right: 20px;
+            margin-bottom: 10px;
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            border-color: transparent;
+            background-color: $white;
+
+            &.active {
+                border-color: $primary;
+                background-color: $primary;
+                color: $white;
+            }
+
+            &--group {
+                margin-top: 1rem;
+            }
+        }
+    }
+
+    &-form {
+        &__group {
+            @extend .modal-form__group;
+            width: 100%
+        }
+    }
+
+    &-modal {
+        color: $text-color
+    }
+}

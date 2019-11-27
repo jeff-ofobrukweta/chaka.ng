@@ -6,9 +6,10 @@
         text-align: center;
         padding: 1.5rem 0.9rem;
         border: 0.85px solid $border-color;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
         cursor: pointer;
         transition: all 200ms;
+        box-shadow: 6.8535px 15.4204px 17.1338px rgba(164, 164, 164, 0.3);
 
         @include tablet {
             max-width: 33.3333%;

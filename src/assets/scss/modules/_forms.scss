@@ -3,6 +3,11 @@
   position: relative;
   text-align: left;
 
+  &-info {
+    color: $grey-cool;
+    font-size: 0.85rem;
+  }
+
   &__input {
     width: 100%;
     padding: 0.5rem 1rem;
@@ -10,6 +15,11 @@
     background-color: $white;
     border-radius: 5px;
     margin-top: .325rem;
+
+    &.is-invalid {
+      border-color: $orange;
+      animation: shake 400ms ease-in-out;
+    }
 
     &--file {
       position: absolute;
@@ -46,7 +56,12 @@
   }
 
   &__select {
-    height: 2.525rem
+    height: 2.525rem;
+
+    &.is-invalid {
+      border-color: $orange;
+      animation: shake 400ms ease-in-out;
+    }
   }
 
   &__label {
@@ -69,10 +84,26 @@
         border-color: $orange;
       }
     }
+  }
 
-    &__error {
-      color: $orange;
-      font-size: 10px;
-    }
+  &-error {
+    color: $orange;
+    font-size: .85rem;
+  }
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  40% {
+    transform: translateX(-10px);
+  }
+
+  80% {
+    transform: translateX(10px);
   }
 }
