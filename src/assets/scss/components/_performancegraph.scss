@@ -2,9 +2,19 @@
     background: #FFFFFF;
     border: 1px solid #EEEEEE;
     box-sizing: border-box;
+    border-radius: 11.4872px;
+    flex-basis: 49%;
+    margin: 1em 0px;
+}
+.graphholder:hover{
+    background: #FFFFFF;
+    border: 1px solid #EEEEEE;
+    box-sizing: border-box;
     box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
     border-radius: 11.4872px;
     flex-basis: 49%;
+    margin: 1em 0px;
+    transition: all 0.3s;
 }
 .container-packet{
     display: flex;

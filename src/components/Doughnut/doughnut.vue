@@ -205,12 +205,12 @@ export default {
     methods: {
         fillData() {
         this.datacollection = {
-            labels: [`jan  ${5.2}% `, `feb  ${83}%`, `march ${53}%`, `april  ${100}%`],
+            labels: [`jan  ${5.2}% `, `feb  ${83}%`, `march ${53}%`, `april  ${100}%`,`april  ${70}%`],
             datasets: [
                 {
                     label: 'Data One',
-                    backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#00F8FF'],
-                    data: [1, 10, 5, 23]
+                    backgroundColor: ['#00C48C', '#0052B4', '#FF647C', '##FFA26B','#FFE29D'],
+                    data: [100, 10, 5, 23,34]
                 }
             ]
             };

@@ -1,6 +1,6 @@
 <template>
     <Fragment>
-        <div class="container">
+        <div class="wraper-main">
             <div class="header-container">
                 <section class="right-header">
                     <h1 class="price">$123.78</h1>
@@ -30,7 +30,7 @@
              class="small-size">Buy</button>
             <section class="sumary">
                 <div class="summary-cover">
-                    Netflix, Inc. is a provider an Internet television network. 
+                   {{` Netflix, Inc. is a provider an Internet television network. 
                     The Company operates through three segments: Domestic streaming, 
                     International streaming and Domestic DVD. The Domestic streaming segment 
                     includes services that streams content to its members in the United States. 
@@ -40,7 +40,7 @@
                     documentaries, feature films, as well as television shows and movies directly on their 
                     Internet-connected screen, televisions, computers and mobile devices. It offers its streaming services 
                     both domestically and internationally. In the United States, its members can receive DVDs delivered to their homes. 
-                    The Company had members streaming in over 190 countries, as of December 31, 2016.
+                    The Company had members streaming in over 190 countries, as of December 31, 2016.` | truncate(500)}}
                 </div>
             </section>
             <section class="container-graph">
