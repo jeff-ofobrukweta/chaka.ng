@@ -1,6 +1,5 @@
 .board-container-price{
-    width: 347px;
-    height: 498px;
+    width: 100%;
     top: 741px;
     background:#293D4A;
     box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
@@ -28,4 +27,32 @@
             margin-right: 5px;
         }
     }
+}
+
+@include mobile {
+    .board-container-price{
+       width: 100%;
+    }
+    #direct{
+        margin: 1em 0px;
+    }
+
+}
+@include desktop {
+    .board-container-price{
+        width: 33%;
+    }
+    #direct{
+        margin: 1em 0px;
+    }
+
+}
+
+@include tablet {
+    // .board-container-price{
+    //     width: 33%;
+    // }
+     #direct{
+         margin: 1em 0px;
+     }
 }

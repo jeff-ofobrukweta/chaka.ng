@@ -1,8 +1,6 @@
 .parent-container{
     display:flex;
     flex-direction: column;
-    width: 1200px;
-    margin: 0 auto;
     .title-tag{
         font-style: normal;
         font-weight: bold;
@@ -23,8 +21,6 @@
 .container-tag{
     display:flex;
     flex-direction: row;
-    width: 1500px;
-    margin: 0 auto;
     overflow-x: scroll;
     .tag-item{
         width: 217px;
@@ -57,6 +53,18 @@
             justify-content: center;
             align-items: center;
         }
+    }
+}
+
+@include tablet {
+    .container-tag{
+        
+    }
+}
+
+@include mobile {
+    .container-tag{
+        
     }
 }
 

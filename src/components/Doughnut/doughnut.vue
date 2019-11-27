@@ -202,8 +202,8 @@ export default {
     mounted() {
         this.fillData();
     },
-
-    fillData() {
+    methods: {
+        fillData() {
         this.datacollection = {
             labels: [`jan  ${5.2}% `, `feb  ${83}%`, `march ${53}%`, `april  ${100}%`],
             datasets: [
@@ -213,21 +213,8 @@ export default {
                     data: [1, 10, 5, 23]
                 }
             ]
-        };
-    },
-    methods: {
-        fillData() {
-            this.datacollection = {
-                labels: ['jan', 'feb', 'march', 'april'],
-                datasets: [
-                    {
-                        label: 'Data One',
-                        backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#00F8FF'],
-                        data: [1, 10, 5, 23]
-                    }
-                ]
             };
-        }
+        },
     }
 };
 </script>

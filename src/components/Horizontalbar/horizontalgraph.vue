@@ -22,7 +22,8 @@ export default {
             min: '',
             max: '',
             graphstyle: {
-                width: '60%'
+               width: '80%',
+               margin:'0 auto'
             },
             interval: 10,
             datacollection: {},
@@ -184,7 +185,7 @@ export default {
     methods: {
         fillData() {
             this.datacollection = {
-                labels: ['jan', 'feb', 'march', 'april', 'may', 'june', 'july', 'august'],
+                labels: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG'],
                 datasets: [
                     {
                         label: 'Stocks',

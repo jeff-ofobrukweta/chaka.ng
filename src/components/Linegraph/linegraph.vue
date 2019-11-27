@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import numeral from 'numeral';
 import LineChart from './linegraph_config';
 
@@ -27,7 +28,7 @@ export default {
             max: '',
             graphstyle: {
                 width: '100%',
-                height: '274px',
+                height: '300px',
                 margin: '0px -2em'
             },
             interval: 10,
@@ -188,7 +189,7 @@ export default {
         };
     },
     computed: {
-
+       ...mapGetters(['getWindowWidth'])
     },
 
     mounted() {
@@ -205,22 +206,22 @@ export default {
         fillData() {
             this.datacollection = {
                 labels: [
-                    'jan',
-                    'feb',
-                    'march',
-                    'april',
-                    'jan',
-                    'feb',
-                    'march',
-                    'april',
-                    'may',
-                    'june',
-                    'july',
-                    'august',
-                    'sept',
-                    'oct',
-                    'nov',
-                    'dec'
+                    'JAN',
+                    'FEB',
+                    'MARCH',
+                    'APRIL',
+                    'MAY',
+                    'JUNE',
+                    'JULY',
+                    'AUGUST',
+                    'SEPT',
+                    'OCT',
+                    'NOV',
+                    'DEC',
+                    'JAN',
+                    'FEB',
+                    'MARCH',
+                    'APRIL'
                 ],
                 datasets: [
                     {
