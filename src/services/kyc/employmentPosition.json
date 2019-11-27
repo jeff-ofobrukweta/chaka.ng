@@ -1,0 +1,360 @@
+{
+	"position": [
+		{
+			"value": "ACCOUNTANT",
+			"text": "Accountant/CPA/Bookkeeper/Controller"
+		},
+		{
+			"value": "ACTUARY",
+			"text": "Actuary"
+		},
+		{
+			"value": "ADJUSTER",
+			"text": "Adjuster"
+		},
+		{
+			"value": "ADMINISTRATOR",
+			"text": "Administrator"
+		},
+		{
+			"value": "ADVERTISER",
+			"text": "Advertiser/Marketer/PR Professional"
+		},
+		{
+			"value": "AGENT",
+			"text": "Agent"
+		},
+		{
+			"value": "ATC",
+			"text": "Air Traffic Controller"
+		},
+		{
+			"value": "AMBASSADOR",
+			"text": "Ambassador/Consulate Professional"
+		},
+		{
+			"value": "ANALYST",
+			"text": "Analyst"
+		},
+		{
+			"value": "APPRAISER",
+			"text": "Appraiser"
+		},
+		{
+			"value": "ARCHITECT",
+			"text": "Architect/Designer"
+		},
+		{
+			"value": "ARTIST",
+			"text": "Artist/Performer/Actor/Dancer"
+		},
+		{
+			"value": "ASSISTANT",
+			"text": "Assistant"
+		},
+		{
+			"value": "ATHLETE",
+			"text": "Athlete"
+		},
+		{
+			"value": "ATTENDANT",
+			"text": "Attendant"
+		},
+		{
+			"value": "ATTORNEY",
+			"text": "Attorney/Judge/Legal Professional"
+		},
+		{
+			"value": "AUCTIONEER",
+			"text": "Auctioneer"
+		},
+		{
+			"value": "AUDITOR",
+			"text": "Auditor"
+		},
+		{
+			"value": "BARBER",
+			"text": "Barber/Beautician/Hairstylist"
+		},
+		{
+			"value": "BROKER",
+			"text": "Broker"
+		},
+		{
+			"value": "BUSINESS_EXEC",
+			"text": "Business Executive (VP, Director, etc.)"
+		},
+		{
+			"value": "BUSINESS_OWNER",
+			"text": "Business Owner"
+		},
+		{
+			"value": "CAREGIVER",
+			"text": "Caregiver"
+		},
+		{
+			"value": "CARPENTER",
+			"text": "Carpenter/Construction Worker"
+		},
+		{
+			"value": "CASHIER",
+			"text": "Cashier"
+		},
+		{
+			"value": "CHEF",
+			"text": "Chef/Cook"
+		},
+		{
+			"value": "CHIROPRACTOR",
+			"text": "Chiropractor"
+		},
+		{
+			"value": "CIVIL",
+			"text": "Civil Servant"
+		},
+		{
+			"value": "CLERGY",
+			"text": "Clergy"
+		},
+		{
+			"value": "CLERK",
+			"text": "Clerk"
+		},
+		{
+			"value": "COMPLIANCE",
+			"text": "Compliance/Regulatory Professional"
+		},
+		{
+			"value": "CONSULTANT",
+			"text": "Consultant"
+		},
+		{
+			"value": "CONTRACTOR",
+			"text": "Contractor"
+		},
+		{
+			"value": "COUNSELOR",
+			"text": "Counselor/Therapist"
+		},
+		{
+			"value": "CUSTOMER_SERVICE",
+			"text": "Customer Service Representative"
+		},
+		{
+			"value": "DEALER",
+			"text": "Dealer"
+		},
+		{
+			"value": "DEVELOPER",
+			"text": "Developer"
+		},
+		{
+			"value": "DISTRIBUTOR",
+			"text": "Distributor"
+		},
+		{
+			"value": "DOCTOR",
+			"text": "Doctor/Dentist/Veterinarian/Surgeon"
+		},
+		{
+			"value": "DRIVER",
+			"text": "Driver"
+		},
+		{
+			"value": "ENGINEER",
+			"text": "Engineer"
+		},
+		{
+			"value": "EXAMINER",
+			"text": "Examiner"
+		},
+		{
+			"value": "EXTERMINATOR",
+			"text": "Exterminator"
+		},
+		{
+			"value": "FACTORY",
+			"text": "Factory/Warehouse Worker"
+		},
+		{
+			"value": "FARMER",
+			"text": "Farmer/Rancher"
+		},
+		{
+			"value": "FINANCIAL",
+			"text": "Financial Planner"
+		},
+		{
+			"value": "FISHERMAN",
+			"text": "Fisherman"
+		},
+		{
+			"value": "FLIGHT",
+			"text": "Flight Attendant"
+		},
+		{
+			"value": "HR",
+			"text": "Human Resources Professional"
+		},
+		{
+			"value": "IMPEX",
+			"text": "Importer/Exporter"
+		},
+		{
+			"value": "INSPECTOR",
+			"text": "Inspector/Investigator"
+		},
+		{
+			"value": "INTERN",
+			"text": "Intern"
+		},
+		{
+			"value": "INVESTMENT",
+			"text": "Investment Advisor/Investment Manager"
+		},
+		{
+			"value": "INVESTOR",
+			"text": "Investor"
+		},
+		{
+			"value": "IT",
+			"text": "IT Professional/IT Associate"
+		},
+		{
+			"value": "JANITOR",
+			"text": "Janitor"
+		},
+		{
+			"value": "JEWELER",
+			"text": "Jeweler"
+		},
+		{
+			"value": "LABORER",
+			"text": "Laborer"
+		},
+		{
+			"value": "LANDSCAPER",
+			"text": "Landscaper"
+		},
+		{
+			"value": "LENDING",
+			"text": "Lending Professional"
+		},
+		{
+			"value": "MANAGER",
+			"text": "Manager"
+		},
+		{
+			"value": "MECHANIC",
+			"text": "Mechanic"
+		},
+		{
+			"value": "MILITARY",
+			"text": "Military, Officer or Associated"
+		},
+		{
+			"value": "MORTICIAN",
+			"text": "Mortician/Funeral Director"
+		},
+		{
+			"value": "NURSE",
+			"text": "Nurse"
+		},
+		{
+			"value": "NUTRITIONIST",
+			"text": "Nutritionist"
+		},
+		{
+			"value": "OFFICE",
+			"text": "Office Associate"
+		},
+		{
+			"value": "PHARMACIST",
+			"text": "Pharmacist"
+		},
+		{
+			"value": "PHYSICAL",
+			"text": "Physical Therapist"
+		},
+		{
+			"value": "PILOT",
+			"text": "Pilot"
+		},
+		{
+			"value": "POLICE",
+			"text": "Police Officer/Firefighter/Law Enforcement Professional"
+		},
+		{
+			"value": "POLITICIAN",
+			"text": "Politician"
+		},
+		{
+			"value": "PM",
+			"text": "Project Manager"
+		},
+		{
+			"value": "REP",
+			"text": "Registered Rep"
+		},
+		{
+			"value": "RESEARCHER",
+			"text": "Researcher"
+		},
+		{
+			"value": "SAILOR",
+			"text": "Sailor/Seaman"
+		},
+		{
+			"value": "SALES",
+			"text": "Salesperson"
+		},
+		{
+			"value": "SCIENTIST",
+			"text": "Scientist"
+		},
+		{
+			"value": "SEAMSTRESS",
+			"text": "Seamstress/Tailor"
+		},
+		{
+			"value": "SECURITY",
+			"text": "Security Guard"
+		},
+		{
+			"value": "SOCIAL",
+			"text": "Social Worker"
+		},
+		{
+			"value": "TEACHER",
+			"text": "Teacher/Professor"
+		},
+		{
+			"value": "TECHNICIAN",
+			"text": "Technician"
+		},
+		{
+			"value": "TELLER",
+			"text": "Teller"
+		},
+		{
+			"value": "TRADESPERSON",
+			"text": "Tradesperson/Craftsperson"
+		},
+		{
+			"value": "TRAINER",
+			"text": "Trainer/Instructor"
+		},
+		{
+			"value": "TRANSPORTER",
+			"text": "Transporter"
+		},
+		{
+			"value": "UNDERWRITER",
+			"text": "Underwriter"
+		},
+		{
+			"value": "WRITER",
+			"text": "Writer/Journalist/Editor"
+		}
+	]
+}

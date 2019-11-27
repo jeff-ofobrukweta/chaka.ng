@@ -1,69 +1,72 @@
 <template>
     <Fragment>
-        <flickity ref="flickity"
-        :options="flickityOptions">
-                 <img
-                    src="../../assets/img/stamps_dummy/stamp_test.png"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-                <img
-                    src="../../assets/img/stamps_dummy/stamp_test.png"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-                <img
-                    src="../../assets/img/stamps_dummy/stamp_test.png"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-                 <img
-                    src="../../assets/img/stamps_dummy/stamp_test.png"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-                 <img
-                    src="../../assets/img/stamps_dummy/stamp_test.png"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-                <img
-                    src="../../assets/img/stamps_dummy/stamp_test.png"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-                <img
-                    src="../../assets/img/stamps_dummy/stamp_test.png"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-                <img
-                    src="../../assets/img/stamps_dummy/stamp_test.png"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-        </flickity>
-        <div class="btn-container-parent">
-            <img
-                    src="../../assets/img/stamps_dummy/leftarrow.png"
-                    class="v2-landing__vector--img arrowleft"
-                    alt="Landing Vector"
-                    @click="previous()"
-            />
-            <img
-                    src="../../assets/img/stamps_dummy/rightarrow.png"
-                    class="v2-landing__vector--img arrowright"
-                    @click="next()"
-                    alt="Landing Vector"
-            />
-            <!-- rightarrow.png -->
-            <!-- <input
-             @click="previous()"
-             type="submit" value="Prev Button"/>
-            <input
-            @click="next()"
-            type="submit" value="Custom Next Button"/> -->
-        </div>
+        <section 
+        class="flickity-wrapper">
+                <h1 class="title-news">Certificates</h1>
+                <flickity ref="flickity"
+                :options="flickityOptions">
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                        <img
+                            src="../../assets/img/stamps_dummy/stamp_test.png"
+                            class="v2-landing__vector--img carousel-cell"
+                            alt="Landing Vector"
+                        />
+                </flickity>
+        </section>
     </Fragment>
 </template>
 <script>
@@ -78,7 +81,7 @@ export default {
         return {
             flickityOptions: {
                 initialIndex: 0,
-                prevNextButtons: false,
+                prevNextButtons: true,
                 pageDots: false,
                 resize: true,
                 wrapAround: false,

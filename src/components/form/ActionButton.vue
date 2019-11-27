@@ -1,5 +1,11 @@
 <template>
-    <button v-if="!pending" class="btn action" :class="[classes]" @click="handleClick($event)">
+    <button
+        v-if="!pending"
+        :disabled="disabled"
+        class="btn action"
+        :class="[classes]"
+        @click="handleClick($event)"
+    >
         <slot></slot>
     </button>
     <button v-else class="btn action" disabled :class="[classes]">
@@ -9,7 +15,7 @@
 
 <script>
 export default {
-    name: 'form-button',
+    name: "form-button",
     props: {
         classes: {
             type: Array,
@@ -18,6 +24,10 @@ export default {
         pending: {
             type: Boolean,
             required: true
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -28,7 +38,7 @@ export default {
     methods: {
         handleClick(e) {
             this.clicked = true;
-            this.$emit('click', e);
+            this.$emit("click", e);
         }
     }
 };

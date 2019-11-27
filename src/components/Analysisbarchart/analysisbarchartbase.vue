@@ -2,6 +2,7 @@
     <Fragment>
         <div class="container-packet">
             <h1 class="title-name">Performance Rating</h1>
+            <h1 class="subtitle-name">lorem ipsum here</h1>
             <section class="graphholder">
                 <Analysisbarchart />
             </section>

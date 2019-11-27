@@ -1,0 +1,80 @@
+{
+	"company": [
+		{
+			"value": "AGRICULTURE",
+			"text": "Agriculture, Forestry, Fishing and Hunting"
+		},
+		{
+			"value": "MINING",
+			"text": "Mining, Quarrying, and Oil and Gas Extraction"
+		},
+		{
+			"value": "UTILITIES",
+			"text": "Utilities"
+		},
+		{
+			"value": "CONSTRUCTION",
+			"text": "Construction"
+		},
+		{
+			"value": "MANUFACTURING",
+			"text": "Manufacturing"
+		},
+		{
+			"value": "WHOLESALE",
+			"text": "Wholesale Trade"
+		},
+		{
+			"value": "RETAIL",
+			"text": "Retail Trade"
+		},
+		{
+			"value": "TRANSPORT",
+			"text": "Transportation and Warehousing"
+		},
+		{
+			"value": "INFORMATION",
+			"text": "Information"
+		},
+		{
+			"value": "FINANCE",
+			"text": "Finance and Insurance"
+		},
+		{
+			"value": "REAL_ESTATE",
+			"text": "Real Estate and Rental and Leasing"
+		},
+		{
+			"value": "PROFESSIONAL",
+			"text": "Professional, Scientific, and Technical Services"
+		},
+		{
+			"value": "MANAGEMENT",
+			"text": "Management of Companies and Enterprises"
+		},
+		{
+			"value": "EDUCATION",
+			"text": "Educational Services"
+		},
+		{
+			"value": "HEALTH",
+			"text": "Health Care and Social Assistance"
+		},
+		{
+			"value": "ART",
+			"text": "Arts, Entertainment, and Recreation"
+		},
+		{
+			"value": "FOOD",
+			"text": "Accommodation and Food Services"
+		},
+		{
+			"value": "PUBLIC",
+			"text": "Public Administration"
+		},
+		{
+			"value": "WASTE",
+			"text": "Administrative and Support and Waste Management and Remediation Services"
+		}
+	]
+}

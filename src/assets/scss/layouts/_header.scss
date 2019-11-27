@@ -20,6 +20,7 @@
 
   &.scroll {
     position: sticky;
+    padding-bottom: .5rem;
     background: rgba($color: $white, $alpha: 0.95);
     box-shadow: 0px -1px 10px 1px rgba($color: $text-color, $alpha: 0.1);
     padding-top: 0.5rem;
@@ -46,6 +47,11 @@
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
     }
+
+  }
+
+  &.hide {
+    top: -100px;
   }
 }
 
@@ -133,7 +139,10 @@
 
     &.active {
       color: $primary;
-      border-bottom: 4px solid $primary;
+
+      @include tablet {
+        border-bottom: 4px solid $primary;
+      }
     }
 
     &--dropdown {

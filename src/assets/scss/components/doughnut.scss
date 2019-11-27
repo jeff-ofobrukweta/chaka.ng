@@ -1,10 +1,10 @@
 .graphholder {
     background: #FFFFFF;
-    box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
+    border: 1px solid #EEEEEE;
+    box-sizing: border-box;
+    box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
     border-radius: 11.4872px;
-    padding: 1em;
-    margin: 1em auto;
-    width: 100%;
+    // width: 100%;
     flex-basis: 49%;
 
 }
@@ -13,10 +13,30 @@
     display: flex;
     flex-direction:column;
     flex-basis: 49%;
+    font-family: "SF Pro";
+    font-style: normal;
     .title-name{
         font-style: normal;
         font-weight: bold;
         font-size: 20px;
         color:#293D4A;
+    }
+    .subtitle-name{
+        font-style: italic;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 43px;
+        color: #8A939A;
+    }
+}
+
+@include mobile {
+    .container-packet{
+       margin: 2em 0px;
+    }
+}
+@include tablet {
+    .container-packet{
+       margin: 2em 0px;
     }
 }

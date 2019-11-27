@@ -3,7 +3,7 @@
         <template slot="header">Account Funding</template>
         <form class="modal-form" @submit.prevent="fundWallet">
             <div class="modal-form__group">
-                <label class="form__label"
+                <label class="form__label" ref="input"
                     >Amount
                     <form-input
                         type="number"
@@ -55,7 +55,7 @@
 
 <script>
 export default {
-    name: 'fund-modal',
+    name: "fund-modal",
     data() {
         return {
             itemData: {},
@@ -66,14 +66,14 @@ export default {
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.itemData.amount > 2500) {
-                return (this.itemData.amount + 100) / (1 - 0.015);
+                return (+this.itemData.amount + 100) / (1 - 0.015);
             }
-            return this.itemData.amount / (1 - 0.015);
+            return +this.itemData.amount / (1 - 0.015);
         }
     },
     methods: {
         closeModal() {
-            this.$emit('close');
+            this.$emit("close");
         },
         fundWallet() {
             this.loading = true;
@@ -82,6 +82,9 @@ export default {
                 console.log(this.itemData);
             }, 3000);
         }
+    },
+    mounted() {
+        this.$refs.input.focus();
     }
 };
 </script>

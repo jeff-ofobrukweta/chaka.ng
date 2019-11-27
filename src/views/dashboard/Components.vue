@@ -1,5 +1,9 @@
 <template>
     <section class="dashboard__main">
+        <section>
+            <KYCModal />
+        </section>
+
         <button id="show-modal" @click="showModal = true">Open Modal</button>
         <section class="watchlist-explore__box" v-if="getWindowWidth === 'desktop'">
             <ExploreWatchlist
@@ -46,23 +50,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import WatchlistCard from '../../components/watchlist/PortfolioWatchlist';
-import PortfolioCard from '../../components/portfolio/PortfolioCard';
-import StockTable from '../../components/singlestock/StockTable';
-import ExploreWatchlist from '../../components/watchlist/ExploreWatchlist';
-import MobileWatchlist from '../../components/watchlist/MobileWatchlist';
-import Portfolio from '../../components/portfolio/PortfolioList';
-import Linebase from '../../components/Linegraph/linebase';
-import Doughnut from '../../components/Doughnut/dbase';
-import Horizontalbar from '../../components/Horizontalbar/hbase';
-import Singlestockgraphbase from '../../components/Linegraph/singlestock_linegraph';
-import Blackboard from '../../components/Linegraph/blackpriceboard';
+import { mapGetters } from "vuex";
+import KYCModal from "../../components/kyc/ModalKYC";
+import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
+import PortfolioCard from "../../components/portfolio/PortfolioCard";
+import StockTable from "../../components/singlestock/StockTable";
+import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
+import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
+import Portfolio from "../../components/portfolio/PortfolioList";
+import Linebase from "../../components/Linegraph/linebase";
+import Doughnut from "../../components/Doughnut/dbase";
+import Horizontalbar from "../../components/Horizontalbar/hbase";
+import Singlestockgraphbase from "../../components/Linegraph/singlestock_linegraph";
+import Blackboard from "../../components/Linegraph/blackpriceboard";
 
 export default {
-    name: 'portfolio',
+    name: "portfolio",
     components: {
         WatchlistCard,
+        KYCModal,
         PortfolioCard,
         StockTable,
         MobileWatchlist,
@@ -80,88 +86,88 @@ export default {
             news: [
                 {
                     title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
+                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+                    link: "https://google.com",
+                    image: "../../assets/img/news/news.png"
                 },
                 {
                     title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
+                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+                    link: "https://google.com",
+                    image: "../../assets/img/news/news.png"
                 },
                 {
                     title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
+                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+                    link: "https://google.com",
+                    image: "../../assets/img/news/news.png"
                 },
                 {
                     title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
+                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+                    link: "https://google.com",
+                    image: "../../assets/img/news/news.png"
                 },
                 {
                     title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
+                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+                    link: "https://google.com",
+                    image: "../../assets/img/news/news.png"
                 }
             ],
             watchlist: [
                 {
-                    name: 'Spotify',
-                    currency: 'USD',
+                    name: "Spotify",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: 'Spotify',
-                    currency: 'USD',
+                    name: "Spotify",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: 'Spotify',
-                    currency: 'USD',
+                    name: "Spotify",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 4
                 },
                 {
-                    name: 'Spotify',
-                    currency: 'USD',
+                    name: "Spotify",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 2
                 },
                 {
-                    name: 'Spotify',
-                    currency: 'USD',
+                    name: "Spotify",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 1
                 },
                 {
-                    name: 'Spotify',
-                    currency: 'USD',
+                    name: "Spotify",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 0
                 },
                 {
-                    name: 'Spotify',
-                    currency: 'USD',
+                    name: "Spotify",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: -3
                 },
                 {
-                    name: 'Spotify',
-                    currency: 'USD',
+                    name: "Spotify",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: -10
@@ -170,7 +176,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getPortfolioSummary', 'getWindowWidth'])
+        ...mapGetters(["getPortfolioSummary", "getWindowWidth"])
     }
 };
 </script>

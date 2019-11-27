@@ -1,15 +1,15 @@
 <template>
-  <div class="progress">
-    <div class="progress__complete" :style="{ width: `${getProgressbar}%` }"></div>
-  </div>
+    <div class="progress">
+        <div class="progress__complete" :style="{ width: `${getProgressbar}%` }"></div>
+    </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-    name: 'Loader',
+    name: "Loader",
     computed: {
-        ...mapGetters(['getProgressbar'])
+        ...mapGetters(["getProgressbar"])
     }
 };
 </script>

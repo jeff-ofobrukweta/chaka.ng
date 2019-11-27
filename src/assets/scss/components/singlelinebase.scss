@@ -3,8 +3,9 @@
     box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
     border-radius: 11.4872px;
     padding: 1em;
-    margin: 1em auto;
     width: 100%;
+    flex-basis: 65%;
+    max-width:65%;
     
 }
 .drop-down{
@@ -86,10 +87,10 @@
             display: flex;
             justify-content: flex-end;
             .btn-container{
-                margin: 10px 0px;
+                margin: 5px 0px;
                 border: 0.467531px solid#C4C4C4;
                 box-sizing: border-box;
-                padding: 5px;
+                padding: 3px;
                 border-radius: 3.27272px;
             }
             .option{
@@ -161,4 +162,41 @@
         }
     }
 
+}
+
+@include tablet {
+    .graphholder{
+        background:#FFFFFF;
+        box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
+        border-radius: 11.4872px;
+        padding: 1em;
+        width: 100%;
+        flex-basis: 100%;
+        max-width:100%;
+        
+    }
+}
+@include mobile {
+    .graphholder{
+        background:#FFFFFF;
+        box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
+        border-radius: 11.4872px;
+        padding: 1em;
+        width: 100%;
+        flex-basis: 100%;
+        max-width:100%;
+        
+    }
+}
+@include desktop {
+    .graphholder{
+        background:#FFFFFF;
+        box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
+        border-radius: 11.4872px;
+        padding: 1em;
+        width: 100%;
+        flex-basis: 65%;
+        max-width:65%;
+        
+    }
 }
