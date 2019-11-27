@@ -9,7 +9,7 @@
             </div>
             <div class="accounts-overview__text">
                 <p>Name</p>
-                <h4>Jane Doe</h4>
+                <h4>{{ username }}</h4>
             </div>
             <div class="accounts-overview__text">
                 <p>User ID</p>
@@ -85,12 +85,21 @@
 </template>
 
 <script>
-import Card from '../../../layouts/AccountsCard';
+import Card from "../../../layouts/AccountsCard";
+import { mapGetters } from "vuex";
 
 export default {
-    name: 'accounts-overview',
+    name: "accounts-overview",
     components: {
         Card
+    },
+    computed: {
+        ...mapGetters(["getLoggedUser"]),
+        username() {
+            return this.getLoggedUser.UserKYC.firstname
+                ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}`
+                : "-";
+        }
     }
 };
 </script>
