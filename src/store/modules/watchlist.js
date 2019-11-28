@@ -1,13 +1,72 @@
-import api from '../../services/apiService/api';
+import api from "../../services/apiService/api";
+import errorFn from "../../services/apiService/error";
 
-const state = {};
+const state = {
+    watchlist: []
+};
 
-const getters = {};
+const getters = {
+    getWatchlist: state => state.watchlist
+};
 
-const mutations = {};
+const mutations = {
+    SET_WATCHLIST(state, payload) {
+        state.watchlist = payload;
+    }
+};
 
-const actions = {};
-
+const actions = {
+    GET_WATCHLIST: ({ commit, rootState }, payload) => {
+        /**
+         * @params {interval}
+         */
+        return new Promise((resolve, reject) => {
+            return api
+                .get(`/users/${rootState.auth.loggedUser.chakaID}/watchlists`, { ...payload })
+                .then(
+                    resp => {
+                        if (resp.status === 200) {
+                            // commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_WATCHLIST", resp.data.data.watchlist);
+                            resolve(true);
+                        } else {
+                            errorFn(resp, "watchlist");
+                            resolve(false);
+                        }
+                    },
+                    error => {
+                        errorFn(error.response, "watchlist");
+                        resolve(false);
+                    }
+                );
+        });
+    },
+    GET_WATCHLIST_CHART: ({ commit, rootState }, payload) => {
+        /**
+         * @params {interval, symbol}
+         */
+        return new Promise((resolve, reject) => {
+            return api
+                .get(`/users/${rootState.auth.loggedUser.chakaID}/watchlists`, { ...payload })
+                .then(
+                    resp => {
+                        if (resp.status === 200) {
+                            // commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_WATCHLIST", resp.data.data);
+                            resolve(true);
+                        } else {
+                            errorFn(resp, "watchlist");
+                            resolve(false);
+                        }
+                    },
+                    error => {
+                        errorFn(error.response, "watchlist");
+                        resolve(false);
+                    }
+                );
+        });
+    }
+};
 export default {
     state,
     actions,

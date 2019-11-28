@@ -312,7 +312,7 @@
         &__uploads {
             display: flex;
             flex-wrap: wrap;
-            max-width: 800px;
+            max-width: 700px;
             justify-content: space-between;
 
             &>div {
@@ -367,6 +367,19 @@
             color: $grey-cool;
             text-decoration: underline;
             margin-left: 20px;
+        }
+
+        &__submit {
+            margin-bottom: 3rem;
+
+            button:first-child {
+                margin-right: .825rem;
+            }
+        }
+
+        &__data {
+            color: $primary-dark;
+            margin-top: .825rem;
         }
     }
 }

@@ -277,6 +277,10 @@ main {
   color: $white;
 }
 
+.orange {
+  color: $orange
+}
+
 .red {
   color: $red
 }
@@ -297,8 +301,16 @@ main {
   text-transform: capitalize;
 }
 
+.lowercase {
+  text-transform: lowercase;
+}
+
 .uppercase {
   text-transform: uppercase;
+}
+
+.faded {
+  opacity: 0.5
 }
 
 .alert {

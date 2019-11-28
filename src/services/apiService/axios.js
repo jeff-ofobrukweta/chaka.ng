@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: `https://ab5b9823-c3f0-4197-a430-5e0915b46501.mock.pstmn.io`,
+    // baseURL: `https://c89940da-8733-4b38-9260-058a90e8895f.mock.pstmn.io`,
+    baseURL: `https://test-api.chaka.io`,
     crossdomain: true,
     headers: {
         Accept: "application/json",
