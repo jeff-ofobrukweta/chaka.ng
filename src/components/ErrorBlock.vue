@@ -4,7 +4,7 @@
         class="alert"
         role="alert"
         :class="{
-            'alert-danger': getStatus === 'success',
+            'alert-success': getStatus === 'success',
             'alert-danger': getErrorLog.type === type
         }"
     >

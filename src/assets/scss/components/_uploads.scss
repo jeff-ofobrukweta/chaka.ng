@@ -8,6 +8,20 @@
         object-fit: contain;
         object-position: center;
         border-radius: 5px;
+
+        &--local {
+            position: absolute;
+            z-index: -1;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            height: 80%;
+            width: 75%;
+            margin-left: 12.5%;
+            margin-top: 10%;
+            object-fit: contain;
+        }
     }
 
     &__name {

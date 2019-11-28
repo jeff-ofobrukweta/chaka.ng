@@ -24,6 +24,7 @@ Vue.filter("kobo", filters.kobo);
 Vue.filter("currency", filters.currency);
 Vue.filter("date", filters.resolveDate);
 Vue.filter("units", filters.units);
+Vue.filter("reverseDate", filters.reverseDate);
 
 new Vue({
     router,

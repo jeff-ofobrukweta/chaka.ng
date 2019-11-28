@@ -42,7 +42,7 @@ const actions = {
             );
         });
     },
-    LOGIN: ({ commit, dispatch }, payload) => {
+    LOGIN: ({ commit }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
@@ -51,7 +51,6 @@ const actions = {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
                         localStorage.setItem("AUTH_TOKEN", resp.data.data.token);
-                        dispatch("GET_LOGGED_USER");
                         resolve(true);
                     } else {
                         errorFn(resp, "login");

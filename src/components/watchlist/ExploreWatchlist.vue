@@ -1,9 +1,13 @@
 <template>
     <div class="watchlist-explore">
         <div class="watchlist-explore__name">
-            <img height="34px" src="../../assets/img/icons/GOOGLE.png" alt="Google" />
+            <img height="30px" :src="instrument.logoUrl" :alt="instrument.symbol" />
             <img
-                src="../../assets/img/flags/us-flag.svg"
+                :src="
+                    require(`../../assets/img/flags/${
+                        instrument.country ? instrument.country.toLowerCase() : 'zz'
+                    }-flag.svg`)
+                "
                 class="watchlist-explore__symbol"
                 alt="US"
                 width="24px"
@@ -37,8 +41,8 @@
             <p>
                 <strong
                     class=" cursor-context"
-                    :title="instrument.price | currency(instrument.currency, true)"
-                    >{{ instrument.price | currency(instrument.currency) }}</strong
+                    :title="instrument.rateAsk | currency(instrument.currency, true)"
+                    >{{ instrument.rateAsk | currency(instrument.currency) }}</strong
                 >
             </p>
         </div>
@@ -92,10 +96,10 @@
 </template>
 
 <script>
-import LineChart from '../Linegraph/linegraph_config.js';
+import LineChart from "../Linegraph/linegraph_config.js";
 
 export default {
-    name: 'explore-watchlist',
+    name: "explore-watchlist",
     components: {
         LineChart
     },
@@ -106,7 +110,7 @@ export default {
         },
         color: {
             type: String,
-            default: 'green'
+            default: "green"
         }
     },
     data() {
@@ -120,7 +124,7 @@ export default {
                 },
                 elements: {
                     line: {
-                        borderColor: '#000000',
+                        borderColor: "#000000",
                         borderWidth: 1
                     },
                     point: {
@@ -145,41 +149,48 @@ export default {
             }
         };
     },
+    computed: {
+        countryImage() {
+            if (this.instrument.country)
+                return `../../assets/img/flags/${this.instrument.country.toLowerCase()}-flag.svg`;
+            return "../../assets/img/flags/zz-flag.svg";
+        }
+    },
     methods: {
         fillData() {
             this.datacollection = {
                 labels: [
-                    'jan',
-                    'feb',
-                    'march',
-                    'april',
-                    'jan',
-                    'feb',
-                    'march',
-                    'april',
-                    'may',
-                    'june',
-                    'july',
-                    'august',
-                    'sept',
-                    'oct',
-                    'nov',
-                    'dec'
+                    "jan",
+                    "feb",
+                    "march",
+                    "april",
+                    "jan",
+                    "feb",
+                    "march",
+                    "april",
+                    "may",
+                    "june",
+                    "july",
+                    "august",
+                    "sept",
+                    "oct",
+                    "nov",
+                    "dec"
                 ],
                 datasets: [
                     {
-                        label: 'Stocks',
+                        label: "Stocks",
                         lineTension: 0.4,
                         fill: false,
                         borderColor: this.color,
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: 'miter',
-                        pointBackgroundColor: '#484848',
+                        borderJoinStyle: "miter",
+                        pointBackgroundColor: "#484848",
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#2DA5EC',
-                        pointHoverBorderColor: 'rgba(220,220,220,1)',
+                        pointHoverBackgroundColor: "#2DA5EC",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
@@ -219,3 +230,10 @@ export default {
     }
 };
 </script>
+country: "US" description: "" exchangeID: "XNAS" historyUrl: "" id: "1" logoUrl:
+"http://syscdn.drivewealth.net/images/symbols/aapl.png" marginCurrencyID: "USD" name: "Apple, Inc."
+orderSizeMax: 10000 orderSizeMin: 0.0001 orderSizeStep: 0.0001 rateAsk: 174.2 rateBid: 174.2
+ratePrecision: 2 sector: "Technology" socketUrl: "ws://" statsData: {yesterdayClose: 171.9,
+openPrice: 172.86, lowPrice: 172.36, highPrice: 175.08,…} symbol: "AAPL" tags: ["aapl", "sp500",
+"usa"] tradeStatus: 1 tradingHours: "Mon-Fri: 9:30am - 4:00pm ET" uom: "shares" urlInvestor:
+"http://investor.apple.com/"

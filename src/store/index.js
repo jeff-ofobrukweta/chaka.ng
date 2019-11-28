@@ -3,12 +3,11 @@ import Vuex from "vuex";
 import VuexPersistence from "vuex-persist";
 
 import auth from "./modules/auth";
+import accounts from "./modules/accounts";
 import explore from "./modules/explore";
-import history from "./modules/history";
 import kyc from "./modules/kyc";
 import portfolio from "./modules/portfolio";
 import stamps from "./modules/stamps";
-import statements from "./modules/statements";
 import stock from "./modules/stock";
 import wallet from "./modules/wallet";
 import watchlist from "./modules/watchlist";
@@ -29,14 +28,13 @@ const initialState = {
     windowWidth: "",
     auth: { ...auth.state },
     explore: { ...explore.state },
-    history: { ...history.state },
     kyc: { ...kyc.state },
     portfolio: { ...portfolio.state },
     stamps: { ...stamps.state },
-    statements: { ...statements.state },
     stock: { ...stock.state },
     wallet: { ...wallet.state },
-    watchlist: { ...watchlist.state }
+    watchlist: { ...watchlist.state },
+    accounts: { ...accounts.state }
 };
 
 export default new Vuex.Store({
@@ -114,12 +112,11 @@ export default new Vuex.Store({
     },
     modules: {
         auth,
+        accounts,
         explore,
-        history,
         kyc,
         portfolio,
         stamps,
-        statements,
         stock,
         wallet,
         watchlist
