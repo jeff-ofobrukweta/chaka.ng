@@ -9,9 +9,7 @@
 </template>
 
 <script>
-import {
-    mapGetters, mapMutations, mapActions, mapState
-} from 'vuex';
+import { mapGetters,mapMutations,mapActions } from 'vuex';
 import numeral from 'numeral';
 import Performancebarchart from './performance_config.js';
 
@@ -67,22 +65,22 @@ export default {
             options: {
                 scales: {
                     xAxes: [
-          	{
-                            // 		distribution: 'linear',
-                            // 		display: false,
-                            // 		ticks: {
-                            // 			maxTicksLimit: 8,
-                            // 			fontSize: 10
-                            // 		},
-                            barPercentage: 0.1,
-                            categoryPercentage: 1.0,
-          	gridLines: {
-          		display: false,
-          		// borderDash: [4, 4],
-          		// color: '#4394c7',
-          		labelString: 'Date',
-          		drawBorder: false
-          	}
+                    {
+                                    // 		distribution: 'linear',
+                                    // 		display: false,
+                                    // 		ticks: {
+                                    // 			maxTicksLimit: 8,
+                                    // 			fontSize: 10
+                                    // 		},
+                                    barPercentage: 0.1,
+                                    categoryPercentage: 1.0,
+                    gridLines: {
+                        display: false,
+                        // borderDash: [4, 4],
+                        // color: '#4394c7',
+                        labelString: 'Date',
+                        drawBorder: false
+                    }
                             // 		// type: 'time',
                             // 		time: {
                             // 			// unit: this.day,
@@ -130,6 +128,13 @@ export default {
           	}
                     ]
                 },
+                animation: {
+                duration: 0 // general animation time
+                },
+                hover: {
+                    animationDuration: 0 // duration of animations when hovering an item
+                },
+                responsiveAnimationDuration: 0,
                 layout: {
                     padding: {
                         left: 10,
@@ -184,8 +189,15 @@ export default {
     mounted() {
         this.fillData();
     },
-
-    props: {
+    props:{
+        percentage:{
+          type: Array,
+          required: false
+        },
+        symbol:{
+          type: Array,
+          required: false
+        },
         currency: {
             type: String,
             required: false
@@ -195,12 +207,12 @@ export default {
 
         fillData() {
             this.datacollection = {
-                labels: ['jan', 'feb', 'march', 'april', 'may', 'june', 'july', 'august'],
+                labels: this.symbol,
                 datasets: [
                     {
                         label: 'Stocks2',
                         backgroundColor: ['#00C48C', '#E94F37', '#00C48C', '#E94F37', '#E46751', '#00D6EF', '#61K846', '#A76451'],
-                        data: [2, 30, 5, -23, 2, 56, -88, 67]
+                        data: this.percentage
                     }
                 ]
             };
