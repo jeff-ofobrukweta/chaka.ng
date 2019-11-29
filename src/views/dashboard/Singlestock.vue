@@ -14,7 +14,7 @@
                         alt="logo"
                     />
                     <aside class="item-name-country">
-                        <section class="stockname">{{getSingleinstrument.name}}</section>
+                        <section class="stockname">{{getSingleinstrument.name || '' | truncate(10)}}</section>
                             <img
                                 class="state"
                                 src="../../assets/Instrument_assets/united-states.png"
@@ -30,15 +30,15 @@
              class="small-size">Buy</button>
             <section class="sumary">
                 <div class="summary-cover">
-                   {{getSingleinstrument.description | truncate(500)}}
+                   {{getSingleinstrument.description || '' | truncate(500)}}
                 </div>
             </section>
             <section class="container-graph">
-               <Linegraph/>
-               <Cardblue/>
+               <Linegraph :instrument="getSingleinstrument"/>
+               <Cardblue :instrument="getPricedetailsonblackcard"/>
             </section>
             <section class="container-instrument">
-                <StockTable :instrument="{}" />
+                <StockTable :instrument="getSingleinstrument" />
             </section>
             <section class="container-stocks">
                <Horizontalchart/>
@@ -74,18 +74,24 @@ export default {
         Analysisbarchart
     },
     computed:{
-        ...mapGetters(['getWindowWidth','getSingleinstrument'])
+        ...mapGetters(['getWindowWidth','getSingleinstrument','getPricedetailsonblackcard','getPositionsWithparams'])
     },
     methods:{
         //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(['GET_SINGLESTOCK_INSTRUMENT'])
+        ...mapActions(['GET_SINGLESTOCK_INSTRUMENT','GET_CURRENT_STOCK_POSITION'])
     },
     mounted(){
         const singlestockpayload = {
-            instrumentID:7021
+            instrumentID:this.$route.params.id
         }
+        
         console.log('>>>>>>>bloooomm????????here pls??????????>>>',this.getSingleinstrument)
-        this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload)
+        this.GET_SINGLESTOCK_INSTRUMENT().then(()=>{
+            // this.getPositionsWithparams(this.$route.params.id)
+            this.GET_CURRENT_STOCK_POSITION().then(()=>{
+                console.log('get positions',this.getPositionsWithparams)
+            });
+        })
     },
     data(){
         return{

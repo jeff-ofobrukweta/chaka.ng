@@ -85,6 +85,12 @@ export default {
     components: {
         Graph
     },
+    props:{
+        instrument:{
+            type:Object,
+            required:true
+        }
+    },
     computed:{
         ...mapGetters(['getOpenPrice','getDates'])
     },
@@ -94,7 +100,7 @@ export default {
         onhandleGraphdata(){
             const payloadsinglestock = {
                 interval:'1W',
-                symbol:'ACCESS'
+                symbol:this.instrument.symbol
             }
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
                 console.log('>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
@@ -112,7 +118,7 @@ export default {
         }
     },
     mounted(){
-        console.log('are this getters??????????????',this.getOpenPrice,this.getDates)
+        console.log('are this getters??????????????',this.instrument,this.getOpenPrice,this.getDates)
         this.onhandleGraphdata();
     }
 };

@@ -47,8 +47,7 @@ export default {
         // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
         ...mapActions(['GET_LINECHART_PORTFOLIO_GRAPH_DATA']),
         mountedActions(){
-            const chakacredentials ={chakaID:1012567810};
-            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(chakacredentials).then(()=>{
+            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA().then(()=>{
              console.log('beep here >>>>>>>>>>',this.getDateshistoryportfolioprice,this.getDateshistoryportfoliodate)
             })
         },

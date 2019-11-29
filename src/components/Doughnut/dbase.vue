@@ -29,8 +29,7 @@ export default {
         // ...mapMutations(['','']),
         ...mapActions(['GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA']),
         mountedActions(){
-            const chakacredentials ={chakaID:1012567810};
-            this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA(chakacredentials).then(()=>{
+            this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA().then(()=>{
 
             })
         }

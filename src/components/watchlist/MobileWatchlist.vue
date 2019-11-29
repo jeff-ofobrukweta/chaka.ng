@@ -34,7 +34,8 @@
                 <a class="watchlist-mobile__buy" @click="showBuy = true">+ Buy</a>
             </div>
         </div>
-        <router-link class="section1 linking" :to="{name:'singlestock',params:{id:instrument.id}}">
+        <router-link class="section1 linking" 
+        :to="{name:'singlestock',params:{id:instrument.id}}">
         <div class="watchlist-mobile__bottom">
             <div class="watchlist-mobile__left">
                 <img

@@ -8,7 +8,8 @@ const state = {
     positionperformancesymbol:[],
     positionperformancepercentage:[],
     portfoliodate:[],
-    portfolioprice:[]
+    portfolioprice:[],
+    pricedetailsvariable:{}
     
 };
 
@@ -53,6 +54,10 @@ const getters = {
 		return state.positionperformancepercentage.map((data) => {
 			return(data.percentChange);
 		});
+    },
+    // blue board on single-stock graph
+    getPricedetailsonblackcard: (state) => {
+			return state.pricedetailsvariable;
 	},
 
 
@@ -127,6 +132,11 @@ const mutations = {
 		let positionperformancesymbol = [];
 		positionperformancesymbol = symbol;
         state.positionperformancesymbol = [...positionperformancesymbol];
+    },
+    SET_PRICE_INFO_ON_BLACKCARD(state, pricedetails){
+        let pricedetailsvariable = {};
+		pricedetailsvariable = pricedetails;
+        state.pricedetailsvariable = pricedetailsvariable;
     }
 
 };
@@ -136,19 +146,21 @@ const actions = {
         console.log('?????????????????????',params);
 		await API_CONTEXT.get(`/instruments/charts`,params)
 			.then((response) => {
-                console.log('>>>>>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data.chart)
+                console.log('>>>>>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
                 const { chart, derivedPrice, derivedPricePercentage, askPrice } = response.data.data;
                 commit('SET_LINE_SINGLESTOCK_CHARTDATA',chart);
                 commit('SET_LINE_SINGLESTOCK_CHART_DATE',chart)
+                //derived prices high lows etc are gotton here
+                commit('SET_PRICE_INFO_ON_BLACKCARD', response.data.data)
                 console.log('inside vuex store',chart);
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);
 			});
     },
-    async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit }, params) {
-        console.log('?????????????????????',params);
-		await API_CONTEXT.get(`users/${params.chakaID}/positions-chart/`)
+    async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit,rootState }) {
+        console.log('?????????????????????');
+		await API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`)
 			.then((response) => {
                 console.log('>>>>>>new>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
                 const { positions, derivedNetWorth, derivedNetWorthPercentage } = response.data.data;
@@ -160,9 +172,9 @@ const actions = {
                console.log(`::::::::::<<<<<>>>>>::::::::::${error}`);
 			});
     },
-    async GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA({ commit }, params) {
-        console.log('?????????????????????',params);
-		await API_CONTEXT.get(`/users/${params.chakaID}/positions-weight`)
+    async GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA({ commit,rootState}) {
+        console.log('?????????????????????');
+		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-weight`)
 			.then((response) => {
                 console.log('>>>>>>>>>>GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA>>>>>>>>>>>>>>',response)
                 commit('SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATE',response.data.data.chart);
@@ -174,9 +186,9 @@ const actions = {
                console.log(`::::::::::::::::::::${error}`);
 			});
     },
-    async GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA({ commit }, params) {
-        console.log('?????????????????????',params);
-		await API_CONTEXT.get(`/users/${params.chakaID}/positions-performance/`)
+    async GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA({ commit,rootState}) {
+        console.log('?????????????????????');
+		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-performance/`)
 			.then((response) => {
                 console.log('>>>>>>>>>>GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA>>>>>>>>>>>>>>',response)
                 commit('SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_PERCENTAGE',response.data.data.chart);
