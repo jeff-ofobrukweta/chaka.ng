@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: 100%;
-  max-width: 500px;
+  // max-width: 500px;
   padding-right: 2rem;
   padding-left: 2rem;
   margin-right: auto;
@@ -9,7 +9,7 @@
 
   @include tablet {
     width: 100%;
-    max-width: 800px;
+    // max-width: 800px;
   }
 
   @include desktop {

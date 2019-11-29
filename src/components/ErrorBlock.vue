@@ -5,7 +5,7 @@
         role="alert"
         :class="{
             'alert-success': getStatus === 'success',
-            'alert-danger': getErrorLog.type === type
+            'alert-danger': getErrorLog.type === type || status === 'error'
         }"
     >
         {{ message || getErrorLog.message }}
@@ -23,6 +23,9 @@ export default {
         type: {
             type: String,
             required: true
+        },
+        status: {
+            type: String
         }
     },
     computed: {

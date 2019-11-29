@@ -124,11 +124,12 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
-    name: 'exchange-modal',
+    name: "exchange-modal",
     data() {
         return {
-            itemData: { currency: 'NGN', fromWallet: 'local', toWallet: 'global' },
+            itemData: { currency: "NGN", fromWallet: "local", toWallet: "global" },
             loading: false,
             selectedCurrency: null,
             exchangeAsk: 360,
@@ -136,6 +137,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(["getExchangeRate"]),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.itemData.amount > 2500) {
@@ -145,8 +147,9 @@ export default {
         }
     },
     methods: {
+        ...mapActions(["GET_EXCHANGE_RATE"]),
         closeModal() {
-            this.$emit('close');
+            this.$emit("close");
         },
         fundWallet() {
             this.loading = true;
@@ -156,23 +159,24 @@ export default {
             }, 3000);
         }
     },
-    mounted() {
+    async mounted() {
+        this.GET_EXCHANGE_RATE();
         setTimeout(() => {
-            this.itemData.currency = 'NGN';
-            this.itemData.fromWallet = 'local';
-            this.itemData.toWallet = 'global';
-        }, 1000);
+            this.itemData.currency = "NGN";
+            this.itemData.fromWallet = "local";
+            this.itemData.toWallet = "global";
+        }, 500);
     },
     watch: {
-        'itemData.fromWallet': function (val) {
-            if (val === 'local') {
-                this.selectedCurrency = 'NGN';
+        "itemData.fromWallet": function(val) {
+            if (val === "local") {
+                this.selectedCurrency = "NGN";
                 this.itemData.currency = this.selectedCurrency;
-                this.itemData.toWallet = 'global';
+                this.itemData.toWallet = "global";
             } else {
-                this.selectedCurrency = 'USD';
+                this.selectedCurrency = "USD";
                 this.itemData.currency = this.selectedCurrency;
-                this.itemData.toWallet = 'local';
+                this.itemData.toWallet = "local";
             }
         }
     }

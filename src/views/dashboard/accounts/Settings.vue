@@ -9,24 +9,38 @@
                 name="Profile Picture"
                 form-name="passportUrl"
                 description="Set Profile Picture"
-                @input="uploadFile"
                 :image="getKYC.passportUrl"
+                @error="handleUploadError"
+                @success="handleUploadSuccess"
+                @reset="handleReset"
             />
             <Uploads
                 name="Passport/National ID"
-                form-name="idPhotourl"
+                form-name="idPhotoUrl"
                 description="Upload your National ID, Voter's Card or International Passport"
-                @input="uploadFile"
                 :image="getKYC.idPhotoUrl"
+                @error="handleUploadError"
+                @success="handleUploadSuccess"
+                @reset="handleReset"
             />
             <Uploads
                 name="Address Proof"
                 form-name="addressProofUrl"
                 description="Upload your Utility bill or Bank Statement"
-                @input="uploadFile"
                 :image="getKYC.addressProofUrl"
+                @error="handleUploadError"
+                @success="handleUploadSuccess"
+                @reset="handleReset"
             />
         </section>
+
+        <error-block type="kyc" :message="showUploadError" status="error" v-if="showUploadError" />
+        <error-block
+            type="kyc"
+            message="File uploaded successfully"
+            status="success"
+            v-else-if="showUploadSuccess"
+        />
 
         <div class="accounts-settings__form">
             <section class="accounts-settings__hero">
@@ -68,21 +82,21 @@
                     >
                 </div>
             </section>
-            <section
-                v-if="edit === 'disclosure' && !getKYC.disclosureName"
-                class="accounts-settings__submit"
-            >
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :disabled="!itemData.disclosureName"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'disclosure'">
+                <error-block type="kyc" />
+                <section v-if="!getKYC.disclosureName" class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :disabled="!itemData.disclosureName"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
 
         <form class="accounts-settings__form" @submit.prevent="submitBVN">
@@ -138,17 +152,20 @@
                     >
                 </div>
             </section>
-            <section v-if="edit === 'bvn'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'bvn'">
+                <error-block type="kyc" />
+                <section class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
 
         <form class="accounts-settings__form" @submit.prevent="submitPhone" v-if="getKYC.bvn">
@@ -173,17 +190,20 @@
                     >
                 </div>
             </section>
-            <section v-if="edit === 'phone'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'phone'">
+                <error-block type="kyc" />
+                <section class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
 
         <form class="accounts-settings__form" @submit.prevent="updateKYC">
@@ -223,34 +243,37 @@
                     >
                 </div>
                 <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >LGA
-                        <select
-                            class="form__input form__select"
-                            v-if="edit === 'postal'"
-                            v-model="itemData.lg"
-                        >
-                            <option v-for="(lg, index) in lgNames" :key="index" :value="lg.value">{{
-                                lg.text
-                            }}</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.lg || "-" }}
-                        </p></label
-                    >
+                    <label class="form__label">LGA</label>
+                    <v-select
+                        class="form__input form__select"
+                        placeholder="Local Government Area"
+                        v-model="selectedLg"
+                        :clearable="false"
+                        label="text"
+                        value="value"
+                        @input="switchLG($event)"
+                        :options="lgNames"
+                        v-if="edit === 'postal'"
+                    ></v-select>
+                    <p v-else class="capitalize accounts-settings__data">
+                        {{ getKYC.lg || "-" }}
+                    </p>
                 </div>
             </section>
-            <section v-if="edit === 'postal'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'postal'">
+                <error-block type="kyc" v-if="edit === 'postal'" />
+                <section class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
 
         <form class="accounts-settings__form" @submit.prevent="updateKYC">
@@ -266,7 +289,7 @@
                         >Status
                         <select
                             class="form__input form__select"
-                            v-model="employmentStatus"
+                            v-model="itemData.employmentStatus"
                             v-if="edit === 'employment'"
                         >
                             <option value="EMPLOYED">Employed</option>
@@ -278,7 +301,12 @@
                         </p></label
                     >
                 </div>
-                <template v-if="employmentStatus !== 'UNEMPLOYED'">
+                <template
+                    v-if="
+                        itemData.employmentStatus !== 'UNEMPLOYED' ||
+                            getKYC.employmentStatus !== 'UNEMPLOYED'
+                    "
+                >
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Company Name<form-input
@@ -335,17 +363,20 @@
                     </div>
                 </template>
             </section>
-            <section v-if="edit === 'employment'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'employment'">
+                <error-block type="kyc" />
+                <section class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
 
         <form class="accounts-settings__form" @submit.prevent="updateKYC">
@@ -459,17 +490,20 @@
                     >
                 </div>
             </section>
-            <section v-if="edit === 'investment'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'investment'">
+                <error-block type="kyc" />
+                <section class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
 
         <form class="accounts-settings__form">
@@ -527,17 +561,20 @@
                     >
                 </div>
             </section>
-            <section v-if="edit === 'compliance'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'compliance'">
+                <error-block type="kyc" />
+                <section class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
     </div>
 </template>
@@ -554,7 +591,8 @@ const LG = () => import("../../../services/kyc/lgNames");
 export default {
     name: "accounts-settings",
     components: {
-        Uploads
+        Uploads,
+        vSelect: () => import("vue-select")
     },
     data() {
         return {
@@ -562,12 +600,14 @@ export default {
             edit: null,
             loading: false,
             bvnData: {},
-            activeButton: 1,
-            employmentStatus: 1,
+            employmentStatus: "EMPLOYRD",
+            selectedLg: {},
             lgNames: [],
             banks: [],
             positions: [],
-            types: []
+            types: [],
+            showUploadError: false,
+            showUploadSuccess: false
         };
     },
     computed: {
@@ -577,31 +617,45 @@ export default {
         ...mapActions(["GET_KYC", "GET_NEXT_KYC", "UPDATE_KYC"]),
         editBtn(name) {
             this.edit = name;
+            this.showUploadError = null;
+            this.showUploadSuccess = null;
         },
         cancelEdit() {
             this.edit = null;
         },
         updateKYC() {
             this.loading = true;
-            this.UPDATE_KYC(this.itemData).then(() => {
+            this.UPDATE_KYC(this.itemData).then(resp => {
                 this.loading = false;
+                this.edit = null;
+                if (resp) this.itemData = {};
             });
         },
         submitBVN() {
             this.loading = true;
-            console.log(this.itemData);
             setTimeout(() => {
                 this.loading = false;
             }, 2000);
         },
         submitPhone() {
             this.loading = true;
-            console.log(this.itemData);
             setTimeout(() => {
                 this.loading = false;
             }, 2000);
         },
-        uploadFile(formData) {}
+        handleUploadError(error) {
+            this.showUploadError = error;
+        },
+        handleUploadSuccess(message) {
+            this.showUploadSuccess = true;
+        },
+        handleReset() {
+            this.showUploadSuccess = null;
+            this.showUploadError = null;
+        },
+        switchLG(name) {
+            this.itemData.lg = this.selectedLg.value;
+        }
     },
     async mounted() {
         await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);

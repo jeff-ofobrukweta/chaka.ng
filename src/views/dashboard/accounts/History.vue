@@ -36,11 +36,17 @@
             />
         </section>
 
+        <section class="accounts-statements__downloads" v-if="loading">
+            Loading...
+        </section>
+
         <HistoryTable
             :history="getAccountHistory"
             :type="selectedType"
-            v-if="getAccountHistory.length > 0"
+            v-else-if="getAccountHistory.length > 0"
         />
+
+        <section v-else>You have no history at the moment</section>
     </div>
 </template>
 
@@ -64,6 +70,7 @@ export default {
             selectedType: "ALL",
             selectedWallet: "ALL",
             selectedOrderCurrency: null,
+            loading: true,
             fromDate: null,
             toDate: null,
             walletPref: [
@@ -133,9 +140,12 @@ export default {
             this.orderHistoryCheck();
         },
         orderHistoryCheck() {
+            this.loading = true;
             this.SET_ACCOUNT_HISTORY([]);
             if (this.selectedType !== "ORDER") {
-                this.GET_ACCOUNT_HISTORY(this.payload);
+                this.GET_ACCOUNT_HISTORY(this.payload).then(() => {
+                    this.loading = false;
+                });
             } else {
                 const payload = {
                     fromDate: this.payload.fromDate,
@@ -145,7 +155,9 @@ export default {
                 if (this.selectedOrderCurrency) {
                     payload.currency = this.selectedWallet;
                 }
-                this.GET_ORDERS_HISTORY(payload);
+                this.GET_ORDERS_HISTORY(payload).then(() => {
+                    this.loading = false;
+                });
             }
         }
     },
@@ -158,6 +170,7 @@ export default {
         this.fromDate = this.$options.filters.reverseDate(this.payload.fromDate);
         this.toDate = this.$options.filters.reverseDate(this.payload.toDate);
         await this.GET_ACCOUNT_HISTORY(this.payload);
+        this.loading = false;
     }
 };
 </script>

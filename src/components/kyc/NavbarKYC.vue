@@ -3,24 +3,27 @@
         <form @submit.prevent="submitDisclosure">
             <div class="kyc-nav container">
                 <div class="kyc-nav__text">
-                    <h4>Verification by Financial Regulators</h4>
+                    <h5>Verification by Financial Regulators</h5>
                     <p>
-                        By typing to sign my name below I acknowledge that I have read and agree to
-                        <a
-                            href="https://apps.drivewealth.com/disclosures?sweepType=bank"
-                            target="_blank"
-                            >Drivewealth Disclosures</a
-                        >,
-                        <a
-                            href="https://drivewealth.com/customer-account-agreement?lang=en_US"
-                            target="_blank"
-                            >DriveWealth Account Agreement</a
-                        >
-                        and
-                        <a
-                            href="https://apps.drivewealth.io/disclosures/?citizenship=NG&showOnlyTaxDoc=true"
-                            target="_blank"
-                            >W8-BEN Agreement Disclosure</a
+                        <small>
+                            By typing to sign my name below I acknowledge that I have read and agree
+                            to
+                            <a
+                                href="https://apps.drivewealth.com/disclosures?sweepType=bank"
+                                target="_blank"
+                                >Drivewealth Disclosures</a
+                            >,
+                            <a
+                                href="https://drivewealth.com/customer-account-agreement?lang=en_US"
+                                target="_blank"
+                                >DriveWealth Account Agreement</a
+                            >
+                            and
+                            <a
+                                href="https://apps.drivewealth.io/disclosures/?citizenship=NG&showOnlyTaxDoc=true"
+                                target="_blank"
+                                >W8-BEN Agreement Disclosure</a
+                            ></small
                         >
                     </p>
                 </div>

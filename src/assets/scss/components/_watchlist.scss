@@ -152,6 +152,7 @@
 
                 @include desktop {
                     flex: 0 0 48%;
+                    max-width: 40%;
                 }
 
                 &.light {
@@ -177,6 +178,9 @@
 
             img:first-child {
                 margin-right: 16px;
+                height: 32px;
+                width: 45px;
+                object-fit: contain;
             }
 
             img:nth-child(2) {
@@ -236,9 +240,9 @@
 
         &__graph {
             &--box {
-                flex: 0 0 25%;
+                flex: 0 0 200px;
                 display: flex;
-                max-width: 25%;
+                max-width: 200px;
                 align-items: center;
                 justify-content: center;
             }

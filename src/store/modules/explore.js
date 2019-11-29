@@ -26,11 +26,11 @@ const mutations = {
 };
 
 const actions = {
-    GET_EXPLORE_NEWS: ({ commit }) => {
+    GET_EXPLORE_NEWS: ({ commit }, payload) => {
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
-            return api.get(`/news/explore/editorials`).then(
+            return api.get(`/news/explore/editorials`, { ...payload }).then(
                 resp => {
                     if (resp.status === 200) {
                         // commit("REQ_SUCCESS", null, { root: true });
@@ -48,15 +48,16 @@ const actions = {
             );
         });
     },
-    GET_EXPLORE_COLLECTIONS: ({ commit }) => {
+    GET_EXPLORE_COLLECTIONS: ({ commit }, payload) => {
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
-            return api.get(`/news/explore/collections`).then(
+            return api.get(`/news/explore/collections`, payload).then(
                 resp => {
                     if (resp.status === 200) {
                         // commit("REQ_SUCCESS", null, { root: true });
-                        commit("SET_EXPLORE_COLLECTIONS", resp.data.data.collections);
+                        if (resp.data.data)
+                            commit("SET_EXPLORE_COLLECTIONS", resp.data.data.collections);
                         resolve(true);
                     } else {
                         errorFn(resp, "explore");
@@ -70,11 +71,11 @@ const actions = {
             );
         });
     },
-    GET_EXPLORE_LEARN: ({ commit }) => {
+    GET_EXPLORE_LEARN: ({ commit }, payload) => {
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
-            return api.get(`/news/explore/learn`).then(
+            return api.get(`/news/explore/learn`, payload).then(
                 resp => {
                     if (resp.status === 200) {
                         // commit("REQ_SUCCESS", null, { root: true });

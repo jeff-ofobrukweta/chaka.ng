@@ -68,13 +68,16 @@ const actions = {
                 );
         });
     },
-    UPDATE_KYC: ({ dispatch, rootState }, payload) => {
+    UPDATE_KYC: ({ commit, dispatch, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api.patch(`/users/${rootState.auth.loggedUser.chakaID}/kyc`, payload).then(
                 resp => {
                     if (resp.status === 200) {
-                        dispatch("GET_NEXT_KYC");
-                        dispatch("GET_KYC").then(() => {
+                        commit("REQ_SUCCESS", null, { root: true });
+                        commit("SET_KYC", resp.data.data.kyc);
+                        dispatch("GET_NEXT_KYC").then(() => {
                             resolve(true);
                         });
                     } else {
@@ -89,13 +92,16 @@ const actions = {
             );
         });
     },
-    UPLOAD_KYC_FILE: ({ dispatch, rootState }, payload) => {
+    UPLOAD_KYC_FILE: ({ commit, dispatch, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
-                .patch(`/users/${rootState.auth.loggedUser.chakaID}/kyc/upload-file`, payload)
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/upload-file`, payload)
                 .then(
                     resp => {
                         if (resp.status === 200) {
+                            commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_NEXT_KYC");
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
@@ -112,11 +118,14 @@ const actions = {
                 );
         });
     },
-    RESOLVE_BVN: ({ dispatch, rootState }) => {
+    RESOLVE_BVN: ({ commit, dispatch, rootState }) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api.post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-bvn`).then(
                 resp => {
                     if (resp.status === 200) {
+                        commit("REQ_SUCCESS", null, { root: true });
                         dispatch("GET_KYC").then(() => {
                             resolve(true);
                         });
@@ -132,13 +141,16 @@ const actions = {
             );
         });
     },
-    USE_BVN_PHONE: ({ commit, rootState }) => {
+    USE_BVN_PHONE: ({ commit, dispatch, rootState }) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-phone-name-dob`)
                 .then(
                     resp => {
                         if (resp.status === 200) {
+                            commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
                             });
@@ -154,13 +166,16 @@ const actions = {
                 );
         });
     },
-    RESOLVE_DOB: ({ commit, rootState }, payload) => {
+    RESOLVE_DOB: ({ commit, dispatch, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-dob`, payload)
                 .then(
                     resp => {
                         if (resp.status === 200) {
+                            commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
                             });
@@ -176,13 +191,16 @@ const actions = {
                 );
         });
     },
-    RESOLVE_OTP: ({ commit, rootState }, payload) => {
+    RESOLVE_OTP: ({ commit, dispatch, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-otp`, payload)
                 .then(
                     resp => {
                         if (resp.status === 200) {
+                            commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
                             });

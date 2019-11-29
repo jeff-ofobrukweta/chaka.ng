@@ -8,7 +8,7 @@
             :alt="news.title"
         />
         <div class="card-news__title">
-            <h5>{{ news.name | truncate(48) }}</h5>
+            <h5>{{ news.name || "" | truncate(48) }}</h5>
         </div>
     </a>
 </template>

@@ -27,7 +27,8 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             // commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_WATCHLIST", resp.data.data.watchlist);
+                            console.log(resp.data.data.watchlistDetails.instruments);
+                            commit("SET_WATCHLIST", resp.data.data.watchlistDetails.instruments);
                             resolve(true);
                         } else {
                             errorFn(resp, "watchlist");
@@ -46,24 +47,22 @@ const actions = {
          * @params {interval, symbol}
          */
         return new Promise((resolve, reject) => {
-            return api
-                .get(`/users/${rootState.auth.loggedUser.chakaID}/watchlists`, { ...payload })
-                .then(
-                    resp => {
-                        if (resp.status === 200) {
-                            // commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_WATCHLIST", resp.data.data);
-                            resolve(true);
-                        } else {
-                            errorFn(resp, "watchlist");
-                            resolve(false);
-                        }
-                    },
-                    error => {
-                        errorFn(error.response, "watchlist");
+            return api.get(`/instruments/charts`, { ...payload }).then(
+                resp => {
+                    if (resp.status === 200) {
+                        // commit("REQ_SUCCESS", null, { root: true });
+                        // commit("SET_WATCHLIST", resp.data.data);
+                        resolve(resp.data.data);
+                    } else {
+                        errorFn(resp, "watchlist");
                         resolve(false);
                     }
-                );
+                },
+                error => {
+                    errorFn(error.response, "watchlist");
+                    resolve(false);
+                }
+            );
         });
     }
 };

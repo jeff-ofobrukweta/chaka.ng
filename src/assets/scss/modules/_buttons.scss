@@ -1,6 +1,6 @@
 .btn {
   border-radius: 30px;
-  border: 1px solid $primary-dark;
+  border: 1px solid;
   padding: 0.5rem 2rem;
   margin: 0;
   transition: all 200ms;
@@ -9,35 +9,42 @@
   align-items: center;
   text-align: center;
 
-  &:hover {
-    background: $primary-dark;
-    color: $white;
-    border-color: $white;
-
-    path {
-      fill: $white;
-    }
-  }
-
-  &:disabled {
-    opacity: 0.65;
-    background: $grey-light;
-    color: $grey-dark;
-    border-color: $grey-light;
-
-    &:hover {
-      background: $grey-light;
-      color: $grey-dark;
-      border-color: $grey-light;
-    }
-  }
-
   &-block {
     border-radius: 5px;
   }
 
   &-full {
     width: 100%
+  }
+
+  &-dark {
+    border-color: $primary-dark;
+    background: $primary-dark;
+    color: $white;
+
+
+    &:hover {
+      background: $primary-dark;
+      color: $white;
+      border-color: $white;
+
+      path {
+        fill: $white;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.65;
+      background: $grey-light;
+      color: $grey-dark;
+      border-color: $grey-light;
+
+      &:hover {
+        background: $grey-light;
+        color: $grey-dark;
+        border-color: $grey-light;
+      }
+    }
   }
 
   &--lg {
@@ -63,6 +70,14 @@
     border-color: $primary;
     background: $primary;
     color: $white;
+
+    svg {
+      width: 1rem;
+    }
+
+    path {
+      fill: $white
+    }
 
     &:disabled {
       opacity: 0.65;
