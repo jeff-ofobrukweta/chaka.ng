@@ -36,7 +36,7 @@ const getters = {
     },
     getDoughnutWeightpercentage: (state) => {
 		return state.positionweightprice.map((data) => {
-			return (data.percentage);
+			return (data.percentChange);
 		});
     },
     getDoughnutWeightsymbol: (state) => {
@@ -173,7 +173,7 @@ const actions = {
 			});
     },
     async GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA({ commit,rootState}) {
-        console.log('?????????????????????');
+        console.log('on mount..........', rootState.auth)
 		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-weight`)
 			.then((response) => {
                 console.log('>>>>>>>>>>GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA>>>>>>>>>>>>>>',response)
@@ -187,7 +187,7 @@ const actions = {
 			});
     },
     async GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA({ commit,rootState}) {
-        console.log('?????????????????????');
+        console.log('????????????rootState.auth.loggedUser?????????',rootState.auth.loggedUser);
 		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-performance/`)
 			.then((response) => {
                 console.log('>>>>>>>>>>GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA>>>>>>>>>>>>>>',response)

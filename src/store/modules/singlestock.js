@@ -19,7 +19,7 @@ const getters = {
 
 const mutations = {
     SET_SINGLE_INSTRUMENT(state, instrument) {
-        state.singlestockpositions = instrument;
+        state.instrument = instrument;
     },
     SET_CURRENTSTOCK_POSITIONS(state, positions) {
 		let singlestockpositions = {};
@@ -31,6 +31,7 @@ const mutations = {
 
 const actions = {
     async GET_SINGLESTOCK_INSTRUMENT({ commit }, params) {
+        console.log('lllllllllllllll',params)
 		await API_CONTEXT.get(`/instruments/${params.instrumentID}`)
 			.then((response) => {
                 const { instrument } = response.data.data;
@@ -43,6 +44,7 @@ const actions = {
 			});
     },
     async GET_CURRENT_STOCK_POSITION({ commit,rootState}) {
+        // console.log('on mount..................',rootState.auth)
 		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions/`)
 			.then((response) => {
                 const { position } = response.data.data;

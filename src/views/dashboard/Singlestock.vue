@@ -80,13 +80,13 @@ export default {
         //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
         ...mapActions(['GET_SINGLESTOCK_INSTRUMENT','GET_CURRENT_STOCK_POSITION'])
     },
-    mounted(){
+    async mounted(){
         const singlestockpayload = {
             instrumentID:this.$route.params.id
         }
         
         console.log('>>>>>>>bloooomm????????here pls??????????>>>',this.getSingleinstrument)
-        this.GET_SINGLESTOCK_INSTRUMENT().then(()=>{
+        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
             // this.getPositionsWithparams(this.$route.params.id)
             this.GET_CURRENT_STOCK_POSITION().then(()=>{
                 console.log('get positions',this.getPositionsWithparams)
