@@ -39,6 +39,10 @@
                 font-weight: normal;
             }
 
+            .skip-button {
+                margin-top: 1rem;
+            }
+
         }
 
         &__field {
@@ -68,6 +72,12 @@
                 text-decoration: underline;
                 margin-top: 1rem;
                 margin-bottom: 1rem;
+                display: inline-block;
+
+                &.skip {
+                    margin-left: 2rem;
+                    display: initial;
+                }
 
                 @include tablet {
                     margin-right: 1rem;
@@ -106,6 +116,11 @@
                 path {
                     fill: $primary
                 }
+            }
+
+            &--mobile {
+                // margin-bottom: 1rem;
+
             }
         }
 

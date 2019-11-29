@@ -9,6 +9,9 @@
             class="form__input"
             :class="{ 'is-invalid': invalid.$error }"
             @focus="resetError"
+            :required="required"
+            :minlength="minlength"
+            :maxlength="maxlength"
         />
         <span class="form-error" v-if="invalid.$error">{{ errorMessage }}</span>
     </Fragment>
@@ -45,6 +48,15 @@ export default {
             default: () => {
                 return {};
             }
+        },
+        required: {
+            type: Boolean
+        },
+        minlength: {
+            type: String
+        },
+        maxlength: {
+            type: String
         },
         errorMessage: {
             type: String,
