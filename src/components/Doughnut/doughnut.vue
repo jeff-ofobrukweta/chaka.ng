@@ -133,6 +133,13 @@ export default {
                     // 	}
                     // ]
                 },
+                animation: {
+                duration: 0 // general animation time
+                },
+                hover: {
+                    animationDuration: 0 // duration of animations when hovering an item
+                },
+                responsiveAnimationDuration: 0,
                 layout: {
                     padding: {
                         left: 10,
@@ -177,6 +184,8 @@ export default {
                 legend: {
                     display: true,
                     position: 'right',
+                    align:'center',
+                    fullWidth:true,
                     boxWidth: 100,
                     align: 'center',
                     fullWidth: true,
@@ -197,20 +206,35 @@ export default {
 
     mounted() {
         this.fillData();
+        this.handlescaling();
     },
-
-    mounted() {
-        this.fillData();
+    props:{
+        percentage:{
+          type: Array,
+          required: false
+        },
+        symbol:{
+          type: Array,
+          required: false
+        }
     },
     methods: {
+         handlescaling() {
+			if (this.getOpenPrice) {
+				this.min = this.percentage.sort()[0];
+				this.max = this.percentage.sort()[this.percentage.sort().length - 1];
+				this.interval = Math.ceil((this.max - this.min) / 10);
+			}
+			return true;
+		},
         fillData() {
         this.datacollection = {
-            labels: [`jan  ${5.2}% `, `feb  ${83}%`, `march ${53}%`, `april  ${100}%`,`april  ${70}%`],
+            labels: this.symbol,
             datasets: [
                 {
                     label: 'Data One',
                     backgroundColor: ['#00C48C', '#0052B4', '#FF647C', '##FFA26B','#FFE29D'],
-                    data: [100, 10, 5, 23,34]
+                    data: this.percentage
                 }
             ]
             };

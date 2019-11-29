@@ -10,11 +10,13 @@
                                     <button  class="btn-two">₦</button>
                                     <button>
                                         <div id="select" class="dropdown">
-                                        <select class="drop-down">
-                                            <option class="option">MONTH</option>
-                                            <option class="option" value="1Y">1Y</option>
-                                            <option class="option" value="1W">1W</option>
-                                            <option class="option" value="1M">1M</option>
+                                        <select
+                                        class="drop-down">
+                                            <option
+                                             v-for="(item,index) in buttonoption"
+                                             :key="index"
+                                             @click="handletimeframe(item.time)"
+                                            class="option">{{item.name}}</option>
                                         </select>
                                         </div>
                                     </button>
@@ -32,16 +34,86 @@
 
                 </div>
             </div>
-        <Graph/>
+        <Graph
+        :price="getOpenPrice"
+        :date="getDates"
+         />
     </div>
 </template>
 <script>
 import Graph from './linegraph';
+import { mapGetters,mapMutations,mapActions } from 'vuex';
 
 export default {
     name: 'Linechartgraphchild',
+    data(){
+        return{
+             buttonoption: [
+                {
+                    name: '1 DAY',
+                    time: '1D',
+                    id: 1
+                },
+                {
+                    name: '1 WEEK',
+                    time: '1W',
+                    id: 2
+                },
+                {
+                    name: '1 MONTH',
+                    time: '1M',
+                    id: 3
+                },
+                {
+                    name: '3 MONTHS',
+                    time: '3M',
+                    id: 4
+                },
+                {
+                    name: '1 YEAR',
+                    time: '1Y',
+                    id: 5
+                },
+                {
+                    name: '5 YEARS',
+                    time: '5Y',
+                    id: 6
+                }
+            ],
+        }
+    },
     components: {
         Graph
+    },
+    computed:{
+        ...mapGetters(['getOpenPrice','getDates'])
+    },
+    methods:{
+        ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
+        ...mapActions(['GET_LINECHART_SINGLESTOCK_GRAPH_DATA']),
+        onhandleGraphdata(){
+            const payloadsinglestock = {
+                interval:'1W',
+                symbol:'ACCESS'
+            }
+            this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
+                console.log('>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
+            })
+        },
+        handletimeframe(index) {
+            const payloadsinglestock = {
+                interval:index,
+                symbol:'ACCESS'
+            }
+            console.log('>>>>>>>>>handletimeframe>>>>>>>>',index);
+             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
+                console.log('>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
+            })
+        }
+    },
+    mounted(){
+        console.log('are this getters??????????????',this.getOpenPrice,this.getDates)
+        this.onhandleGraphdata();
     }
 };
 </script>

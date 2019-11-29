@@ -26,17 +26,40 @@
                     </section>
                 </div>
             </div>
-        <Graph/>
+        <Graph 
+            :price="gethistoryportfolioprice" 
+            :date="gethistoryportfoliodate"/>
     </div>
 </template>
 <script>
 import Graph from './linegraph';
+import { mapGetters,mapMutations,mapActions } from 'vuex';
 
 export default {
     name: 'Linechartgraphchild',
     components: {
         Graph
-    }
+    },
+    computed:{
+        ...mapGetters(['gethistoryportfolioprice','gethistoryportfoliodate'])
+    },
+    methods:{
+        // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
+        ...mapActions(['GET_LINECHART_PORTFOLIO_GRAPH_DATA']),
+        mountedActions(){
+            const chakacredentials ={chakaID:1012567810};
+            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(chakacredentials).then(()=>{
+             console.log('beep here >>>>>>>>>>',this.getDateshistoryportfolioprice,this.getDateshistoryportfoliodate)
+            })
+        },
+        onhandleGraphdata(){
+
+            
+        }
+    },
+    mounted(){
+        this.mountedActions();
+    },
 };
 </script>
 <style src="../../assets/scss/components/linebase.scss" lang="scss" scoped />

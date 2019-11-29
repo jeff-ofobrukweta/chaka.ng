@@ -1,6 +1,6 @@
 <template>
   <div class="watchlist-portfolio__box">
-    <WatchlistCard v-for="(instrument, index) in watchlist" :key="index" :instrument="instrument" />
+    <WatchlistCard v-for="(instrument, index) in watchlist" :key="index" />
   </div>
 </template>
 
@@ -11,6 +11,9 @@ export default {
     name: 'watchlist-list',
     components: {
         WatchlistCard
+    },
+    mounted(){
+        
     },
     data() {
         return {

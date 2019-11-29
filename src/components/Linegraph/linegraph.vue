@@ -4,16 +4,16 @@
 		<div
     class="chart__aspect-ratio">
 			<line-chart
-      :style="graphstyle"
-      class="chart__graph"
-      :chart-data="datacollection"
-      :options="options"></line-chart>
+                :style="graphstyle"
+                class="chart__graph"
+                :chart-data="datacollection"
+                :options="options"></line-chart>
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters,mapMutations } from 'vuex';
 import numeral from 'numeral';
 import LineChart from './linegraph_config';
 
@@ -36,38 +36,6 @@ export default {
             loaderGraph: true,
             day: '',
             showError: false,
-            buttonoption: [
-                {
-                    name: 'TAB1',
-                    time: '1D',
-                    id: 1
-                },
-                {
-                    name: 'TAB2',
-                    time: '1W',
-                    id: 2
-                },
-                {
-                    name: 'TAB3',
-                    time: '1M',
-                    id: 3
-                },
-                {
-                    name: 'TAB4',
-                    time: '3M',
-                    id: 4
-                },
-                {
-                    name: 'TAB5',
-                    time: '1Y',
-                    id: 5
-                },
-                {
-                    name: 'TAB6',
-                    time: '5Y',
-                    id: 6
-                }
-            ],
             activeButton: 2,
             padding: 0,
             width: 20,
@@ -135,6 +103,13 @@ export default {
                         }
                     ]
                 },
+                animation: {
+                duration: 0 // general animation time
+                },
+                hover: {
+                    animationDuration: 0 // duration of animations when hovering an item
+                },
+                responsiveAnimationDuration: 0,
                 layout: {
                     padding: {
                         left: 10,
@@ -189,10 +164,11 @@ export default {
         };
     },
     computed: {
-       ...mapGetters(['getWindowWidth'])
+    //    ...mapGetters(['getWindowWidth','getOpenPrice','getDates'])
     },
 
     mounted() {
+        console.log('this are props >>>>>>>>>>>>>',this.date,this.price)
         this.fillData();
     },
 
@@ -200,29 +176,32 @@ export default {
         currency: {
             type: String,
             required: false
+        },
+        price:{
+          type: Array,
+          required: false
+        },
+        date:{
+          type: Array,
+          required: false
         }
     },
+    created() {
+        this.fillData();
+		this.handlescaling();
+	},
     methods: {
+        handlescaling() {
+			if (this.getOpenPrice) {
+				this.min = this.price.sort()[0];
+				this.max = this.price.sort()[this.price.sort().length - 1];
+				this.interval = Math.ceil((this.max - this.min) / 10);
+			}
+			return true;
+		},
         fillData() {
             this.datacollection = {
-                labels: [
-                    'JAN',
-                    'FEB',
-                    'MARCH',
-                    'APRIL',
-                    'MAY',
-                    'JUNE',
-                    'JULY',
-                    'AUGUST',
-                    'SEPT',
-                    'OCT',
-                    'NOV',
-                    'DEC',
-                    'JAN',
-                    'FEB',
-                    'MARCH',
-                    'APRIL'
-                ],
+                labels:this.date,
                 datasets: [
                     {
                         label: 'Stocks',
@@ -241,35 +220,19 @@ export default {
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
-                        data: [
-                            12,
-                            23,
-                            34,
-                            44,
-                            12,
-                            23,
-                            34,
-                            44,
-                            56,
-                            66,
-                            78,
-                            89,
-                            45,
-                            5,
-                            45,
-                            1,
-                            23,
-                            78,
-                            89,
-                            45,
-                            5,
-                            45,
-                            1
-                        ]
+                        data:this.price
                     }
                 ]
             };
-        }
+        },
+    },
+    watch: {
+		price(newvalue, oldvalue) {
+			this.fillData();
+		},
+		date(newvalue, oldvalue) {
+			this.fillData();
+		},
     }
 };
 </script>

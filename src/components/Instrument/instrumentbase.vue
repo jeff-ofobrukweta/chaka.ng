@@ -8,42 +8,14 @@
         <section
             v-if="getWindowWidth === 'desktop'" 
             class="base_instrument">
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
+                <Instrumentdesk 
+                :instrumentsList="getInstrumentsListArray"/>
         </section>
-        <!-- container below for @mobile view -->
        <section
-       v-if="getWindowWidth === 'tablet'" 
-       class="base_instrument-mobile">
-           <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-            <Instrumentdesk/>
-       </section>
-
-       <section
-       v-if="getWindowWidth === 'mobile'" 
+       v-else 
        class="container">
                 <MobileWatchlist
-                    v-for="(instrument, index) in watchlist"
+                    v-for="(instrument, index) in getInstrumentsListArray"
                     :key="index"
                     :instrument="instrument"
                 />
@@ -51,10 +23,10 @@
     </Fragment>
 </template>
 <script>
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { Fragment } from 'vue-fragment';
 import Instrumentdesk from './instrument_desk';
 import MobileWatchlist from '../../components/watchlist/MobileWatchlist';
-import {mapGetters} from 'vuex';
 
 export default {
     name: 'GroupInstrument',
@@ -130,7 +102,19 @@ export default {
         };
     },
     computed:{
-        ...mapGetters(['getWindowWidth'])
+        ...mapGetters(['getWindowWidth','gettagslistsArray','getInstrumentsListArray']),
+    },
+    methods:{
+        // ...mapMutations([''])
+         ...mapActions(['GET_TAGS_CATEGORIES']),
+        mountingActions(){
+            console.log('instrument base>>>>>>===================================')
+             console.log('instrument base>>>>>>',this.getInstrumentsListArray)
+        }
+    },
+
+    mounted(){
+        this.mountingActions();
     },
     components: {
         Fragment,
