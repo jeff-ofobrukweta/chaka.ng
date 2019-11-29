@@ -12,8 +12,7 @@
     .price{
         font-style: normal;
         font-weight: 800;
-        font-size: 52.0575px;
-        line-height: 169px;
+        font-size: 2.5em;
         color:#FFFFFF;
     }
     .info-details{
@@ -32,9 +31,13 @@
 @include mobile {
     .board-container-price{
        width: 100%;
+       display: flex;
+       justify-content: space-evenly;
+       margin-bottom:1em;
+       margin-top:1em;
     }
     #direct{
-        margin: 1em 0px;
+        padding: 2em 0px 2em 0px;
     }
 
 }
@@ -43,16 +46,17 @@
         width: 33%;
     }
     #direct{
-        margin: 1em 0px;
+        padding: 2em 0px 2em 0px;
     }
 
 }
 
 @include tablet {
     // .board-container-price{
-    //     width: 33%;
+    //     margin-bottom:1em;
+    //     margin-top:1em;
     // }
      #direct{
-         margin: 1em 0px;
+        padding: 2em 0px 2em 0px;
      }
 }

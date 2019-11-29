@@ -1,11 +1,22 @@
 .graphholder {
     background: #FFFFFF;
+    border: 1px solid #EEEEEE;
+    border-radius: 11.4872px;
+    width: 100%;
+    flex-basis: 49%;
+    margin: 1em 0px;
+    // max-width: 49%;
+}
+.graphholder:hover {
+    background: #FFFFFF;
+    border: 1px solid #EEEEEE;
     box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
     border-radius: 11.4872px;
     width: 100%;
     flex-basis: 49%;
+    margin: 1em 0px;
+    transition: all 0.3s;
     // max-width: 49%;
-
 }
 .container-packet{
     display: flex;

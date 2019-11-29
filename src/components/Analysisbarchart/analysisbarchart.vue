@@ -137,6 +137,13 @@ export default {
           	}
                     ]
                 },
+                animation: {
+                duration: 0 // general animation time
+                },
+                hover: {
+                    animationDuration: 0 // duration of animations when hovering an item
+                },
+                responsiveAnimationDuration: 0,
                 layout: {
                     padding: {
                         left: 10,

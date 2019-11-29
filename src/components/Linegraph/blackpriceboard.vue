@@ -5,9 +5,9 @@
                 id="direct"
                 :src='require(`../../assets/Instrument_assets/arrow_growth.png`)' alt="watch"/>
                 <h1 class="price">
-                    $181.01
+                    {{instrument.askPrice}}
                 </h1>
-                <section class="info-details"><span class="increase">$100</span>from last month</section>
+                <section class="info-details"><span class="increase">{{instrument.derivedPrice}}(<Fragment>{{instrument.derivedPricePercentage}}</Fragment>%)</span>from last month</section>
         </section>
     </Fragment>
 </template>
@@ -18,6 +18,12 @@ import { Fragment } from 'vue-fragment';
 export default {
     components: {
         Fragment
+    },
+    props:{
+        instrument:{
+            type:Object,
+            required:true
+        }
     }
 };
 </script>

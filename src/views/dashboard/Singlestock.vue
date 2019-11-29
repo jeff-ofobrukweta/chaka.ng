@@ -1,6 +1,6 @@
 <template>
     <Fragment>
-        <div class="container">
+        <div class="wraper-main">
             <div class="header-container">
                 <section class="right-header">
                     <h1 class="price">$123.78</h1>
@@ -10,11 +10,11 @@
                     <section class="name-country">
                          <img
                         class="logo-company"
-                        src="../../assets/img/Netflix.png"
+                        :src="getSingleinstrument.logoUrl"
                         alt="logo"
                     />
                     <aside class="item-name-country">
-                        <section class="stockname">Netflix</section>
+                        <section class="stockname">{{getSingleinstrument.name || '' | truncate(10)}}</section>
                             <img
                                 class="state"
                                 src="../../assets/Instrument_assets/united-states.png"
@@ -30,25 +30,15 @@
              class="small-size">Buy</button>
             <section class="sumary">
                 <div class="summary-cover">
-                    Netflix, Inc. is a provider an Internet television network. 
-                    The Company operates through three segments: Domestic streaming, 
-                    International streaming and Domestic DVD. The Domestic streaming segment 
-                    includes services that streams content to its members in the United States. 
-                    The International streaming segment includes services that streams content to its members 
-                    outside the United States. The Domestic DVD segment includes services, 
-                    such as digital optical disc (DVD)-by-mail. The Company's members can watch original series, 
-                    documentaries, feature films, as well as television shows and movies directly on their 
-                    Internet-connected screen, televisions, computers and mobile devices. It offers its streaming services 
-                    both domestically and internationally. In the United States, its members can receive DVDs delivered to their homes. 
-                    The Company had members streaming in over 190 countries, as of December 31, 2016.
+                   {{getSingleinstrument.description || '' | truncate(500)}}
                 </div>
             </section>
             <section class="container-graph">
-               <Linegraph/>
-               <Cardblue/>
+               <Linegraph :instrument="getSingleinstrument"/>
+               <Cardblue :instrument="getPricedetailsonblackcard"/>
             </section>
             <section class="container-instrument">
-                <StockTable :instrument="{}" />
+                <StockTable :instrument="getSingleinstrument" />
             </section>
             <section class="container-stocks">
                <Horizontalchart/>
@@ -66,12 +56,14 @@
 </template>
 <script>
 import {Fragment} from 'vue-fragment';
-import { mapGetters } from 'vuex';
 import Linegraph from '../../components/Linegraph/singlestock_linegraph';
 import Cardblue from '../../components/Linegraph/blackpriceboard';
 import StockTable from '../../components/singlestock/StockTable';
 import Horizontalchart from '../../components/Horizontalbar/hbase';
 import Analysisbarchart from '../../components/Analysisbarchart/analysisbarchartbase';
+import { mapGetters,mapMutations,mapActions } from 'vuex';
+
+
 export default {
     components:{
         Fragment,
@@ -82,7 +74,24 @@ export default {
         Analysisbarchart
     },
     computed:{
-        ...mapGetters(['getWindowWidth'])
+        ...mapGetters(['getWindowWidth','getSingleinstrument','getPricedetailsonblackcard','getPositionsWithparams'])
+    },
+    methods:{
+        //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
+        ...mapActions(['GET_SINGLESTOCK_INSTRUMENT','GET_CURRENT_STOCK_POSITION'])
+    },
+    async mounted(){
+        const singlestockpayload = {
+            instrumentID:this.$route.params.id
+        }
+        
+        console.log('>>>>>>>bloooomm????????here pls??????????>>>',this.getSingleinstrument)
+        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
+            // this.getPositionsWithparams(this.$route.params.id)
+            this.GET_CURRENT_STOCK_POSITION().then(()=>{
+                console.log('get positions',this.getPositionsWithparams)
+            });
+        })
     },
     data(){
         return{

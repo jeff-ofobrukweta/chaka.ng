@@ -34,6 +34,8 @@
                 <a class="watchlist-mobile__buy" @click="showBuy = true">+ Buy</a>
             </div>
         </div>
+        <router-link class="section1 linking" 
+        :to="{name:'singlestock',params:{id:instrument.id}}">
         <div class="watchlist-mobile__bottom">
             <div class="watchlist-mobile__left">
                 <img
@@ -76,6 +78,7 @@
                 </p>
             </div>
         </div>
+        </router-link>
         <buy-modal
             @close="showBuy = false"
             :currency="instrument.currency"
@@ -94,6 +97,9 @@ export default {
             type: Object,
             required: true
         }
+    },
+    mounted(){
+            console.log('boom???????????????????????????????????',this.instrument)
     },
     data() {
         return {

@@ -11,6 +11,9 @@ import stamps from "./modules/stamps";
 import stock from "./modules/stock";
 import wallet from "./modules/wallet";
 import watchlist from "./modules/watchlist";
+import categories from "./modules/categories";
+import graphs from "./modules/graphs";
+import singlestock from "./modules/singlestock";
 
 Vue.use(Vuex);
 
@@ -34,6 +37,9 @@ const initialState = {
     stock: { ...stock.state },
     wallet: { ...wallet.state },
     watchlist: { ...watchlist.state },
+    categories: { ... watchlist.state},
+    graphs:{ ... graphs.state},
+    singlestock:{ ...graphs.state},
     accounts: { ...accounts.state }
 };
 
@@ -119,7 +125,10 @@ export default new Vuex.Store({
         stamps,
         stock,
         wallet,
-        watchlist
+        watchlist,
+        categories,
+        graphs,
+        singlestock
     },
     strict: debug,
     plugins: [persist.plugin]

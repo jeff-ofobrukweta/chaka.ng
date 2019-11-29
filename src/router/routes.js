@@ -85,7 +85,7 @@ const routes = [
                 component: Categories
             },
             {
-                path: "singlestock",
+                path: "singlestock/:id",
                 name: "singlestock",
                 component: Singlestock
             },
