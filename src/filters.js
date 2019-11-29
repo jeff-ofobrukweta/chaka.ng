@@ -1,17 +1,17 @@
 const numberFormat = (value, currency, threshold, decimalPlaces, showFull) => {
     let options = {};
-    let initial = '';
+    let initial = "";
     if (!currency) {
-        initial = 'en-US';
+        initial = "en-US";
         options = {
-            style: 'decimal',
+            style: "decimal",
             minimumFractionDigits: decimalPlaces,
             maximumFractionDigits: decimalPlaces
         };
     } else {
         initial = `en-${currency.substring(0, 2)}`;
         options = {
-            style: 'currency',
+            style: "currency",
             currency,
             minimumFractionDigits: decimalPlaces,
             maximumFractionDigits: decimalPlaces
@@ -20,8 +20,8 @@ const numberFormat = (value, currency, threshold, decimalPlaces, showFull) => {
     if (value < threshold || showFull) {
         return new Intl.NumberFormat(initial, options).format(value);
     }
-    options.notation = 'compact';
-    options.compactDisplay = 'short';
+    options.notation = "compact";
+    options.compactDisplay = "short";
     return new Intl.NumberFormat(initial, options).format(value);
 };
 
@@ -47,26 +47,37 @@ export default {
 
     resolveDate(value, format) {
         const date = new Date(value);
-        if (typeof date === 'object' && !Number.isNaN(date.getDate())) {
+        if (typeof date === "object" && !Number.isNaN(date.getDate())) {
             if (!format) {
-                return `${date.toLocaleString('en-NG', {
-                    year: 'numeric',
-                    day: '2-digit',
-                    month: '2-digit',
+                return `${date.toLocaleString("en-NG", {
+                    year: "numeric",
+                    day: "2-digit",
+                    month: "2-digit",
                     hour12: true
                 })}`;
             }
-            return `${date.toLocaleString('en-NG', {
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-                year: 'numeric',
-                day: '2-digit',
-                month: '2-digit',
+            return `${date.toLocaleString("en-NG", {
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+                year: "numeric",
+                day: "2-digit",
+                month: "2-digit",
                 hour12: true
             })}`;
         }
         return value;
+    },
+
+    reverseDate(value) {
+        const d = new Date(value),
+            month = "" + (d.getMonth() + 1),
+            day = "" + d.getDate(),
+            year = "" + d.getFullYear();
+
+        if (month.length < 2) month = "0" + month;
+        if (day.length < 2) day = "0" + day;
+        return [year, month, day].join("-");
     },
 
     truncate(text, length, suffix) {

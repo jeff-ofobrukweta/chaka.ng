@@ -8,31 +8,22 @@
         <section class="explore-section">
             <div class="explore-featured">
                 <div class="explore-featured__image">
-                    <img
-                        src="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                        alt
-                    />
+                    <img :src="getExploreNews[0].imageUrl" :alt="getExploreNews[0].name" />
                 </div>
                 <div class="explore-featured__text">
                     <h4 class="explore-featured__text--title">
-                        Viral Tweet About Apple Card Leads to Goldman Sachs Probe
+                        {{ getExploreNews[0].name }}
                     </h4>
                     <p>
-                        A Wall Street regulator is opening a probe into Goldman Sachs Group Inc.’s
-                        credit card practices after a viral tweet from a tech entrepreneur alleged
-                        gender discrimination in the new Apple Card’s algorithms when determining
-                        credit limits. A series of posts from David Heinemeier Hansson starting
-                        Thursday railed against the Apple Card for giving him 20 times the credit
-                        limit that his wife got. The tweets, many of which contain profanity,
-                        immediately gained traction online...
+                        {{ getExploreNews[0].description | truncate(380) }}
                     </p>
                 </div>
             </div>
             <div class="card-news__box explore__news">
-                <news-card :news="item" v-for="(item, index) in news" :key="index" />
+                <news-card :news="item" v-for="(item, index) in getExploreNews" :key="index" />
             </div>
             <div class="explore-actions__bottom">
-                <a class="explore-actions">See All</a>
+                <!-- <a class="explore-actions">See All</a> -->
                 <a class="explore-actions">Shuffle</a>
             </div>
         </section>
@@ -44,15 +35,19 @@
                     <p class="explore__title--sub">See the latest on the stock market</p>
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
-                    <a class="explore-actions">See All</a>
+                    <!-- <a class="explore-actions">See All</a> -->
                     <a class="explore-actions">Shuffle</a>
                 </div>
             </section>
             <div class="card-news__box explore__news">
-                <news-card :news="item" v-for="(item, index) in news" :key="index" />
+                <news-card
+                    :news="item"
+                    v-for="(item, index) in getExploreCollections"
+                    :key="index"
+                />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
-                <a class="explore-actions">See All</a>
+                <!-- <a class="explore-actions">See All</a> -->
                 <a class="explore-actions">Shuffle</a>
             </div>
         </section>
@@ -64,15 +59,15 @@
                     <p class="explore__title--sub">See the latest on the stock market</p>
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
-                    <a class="explore-actions">See All</a>
+                    <!-- <a class="explore-actions">See All</a> -->
                     <a class="explore-actions">Shuffle</a>
                 </div>
             </section>
             <div class="card-news__box explore__news">
-                <news-card :news="item" v-for="(item, index) in news" :key="index" />
+                <news-card :news="item" v-for="(item, index) in getExploreLearn" :key="index" />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
-                <a class="explore-actions">See All</a>
+                <!-- <a class="explore-actions">See All</a> -->
                 <a class="explore-actions">Shuffle</a>
             </div>
         </section>
@@ -85,7 +80,7 @@
 
             <section class="watchlist-explore__box" v-if="getWindowWidth === 'desktop'">
                 <ExploreWatchlist
-                    v-for="(instrument, index) in watchlist"
+                    v-for="(instrument, index) in getWatchlist"
                     :key="index"
                     :instrument="instrument"
                 />
@@ -93,7 +88,7 @@
 
             <section class="watchlist-mobile__box" v-else>
                 <MobileWatchlist
-                    v-for="(instrument, index) in watchlist"
+                    v-for="(instrument, index) in getWatchlist"
                     :key="index"
                     :instrument="instrument"
                 />
@@ -103,112 +98,79 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import ExploreWatchlist from '../../components/watchlist/ExploreWatchlist';
-import MobileWatchlist from '../../components/watchlist/MobileWatchlist';
+import { mapGetters, mapActions } from "vuex";
+import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
+import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
 
 export default {
-    name: 'portfolio',
+    name: "portfolio",
     components: {
         ExploreWatchlist,
         MobileWatchlist
     },
     data() {
         return {
-            showModal: false,
-            news: [
-                {
-                    title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
-                },
-                {
-                    title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
-                },
-                {
-                    title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
-                },
-                {
-                    title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
-                },
-                {
-                    title:
-                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
-                    link: 'https://google.com',
-                    image: '../../assets/img/news/news.png'
-                }
-            ],
             watchlist: [
                 {
-                    name: 'Spotify',
-                    symbol: 'SPOT',
-                    currency: 'USD',
+                    name: "Spotify",
+                    symbol: "SPOT",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: 'Google',
-                    symbol: 'GOOGL',
-                    currency: 'USD',
+                    name: "Google",
+                    symbol: "GOOGL",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: 'MTN Nigeria',
-                    symbol: 'MTNN',
-                    currency: 'USD',
+                    name: "MTN Nigeria",
+                    symbol: "MTNN",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 4
                 },
                 {
-                    name: 'Jumia Technologies',
-                    symbol: 'JUMIA',
-                    currency: 'USD',
+                    name: "Jumia Technologies",
+                    symbol: "JUMIA",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 2
                 },
                 {
-                    name: 'Spotify',
-                    symbol: 'SPOT',
-                    currency: 'USD',
+                    name: "Spotify",
+                    symbol: "SPOT",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 1
                 },
                 {
-                    name: 'Spotify',
-                    symbol: 'SPOT',
-                    currency: 'USD',
+                    name: "Spotify",
+                    symbol: "SPOT",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: 0
                 },
                 {
-                    name: 'Spotify',
-                    symbol: 'SPOT',
-                    currency: 'USD',
+                    name: "Spotify",
+                    symbol: "SPOT",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: -3
                 },
                 {
-                    name: 'Spotify',
-                    symbol: 'SPOT',
-                    currency: 'USD',
+                    name: "Spotify",
+                    symbol: "SPOT",
+                    currency: "USD",
                     price: 656.9,
                     percent: 0.67,
                     change: -10
@@ -217,7 +179,31 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getPortfolioSummary', 'getWindowWidth'])
+        ...mapGetters([
+            "getPortfolioSummary",
+            "getWindowWidth",
+            "getExploreNews",
+            "getExploreCollections",
+            "getExploreLearn",
+            "getWatchlist"
+        ])
+    },
+    methods: {
+        ...mapActions([
+            "GET_EXPLORE_NEWS",
+            "GET_EXPLORE_COLLECTIONS",
+            "GET_EXPLORE_LEARN",
+            "GET_WATCHLIST"
+        ])
+    },
+    async mounted() {
+        await Promise.all([
+            this.GET_EXPLORE_NEWS(),
+            this.GET_EXPLORE_COLLECTIONS(),
+            this.GET_EXPLORE_LEARN(),
+            this.GET_WATCHLIST()
+        ]);
+        console.log("Finished");
     }
 };
 </script>

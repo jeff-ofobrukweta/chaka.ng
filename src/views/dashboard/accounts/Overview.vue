@@ -9,21 +9,24 @@
             </div>
             <div class="accounts-overview__text">
                 <p>Name</p>
-                <h4>Jane Doe</h4>
+                <h4>{{ username }}</h4>
             </div>
             <div class="accounts-overview__text">
                 <p>User ID</p>
-                <h4>137489739</h4>
+                <h4>{{ getLoggedUser.chakaID }}</h4>
             </div>
             <div class="accounts-overview__text">
                 <p>Portfolio Value</p>
-                <h4 class="cursor-context" :title="2454622.33 | currency('NGN', true)">
-                    {{ 2454622.33 | currency("NGN") }}
+                <h4
+                    class="cursor-context"
+                    :title="getAccountSummary.netWorth | currency('NGN', true)"
+                >
+                    {{ getAccountSummary.netWorth | currency("NGN") }}
                 </h4>
             </div>
             <div class="accounts-overview__text">
                 <p>CSCS No.</p>
-                <h4>72957295</h4>
+                <h4>{{ getLoggedUser.UserKYC.cscsNumber || "-" }}</h4>
             </div>
         </section>
 
@@ -37,11 +40,21 @@
                         width="16px"
                     />
                     <span class="accounts-overview__currency">Local</span>
-                    <span class="accounts-overview__approved">Approved</span>
+                    <span class="accounts-overview__approved">{{
+                        getLoggedUser.localKycStatus ? "Approved" : "Pending"
+                    }}</span>
                     <img
+                        v-if="getLoggedUser.localKycStatus"
                         class="accounts-overview__approved--img"
-                        src="../../../assets/img/checked.svg"
+                        :src="require('../../../assets/img/checked.svg')"
                         alt="Checked"
+                    />
+                    <img
+                        v-else
+                        class="accounts-overview__approved--img"
+                        :src="require('../../../assets/img/pending.svg')"
+                        width="12px"
+                        alt="Pending"
                     />
                 </div>
                 <div class="accounts-overview__flex">
@@ -52,11 +65,21 @@
                         width="16px"
                     />
                     <span class="accounts-overview__currency">Global</span>
-                    <span class="accounts-overview__approved">Approved</span>
+                    <span class="accounts-overview__approved">{{
+                        getLoggedUser.globalKycStatus ? "Approved" : "Pending"
+                    }}</span>
                     <img
+                        v-if="getLoggedUser.globalKycStatus"
                         class="accounts-overview__approved--img"
-                        src="../../../assets/img/checked.svg"
+                        :src="require('../../../assets/img/checked.svg')"
                         alt="Checked"
+                    />
+                    <img
+                        v-else
+                        class="accounts-overview__approved--img"
+                        :src="require('../../../assets/img/pending.svg')"
+                        width="12px"
+                        alt="Pending"
                     />
                 </div>
             </Card>
@@ -73,11 +96,13 @@
             >
                 <div class="accounts-overview__flex">
                     <span class="accounts-overview__currency">Email</span>
-                    <span class="accounts-overview__approved">jane@doe.com</span>
+                    <span class="accounts-overview__approved">{{ getLoggedUser.email }}</span>
                 </div>
                 <div class="accounts-overview__flex">
                     <span class="accounts-overview__currency">Phone No</span>
-                    <span class="accounts-overview__approved">0901284928</span>
+                    <span class="accounts-overview__approved">{{
+                        getLoggedUser.UserKYC.phone || "-"
+                    }}</span>
                 </div>
             </Card>
         </section>
@@ -85,12 +110,27 @@
 </template>
 
 <script>
-import Card from '../../../layouts/AccountsCard';
+import Card from "../../../layouts/AccountsCard";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-    name: 'accounts-overview',
+    name: "accounts-overview",
     components: {
         Card
+    },
+    computed: {
+        ...mapGetters(["getLoggedUser", "getAccountSummary"]),
+        username() {
+            return this.getLoggedUser.UserKYC.firstname
+                ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}`
+                : "-";
+        }
+    },
+    methods: {
+        ...mapActions(["GET_ACCOUNT_SUMMARY"])
+    },
+    async mounted() {
+        await this.GET_ACCOUNT_SUMMARY();
     }
 };
 </script>

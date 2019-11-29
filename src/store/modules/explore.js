@@ -1,12 +1,98 @@
-import api from '../../services/apiService/api';
+import api from "../../services/apiService/api";
+import errorFn from "../../services/apiService/error";
 
-const state = {};
+const state = {
+    exploreNews: [],
+    exploreLearn: [],
+    exploreCollections: []
+};
 
-const getters = {};
+const getters = {
+    getExploreNews: state => state.exploreNews,
+    getExploreLearn: state => state.exploreLearn,
+    getExploreCollections: state => state.exploreCollections
+};
 
-const mutations = {};
+const mutations = {
+    SET_EXPLORE_NEWS(state, payload) {
+        state.exploreNews = payload;
+    },
+    SET_EXPLORE_LEARN(state, payload) {
+        state.exploreLearn = payload;
+    },
+    SET_EXPLORE_COLLECTIONS(state, payload) {
+        state.exploreCollections = payload;
+    }
+};
 
-const actions = {};
+const actions = {
+    GET_EXPLORE_NEWS: ({ commit }) => {
+        // commit("RESET_REQ", null, { root: true });
+        // commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api.get(`/news/explore/editorials`).then(
+                resp => {
+                    if (resp.status === 200) {
+                        // commit("REQ_SUCCESS", null, { root: true });
+                        commit("SET_EXPLORE_NEWS", resp.data.data.articles);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "explore");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "explore");
+                    resolve(false);
+                }
+            );
+        });
+    },
+    GET_EXPLORE_COLLECTIONS: ({ commit }) => {
+        // commit("RESET_REQ", null, { root: true });
+        // commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api.get(`/news/explore/collections`).then(
+                resp => {
+                    if (resp.status === 200) {
+                        // commit("REQ_SUCCESS", null, { root: true });
+                        commit("SET_EXPLORE_COLLECTIONS", resp.data.data.collections);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "explore");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "explore");
+                    resolve(false);
+                }
+            );
+        });
+    },
+    GET_EXPLORE_LEARN: ({ commit }) => {
+        // commit("RESET_REQ", null, { root: true });
+        // commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api.get(`/news/explore/learn`).then(
+                resp => {
+                    if (resp.status === 200) {
+                        // commit("REQ_SUCCESS", null, { root: true });
+                        commit("SET_EXPLORE_LEARN", resp.data.data.articles);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "explore");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "explore");
+                    resolve(false);
+                }
+            );
+        });
+    }
+};
 
 export default {
     state,
