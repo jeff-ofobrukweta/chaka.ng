@@ -1,11 +1,19 @@
 import api from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
 
-const state = {};
+const state = {
+    exchangeRate: {}
+};
 
-const getters = {};
+const getters = {
+    getExchangeRate: state => state.exchangeRate
+};
 
-const mutations = {};
+const mutations = {
+    SET_EXCHANGE_RATE(state, payload) {
+        state.exchangeRate = payload;
+    }
+};
 
 const actions = {
     WITHDRAW_WALLET: ({ commit, rootState }, payload) => {
@@ -29,6 +37,78 @@ const actions = {
                         resolve(false);
                     }
                 );
+        });
+    },
+    FUND_WALLET: ({ commit, dispatch, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/deposit/`, payload)
+                .then(
+                    resp => {
+                        if (resp.status === 200) {
+                            commit("REQ_SUCCESS", null, { root: true });
+                            dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
+                                resolve(true);
+                            });
+                        } else {
+                            errorFn(resp, "fund");
+                            resolve(false);
+                        }
+                    },
+                    error => {
+                        errorFn(error.response, "fund");
+                        resolve(false);
+                    }
+                );
+        });
+    },
+    EXCHANGE_WALLET: ({ commit, dispatch, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/transfer/`, payload)
+                .then(
+                    resp => {
+                        if (resp.status === 200) {
+                            commit("REQ_SUCCESS", null, { root: true });
+                            dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
+                                resolve(true);
+                            });
+                        } else {
+                            errorFn(resp, "exchange");
+                            resolve(false);
+                        }
+                    },
+                    error => {
+                        errorFn(error.response, "exchange");
+                        resolve(false);
+                    }
+                );
+        });
+    },
+    GET_EXCHANGE_RATE: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            return api.get(
+                "/currency-rates/today".then(
+                    resp => {
+                        if (resp.status === 200) {
+                            commit("SET_EXCHANGE_RATE", resp.data.data.rate).then(() => {
+                                resolve(true);
+                            });
+                        } else {
+                            errorFn(resp, "exchange");
+                            resolve(false);
+                        }
+                    },
+                    error => {
+                        errorFn(error.response, "exchange");
+                        resolve(false);
+                    }
+                )
+            );
         });
     }
 };

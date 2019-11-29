@@ -9,24 +9,38 @@
                 name="Profile Picture"
                 form-name="passportUrl"
                 description="Set Profile Picture"
-                @input="uploadFile"
                 :image="getKYC.passportUrl"
+                @error="handleUploadError"
+                @success="handleUploadSuccess"
+                @reset="handleReset"
             />
             <Uploads
                 name="Passport/National ID"
-                form-name="idPhotourl"
+                form-name="idPhotoUrl"
                 description="Upload your National ID, Voter's Card or International Passport"
-                @input="uploadFile"
                 :image="getKYC.idPhotoUrl"
+                @error="handleUploadError"
+                @success="handleUploadSuccess"
+                @reset="handleReset"
             />
             <Uploads
                 name="Address Proof"
                 form-name="addressProofUrl"
                 description="Upload your Utility bill or Bank Statement"
-                @input="uploadFile"
                 :image="getKYC.addressProofUrl"
+                @error="handleUploadError"
+                @success="handleUploadSuccess"
+                @reset="handleReset"
             />
         </section>
+
+        <error-block type="kyc" :message="showUploadError" status="error" v-if="showUploadError" />
+        <error-block
+            type="kyc"
+            message="File uploaded successfully"
+            status="success"
+            v-else-if="showUploadSuccess"
+        />
 
         <div class="accounts-settings__form">
             <section class="accounts-settings__hero">
@@ -68,30 +82,30 @@
                     >
                 </div>
             </section>
-            <section
-                v-if="edit === 'disclosure' && !getKYC.disclosureName"
-                class="accounts-settings__submit"
-            >
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :disabled="!itemData.disclosureName"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'disclosure'">
+                <error-block type="kyc" />
+                <section v-if="!getKYC.disclosureName" class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :disabled="!itemData.disclosureName"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
 
-        <form class="accounts-settings__form" @submit.prevent="submitBVN">
+        <form class="accounts-settings__form" @submit.prevent="submitBank">
             <div class="accounts-settings__title">
                 <h5>BVN Verification</h5>
                 <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('bvn')">edit</a>
             </div>
             <section class="accounts-settings__hero">
-                <div class="accounts-settings__group" v-if="!getKYC.bvn">
+                <div class="accounts-settings__group" v-if="!getKYC.bvnFetchStatus">
                     <label class="form__label"
                         >BVN
                         <form-input
@@ -100,6 +114,8 @@
                             v-model="bvnData.bvn"
                             placeholder="BVN"
                             v-if="edit === 'bvn'"
+                            maxlength="11"
+                            required
                         />
                         <p v-else class=" accounts-settings__data">
                             {{ getKYC.bankAcctName || "-" }}
@@ -112,7 +128,8 @@
                         <select
                             v-if="edit === 'bvn'"
                             class="form__input form__select"
-                            v-model="itemData.bankId"
+                            v-model="itemData.BankId"
+                            required
                         >
                             <option v-for="(bank, index) in banks" :key="index" :value="bank.id">{{
                                 bank.name
@@ -131,6 +148,8 @@
                             name="bank number"
                             v-model="itemData.bankAcctNo"
                             placeholder="Bank Account Number"
+                            required
+                            maxlength="10"
                         />
                         <p v-else class=" accounts-settings__data">
                             {{ getKYC.bankAcctNo || "-" }}
@@ -138,407 +157,537 @@
                     >
                 </div>
             </section>
-            <section v-if="edit === 'bvn'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
+            <template v-if="edit === 'bvn'">
+                <error-block type="kyc" />
+                <section class="accounts-settings__submit">
+                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                        Cancel
+                    </button>
+                    <action-button
+                        type="submit"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </template>
         </form>
 
-        <form class="accounts-settings__form" @submit.prevent="submitPhone" v-if="getKYC.bvn">
-            <div class="accounts-settings__title">
-                <h5>Verify Phone Number</h5>
-                <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('phone')">edit</a>
-            </div>
-            <section class="accounts-settings__hero">
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Phone Number
-                        <form-input
-                            v-if="edit === 'phone'"
-                            type="number"
-                            name="phone"
-                            v-model="itemData.phone"
-                            placeholder="Phone Number"
-                        />
-                        <p v-else class=" accounts-settings__data">
-                            {{ getKYC.phone || "-" }}
-                        </p></label
-                    >
-                </div>
-            </section>
-            <section v-if="edit === 'phone'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
-        </form>
+        <template v-if="!getKYC.phoneConfirmed && getKYC.bvnFetchStatus">
+            <button @click="confirmPhone" class="btn btn__primary btn-block">
+                Confirm your phone number
+            </button>
+        </template>
 
-        <form class="accounts-settings__form" @submit.prevent="updateKYC">
-            <div class="accounts-settings__title">
-                <h5>Confirm Postal Address</h5>
-                <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('postal')">edit</a>
-            </div>
-            <section class="accounts-settings__hero">
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Gender
-                        <select
-                            class="form__input form__select"
-                            v-if="edit === 'postal'"
-                            v-model="itemData.gender"
-                        >
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.gender || "-" }}
-                        </p></label
+        <template v-else-if="getKYC.phoneConfirmed">
+            <form class="accounts-settings__form" @submit.prevent="submitPhone">
+                <div class="accounts-settings__title">
+                    <h5>Verify Phone Number</h5>
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editExistingPhone"
+                        >edit</a
                     >
                 </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Address<form-input
-                            type="text"
-                            v-if="edit === 'postal'"
-                            name="address"
-                            v-model="itemData.address"
-                            placeholder="Address"
-                        />
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.address || "-" }}
-                        </p></label
-                    >
-                </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >LGA
-                        <select
-                            class="form__input form__select"
-                            v-if="edit === 'postal'"
-                            v-model="itemData.lg"
-                        >
-                            <option v-for="(lg, index) in lgNames" :key="index" :value="lg.value">{{
-                                lg.text
-                            }}</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.lg || "-" }}
-                        </p></label
-                    >
-                </div>
-            </section>
-            <section v-if="edit === 'postal'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
-        </form>
-
-        <form class="accounts-settings__form" @submit.prevent="updateKYC">
-            <div class="accounts-settings__title">
-                <h5>Confirm Employment Details</h5>
-                <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('employment')"
-                    >edit</a
-                >
-            </div>
-            <section class="accounts-settings__hero">
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Status
-                        <select
-                            class="form__input form__select"
-                            v-model="employmentStatus"
-                            v-if="edit === 'employment'"
-                        >
-                            <option value="EMPLOYED">Employed</option>
-                            <option value="SELF_EMPLOYED">Self-Employed</option>
-                            <option value="UNEMPLOYED">Unemployed</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.employmentStatus || "-" }}
-                        </p></label
-                    >
-                </div>
-                <template v-if="employmentStatus !== 'UNEMPLOYED'">
+                <section class="accounts-settings__hero">
                     <div class="accounts-settings__group">
                         <label class="form__label"
-                            >Company Name<form-input
-                                v-if="edit === 'employment'"
+                            >Phone Number
+                            <p class=" accounts-settings__data">
+                                {{ getKYC.phone || "-" }}
+                            </p></label
+                        >
+                    </div>
+                </section>
+                <template v-if="edit === 'phone'">
+                    <error-block type="kyc" />
+                    <section class="accounts-settings__submit">
+                        <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                            Cancel
+                        </button>
+                        <action-button
+                            type="submit"
+                            :pending="loading"
+                            :classes="['btn-block', 'btn__primary']"
+                            >Submit</action-button
+                        >
+                    </section>
+                </template>
+            </form>
+
+            <form class="accounts-settings__form" @submit.prevent="updateKYC">
+                <div class="accounts-settings__title">
+                    <h5>Confirm Postal Address</h5>
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('postal')"
+                        >edit</a
+                    >
+                </div>
+                <section class="accounts-settings__hero">
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Gender
+                            <select
+                                class="form__input form__select"
+                                v-if="edit === 'postal'"
+                                v-model="itemData.gender"
+                            >
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.gender || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Address<form-input
                                 type="text"
-                                name="employment company"
-                                v-model="itemData.employmentCompany"
-                                placeholder="Company Name"
+                                v-if="edit === 'postal'"
+                                name="address"
+                                v-model="itemData.address"
+                                placeholder="Address"
                             />
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.employmentCompany || "-" }}
+                                {{ getKYC.address || "-" }}
                             </p></label
                         >
                     </div>
                     <div class="accounts-settings__group">
-                        <label class="form__label"
-                            >Employment Type
-                            <select
-                                class="form__input form__select"
-                                v-if="edit === 'employment'"
-                                v-model="itemData.employmentType"
-                            >
-                                <option
-                                    v-for="(type, index) in types"
-                                    :key="index"
-                                    :value="type.value"
-                                    >{{ type.text }}</option
-                                >
-                            </select>
-                            <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.employmentType || "-" }}
-                            </p></label
-                        >
+                        <label class="form__label">LGA</label>
+                        <v-select
+                            class="form__input form__select"
+                            placeholder="Local Government Area"
+                            v-model="selectedLg"
+                            :clearable="false"
+                            label="text"
+                            value="value"
+                            @input="switchLG($event)"
+                            :options="lgNames"
+                            v-if="edit === 'postal'"
+                        ></v-select>
+                        <p v-else class="capitalize accounts-settings__data">
+                            {{ getKYC.lg || "-" }}
+                        </p>
                     </div>
-                    <div class="accounts-settings__group">
-                        <label class="form__label"
-                            >Employment Position
-                            <select
-                                class="form__input form__select"
-                                v-if="edit === 'employment'"
-                                v-model="itemData.employmentPosition"
-                            >
-                                <option
-                                    v-for="(position, index) in positions"
-                                    :key="index"
-                                    :value="position.value"
-                                    >{{ position.text }}</option
-                                >
-                            </select>
-                            <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.employmentPosition || "-" }}
-                            </p></label
+                </section>
+                <template v-if="edit === 'postal'">
+                    <error-block type="kyc" v-if="edit === 'postal'" />
+                    <section class="accounts-settings__submit">
+                        <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                            Cancel
+                        </button>
+                        <action-button
+                            type="submit"
+                            :pending="loading"
+                            :classes="['btn-block', 'btn__primary']"
+                            >Submit</action-button
                         >
-                    </div>
+                    </section>
                 </template>
-            </section>
-            <section v-if="edit === 'employment'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
-        </form>
+            </form>
 
-        <form class="accounts-settings__form" @submit.prevent="updateKYC">
-            <div class="accounts-settings__title">
-                <h5>Confirm Investment Profile</h5>
-                <a class="accounts-settings__edit" @click="editBtn('investment')" v-if="!edit"
-                    >edit</a
-                >
-            </div>
-            <section class="accounts-settings__hero">
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Investment Objectives
-                        <select
-                            class="form__input form__select"
-                            v-model="itemData.investmentObjective"
-                            v-if="edit === 'investment'"
-                        >
-                            <option value="PROTECTION">Protection</option>
-                            <option value="GROWTH">Growth</option>
-                            <option value="INCOME">Income</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.investmentObjective || "-" }}
-                        </p></label
+            <form class="accounts-settings__form" @submit.prevent="updateKYC">
+                <div class="accounts-settings__title">
+                    <h5>Confirm Employment Details</h5>
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('employment')"
+                        >edit</a
                     >
                 </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Investment Experience
-                        <select
-                            class="form__input form__select"
-                            v-model="itemData.investmentExperience"
-                            v-if="edit === 'investment'"
+                <section class="accounts-settings__hero">
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Status
+                            <select
+                                class="form__input form__select"
+                                v-model="itemData.employmentStatus"
+                                v-if="edit === 'employment'"
+                            >
+                                <option value="EMPLOYED">Employed</option>
+                                <option value="SELF_EMPLOYED">Self-Employed</option>
+                                <option value="UNEMPLOYED">Unemployed</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.employmentStatus || "-" }}
+                            </p></label
                         >
-                            <option value="YRS_0_2">0 - 2 Yrs</option>
-                            <option value="YRS_3_5">2 - 5 Yrs</option>
-                            <option value="YRS_5_plus">5 Yrs+</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.investmentExperience || "-" }}
-                        </p></label
+                    </div>
+                    <template
+                        v-if="
+                            itemData.employmentStatus !== 'UNEMPLOYED' ||
+                                getKYC.employmentStatus !== 'UNEMPLOYED'
+                        "
                     >
-                </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Annual Income
-                        <select
-                            class="form__input form__select"
-                            v-model="itemData.annualIncome"
-                            v-if="edit === 'investment'"
+                        <div class="accounts-settings__group">
+                            <label class="form__label"
+                                >Company Name<form-input
+                                    v-if="edit === 'employment'"
+                                    type="text"
+                                    name="employment company"
+                                    v-model="itemData.employmentCompany"
+                                    placeholder="Company Name"
+                                />
+                                <p v-else class="capitalize accounts-settings__data">
+                                    {{ getKYC.employmentCompany || "-" }}
+                                </p></label
+                            >
+                        </div>
+                        <div class="accounts-settings__group">
+                            <label class="form__label"
+                                >Employment Type
+                                <select
+                                    class="form__input form__select"
+                                    v-if="edit === 'employment'"
+                                    v-model="itemData.employmentType"
+                                >
+                                    <option
+                                        v-for="(type, index) in types"
+                                        :key="index"
+                                        :value="type.value"
+                                        >{{ type.text }}</option
+                                    >
+                                </select>
+                                <p v-else class="capitalize accounts-settings__data">
+                                    {{ getKYC.employmentType || "-" }}
+                                </p></label
+                            >
+                        </div>
+                        <div class="accounts-settings__group">
+                            <label class="form__label"
+                                >Employment Position
+                                <select
+                                    class="form__input form__select"
+                                    v-if="edit === 'employment'"
+                                    v-model="itemData.employmentPosition"
+                                >
+                                    <option
+                                        v-for="(position, index) in positions"
+                                        :key="index"
+                                        :value="position.value"
+                                        >{{ position.text }}</option
+                                    >
+                                </select>
+                                <p v-else class="capitalize accounts-settings__data">
+                                    {{ getKYC.employmentPosition || "-" }}
+                                </p></label
+                            >
+                        </div>
+                    </template>
+                </section>
+                <template v-if="edit === 'employment'">
+                    <error-block type="kyc" />
+                    <section class="accounts-settings__submit">
+                        <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                            Cancel
+                        </button>
+                        <action-button
+                            type="submit"
+                            :pending="loading"
+                            :classes="['btn-block', 'btn__primary']"
+                            >Submit</action-button
                         >
-                            <option value="LESS_THAN_500k">&lt; 500k</option>
-                            <option value="500K_5MILLION">N500K - N5M</option>
-                            <option value="GREATER_THAN_MILLION">N5M+</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.annualIncome || "-" }}
-                        </p></label
-                    >
-                </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Net Worth Liquid
-                        <select
-                            class="form__input form__select"
-                            v-model="itemData.networthLiquid"
-                            v-if="edit === 'investment'"
-                        >
-                            <option value="<5m">&lt; N5M</option>
-                            <option value="N5m-N50m">N5M - N50M</option>
-                            <option value="N50m+">N50M+</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.networthLiquid || "-" }}
-                        </p></label
-                    >
-                </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Net Worth Total
-                        <select
-                            class="form__input form__select"
-                            v-model="itemData.networthTotal"
-                            v-if="edit === 'investment'"
-                        >
-                            <option value="<5m">&lt; N5M</option>
-                            <option value="N5m-N50m">N5M - N50M</option>
-                            <option value="N50m+">N50M+</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.networthTotal || "-" }}
-                        </p></label
-                    >
-                </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Risk Tolerance
-                        <select
-                            class="form__input form__select"
-                            v-model="itemData.riskTolerance"
-                            v-if="edit === 'investment'"
-                        >
-                            <option value="CONSERVATIVE">Conservative</option>
-                            <option value="NEUTRAL">Neutral</option>
-                            <option value="RISK-SEEKING">Risk Seeking</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.riskTolerance || "-" }}
-                        </p></label
-                    >
-                </div>
-            </section>
-            <section v-if="edit === 'investment'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
-        </form>
+                    </section>
+                </template>
+            </form>
 
-        <form class="accounts-settings__form">
-            <div class="accounts-settings__title">
-                <h5>Confirm Compliance Status</h5>
-                <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('compliance')"
-                    >edit</a
-                >
-            </div>
-            <section class="accounts-settings__hero">
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Mother's Maiden Name
-                        <form-input
-                            type="text"
-                            name="maiden"
-                            v-model="itemData.maidenName"
-                            placeholder="Mother's Maiden Name"
-                            v-if="edit === 'compliance'"
-                        />
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.maidenName || "-" }}
-                        </p></label
+            <form class="accounts-settings__form" @submit.prevent="updateKYC">
+                <div class="accounts-settings__title">
+                    <h5>Confirm Investment Profile</h5>
+                    <a class="accounts-settings__edit" @click="editBtn('investment')" v-if="!edit"
+                        >edit</a
                     >
                 </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Next of Kin Phone
-                        <form-input
-                            type="text"
-                            name="nok phone"
-                            v-model="itemData.nextOfKinPhone"
-                            placeholder="Next of Kin Phone"
-                            v-if="edit === 'compliance'"
-                        />
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.nextOfKinPhone || "-" }}
-                        </p></label
-                    >
-                </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Are you politically exposed?
-                        <select
-                            class="form__input form__select"
-                            v-if="edit === 'compliance'"
-                            v-model="itemData.pepStatus"
+                <section class="accounts-settings__hero">
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Investment Objectives
+                            <select
+                                class="form__input form__select"
+                                v-model="itemData.investmentObjective"
+                                v-if="edit === 'investment'"
+                            >
+                                <option value="PROTECTION">Protection</option>
+                                <option value="GROWTH">Growth</option>
+                                <option value="INCOME">Income</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.investmentObjective || "-" }}
+                            </p></label
                         >
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                        <p v-else class="capitalize accounts-settings__data">
-                            {{ getKYC.pepStatus || "-" }}
-                        </p></label
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Investment Experience
+                            <select
+                                class="form__input form__select"
+                                v-model="itemData.investmentExperience"
+                                v-if="edit === 'investment'"
+                            >
+                                <option value="YRS_0_2">0 - 2 Yrs</option>
+                                <option value="YRS_3_5">2 - 5 Yrs</option>
+                                <option value="YRS_5_plus">5 Yrs+</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.investmentExperience || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Annual Income
+                            <select
+                                class="form__input form__select"
+                                v-model="itemData.annualIncome"
+                                v-if="edit === 'investment'"
+                            >
+                                <option value="LESS_THAN_500k">&lt; 500k</option>
+                                <option value="500K_5MILLION">N500K - N5M</option>
+                                <option value="GREATER_THAN_MILLION">N5M+</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.annualIncome || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Net Worth Liquid
+                            <select
+                                class="form__input form__select"
+                                v-model="itemData.networthLiquid"
+                                v-if="edit === 'investment'"
+                            >
+                                <option value="<5m">&lt; N5M</option>
+                                <option value="N5m-N50m">N5M - N50M</option>
+                                <option value="N50m+">N50M+</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.networthLiquid || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Net Worth Total
+                            <select
+                                class="form__input form__select"
+                                v-model="itemData.networthTotal"
+                                v-if="edit === 'investment'"
+                            >
+                                <option value="<5m">&lt; N5M</option>
+                                <option value="N5m-N50m">N5M - N50M</option>
+                                <option value="N50m+">N50M+</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.networthTotal || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Risk Tolerance
+                            <select
+                                class="form__input form__select"
+                                v-model="itemData.riskTolerance"
+                                v-if="edit === 'investment'"
+                            >
+                                <option value="CONSERVATIVE">Conservative</option>
+                                <option value="NEUTRAL">Neutral</option>
+                                <option value="RISK-SEEKING">Risk Seeking</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.riskTolerance || "-" }}
+                            </p></label
+                        >
+                    </div>
+                </section>
+                <template v-if="edit === 'investment'">
+                    <error-block type="kyc" />
+                    <section class="accounts-settings__submit">
+                        <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                            Cancel
+                        </button>
+                        <action-button
+                            type="submit"
+                            :pending="loading"
+                            :classes="['btn-block', 'btn__primary']"
+                            >Submit</action-button
+                        >
+                    </section>
+                </template>
+            </form>
+
+            <form class="accounts-settings__form">
+                <div class="accounts-settings__title">
+                    <h5>Confirm Compliance Status</h5>
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('compliance')"
+                        >edit</a
                     >
                 </div>
-            </section>
-            <section v-if="edit === 'compliance'" class="accounts-settings__submit">
-                <button @click="cancelEdit" type="button" class="btn btn-block">
-                    Cancel
-                </button>
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Submit</action-button
-                >
-            </section>
-        </form>
+                <section class="accounts-settings__hero">
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Mother's Maiden Name
+                            <form-input
+                                type="text"
+                                name="maiden"
+                                v-model="itemData.maidenName"
+                                placeholder="Mother's Maiden Name"
+                                v-if="edit === 'compliance'"
+                            />
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.maidenName || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Next of Kin Phone
+                            <form-input
+                                type="text"
+                                name="nok phone"
+                                v-model="itemData.nextOfKinPhone"
+                                placeholder="Next of Kin Phone"
+                                v-if="edit === 'compliance'"
+                            />
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.nextOfKinPhone || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Are you politically exposed?
+                            <select
+                                class="form__input form__select"
+                                v-if="edit === 'compliance'"
+                                v-model="itemData.pepStatus"
+                            >
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.pepStatus || "-" }}
+                            </p></label
+                        >
+                    </div>
+                </section>
+                <template v-if="edit === 'compliance'">
+                    <error-block type="kyc" />
+                    <section class="accounts-settings__submit">
+                        <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                            Cancel
+                        </button>
+                        <action-button
+                            type="submit"
+                            :pending="loading"
+                            :classes="['btn-block', 'btn__primary']"
+                            >Submit</action-button
+                        >
+                    </section>
+                </template>
+            </form>
+        </template>
+        <modal no-header @close="showOTP = false" v-if="showOTP">
+            <form @submit.prevent="useNewPhone" v-if="showNewPhone">
+                <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
+                <div class="accounts-settings__group--modal">
+                    <label class="form__label"
+                        >Date of Birth
+                        <input
+                            class="form__input"
+                            type="date"
+                            name="dob"
+                            @input="handleDate($event)"
+                    /></label>
+                </div>
+                <div class="accounts-settings__group--modal">
+                    <label class="form__label"
+                        >Select Country
+                        <select class="form__input form__select" v-model="newPhone.countryCode">
+                            <template v-if="getCountryCodes">
+                                <option
+                                    :value="country.callingCodes[0]"
+                                    v-for="(country, index) in getCountryCodes"
+                                    :key="index"
+                                    :selected="country.name === 'Nigeria'"
+                                    >{{ country.name
+                                    }}{{ ` (+${country.callingCodes[0]})` }}</option
+                                >
+                            </template>
+                            <template v-else>
+                                <option value="234" selected>Nigeria (+234)</option>
+                            </template>
+                        </select>
+                    </label>
+                </div>
+                <div class="accounts-settings__group--modal">
+                    <label class="form__label text-center"
+                        >Phone Number
+                        <form-input
+                            type="number"
+                            name="phone"
+                            v-model="newPhone.phone"
+                            placeholder="Enter new phone"
+                    /></label>
+                </div>
+                <error-block type="kyc-phone" />
+
+                <section class="accounts-settings__submit--modal">
+                    <action-button
+                        :disabled="Object.keys(itemData).length < 3"
+                        type="submit"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+            </form>
+            <form @submit.prevent="submitOTP" v-else>
+                <p class="text-center mb-3">
+                    An OTP has been sent to your registered number ({{ getKYC.phone }})
+                </p>
+                <div class="accounts-settings__group--modal">
+                    <label class="form__label text-center"
+                        >Enter OTP
+                        <form-input
+                            type="number"
+                            name="phone"
+                            v-model="otpData.otp"
+                            placeholder="Enter OTP"
+                    /></label>
+                </div>
+                <error-block type="kyc-otp" />
+
+                <section class="accounts-settings__submit--modal">
+                    <action-button
+                        type="submit"
+                        :disabled="!otpData.otp"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </section>
+                <div class="text-center">
+                    <template v-if="!countdown">
+                        <p class="mb-1">Resend OTP</p>
+                        <p class="mb-1">
+                            <a class="underline primary" @click="resendOTPEmail">Via Email</a>
+                        </p>
+                        <p class="mb-3">
+                            <a class="underline primary" @click="resendOTPWhatsapp">Via Whatsapp</a>
+                        </p>
+                    </template>
+
+                    <p class="countdown--account" v-else>
+                        <span class="countdown__text">Resend in</span>&nbsp;
+                        <span>{{ countdown }}</span>
+                    </p>
+                    <small
+                        ><a @click="showNewPhone = true" class="underline primary">Click here</a> to
+                        use a phone number</small
+                    >
+                </div>
+            </form>
+        </modal>
     </div>
 </template>
 
@@ -554,57 +703,219 @@ const LG = () => import("../../../services/kyc/lgNames");
 export default {
     name: "accounts-settings",
     components: {
-        Uploads
+        Uploads,
+        vSelect: () => import("vue-select")
     },
     data() {
         return {
             itemData: {},
+            otpData: {},
             edit: null,
             loading: false,
             bvnData: {},
-            activeButton: 1,
-            employmentStatus: 1,
+            employmentStatus: "EMPLOYRD",
+            selectedLg: {},
+            selectedCountry: {},
             lgNames: [],
             banks: [],
             positions: [],
-            types: []
+            types: [],
+            showOTP: null,
+            showNewPhone: false,
+            newPhone: {},
+            showUploadError: false,
+            showUploadSuccess: false,
+            countdown: null,
+            OTPResend: false,
+            smsSender: 0
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getLoggedUser"])
+        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getCountryCodes"])
     },
     methods: {
-        ...mapActions(["GET_KYC", "GET_NEXT_KYC", "UPDATE_KYC"]),
+        ...mapActions([
+            "GET_KYC",
+            "GET_NEXT_KYC",
+            "UPDATE_KYC",
+            "UPDATE_KYC_BANK",
+            "RESOLVE_BVN",
+            "USE_BVN_PHONE",
+            "RESOLVE_DOB",
+            "RESOLVE_OTP",
+            "GET_COUNTRY_CODES"
+        ]),
         editBtn(name) {
             this.edit = name;
+            this.showUploadError = null;
+            this.showUploadSuccess = null;
         },
         cancelEdit() {
             this.edit = null;
         },
         updateKYC() {
             this.loading = true;
-            this.UPDATE_KYC(this.itemData).then(() => {
+            this.UPDATE_KYC(this.itemData).then(resp => {
                 this.loading = false;
+                this.edit = null;
+                if (resp) this.itemData = {};
             });
         },
         submitBVN() {
             this.loading = true;
-            console.log(this.itemData);
-            setTimeout(() => {
+            this.RESOLVE_BVN(this.bvnData).then(resp => {
+                if (resp) {
+                    this.bvnData.bvn = {}
+                    this.submitBank()
+                }
                 this.loading = false;
-            }, 2000);
+            });
+        },
+        submitBank() {
+            if(this.bvnData.bvn){
+                this.submitBVN()
+                return true
+            }
+            this.loading = true;
+            this.UPDATE_KYC_BANK(this.itemData).then(resp => {
+                if (resp) {
+                    this.itemData = {};
+                    this.edit = null;
+                }
+                this.loading = false;
+            });
         },
         submitPhone() {
             this.loading = true;
-            console.log(this.itemData);
             setTimeout(() => {
                 this.loading = false;
             }, 2000);
         },
-        uploadFile(formData) {}
+        useBVNPhone() {
+            this.loading = true;
+            const payload = {
+                smsSender: this.smsSender
+            };
+            this.USE_BVN_PHONE(payload).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.showOTP = true;
+                    this.showNewPhone = false;
+                    this.itemData = {};
+                }
+            });
+        },
+        useNewPhone() {
+            this.loading = true;
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.showNewPhone = false;
+                    this.itemData = {};
+                }
+            });
+        },
+        submitOTP() {
+            this.loading = true;
+            this.RESOLVE_OTP(this.otpData).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.itemData = {};
+                    this.showOTP = false;
+                }
+            });
+        },
+        handleDate(e) {
+            if (e.target.value) {
+                this.newPhone.dob = new Date(e).toISOString();
+            }
+        },
+        handleUploadError(error) {
+            this.showUploadError = error;
+        },
+        handleUploadSuccess(message) {
+            this.showUploadSuccess = true;
+        },
+        handleReset() {
+            this.showUploadSuccess = null;
+            this.showUploadError = null;
+        },
+        resendOTPEmail() {
+            this.startTimer();
+            this.OTPResend = true;
+            this.smsSender = 1;
+            if (!this.showNewPhone) {
+                // this.card1();
+                this.useBVNPhone();
+                return true;
+            }
+            this.loading = true;
+            this.newPhone.smsSender = this.smsSender;
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+                if (resp) {
+                    this.showOTP = false;
+                    this.OTPResend = false;
+                    this.itemData = {};
+                }
+            });
+            return true;
+        },
+        resendOTPWhatsapp() {
+            this.startTimer();
+            this.OTPResend = true;
+            this.smsSender = 2;
+            if (!this.showNewPhone) {
+                this.useBVNPhone();
+                return true;
+            }
+            this.loading = true;
+            this.newPhone.smsSender = this.smsSender;
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+                if (resp) {
+                    this.showOTP = false;
+                    this.OTPResend = false;
+                    this.itemData = {};
+                }
+            });
+            return true;
+        },
+        startTimer() {
+            const countDownDate = new Date().setTime(new Date().getTime() + 60 * 1000);
+
+            // Update the count down every 1 second
+            const x = setInterval(() => {
+                const now = new Date().getTime();
+                const counting = (countDownDate - now) / 1000;
+                if (Math.floor(counting % 60) === 0) {
+                    this.countdown = null;
+                    clearInterval(x);
+                    return true;
+                }
+                const hours = Math.floor(counting / 60);
+                const minutes =
+                    Math.floor(counting % 60) < 10
+                        ? `0${Math.floor(counting % 60)}`
+                        : Math.floor(counting % 60);
+                this.countdown = `${hours}:${minutes}`;
+            }, 1000);
+        },
+        confirmPhone() {
+            this.useBVNPhone();
+        },
+        editExistingPhone() {
+            this.showOTP = true;
+            this.showNewPhone = true;
+        },
+        switchLG(name) {
+            this.itemData.lg = this.selectedLg.value;
+        },
+        switchCountry(name) {
+            this.newPhone.countryCode = this.selectedCountry.value;
+        }
     },
     async mounted() {
         await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);
+        this.GET_COUNTRY_CODES();
         this.banks = await Banks().then(({ banks }) => banks);
         this.types = await Types().then(({ company }) => company);
         this.positions = await Positions().then(({ position }) => position);

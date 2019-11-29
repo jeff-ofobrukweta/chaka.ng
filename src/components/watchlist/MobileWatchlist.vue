@@ -38,11 +38,7 @@
         :to="{name:'singlestock',params:{id:instrument.id}}">
         <div class="watchlist-mobile__bottom">
             <div class="watchlist-mobile__left">
-                <img
-                    class="watchlist-mobile__logo"
-                    src="../../assets/img/icons/GOOGLE.png"
-                    alt="Google"
-                />
+                <img class="watchlist-mobile__logo" :src="instrument.logoUrl" alt="Google" />
                 <div>
                     <p class="watchlist-mobile__name capitalize">
                         {{ instrument.name | truncate(50) }}
@@ -69,11 +65,26 @@
                     >
                 </p>
                 <p class="watchlist-mobile__price">
-                    <img src="../../assets/img/flags/us-flag.svg" alt="US" /><span>|</span>
+                    <img
+                        :src="
+                            require(`../../assets/img/flags/${
+                                instrument.countryCode ? instrument.countryCode.toLowerCase() : 'zz'
+                            }-flag.svg`)
+                        "
+                        class="watchlist-explore__symbol"
+                        alt="US"
+                        width="24px"
+                    /><span>|</span>
                     <strong
+                        v-if="instrument.InstrumentDynamic"
                         class="cursor-context"
-                        :title="instrument.price | currency(instrument.currency, true)"
-                        >{{ instrument.price | currency(instrument.currency) }}</strong
+                        :title="
+                            instrument.InstrumentDynamic.askPrice
+                                | currency(instrument.currency, true)
+                        "
+                        >{{
+                            instrument.InstrumentDynamic.askPrice | currency(instrument.currency)
+                        }}</strong
                     >
                 </p>
             </div>
@@ -91,7 +102,7 @@
 
 <script>
 export default {
-    name: 'watchlist-card',
+    name: "watchlist-card",
     props: {
         instrument: {
             type: Object,

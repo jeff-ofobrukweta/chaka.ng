@@ -1,6 +1,6 @@
 <template>
     <Fragment>
-    <!-- <div>
+        <!-- <div>
         <section class="accounts__title">
             <h3>History</h3>
             <select class="form__input" name="" id="">
@@ -30,20 +30,19 @@
         </section>
     </div> -->
 
-
-    <!-- stamps componemt starts -->
-    <Stampscomponent/>
-    <!-- stamps end here -->
+        <!-- stamps componemt starts -->
+        <Stampscomponent />
+        <!-- stamps end here -->
     </Fragment>
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
-import StatementsCard from '../../../components/accounts/StatementsCard';
-import Stampscomponent from '../../../components/stamps_and_certificates/stamps';
+import { Fragment } from "vue-fragment";
+import StatementsCard from "../../../components/accounts/StatementsCard";
+import Stampscomponent from "../../../components/stamps_and_certificates/stamps";
 
 export default {
-    name: 'accounts-statements',
+    name: "accounts-stamps",
     components: {
         StatementsCard,
         Stampscomponent,
@@ -54,53 +53,53 @@ export default {
             activeButton: 1,
             statementButtons: [
                 {
-                    name: 'Statement',
+                    name: "Statement",
                     value: 1
                 },
                 {
-                    name: 'Confirmations',
+                    name: "Confirmations",
                     value: 2
                 },
                 {
-                    name: 'Tax',
+                    name: "Tax",
                     value: 3
                 }
             ],
             statements: [
                 {
-                    description: 'Description',
-                    detail: '2018 Tax Year 1099-B',
-                    link: ''
+                    description: "Description",
+                    detail: "2018 Tax Year 1099-B",
+                    link: ""
                 },
                 {
-                    description: 'Description',
-                    detail: '2018 Tax Year 1099-B',
-                    link: ''
+                    description: "Description",
+                    detail: "2018 Tax Year 1099-B",
+                    link: ""
                 },
                 {
-                    description: 'Description',
-                    detail: '2018 Tax Year 1099-B',
-                    link: ''
+                    description: "Description",
+                    detail: "2018 Tax Year 1099-B",
+                    link: ""
                 },
                 {
-                    description: 'Description',
-                    detail: '2018 Tax Year 1099-B',
-                    link: ''
+                    description: "Description",
+                    detail: "2018 Tax Year 1099-B",
+                    link: ""
                 },
                 {
-                    description: 'Description',
-                    detail: '2018 Tax Year 1099-B',
-                    link: ''
+                    description: "Description",
+                    detail: "2018 Tax Year 1099-B",
+                    link: ""
                 },
                 {
-                    description: 'Description',
-                    detail: '2018 Tax Year 1099-B',
-                    link: ''
+                    description: "Description",
+                    detail: "2018 Tax Year 1099-B",
+                    link: ""
                 },
                 {
-                    description: 'Description',
-                    detail: '2018 Tax Year 1099-B',
-                    link: ''
+                    description: "Description",
+                    detail: "2018 Tax Year 1099-B",
+                    link: ""
                 }
             ]
         };

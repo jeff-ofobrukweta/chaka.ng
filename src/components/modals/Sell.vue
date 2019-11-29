@@ -4,18 +4,26 @@
         <section class="modal__buy--details">
             <div class="modal__buy-left">
                 <div class="modal__buy--image">
-                    <img
-                        class="modal__buy--img"
-                        src="https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                    />
+                    <img class="modal__buy--img" :src="instrument.logoUrl" />
                 </div>
                 <div class="modal__buy--symbol">
                     <p>{{ instrument.symbol }}</p>
-                    <p><img src="../../assets/img/flags/us-flag.svg" alt="US" /></p>
+                    <p>
+                        <img
+                            :src="
+                                require(`../../assets/img/flags/${
+                                    instrument.country ? instrument.country.toLowerCase() : 'zz'
+                                }-flag.svg`)
+                            "
+                            class="watchlist-explore__symbol"
+                            alt="US"
+                            width="24px"
+                        />
+                    </p>
                 </div>
             </div>
             <div>
-                <p class="grey-cool"><small>CURRENCT STOCK PRICE</small></p>
+                <p class="grey-cool"><small>CURRENT STOCK PRICE</small></p>
                 <p>
                     <span
                         class="cursor-context modal__buy--price"
@@ -40,11 +48,26 @@
             </div>
             <div>
                 <p class="grey-cool"><small>AVAILABLE AMOUNT</small></p>
-                <p
-                    class="cursor-context modal__buy--price"
-                    :title="3445566 | currency(instrument.currency, true)"
-                >
-                    {{ 3445566 | currency(instrument.currency) }}
+                <p>
+                    <span
+                        class="cursor-context modal__buy--price"
+                        :title="instrument.price | currency(instrument.currency, true)"
+                        >{{ instrument.price | currency(instrument.currency) }}</span
+                    >&nbsp;&nbsp;
+                    <img
+                        v-if="instrument.change >= 0"
+                        src="../../assets/img/watchlist-up.svg"
+                        alt="Growth"
+                    />
+                    <img v-else src="../../assets/img/watchlist-down.svg" alt="Growth" />
+                    <span :class="[instrument.change >= 0 ? 'green' : 'red']">
+                        <span>{{ instrument.change >= 0 ? "+" : "" }}</span>
+                        <small
+                            >{{ instrument.change | units(2) }} ({{
+                                instrument.percent | units(2)
+                            }}%)</small
+                        ></span
+                    >
                 </p>
             </div>
         </section>
@@ -96,8 +119,9 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 export default {
-    name: 'sell-modal',
+    name: "sell-modal",
     props: {
         currency: {
             type: String,
@@ -116,12 +140,16 @@ export default {
         return {
             itemData: {},
             loading: false,
-            orderType: 'MARKET'
+            orderType: "MARKET"
         };
     },
+    computed: {
+        ...mapGetters(["getAccountSummary"])
+    },
     methods: {
+        ...mapActions(["GET_ACCOUNT_SUMMARY"]),
         closeModal() {
-            this.$emit('close');
+            this.$emit("close");
         },
         switchOrder(value) {
             this.orderType = value;
@@ -133,6 +161,9 @@ export default {
                 console.log(this.itemData);
             }, 3000);
         }
+    },
+    async mounted() {
+        await this.GET_ACCOUNT_SUMMARY();
     }
 };
 </script>

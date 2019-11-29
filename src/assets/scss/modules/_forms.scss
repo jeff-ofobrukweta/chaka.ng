@@ -62,6 +62,25 @@
       border-color: $orange;
       animation: shake 400ms ease-in-out;
     }
+
+    &.v-select {
+      padding: 0;
+
+      .vs__dropdown-toggle {
+        border: none;
+        padding: 0;
+        height: 100%;
+
+        input {
+
+          &::-webkit-input-placeholder,
+          &::-ms-input-placeholder,
+          &::placeholder {
+            color: $grey-dark;
+          }
+        }
+      }
+    }
   }
 
   &__label {

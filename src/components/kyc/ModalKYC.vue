@@ -17,6 +17,7 @@ import Types from "../../services/kyc/employmentTypes";
 import Positions from "../../services/kyc/employmentPosition";
 import Banks from "../../services/kyc/banks";
 import lg from "../../services/kyc/lgNames";
+import { mapActions } from "vuex";
 export default {
     name: "kyc-modal",
     components: {
@@ -33,6 +34,7 @@ export default {
         };
     },
     methods: {
+        ...mapActions(["GET_NEXT_KYC"]),
         handleInput(e) {
             console.log(e);
         },
@@ -49,7 +51,8 @@ export default {
             return [];
         }
     },
-    mounted() {
+    async mounted() {
+        await this.GET_NEXT_KYC();
         this.requiredFields.map(required => {
             const all = AllKYCFields.filter(el => {
                 if (required === el.value) {

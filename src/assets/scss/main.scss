@@ -1,10 +1,11 @@
+@import 'vue-select/src/scss/vue-select.scss';
 @import "base/font";
 @import "base/variables";
 @import "base/reset";
 @import "base/base";
 @import "base/mixins";
 
-@import "modules/main";
+
 @import "modules/forms";
 @import "modules/buttons";
 @import "modules/cards";
@@ -18,7 +19,7 @@
 @import "layouts/accounts";
 @import "layouts/explore";
 @import "layouts/header";
-@import "layouts/auth.scss";
+@import "layouts/auth.scss";@import "modules/main";
 
 @import "components/watchlist";
 @import "components/portfolio";
