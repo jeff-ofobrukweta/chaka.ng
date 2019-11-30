@@ -5,7 +5,7 @@
             <img
                 :src="
                     require(`../../assets/img/flags/${
-                        instrument.country ? instrument.country.toLowerCase() : 'zz'
+                        instrument.countryCode ? instrument.countryCode.toLowerCase() : 'zz'
                     }-flag.svg`)
                 "
                 class="watchlist-explore__symbol"
@@ -21,31 +21,33 @@
                 <strong>{{ instrument.name }}</strong>
             </p>
         </div>
-        <div class="watchlist-explore__flex">
+        <div class="watchlist-explore__flex" v-if="Object.keys(chartData).length > 0">
             <p
                 class="watchlist-explore__change"
-                :class="[instrument.change >= 0 ? 'green' : 'red']"
+                :class="[chartData.derivedPrice >= 0 ? 'green' : 'red']"
             >
                 <img
                     src="../../assets/img/green-arrow.svg"
-                    v-if="instrument.change >= 0"
+                    v-if="+chartData.derivedPrice >= 0"
                     alt="Gain"
                 />
                 <img src="../../assets/img/red-arrow.svg" v-else alt="Loss" />
                 <small
-                    >{{ instrument.change >= 0 ? "+" : "" }}{{ instrument.change | units(2) }} ({{
-                        instrument.percent | units(2)
+                    >{{ +chartData.derivedPricePercentage >= 0 ? "+" : ""
+                    }}{{ +chartData.derivedPricePercentage | units(2) }} ({{
+                        +chartData.derivedPricePercentage | units(2)
                     }}%)</small
                 >
             </p>
-            <p>
+            <p v-if="instrument.InstrumentDynamic">
                 <strong
                     class=" cursor-context"
-                    :title="instrument.rateAsk | currency(instrument.currency, true)"
-                    >{{ instrument.rateAsk | currency(instrument.currency) }}</strong
+                    :title="chartData.askPrice | currency(instrument.currency, true)"
+                    >{{ chartData.askPrice | currency(instrument.currency) }}</strong
                 >
             </p>
         </div>
+        <div class="watchlist-explore__flex" v-else></div>
         <div class="watchlist-explore__graph--box">
             <line-chart
                 class="watchlist-explore__graph"
@@ -53,6 +55,7 @@
                 :options="options"
                 :width="100"
                 :height="50"
+                v-if="chartData.chart"
             ></line-chart>
         </div>
         <div class="watchlist-explore__actions">
@@ -97,6 +100,7 @@
 
 <script>
 import LineChart from "../Linegraph/linegraph_config.js";
+import { mapActions } from "vuex";
 
 export default {
     name: "explore-watchlist",
@@ -146,37 +150,17 @@ export default {
                         }
                     ]
                 }
-            }
+            },
+            chartData: {},
+            labelsArray: [],
+            chartArray: []
         };
     },
-    computed: {
-        countryImage() {
-            if (this.instrument.country)
-                return `../../assets/img/flags/${this.instrument.country.toLowerCase()}-flag.svg`;
-            return "../../assets/img/flags/zz-flag.svg";
-        }
-    },
     methods: {
+        ...mapActions(["GET_WATCHLIST_CHART"]),
         fillData() {
             this.datacollection = {
-                labels: [
-                    "jan",
-                    "feb",
-                    "march",
-                    "april",
-                    "jan",
-                    "feb",
-                    "march",
-                    "april",
-                    "may",
-                    "june",
-                    "july",
-                    "august",
-                    "sept",
-                    "oct",
-                    "nov",
-                    "dec"
-                ],
+                labels: this.labelsArray,
                 datasets: [
                     {
                         label: "Stocks",
@@ -194,46 +178,30 @@ export default {
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
-                        data: [
-                            12,
-                            23,
-                            34,
-                            44,
-                            12,
-                            23,
-                            34,
-                            44,
-                            56,
-                            66,
-                            78,
-                            89,
-                            45,
-                            5,
-                            45,
-                            1,
-                            23,
-                            78,
-                            89,
-                            45,
-                            5,
-                            45,
-                            1
-                        ]
+                        data: this.chartArray
                     }
                 ]
             };
         }
     },
 
-    mounted() {
+    async mounted() {
         this.fillData();
+        if (this.instrument.symbol) {
+            await this.GET_WATCHLIST_CHART({
+                symbol: this.instrument.symbol,
+                interval: "1W"
+            }).then(resp => {
+                this.chartData = resp;
+                this.chartData.chart.map(el => {
+                    this.labelsArray.push(el.date);
+                    this.chartArray.push(el.price);
+                });
+                setTimeout(() => {
+                    this.fillData();
+                }, 100);
+            });
+        }
     }
 };
 </script>
-country: "US" description: "" exchangeID: "XNAS" historyUrl: "" id: "1" logoUrl:
-"http://syscdn.drivewealth.net/images/symbols/aapl.png" marginCurrencyID: "USD" name: "Apple, Inc."
-orderSizeMax: 10000 orderSizeMin: 0.0001 orderSizeStep: 0.0001 rateAsk: 174.2 rateBid: 174.2
-ratePrecision: 2 sector: "Technology" socketUrl: "ws://" statsData: {yesterdayClose: 171.9,
-openPrice: 172.86, lowPrice: 172.36, highPrice: 175.08,…} symbol: "AAPL" tags: ["aapl", "sp500",
-"usa"] tradeStatus: 1 tradingHours: "Mon-Fri: 9:30am - 4:00pm ET" uom: "shares" urlInvestor:
-"http://investor.apple.com/"

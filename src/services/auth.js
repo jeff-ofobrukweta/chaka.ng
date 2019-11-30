@@ -4,6 +4,7 @@ import store from "../store/index";
  * Resets state and calls logout mutation
  */
 function resetState() {
+    localStorage.removeItem("AUTH_TOKEN");
     store.commit("LOGOUT");
     store.commit("RESET_ALL");
 }

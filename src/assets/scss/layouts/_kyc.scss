@@ -21,8 +21,8 @@
             flex: 0 0 100%;
             max-width: 100%;
             text-align: center;
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
+            padding-top: .5rem;
+            padding-bottom: .5rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -33,10 +33,18 @@
                 text-align: left;
             }
 
-            h4 {
+            h5 {
                 color: white;
                 margin-bottom: .5rem;
                 font-weight: normal;
+            }
+
+            p {
+                line-height: 1.2;
+            }
+
+            .skip-button {
+                margin-top: 1rem;
             }
 
         }
@@ -44,8 +52,8 @@
         &__field {
             flex: 0 0 100%;
             max-width: 100%;
-            padding-top: .825rem;
-            padding-bottom: .825rem;
+            padding-top: .25rem;
+            padding-bottom: .25rem;
             display: flex;
             align-items: center;
 
@@ -68,6 +76,12 @@
                 text-decoration: underline;
                 margin-top: 1rem;
                 margin-bottom: 1rem;
+                display: inline-block;
+
+                &.skip {
+                    margin-left: 2rem;
+                    display: initial;
+                }
 
                 @include tablet {
                     margin-right: 1rem;
@@ -94,6 +108,8 @@
             background-color: $primary;
             border-radius: 0;
             border-color: $primary;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
 
             path {
                 fill: $white
@@ -106,6 +122,11 @@
                 path {
                     fill: $primary
                 }
+            }
+
+            &--mobile {
+                // margin-bottom: 1rem;
+
             }
         }
 
@@ -132,7 +153,19 @@
     &-form {
         &__group {
             @extend .modal-form__group;
-            width: 100%
+            width: 100%;
+
+            @include tablet {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &-field {
+        &__group {
+            @extend .kyc-form__group;
+            margin-bottom: 1rem;
+
         }
     }
 

@@ -24,11 +24,13 @@ export default {
         Fragment
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER"])
+        ...mapActions(["GET_LOGGED_USER", "GET_NEXT_KYC", "GET_ACCOUNT_SUMMARY"])
     },
-    async mounted() {
+    mounted() {
         document.title = "Chaka - Dashboard";
-        await this.GET_LOGGED_USER();
+        this.GET_LOGGED_USER().then(async () => {
+            Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
+        });
     }
 };
 </script>

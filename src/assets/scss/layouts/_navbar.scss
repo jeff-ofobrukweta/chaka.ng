@@ -120,6 +120,13 @@
                     fill: $primary;
                 }
 
+                .chevron {
+                    path {
+                        fill: transparent;
+                        stroke: $primary;
+                    }
+                }
+
                 .side-nav__dot {
                     background: $primary;
                 }

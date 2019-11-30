@@ -37,7 +37,7 @@
         </section>
 
         <section class="accounts-statements__downloads" v-if="loading">
-            loading...
+            Loading...
         </section>
 
         <section class="accounts-statements__downloads" v-else-if="getStatements.length > 0">
@@ -68,7 +68,7 @@ export default {
                 toDate: null,
                 market: "GLOBAL"
             },
-            loading: false,
+            loading: true,
             market: "GLOBAL",
             reportType: "STATEMENT",
             selectedOrderCurrency: null,
@@ -139,6 +139,7 @@ export default {
         this.fromDate = this.$options.filters.reverseDate(this.payload.fromDate);
         this.toDate = this.$options.filters.reverseDate(this.payload.toDate);
         await this.GET_STATEMENTS(this.payload);
+        this.loading = false;
     }
 };
 </script>

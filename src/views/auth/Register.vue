@@ -12,7 +12,7 @@
                             name="email"
                             v-model="itemData.email"
                             placeholder="Email Address"
-                            error-message="Email must be valid"
+                            error-message="Invalid email"
                             :invalid="$v.itemData.email"
                             @reset="resetError"
                     /></label>

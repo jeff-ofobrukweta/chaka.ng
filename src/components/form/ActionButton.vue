@@ -9,7 +9,7 @@
         <slot></slot>
     </button>
     <button v-else class="btn action" disabled :class="[classes]">
-        Pending...
+        <span v-if="!icon">Pending</span>...
     </button>
 </template>
 
@@ -26,6 +26,10 @@ export default {
             required: true
         },
         disabled: {
+            type: Boolean,
+            default: false
+        },
+        icon: {
             type: Boolean,
             default: false
         }

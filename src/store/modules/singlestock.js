@@ -1,8 +1,9 @@
-import API_CONTEXT from '../../services/apiService/api';
+import API_CONTEXT from "../../services/apiService/api";
 
 const state = {
-    instrument:{},
-    singlestockpositions:[]
+    instrument: {},
+    singlestockpositions: [],
+    preOrder: {}
 };
 
 const getters = {
@@ -13,7 +14,8 @@ const getters = {
 			return filtered;
 		}
 		return false;
-	}
+    },
+    getPreOrder: state => state.preOrder
 };
 
 const mutations = {
@@ -21,11 +23,13 @@ const mutations = {
         state.instrument = instrument;
     },
     SET_CURRENTSTOCK_POSITIONS(state, positions) {
-		let singlestockpositions = {};
-		singlestockpositions = positions;
-		state.singlestockpositions = singlestockpositions.position;
-	},
-
+        let singlestockpositions = {};
+        singlestockpositions = positions;
+        state.singlestockpositions = singlestockpositions.position;
+    },
+    SET_PRE_ORDER(state, payload) {
+        state.preOrder = payload;
+    }
 };
 
 const actions = {
@@ -39,10 +43,10 @@ const actions = {
                console.log(`::::::::::::::::::::${error}`);
 			});
     },
-    async GET_CURRENT_STOCK_POSITION({ commit,rootState}) {
+    async GET_CURRENT_STOCK_POSITION({ commit, rootState }) {
         // console.log('on mount..................',rootState.auth)
-		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions/`)
-			.then((response) => {
+        await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions/`)
+            .then(response => {
                 const { position } = response.data.data;
                 commit('SET_CURRENTSTOCK_POSITIONS',position);
 			})
@@ -50,6 +54,28 @@ const actions = {
                console.log(`::::::::::::::::::::${error}`);
 			});
     },
+    GET_PRE_ORDER: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            return api.get(
+                "/currency-rates/today".then(
+                    resp => {
+                        if (resp.status === 200) {
+                            commit("SET_EXCHANGE_RATE", resp.data.data.rate).then(() => {
+                                resolve(true);
+                            });
+                        } else {
+                            errorFn(resp, "exchange");
+                            resolve(false);
+                        }
+                    },
+                    error => {
+                        errorFn(error.response, "exchange");
+                        resolve(false);
+                    }
+                )
+            );
+        });
+    }
 };
 
 export default {

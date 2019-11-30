@@ -196,9 +196,27 @@
                             :to="{ name: 'accounts-wallet' }"
                         >
                             <strong>Avail</strong>
-                            <span>: ₦ Amount</span>
+                            <span
+                                :title="
+                                    getAccountSummary.localWallet.availableBalance
+                                        | currency('NGN', true)
+                                "
+                                >:
+                                {{
+                                    getAccountSummary.localWallet.availableBalance | currency("NGN")
+                                }}</span
+                            >
                             <span>&nbsp;|&nbsp;</span>
-                            <span>$ Amount</span></router-link
+                            <span
+                                :title="
+                                    getAccountSummary.globalWallet.availableBalance
+                                        | currency('USD', true)
+                                "
+                                >{{
+                                    getAccountSummary.globalWallet.availableBalance
+                                        | currency("USD")
+                                }}</span
+                            ></router-link
                         >
                         <button
                             @click="showFund = true"
@@ -227,7 +245,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["isLoggedIn"])
+        ...mapGetters(["isLoggedIn", "getLoggedUser", "getAccountSummary"])
     },
     methods: {
         toggleSidebar() {

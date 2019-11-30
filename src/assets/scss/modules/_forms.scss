@@ -17,7 +17,7 @@
     margin-top: .325rem;
 
     &.is-invalid {
-      border-color: $orange;
+      border-color: $red;
       animation: shake 400ms ease-in-out;
     }
 
@@ -59,8 +59,27 @@
     height: 2.525rem;
 
     &.is-invalid {
-      border-color: $orange;
+      border-color: $red;
       animation: shake 400ms ease-in-out;
+    }
+
+    &.v-select {
+      padding: 0;
+
+      .vs__dropdown-toggle {
+        border: none;
+        padding: 0;
+        height: 100%;
+
+        input {
+
+          &::-webkit-input-placeholder,
+          &::-ms-input-placeholder,
+          &::placeholder {
+            color: $grey-dark;
+          }
+        }
+      }
     }
   }
 
@@ -70,7 +89,7 @@
 
   &-control {
     &.is-invalid {
-      border-color: $orange;
+      border-color: $red;
       // background: url("assets/img/icons/warning.svg") no-repeat;
       background-size: 24px 24px;
       background-position: 96%;
@@ -87,8 +106,9 @@
   }
 
   &-error {
-    color: $orange;
-    font-size: .85rem;
+    color: $red;
+    font-size: 85%;
+    text-transform: lowercase;
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="kyc-modal">
+    <form class="kyc-modal" @submit.prevent="updateKYC">
         <Field
             v-for="(field, i) in allFields"
             :key="i"
@@ -7,7 +7,18 @@
             @input="handleInput"
             :options="checkOptions(field)"
         />
-    </div>
+
+        <error-block type="kyc" />
+        <div class="text-center">
+            <action-button
+                type="submit"
+                :disabled="!formComplete"
+                :pending="loading"
+                :classes="['btn-block', 'btn__primary']"
+                >Submit</action-button
+            >
+        </div>
+    </form>
 </template>
 
 <script>
@@ -17,10 +28,17 @@ import Types from "../../services/kyc/employmentTypes";
 import Positions from "../../services/kyc/employmentPosition";
 import Banks from "../../services/kyc/banks";
 import lg from "../../services/kyc/lgNames";
+import { mapActions } from "vuex";
 export default {
     name: "kyc-modal",
     components: {
         Field
+    },
+    props: {
+        requiredFields: {
+            type: Array,
+            required: true
+        }
     },
     data() {
         return {
@@ -29,19 +47,46 @@ export default {
             banks: Banks.banks,
             positions: Positions.position,
             types: Types.company,
-            requiredFields: ["bankAcctName", "nextOfKinPhone", "employmentPosition"]
+            loading: false,
+            itemData: {},
+            state: null,
+            formComplete: false
         };
     },
     methods: {
+        ...mapActions(["GET_NEXT_KYC", "UPDATE_KYC_BANK", "UPDATE_KYC", "UPDATE_KYC_FILE"]),
         handleInput(e) {
-            console.log(e);
+            this.itemData[e.name] = e.value;
+            this.formComplete = Object.keys(this.itemData).length === this.requiredFields.length;
+        },
+        updateKYC() {
+            Object.keys(this.itemData).forEach(el => {
+                if (el === "bankCode" || el === "bankAcctNo") this.state = "bvn";
+                else if (el === "addressProofUrl" || el === "idPhotoUrl" || el === "passportUrl")
+                    this.state = "file";
+                else this.state = "default";
+            });
+            this.loading = true;
+            if (this.state === "bvn") {
+                this.UPDATE_KYC_BANK(this.itemData).then(() => {
+                    this.loading = false;
+                });
+            } else if ((this.state = "file")) {
+                this.UPDATE_KYC_FILE(this.itemData).then(() => {
+                    this.loading = true;
+                });
+            } else {
+                this.UPDATE_KYC(this.itemData).then(() => {
+                    this.loading = false;
+                });
+            }
         },
         checkOptions(type) {
             if (type.value === "employmentType") {
                 return this.types;
             } else if (type.value === "employmentPosition") {
                 return this.positions;
-            } else if (type.value === "bankAcctName") {
+            } else if (type.value === "bankCode") {
                 return this.banks;
             } else if (type.value === "lg") {
                 return this.lg;
