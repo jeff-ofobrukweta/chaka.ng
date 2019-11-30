@@ -35,7 +35,7 @@
             </div>
         </div>
         <router-link class="section1 linking" 
-        :to="{name:'singlestock',params:{id:instrument.id}}">
+        :to="{name:'singlestock',params:{symbol:instrument.symbol}}">
         <div class="watchlist-mobile__bottom">
             <div class="watchlist-mobile__left">
                 <img

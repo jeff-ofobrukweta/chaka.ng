@@ -18,7 +18,7 @@
         :key="index"
         class="card-container">
             <section class="section1">
-                <router-link class="section1 linking" :to="{name:'singlestock',params:{id:item.id}}">
+                <router-link class="section1 linking" :to="{name:'singlestock',params:{symbol:item.symbol}}">
                 <img class="course-item-main-list-flex"
                     id="company"
                     :src='require(`../../assets/Instrument_assets/companylogo.png`)' alt="courses"/>
@@ -28,7 +28,7 @@
                     :src='require(`../../assets/Instrument_assets/watch.png`)' alt="watch"/>
                 <div class="symbol">{{item.symbol}}</div>
             </section>
-            <router-link :to="{name:'singlestock',params:{id:item.id}}">
+            <router-link :to="{name:'singlestock',params:{symbol:item.symbol}}">
                 <section class="section2">
                     <div class="price">{{item.InstrumentDynamic.askPrice ? item.InstrumentDynamic.askPrice : '-'}}</div>
                     <div class="level">
@@ -73,7 +73,6 @@ export default {
         }
     },
     mounted(){
-       console.log('instrument here as props>>>>>>>>>>>>>>>>>>>>>>>',this.instrumentsList);
     }
 };
 </script>

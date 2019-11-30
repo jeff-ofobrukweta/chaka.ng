@@ -10,7 +10,6 @@ const getters = {
     getPositionsWithparams: (state) => (symbol) => {
 		const filtered = state.singlestockpositions.filter((position) => position.symbol === symbol);
 		if (filtered) {
-            console.log('>>>>>>>getPositionsWithparams>>>>>>>>>>',filtered)
 			return filtered;
 		}
 		return false;
@@ -31,13 +30,10 @@ const mutations = {
 
 const actions = {
     async GET_SINGLESTOCK_INSTRUMENT({ commit }, params) {
-        console.log('lllllllllllllll',params)
-		await API_CONTEXT.get(`/instruments/${params.instrumentID}`)
+		await API_CONTEXT.get(`/instruments/?symbols=${params.symbols}`)
 			.then((response) => {
-                const { instrument } = response.data.data;
-                console.log('>>>>>>>>>>GET_SINGLESTOCK_INSTRUMENT>>>>>>>>>>>>>>',instrument)
-                commit('SET_SINGLE_INSTRUMENT',instrument);
-                // console.log('inside vuex store',chart);
+                const { instruments } = response.data.data;
+                commit('SET_SINGLE_INSTRUMENT',instruments);
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);
@@ -48,9 +44,7 @@ const actions = {
 		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions/`)
 			.then((response) => {
                 const { position } = response.data.data;
-                console.log('>>>>>>>>>>GET_CURRENT_STOCK_POSITION>>>>>>>>>>>>>>',position)
                 commit('SET_CURRENTSTOCK_POSITIONS',position);
-                // console.log('inside vuex store',chart);
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);

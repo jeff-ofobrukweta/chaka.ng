@@ -185,11 +185,10 @@ export default {
     methods: {
         fillData() {
             this.datacollection = {
-                labels: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG'],
+                labels: this.actions,
                 datasets: [
                     {
                         label: 'Stocks',
-                        lineTension: 0.4,
                         fill: true,
                         backgroundColor: ['#00C48C', '#E94F37', '#00C48C', '#E94F37', '#E46751', '#00D6EF', '#61K846', '#A76451'],
                         borderWidth: 1.7,
@@ -203,11 +202,19 @@ export default {
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
-                        data: [12, 23, 34, 44, 12, 23, 134, 44]
+                        data: [...this.values]
                     }
                 ]
             };
         }
+    },
+     watch: {
+		values(newvalue, oldvalue) {
+			this.fillData();
+		},
+		actions(newaction, oldaction) {
+			this.fillData();
+		},
     }
 
 };
