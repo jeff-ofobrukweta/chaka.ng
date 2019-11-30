@@ -203,7 +203,6 @@ const actions = {
 			});
     },
     async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit,rootState }) {
-        console.log('?????????????????????');
 		await API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`)
 			.then((response) => {
                 console.log('>>>>>>new>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
@@ -217,14 +216,10 @@ const actions = {
 			});
     },
     async GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA({ commit,rootState}) {
-        console.log('on mount..........', rootState.auth)
 		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-weight`)
 			.then((response) => {
-                console.log('>>>>>>>>>>GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA>>>>>>>>>>>>>>',response)
                 commit('SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATE',response.data.data.chart);
                 commit('SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA_PRICE',response.data.data.chart)
-                // console.log('inside vuex store',response);
-                console.log('>>>>>>>>>>nerrrtryryryry>>>>>>>>>>>>>>',response.data.data.chart)
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);
@@ -242,10 +237,8 @@ const actions = {
     },
 
     async GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA({ commit},params) {
-        console.log('?????????????????????',params);
 		await API_CONTEXT.get(`/instruments/performance?symbol=${params.symbol}`)
 			.then((response) => {
-                console.log('>>>>>>>>>>GET_BARCHART_PERFORMANCERATING_GRAPH_DATA>>>>>BBBBBBBBBBBBBBBBBBBBBBBBB>>>>>>>>>',response.data.data)
                 const { performance} = response.data.data;
                 commit('SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION',performance);
                 commit('SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE',performance)
