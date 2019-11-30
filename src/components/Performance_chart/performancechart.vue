@@ -188,6 +188,7 @@ export default {
 
     mounted() {
         this.fillData();
+        this.handlescaling();
     },
     props:{
         percentage:{
@@ -204,7 +205,14 @@ export default {
         }
     },
     methods: {
-
+        handlescaling() {
+			if (this.getOpenPrice) {
+				this.min = this.percentage.sort()[0];
+				this.max = this.percentage.sort()[this.percentage.sort().length - 1];
+				this.interval = Math.ceil((this.max - this.min) / 10);
+			}
+			return true;
+		},
         fillData() {
             this.datacollection = {
                 labels: this.symbol,

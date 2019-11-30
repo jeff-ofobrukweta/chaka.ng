@@ -37,18 +37,14 @@ const actions = {
 		await API_CONTEXT.get(`/tags`)
 			.then((response) => {
                 commit('SET_TAGS_LISTS',response.data.tags)
-                console.log('inside vuex store',response.data.tags)
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);
 			});
     },
     async GET_INSTRUMENT_BY_TAGS({commit}, params) {
-        console.log('params>>>first>>>>>>>>>>>>>>>>',params)
 		await API_CONTEXT.get(`/instruments/`,params)
 			.then((response) => {
-                console.log('params>>>>>>>>>>second>>>>>>>>>',params)
-                console.log('SET_INSTRUMENT_BY_TAGS',response.data.data.instruments)
                 commit('SET_INSTRUMENT_BY_TAGS',response.data.data.instruments);
                 console.log('this is the state>>:::::::>>>>>>::::::>>',state.instrumentslists);
 			})

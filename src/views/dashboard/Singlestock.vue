@@ -3,21 +3,31 @@
         <div class="wraper-main">
             <div class="header-container">
                 <section class="right-header">
-                    <h1 class="price">$123.78</h1>
-                    <h1 class="percentage">123.45<span class="delta">(17.79)%</span></h1>
+                    <h1
+                    class="price"
+                    >{{getSingleinstrument[0].currency === 'USD'?'$':'₦'}}{{getSingleinstrument[0].InstrumentDynamic.askPrice}}</h1>
+                    <h1 
+                    class="percentage">
+                    <span
+                    :class="[getSingleinstrument[0].InstrumentDynamic.yclose < 0 ? 'red' : 'green','price']"
+                    >{{getSingleinstrument[0].InstrumentDynamic.yclose}}</span>
+                    <span 
+                    :class="[getSingleinstrument[0].InstrumentDynamic.ycloseChange < 0 ? 'red' : 'green','price']"
+                    class="delta">
+                        ({{(getSingleinstrument[0].InstrumentDynamic.ycloseChange)}})%</span></h1>
                 </section>
                 <section class="left-header">
                     <section class="name-country">
                          <img
                         class="logo-company"
-                        :src="getSingleinstrument.logoUrl"
+                        :src="getSingleinstrument[0].logoUrl"
                         alt="logo"
                     />
                     <aside class="item-name-country">
-                        <section class="stockname">{{getSingleinstrument.name || '' | truncate(10)}}</section>
+                        <section class="stockname">{{getSingleinstrument[0].name || '' | truncate(10)}}</section>
                             <img
                                 class="state"
-                                src="../../assets/Instrument_assets/united-states.png"
+                                :src="require(`../../assets/img/icons/flags/${getSingleinstrument[0].countryCode.toLowerCase()}-flag.svg`)"
                                 alt="state"
                             />
                     </aside>
@@ -30,15 +40,23 @@
              class="small-size">Buy</button>
             <section class="sumary">
                 <div class="summary-cover">
-                   {{getSingleinstrument.description || '' | truncate(500)}}
+                   {{getSingleinstrument[0].description || '' | truncate(500)}}
+                </div>
+                <div
+                v-for="(tag,index) in getSingleinstrument[0]" 
+                :key="index"
+                class="stocktag-container">
+                    <div class="item-tag">{{index.name}}</div>
                 </div>
             </section>
             <section class="container-graph">
-               <Linegraph :instrument="getSingleinstrument"/>
+               <Linegraph :instrument="getSingleinstrument[0]"/>
                <Cardblue :instrument="getPricedetailsonblackcard"/>
             </section>
             <section class="container-instrument">
-                <StockTable :instrument="getSingleinstrument" />
+                <StockTable
+                :getPositionsforcurrentstock="getPositionsWithparams()" 
+                :instrument="getSingleinstrument[0]" />
             </section>
             <section class="container-stocks">
                <Horizontalchart/>
@@ -82,16 +100,21 @@ export default {
     },
     async mounted(){
         const singlestockpayload = {
-            instrumentID:this.$route.params.id
+            symbols:this.$route.params.symbol
         }
-        
-        console.log('>>>>>>>bloooomm????????here pls??????????>>>',this.getSingleinstrument)
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
             // this.getPositionsWithparams(this.$route.params.id)
             this.GET_CURRENT_STOCK_POSITION().then(()=>{
-                console.log('get positions',this.getPositionsWithparams)
+                console.log('get positions',this.getPositionsWithparams())
             });
         })
+    },
+    beforeRouteUpdate(to,from,next){
+            const singlestockpayload = {
+                symbols:to.params.symbol
+            }
+          this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload)
+         next();
     },
     data(){
         return{

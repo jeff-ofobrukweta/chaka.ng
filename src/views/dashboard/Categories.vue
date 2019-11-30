@@ -2,7 +2,7 @@
     <Fragment>
         <Tags 
         :taglists="gettagslistsArray"/>
-        <div class="division-logger"></div>
+        <hr class="division-logger"/>
         <Instrumentbase
          :instrumentsList="getInstrumentsListArray"/>
     </Fragment>

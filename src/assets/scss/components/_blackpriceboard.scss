@@ -22,8 +22,9 @@
         line-height: 69px;
         color: #FFFFFF;
         .increase{
-            color: #00C48C;
             margin-right: 5px;
+            .red{color:rgb(196, 0, 0);}
+            .green{color:#00C48C;}
         }
     }
 }
