@@ -1,5 +1,5 @@
 <template>
-    <div class="kyc-form__group" v-if="field.type === 'text' || field.type === 'number'">
+    <div class="kyc-field__group" v-if="field.type === 'text' || field.type === 'number'">
         <label class="form__label"
             >{{ field.name }}
             <form-input
@@ -10,11 +10,11 @@
                 @input="handleInput"
         /></label>
     </div>
-    <div class="kyc-form__group" v-else-if="field.type === 'select'">
+    <div class="kyc-field__group" v-else-if="field.type === 'select'">
         <label class="form__label"
             >{{ field.name }}
             <select class="form__input" :name="field.name" v-model="value" @input="handleInput">
-                <template v-if="field.value === 'bankAcctName'">
+                <template v-if="field.value === 'bankCode'">
                     <option v-for="(option, i) in options" :key="i" :value="option.bankCode">{{
                         option.name
                     }}</option>
@@ -27,7 +27,7 @@
             </select></label
         >
     </div>
-    <div class="kyc-form__group" v-else-if="field.type === 'button'">
+    <div class="kyc-field__group" v-else-if="field.type === 'button'">
         <label class="form__label">{{ field.name }}</label>
         <div class="kyc-nav__button--group">
             <button
@@ -77,9 +77,10 @@ export default {
     },
     mounted() {
         if (this.field.type === "select") {
-            if (this.field.value === "bankAcctName") {
+            if (this.field.value === "bankCode") {
                 this.value = this.options[0].bankCode;
             } else this.value = this.options[0].value;
+            this.handleInput();
         }
     }
 };

@@ -98,7 +98,7 @@ const actions = {
         commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
-                .patch(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-nin`, payload)
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-nin`, payload)
                 .then(
                     resp => {
                         if (resp.status === 200) {
@@ -257,7 +257,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
-                            dispatch("GET_KYC").then(() => {
+                            dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });
                         } else {

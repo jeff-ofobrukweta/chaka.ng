@@ -106,8 +106,9 @@
   }
 
   &-error {
-    color: $orange;
-    font-size: .85rem;
+    color: $red;
+    font-size: 85%;
+    text-transform: capitalize;
   }
 }
 

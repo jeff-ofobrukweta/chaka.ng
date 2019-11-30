@@ -15,6 +15,7 @@
             <div class="modal-form__buttons">
                 <action-button
                     type="submit"
+                    :disabled="!itemData.amount"
                     :pending="loading"
                     :classes="['btn-block', 'btn__primary']"
                     >Fund</action-button
@@ -54,15 +55,18 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations } from "vuex";
 export default {
     name: "fund-modal",
     data() {
         return {
             itemData: {},
-            loading: false
+            loading: false,
+            message: null
         };
     },
     computed: {
+        ...mapGetters(["getLoggedUser"]),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.itemData.amount > 2500) {
@@ -72,19 +76,54 @@ export default {
         }
     },
     methods: {
+        ...mapActions(["GET_LOGGED_USER", "FUND_WALLET"]),
+        ...mapMutations(["RESET_REQ"]),
         closeModal() {
             this.$emit("close");
         },
         fundWallet() {
             this.loading = true;
-            setTimeout(() => {
-                this.loading = false;
-                console.log(this.itemData);
-            }, 3000);
+            if (this.itemData.amount) {
+                const handler = PaystackPop.setup({
+                    key: process.env.VUE_APP_PAYSTACK_KEY,
+                    email: this.getLoggedUser.email,
+                    amount: Math.ceil(this.paystackValue) * 100,
+                    firstname: this.getLoggedUser.UserKYC.firstname,
+                    lastname: this.getLoggedUser.UserKYC.lastname,
+                    metadata: {
+                        service_charge: (Math.ceil(this.paystackValue) - this.itemData.amount) * 100
+                    },
+                    onClose: () => {
+                        this.loading = false;
+                    },
+                    callback: response => {
+                        const data = {
+                            amount: this.itemData.amount * 100,
+                            source: "PAYSTACK",
+                            reference: response.reference
+                        };
+                        this.FUND_WALLET(data).then(resp => {
+                            this.loading = false;
+                            if (resp) {
+                                this.message = `Funding operation of ${this.$options.filters.currency(
+                                    this.itemData.amount,
+                                    "NGN"
+                                )} was successful. Payment Pending`;
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                });
+                handler.openIframe();
+                this.RESET_REQ();
+                return true;
+            }
         }
     },
     mounted() {
         this.$refs.input.focus();
+        this.GET_LOGGED_USER();
     }
 };
 </script>

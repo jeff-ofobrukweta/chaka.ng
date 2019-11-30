@@ -5,7 +5,7 @@
             <img
                 :src="
                     require(`../../assets/img/flags/${
-                        instrument.country ? instrument.country.toLowerCase() : 'zz'
+                        instrument.countryCode ? instrument.countryCode.toLowerCase() : 'zz'
                     }-flag.svg`)
                 "
                 class="watchlist-explore__symbol"
@@ -47,6 +47,7 @@
                 >
             </p>
         </div>
+        <div class="watchlist-explore__flex" v-else></div>
         <div class="watchlist-explore__graph--box">
             <line-chart
                 class="watchlist-explore__graph"

@@ -71,18 +71,21 @@
         background-color: $primary;
         color: $white;
         cursor: pointer;
-        padding: 2rem 1rem;
+        padding: 1.5rem 1rem;
         transition: all 200ms;
         font-weight: bold;
 
         &:hover {
-            transform: translateY(-4px);
-            // margin-top: -3px;
+            transform: translateY(-3px);
         }
 
         &.active {
             background-color: transparent;
-            color: $text-color
+            color: $text-color;
+
+            &:hover {
+                transform: translateY(0px);
+            }
         }
     }
 
