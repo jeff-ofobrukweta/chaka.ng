@@ -56,6 +56,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import fundValidation from "../../services/validations/wallet";
 export default {
     name: "fund-modal",
     data() {
@@ -82,6 +83,12 @@ export default {
             this.$emit("close");
         },
         fundWallet() {
+            // this.validate(this.itemData, fundValidation.fund);
+
+            // if (Object.keys(this.errors).length > 0) {
+            //     return false;
+            // }
+            console.log(this.errors);
             this.loading = true;
             if (this.itemData.amount) {
                 const handler = PaystackPop.setup({

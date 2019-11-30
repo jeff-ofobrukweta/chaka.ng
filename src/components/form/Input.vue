@@ -7,13 +7,17 @@
             @input="handleInput"
             :placeholder="placeholder"
             class="form__input"
-            :class="{ 'is-invalid': invalid.$error }"
-            @focus="resetError"
+            :class="{ 'is-invalid': invalid.$error || errorMessage }"
             :required="required"
             :minlength="minlength"
             :maxlength="maxlength"
         />
-        <span class="form-error" v-if="invalid.$error">{{ errorMessage }}</span>
+        <p class="form-error" v-if="invalid.$error">
+            <small>{{ errorMessage }}</small>
+        </p>
+        <!-- <p class="form-error" v-if="errorMessage">
+            <small>{{ errorMessage }}here</small>
+        </p> -->
     </Fragment>
 </template>
 
@@ -59,10 +63,7 @@ export default {
             type: String
         },
         errorMessage: {
-            type: String,
-            default: () => {
-                return "Field is required";
-            }
+            type: String
         }
     },
     data() {
@@ -72,6 +73,7 @@ export default {
     },
     methods: {
         handleInput() {
+            this.clearErrors();
             this.$emit("input", this.content);
         },
         resetError() {

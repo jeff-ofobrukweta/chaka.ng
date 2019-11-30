@@ -17,7 +17,7 @@
     margin-top: .325rem;
 
     &.is-invalid {
-      border-color: $orange;
+      border-color: $red;
       animation: shake 400ms ease-in-out;
     }
 
@@ -59,7 +59,7 @@
     height: 2.525rem;
 
     &.is-invalid {
-      border-color: $orange;
+      border-color: $red;
       animation: shake 400ms ease-in-out;
     }
 
@@ -89,7 +89,7 @@
 
   &-control {
     &.is-invalid {
-      border-color: $orange;
+      border-color: $red;
       // background: url("assets/img/icons/warning.svg") no-repeat;
       background-size: 24px 24px;
       background-position: 96%;
@@ -108,7 +108,7 @@
   &-error {
     color: $red;
     font-size: 85%;
-    text-transform: capitalize;
+    text-transform: lowercase;
   }
 }
 

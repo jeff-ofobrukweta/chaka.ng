@@ -3,7 +3,7 @@ import Joi from "@hapi/joi";
 const form = {
     data() {
         return {
-            issues: {},
+            errors: {},
             message: null,
             valid: false
         };
@@ -14,14 +14,12 @@ const form = {
     },
     methods: {
         /**
-         * Clear the form issues
+         * Clear the form errors
          */
         clearErrors(field = null) {
             if (!field) {
-                this.issues = {};
                 this.errors = {};
             } else {
-                delete this.issues[field];
                 delete this.errors[field];
             }
         },
@@ -39,10 +37,10 @@ const form = {
          * Validate form data
          */
         validate(value, schema) {
-            const result = Joi.validate(value, schema, { abortEarly: false });
+            const result = schema.validate(value);
             if (result.error) {
                 result.error.details.forEach(error => {
-                    this.issues[error.path[0]] = error.message;
+                    this.errors[error.path[0]] = error.message;
                 });
             }
             return true;

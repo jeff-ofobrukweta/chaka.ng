@@ -43,12 +43,12 @@ export default {
             const currentScrollPos = window.pageYOffset;
             const nav = document.getElementById("nav");
             const header = document.getElementById("header");
-            if (currentScrollPos >= 30) {
-                if (nav) nav.classList.add("scroll");
-                header.classList.add("scroll");
-            } else if (currentScrollPos < 20) {
+            if (currentScrollPos < 50) {
                 if (nav) nav.classList.remove("scroll");
                 header.classList.remove("scroll");
+            } else if (currentScrollPos >= 70) {
+                if (nav) nav.classList.add("scroll");
+                header.classList.add("scroll");
             }
             if (this.prevScrollpos <= currentScrollPos && currentScrollPos > 60) {
                 if (nav) nav.classList.add("push");
