@@ -88,6 +88,25 @@ const actions = {
                     }
                 );
         });
+    },
+    GET_EXCHANGE_RATE: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            return api.get("/currency-rates/today").then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("SET_EXCHANGE_RATE", resp.data.data.rate);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "exchange");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "exchange");
+                    resolve(false);
+                }
+            );
+        });
     }
 };
 

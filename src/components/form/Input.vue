@@ -7,7 +7,7 @@
             @input="handleInput"
             :placeholder="placeholder"
             class="form__input"
-            :class="{ 'is-invalid': invalid.$error || errorMessage }"
+            :class="{ 'is-invalid': errorMessage || invalid.$error }"
             :required="required"
             :minlength="minlength"
             :maxlength="maxlength"
@@ -15,9 +15,9 @@
         <p class="form-error" v-if="invalid.$error">
             <small>{{ errorMessage }}</small>
         </p>
-        <!-- <p class="form-error" v-if="errorMessage">
-            <small>{{ errorMessage }}here</small>
-        </p> -->
+        <p class="form-error" v-if="errorMessage">
+            <small>{{ errorMessage }}</small>
+        </p>
     </Fragment>
 </template>
 

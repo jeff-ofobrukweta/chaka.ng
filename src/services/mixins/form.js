@@ -17,11 +17,12 @@ const form = {
          * Clear the form errors
          */
         clearErrors(field = null) {
-            if (!field) {
-                this.errors = {};
-            } else {
-                delete this.errors[field];
-            }
+            this.errors = {};
+            // if (!field) {
+            //     this.errors = {};
+            // } else {
+            //     delete this.errors[field];
+            // }
         },
         /**
          * Clear the form field.
@@ -40,6 +41,7 @@ const form = {
             const result = schema.validate(value);
             if (result.error) {
                 result.error.details.forEach(error => {
+                    this.$set(this.errors, error.path[0], error.message);
                     this.errors[error.path[0]] = error.message;
                 });
             }

@@ -7,22 +7,25 @@
                 <hr />
                 <div class="modal__exchange--money">
                     <div>
-                        <h4 class="cursor-context" :title="2243.99 | currency('NGN', true)">
-                            {{ 2243.99 | currency("NGN") }}
+                        <h4
+                            class="cursor-context"
+                            :title="
+                                getAccountSummary.localWallet.availableBalance
+                                    | currency('NGN', true)
+                            "
+                        >
+                            {{ getAccountSummary.localWallet.availableBalance | currency("NGN") }}
                         </h4>
                         <p><small>Available Cash</small></p>
                     </div>
                     <div>
-                        <h4 class="cursor-context" :title="2243.99 | currency('NGN', true)">
-                            {{ 2243.99 | currency("NGN") }}
+                        <h4
+                            class="cursor-context"
+                            :title="getAccountSummary.localPendingBalance | currency('NGN', true)"
+                        >
+                            {{ getAccountSummary.localPendingBalance | currency("NGN") }}
                         </h4>
                         <p><small>Pending Cash</small></p>
-                    </div>
-                    <div>
-                        <h4 class="cursor-context" :title="2243.99 | currency('NGN', true)">
-                            {{ 2243.99 | currency("NGN") }}
-                        </h4>
-                        <p><small>Stock Value</small></p>
                     </div>
                 </div>
             </div>
@@ -31,27 +34,30 @@
                 <hr />
                 <div class="modal__exchange--money">
                     <div>
-                        <h4 class="cursor-context" :title="2243.99 | currency('USD', true)">
-                            {{ 2243.99 | currency("USD") }}
+                        <h4
+                            class="cursor-context"
+                            :title="
+                                getAccountSummary.globalWallet.availableBalance
+                                    | currency('USD', true)
+                            "
+                        >
+                            {{ getAccountSummary.globalWallet.availableBalance | currency("USD") }}
                         </h4>
                         <p><small>Available Cash</small></p>
                     </div>
                     <div>
-                        <h4 class="cursor-context" :title="2243.99 | currency('USD', true)">
-                            {{ 2243.99 | currency("USD") }}
+                        <h4
+                            class="cursor-context"
+                            :title="getAccountSummary.globalPendingBalance | currency('USD', true)"
+                        >
+                            {{ getAccountSummary.globalPendingBalance | currency("USD") }}
                         </h4>
                         <p><small>Pending Cash</small></p>
-                    </div>
-                    <div>
-                        <h4 class="cursor-context" :title="2243.99 | currency('USD', true)">
-                            {{ 2243.99 | currency("USD") }}
-                        </h4>
-                        <p><small>Stock Value</small></p>
                     </div>
                 </div>
             </div>
         </div>
-        <form class="modal-form" @submit.prevent="fundWallet">
+        <form class="modal-form" @submit.prevent="exchangeWallet">
             <div class="modal-form__group">
                 <label class="form__label"
                     >Amount
@@ -59,9 +65,11 @@
                         type="number"
                         name="amount"
                         v-model="itemData.amount"
+                        :error-message="errors.amount"
                         placeholder="Amount"
                 /></label>
             </div>
+            <error-block type="exchange" :message="message" :status="status" @reset="handleReset" />
             <br />
 
             <section>
@@ -73,8 +81,10 @@
                 <p>
                     <small class="grey-dark"
                         >EXCHANGE RATE:&nbsp;
-                        <span v-if="itemData.currency === 'NGN'">₦{{ exchangeAsk }} - $1.00</span>
-                        <span v-else>$1.00 - ₦{{ exchangeBid }}</span></small
+                        <span v-if="itemData.currency === 'NGN'"
+                            >₦{{ getExchangeRate.sell }} - $1.00</span
+                        >
+                        <span v-else>$1.00 - ₦{{ getExchangeRate.buy }}</span></small
                     >
                 </p>
                 <p v-if="itemData.amount">
@@ -82,13 +92,15 @@
                     <template v-if="itemData.currency === 'NGN'">
                         <span>naira to dollar exchange to an amount of</span>
                         <span class="green">
-                            {{ (itemData.amount / exchangeAsk) | currency("USD") }}</span
+                            {{ (itemData.amount / getExchangeRate.sell) | currency("USD") }}</span
                         >
                     </template>
                     <template v-else>
                         <span>dollar to naira exchange to an amount of</span>
                         <span class="green">
-                            {{ (itemData.amount / (1 / exchangeBid)) | currency("NGN") }}</span
+                            {{
+                                (itemData.amount / (1 / getExchangeRate.buy)) | currency("NGN")
+                            }}</span
                         >
                     </template>
                 </p>
@@ -115,6 +127,7 @@
                 <action-button
                     type="submit"
                     :pending="loading"
+                    :disabled="Object.keys(errors).length > 0 || !itemData.amount"
                     :classes="['btn-block', 'btn__primary']"
                     >Exchange</action-button
                 >
@@ -125,6 +138,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import exchangeValidation from "../../services/validations/wallet";
 export default {
     name: "exchange-modal",
     data() {
@@ -132,12 +146,12 @@ export default {
             itemData: { currency: "NGN", fromWallet: "local", toWallet: "global" },
             loading: false,
             selectedCurrency: null,
-            exchangeAsk: 360,
-            exchangeBid: 358
+            message: null,
+            status: null
         };
     },
     computed: {
-        ...mapGetters(["getExchangeRate"]),
+        ...mapGetters(["getExchangeRate", "getAccountSummary"]),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.itemData.amount > 2500) {
@@ -147,16 +161,29 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_EXCHANGE_RATE"]),
+        ...mapActions(["GET_EXCHANGE_RATE", "GET_ACCOUNT_SUMMARY", "EXCHANGE_WALLET"]),
         closeModal() {
             this.$emit("close");
         },
-        fundWallet() {
-            this.loading = true;
-            setTimeout(() => {
-                this.loading = false;
-                console.log(this.itemData);
-            }, 3000);
+        exchangeWallet() {
+            this.validate(this.itemData, exchangeValidation.exchange);
+            if (Object.keys(this.errors).length > 0) {
+                return false;
+            }
+            if (this.itemData.amount) {
+                this.loading = true;
+                this.EXCHANGE_WALLET(this.itemData).then(resp => {
+                    this.loading = false;
+                    if (resp) {
+                        this.message = "Exchange operation was successful. Payment is pending";
+                        this.status = "success";
+                    }
+                });
+            }
+        },
+        handleReset() {
+            this.message = null;
+            this.status = null;
         }
     },
     async mounted() {
@@ -166,9 +193,10 @@ export default {
             this.itemData.fromWallet = "local";
             this.itemData.toWallet = "global";
         }, 500);
+        await this.GET_ACCOUNT_SUMMARY();
     },
     watch: {
-        "itemData.fromWallet": function(val) {
+        "itemData.fromWallet"(val) {
             if (val === "local") {
                 this.selectedCurrency = "NGN";
                 this.itemData.currency = this.selectedCurrency;

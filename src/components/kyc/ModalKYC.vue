@@ -54,30 +54,40 @@ export default {
         };
     },
     methods: {
-        ...mapActions(["GET_NEXT_KYC", "UPDATE_KYC_BANK", "UPDATE_KYC", "UPDATE_KYC_FILE"]),
+        ...mapActions(["GET_NEXT_KYC", "UPDATE_KYC_BANK", "UPDATE_KYC", "UPLOAD_KYC_FILE"]),
         handleInput(e) {
             this.itemData[e.name] = e.value;
             this.formComplete = Object.keys(this.itemData).length === this.requiredFields.length;
         },
         updateKYC() {
             Object.keys(this.itemData).forEach(el => {
-                if (el === "bankCode" || el === "bankAcctNo") this.state = "bvn";
+                if (el === "bankCode" || el === "bankAcctNo") this.state = "bank";
+                else if (el === "bankCode" || el === "bankAcctNo") this.state = "bank";
                 else if (el === "addressProofUrl" || el === "idPhotoUrl" || el === "passportUrl")
                     this.state = "file";
                 else this.state = "default";
             });
             this.loading = true;
-            if (this.state === "bvn") {
-                this.UPDATE_KYC_BANK(this.itemData).then(() => {
+            if (this.state === "bank") {
+                this.UPDATE_KYC_BANK(this.itemData).then(resp => {
                     this.loading = false;
+                    if (resp) {
+                        this.$emit("updated");
+                    }
                 });
-            } else if ((this.state = "file")) {
-                this.UPDATE_KYC_FILE(this.itemData).then(() => {
+            } else if (this.state === "file") {
+                this.UPLOAD_KYC_FILE(this.itemData).then(resp => {
                     this.loading = true;
+                    if (resp) {
+                        this.$emit("updated");
+                    }
                 });
             } else {
-                this.UPDATE_KYC(this.itemData).then(() => {
+                this.UPDATE_KYC(this.itemData).then(resp => {
                     this.loading = false;
+                    if (resp) {
+                        this.$emit("updated");
+                    }
                 });
             }
         },

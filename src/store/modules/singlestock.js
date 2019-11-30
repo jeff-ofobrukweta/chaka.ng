@@ -2,8 +2,8 @@ import API_CONTEXT from "../../services/apiService/api";
 
 const state = {
     instrument: {},
-    singlestockpositions: [],
-    preOrder: {}
+    singlestockpositions: []
+    // preOrder: {}
 };
 
 const getters = {
@@ -15,8 +15,8 @@ const getters = {
             return filtered;
         }
         return false;
-    },
-    getPreOrder: state => state.preOrder
+    }
+    // getPreOrder: state => state.preOrder
 };
 
 const mutations = {
@@ -27,10 +27,10 @@ const mutations = {
         let singlestockpositions = {};
         singlestockpositions = positions;
         state.singlestockpositions = singlestockpositions.position;
-    },
-    SET_PRE_ORDER(state, payload) {
-        state.preOrder = payload;
     }
+    // SET_PRE_ORDER(state, payload) {
+    //     state.preOrder = payload;
+    // }
 };
 
 const actions = {
@@ -59,29 +59,29 @@ const actions = {
             .catch(error => {
                 console.log(`::::::::::::::::::::${error}`);
             });
-    },
-    GET_PRE_ORDER: ({ commit }) => {
-        return new Promise((resolve, reject) => {
-            return api.get(
-                "/currency-rates/today".then(
-                    resp => {
-                        if (resp.status === 200) {
-                            commit("SET_EXCHANGE_RATE", resp.data.data.rate).then(() => {
-                                resolve(true);
-                            });
-                        } else {
-                            errorFn(resp, "exchange");
-                            resolve(false);
-                        }
-                    },
-                    error => {
-                        errorFn(error.response, "exchange");
-                        resolve(false);
-                    }
-                )
-            );
-        });
     }
+    // GET_PRE_ORDER: ({ commit }) => {
+    //     return new Promise((resolve, reject) => {
+    //         return api.get(
+    //             "/currency-rates/today".then(
+    //                 resp => {
+    //                     if (resp.status === 200) {
+    //                         commit("SET_EXCHANGE_RATE", resp.data.data.rate).then(() => {
+    //                             resolve(true);
+    //                         });
+    //                     } else {
+    //                         errorFn(resp, "exchange");
+    //                         resolve(false);
+    //                     }
+    //                 },
+    //                 error => {
+    //                     errorFn(error.response, "exchange");
+    //                     resolve(false);
+    //                 }
+    //             )
+    //         );
+    //     });
+    // }
 };
 
 export default {

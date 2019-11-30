@@ -59,7 +59,7 @@ const kycFields = [
         type: "number"
     },
     {
-        name: "Director Of Public Co.",
+        name: "Are you a director Of Public Co.",
         value: "directorOfPublicCo",
         type: "button",
         options: [

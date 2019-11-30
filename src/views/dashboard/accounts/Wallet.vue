@@ -103,15 +103,22 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <button @click="showFund = true" class="btn btn-block btn--lg btn__primary">
-                        Fund
-                    </button>
-                    <button
-                        @click="showExchange = true"
-                        class="btn btn-block btn--lg btn__primary--dark"
+                    <KYCButton
+                        ref="fundBtn"
+                        type="button"
+                        :classes="['btn-block', 'btn--lg', 'btn__primary']"
+                        action="fund"
+                        @step="handleStep"
+                        >Fund</KYCButton
                     >
-                        Exchange
-                    </button>
+                    <KYCButton
+                        ref="exchangeBtn"
+                        type="button"
+                        :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
+                        action="global"
+                        @step="handleStep"
+                        >Exchange</KYCButton
+                    >
                     <button
                         @click="showWithdraw = true"
                         class="btn btn-block btn--lg btn__primary--outline"
@@ -132,28 +139,114 @@
             @close="showWithdraw = false"
             v-if="showWithdraw"
         />
+
+        <modal @close="showKYC = false" v-if="showKYC">
+            <template slot="header">{{ selectedField.title }}</template>
+            <form @submit.prevent="submitPhone">
+                <div>
+                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+                </div>
+            </form>
+        </modal>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import KYCButton from "../../../components/form/KYCButton";
+import ModalKYC from "../../../components/kyc/ModalKYC";
 export default {
     name: "accounts-wallet",
+    components: {
+        KYCButton,
+        ModalKYC
+    },
     data() {
         return {
             showFund: false,
             showWithdraw: false,
-            showExchange: false
+            showExchange: false,
+            showKYC: false,
+            selectedField: {},
+            step: null,
+            allNextKYC: [
+                {
+                    title: "Bank Details",
+                    subtitle: "Enter your bank details",
+                    fields: ["bankAcctNo", "bankCode"]
+                },
+                {
+                    title: "Postal Address",
+                    subtitle: "Enter your postal address",
+                    fields: ["gender", "address", "lg"]
+                },
+                {
+                    title: "Employment Details",
+                    subtitle: "Fill in your employment details",
+                    fields: [
+                        "employmentStatus",
+                        "employedByBroker",
+                        "directorOfPublicCo",
+                        "pepStatus",
+                        "pepNames"
+                    ]
+                },
+                {
+                    title: "Investment Preferences",
+                    subtitle: "Fill in your investment preferences",
+                    fields: [
+                        "investmentObjectives",
+                        "investmentExperience",
+                        "riskTolerance",
+                        "annualIncome",
+                        "networthLiquid",
+                        "networthTotal"
+                    ]
+                },
+                {
+                    title: "Uploads",
+                    subtitle: "Make your details",
+                    fields: ["addressProofUrl", "idPhotoUrl", "passportUrl"]
+                }
+            ]
         };
     },
     computed: {
-        ...mapGetters(["getAccountSummary"]),
+        ...mapGetters(["getAccountSummary", "getNextKYC"]),
         pageAvailable() {
             return Object.keys(this.getAccountSummary).length > 0;
         }
     },
     methods: {
-        ...mapActions(["GET_ACCOUNT_SUMMARY"])
+        ...mapActions(["GET_ACCOUNT_SUMMARY"]),
+        handleStep(step) {
+            this.step = step.type;
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else if (step.type === "fund") {
+                this.showFund = true;
+            } else if (step.type === "global") {
+                this.showExchange = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            if (this.step === "fund") {
+                this.$refs.fundBtn.$el.click();
+                return true;
+            } else if (this.step === "global") {
+                this.$refs.exchangeBtn.$el.click();
+            }
+        }
     },
     async mounted() {
         await this.GET_ACCOUNT_SUMMARY();

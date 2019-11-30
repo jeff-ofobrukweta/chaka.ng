@@ -4,12 +4,15 @@ import errorFn from "../../services/apiService/error";
 const state = {
     kyc: {},
     nextKYC: {},
+    nextKYCCheck: false,
+    navbarNextKYC: {},
     countryCodes: []
 };
 
 const getters = {
     getKYC: state => state.kyc,
     getNextKYC: state => state.nextKYC,
+    getNavbarNextKYC: state => state.navbarNextKYC,
     getCountryCodes: state => state.countryCodes
 };
 
@@ -19,6 +22,12 @@ const mutations = {
     },
     SET_NEXT_KYC(state, payload) {
         state.nextKYC = payload;
+    },
+    SET_NAVBAR_CHECK(state, payload) {
+        state.nextKYCCheck = payload;
+    },
+    SET_NAVBAR_NEXT_KYC(state, payload) {
+        state.nextKYCCheck = payload;
     },
     SET_COUNTRY_CODES(state, payload) {
         state.countryCodes = payload;
@@ -45,17 +54,26 @@ const actions = {
             );
         });
     },
-    GET_NEXT_KYC: ({ commit, rootState }, payload) => {
+    GET_NEXT_KYC: ({ commit, state, dispatch, rootState }, payload) => {
         /**
          * @params {context}
          */
+        if (payload) {
+            commit("SET_NAVBAR_CHECK", false);
+        } else commit("SET_NAVBAR_CHECK", true);
         return new Promise((resolve, reject) => {
             return api
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`, { ...payload })
                 .then(
                     resp => {
                         if (resp.status === 200) {
-                            commit("SET_NEXT_KYC", resp.data.data);
+                            if (!state.navbarNextKYC) {
+                                commit("SET_NEXT_KYC", resp.data.data);
+                                commit("SET_NAVBAR_CHECK", true);
+                                dispatch("GET_NEXT_KYC");
+                            } else {
+                                commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
+                            }
                             resolve(true);
                         } else {
                             errorFn(resp, "kyc");
