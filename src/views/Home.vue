@@ -539,7 +539,7 @@
             <p
               class="section__text"
             >First-class access to stocks listed on the NG &amp; US stock exchanges as well as global blue-chip companies from around the world. Your limitless investment passport is finally here.</p>
-            <router-link class="section__link link" href :to="{ name: 'faq' }">
+            <router-link class="section__link link flex" href :to="{ name: 'faq' }">
               Learn More
               <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="#000" />
@@ -615,7 +615,7 @@
             <p
               class="section__text"
             >Chaka's platform and API are available for both corporate and institutional clients. From corporates running progressive Employee Investment Programs to investment advisors, stockbrokers, and fund managers building bespoke tools, Chaka is interoperable and can be integrated seamlessly into your existing system.</p>
-            <router-link :to="{ name: 'developers' }" class="section__link">
+            <router-link :to="{ name: 'developers' }" class="section__link flex">
               Contact us for more info
               <svg
                 width="24"

@@ -128,12 +128,15 @@
                         <select
                             v-if="edit === 'bvn'"
                             class="form__input form__select"
-                            v-model="itemData.BankId"
+                            v-model="itemData.bankCode"
                             required
                         >
-                            <option v-for="(bank, index) in banks" :key="index" :value="bank.id">{{
-                                bank.name
-                            }}</option>
+                            <option
+                                v-for="(bank, index) in banks"
+                                :key="index"
+                                :value="bank.bankCode"
+                                >{{ bank.name }}</option
+                            >
                         </select>
                         <p v-else class=" accounts-settings__data">
                             {{ getKYC.bankAcctName || "-" }}
@@ -633,7 +636,7 @@
 
                 <section class="accounts-settings__submit--modal">
                     <action-button
-                        :disabled="Object.keys(itemData).length < 3"
+                        :disabled="Object.keys(newPhone).length < 3"
                         type="submit"
                         :pending="loading"
                         :classes="['btn-block', 'btn__primary']"
@@ -683,7 +686,7 @@
                     </p>
                     <small
                         ><a @click="showNewPhone = true" class="underline primary">Click here</a> to
-                        use a phone number</small
+                        use a different phone number</small
                     >
                 </div>
             </form>
@@ -765,16 +768,16 @@ export default {
             this.loading = true;
             this.RESOLVE_BVN(this.bvnData).then(resp => {
                 if (resp) {
-                    this.bvnData.bvn = {}
-                    this.submitBank()
+                    this.bvnData.bvn = {};
+                    this.submitBank();
                 }
                 this.loading = false;
             });
         },
         submitBank() {
-            if(this.bvnData.bvn){
-                this.submitBVN()
-                return true
+            if (this.bvnData.bvn) {
+                this.submitBVN();
+                return true;
             }
             this.loading = true;
             this.UPDATE_KYC_BANK(this.itemData).then(resp => {
@@ -827,7 +830,7 @@ export default {
         },
         handleDate(e) {
             if (e.target.value) {
-                this.newPhone.dob = new Date(e).toISOString();
+                this.newPhone.dob = new Date(e.target.value).toISOString();
             }
         },
         handleUploadError(error) {

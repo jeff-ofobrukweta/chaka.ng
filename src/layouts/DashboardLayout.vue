@@ -24,12 +24,12 @@ export default {
         Fragment
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "GET_NEXT_KYC"])
+        ...mapActions(["GET_LOGGED_USER", "GET_NEXT_KYC", "GET_ACCOUNT_SUMMARY"])
     },
     mounted() {
         document.title = "Chaka - Dashboard";
-        this.GET_LOGGED_USER().then(() => {
-            this.GET_NEXT_KYC();
+        this.GET_LOGGED_USER().then(async () => {
+            Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
         });
     }
 };

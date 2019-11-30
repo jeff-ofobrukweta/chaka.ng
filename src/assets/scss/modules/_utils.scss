@@ -20,7 +20,7 @@
 
 main {
   overflow-x: hidden;
-  padding-top: 4.5rem;
+  padding-top: 12px;
   min-height: 100vh;
 }
 
@@ -327,6 +327,10 @@ main {
 
 .mb-1 {
   margin-bottom: .825rem;
+}
+
+.flex {
+  display: flex;
 }
 
 .faded {

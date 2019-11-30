@@ -6,6 +6,7 @@ import router from "./router";
 import store from "./store";
 
 import GlobalComponents from "./plugins/globalComponents";
+import formMixin from "./services/mixins/form";
 import "aos/dist/aos.css";
 import "lazysizes";
 import "lazysizes/plugins/parent-fit/ls.parent-fit";
@@ -17,6 +18,9 @@ Vue.config.productionTip = false;
 // Vue Global Components Plugin
 Vue.use(GlobalComponents);
 Vue.use(Vuelidate);
+
+// Vue Global Mixins
+Vue.mixin(formMixin);
 
 // Vue filters
 Vue.filter("truncate", filters.truncate);

@@ -35,7 +35,7 @@ const kycFields = [
     },
     {
         name: "Bank Name",
-        value: "bankAcctName",
+        value: "bankCode",
         type: "select"
     },
     {
