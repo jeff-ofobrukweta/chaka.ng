@@ -19,8 +19,23 @@
 ::-webkit-scrollbar {
     height: 4px;              /* height of horizontal scrollbar ← You're missing this */
     width: 4px;               /* width of vertical scrollbar */
-    border: 1px solid #d5d5d5;
+    border: 1px solid transparent;
   }
+
+.tag-placeholder-container-parent{
+    display:flex;
+    flex-direction: row;
+    overflow-x: scroll;
+.tag-placeholder{
+    width: 10em;
+    height: 8em;
+    background: #fff;
+    margin: .3em;
+    border-radius: 7px;
+    border: 1px solid rgba(164, 164, 164, 0.2) ;
+    // box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
+}
+}
 
 .container-tag{
     display:flex;
@@ -31,7 +46,7 @@
         min-width: 217px;
         height: 116px;
         min-height: 116px;
-        border: 1px solidrgba(175, 175, 175, 0.4);
+        border: 1px solid rgba(175, 175, 175, 0.4);
         border-radius: 7px;
         margin: 5px;
         display: flex;

@@ -99,7 +99,7 @@ export default {
         ...mapActions(['GET_LINECHART_SINGLESTOCK_GRAPH_DATA']),
         onhandleGraphdata(){
             const payloadsinglestock = {
-                interval:'1W',
+                interval:'1D',
                 symbol:this.instrument.symbol
             }
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
@@ -109,7 +109,7 @@ export default {
         handletimeframe(index) {
             const payloadsinglestock = {
                 interval:index,
-                symbol:'ACCESS'
+                symbol:this.$route.params.id
             }
             console.log('>>>>>>>>>handletimeframe>>>>>>>>',index);
              this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{

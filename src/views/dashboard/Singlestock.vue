@@ -84,7 +84,6 @@ export default {
         const singlestockpayload = {
             instrumentID:this.$route.params.id
         }
-        
         console.log('>>>>>>>bloooomm????????here pls??????????>>>',this.getSingleinstrument)
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
             // this.getPositionsWithparams(this.$route.params.id)
@@ -92,6 +91,13 @@ export default {
                 console.log('get positions',this.getPositionsWithparams)
             });
         })
+    },
+    beforeRouteUpdate(to,from,next){
+            const singlestockpayload = {
+                instrumentID:to.params.id
+            }
+          this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload)
+         next();
     },
     data(){
         return{

@@ -1,6 +1,19 @@
 <template>
     <Fragment>
+        <section
+        v-if="(instrumentsList.length <= 0)" 
+        class="card-container-holder-parent">
+            <div class="card-container-holder"></div>
+            <div class="card-container-holder"></div>
+            <div class="card-container-holder"></div>
+            <div class="card-container-holder"></div>
+            <div class="card-container-holder"></div>
+            <div class="card-container-holder"></div>
+            <div class="card-container-holder"></div>
+            <div class="card-container-holder"></div>
+        </section>
         <div
+        v-else
         v-for="(item,index) in instrumentsList" 
         :key="index"
         class="card-container">
