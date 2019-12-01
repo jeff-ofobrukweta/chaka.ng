@@ -21,7 +21,7 @@
                 <router-link class="section1 linking" :to="{name:'singlestock',params:{symbol:item.symbol}}">
                 <img class="course-item-main-list-flex"
                     id="company"
-                    :src='require(`../../assets/Instrument_assets/companylogo.png`)' alt="courses"/>
+                    :src="item.logoUrl" alt="courses"/>
                 </router-link>
                 <img class="course-item-main-list-flex"
                     id="watch-icon"
@@ -30,7 +30,9 @@
             </section>
             <router-link :to="{name:'singlestock',params:{symbol:item.symbol}}">
                 <section class="section2">
-                    <div class="price">{{item.InstrumentDynamic.askPrice ? item.InstrumentDynamic.askPrice : '-'}}</div>
+                    <div
+                    :title="item.InstrumentDynamic.askPrice | currency(item.currency,true)"
+                     class="price">{{item.InstrumentDynamic.askPrice | currency(item.currency)}}</div>
                     <div class="level">
                         <img class="direct"
                         id="direct"

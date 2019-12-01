@@ -22,7 +22,7 @@
                 <img
                     class="course-item-main-list-flex"
                     id="tag"
-                    :src="require(`../assets/Instrument_assets/topgainer.png`)"
+                    :src="item.imageUrl"
                     alt="courses"
                 />
                 <section class="tag-name">{{item.name}}</section>
