@@ -5,7 +5,7 @@
         </section>
         <section class="accounts-overview">
             <div class="accounts-overview__text">
-                <img src="../../../assets/img/dp.png" alt="Avatar" class="avatar avatar-lg" />
+                <!-- <img src="../../../assets/img/dp.png" alt="Avatar" class="avatar avatar-lg" /> -->
             </div>
             <div class="accounts-overview__text">
                 <p>Name</p>
@@ -40,21 +40,26 @@
                         width="16px"
                     />
                     <span class="accounts-overview__currency">Local</span>
-                    <span class="accounts-overview__approved">{{
-                        getLoggedUser.localKycStatus ? "Approved" : "Pending"
-                    }}</span>
+                    <span class="accounts-overview__approved">{{ localStatus }}</span>
                     <img
-                        v-if="getLoggedUser.localKycStatus"
+                        v-if="getLoggedUser.localKycStatus === 'COMPLETE'"
                         class="accounts-overview__approved--img"
                         :src="require('../../../assets/img/checked.svg')"
                         alt="Checked"
                     />
                     <img
-                        v-else
+                        v-else-if="getLoggedUser.localKycStatus === 'PENDING'"
                         class="accounts-overview__approved--img"
                         :src="require('../../../assets/img/pending.svg')"
                         width="12px"
                         alt="Pending"
+                    />
+                    <img
+                        v-else
+                        class="accounts-overview__approved--img"
+                        :src="require('../../../assets/img/kyc-incomplete.svg')"
+                        width="12px"
+                        alt="Incomplete"
                     />
                 </div>
                 <div class="accounts-overview__flex">
@@ -65,21 +70,26 @@
                         width="16px"
                     />
                     <span class="accounts-overview__currency">Global</span>
-                    <span class="accounts-overview__approved">{{
-                        getLoggedUser.globalKycStatus ? "Approved" : "Pending"
-                    }}</span>
+                    <span class="accounts-overview__approved">{{ globalStatus }}</span>
                     <img
-                        v-if="getLoggedUser.globalKycStatus"
+                        v-if="getLoggedUser.globalKycStatus === 'COMPLETE'"
                         class="accounts-overview__approved--img"
                         :src="require('../../../assets/img/checked.svg')"
                         alt="Checked"
                     />
                     <img
-                        v-else
+                        v-else-if="getLoggedUser.globalKycStatus === 'PENDING'"
                         class="accounts-overview__approved--img"
                         :src="require('../../../assets/img/pending.svg')"
                         width="12px"
                         alt="Pending"
+                    />
+                    <img
+                        v-else
+                        class="accounts-overview__approved--img"
+                        :src="require('../../../assets/img/kyc-incomplete.svg')"
+                        width="12px"
+                        alt="Incomplete"
                     />
                 </div>
             </Card>
@@ -124,13 +134,23 @@ export default {
             return this.getLoggedUser.UserKYC.firstname
                 ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}`
                 : "-";
+        },
+        localStatus() {
+            if (this.getLoggedUser.localKycStatus === "COMPLETE") return "Approved";
+            else if (this.getLoggedUser.localKycStatus === "PENDING") return "Pending";
+            return "Incomplete";
+        },
+        globalStatus() {
+            if (this.getLoggedUser.globalKycStatus === "COMPLETE") return "Approved";
+            else if (this.getLoggedUser.globalKycStatus === "PENDING") return "Pending";
+            return "Incomplete";
         }
     },
     methods: {
-        ...mapActions(["GET_ACCOUNT_SUMMARY"])
+        ...mapActions(["GET_ACCOUNT_SUMMARY", "GET_LOGGED_USER"])
     },
     async mounted() {
-        await this.GET_ACCOUNT_SUMMARY();
+        await Promise.all([this.GET_LOGGED_USER(), this.GET_ACCOUNT_SUMMARY()]);
     }
 };
 </script>

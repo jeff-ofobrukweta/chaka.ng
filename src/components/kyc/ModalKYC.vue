@@ -1,36 +1,43 @@
 <template>
-    <form class="kyc-modal" @submit.prevent="updateKYC" v-if="allFields.length > 0">
-        <div class="text-center mb-3" v-if="allFields[0].value === 'nin'">
-            <p>
-                <small class="grey-cool"
-                    >Enter your national identity number to fast track your verification
-                    process</small
-                >
-            </p>
-        </div>
-        <Field
-            v-for="(field, i) in allFields"
-            :key="i"
-            :field="field"
-            @input="handleInput"
-            @optional="handleOptional"
-            :options="checkOptions(field)"
-        />
+    <div v-if="allFields.length > 0">
+        <template v-if="allFields[0].value === 'phone'">
+            <PhoneOTP />
+        </template>
+        <template v-else>
+            <form class="kyc-modal" @submit.prevent="updateKYC">
+                <div class="text-center mb-3" v-if="allFields[0].value === 'nin'">
+                    <p>
+                        <small class="grey-cool"
+                            >Enter your national identity number to fast track your verification
+                            process</small
+                        >
+                    </p>
+                </div>
+                <Field
+                    v-for="(field, i) in allFields"
+                    :key="i"
+                    :field="field"
+                    @input="handleInput"
+                    @optional="handleOptional"
+                    :options="checkOptions(field)"
+                />
 
-        <error-block type="kyc" />
-        <div class="text-center">
-            <action-button
-                type="submit"
-                :disabled="!formComplete"
-                :pending="loading"
-                :classes="['btn-block', 'btn__primary']"
-                >Submit</action-button
-            >
-        </div>
-        <div class="text-center mt-2" v-if="allFields[0].value === 'nin'">
-            <a @click="skipNIN" class="unerline primary">Skip</a>
-        </div>
-    </form>
+                <error-block type="kyc" />
+                <div class="text-center">
+                    <action-button
+                        type="submit"
+                        :disabled="!formComplete"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Submit</action-button
+                    >
+                </div>
+                <div class="text-center mt-2" v-if="allFields[0].value === 'nin'">
+                    <a @click="skipNIN" class="unerline primary">Skip</a>
+                </div>
+            </form>
+        </template>
+    </div>
 </template>
 
 <script>
@@ -40,11 +47,13 @@ import Types from "../../services/kyc/employmentTypes";
 import Positions from "../../services/kyc/employmentPosition";
 import Banks from "../../services/kyc/banks";
 import lg from "../../services/kyc/lgNames";
+import PhoneOTP from "./PhoneOTP";
 import { mapActions } from "vuex";
 export default {
     name: "kyc-modal",
     components: {
-        Field
+        Field,
+        PhoneOTP
     },
     props: {
         requiredFields: {
@@ -66,7 +75,13 @@ export default {
         };
     },
     methods: {
-        ...mapActions(["GET_NEXT_KYC", "UPDATE_KYC_BANK", "UPDATE_KYC", "UPLOAD_KYC_FILE"]),
+        ...mapActions([
+            "GET_NEXT_KYC",
+            "RESOLVE_BVN",
+            "UPDATE_KYC_BANK",
+            "UPDATE_KYC",
+            "UPLOAD_KYC_FILE"
+        ]),
         handleInput(e) {
             this.itemData[e.name] = e.value;
             this.formComplete = Object.keys(this.itemData).length === this.requiredFields.length;
@@ -76,14 +91,21 @@ export default {
         },
         updateKYC() {
             Object.keys(this.itemData).forEach(el => {
-                if (el === "bankCode" || el === "bankAcctNo") this.state = "bank";
+                if (el === "bvn") this.state = "bvn";
                 else if (el === "bankCode" || el === "bankAcctNo") this.state = "bank";
                 else if (el === "addressProofUrl" || el === "idPhotoUrl" || el === "passportUrl")
                     this.state = "file";
                 else this.state = "default";
             });
             this.loading = true;
-            if (this.state === "bank") {
+            if (this.state === "bvn") {
+                this.RESOLVE_BVN(this.itemData).then(resp => {
+                    this.loading = false;
+                    if (resp) {
+                        this.$emit("updated");
+                    }
+                });
+            } else if (this.state === "bank") {
                 this.UPDATE_KYC_BANK(this.itemData).then(resp => {
                     this.loading = false;
                     if (resp) {

@@ -38,8 +38,8 @@
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a href="">Hide</a>
                         <action-button
-                            :disabled="!itemData.disclosureName"
                             type="submit"
+                            :disabled="!itemData.disclosureName"
                             :pending="loading"
                             :classes="['btn', 'kyc-nav__button']"
                         >
@@ -61,13 +61,13 @@
                     <div class="kyc-nav__actions" v-else>
                         <action-button
                             type="submit"
-                            :disabled="!itemData.disclosureName"
                             :pending="loading"
+                            :disabled="!itemData.disclosureName"
                             icon
                             :classes="['btn-block', 'btn__primary']"
                             >Submit</action-button
                         >
-                        <a href="" class="skip">Skip</a>
+                        <a href="">Hide</a>
                     </div>
                 </div>
             </form>
@@ -279,7 +279,7 @@
                 </div>
             </div>
         </template>
-        <error-block type="kyc" navbar v-if="fromNavbar" />
+        <error-block type="kyc" navbar />
         <modal no-header @close="showOTP = false" v-if="showOTP">
             <form @submit.prevent="useNewPhone" v-if="showNewPhone">
                 <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
@@ -407,6 +407,7 @@
 import { mapGetters, mapActions } from "vuex";
 import Field from "./KYCField";
 import ModalKYC from "./ModalKYC";
+import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "kyc-navbar",
@@ -438,47 +439,7 @@ export default {
             },
             selectedField: {},
             showNextModal: false,
-            allNextKYC: [
-                {
-                    title: "Bank Details",
-                    subtitle: "Enter your bank details",
-                    fields: ["bankAcctNo", "bankCode"]
-                },
-                {
-                    title: "Postal Address",
-                    subtitle: "Enter your postal address",
-                    fields: ["gender", "address", "lg"]
-                },
-                {
-                    title: "Employment Details",
-                    subtitle: "Fill in your employment details",
-                    fields: [
-                        "employmentStatus",
-                        "employedByBroker",
-                        "directorOfPublicCo",
-                        "pepStatus",
-                        "pepNames"
-                    ]
-                },
-                {
-                    title: "Investment Preferences",
-                    subtitle: "Fill in your investment preferences",
-                    fields: [
-                        "investmentObjectives",
-                        "investmentExperience",
-                        "riskTolerance",
-                        "annualIncome",
-                        "networthLiquid",
-                        "networthTotal"
-                    ]
-                },
-                {
-                    title: "Uploads",
-                    subtitle: "Make your details",
-                    fields: ["addressProofUrl", "idPhotoUrl", "passportUrl"]
-                }
-            ],
-
+            allNextKYC: KYCTitles.titles,
             itemData: {},
             loading: false,
             fromNavbar: false,
@@ -506,7 +467,9 @@ export default {
             "USE_BVN_PHONE"
         ]),
         handleInput(e) {
-            this.itemData[e.name] = e.value;
+            this.$set(this.itemData, e.name, e.value);
+            // this.itemData[e.name] = e.value;
+            console.log(this.itemData);
         },
         submitDisclosure() {
             this.loading = true;

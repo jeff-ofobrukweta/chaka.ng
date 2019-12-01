@@ -2,9 +2,7 @@ import Joi from "@hapi/joi";
 
 const auth = {
     register: Joi.object({
-        email: Joi.string()
-            .email()
-            .required(),
+        email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } }),
         password: Joi.string()
             .min(7)
             .required()

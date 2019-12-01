@@ -58,12 +58,12 @@
         <form class="accounts-settings__form" @submit.prevent="updateKYC">
             <div class="accounts-settings__title">
                 <h5>Disclosure Name</h5>
-                <a
+                <!-- <a
                     class="accounts-settings__edit"
-                    v-if="!edit && !getKYC.disclosureName"
+                    v-if="!edit && getKYC.disclosureName"
                     @click="editBtn('disclosure')"
                     >edit</a
-                >
+                > -->
             </div>
             <section class="accounts-settings__hero">
                 <div class="accounts-settings__group">
@@ -82,12 +82,9 @@
                     >
                 </div>
             </section>
-            <template v-if="edit === 'disclosure'">
+            <template v-if="!getKYC.disclosureName">
                 <error-block type="kyc" />
                 <section v-if="!getKYC.disclosureName" class="accounts-settings__submit">
-                    <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
-                        Cancel
-                    </button>
                     <action-button
                         type="submit"
                         :disabled="!itemData.disclosureName"
@@ -99,13 +96,17 @@
             </template>
         </form>
 
-        <form class="accounts-settings__form" @submit.prevent="submitBank">
+        <form
+            class="accounts-settings__form"
+            v-if="!getKYC.bvnFetchStatus"
+            @submit.prevent="submitBVN"
+        >
             <div class="accounts-settings__title">
                 <h5>BVN Verification</h5>
                 <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('bvn')">edit</a>
             </div>
             <section class="accounts-settings__hero">
-                <div class="accounts-settings__group" v-if="!getKYC.bvnFetchStatus">
+                <div class="accounts-settings__group">
                     <label class="form__label"
                         >BVN
                         <form-input
@@ -119,43 +120,6 @@
                         />
                         <p v-else class=" accounts-settings__data">
                             {{ getKYC.bankAcctName || "-" }}
-                        </p></label
-                    >
-                </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Bank Name
-                        <select
-                            v-if="edit === 'bvn'"
-                            class="form__input form__select"
-                            v-model="itemData.bankCode"
-                            required
-                        >
-                            <option
-                                v-for="(bank, index) in banks"
-                                :key="index"
-                                :value="bank.bankCode"
-                                >{{ bank.name }}</option
-                            >
-                        </select>
-                        <p v-else class=" accounts-settings__data">
-                            {{ getKYC.bankAcctName || "-" }}
-                        </p></label
-                    >
-                </div>
-                <div class="accounts-settings__group">
-                    <label class="form__label"
-                        >Bank Number<form-input
-                            v-if="edit === 'bvn'"
-                            type="number"
-                            name="bank number"
-                            v-model="itemData.bankAcctNo"
-                            placeholder="Bank Account Number"
-                            required
-                            maxlength="10"
-                        />
-                        <p v-else class=" accounts-settings__data">
-                            {{ getKYC.bankAcctNo || "-" }}
                         </p></label
                     >
                 </div>
@@ -201,6 +165,68 @@
                     </div>
                 </section>
                 <template v-if="edit === 'phone'">
+                    <error-block type="kyc" />
+                    <section class="accounts-settings__submit">
+                        <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
+                            Cancel
+                        </button>
+                        <action-button
+                            type="submit"
+                            :pending="loading"
+                            :classes="['btn-block', 'btn__primary']"
+                            >Submit</action-button
+                        >
+                    </section>
+                </template>
+            </form>
+
+            <form class="accounts-settings__form" @submit.prevent="submitBank">
+                <div class="accounts-settings__title">
+                    <h5>BVN Verification</h5>
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('bank')"
+                        >edit</a
+                    >
+                </div>
+                <section class="accounts-settings__hero">
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Bank Name
+                            <select
+                                v-if="edit === 'bank'"
+                                class="form__input form__select"
+                                v-model="itemData.bankCode"
+                                required
+                            >
+                                <option
+                                    v-for="(bank, index) in banks"
+                                    :key="index"
+                                    :value="bank.bankCode"
+                                    >{{ bank.name }}</option
+                                >
+                            </select>
+                            <p v-else class=" accounts-settings__data">
+                                {{ getKYC.bankAcctName || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Bank Number<form-input
+                                v-if="edit === 'bank'"
+                                type="number"
+                                name="bank number"
+                                v-model="itemData.bankAcctNo"
+                                placeholder="Bank Account Number"
+                                required
+                                maxlength="10"
+                            />
+                            <p v-else class=" accounts-settings__data">
+                                {{ getKYC.bankAcctNo || "-" }}
+                            </p></label
+                        >
+                    </div>
+                </section>
+                <template v-if="edit === 'bank'">
                     <error-block type="kyc" />
                     <section class="accounts-settings__submit">
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
@@ -596,112 +622,14 @@
             </form>
         </template>
         <modal no-header @close="showOTP = false" v-if="showOTP">
-            <form @submit.prevent="useNewPhone" v-if="showNewPhone">
-                <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
-                <div class="accounts-settings__group--modal">
-                    <label class="form__label"
-                        >Date of Birth
-                        <input
-                            class="form__input"
-                            type="date"
-                            name="dob"
-                            @input="handleDate($event)"
-                    /></label>
-                </div>
-                <div class="accounts-settings__group--modal">
-                    <label class="form__label"
-                        >Select Country
-                        <select class="form__input form__select" v-model="newPhone.countryCode">
-                            <template v-if="getCountryCodes">
-                                <option
-                                    :value="country.callingCodes[0]"
-                                    v-for="(country, index) in getCountryCodes"
-                                    :key="index"
-                                    :selected="country.name === 'Nigeria'"
-                                    >{{ country.name
-                                    }}{{ ` (+${country.callingCodes[0]})` }}</option
-                                >
-                            </template>
-                            <template v-else>
-                                <option value="234" selected>Nigeria (+234)</option>
-                            </template>
-                        </select>
-                    </label>
-                </div>
-                <div class="accounts-settings__group--modal">
-                    <label class="form__label text-center"
-                        >Phone Number
-                        <form-input
-                            type="number"
-                            name="phone"
-                            v-model="newPhone.phone"
-                            placeholder="Enter new phone"
-                    /></label>
-                </div>
-                <error-block type="kyc-phone" />
-
-                <section class="accounts-settings__submit--modal">
-                    <action-button
-                        :disabled="Object.keys(newPhone).length < 3"
-                        type="submit"
-                        :pending="loading"
-                        :classes="['btn-block', 'btn__primary']"
-                        >Submit</action-button
-                    >
-                </section>
-            </form>
-            <form @submit.prevent="submitOTP" v-else>
-                <p class="text-center mb-3">
-                    An OTP has been sent to your registered number ({{ getKYC.phone }})
-                </p>
-                <div class="accounts-settings__group--modal">
-                    <label class="form__label text-center"
-                        >Enter OTP
-                        <form-input
-                            type="number"
-                            name="phone"
-                            v-model="otpData.otp"
-                            placeholder="Enter OTP"
-                    /></label>
-                </div>
-                <error-block type="kyc-otp" />
-
-                <section class="accounts-settings__submit--modal">
-                    <action-button
-                        type="submit"
-                        :disabled="!otpData.otp"
-                        :pending="loading"
-                        :classes="['btn-block', 'btn__primary']"
-                        >Submit</action-button
-                    >
-                </section>
-                <div class="text-center">
-                    <template v-if="!countdown">
-                        <p class="mb-1">Resend OTP</p>
-                        <p class="mb-1">
-                            <a class="underline primary" @click="resendOTPEmail">Via Email</a>
-                        </p>
-                        <p class="mb-3">
-                            <a class="underline primary" @click="resendOTPWhatsapp">Via Whatsapp</a>
-                        </p>
-                    </template>
-
-                    <p class="countdown--account" v-else>
-                        <span class="countdown__text">Resend in</span>&nbsp;
-                        <span>{{ countdown }}</span>
-                    </p>
-                    <small
-                        ><a @click="showNewPhone = true" class="underline primary">Click here</a> to
-                        use a different phone number</small
-                    >
-                </div>
-            </form>
+            <PhoneOTP />
         </modal>
     </div>
 </template>
 
 <script>
 import Uploads from "../../../components/FileUpload";
+import PhoneOTP from "../../../components/kyc/PhoneOTP";
 import { mapActions, mapGetters } from "vuex";
 
 const Types = () => import("../../../services/kyc/employmentTypes");
@@ -713,6 +641,7 @@ export default {
     name: "accounts-settings",
     components: {
         Uploads,
+        PhoneOTP,
         vSelect: () => import("vue-select")
     },
     data() {
@@ -775,16 +704,12 @@ export default {
             this.RESOLVE_BVN(this.bvnData).then(resp => {
                 if (resp) {
                     this.bvnData.bvn = {};
-                    this.submitBank();
+                    this.edit = null;
                 }
                 this.loading = false;
             });
         },
         submitBank() {
-            if (this.bvnData.bvn) {
-                this.submitBVN();
-                return true;
-            }
             this.loading = true;
             this.UPDATE_KYC_BANK(this.itemData).then(resp => {
                 if (resp) {

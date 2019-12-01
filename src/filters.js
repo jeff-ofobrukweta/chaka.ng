@@ -81,9 +81,11 @@ export default {
     },
 
     truncate(text, length, suffix) {
-        if (text.length > length) {
-            if (suffix) return text.substring(0, length) + suffix;
-            return `${text.substring(0, length)}...`;
+        if (text) {
+            if (text.length > length) {
+                if (suffix) return text.substring(0, length) + suffix;
+                return `${text.substring(0, length)}...`;
+            }
         }
         return text;
     }

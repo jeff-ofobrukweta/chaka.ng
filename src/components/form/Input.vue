@@ -79,7 +79,6 @@ export default {
     methods: {
         handleInput() {
             this.clearErrors();
-            console.log(this.value, this.content);
             this.$emit("input", this.content);
         },
         resetError() {

@@ -44,6 +44,7 @@
                     :news="item"
                     v-for="(item, index) in getExploreCollections"
                     :key="index"
+                    collection
                 />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">

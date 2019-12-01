@@ -64,6 +64,7 @@
 <script>
 import KYCButton from "../form/KYCButton";
 import ModalKYC from "../kyc/ModalKYC";
+import KYCTitles from "../../services/kyc/kycTitles";
 import { mapGetters } from "vuex";
 export default {
     name: "watchlist-portfolio",
@@ -84,52 +85,7 @@ export default {
             step: null,
             showKYC: false,
             selectedField: {},
-            allNextKYC: [
-                {
-                    title: "Bank Details",
-                    subtitle: "Enter your bank details",
-                    fields: ["bankAcctNo", "bankCode"]
-                },
-                {
-                    title: "National Identity Number",
-                    subtitle:
-                        "Enter your national identity number to fast track your verification process",
-                    fields: ["nin"]
-                },
-                {
-                    title: "Postal Address",
-                    subtitle: "Enter your postal address",
-                    fields: ["gender", "address", "lg"]
-                },
-                {
-                    title: "Employment Details",
-                    subtitle: "Fill in your employment details",
-                    fields: [
-                        "employmentStatus",
-                        "employedByBroker",
-                        "directorOfPublicCo",
-                        "pepStatus",
-                        "pepNames"
-                    ]
-                },
-                {
-                    title: "Investment Preferences",
-                    subtitle: "Fill in your investment preferences",
-                    fields: [
-                        "investmentObjectives",
-                        "investmentExperience",
-                        "riskTolerance",
-                        "annualIncome",
-                        "networthLiquid",
-                        "networthTotal"
-                    ]
-                },
-                {
-                    title: "Uploads",
-                    subtitle: "Make your details",
-                    fields: ["addressProofUrl", "idPhotoUrl", "passportUrl"]
-                }
-            ]
+            allNextKYC: KYCTitles.titles
         };
     },
     computed: {
@@ -167,9 +123,9 @@ export default {
                 this.$refs.buyBtn.$el.click();
             }
         },
-        closeBuyModal(e){
-            if(e) this.showSuccess = true
-            this.showBuy = false
+        closeBuyModal(e) {
+            if (e) this.showSuccess = true;
+            this.showBuy = false;
         }
     }
 };

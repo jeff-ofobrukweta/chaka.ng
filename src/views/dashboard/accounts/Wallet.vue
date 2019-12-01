@@ -148,6 +148,7 @@
 import { mapGetters, mapActions } from "vuex";
 import KYCButton from "../../../components/form/KYCButton";
 import ModalKYC from "../../../components/kyc/ModalKYC";
+import KYCTitles from "../../../services/kyc/kycTitles";
 export default {
     name: "accounts-wallet",
     components: {
@@ -163,52 +164,7 @@ export default {
             showKYC: false,
             selectedField: {},
             step: null,
-            allNextKYC: [
-                {
-                    title: "Bank Details",
-                    subtitle: "Enter your bank details",
-                    fields: ["bankAcctNo", "bankCode"]
-                },
-                {
-                    title: "National Identity Number",
-                    subtitle:
-                        "Enter your national identity number to fast track your verification process",
-                    fields: ["nin"]
-                },
-                {
-                    title: "Postal Address",
-                    subtitle: "Enter your postal address",
-                    fields: ["gender", "address", "lg"]
-                },
-                {
-                    title: "Employment Details",
-                    subtitle: "Fill in your employment details",
-                    fields: [
-                        "employmentStatus",
-                        "employedByBroker",
-                        "directorOfPublicCo",
-                        "pepStatus",
-                        "pepNames"
-                    ]
-                },
-                {
-                    title: "Investment Preferences",
-                    subtitle: "Fill in your investment preferences",
-                    fields: [
-                        "investmentObjectives",
-                        "investmentExperience",
-                        "riskTolerance",
-                        "annualIncome",
-                        "networthLiquid",
-                        "networthTotal"
-                    ]
-                },
-                {
-                    title: "Uploads",
-                    subtitle: "Make your details",
-                    fields: ["addressProofUrl", "idPhotoUrl", "passportUrl"]
-                }
-            ]
+            allNextKYC: KYCTitles.titles
         };
     },
     computed: {

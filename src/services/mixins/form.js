@@ -4,7 +4,6 @@ const form = {
     data() {
         return {
             errors: {},
-            message: null,
             valid: false
         };
     },
@@ -17,10 +16,10 @@ const form = {
          * Clear the form errors
          */
         clearErrors(field = null) {
-            this.errors = {};
-            if (this.issues) {
-                this.issues = {};
-            }
+            const temp = { ...this.errors };
+            Object.keys(temp).forEach(el => {
+                // console.log(el);
+            });
             // if (!field) {
             //     this.errors = {};
             // } else {
