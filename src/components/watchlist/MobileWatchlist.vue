@@ -31,64 +31,80 @@
             </svg>
 
             <div>
-                <a class="watchlist-mobile__buy" @click="showBuy = true">+ Buy</a>
+                <KYCButton
+                    ref="buyBtn"
+                    type="button"
+                    :classes="['watchlist-mobile__buy']"
+                    :action="instrument.currency === 'NGN' ? 'local' : 'global'"
+                    @step="handleStep"
+                    tag="a"
+                    >Buy</KYCButton
+                >
+                <!-- <a class="watchlist-mobile__buy" @click="showBuy = true">+ Buy</a> -->
             </div>
         </div>
-        <router-link class="section1 linking" 
-        :to="{name:'singlestock',params:{symbol:instrument.symbol}}">
-        <div class="watchlist-mobile__bottom">
-            <div class="watchlist-mobile__left">
-                <img class="watchlist-mobile__logo" :src="instrument.logoUrl" alt="Google" />
-                <div>
-                    <p class="watchlist-mobile__name capitalize">
-                        {{ instrument.name | truncate(50) }}
+        <router-link
+            class="section1 linking"
+            :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }"
+        >
+            <div class="watchlist-mobile__bottom">
+                <div class="watchlist-mobile__left">
+                    <img class="watchlist-mobile__logo" :src="instrument.logoUrl" alt="Google" />
+                    <div>
+                        <p class="watchlist-mobile__name capitalize">
+                            {{ instrument.name | truncate(50) }}
+                        </p>
+                        <p class="watchlist-mobile__shares">2 Shares</p>
+                    </div>
+                </div>
+                <div class="watchlist-mobile__right">
+                    <p class="watchlist-mobile__change" v-if="Object.keys(stock).length <= 0">-</p>
+                    <p
+                        v-else
+                        class="watchlist-mobile__change"
+                        :class="[+stock.InstrumentDynamic.yclose >= 0 ? 'green' : 'red']"
+                    >
+                        <img
+                            v-if="+stock.InstrumentDynamic.yclose < 0 >= 0"
+                            src="../../assets/img/watchlist-up.svg"
+                            alt="Growth"
+                        />
+                        <img v-else src="../../assets/img/watchlist-down.svg" alt="Growth" />
+                        <span>{{ +stock.InstrumentDynamic.yclose >= 0 ? "+" : "" }}</span>
+                        <small
+                            >{{ stock.InstrumentDynamic.yclose | units(2) }} ({{
+                                stock.InstrumentDynamic.ycloseChange | units(2)
+                            }}%)</small
+                        >
                     </p>
-                    <p class="watchlist-mobile__shares">2 Shares</p>
+                    <p class="watchlist-mobile__price">
+                        <img
+                            :src="
+                                require(`../../assets/img/flags/${
+                                    instrument.countryCode
+                                        ? instrument.countryCode.toLowerCase()
+                                        : 'zz'
+                                }-flag.svg`)
+                            "
+                            class="watchlist-explore__symbol"
+                            alt="US"
+                            width="24px"
+                        /><span>|</span>
+                        <strong
+                            v-if="instrument.InstrumentDynamic"
+                            class="cursor-context"
+                            :title="
+                                instrument.InstrumentDynamic.askPrice
+                                    | currency(instrument.currency, true)
+                            "
+                            >{{
+                                instrument.InstrumentDynamic.askPrice
+                                    | currency(instrument.currency)
+                            }}</strong
+                        >
+                    </p>
                 </div>
             </div>
-            <div class="watchlist-mobile__right">
-                <p
-                    class="watchlist-mobile__change"
-                    :class="[instrument.change >= 0 ? 'green' : 'red']"
-                >
-                    <img
-                        v-if="instrument.change >= 0"
-                        src="../../assets/img/watchlist-up.svg"
-                        alt="Growth"
-                    />
-                    <img v-else src="../../assets/img/watchlist-down.svg" alt="Growth" />
-                    <span>{{ instrument.change >= 0 ? "+" : "" }}</span>
-                    <small
-                        >{{ instrument.change | units(2) }} ({{
-                            instrument.percent | units(2)
-                        }}%)</small
-                    >
-                </p>
-                <p class="watchlist-mobile__price">
-                    <img
-                        :src="
-                            require(`../../assets/img/flags/${
-                                instrument.countryCode ? instrument.countryCode.toLowerCase() : 'zz'
-                            }-flag.svg`)
-                        "
-                        class="watchlist-explore__symbol"
-                        alt="US"
-                        width="24px"
-                    /><span>|</span>
-                    <strong
-                        v-if="instrument.InstrumentDynamic"
-                        class="cursor-context"
-                        :title="
-                            instrument.InstrumentDynamic.askPrice
-                                | currency(instrument.currency, true)
-                        "
-                        >{{
-                            instrument.InstrumentDynamic.askPrice | currency(instrument.currency)
-                        }}</strong
-                    >
-                </p>
-            </div>
-        </div>
         </router-link>
         <buy-modal
             @close="showBuy = false"
@@ -97,25 +113,124 @@
             :instrument="instrument"
             v-if="showBuy"
         />
+
+        <modal @close="showKYC = false" v-if="showKYC">
+            <template slot="header">{{ selectedField.title }}</template>
+            <form @submit.prevent="submitPhone">
+                <div>
+                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+                </div>
+            </form>
+        </modal>
     </div>
 </template>
 
 <script>
+import KYCButton from "../form/KYCButton";
+import ModalKYC from "../kyc/ModalKYC";
+import { mapActions, mapGetters } from "vuex";
 export default {
     name: "watchlist-card",
+    components: {
+        KYCButton,
+        ModalKYC
+    },
     props: {
         instrument: {
             type: Object,
             required: true
         }
     },
-    mounted(){
-            console.log('boom???????????????????????????????????',this.instrument)
-    },
     data() {
         return {
-            showBuy: false
+            showBuy: false,
+            stock: {},
+            step: null,
+            showKYC: false,
+            selectedField: {},
+            allNextKYC: [
+                {
+                    title: "Bank Details",
+                    subtitle: "Enter your bank details",
+                    fields: ["bankAcctNo", "bankCode"]
+                },
+                {
+                    title: "National Identity Number",
+                    subtitle:
+                        "Enter your national identity number to fast track your verification process",
+                    fields: ["nin"]
+                },
+                {
+                    title: "Postal Address",
+                    subtitle: "Enter your postal address",
+                    fields: ["gender", "address", "lg"]
+                },
+                {
+                    title: "Employment Details",
+                    subtitle: "Fill in your employment details",
+                    fields: [
+                        "employmentStatus",
+                        "employedByBroker",
+                        "directorOfPublicCo",
+                        "pepStatus",
+                        "pepNames"
+                    ]
+                },
+                {
+                    title: "Investment Preferences",
+                    subtitle: "Fill in your investment preferences",
+                    fields: [
+                        "investmentObjectives",
+                        "investmentExperience",
+                        "riskTolerance",
+                        "annualIncome",
+                        "networthLiquid",
+                        "networthTotal"
+                    ]
+                },
+                {
+                    title: "Uploads",
+                    subtitle: "Make your details",
+                    fields: ["addressProofUrl", "idPhotoUrl", "passportUrl"]
+                }
+            ]
         };
+    },
+    computed: {
+        ...mapGetters(["getNextKYC"])
+    },
+    methods: {
+        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT"]),
+        handleStep(step) {
+            this.step = step.type;
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else {
+                this.showBuy = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            if (this.step !== "kyc") {
+                this.$refs.buyBtn.$el.click();
+            }
+        }
+    },
+    mounted() {
+        this.GET_SINGLESTOCK_INSTRUMENT({
+            symbols: this.instrument.symbol
+        }).then(resp => {
+            this.stock = resp;
+        });
     }
 };
 </script>

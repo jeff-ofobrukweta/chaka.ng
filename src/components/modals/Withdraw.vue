@@ -10,11 +10,14 @@
                         name="amount"
                         v-model="itemData.amount"
                         placeholder="Amount"
+                        :error-message="errors.amount"
                 /></label>
             </div>
+            <error-block type="withdraw" :message="message" :status="status" @reset="handleReset" />
             <div class="modal-form__buttons">
                 <action-button
                     type="submit"
+                    :disabled="!itemData.amount"
                     :pending="loading"
                     :classes="['btn-block', 'btn__primary']"
                     >Withdraw</action-button
@@ -29,7 +32,7 @@
                 You're now requesting a withdrawal
                 <span v-if="itemData.amount"
                     >of <span class="green">{{ itemData.amount | currency("NGN") }}</span></span
-                >&nbsp;into your United Bank For Africa account.
+                >&nbsp;into your {{ getKYC.bankAcctName || "bank" }}
             </p>
             <br />
         </section>
@@ -37,25 +40,50 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import withdrawValidation from "../../services/validations/wallet";
 export default {
-    name: 'withdraw-modal',
+    name: "withdraw-modal",
     data() {
         return {
             itemData: {},
-            loading: false
+            loading: false,
+            message: null,
+            status: null
         };
     },
+    computed: {
+        ...mapGetters(["getKYC"])
+    },
     methods: {
+        ...mapActions(["WITHDRAW_WALLET"]),
+        ...mapMutations(["RESET_REQ"]),
         closeModal() {
-            this.$emit('close');
+            this.$emit("close");
         },
         withdraw() {
-            this.loading = true;
-            setTimeout(() => {
-                this.loading = false;
-                console.log(this.itemData);
-            }, 3000);
+            this.validate(this.itemData, withdrawValidation.withdraw);
+            if (Object.keys(this.errors).length > 0) {
+                return false;
+            }
+            if (this.itemData.amount) {
+                this.loading = true;
+                this.WITHDRAW_WALLET(this.itemData).then(resp => {
+                    this.loading = false;
+                    if (resp) {
+                        this.message = "Withdrawal operation was successful. Payment is pending";
+                        this.status = "success";
+                    }
+                });
+            }
+        },
+        handleReset() {
+            this.message = null;
+            this.status = null;
         }
+    },
+    destroyed() {
+        this.RESET_REQ();
     }
 };
 </script>

@@ -33,14 +33,14 @@ export default {
 
     currency(value, currency, showFull, decimalPlaces = 2) {
         if (value === 0 || !Number.isNaN(+value)) {
-            return numberFormat(value, currency, 500000, decimalPlaces, showFull);
+            return numberFormat(value, currency, 100000, decimalPlaces, showFull);
         }
         return value;
     },
 
     units(value, decimalPlaces = 4, showFull) {
         if (!Number.isNaN(+value)) {
-            return numberFormat(value, null, 100000, decimalPlaces, showFull);
+            return numberFormat(value, null, 10000, decimalPlaces, showFull);
         }
         return value;
     },
