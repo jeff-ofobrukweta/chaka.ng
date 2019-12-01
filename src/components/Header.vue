@@ -228,7 +228,8 @@
                     </p>
                 </ul>
             </template>
-            <fund-modal :showModal="showFund" @close="showFund = false" v-if="showFund" />
+            <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
+            <wallet-success @close="showSuccess = false" v-if="showSuccess" />
         </nav>
     </header>
 </template>
@@ -241,7 +242,8 @@ export default {
         return {
             isSidebarOpen: false,
             search: null,
-            showFund: false
+            showFund: false,
+            showSuccess: false
         };
     },
     computed: {
@@ -256,6 +258,10 @@ export default {
             this.$refs.trigger.nextElementSibling.classList.toggle("show");
             document.body.classList.toggle("no-scroll");
             this.toggleSidebar();
+        },
+        closeFundBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showFund = false;
         }
     },
     watch: {

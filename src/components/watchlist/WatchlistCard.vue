@@ -25,21 +25,23 @@
             </div>
         </div>
         <buy-modal
-            @close="showBuy = false"
+            @close="closeBuyModal"
             :currency="instrument.currency"
             :symbol="instrument.symbol"
             :instrument="instrument"
             v-if="showBuy"
         />
+        <sale-success @close="showSuccess = false" v-if="showSuccess" />
     </div>
 </template>
 
 <script>
 export default {
-    name: 'watchlist-card',
+    name: "watchlist-card",
     data() {
         return {
-            showBuy: false
+            showBuy: false,
+            showSucces: false
         };
     },
     props: {
@@ -50,12 +52,18 @@ export default {
     },
     computed: {
         color() {
-            if (this.instrument.change > 3) return 'dark-green';
-            if (this.instrument.change > 2) return 'green';
-            if (this.instrument.change >= 0) return 'light-green';
-            if (this.instrument.change >= -1) return 'light-red';
-            if (this.instrument.change >= -2) return 'red';
-            return 'dark-red';
+            if (this.instrument.change > 3) return "dark-green";
+            if (this.instrument.change > 2) return "green";
+            if (this.instrument.change >= 0) return "light-green";
+            if (this.instrument.change >= -1) return "light-red";
+            if (this.instrument.change >= -2) return "red";
+            return "dark-red";
+        }
+    },
+    methods: {
+        closeBuyModal(e) {
+            if (e) this.showSucces = true;
+            this.showBuy = false;
         }
     }
 };

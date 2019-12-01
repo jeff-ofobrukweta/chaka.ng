@@ -8,6 +8,8 @@ import ExchangeModal from "../components/modals/Exchange";
 import WithdrawModal from "../components/modals/Withdraw";
 import BuyModal from "../components/modals/Buy";
 import SellModal from "../components/modals/Sell";
+import SaleSuccess from "../components/modals/SaleSuccess";
+import WalletSuccess from "../components/modals/WalletSuccess";
 import ErrorBlock from "../components/ErrorBlock";
 /**
  * You can register global components here and use them as a plugin in your main Vue instance
@@ -22,6 +24,8 @@ const GlobalComponents = {
         Vue.component("modal", Modal);
         Vue.component("buy-modal", BuyModal);
         Vue.component("sell-modal", SellModal);
+        Vue.component("sale-success", SaleSuccess);
+        Vue.component("wallet-success", WalletSuccess);
         Vue.component("withdraw-modal", WithdrawModal);
         Vue.component("exchange-modal", ExchangeModal);
         Vue.component("fund-modal", FundModal);

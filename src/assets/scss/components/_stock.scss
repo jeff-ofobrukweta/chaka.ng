@@ -76,14 +76,11 @@
         color: rgba($color: $text-color, $alpha: 0.5);
         margin: 0 auto;
 
-        h5 {
-            font-size: 1.125rem;
-        }
-
         &__flex {
             display: flex;
             flex-direction: row;
             align-items: center;
+            margin-bottom: .5rem;
 
             &--top {
                 display: block;
@@ -108,8 +105,16 @@
             padding: 0.125em 0.875em;
         }
 
+        &__svg {
+            width: 8rem;
+            height: 8rem;
+            margin-bottom: 1rem;
+        }
+
         &__center {
             text-align: center;
+            margin-bottom: 1rem;
+            font-weight: lighter;
         }
 
         &__right {
@@ -136,6 +141,11 @@
         padding: 1em 0;
         max-width: 500px;
         margin: 0 auto;
+
+        hr {
+            opacity: 0.4;
+            margin-bottom: 0.5rem;
+        }
     }
 
     &-cell {

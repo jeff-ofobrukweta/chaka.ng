@@ -57,7 +57,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import fundValidation from "../../services/validations/wallet";
+// import fundValidation from "../../services/validations/wallet";
 export default {
     name: "fund-modal",
     data() {
@@ -84,7 +84,7 @@ export default {
             this.$emit("close");
         },
         fundWallet() {
-            this.validate(this.itemData, fundValidation.fund);
+            // this.validate(this.itemData, fundValidation.fund);
 
             if (Object.keys(this.errors).length > 0) {
                 console.log(this.errors);
@@ -113,11 +113,11 @@ export default {
                         this.FUND_WALLET(data).then(resp => {
                             this.loading = false;
                             if (resp) {
-                                this.message = `Funding operation of ${this.$options.filters.currency(
-                                    this.itemData.amount,
-                                    "NGN"
-                                )} was successful. Payment Pending`;
-                                return true;
+                                /**
+                                 * close fund modal
+                                 * show success modal
+                                 */
+                                this.$emit("close", true);
                             }
                             return false;
                         });

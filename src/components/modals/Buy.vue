@@ -188,13 +188,13 @@
                     </div>
 
                     <div class="stock-vdr__center stock-vdr__div">
-                        <h5>
+                        <p>
                             {{ getPreOrder.marketData ? getPreOrder.marketData.volume : "0" }}
-                        </h5>
+                        </p>
                     </div>
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box">
-                            <h5>Last Trade</h5>
+                            <p>Last Trade</p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <p>
@@ -208,13 +208,13 @@
                     </div>
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box">
-                            <h5>
+                            <p>
                                 {{
                                     getPreOrder.marketData
                                         ? getPreOrder.marketData.lastTrade
                                         : "-" || "-" | currency(currency)
                                 }}
-                            </h5>
+                            </p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <p>
@@ -236,7 +236,7 @@
                 <div class="stock__price">
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box">
-                            <h5>Quantity</h5>
+                            <p>Quantity</p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <h5>{{ getPreOrder.quantity | units }}</h5>
@@ -244,7 +244,7 @@
                     </div>
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box">
-                            <h5>Investment</h5>
+                            <p>Investment</p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <h5>{{ getPreOrder.investment | kobo | currency(currency) }}</h5>
@@ -252,7 +252,7 @@
                     </div>
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box">
-                            <h5>Fees</h5>
+                            <p>Fees</p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <h5>{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
@@ -261,7 +261,7 @@
                     <hr />
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box">
-                            <h5>Estimated Total</h5>
+                            <p>Estimated Total</p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <h5>{{ getPreOrder.estimatedTotal | kobo | currency(currency) }}</h5>
@@ -331,7 +331,12 @@ export default {
             "GET_MARKET_DATA",
             "GET_PRE_ORDER"
         ]),
-        ...mapMutations(["SET_SINGLE_INSTRUMENT", "SET_MARKET_DATA"]),
+        ...mapMutations([
+            "SET_SINGLE_INSTRUMENT",
+            "SET_MARKET_DATA",
+            "SET_SELL_ORDER",
+            "SET_BUY_ORDER"
+        ]),
         closeModal() {
             this.$emit("close");
         },
@@ -393,36 +398,34 @@ export default {
                      * close buy modal
                      * show success modal
                      */
+                    this.$emit("close", true);
                 }
             });
         },
-        onTypeQuantity() {
+        onTypeQuantity(e) {
+            this.itemData.quantity = e;
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = true;
-                if (this.itemData.quantity) {
+                if (e) {
                     if (this.currency === "NGN" && this.orderType === "MARKET") {
-                        this.itemData.amountCash = parseFloat(
-                            this.itemData.quantity * this.getMarketData.dayMax
-                        );
+                        this.itemData.amountCash = e * this.getMarketData.dayMax;
+                        console.log(this.itemData);
                     } else {
-                        this.itemData.amountCash = parseFloat(
-                            this.itemData.quantity * this.getMarketData.ask
-                        );
+                        this.itemData.amountCash = e * this.getMarketData.ask;
                     }
                 } else this.itemData.amountCash = 0;
             }
         },
-        onTypeAmount() {
+        onTypeAmount(e) {
+            console.log(e);
+            this.itemData.amountCash = e;
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = false;
                 if (this.currency === "NGN" && this.orderType === "MARKET") {
-                    this.itemData.quantity = parseFloat(
-                        +this.itemData.amountCash / +this.getMarketData.dayMax
-                    );
+                    this.itemData.quantity = +e / +this.getMarketData.dayMax;
+                    console.log(this.itemData);
                 } else {
-                    this.itemData.quantity = parseFloat(
-                        +this.itemData.amountCash / +this.getMarketData.ask
-                    );
+                    this.itemData.quantity = +e / +this.getMarketData.ask;
                 }
             }
         },
@@ -431,7 +434,8 @@ export default {
         }
     },
     async mounted() {
-        console.log(this.getSingleinstrument);
+        this.SET_BUY_ORDER({});
+        this.SET_SELL_ORDER({});
         this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol });
         this.GET_MARKET_DATA(this.symbol);
         await this.GET_ACCOUNT_SUMMARY();

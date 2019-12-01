@@ -107,12 +107,13 @@
             </div>
         </router-link>
         <buy-modal
-            @close="showBuy = false"
+            @close="closeBuyModal"
             :currency="instrument.currency"
             :symbol="instrument.symbol"
             :instrument="instrument"
             v-if="showBuy"
         />
+        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
         <modal @close="showKYC = false" v-if="showKYC">
             <template slot="header">{{ selectedField.title }}</template>
@@ -144,6 +145,7 @@ export default {
     data() {
         return {
             showBuy: false,
+            showSuccess: false,
             stock: {},
             step: null,
             showKYC: false,
@@ -223,6 +225,10 @@ export default {
             if (this.step !== "kyc") {
                 this.$refs.buyBtn.$el.click();
             }
+        },
+        closeBuyModal(e) {
+            if (e) this.showSuccess = true;
+            this.showBuy = false;
         }
     },
     mounted() {
