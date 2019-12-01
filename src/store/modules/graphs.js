@@ -9,7 +9,11 @@ const state = {
     positionperformancepercentage:[],
     portfoliodate:[],
     portfolioprice:[],
-    pricedetailsvariable:{}
+    pricedetailsvariable:{},
+    actionperformance:[],
+    valueperformance:[],
+    actionanalysis:[],
+    valueanalysis:[]
     
 };
 
@@ -58,8 +62,27 @@ const getters = {
     // blue board on single-stock graph
     getPricedetailsonblackcard: (state) => {
 			return state.pricedetailsvariable;
-	},
-
+    },
+    getActionperformance: (state) => {
+		return state.actionperformance.map((data) => {
+			return(data.action);
+		});
+    },
+    getValueperformance: (state) => {
+		return state.valueperformance.map((data) => {
+			return(data.value);
+		});
+    },
+    getActionanalysis: (state) => {
+		return state.actionanalysis.map((data) => {
+			return(data.action);
+		});
+    },
+    getValueanalysis: (state) => {
+		return state.actionanalysis.map((data) => {
+			return(data.value);
+		});
+    },
 
 
 };
@@ -133,11 +156,32 @@ const mutations = {
 		positionperformancesymbol = symbol;
         state.positionperformancesymbol = [...positionperformancesymbol];
     },
+    SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION(state, action){
+        let actionperformance = [];
+		actionperformance = action;
+        state.actionperformance = actionperformance;
+    },
+    SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE(state, value){
+        let valueperformance = {};
+		valueperformance = value;
+        state.valueperformance = valueperformance;
+    },
+    SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE(state, action){
+        let actionanalysis = [];
+		actionanalysis = action;
+        state.actionanalysis = actionanalysis;
+    },
+    SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION(state, value){
+        let valueanalysis = {};
+		valueanalysis = value;
+        state.valueanalysis = valueanalysis;
+    },
     SET_PRICE_INFO_ON_BLACKCARD(state, pricedetails){
         let pricedetailsvariable = {};
 		pricedetailsvariable = pricedetails;
         state.pricedetailsvariable = pricedetailsvariable;
     }
+    
 
 };
 
@@ -146,7 +190,7 @@ const actions = {
         console.log('?????????????????????',params);
 		await API_CONTEXT.get(`/instruments/charts`,params)
 			.then((response) => {
-                console.log('>>>>>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
+                console.log('>>FFFFFFFFFFFFFFFFFFFFF>>>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
                 const { chart, derivedPrice, derivedPricePercentage, askPrice } = response.data.data;
                 commit('SET_LINE_SINGLESTOCK_CHARTDATA',chart);
                 commit('SET_LINE_SINGLESTOCK_CHART_DATE',chart)
@@ -159,7 +203,6 @@ const actions = {
 			});
     },
     async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit,rootState }) {
-        console.log('?????????????????????');
 		await API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`)
 			.then((response) => {
                 console.log('>>>>>>new>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
@@ -173,32 +216,50 @@ const actions = {
 			});
     },
     async GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA({ commit,rootState}) {
-        console.log('on mount..........', rootState.auth)
 		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-weight`)
 			.then((response) => {
-                console.log('>>>>>>>>>>GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA>>>>>>>>>>>>>>',response)
                 commit('SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATE',response.data.data.chart);
                 commit('SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA_PRICE',response.data.data.chart)
-                // console.log('inside vuex store',response);
-                console.log('>>>>>>>>>>nerrrtryryryry>>>>>>>>>>>>>>',response.data.data.chart)
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);
 			});
     },
     async GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA({ commit,rootState}) {
-        console.log('????????????rootState.auth.loggedUser?????????',rootState.auth.loggedUser);
 		await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-performance/`)
 			.then((response) => {
-                console.log('>>>>>>>>>>GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA>>>>>>>>>>>>>>',response)
                 commit('SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_PERCENTAGE',response.data.data.chart);
                 commit('SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_SYMBOL',response.data.data.chart)
-                // console.log('inside vuex store',response);
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);
 			});
     },
+
+    async GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA({ commit},params) {
+		await API_CONTEXT.get(`/instruments/performance?symbol=${params.symbol}`)
+			.then((response) => {
+                const { performance} = response.data.data;
+                commit('SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION',performance);
+                commit('SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE',performance)
+			})
+			.catch((error) => {
+               console.log(`::::::::::::::::::::${error}`);
+			});
+    },
+    async GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA({commit},params) {
+		await API_CONTEXT.get(`/instruments/analyst-recommendations?symbol=${params.symbol}`)
+			.then((response) => {
+                const { recommendations} = response.data.data;
+                commit('SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION',recommendations);
+                commit('SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE',recommendations)
+			})
+			.catch((error) => {
+               console.log(`::::::::::::::::::::${error}`);
+               return false;
+			});
+    },
+    
     
 };
 

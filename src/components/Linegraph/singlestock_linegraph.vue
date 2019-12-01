@@ -25,10 +25,12 @@
                     </div>
                         <section class="btn-parent-container">
                             <section class="btn-container">
-                                <button class="option">
-                                    Normal
-                                </button>
-                                <button class="option">Technical</button>
+                                <button
+                                v-for="(item,index) in options"
+                                :key="index"
+                                @click="OntooglePositions(item.id)"
+                                :class="[item.id == activeButton ? 'active-btn' : '','option']"
+                                class="option">{{item.name}}</button>
                             </section>
                         </section>
 
@@ -80,6 +82,19 @@ export default {
                     id: 6
                 }
             ],
+            activeButton:'',
+            options:[
+                {
+                    name:'Normal',
+                    state:true,
+                    id:0
+                },
+                {
+                    name:'Technical',
+                    state:false,
+                    id:1
+                }
+            ]
         }
     },
     components: {
@@ -99,17 +114,21 @@ export default {
         ...mapActions(['GET_LINECHART_SINGLESTOCK_GRAPH_DATA']),
         onhandleGraphdata(){
             const payloadsinglestock = {
-                interval:'1W',
+                interval:'1D',
                 symbol:this.instrument.symbol
             }
+             console.log('>>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX>>>>>>>>>>>>>>',this.instrument);
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
                 console.log('>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
             })
         },
+        OntooglePositions(response){
+            this.activeButton = response;
+        },
         handletimeframe(index) {
             const payloadsinglestock = {
                 interval:index,
-                symbol:'ACCESS'
+                symbol:this.$route.params.symbol
             }
             console.log('>>>>>>>>>handletimeframe>>>>>>>>',index);
              this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{

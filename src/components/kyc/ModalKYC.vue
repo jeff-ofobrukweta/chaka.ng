@@ -1,10 +1,19 @@
 <template>
-    <form class="kyc-modal" @submit.prevent="updateKYC">
+    <form class="kyc-modal" @submit.prevent="updateKYC" v-if="allFields.length > 0">
+        <div class="text-center mb-3" v-if="allFields[0].value === 'nin'">
+            <p>
+                <small class="grey-cool"
+                    >Enter your national identity number to fast track your verification
+                    process</small
+                >
+            </p>
+        </div>
         <Field
             v-for="(field, i) in allFields"
             :key="i"
             :field="field"
             @input="handleInput"
+            @optional="handleOptional"
             :options="checkOptions(field)"
         />
 
@@ -17,6 +26,9 @@
                 :classes="['btn-block', 'btn__primary']"
                 >Submit</action-button
             >
+        </div>
+        <div class="text-center mt-2" v-if="allFields[0].value === 'nin'">
+            <a @click="skipNIN" class="unerline primary">Skip</a>
         </div>
     </form>
 </template>
@@ -58,6 +70,9 @@ export default {
         handleInput(e) {
             this.itemData[e.name] = e.value;
             this.formComplete = Object.keys(this.itemData).length === this.requiredFields.length;
+        },
+        handleOptional(e) {
+            console.log(e);
         },
         updateKYC() {
             Object.keys(this.itemData).forEach(el => {
@@ -102,6 +117,9 @@ export default {
                 return this.lg;
             }
             return [];
+        },
+        skipNIN() {
+            console.log("skipped");
         }
     },
     mounted() {

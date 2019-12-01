@@ -50,21 +50,23 @@
                 <label class="form__label"
                     >Employment Company
                     <form-input
+                        required
                         type="text"
                         name="employmentCompany"
                         v-model="employment.employmentCompany"
                         placeholder="Employment Details"
-                        @input="handleEmployment"
+                        :error-message="errors.employmentCompany"
                 /></label>
             </div>
             <div class="kyc-field__group">
                 <label class="form__label"
                     >Employment Type
                     <select
+                        required
                         class="form__input"
                         name="employmentType"
                         v-model="employment.employmentType"
-                        @input="handleEmployment"
+                        :error-message="errors.employmentType"
                     >
                         <option v-for="(option, i) in types" :key="i" :value="option.value">{{
                             option.text
@@ -79,7 +81,7 @@
                         class="form__input"
                         name="employmentPosition"
                         v-model="employment.employmentPosition"
-                        @input="handleEmployment"
+                        :error-message="errors.employmentPosition"
                     >
                         <option v-for="(option, i) in positions" :key="i" :value="option.value">{{
                             option.text
@@ -134,6 +136,28 @@ export default {
         handleInput(e) {
             if (this.field.type === "button") {
                 this.value = e;
+            }
+            if (this.field.value === "employmentStatus" && this.value !== "UNEMPLOYED") {
+                if (!this.employment.employmentType) {
+                    this.errors = {
+                        employmentType: "Field is required"
+                    };
+                }
+                if (!this.employment.employmentCompany) {
+                    this.errors = {
+                        employmentType: "Company name is required"
+                    };
+                }
+                if (!this.employment.employmentPosition) {
+                    this.errors = {
+                        employmentType: "Employment Position is required"
+                    };
+                } else if (Object.keys(this.employment).length === 3) {
+                    this.employment.employmentStatus = this.value;
+                    this.$emit("optional", this.employment);
+                    return true;
+                }
+                return false;
             }
             const temp = {
                 name: this.field.value,

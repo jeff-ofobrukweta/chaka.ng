@@ -49,6 +49,11 @@ const kycFields = [
         type: "number"
     },
     {
+        name: "NIN",
+        value: "nin",
+        type: "number"
+    },
+    {
         name: "Country",
         value: "country",
         type: "select"

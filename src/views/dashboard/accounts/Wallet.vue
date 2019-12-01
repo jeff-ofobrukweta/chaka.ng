@@ -176,6 +176,12 @@ export default {
                     fields: ["bankAcctNo", "bankCode"]
                 },
                 {
+                    title: "National Identity Number",
+                    subtitle:
+                        "Enter your national identity number to fast track your verification process",
+                    fields: ["nin"]
+                },
+                {
                     title: "Postal Address",
                     subtitle: "Enter your postal address",
                     fields: ["gender", "address", "lg"]

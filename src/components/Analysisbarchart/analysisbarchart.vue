@@ -203,13 +203,32 @@ export default {
         currency: {
             type: String,
             required: false
+        },
+        values:{
+             type: Array,
+            required: true
+        },
+        actions:{
+             type: Array,
+            required: true
         }
     },
+    created() {
+        this.fillData();
+		this.handlescaling();
+	},
     methods: {
-
+         handlescaling() {
+			if (this.getOpenPrice) {
+				this.min = this.values.sort()[0];
+				this.max = this.values.sort()[this.values.sort().length - 1];
+				this.interval = Math.ceil((this.max - this.min) / 10);
+			}
+			return true;
+		},
         fillData() {
             this.datacollection = {
-                labels: ['JAN', 'FEB', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUG'],
+                labels: this.actions,
                 datasets: [
                     {
                         label: 'Stocks',
@@ -227,11 +246,19 @@ export default {
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
-                        data: [12, 23, 34, 44, 12, 23, 34, 44]
+                        data: [...this.values]
                     }
                 ]
             };
         }
+    },
+    watch: {
+		values(newvalue, oldvalue) {
+			this.fillData();
+		},
+		actions(newaction, oldaction) {
+			this.fillData();
+		},
     }
 };
 </script>

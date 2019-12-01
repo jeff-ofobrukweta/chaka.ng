@@ -4,7 +4,6 @@ import errorFn from "../../services/apiService/error";
 const state = {
     kyc: {},
     nextKYC: {},
-    nextKYCCheck: false,
     navbarNextKYC: {},
     countryCodes: []
 };
@@ -23,11 +22,8 @@ const mutations = {
     SET_NEXT_KYC(state, payload) {
         state.nextKYC = payload;
     },
-    SET_NAVBAR_CHECK(state, payload) {
-        state.nextKYCCheck = payload;
-    },
     SET_NAVBAR_NEXT_KYC(state, payload) {
-        state.nextKYCCheck = payload;
+        state.navbarNextKYC = payload;
     },
     SET_COUNTRY_CODES(state, payload) {
         state.countryCodes = payload;
@@ -54,26 +50,18 @@ const actions = {
             );
         });
     },
-    GET_NEXT_KYC: ({ commit, state, dispatch, rootState }, payload) => {
+    GET_NEXT_KYC: ({ commit, dispatch, rootState }, payload) => {
         /**
          * @params {context}
          */
-        if (payload) {
-            commit("SET_NAVBAR_CHECK", false);
-        } else commit("SET_NAVBAR_CHECK", true);
         return new Promise((resolve, reject) => {
             return api
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`, { ...payload })
                 .then(
                     resp => {
                         if (resp.status === 200) {
-                            if (!state.navbarNextKYC) {
-                                commit("SET_NEXT_KYC", resp.data.data);
-                                commit("SET_NAVBAR_CHECK", true);
-                                dispatch("GET_NEXT_KYC");
-                            } else {
-                                commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
-                            }
+                            commit("SET_NEXT_KYC", resp.data.data);
+                            dispatch("GET_NAVBAR_NEXT_KYC");
                             resolve(true);
                         } else {
                             errorFn(resp, "kyc");
@@ -85,6 +73,29 @@ const actions = {
                         resolve(false);
                     }
                 );
+        });
+    },
+    GET_NAVBAR_NEXT_KYC: ({ commit, rootState }) => {
+        /**
+         * @params {context}
+         */
+        return new Promise((resolve, reject) => {
+            return api.get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`).then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
+                        console.log(resp.data.data);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "kyc");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "kyc");
+                    resolve(false);
+                }
+            );
         });
     },
     UPDATE_KYC: ({ commit, dispatch, rootState }, payload) => {

@@ -2,17 +2,18 @@
     <div class="stock-table">
         <div class="stock-table__flex">
             <p class="stock-table__head">No. of Shares</p>
-            <p class="stock-table__body cursor-context" :title="3242342 | units(4, true)">
-                {{ 3.2346542 | units }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(getPositionsforcurrentstock.quantity)|| 0.00 | units(4, true)">
+                {{checkforUndefined(getPositionsforcurrentstock.quantity) || 0.00 | units }}
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">Value of Shares</p>
             <p
                 class="stock-table__body stock-table__img cursor-context"
-                :title="93.12 | currency('USD', true)"
+                :title="checkforUndefined(getPositionsforcurrentstock.currentValue) || 0.00 | currency('USD', true)"
             >
-                {{ 93.12 | currency("USD") }}
+                {{ checkforUndefined(getPositionsforcurrentstock.currentValue) || 0.00 | currency("USD") }}
                 <img
                     v-if="instrument.shareValue >= 0"
                     :src="require('../../assets/img/chevron-up.svg')"
@@ -23,64 +24,83 @@
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">Net Earnings</p>
-            <p class="stock-table__body cursor-context" :title="1000 | currency('USD', true)">
-                {{ 1000 | currency("USD") }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(getPositionsforcurrentstock.netEarnings) || 0.00 | currency('USD', true)">
+                {{ checkforUndefined(getPositionsforcurrentstock.netEarnings) || 0.00 | currency("USD") }}
             </p>
         </div>
         <div class="stock-table__flex stock-table__flex--full">
             <p class="stock-table__head">Market Cap</p>
-            <p class="stock-table__body cursor-context" :title="instrument.InstrumentDynamic.marketCap || '' | currency(instrument.currency, true)">
-                {{ instrument.InstrumentDynamic.marketCap || '' | currency(instrument.currency) }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.marketCap) || 0.00 | currency(instrument.currency, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.marketCap) || 0.00 | currency(instrument.currency) }}
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">P/E Ratio</p>
-            <p class="stock-table__body cursor-context" :title="instrument.InstrumentDynamic.peRatio | units(2, true)">
-                {{ instrument.InstrumentDynamic.peRatio || '' | units(2) }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.peRatio) | units(2, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.peRatio) || 0.00 | units(2) }}
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">Dividend Yield</p>
-            <p class="stock-table__body cursor-context" :title="instrument.InstrumentDynamic.dividendYield | units(2, true)">
-                {{ instrument.InstrumentDynamic.dividendYield || '' | units(2) }}%
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.dividendYield) | units(2, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.dividendYield) || 0.00 | units(2) }}%
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">Volume</p>
-            <p class="stock-table__body cursor-context" :title="instrument.InstrumentDynamic.avgVol30d | units(2, true)">
-                {{ instrument.InstrumentDynamic.avgVol30d || '' | units(2) }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.avgVol30d) | units(2, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.avgVol30d) || 0.00 | units(2) }}
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">52 Weeks High</p>
-            <p class="stock-table__body cursor-context" :title="instrument.InstrumentDynamic.high52 | currency(instrument.currency, true)">
-                {{ instrument.InstrumentDynamic.high52 || '' | currency("USD") }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.high52) | currency(instrument.currency, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.high52) || 0.00 | currency("USD") }}
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">52 Weeks Low</p>
-            <p class="stock-table__body cursor-context" :title="instrument.InstrumentDynamic.low52 || '' | currency(instrument.currency, true)">
-                {{ instrument.InstrumentDynamic.low52 || '' | currency("USD") }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.low52) || 0.00 | currency(instrument.currency, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.low52) || 0.00 | currency("USD") }}
             </p>
         </div>
     </div>
 </template>
 
 <script>
+import myMixin from '../../services/mixins/prices'
 export default {
     name: 'stock-table',
+    mixins: [myMixin],
     props: {
         instrument: {
             type: Object,
             required: true
         },
-        positions:{
+        getPositionsforcurrentstock:{
             type:Array,
             required:false
         }
     },
     mounted(){
-        console.log('the stock itself >>>>>>>>>>>>>>>>',this.instrument);
+        this.checkforUndefined()
+        console.log('the stock itself >>>>>>>>>>>>>>>>',this.getPositionsforcurrentstock);
+    },
+    methods:{
+        checkforUndefined(payload){
+            console.log('>>>>>>checkforUndefined>>>>>>>>>',payload)
+            if(payload === undefined){ return 'Nil';}
+            else{
+                return payload;
+            }
+        }
     }
 };
 </script>

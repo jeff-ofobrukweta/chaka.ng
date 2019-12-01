@@ -38,6 +38,7 @@
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a href="">Hide</a>
                         <action-button
+                            :disabled="!itemData.disclosureName"
                             type="submit"
                             :pending="loading"
                             :classes="['btn', 'kyc-nav__button']"
@@ -60,6 +61,7 @@
                     <div class="kyc-nav__actions" v-else>
                         <action-button
                             type="submit"
+                            :disabled="!itemData.disclosureName"
                             :pending="loading"
                             icon
                             :classes="['btn-block', 'btn__primary']"
@@ -85,6 +87,7 @@
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a href="">Hide</a>
                         <action-button
+                            :disabled="!itemData.bvn"
                             type="submit"
                             :pending="loading"
                             :classes="['btn', 'kyc-nav__button']"
@@ -107,6 +110,7 @@
                     <div class="kyc-nav__actions" v-else>
                         <action-button
                             type="submit"
+                            :disabled="!itemData.bvn"
                             :pending="loading"
                             icon
                             :classes="['btn-block', 'btn__primary']"
@@ -185,7 +189,7 @@
                             >
                         </p>
                         <p class="skip-button" v-if="getWindowWidth !== 'mobile'">
-                            <button class="btn btn__white btn-small">Skip</button>
+                            <button class="btn btn__white btn-small" type="button">Skip</button>
                         </p>
                     </div>
                     <div class="kyc-nav__field">
@@ -195,6 +199,7 @@
                         <a href="">Hide</a>
                         <action-button
                             type="submit"
+                            :disabled="!itemData.nin"
                             :pending="loading"
                             :classes="['btn', 'kyc-nav__button']"
                         >
@@ -216,6 +221,7 @@
                     <div class="kyc-nav__actions" v-else>
                         <action-button
                             type="submit"
+                            :disabled="!itemData.nin"
                             :pending="loading"
                             icon
                             :classes="['btn-block', 'btn__primary']"
@@ -657,9 +663,9 @@ export default {
         }
     },
     async mounted() {
-        this.GET_COUNTRY_CODES();
-        await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);
+        this.GET_NEXT_KYC();
         this.checkNextKYC();
+        await this.GET_COUNTRY_CODES();
     }
 };
 </script>

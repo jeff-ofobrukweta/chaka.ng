@@ -18,8 +18,10 @@
     .percentage{
         font-style: normal;
         font-weight: bold;
-        font-size: 19.7203px;
+        font-size: 1em;
         color:#00C48C;
+        .red{color:rgb(196, 0, 0);}
+        .green{color:#00C48C;}
     }
 }
 .wraper-main{

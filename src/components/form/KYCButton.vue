@@ -1,7 +1,13 @@
 <template>
-    <button :disabled="disabled" class="btn action" :class="[classes]" @click="handleClick($event)">
+    <component
+        :is="tag"
+        :disabled="disabled"
+        class="action"
+        :class="[classes, tag === 'button' ? 'btn' : '']"
+        @click="handleClick($event)"
+    >
         <slot></slot>
-    </button>
+    </component>
 </template>
 
 <script>
@@ -24,6 +30,10 @@ export default {
         icon: {
             type: Boolean,
             default: false
+        },
+        tag: {
+            type: String,
+            default: "button"
         }
     },
     computed: {

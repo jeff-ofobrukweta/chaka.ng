@@ -1,9 +1,13 @@
 import API_CONTEXT from "../../services/apiService/api";
+import errorFn from "../../services/apiService/error";
 
 const state = {
-    instrument: {},
-    singlestockpositions: []
-    // preOrder: {}
+    instrument: [],
+    singlestockpositions: [],
+    preOrder: {},
+    buyOrder: {},
+    sellOrder: {},
+    marketData: {}
 };
 
 const getters = {
@@ -11,12 +15,14 @@ const getters = {
     getPositionsWithparams: state => symbol => {
         const filtered = state.singlestockpositions.filter(position => position.symbol === symbol);
         if (filtered) {
-            console.log(">>>>>>>getPositionsWithparams>>>>>>>>>>", filtered);
             return filtered;
         }
         return false;
-    }
-    // getPreOrder: state => state.preOrder
+    },
+    getPreOrder: state => state.preOrder,
+    getBuyOrder: state => state.buyOrder,
+    getSellOrder: state => state.sellOrder,
+    getMarketData: state => state.marketData
 };
 
 const mutations = {
@@ -27,61 +33,141 @@ const mutations = {
         let singlestockpositions = {};
         singlestockpositions = positions;
         state.singlestockpositions = singlestockpositions.position;
+    },
+    SET_PRE_ORDER(state, payload) {
+        state.preOrder = payload;
+    },
+    SET_BUY_ORDER(state, payload) {
+        state.buyOrder = payload;
+    },
+    SET_SELL_ORDER(state, payload) {
+        state.sell = payload;
+    },
+    SET_MARKET_DATA(state, payload) {
+        state.marketData = payload;
     }
-    // SET_PRE_ORDER(state, payload) {
-    //     state.preOrder = payload;
-    // }
 };
 
 const actions = {
     async GET_SINGLESTOCK_INSTRUMENT({ commit }, params) {
-        console.log("lllllllllllllll", params);
-        await API_CONTEXT.get(`/instruments/${params.instrumentID}`)
-            .then(response => {
-                const { instrument } = response.data.data;
-                console.log(">>>>>>>>>>GET_SINGLESTOCK_INSTRUMENT>>>>>>>>>>>>>>", instrument);
-                commit("SET_SINGLE_INSTRUMENT", instrument);
-                // console.log('inside vuex store',chart);
-            })
-            .catch(error => {
-                console.log(`::::::::::::::::::::${error}`);
-            });
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/instruments/?symbols=${params.symbols}`)
+                .then(response => {
+                    if (response.status === 200) {
+                        const { instruments } = response.data.data;
+                        commit("SET_SINGLE_INSTRUMENT", instruments);
+                        resolve(instruments[0]);
+                    }
+                })
+                .catch(error => {
+                    console.log(`::::::::::::::::::::${error}`);
+                });
+        });
     },
     async GET_CURRENT_STOCK_POSITION({ commit, rootState }) {
         // console.log('on mount..................',rootState.auth)
         await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions/`)
             .then(response => {
                 const { position } = response.data.data;
-                console.log(">>>>>>>>>>GET_CURRENT_STOCK_POSITION>>>>>>>>>>>>>>", position);
                 commit("SET_CURRENTSTOCK_POSITIONS", position);
-                // console.log('inside vuex store',chart);
             })
             .catch(error => {
                 console.log(`::::::::::::::::::::${error}`);
             });
+    },
+    BUY_INSTRUNENT: ({ commit }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.post(
+                `/users/${rootState.auth.loggedUser.chakaID}/orders/buy`,
+                payload
+            ).then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("REQ_SUCCESS", null, { root: true });
+                        commit("BUY_ORDER", response.data.data.order);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "buy");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "buy");
+                    resolve(false);
+                }
+            );
+        });
+    },
+    SELL_INSTRUNENT: ({ commit }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.post(
+                `/users/${rootState.auth.loggedUser.chakaID}/orders/sell`,
+                payload
+            ).then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("REQ_SUCCESS", null, { root: true });
+                        commit("SELL_ORDER", response.data.data.order);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "sell");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "sell");
+                    resolve(false);
+                }
+            );
+        });
+    },
+    GET_PRE_ORDER: ({ commit, rootState }, payload) => {
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.post(
+                `/users/${rootState.auth.loggedUser.chakaID}/orders/pre-order/`,
+                payload
+            ).then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("SET_PRE_ORDER", resp.data.data).then(() => {
+                            resolve(true);
+                        });
+                    } else {
+                        errorFn(resp, "pre-order");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "pre-order");
+                    resolve(false);
+                }
+            );
+        });
+    },
+    GET_MARKET_DATA: ({ commit }, payload) => {
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/instruments/market-data?symbol=${payload}`).then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("SET_MARKET_DATA", resp.data.data).then(() => {
+                            resolve(true);
+                        });
+                    } else {
+                        errorFn(resp, "market-data");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "market-data");
+                    resolve(false);
+                }
+            );
+        });
     }
-    // GET_PRE_ORDER: ({ commit }) => {
-    //     return new Promise((resolve, reject) => {
-    //         return api.get(
-    //             "/currency-rates/today".then(
-    //                 resp => {
-    //                     if (resp.status === 200) {
-    //                         commit("SET_EXCHANGE_RATE", resp.data.data.rate).then(() => {
-    //                             resolve(true);
-    //                         });
-    //                     } else {
-    //                         errorFn(resp, "exchange");
-    //                         resolve(false);
-    //                     }
-    //                 },
-    //                 error => {
-    //                     errorFn(error.response, "exchange");
-    //                     resolve(false);
-    //                 }
-    //             )
-    //         );
-    //     });
-    // }
 };
 
 export default {

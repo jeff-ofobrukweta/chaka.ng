@@ -108,8 +108,7 @@ export default {
         // ...mapMutations([''])
          ...mapActions(['GET_TAGS_CATEGORIES']),
         mountingActions(){
-            console.log('instrument base>>>>>>===================================')
-             console.log('instrument base>>>>>>',this.getInstrumentsListArray)
+
         }
     },
 

@@ -4,7 +4,16 @@
             <section class="title-tag">Categories</section>
             <section class="info-tag">Lorem ipsum blala</section>
         </div>
-        <div class="container-tag">
+        <section
+        v-if="(taglists.length <= 0)" 
+        class="tag-placeholder-container-parent">
+                <div class="tag-placeholder"></div>
+                <div class="tag-placeholder"></div>
+                <div class="tag-placeholder"></div>
+                <div class="tag-placeholder"></div>
+                <div class="tag-placeholder"></div>
+            </section>
+        <div v-else class="container-tag">
             <div
             v-for="item in taglists"
             :key="item.id"

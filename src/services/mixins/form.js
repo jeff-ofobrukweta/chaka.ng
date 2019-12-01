@@ -18,6 +18,9 @@ const form = {
          */
         clearErrors(field = null) {
             this.errors = {};
+            if (this.issues) {
+                this.issues = {};
+            }
             // if (!field) {
             //     this.errors = {};
             // } else {

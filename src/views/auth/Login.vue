@@ -97,6 +97,7 @@ export default {
         }
     },
     mounted() {
+        this.resetError();
         document.title = "Chaka - Login";
         document.getElementsByTagName("meta").keywords.content =
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";

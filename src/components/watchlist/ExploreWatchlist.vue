@@ -13,14 +13,18 @@
                 width="24px"
             />
         </div>
-        <div class="watchlist-explore__flex">
+        <router-link
+            class="watchlist-explore__flex pointer"
+            tag="div"
+            :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }"
+        >
             <p class="light">
                 <strong>{{ instrument.symbol }}</strong>
             </p>
             <p>
                 <strong>{{ instrument.name }}</strong>
             </p>
-        </div>
+        </router-link>
         <div class="watchlist-explore__flex" v-if="Object.keys(chartData).length > 0">
             <p
                 class="watchlist-explore__change"
@@ -86,7 +90,15 @@
                     </defs>
                 </svg>
             </button>
-            <button @click="showBuy = true">+&nbsp;Buy</button>
+            <KYCButton
+                ref="buyBtn"
+                type="button"
+                :classes="['']"
+                :action="instrument.currency === 'NGN' ? 'local' : 'global'"
+                @step="handleStep"
+                >Buy</KYCButton
+            >
+            <!-- <button @click="showBuy = true">+&nbsp;Buy</button> -->
         </div>
         <buy-modal
             @close="showBuy = false"
@@ -95,17 +107,30 @@
             :instrument="instrument"
             v-if="showBuy"
         />
+
+        <modal @close="showKYC = false" v-if="showKYC">
+            <template slot="header">{{ selectedField.title }}</template>
+            <form @submit.prevent="submitPhone">
+                <div>
+                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+                </div>
+            </form>
+        </modal>
     </div>
 </template>
 
 <script>
 import LineChart from "../Linegraph/linegraph_config.js";
-import { mapActions } from "vuex";
+import KYCButton from "../form/KYCButton";
+import ModalKYC from "../kyc/ModalKYC";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "explore-watchlist",
     components: {
-        LineChart
+        LineChart,
+        KYCButton,
+        ModalKYC
     },
     props: {
         instrument: {
@@ -121,6 +146,55 @@ export default {
         return {
             showBuy: false,
             datacollection: {},
+            step: null,
+            showKYC: false,
+            selectedField: {},
+            allNextKYC: [
+                {
+                    title: "Bank Details",
+                    subtitle: "Enter your bank details",
+                    fields: ["bankAcctNo", "bankCode"]
+                },
+                {
+                    title: "National Identity Number",
+                    subtitle:
+                        "Enter your national identity number to fast track your verification process",
+                    fields: ["nin"]
+                },
+                {
+                    title: "Postal Address",
+                    subtitle: "Enter your postal address",
+                    fields: ["gender", "address", "lg"]
+                },
+                {
+                    title: "Employment Details",
+                    subtitle: "Fill in your employment details",
+                    fields: [
+                        "employmentStatus",
+                        "employedByBroker",
+                        "directorOfPublicCo",
+                        "pepStatus",
+                        "pepNames"
+                    ]
+                },
+                {
+                    title: "Investment Preferences",
+                    subtitle: "Fill in your investment preferences",
+                    fields: [
+                        "investmentObjectives",
+                        "investmentExperience",
+                        "riskTolerance",
+                        "annualIncome",
+                        "networthLiquid",
+                        "networthTotal"
+                    ]
+                },
+                {
+                    title: "Uploads",
+                    subtitle: "Make your details",
+                    fields: ["addressProofUrl", "idPhotoUrl", "passportUrl"]
+                }
+            ],
             options: {
                 responsive: false,
                 legend: {
@@ -156,6 +230,9 @@ export default {
             chartArray: []
         };
     },
+    computed: {
+        ...mapGetters(["getNextKYC"])
+    },
     methods: {
         ...mapActions(["GET_WATCHLIST_CHART"]),
         fillData() {
@@ -182,25 +259,50 @@ export default {
                     }
                 ]
             };
+        },
+        handleStep(step) {
+            this.step = step.type;
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else {
+                this.showBuy = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            if (this.step !== "kyc") {
+                this.$refs.buyBtn.$el.click();
+            }
         }
     },
 
     async mounted() {
         this.fillData();
         if (this.instrument.symbol) {
-            await this.GET_WATCHLIST_CHART({
-                symbol: this.instrument.symbol,
-                interval: "1W"
-            }).then(resp => {
-                this.chartData = resp;
-                this.chartData.chart.map(el => {
-                    this.labelsArray.push(el.date);
-                    this.chartArray.push(el.price);
-                });
-                setTimeout(() => {
-                    this.fillData();
-                }, 100);
-            });
+            await Promise.all([
+                this.GET_WATCHLIST_CHART({
+                    symbol: this.instrument.symbol,
+                    interval: "1W"
+                }).then(resp => {
+                    this.chartData = resp;
+                    this.chartData.chart.map(el => {
+                        this.labelsArray.push(el.date);
+                        this.chartArray.push(el.price);
+                    });
+                    setTimeout(() => {
+                        this.fillData();
+                    }, 100);
+                })
+            ]);
         }
     }
 };

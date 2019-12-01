@@ -11,6 +11,7 @@
             :required="required"
             :minlength="minlength"
             :maxlength="maxlength"
+            :disabled="disabled"
         />
         <p class="form-error" v-if="invalid.$error">
             <small>{{ errorMessage }}</small>
@@ -64,6 +65,9 @@ export default {
         },
         errorMessage: {
             type: String
+        },
+        disabled: {
+            type: Boolean
         }
     },
     data() {
