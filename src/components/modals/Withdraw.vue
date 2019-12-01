@@ -68,8 +68,8 @@ export default {
             }
             if (this.itemData.amount) {
                 this.loading = true;
-                const payload = { ...this.itemData };
-                payload *= 100;
+                let payload = { ...this.itemData };
+                payload.amount *= 100;
                 this.WITHDRAW_WALLET(payload).then(resp => {
                     this.loading = false;
                     if (resp) {

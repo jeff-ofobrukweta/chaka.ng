@@ -129,11 +129,7 @@
             </div>
         </section>
         <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <exchange-modal
-            :showModal="showExchange"
-            @close="showExchange = false"
-            v-if="showExchange"
-        />
+        <exchange-modal :showModal="showExchange" @close="closeExchangeBtn" v-if="showExchange" />
         <withdraw-modal :showModal="showWithdraw" @close="closeWithdrawBtn" v-if="showWithdraw" />
         <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
@@ -258,6 +254,10 @@ export default {
         closeWithdrawBtn(e) {
             if (e) this.showSuccess = true;
             this.showWithdraw = false;
+        },
+        closeExchangeBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showExchange = false;
         }
     },
     async mounted() {

@@ -27,7 +27,6 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             // commit("REQ_SUCCESS", null, { root: true });
-                            console.log(resp.data.data.watchlistDetails.instruments);
                             commit("SET_WATCHLIST", resp.data.data.watchlistDetails.instruments);
                             resolve(true);
                         } else {

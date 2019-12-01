@@ -70,7 +70,7 @@ export default {
     },
 
     reverseDate(value) {
-        const d = new Date(value),
+        let d = new Date(value),
             month = "" + (d.getMonth() + 1),
             day = "" + d.getDate(),
             year = "" + d.getFullYear();

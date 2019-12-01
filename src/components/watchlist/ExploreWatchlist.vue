@@ -302,13 +302,15 @@ export default {
                     interval: "1W"
                 }).then(resp => {
                     this.chartData = resp;
-                    this.chartData.chart.map(el => {
-                        this.labelsArray.push(el.date);
-                        this.chartArray.push(el.price);
-                    });
-                    setTimeout(() => {
-                        this.fillData();
-                    }, 100);
+                    if (this.chartData) {
+                        this.chartData.chart.map(el => {
+                            this.labelsArray.push(el.date);
+                            this.chartArray.push(el.price);
+                        });
+                        setTimeout(() => {
+                            this.fillData();
+                        }, 100);
+                    }
                 })
             ]);
         }

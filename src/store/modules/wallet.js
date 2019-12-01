@@ -83,6 +83,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_WALLET_TX", resp.data.data.transaction);
                             dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
                                 resolve(true);
                             });

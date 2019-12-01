@@ -172,13 +172,12 @@ export default {
             }
             if (this.itemData.amount) {
                 this.loading = true;
-                const payload = { ...this.itemData };
-                payload *= 100;
+                let payload = { ...this.itemData };
+                payload.amount *= 100;
                 this.EXCHANGE_WALLET(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.message = "Exchange operation was successful. Payment is pending";
-                        this.status = "success";
+                        this.$emit("close", true);
                     }
                 });
             }

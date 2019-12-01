@@ -52,7 +52,7 @@
             <div class="stock-vdr__modal">
                 <div class="stock-vdr__flex">
                     <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>Amount</label>
+                        <label>{{ source === "Exchange" ? "Estimated " : " " }}Amount</label>
                         <h4 class="gift__success stock-vdr__center">
                             {{ getWalletTx.txAmount | kobo | currency(getWalletTx.currency) }}
                         </h4>
@@ -60,21 +60,28 @@
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Action</label>
                         <h4 class="gift__success stock-vdr__center">
-                            {{ getWalletTx.actionType === "CREDIT" ? "Deposit" : "Withdrawal" }}
+                            {{ source }}
                         </h4>
                     </div>
                 </div>
                 <div class="stock-vdr__flex">
                     <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>Order Reference</label>
+                        <label>Status</label>
+                        <h4 class="gift__success stock-vdr__center">{{ getWalletTx.status }}</h4>
+                    </div>
+                    <div class="form-group stock-vdr__box stock-vdr__center">
+                        <label>Reference No.</label>
                         <h4 class="gift__success stock-vdr__center">{{ getWalletTx.reference }}</h4>
                     </div>
+                </div>
+                <div class="stock-vdr__flex">
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Date Opened</label>
                         <h4 class="gift__success stock-vdr__center">
                             {{ getWalletTx.createdAt || "-" | date }}
                         </h4>
                     </div>
+                    <div class="form-group stock-vdr__box stock-vdr__center"></div>
                 </div>
             </div>
             <div class="text-center">
@@ -91,7 +98,12 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
     name: "wallet-success",
     computed: {
-        ...mapGetters(["getWalletTx"])
+        ...mapGetters(["getWalletTx"]),
+        source() {
+            if (this.getWalletTx.source === "WALLET") return "Exchange";
+            else if (this.getWalletTx.actionType === "CREDIT") return "Deposit";
+            return "Withdrawal";
+        }
     },
     methods: {
         ...mapMutations(["SET_WALLET_TX"]),
