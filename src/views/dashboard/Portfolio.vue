@@ -4,7 +4,12 @@
             <Linegraph />
         </section>
         <section class="portfolio-card__box">
-            <PortfolioCard v-for="(card, index) in getPortfolioSummary" :key="index" :data="card" />
+            <PortfolioCard 
+            v-for="(card, index) in getPortfolioSummary"
+            :instrument="getAccountSummary"
+            :key="index" 
+            :data="card"
+            />
         </section>
         <section class="portfolio__charts">
             <Doughnut />
@@ -32,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters,mapActions,mapMutations } from "vuex";
 import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
 import PortfolioCard from "../../components/portfolio/PortfolioCard";
 import Linegraph from "../../components/Linegraph/linebase";
@@ -124,8 +129,17 @@ export default {
             ]
         };
     },
+     methods:{
+        ...mapActions(['GET_ACCOUNT_SUMMARY']),
+    },
+    mounted(){
+        const currency = {currency:this.getPorfolioglobalCurrencyforGraph}
+        this.GET_ACCOUNT_SUMMARY({currency}).then(() => {
+            console.log("YYYYYYYYYYYYYYYYYYYYYY",this.getAccountSummary)
+        });
+    },
     computed: {
-        ...mapGetters(["getPortfolioSummary"])
+        ...mapGetters(["getPortfolioSummary","getPorfolioglobalCurrencyforGraph","getAccountSummary"])
     }
 };
 </script>

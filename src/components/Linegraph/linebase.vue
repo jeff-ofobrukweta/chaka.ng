@@ -7,18 +7,32 @@
                 </div>
                 <div class="right-menue-item">
                     <section class="btn-sell"><button>Buy</button></section>
-                    <section class="cash-networth">123,345,567(123.34%)</section>
+                    <section class="cash-networth">{{getAccountSummary.netWorth | currency(getAccountSummary.currency)}}
+                        <span class="derived">
+                        <span
+                        :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']" 
+                        >{{getPortfolioDerivedPrice}}</span>
+                        <span
+                        :class="[getPortfolioDerivedChange < 0 ? 'red' : 'green']"
+                        >({{getPortfolioDerivedChange}}%)</span>
+                        </span></section>
                     <section class="toogle-section">
                         <section class="option-container">
-                            <button class="btn-one">$</button>
-                            <button  class="btn-two">₦</button>
+                            <button
+                            v-for="(item, index) in currencyOption"
+                            :key="index"
+                            @click="toogleCurrency(item.currency,item.id)"
+                            :title="item.description"
+                            :class="[item.id == getPortfolioIntervalposition ? 'btn-one-active' : '','btn-one']"
+                            >{{item.symbol}}</button>
                             <button>
                                 <div id="select" class="dropdown">
                                 <select class="drop-down">
-                                    <option class="option">MONTH</option>
-                                    <option class="option" value="1Y">1Y</option>
-                                    <option class="option" value="1W">1W</option>
-                                    <option class="option" value="1M">1M</option>
+                                    <option
+                                     v-for="(item,index) in buttonoption"
+                                    :key="index" 
+                                     @click="handletimeframe(item.time)"
+                                    class="option">{{item.name}}</option>
                                 </select>
                                 </div>
                             </button>
@@ -37,23 +51,105 @@ import { mapGetters,mapMutations,mapActions } from 'vuex';
 
 export default {
     name: 'Linechartgraphchild',
+    data(){
+        return{
+            currencyOption:[
+                {
+                    symbol:"₦",
+                    currency:'NGN',
+                    id:0,
+                    description:"convert to Naira value"
+                },
+                {
+                    symbol:"$",
+                    currency:'USD',
+                    id:1,
+                    description:"convert to Dollar value"
+                }
+            ],
+            buttonoption: [
+                {
+                    name: '1 DAY',
+                    time: '1D',
+                    id: 1
+                },
+                {
+                    name: '1 WEEK',
+                    time: '1W',
+                    id: 2
+                },
+                {
+                    name: '1 MONTH',
+                    time: '1M',
+                    id: 3
+                },
+                {
+                    name: '3 MONTHS',
+                    time: '3M',
+                    id: 4
+                },
+                {
+                    name: '1 YEAR',
+                    time: '1Y',
+                    id: 5
+                },
+                {
+                    name: '5 YEARS',
+                    time: '5Y',
+                    id: 6
+                }
+            ],
+            activeCurrency:0
+        }
+    },
     components: {
         Graph
     },
     computed:{
-        ...mapGetters(['gethistoryportfolioprice','gethistoryportfoliodate'])
+        ...mapGetters([
+        'gethistoryportfolioprice',
+        'gethistoryportfoliodate',
+        'getPorfolioglobalCurrencyforGraph',
+        'getPorfolioglobalTimeforGraph',
+        'getAccountSummary',
+        'getPortfolioDerivedPrice',
+        'getPortfolioIntervalposition',
+        'getPortfolioDerivedChange'])
     },
     methods:{
-        // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(['GET_LINECHART_PORTFOLIO_GRAPH_DATA']),
-        mountedActions(){
-            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA().then(()=>{
-             console.log('beep here >>>>>>>>>>',this.getDateshistoryportfolioprice,this.getDateshistoryportfoliodate)
+        ...mapMutations([
+            'SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH',
+            'SET_PORTFOLIO_POSITIONS_FOR_SELECT',
+           'SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH']),
+        ...mapActions(['GET_LINECHART_PORTFOLIO_GRAPH_DATA','GET_ACCOUNT_SUMMARY']),
+         async toogleCurrency(currency,id) {
+            this.SET_PORTFOLIO_POSITIONS_FOR_SELECT(id)
+            this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency)
+			await this.GET_ACCOUNT_SUMMARY({currency}).then(() => {
+				const defaulttime = {
+					interval: this.getPorfolioglobalTimeforGraph,
+					currency: this.getPorfolioglobalCurrencyforGraph
+                };
+                console.log('toggle HHHHHHHHHHHHHHHHHHHHHHH',this.getAccountSummary)
+				this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime);
+			});
+        },
+        handletimeframe(index) {
+            this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(index)
+            const payloadsinglestock = {
+                interval:this.getPorfolioglobalTimeforGraph,
+                currency: this.getPorfolioglobalCurrencyforGraph
+            }
+            console.log('>>>>>>>>>handletimeframe>>>>>>>>',index);
+             this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(()=>{
+                console.log('>>>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
             })
         },
-        onhandleGraphdata(){
-
-            
+        mountedActions(){
+            const payload= { interval:this.getPorfolioglobalTimeforGraph, currency: this.getPorfolioglobalCurrencyforGraph }
+            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then(()=>{
+             console.log('beep here >>>>MMMMMMMMMMMMMMMMMMMM>>>>>>',this.getAccountSummary.netWorth,this.getPortfolioDerivedPrice,this.getPortfolioDerivedChange)
+            })
         }
     },
     mounted(){

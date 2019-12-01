@@ -31,12 +31,12 @@ const mutations = {
 };
 
 const actions = {
-    GET_ACCOUNT_SUMMARY: ({ commit, rootState }, payload = { currency: "ngn" }) => {
+    GET_ACCOUNT_SUMMARY: ({ commit, rootState }, payload) => {
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
-                .get(`/users/${rootState.auth.loggedUser.chakaID}/summary`, { ...payload })
+                .get(`/users/${rootState.auth.loggedUser.chakaID}/summary`, payload)
                 .then(
                     resp => {
                         if (resp.status === 200) {

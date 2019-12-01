@@ -13,11 +13,40 @@ const state = {
     actionperformance:[],
     valueperformance:[],
     actionanalysis:[],
-    valueanalysis:[]
+    valueanalysis:[],
+    portfolioDerivedPrice: null,
+    portfolioDerivedChange: null,
+    globalCurrencyforportfolioGraph:'NGN',
+    globalTimeforportfolioGraph:'1D',
+    portfolioposition:0
+
+
     
 };
 
 const getters = {
+
+
+
+    getPorfolioglobalTimeforGraph: (state) => {
+        return state.globalTimeforportfolioGraph;
+    },
+    getPorfolioglobalCurrencyforGraph: (state) => {
+        return state.globalCurrencyforportfolioGraph;
+    },
+    getPortfolioIntervalposition:(state) => {
+        return state.portfolioposition;
+    },
+
+
+
+    getPortfolioDerivedPrice: (state) => {
+		return state.portfolioDerivedPrice;
+	},
+	getPortfolioDerivedChange: (state) => {
+		return state.portfolioDerivedChange;
+	},
+
     getOpenPrice: (state) => {
 		return state.singlestockpricedata.map((data) => {
 			return data.price;
@@ -88,6 +117,17 @@ const getters = {
 };
 
 const mutations = {
+    SET_PORTFOLIO_POSITIONS_FOR_SELECT(state, derived) {
+		state.portfolioposition = derived;
+    },
+    SET_PORTFOLIO_DERIVED_PRICE(state, derived) {
+		state.portfolioDerivedPrice = derived;
+	},
+
+    SET_PORTFOLIO_DERIVED_CHANGE(state, change) {
+		state.portfolioDerivedChange = change;
+	},
+
     SET_LINE_SINGLESTOCK_CHARTDATA(state, prices) {
         console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.singlestockpricedata)
 		let singlestockpricedata = [];
@@ -180,7 +220,14 @@ const mutations = {
         let pricedetailsvariable = {};
 		pricedetailsvariable = pricedetails;
         state.pricedetailsvariable = pricedetailsvariable;
-    }
+    },
+    SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(state, interval) {
+        state.globalTimeforportfolioGraph = interval;
+    },
+    SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(state, currency) {
+        state.globalCurrencyforportfolioGraph = currency;
+        
+    },
     
 
 };
@@ -202,11 +249,31 @@ const actions = {
                console.log(`::::::::::::::::::::${error}`);
 			});
     },
-    async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit,rootState }) {
-		await API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`)
+    async GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS({ commit }, params) {
+        console.log('?????????????????????',params);
+		await API_CONTEXT.get(`/users/${params.chakaID}/positions/`)
+			.then((response) => {
+                //console.log('>>FFFFFFFFFFFFFFFFFFFFF>>>>>>>>GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS>>>>>>>>>>>>>>',response.data.data)
+                //const { chart, derivedPrice, derivedPricePercentage, askPrice } = response.data.data;
+                // commit('SET_LINE_SINGLESTOCK_CHARTDATA',chart);
+                // commit('SET_LINE_SINGLESTOCK_CHART_DATE',chart)
+                // //derived prices high lows etc are gotton here
+                // commit('SET_PRICE_INFO_ON_BLACKCARD', response.data.data)
+                console.log('GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS>>>FFFFFFFFFFFFFF',response);
+			})
+			.catch((error) => {
+               console.log(`::::::::::::::::::::${error}`);
+			});
+    },
+    async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit,rootState },params) {
+		await API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`,params)
 			.then((response) => {
                 console.log('>>>>>>new>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
                 const { positions, derivedNetWorth, derivedNetWorthPercentage } = response.data.data;
+                console.log('GET_LINECHART_PORTFOLIO_GRAPH_DATAJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ',derivedNetWorth,derivedNetWorthPercentage)
+                commit('SET_PORTFOLIO_DERIVED_PRICE', derivedNetWorth);
+                commit('SET_PORTFOLIO_DERIVED_CHANGE', derivedNetWorthPercentage);
+                
                 commit('SET_LINE_PORTFOLIO_CHART_PRICE',positions);
                 commit('SET_LINE_PORTFOLIO_CHART_DATE',positions)
                 console.log('inside vuex store',positions,derivedNetWorth,derivedNetWorthPercentage);

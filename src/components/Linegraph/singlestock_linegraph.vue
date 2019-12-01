@@ -6,8 +6,11 @@
                         <section class="btn-sell"><button>Buy</button></section>
                         <section class="toogle-section">
                                 <section class="option-container">
-                                    <button class="btn-one">$</button>
-                                    <button  class="btn-two">₦</button>
+                                     <button
+                                        v-for="(item, index) in currencyOption"
+                                        :key="index"
+                                        :title="item.description"
+                                        class="btn-one">{{item.symbol}}</button>
                                     <button>
                                         <div id="select" class="dropdown">
                                         <select
@@ -80,6 +83,32 @@ export default {
                     name: '5 YEARS',
                     time: '5Y',
                     id: 6
+                }
+            ],
+             currencyOption:[
+                {
+                    symbol:"₦",
+                    value:'NGN',
+                    id:0,
+                    description:"convert to Naira value"
+                },
+                {
+                    symbol:"$",
+                    value:'USD',
+                    id:0,
+                    description:"convert to Dollar value"
+                }
+            ],
+            options:[
+                {
+                    name:'Normal',
+                    state:true,
+                    id:0
+                },
+                {
+                    name:'Technical',
+                    state:false,
+                    id:1
                 }
             ],
             activeButton:'',

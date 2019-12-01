@@ -39,13 +39,20 @@ export default {
     props: {
         data: {
             type: Object,
-            required: true
+            required: false
+        },
+        details:{
+             type: Object,
+            required: false
         }
     },
     methods: {
         toDetailsPage(type) {
             this.$router.push({ name: 'portfolio-details', params: { type } });
         }
+    },
+    mounted(){
+        console.log('XXXXXXXXXXXXXXXXXXXX',this.details)
     }
 };
 </script>
