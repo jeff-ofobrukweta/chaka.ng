@@ -190,11 +190,11 @@ const kycFields = [
         value: "lg",
         type: "text"
     },
-    {
-        name: "Maiden Name",
-        value: "maidenName",
-        type: "text"
-    },
+    // {
+    //     name: "Maiden Name",
+    //     value: "maidenName",
+    //     type: "text"
+    // },
     {
         name: "Net Worth Liquid",
         value: "networthLiquid",
@@ -233,11 +233,11 @@ const kycFields = [
             }
         ]
     },
-    {
-        name: "Next of Kin Phone",
-        value: "nextOfKinPhone",
-        type: "text"
-    },
+    // {
+    //     name: "Next of Kin Phone",
+    //     value: "nextOfKinPhone",
+    //     type: "text"
+    // },
     {
         name: "Passport Image",
         value: "passporturl",

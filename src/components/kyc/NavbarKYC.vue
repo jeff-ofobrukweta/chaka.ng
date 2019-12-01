@@ -663,8 +663,8 @@ export default {
         }
     },
     async mounted() {
-        this.GET_NEXT_KYC();
-        this.checkNextKYC();
+        await this.GET_NEXT_KYC();
+        if (Object.keys(this.getNavbarNextKYC).length > 0) this.checkNextKYC();
         await this.GET_COUNTRY_CODES();
     }
 };

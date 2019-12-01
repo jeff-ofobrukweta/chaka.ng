@@ -41,7 +41,7 @@ const mutations = {
         state.buyOrder = payload;
     },
     SET_SELL_ORDER(state, payload) {
-        state.sell = payload;
+        state.sellOrder = payload;
     },
     SET_MARKET_DATA(state, payload) {
         state.marketData = payload;
@@ -75,7 +75,7 @@ const actions = {
                 console.log(`::::::::::::::::::::${error}`);
             });
     },
-    BUY_INSTRUNENT: ({ commit }, payload) => {
+    BUY_INSTRUMENT: ({ commit, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
@@ -86,7 +86,7 @@ const actions = {
                 resp => {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
-                        commit("BUY_ORDER", response.data.data.order);
+                        commit("SET_BUY_ORDER", resp.data.data.order);
                         resolve(true);
                     } else {
                         errorFn(resp, "buy");
@@ -100,7 +100,7 @@ const actions = {
             );
         });
     },
-    SELL_INSTRUNENT: ({ commit }, payload) => {
+    SELL_INSTRUMENT: ({ commit, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
@@ -111,7 +111,7 @@ const actions = {
                 resp => {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
-                        commit("SELL_ORDER", response.data.data.order);
+                        commit("SET_SELL_ORDER", resp.data.data.order);
                         resolve(true);
                     } else {
                         errorFn(resp, "sell");
@@ -133,9 +133,8 @@ const actions = {
             ).then(
                 resp => {
                     if (resp.status === 200) {
-                        commit("SET_PRE_ORDER", resp.data.data).then(() => {
-                            resolve(true);
-                        });
+                        commit("SET_PRE_ORDER", resp.data.data);
+                        resolve(true);
                     } else {
                         errorFn(resp, "pre-order");
                         resolve(false);
@@ -153,9 +152,8 @@ const actions = {
             return API_CONTEXT.get(`/instruments/market-data?symbol=${payload}`).then(
                 resp => {
                     if (resp.status === 200) {
-                        commit("SET_MARKET_DATA", resp.data.data).then(() => {
-                            resolve(true);
-                        });
+                        commit("SET_MARKET_DATA", resp.data.data.instrument);
+                        resolve(true);
                     } else {
                         errorFn(resp, "market-data");
                         resolve(false);

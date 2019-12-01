@@ -404,7 +404,7 @@
                             >Investment Objectives
                             <select
                                 class="form__input form__select"
-                                v-model="itemData.investmentObjective"
+                                v-model="itemData.investmentObjectives"
                                 v-if="edit === 'investment'"
                             >
                                 <option value="PROTECTION">Protection</option>
@@ -412,7 +412,7 @@
                                 <option value="INCOME">Income</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.investmentObjective || "-" }}
+                                {{ getKYC.investmentObjectives || "-" }}
                             </p></label
                         >
                     </div>
@@ -526,7 +526,7 @@
                     >
                 </div>
                 <section class="accounts-settings__hero">
-                    <div class="accounts-settings__group">
+                    <!-- <div class="accounts-settings__group">
                         <label class="form__label"
                             >Mother's Maiden Name
                             <form-input
@@ -555,7 +555,7 @@
                                 {{ getKYC.nextOfKinPhone || "-" }}
                             </p></label
                         >
-                    </div>
+                    </div> -->
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Are you politically exposed?
@@ -568,7 +568,13 @@
                                 <option value="false">No</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.pepStatus || "-" }}
+                                {{
+                                    getKYC.pepStatus === null
+                                        ? "-"
+                                        : getKYC.pepStatus === false
+                                        ? "No"
+                                        : "Yes"
+                                }}
                             </p></label
                         >
                     </div>

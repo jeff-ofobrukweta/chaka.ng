@@ -70,7 +70,7 @@
                         >
                     </td>
                     <buy-modal
-                        @close="showBuy = false"
+                        @close="closeBuyModal"
                         :currency="item.currency"
                         :symbol="item.symbol"
                         :instrument="item"
@@ -83,6 +83,7 @@
                         :instrument="item"
                         v-if="showSell"
                     />
+        <sale-success @close="showSuccess = false" v-if="showSuccess" />
                 </tr>
             </tbody>
         </table>
@@ -118,6 +119,7 @@ export default {
         return {
             showBuy: false,
             showSell: false,
+            showSuccess: false,
             step: null,
             showKYC: false,
             selectedField: {},
@@ -202,6 +204,12 @@ export default {
                 if (this.type === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();
             }
+        },
+        closeBuyModal(e) {
+            if (e) {
+                this.showSuccess = true;
+            }
+            this.showBuy = false;
         }
     }
 };

@@ -41,7 +41,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import withdrawValidation from "../../services/validations/wallet";
+// import withdrawValidation from "../../services/validations/wallet";
 export default {
     name: "withdraw-modal",
     data() {
@@ -62,17 +62,22 @@ export default {
             this.$emit("close");
         },
         withdraw() {
-            this.validate(this.itemData, withdrawValidation.withdraw);
+            // this.validate(this.itemData, withdrawValidation.withdraw);
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             if (this.itemData.amount) {
                 this.loading = true;
-                this.WITHDRAW_WALLET(this.itemData).then(resp => {
+                const payload = { ...this.itemData };
+                payload *= 100;
+                this.WITHDRAW_WALLET(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.message = "Withdrawal operation was successful. Payment is pending";
-                        this.status = "success";
+                        /**
+                         * close buy modal
+                         * show success modal
+                         */
+                        this.$emit("close", true);
                     }
                 });
             }

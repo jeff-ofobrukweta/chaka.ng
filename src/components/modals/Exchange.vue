@@ -138,7 +138,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import exchangeValidation from "../../services/validations/wallet";
+// import exchangeValidation from "../../services/validations/wallet";
 export default {
     name: "exchange-modal",
     data() {
@@ -166,13 +166,15 @@ export default {
             this.$emit("close");
         },
         exchangeWallet() {
-            this.validate(this.itemData, exchangeValidation.exchange);
+            // this.validate(this.itemData, exchangeValidation.exchange);
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             if (this.itemData.amount) {
                 this.loading = true;
-                this.EXCHANGE_WALLET(this.itemData).then(resp => {
+                const payload = { ...this.itemData };
+                payload *= 100;
+                this.EXCHANGE_WALLET(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
                         this.message = "Exchange operation was successful. Payment is pending";

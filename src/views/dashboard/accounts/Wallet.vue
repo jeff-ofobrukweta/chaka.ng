@@ -128,17 +128,14 @@
                 </div>
             </div>
         </section>
-        <fund-modal :showModal="showFund" @close="showFund = false" v-if="showFund" />
+        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
         <exchange-modal
             :showModal="showExchange"
             @close="showExchange = false"
             v-if="showExchange"
         />
-        <withdraw-modal
-            :showModal="showWithdraw"
-            @close="showWithdraw = false"
-            v-if="showWithdraw"
-        />
+        <withdraw-modal :showModal="showWithdraw" @close="closeWithdrawBtn" v-if="showWithdraw" />
+        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
         <modal @close="showKYC = false" v-if="showKYC">
             <template slot="header">{{ selectedField.title }}</template>
@@ -166,6 +163,7 @@ export default {
             showFund: false,
             showWithdraw: false,
             showExchange: false,
+            showSuccess: false,
             showKYC: false,
             selectedField: {},
             step: null,
@@ -252,6 +250,14 @@ export default {
             } else if (this.step === "global") {
                 this.$refs.exchangeBtn.$el.click();
             }
+        },
+        closeFundBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showFund = false;
+        },
+        closeWithdrawBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showWithdraw = false;
         }
     },
     async mounted() {
