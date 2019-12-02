@@ -1,13 +1,19 @@
 <template>
-    <div class="graphholder">
+<Fragment>
+    <div
+    v-if="((getOpenPrice.length > 1) && (getDates.length > 1))"
+    class="graphholder">
             <div class="header-container">
                 <div class="right-menue-item">
                     <div class="parent-container-main">
                         <section class="btn-sell"><button>Buy</button></section>
                         <section class="toogle-section">
                                 <section class="option-container">
-                                    <button class="btn-one">$</button>
-                                    <button  class="btn-two">₦</button>
+                                     <button
+                                        v-for="(item, index) in currencyOption"
+                                        :key="index"
+                                        :title="item.description"
+                                        class="btn-one">{{item.symbol}}</button>
                                     <button>
                                         <div id="select" class="dropdown">
                                         <select
@@ -37,12 +43,16 @@
                 </div>
             </div>
         <Graph
-        :price="getOpenPrice"
-        :date="getDates"
+            :price="getOpenPrice"
+            :date="getDates"
          />
     </div>
+    <div v-else 
+        class="graphholder"></div>
+    </Fragment>
 </template>
 <script>
+import {Fragment} from 'vue-fragment';
 import Graph from './linegraph';
 import { mapGetters,mapMutations,mapActions } from 'vuex';
 
@@ -82,6 +92,32 @@ export default {
                     id: 6
                 }
             ],
+             currencyOption:[
+                {
+                    symbol:"₦",
+                    value:'NGN',
+                    id:0,
+                    description:"convert to Naira value"
+                },
+                {
+                    symbol:"$",
+                    value:'USD',
+                    id:0,
+                    description:"convert to Dollar value"
+                }
+            ],
+            options:[
+                {
+                    name:'Normal',
+                    state:true,
+                    id:0
+                },
+                {
+                    name:'Technical',
+                    state:false,
+                    id:1
+                }
+            ],
             activeButton:'',
             options:[
                 {
@@ -98,7 +134,8 @@ export default {
         }
     },
     components: {
-        Graph
+        Graph,
+        Fragment
     },
     props:{
         instrument:{

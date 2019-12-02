@@ -81,8 +81,8 @@ export default {
                             // 			maxTicksLimit: 8,
                             // 			fontSize: 10
                             // 		},
-                            barPercentage: 1.0,
-                            categoryPercentage: 1.0,
+                            // barPercentage: 1.0,
+                            // categoryPercentage: 1.0,
           	gridLines: {
           		display: false,
           		// borderDash: [4, 4],

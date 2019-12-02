@@ -1,6 +1,8 @@
 <template>
     <Fragment>
-        <div class="container-packet">
+        <div
+        v-if="(getActionperformance.length > 1 && getValueperformance.length >1)" 
+        class="container-packet">
             <h1 class="title-name">Performance Rating</h1>
             <h1 class="subtitle-name">lorem ipsum here</h1>
             <section class="graphholder">
@@ -9,6 +11,9 @@
                 :values="getValueperformance" />
             </section>
         </div>
+        <div
+        v-else 
+        class="container-packet"></div>
     </Fragment>
 </template>
 <script>

@@ -166,7 +166,6 @@ export default {
     computed: {
     //    ...mapGetters(['getWindowWidth','getOpenPrice','getDates'])
     },
-
     mounted() {
         console.log('this are props >>>>>>>>>>>>>',this.date,this.price)
         this.fillData();
