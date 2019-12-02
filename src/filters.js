@@ -33,14 +33,14 @@ export default {
 
     currency(value, currency, showFull, decimalPlaces = 2) {
         if (value === 0 || !Number.isNaN(+value)) {
-            return numberFormat(value, currency, 500000, decimalPlaces, showFull);
+            return numberFormat(value, currency, 100000, decimalPlaces, showFull);
         }
         return value;
     },
 
     units(value, decimalPlaces = 4, showFull) {
         if (!Number.isNaN(+value)) {
-            return numberFormat(value, null, 100000, decimalPlaces, showFull);
+            return numberFormat(value, null, 10000, decimalPlaces, showFull);
         }
         return value;
     },
@@ -70,7 +70,7 @@ export default {
     },
 
     reverseDate(value) {
-        const d = new Date(value),
+        let d = new Date(value),
             month = "" + (d.getMonth() + 1),
             day = "" + d.getDate(),
             year = "" + d.getFullYear();
@@ -81,9 +81,11 @@ export default {
     },
 
     truncate(text, length, suffix) {
-        if (text.length > length) {
-            if (suffix) return text.substring(0, length) + suffix;
-            return `${text.substring(0, length)}...`;
+        if (text) {
+            if (text.length > length) {
+                if (suffix) return text.substring(0, length) + suffix;
+                return `${text.substring(0, length)}...`;
+            }
         }
         return text;
     }

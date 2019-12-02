@@ -50,11 +50,27 @@
                         >
                     </td>
                     <td>
-                        <a class="portfolio-table__buy" @click="showBuy = true">+ Buy</a>
-                        <a class="portfolio-table__buy" @click="showSell = true">- Sell</a>
+                        <KYCButton
+                            ref="buyBtn"
+                            :classes="['portfolio-table__buy']"
+                            :action="item.currency === 'NGN' ? 'local' : 'global'"
+                            @step="handleStep"
+                            @click="type = 'buy'"
+                            tag="a"
+                            >+&nbsp;Buy</KYCButton
+                        >
+                        <KYCButton
+                            ref="sellBtn"
+                            :classes="['portfolio-table__buy']"
+                            :action="item.currency === 'NGN' ? 'local' : 'global'"
+                            @step="handleStep"
+                            @click="type = 'sell'"
+                            tag="a"
+                            >-&nbsp;Sell</KYCButton
+                        >
                     </td>
                     <buy-modal
-                        @close="showBuy = false"
+                        @close="closeBuyModal"
                         :currency="item.currency"
                         :symbol="item.symbol"
                         :instrument="item"
@@ -67,15 +83,33 @@
                         :instrument="item"
                         v-if="showSell"
                     />
+        <sale-success @close="showSuccess = false" v-if="showSuccess" />
                 </tr>
             </tbody>
         </table>
+
+        <modal @close="showKYC = false" v-if="showKYC">
+            <template slot="header">{{ selectedField.title }}</template>
+            <form @submit.prevent="submitPhone">
+                <div>
+                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+                </div>
+            </form>
+        </modal>
     </section>
 </template>
 
 <script>
+import KYCButton from "../form/KYCButton";
+import ModalKYC from "../kyc/ModalKYC";
+import KYCTitles from '../../services/kyc/kycTitles'
+import { mapGetters } from "vuex";
 export default {
-    name: 'portfolio-table',
+    name: "portfolio-table",
+    components: {
+        KYCButton,
+        ModalKYC
+    },
     props: {
         data: {
             type: Array,
@@ -85,13 +119,53 @@ export default {
     data() {
         return {
             showBuy: false,
-            showSell: false
+            showSell: false,
+            showSuccess: false,
+            step: null,
+            showKYC: false,
+            selectedField: {},
+            type: null,
+            allNextKYC: KYCTitles.titles
         };
+    },
+    computed: {
+        ...mapGetters(["getNextKYC"])
     },
     methods: {
         checkChange(value) {
             if (value >= 0) return true;
             return false;
+        },
+        handleStep(step) {
+            this.step = step.type;
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else {
+                if (this.type === "buy") this.showBuy = true;
+                else this.showSell = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            if (this.step !== "kyc") {
+                if (this.type === "buy") this.$refs.buyBtn.$el.click();
+                else this.$refs.sellBtn.$el.click();
+            }
+        },
+        closeBuyModal(e) {
+            if (e) {
+                this.showSuccess = true;
+            }
+            this.showBuy = false;
         }
     }
 };

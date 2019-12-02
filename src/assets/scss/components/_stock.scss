@@ -70,4 +70,93 @@
             }
         }
     }
+
+    &-vdr {
+        max-width: 400px;
+        color: rgba($color: $text-color, $alpha: 0.5);
+        margin: 0 auto;
+
+        &__flex {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: .5rem;
+
+            &--top {
+                display: block;
+
+                @media #{$mobile} {
+                    display: flex;
+                    align-items: flex-start;
+                }
+            }
+        }
+
+        &__box {
+            width: 100%;
+
+            @include desktop {
+                width: 50%;
+                padding: 0.375em 0.875em;
+            }
+        }
+
+        &__div {
+            padding: 0.125em 0.875em;
+        }
+
+        &__svg {
+            width: 8rem;
+            height: 8rem;
+            margin-bottom: 1rem;
+        }
+
+        &__center {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: lighter;
+        }
+
+        &__right {
+            text-align: right;
+        }
+
+        &__modal {
+            max-width: 400px;
+            margin: 0 auto;
+
+            &--lg {
+                max-width: 600px;
+            }
+        }
+
+        &__buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+    }
+
+    &__price {
+        padding: 1em 0;
+        max-width: 500px;
+        margin: 0 auto;
+
+        hr {
+            opacity: 0.4;
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    &-cell {
+        width: 60%;
+
+        @include tablet {
+            width: 40%;
+        }
+
+        @include desktop {
+            width: 30%;
+        }
+    }
 }

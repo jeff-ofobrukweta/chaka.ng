@@ -11,9 +11,9 @@
                             type="email"
                             name="email"
                             v-model="itemData.email"
+                            @focus="resetError"
                             placeholder="Email Address"
-                            error-message="Invalid email"
-                            :invalid="$v.itemData.email"
+                            :error-message="errors.email"
                             @reset="resetError"
                     /></label>
                 </div>
@@ -25,12 +25,10 @@
                             name="password"
                             v-model="itemData.password"
                             placeholder="Create Password"
-                            error-message="Password should contain at least one uppercase character, number or
-                            symbol"
-                            :invalid="$v.itemData.password"
+                            :error-message="errors.password"
                             @reset="resetError"
                     /></label>
-                    <div class="form-info" v-if="!$v.itemData.password.$error">
+                    <div class="form-info" v-if="!errors.password">
                         <small
                             >**Password should contain at least one uppercase character, number or
                             symbol and at least 7 characters</small
@@ -45,8 +43,7 @@
                             name="confirm-password"
                             v-model="confirmPassword"
                             placeholder="Confirm Password"
-                            error-message="Password should match your initial password"
-                            :invalid="passwordError"
+                            :error-message="errors.confirmPassword"
                             @reset="resetError"
                     /></label>
                 </div>
@@ -76,7 +73,7 @@
 </template>
 
 <script>
-import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+// import auth from "../../services/validations/auth";
 import { mapActions, mapMutations } from "vuex";
 export default {
     name: "Login",
@@ -84,13 +81,12 @@ export default {
         return {
             itemData: {},
             loading: false,
-            confirmPassword: null,
-            passwordError: {}
+            confirmPassword: null
         };
     },
     computed: {
         formValid() {
-            if (this.loading || this.$v.itemData.$error) return false;
+            if (this.loading) return false;
             return true;
         }
     },
@@ -98,19 +94,12 @@ export default {
         ...mapActions(["REGISTER"]),
         ...mapMutations(["RESET_REQ"]),
         register() {
-            this.$v.itemData.$touch();
             this.RESET_REQ();
-            if (
-                this.confirmPassword !== this.itemData.password ||
-                !this.confirmPassword ||
-                this.$v.itemData.$pending ||
-                this.$v.itemData.$error
-            ) {
-                this.passwordError = {
-                    $error: true
-                };
+            if (this.confirmPassword !== this.itemData.password) {
+                this.$set(this.errors, "confirmPassword", "Password should match initial password");
                 return false;
             }
+            // this.validate(this.itemData, auth.register);
             this.loading = true;
             this.REGISTER(this.itemData).then(resp => {
                 this.loading = false;
@@ -118,18 +107,12 @@ export default {
             });
         },
         resetError() {
-            this.$v.$reset();
-            this.passwordError = {};
+            this.errors = {};
+            // this.passwordError = {};
         }
     },
     mounted() {
         document.title = "Chaka - Create Your Chaka Account";
-    },
-    validations: {
-        itemData: {
-            email: { required, email },
-            password: { required, minLength: minLength(7) }
-        }
     }
 };
 </script>

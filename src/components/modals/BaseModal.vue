@@ -6,7 +6,7 @@
                 <div class="modal-container" :class="{ 'modal-container__full': fullOnMobile }">
                     <div class="modal-header" v-if="!noHeader">
                         <h4 class="modal-header__text"><slot name="header">Title</slot></h4>
-                        <a @click="$emit('close')" class="modal-header__close"
+                        <a @click="emitClose" class="modal-header__close"
                             ><svg
                                 version="1.1"
                                 id="Capa_1"
@@ -79,9 +79,12 @@ export default {
         ...mapMutations(["RESET_REQ"]),
         closeModal() {
             if (this.closeOnClick) {
-                this.RESET_REQ();
-                this.$emit("close");
+                this.emitClose();
             }
+        },
+        emitClose() {
+            this.$emit("close");
+            this.RESET_REQ();
         }
     }
 };

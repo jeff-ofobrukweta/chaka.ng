@@ -103,15 +103,22 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <button @click="showFund = true" class="btn btn-block btn--lg btn__primary">
-                        Fund
-                    </button>
-                    <button
-                        @click="showExchange = true"
-                        class="btn btn-block btn--lg btn__primary--dark"
+                    <KYCButton
+                        ref="fundBtn"
+                        type="button"
+                        :classes="['btn-block', 'btn--lg', 'btn__primary']"
+                        action="fund"
+                        @step="handleStep"
+                        >Fund</KYCButton
                     >
-                        Exchange
-                    </button>
+                    <KYCButton
+                        ref="exchangeBtn"
+                        type="button"
+                        :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
+                        action="global"
+                        @step="handleStep"
+                        >Exchange</KYCButton
+                    >
                     <button
                         @click="showWithdraw = true"
                         class="btn btn-block btn--lg btn__primary--outline"
@@ -121,39 +128,93 @@
                 </div>
             </div>
         </section>
-        <fund-modal :showModal="showFund" @close="showFund = false" v-if="showFund" />
-        <exchange-modal
-            :showModal="showExchange"
-            @close="showExchange = false"
-            v-if="showExchange"
-        />
-        <withdraw-modal
-            :showModal="showWithdraw"
-            @close="showWithdraw = false"
-            v-if="showWithdraw"
-        />
+        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
+        <exchange-modal :showModal="showExchange" @close="closeExchangeBtn" v-if="showExchange" />
+        <withdraw-modal :showModal="showWithdraw" @close="closeWithdrawBtn" v-if="showWithdraw" />
+        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
+
+        <modal @close="showKYC = false" v-if="showKYC">
+            <template slot="header">{{ selectedField.title }}</template>
+            <form @submit.prevent="submitPhone">
+                <div>
+                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+                </div>
+            </form>
+        </modal>
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import KYCButton from "../../../components/form/KYCButton";
+import ModalKYC from "../../../components/kyc/ModalKYC";
+import KYCTitles from "../../../services/kyc/kycTitles";
 export default {
     name: "accounts-wallet",
+    components: {
+        KYCButton,
+        ModalKYC
+    },
     data() {
         return {
             showFund: false,
             showWithdraw: false,
-            showExchange: false
+            showExchange: false,
+            showSuccess: false,
+            showKYC: false,
+            selectedField: {},
+            step: null,
+            allNextKYC: KYCTitles.titles
         };
     },
     computed: {
-        ...mapGetters(["getAccountSummary"]),
+        ...mapGetters(["getAccountSummary", "getNextKYC"]),
         pageAvailable() {
             return Object.keys(this.getAccountSummary).length > 0;
         }
     },
     methods: {
-        ...mapActions(["GET_ACCOUNT_SUMMARY"])
+        ...mapActions(["GET_ACCOUNT_SUMMARY"]),
+        handleStep(step) {
+            this.step = step.type;
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else if (step.type === "fund") {
+                this.showFund = true;
+            } else if (step.type === "global") {
+                this.showExchange = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            if (this.step === "fund") {
+                this.$refs.fundBtn.$el.click();
+                return true;
+            } else if (this.step === "global") {
+                this.$refs.exchangeBtn.$el.click();
+            }
+        },
+        closeFundBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showFund = false;
+        },
+        closeWithdrawBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showWithdraw = false;
+        },
+        closeExchangeBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showExchange = false;
+        }
     },
     async mounted() {
         await this.GET_ACCOUNT_SUMMARY();

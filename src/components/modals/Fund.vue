@@ -3,19 +3,20 @@
         <template slot="header">Account Funding</template>
         <form class="modal-form" @submit.prevent="fundWallet">
             <div class="modal-form__group">
-                <label class="form__label" ref="input"
+                <label class="form__label"
                     >Amount
                     <form-input
                         type="number"
                         name="amount"
                         v-model="itemData.amount"
+                        :error-message="errors.amount"
                         placeholder="Amount"
                 /></label>
             </div>
             <div class="modal-form__buttons">
                 <action-button
                     type="submit"
-                    :disabled="!itemData.amount"
+                    :disabled="!itemData.amount || Object.keys(errors).length > 0"
                     :pending="loading"
                     :classes="['btn-block', 'btn__primary']"
                     >Fund</action-button
@@ -44,7 +45,7 @@
             <br />
             <p>
                 <small class="grey-dark">
-                    Please put your Chaka ID (in the Accounts section) in the Comments section of
+                    Please put your User ID (in the Accounts section) in the Comments section of
                     your transfer request. Email
                     <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
                     completion to confirm manual transfer</small
@@ -56,7 +57,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import fundValidation from "../../services/validations/wallet";
+// import fundValidation from "../../services/validations/wallet";
 export default {
     name: "fund-modal",
     data() {
@@ -85,10 +86,10 @@ export default {
         fundWallet() {
             // this.validate(this.itemData, fundValidation.fund);
 
-            // if (Object.keys(this.errors).length > 0) {
-            //     return false;
-            // }
-            console.log(this.errors);
+            if (Object.keys(this.errors).length > 0) {
+                console.log(this.errors);
+                return false;
+            }
             this.loading = true;
             if (this.itemData.amount) {
                 const handler = PaystackPop.setup({
@@ -112,11 +113,11 @@ export default {
                         this.FUND_WALLET(data).then(resp => {
                             this.loading = false;
                             if (resp) {
-                                this.message = `Funding operation of ${this.$options.filters.currency(
-                                    this.itemData.amount,
-                                    "NGN"
-                                )} was successful. Payment Pending`;
-                                return true;
+                                /**
+                                 * close fund modal
+                                 * show success modal
+                                 */
+                                this.$emit("close", true);
                             }
                             return false;
                         });
@@ -129,7 +130,7 @@ export default {
         }
     },
     mounted() {
-        this.$refs.input.focus();
+        if (this.$refs.input) this.$refs.input.focus();
         this.GET_LOGGED_USER();
     }
 };

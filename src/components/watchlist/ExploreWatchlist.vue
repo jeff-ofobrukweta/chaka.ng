@@ -13,14 +13,18 @@
                 width="24px"
             />
         </div>
-        <div class="watchlist-explore__flex">
+        <router-link
+            class="watchlist-explore__flex pointer"
+            tag="div"
+            :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }"
+        >
             <p class="light">
                 <strong>{{ instrument.symbol }}</strong>
             </p>
             <p>
                 <strong>{{ instrument.name }}</strong>
             </p>
-        </div>
+        </router-link>
         <div class="watchlist-explore__flex" v-if="Object.keys(chartData).length > 0">
             <p
                 class="watchlist-explore__change"
@@ -86,26 +90,49 @@
                     </defs>
                 </svg>
             </button>
-            <button @click="showBuy = true">+&nbsp;Buy</button>
+            <KYCButton
+                ref="buyBtn"
+                type="button"
+                :classes="['']"
+                :action="instrument.currency === 'NGN' ? 'local' : 'global'"
+                @step="handleStep"
+                >Buy</KYCButton
+            >
+            <!-- <button @click="showBuy = true">+&nbsp;Buy</button> -->
         </div>
         <buy-modal
-            @close="showBuy = false"
+            @close="closeBuyModal"
             :currency="instrument.currency"
             :symbol="instrument.symbol"
             :instrument="instrument"
             v-if="showBuy"
         />
+        <sale-success @close="showSuccess = false" v-if="showSuccess" />
+
+        <modal @close="showKYC = false" v-if="showKYC">
+            <template slot="header">{{ selectedField.title }}</template>
+            <form @submit.prevent="submitPhone">
+                <div>
+                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+                </div>
+            </form>
+        </modal>
     </div>
 </template>
 
 <script>
 import LineChart from "../Linegraph/linegraph_config.js";
-import { mapActions } from "vuex";
+import KYCButton from "../form/KYCButton";
+import ModalKYC from "../kyc/ModalKYC";
+import KYCTitles from '../../services/kyc/kycTitles'
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "explore-watchlist",
     components: {
-        LineChart
+        LineChart,
+        KYCButton,
+        ModalKYC
     },
     props: {
         instrument: {
@@ -120,7 +147,12 @@ export default {
     data() {
         return {
             showBuy: false,
+            showSuccess: false,
             datacollection: {},
+            step: null,
+            showKYC: false,
+            selectedField: {},
+            allNextKYC: KYCTitles.titles,
             options: {
                 responsive: false,
                 legend: {
@@ -156,6 +188,9 @@ export default {
             chartArray: []
         };
     },
+    computed: {
+        ...mapGetters(["getNextKYC"])
+    },
     methods: {
         ...mapActions(["GET_WATCHLIST_CHART"]),
         fillData() {
@@ -182,25 +217,58 @@ export default {
                     }
                 ]
             };
+        },
+        handleStep(step) {
+            this.step = step.type;
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else {
+                this.showBuy = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            if (this.step !== "kyc") {
+                this.$refs.buyBtn.$el.click();
+            }
+        },
+        closeBuyModal(e) {
+            if (e) {
+                this.showSuccess = true;
+            }
+            this.showBuy = false;
         }
     },
 
     async mounted() {
         this.fillData();
         if (this.instrument.symbol) {
-            await this.GET_WATCHLIST_CHART({
-                symbol: this.instrument.symbol,
-                interval: "1W"
-            }).then(resp => {
-                this.chartData = resp;
-                this.chartData.chart.map(el => {
-                    this.labelsArray.push(el.date);
-                    this.chartArray.push(el.price);
-                });
-                setTimeout(() => {
-                    this.fillData();
-                }, 100);
-            });
+            await Promise.all([
+                this.GET_WATCHLIST_CHART({
+                    symbol: this.instrument.symbol,
+                    interval: "1W"
+                }).then(resp => {
+                    this.chartData = resp;
+                    if (this.chartData) {
+                        this.chartData.chart.map(el => {
+                            this.labelsArray.push(el.date);
+                            this.chartArray.push(el.price);
+                        });
+                        setTimeout(() => {
+                            this.fillData();
+                        }, 100);
+                    }
+                })
+            ]);
         }
     }
 };

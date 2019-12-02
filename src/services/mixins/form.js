@@ -4,7 +4,6 @@ const form = {
     data() {
         return {
             errors: {},
-            message: null,
             valid: false
         };
     },
@@ -17,11 +16,15 @@ const form = {
          * Clear the form errors
          */
         clearErrors(field = null) {
-            if (!field) {
-                this.errors = {};
-            } else {
-                delete this.errors[field];
-            }
+            const temp = { ...this.errors };
+            Object.keys(temp).forEach(el => {
+                // console.log(el);
+            });
+            // if (!field) {
+            //     this.errors = {};
+            // } else {
+            //     delete this.errors[field];
+            // }
         },
         /**
          * Clear the form field.
@@ -40,6 +43,7 @@ const form = {
             const result = schema.validate(value);
             if (result.error) {
                 result.error.details.forEach(error => {
+                    this.$set(this.errors, error.path[0], error.message);
                     this.errors[error.path[0]] = error.message;
                 });
             }

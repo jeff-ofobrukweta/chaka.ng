@@ -2,21 +2,26 @@ import api from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
 
 const state = {
-    exchangeRate: {}
+    exchangeRate: {},
+    walletTx: {}
 };
 
 const getters = {
-    getExchangeRate: state => state.exchangeRate
+    getExchangeRate: state => state.exchangeRate,
+    getWalletTx: state => state.walletTx
 };
 
 const mutations = {
     SET_EXCHANGE_RATE(state, payload) {
         state.exchangeRate = payload;
+    },
+    SET_WALLET_TX(state, payload) {
+        state.walletTx = payload;
     }
 };
 
 const actions = {
-    WITHDRAW_WALLET: ({ commit, rootState }, payload) => {
+    WITHDRAW_WALLET: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
@@ -26,7 +31,10 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
-                            resolve(true);
+                            commit("SET_WALLET_TX", resp.data.data.transaction);
+                            dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
+                                resolve(true);
+                            });
                         } else {
                             errorFn(resp, "withdraw");
                             resolve(false);
@@ -49,6 +57,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_WALLET_TX", resp.data.data.transaction);
                             dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
                                 resolve(true);
                             });
@@ -74,6 +83,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_WALLET_TX", resp.data.data.transaction);
                             dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
                                 resolve(true);
                             });
@@ -87,6 +97,25 @@ const actions = {
                         resolve(false);
                     }
                 );
+        });
+    },
+    GET_EXCHANGE_RATE: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            return api.get("/currency-rates/today").then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("SET_EXCHANGE_RATE", resp.data.data.rate);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "exchange");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "exchange");
+                    resolve(false);
+                }
+            );
         });
     }
 };

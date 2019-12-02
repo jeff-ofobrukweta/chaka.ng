@@ -5,14 +5,19 @@
                 <template v-if="type !== 'ORDER'">
                     <tr v-for="(item, index) in history" :key="index">
                         <td>{{ item.actionType }}</td>
-                        <td v-if="type === 'TRANSFER'">NGN - USD</td>
+                        <template v-if="type === 'TRANSFER'">
+                            <td v-if="item.currency === 'NGN'">NGN - USD</td>
+                            <td v-else>USD - NGN</td>
+                        </template>
                         <td
                             class="cursor-context"
                             :title="
-                                item.txAmount || item.amountCash | currency(item.currency, true)
+                                item.txAmount ||
+                                    item.amountCash | kobo | currency(item.currency, true)
                             "
                         >
-                            Amount: {{ item.txAmount || item.amountCash | currency(item.currency) }}
+                            Amount:
+                            {{ item.txAmount || item.amountCash | kobo | currency(item.currency) }}
                         </td>
                         <td>
                             Status:
@@ -35,10 +40,12 @@
                         <td
                             class="cursor-context"
                             :title="
-                                item.txAmount || item.amountCash | currency(item.currency, true)
+                                item.txAmount ||
+                                    item.amountCash | kobo | currency(item.currency, true)
                             "
                         >
-                            Amount: {{ item.txAmount || item.amountCash | currency(item.currency) }}
+                            Amount:
+                            {{ item.txAmount || item.amountCash | kobo | currency(item.currency) }}
                         </td>
                         <td>
                             Status:

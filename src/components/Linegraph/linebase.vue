@@ -161,9 +161,9 @@ export default {
             })
         }
     },
-    mounted(){
+    mounted() {
         this.mountedActions();
-    },
+    }
 };
 </script>
 <style src="../../assets/scss/components/linebase.scss" lang="scss" scoped />

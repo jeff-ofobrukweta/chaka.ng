@@ -7,16 +7,18 @@
             @input="handleInput"
             :placeholder="placeholder"
             class="form__input"
-            :class="{ 'is-invalid': invalid.$error || errorMessage }"
+            :class="{ 'is-invalid': errorMessage }"
             :required="required"
             :minlength="minlength"
             :maxlength="maxlength"
+            :disabled="disabled"
+            :step="type === 'number' ? 'any' : ''"
         />
-        <p class="form-error" v-if="invalid.$error">
+        <p class="form-error" v-if="errorMessage">
             <small>{{ errorMessage }}</small>
         </p>
         <!-- <p class="form-error" v-if="errorMessage">
-            <small>{{ errorMessage }}here</small>
+            <small>{{ errorMessage }}</small>
         </p> -->
     </Fragment>
 </template>
@@ -38,7 +40,7 @@ export default {
             required: true
         },
         value: {
-            type: String
+            type: [String, Number]
         },
         type: {
             type: String,
@@ -64,6 +66,9 @@ export default {
         },
         errorMessage: {
             type: String
+        },
+        disabled: {
+            type: Boolean
         }
     },
     data() {
@@ -77,7 +82,13 @@ export default {
             this.$emit("input", this.content);
         },
         resetError() {
+            this.errors = {};
             this.$emit("reset");
+        }
+    },
+    watch: {
+        value(newVal) {
+            this.content = newVal;
         }
     }
 };

@@ -11,9 +11,8 @@
                             type="email"
                             name="email"
                             v-model="itemData.email"
+                            :error-message="errors.email"
                             placeholder="Email Address"
-                            error-message="Invalid email"
-                            :invalid="$v.itemData.email"
                             @reset="resetError"
                     /></label>
                 </div>
@@ -25,8 +24,7 @@
                             name="password"
                             v-model="itemData.password"
                             placeholder="Password"
-                            error-message="Password is required"
-                            :invalid="$v.itemData.password"
+                            :error-message="errors.password"
                             @reset="resetError"
                     /></label>
                 </div>
@@ -59,7 +57,7 @@
 </template>
 
 <script>
-import { required, email } from "vuelidate/lib/validators";
+// import auth from "../../services/validations/auth";
 import { mapActions, mapMutations } from "vuex";
 
 export default {
@@ -72,7 +70,7 @@ export default {
     },
     computed: {
         formValid() {
-            if (this.loading || this.$v.itemData.$error) return false;
+            if (this.loading) return false;
             return true;
         }
     },
@@ -80,10 +78,12 @@ export default {
         ...mapActions(["LOGIN"]),
         ...mapMutations(["RESET_REQ"]),
         login() {
-            this.$v.itemData.$touch();
             this.RESET_REQ();
+            // this.validate(this.itemData, auth.login);
 
-            if (this.$v.itemData.$pending || this.$v.itemData.$error) {
+            console.log(this.errors);
+
+            if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             this.loading = true;
@@ -93,21 +93,16 @@ export default {
             });
         },
         resetError() {
-            this.$v.$reset();
+            this.clearErrors();
         }
     },
     mounted() {
+        this.resetError();
         document.title = "Chaka - Login";
         document.getElementsByTagName("meta").keywords.content =
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
-    },
-    validations: {
-        itemData: {
-            email: { required, email },
-            password: { required }
-        }
     }
 };
 </script>

@@ -6,19 +6,19 @@ const wallet = {
             .integer()
             .required()
     }),
-    withdraw: {
+    withdraw: Joi.object({
         amount: Joi.number()
             .integer()
             .required()
-    },
-    exchange: {
+    }),
+    exchange: Joi.object({
         amount: Joi.number().required(),
         fromWallet: Joi.string().required(),
         toWallet: Joi.string().required(),
         currency: Joi.string()
             .length(3)
             .required()
-    }
+    })
 };
 
 export default wallet;

@@ -4,12 +4,14 @@ import errorFn from "../../services/apiService/error";
 const state = {
     kyc: {},
     nextKYC: {},
+    navbarNextKYC: {},
     countryCodes: []
 };
 
 const getters = {
     getKYC: state => state.kyc,
     getNextKYC: state => state.nextKYC,
+    getNavbarNextKYC: state => state.navbarNextKYC,
     getCountryCodes: state => state.countryCodes
 };
 
@@ -19,6 +21,9 @@ const mutations = {
     },
     SET_NEXT_KYC(state, payload) {
         state.nextKYC = payload;
+    },
+    SET_NAVBAR_NEXT_KYC(state, payload) {
+        state.navbarNextKYC = payload;
     },
     SET_COUNTRY_CODES(state, payload) {
         state.countryCodes = payload;
@@ -45,7 +50,7 @@ const actions = {
             );
         });
     },
-    GET_NEXT_KYC: ({ commit, rootState }, payload) => {
+    GET_NEXT_KYC: ({ commit, dispatch, rootState }, payload) => {
         /**
          * @params {context}
          */
@@ -56,6 +61,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("SET_NEXT_KYC", resp.data.data);
+                            dispatch("GET_NAVBAR_NEXT_KYC");
                             resolve(true);
                         } else {
                             errorFn(resp, "kyc");
@@ -67,6 +73,28 @@ const actions = {
                         resolve(false);
                     }
                 );
+        });
+    },
+    GET_NAVBAR_NEXT_KYC: ({ commit, rootState }) => {
+        /**
+         * @params {context}
+         */
+        return new Promise((resolve, reject) => {
+            return api.get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`).then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "kyc");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "kyc");
+                    resolve(false);
+                }
+            );
         });
     },
     UPDATE_KYC: ({ commit, dispatch, rootState }, payload) => {

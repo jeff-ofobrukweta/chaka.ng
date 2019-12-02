@@ -218,34 +218,56 @@
                                 }}</span
                             ></router-link
                         >
-                        <button
-                            @click="showFund = true"
+                        <KYCButton
+                            ref="fundBtn"
                             type="button"
-                            class="btn btn__icon btn__icon--md btn__primary"
+                            :classes="['btn__icon', 'btn__icon--md', 'btn__primary']"
+                            action="fund"
+                            @step="handleStep"
+                            >+</KYCButton
                         >
-                            +
-                        </button>
                     </p>
                 </ul>
             </template>
-            <fund-modal :showModal="showFund" @close="showFund = false" v-if="showFund" />
+            <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
+            <wallet-success @close="showSuccess = false" v-if="showSuccess" />
+
+            <modal @close="showKYC = false" v-if="showKYC">
+                <template slot="header">{{ selectedField.title }}</template>
+                <form @submit.prevent="submitPhone">
+                    <div>
+                        <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+                    </div>
+                </form>
+            </modal>
         </nav>
     </header>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import KYCButton from "./form/KYCButton";
+import ModalKYC from "./kyc/ModalKYC";
+import KYCTitles from "../services/kyc/kycTitles";
 export default {
     name: "app-header",
     data() {
         return {
             isSidebarOpen: false,
             search: null,
-            showFund: false
+            showFund: false,
+            showSuccess: false,
+            showKYC: false,
+            selectedField: {},
+            allNextKYC: KYCTitles.titles
         };
     },
+    components: {
+        KYCButton,
+        ModalKYC
+    },
     computed: {
-        ...mapGetters(["isLoggedIn", "getLoggedUser", "getAccountSummary"])
+        ...mapGetters(["isLoggedIn", "getLoggedUser", "getAccountSummary", "getNextKYC"])
     },
     methods: {
         toggleSidebar() {
@@ -256,6 +278,33 @@ export default {
             this.$refs.trigger.nextElementSibling.classList.toggle("show");
             document.body.classList.toggle("no-scroll");
             this.toggleSidebar();
+        },
+        closeFundBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showFund = false;
+        },
+        handleStep(step) {
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else if (step.type === "fund") {
+                this.showFund = true;
+            } else if (step.type === "global") {
+                this.showExchange = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            this.$refs.fundBtn.$el.click();
+            return true;
         }
     },
     watch: {

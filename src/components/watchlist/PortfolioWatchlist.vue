@@ -29,41 +29,103 @@
                 <img src="../../assets/img/watch-open.svg" alt="Watch" />
             </div>
             <div>
-                <a @click="showBuy = true" class="watchlist-portfolio__buy">+ Buy</a>
+                <KYCButton
+                    ref="buyBtn"
+                    type="button"
+                    :classes="['watchlist-portfolio__buy']"
+                    :action="instrument.currency === 'NGN' ? 'local' : 'global'"
+                    @step="handleStep"
+                    tag="a"
+                    >+&nbsp;Buy</KYCButton
+                >
+                <!-- <a @click="showBuy = true" class="watchlist-portfolio__buy">+ Buy</a> -->
             </div>
         </div>
         <buy-modal
-            @close="showBuy = false"
+            @close="closeBuyModal"
             :currency="instrument.currency"
             :symbol="instrument.symbol"
             :instrument="instrument"
             v-if="showBuy"
         />
+        <sale-success @close="showSuccess = false" v-if="showSuccess" />
+
+        <modal @close="showKYC = false" v-if="showKYC">
+            <template slot="header">{{ selectedField.title }}</template>
+            <form @submit.prevent="submitPhone">
+                <div>
+                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+                </div>
+            </form>
+        </modal>
     </div>
 </template>
 
 <script>
+import KYCButton from "../form/KYCButton";
+import ModalKYC from "../kyc/ModalKYC";
+import KYCTitles from "../../services/kyc/kycTitles";
+import { mapGetters } from "vuex";
 export default {
-    name: 'watchlist-card',
+    name: "watchlist-portfolio",
     props: {
         instrument: {
             type: Object,
             required: true
         }
     },
+    components: {
+        KYCButton,
+        ModalKYC
+    },
     data() {
         return {
-            showBuy: false
+            showBuy: false,
+            showSuccess: false,
+            step: null,
+            showKYC: false,
+            selectedField: {},
+            allNextKYC: KYCTitles.titles
         };
     },
     computed: {
+        ...mapGetters(["getNextKYC"]),
         color() {
-            if (this.instrument.change > 3) return 'dark-green';
-            if (this.instrument.change > 2) return 'green';
-            if (this.instrument.change >= 0) return 'light-green';
-            if (this.instrument.change >= -1) return 'light-red';
-            if (this.instrument.change >= -2) return 'red';
-            return 'dark-red';
+            if (this.instrument.change > 3) return "dark-green";
+            if (this.instrument.change > 2) return "green";
+            if (this.instrument.change >= 0) return "light-green";
+            if (this.instrument.change >= -1) return "light-red";
+            if (this.instrument.change >= -2) return "red";
+            return "dark-red";
+        }
+    },
+    methods: {
+        handleStep(step) {
+            this.step = step.type;
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else {
+                this.showBuy = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            if (this.step !== "kyc") {
+                this.$refs.buyBtn.$el.click();
+            }
+        },
+        closeBuyModal(e) {
+            if (e) this.showSuccess = true;
+            this.showBuy = false;
         }
     }
 };

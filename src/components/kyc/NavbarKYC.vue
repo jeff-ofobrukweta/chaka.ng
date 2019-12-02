@@ -1,6 +1,6 @@
 <template>
-    <section class="kyc-nav__section" v-if="Object.keys(getNextKYC).length > 0">
-        <template v-if="getNextKYC.nextKYC[0] === 'disclosureName'">
+    <section class="kyc-nav__section" v-if="getNavbarNextKYC.status === 'INCOMPLETE'">
+        <template v-if="getNavbarNextKYC.nextKYC[0] === 'disclosureName'">
             <form @submit.prevent="submitDisclosure">
                 <div class="kyc-nav container">
                     <div class="kyc-nav__text">
@@ -39,6 +39,7 @@
                         <a href="">Hide</a>
                         <action-button
                             type="submit"
+                            :disabled="!itemData.disclosureName"
                             :pending="loading"
                             :classes="['btn', 'kyc-nav__button']"
                         >
@@ -61,16 +62,17 @@
                         <action-button
                             type="submit"
                             :pending="loading"
+                            :disabled="!itemData.disclosureName"
                             icon
                             :classes="['btn-block', 'btn__primary']"
                             >Submit</action-button
                         >
-                        <a href="" class="skip">Skip</a>
+                        <a href="">Hide</a>
                     </div>
                 </div>
             </form>
         </template>
-        <template v-else-if="getNextKYC.nextKYC[0] === 'bvn'">
+        <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'bvn'">
             <form @submit.prevent="submitBVN">
                 <div class="kyc-nav container">
                     <div class="kyc-nav__text">
@@ -85,6 +87,7 @@
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a href="">Hide</a>
                         <action-button
+                            :disabled="!itemData.bvn"
                             type="submit"
                             :pending="loading"
                             :classes="['btn', 'kyc-nav__button']"
@@ -107,6 +110,7 @@
                     <div class="kyc-nav__actions" v-else>
                         <action-button
                             type="submit"
+                            :disabled="!itemData.bvn"
                             :pending="loading"
                             icon
                             :classes="['btn-block', 'btn__primary']"
@@ -117,7 +121,7 @@
                 </div>
             </form>
         </template>
-        <template v-else-if="getNextKYC.nextKYC[0] === 'phone'">
+        <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'phone'">
             <form @submit.prevent="submitPhone">
                 <div class="kyc-nav container">
                     <div class="kyc-nav__text">
@@ -173,7 +177,7 @@
                 </div>
             </form>
         </template>
-        <template v-else-if="getNextKYC.nextKYC[0] === 'nin'">
+        <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'nin'">
             <form @submit.prevent="submitNIN">
                 <div class="kyc-nav container">
                     <div class="kyc-nav__text">
@@ -185,7 +189,7 @@
                             >
                         </p>
                         <p class="skip-button" v-if="getWindowWidth !== 'mobile'">
-                            <button class="btn btn__white btn-small">Skip</button>
+                            <button class="btn btn__white btn-small" type="button">Skip</button>
                         </p>
                     </div>
                     <div class="kyc-nav__field">
@@ -195,6 +199,7 @@
                         <a href="">Hide</a>
                         <action-button
                             type="submit"
+                            :disabled="!itemData.nin"
                             :pending="loading"
                             :classes="['btn', 'kyc-nav__button']"
                         >
@@ -216,6 +221,7 @@
                     <div class="kyc-nav__actions" v-else>
                         <action-button
                             type="submit"
+                            :disabled="!itemData.nin"
                             :pending="loading"
                             icon
                             :classes="['btn-block', 'btn__primary']"
@@ -273,7 +279,7 @@
                 </div>
             </div>
         </template>
-        <error-block type="kyc" navbar v-if="fromNavbar" />
+        <error-block type="kyc" navbar />
         <modal no-header @close="showOTP = false" v-if="showOTP">
             <form @submit.prevent="useNewPhone" v-if="showNewPhone">
                 <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
@@ -387,7 +393,10 @@
             <template slot="header">{{ selectedField.title }}</template>
             <form @submit.prevent="submitPhone">
                 <div>
-                    <ModalKYC :requiredFields="selectedField.fields" />
+                    <ModalKYC
+                        :requiredFields="selectedField.fields"
+                        @updated="showNextModal = false"
+                    />
                 </div>
             </form>
         </modal>
@@ -397,8 +406,8 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 import Field from "./KYCField";
-import AllKYCFields from "../../services/kyc/index";
 import ModalKYC from "./ModalKYC";
+import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "kyc-navbar",
@@ -430,47 +439,7 @@ export default {
             },
             selectedField: {},
             showNextModal: false,
-            allNextKYC: [
-                {
-                    title: "Bank Details",
-                    subtitle: "Enter your bank details",
-                    fields: ["bankAcctNo", "bankCode"]
-                },
-                {
-                    title: "Postal Address",
-                    subtitle: "Enter your postal address",
-                    fields: ["gender", "address", "lg"]
-                },
-                {
-                    title: "Employment Details",
-                    subtitle: "Fill in your employment details",
-                    fields: [
-                        "employmentStatus",
-                        "employedByBroker",
-                        "directorOfPublicCo",
-                        "pepStatus",
-                        "pepNames"
-                    ]
-                },
-                {
-                    title: "Investment Preferences",
-                    subtitle: "Fill in your investment preferences",
-                    fields: [
-                        "investmentObjectives",
-                        "investmentExperience",
-                        "riskTolerance",
-                        "annualIncome",
-                        "networthLiquid",
-                        "networthTotal"
-                    ]
-                },
-                {
-                    title: "Uploads",
-                    subtitle: "Make your details",
-                    fields: ["addressProofUrl", "idPhotoUrl", "passportUrl"]
-                }
-            ],
-
+            allNextKYC: KYCTitles.titles,
             itemData: {},
             loading: false,
             fromNavbar: false,
@@ -483,7 +452,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "getKYC", "getNextKYC", "getCountryCodes"]),
+        ...mapGetters(["getWindowWidth", "getKYC", "getNavbarNextKYC", "getCountryCodes"]),
         currentIndex() {}
     },
     methods: {
@@ -498,7 +467,9 @@ export default {
             "USE_BVN_PHONE"
         ]),
         handleInput(e) {
-            this.itemData[e.name] = e.value;
+            this.$set(this.itemData, e.name, e.value);
+            // this.itemData[e.name] = e.value;
+            console.log(this.itemData);
         },
         submitDisclosure() {
             this.loading = true;
@@ -646,18 +617,18 @@ export default {
         checkNextKYC() {
             this.allNextKYC.forEach(element => {
                 element.fields.forEach(el => {
-                    if (el === this.getNextKYC.nextKYC[0]) {
+                    if (el === this.getNavbarNextKYC.nextKYC[0]) {
                         this.selectedField = element;
-                        this.selectedField.fields = this.getNextKYC.nextKYC;
+                        this.selectedField.fields = this.getNavbarNextKYC.nextKYC;
                     }
                 });
             });
         }
     },
     async mounted() {
-        this.GET_COUNTRY_CODES();
-        await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);
-        this.checkNextKYC();
+        await this.GET_NEXT_KYC();
+        if (Object.keys(this.getNavbarNextKYC).length > 0) this.checkNextKYC();
+        await this.GET_COUNTRY_CODES();
     }
 };
 </script>
