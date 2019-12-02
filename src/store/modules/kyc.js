@@ -5,13 +5,15 @@ const state = {
     kyc: {},
     nextKYC: {},
     navbarNextKYC: {},
-    countryCodes: []
+    countryCodes: [],
+    triggerNavbar: false
 };
 
 const getters = {
     getKYC: state => state.kyc,
     getNextKYC: state => state.nextKYC,
     getNavbarNextKYC: state => state.navbarNextKYC,
+    getNavbarTrigger: state => state.triggerNavbar,
     getCountryCodes: state => state.countryCodes
 };
 
@@ -24,6 +26,9 @@ const mutations = {
     },
     SET_NAVBAR_NEXT_KYC(state, payload) {
         state.navbarNextKYC = payload;
+    },
+    SET_NAVBAR_TRIGGER(state, payload) {
+        state.triggerNavbar = payload;
     },
     SET_COUNTRY_CODES(state, payload) {
         state.countryCodes = payload;
@@ -106,6 +111,7 @@ const actions = {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_KYC", resp.data.data.kyc);
+                        commit("SET_NAVBAR_TRIGGER"), true;
                         dispatch("GET_NEXT_KYC").then(() => {
                             resolve(true);
                         });
@@ -131,6 +137,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });
@@ -158,6 +165,7 @@ const actions = {
                 .then(
                     resp => {
                         if (resp.status === 200) {
+                            commit("SET_NAVBAR_TRIGGER"), true;
                             dispatch("GET_KYC");
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
@@ -184,6 +192,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_NEXT_KYC");
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
@@ -210,6 +219,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });

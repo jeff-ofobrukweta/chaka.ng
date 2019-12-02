@@ -50,7 +50,7 @@
         },
         {
             "title": "Uploads",
-            "subtitle": "Make your details",
+            "subtitle": "Upload your documents",
             "fields": ["addressProofUrl", "idPhotoUrl", "passportUrl"]
         }
     ]

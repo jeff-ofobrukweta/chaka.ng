@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: "form-button",
+    name: "action-button",
     props: {
         classes: {
             type: Array,

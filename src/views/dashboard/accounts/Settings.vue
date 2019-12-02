@@ -6,27 +6,21 @@
 
         <section class="accounts-settings__uploads">
             <Uploads
-                name="Profile Picture"
                 form-name="passportUrl"
-                description="Set Profile Picture"
                 :image="getKYC.passportUrl"
                 @error="handleUploadError"
                 @success="handleUploadSuccess"
                 @reset="handleReset"
             />
             <Uploads
-                name="Passport/National ID"
                 form-name="idPhotoUrl"
-                description="Upload your National ID, Voter's Card or International Passport"
                 :image="getKYC.idPhotoUrl"
                 @error="handleUploadError"
                 @success="handleUploadSuccess"
                 @reset="handleReset"
             />
             <Uploads
-                name="Address Proof"
                 form-name="addressProofUrl"
-                description="Upload your Utility bill or Bank Statement"
                 :image="getKYC.addressProofUrl"
                 @error="handleUploadError"
                 @success="handleUploadSuccess"
@@ -282,7 +276,18 @@
                     </div>
                     <div class="accounts-settings__group">
                         <label class="form__label">LGA</label>
-                        <v-select
+                        <select
+                            class="form__input"
+                            name="lg"
+                            v-model="itemData.lg"
+                            v-if="edit === 'postal'"
+                        >
+                            <option v-for="(option, i) in lgNames" :key="i" :value="option.value">{{
+                                option.text
+                            }}</option>
+                        </select>
+                        <!-- <label class="form__label">LGA</label> -->
+                        <!-- <v-select
                             class="form__input form__select"
                             placeholder="Local Government Area"
                             v-model="selectedLg"
@@ -291,8 +296,7 @@
                             value="value"
                             @input="switchLG($event)"
                             :options="lgNames"
-                            v-if="edit === 'postal'"
-                        ></v-select>
+                        ></v-select> -->
                         <p v-else class="capitalize accounts-settings__data">
                             {{ getKYC.lg || "-" }}
                         </p>
