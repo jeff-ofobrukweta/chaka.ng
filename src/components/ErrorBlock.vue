@@ -44,6 +44,9 @@ export default {
         },
         navbar: {
             type: Boolean
+        },
+        source: {
+            type: String
         }
     },
     computed: {

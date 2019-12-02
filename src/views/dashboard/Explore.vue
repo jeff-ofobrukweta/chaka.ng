@@ -53,7 +53,7 @@
             </div>
         </section>
 
-        <section class="explore-section">
+        <section class="explore-section" v-if="getExploreLearn.length > 0">
             <section class="explore__title">
                 <div>
                     <h3>Learn</h3>
@@ -73,7 +73,7 @@
             </div>
         </section>
 
-        <section class="explore-section">
+        <section class="explore-section" v-if="getWatchlist.length > 0">
             <section class="dashboard__title">
                 <h3>Watchlist</h3>
                 <p class="dashboard__title--sub">See the latest on the stock market</p>

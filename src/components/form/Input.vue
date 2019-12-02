@@ -5,6 +5,7 @@
             :name="name"
             v-model="content"
             @input="handleInput"
+            @click="resetError"
             :placeholder="placeholder"
             class="form__input"
             :class="{ 'is-invalid': errorMessage }"
@@ -78,11 +79,9 @@ export default {
     },
     methods: {
         handleInput() {
-            this.clearErrors();
             this.$emit("input", this.content);
         },
         resetError() {
-            this.errors = {};
             this.$emit("reset");
         }
     },

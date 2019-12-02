@@ -9,9 +9,9 @@
                     <div><img src="../../../assets/img/portfolio1-dark.svg" alt="Wallet" /></div>
                     <h2
                         class="cursor-context"
-                        :title="getAccountSummary.netWorth | currency('NGN', true)"
+                        :title="getAccountSummary.netWorth | kobo | currency('NGN', true)"
                     >
-                        {{ getAccountSummary.netWorth | currency("NGN") }}
+                        {{ getAccountSummary.netWorth | kobo | currency("NGN") }}
                     </h2>
                     <p><small>My Portfolio Value</small></p>
                     <div class="accounts-wallet__graphics">
@@ -30,11 +30,14 @@
                                 class="cursor-context"
                                 :title="
                                     getAccountSummary.localWallet.availableBalance
+                                        | kobo
                                         | currency('NGN', true)
                                 "
                             >
                                 {{
-                                    getAccountSummary.localWallet.availableBalance | currency("NGN")
+                                    getAccountSummary.localWallet.availableBalance
+                                        | kobo
+                                        | currency("NGN")
                                 }}
                             </h3>
                             <p><small>Available Cash</small></p>
@@ -43,19 +46,25 @@
                             <h3
                                 class="cursor-context"
                                 :title="
-                                    getAccountSummary.localPendingBalance | currency('NGN', true)
+                                    getAccountSummary.localPendingBalance
+                                        | kobo
+                                        | currency('NGN', true)
                                 "
                             >
-                                {{ getAccountSummary.localPendingBalance | currency("NGN") }}
+                                {{ getAccountSummary.localPendingBalance | kobo | currency("NGN") }}
                             </h3>
                             <p><small>Pending Cash</small></p>
                         </div>
                         <div>
                             <h3
                                 class="cursor-context"
-                                :title="getAccountSummary.localStocksValue | currency('NGN', true)"
+                                :title="
+                                    getAccountSummary.localStocksValue
+                                        | kobo
+                                        | currency('NGN', true)
+                                "
                             >
-                                {{ getAccountSummary.localStocksValue | currency("NGN") }}
+                                {{ getAccountSummary.localStocksValue | kobo | currency("NGN") }}
                             </h3>
                             <p><small>Stock Value</small></p>
                         </div>
@@ -70,11 +79,13 @@
                                 class="cursor-context"
                                 :title="
                                     getAccountSummary.globalWallet.availableBalance
+                                        | kobo
                                         | currency('USD', true)
                                 "
                             >
                                 {{
                                     getAccountSummary.globalWallet.availableBalance
+                                        | kobo
                                         | currency("USD")
                                 }}
                             </h3>
@@ -84,19 +95,27 @@
                             <h3
                                 class="cursor-context"
                                 :title="
-                                    getAccountSummary.globalPendingBalance | currency('USD', true)
+                                    getAccountSummary.globalPendingBalance
+                                        | kobo
+                                        | currency('USD', true)
                                 "
                             >
-                                {{ getAccountSummary.globalPendingBalance | currency("USD") }}
+                                {{
+                                    getAccountSummary.globalPendingBalance | kobo | currency("USD")
+                                }}
                             </h3>
                             <p><small>Pending Cash</small></p>
                         </div>
                         <div>
                             <h3
                                 class="cursor-context"
-                                :title="getAccountSummary.globalStocksValue | currency('USD', true)"
+                                :title="
+                                    getAccountSummary.globalStocksValue
+                                        | kobo
+                                        | currency('USD', true)
+                                "
                             >
-                                {{ getAccountSummary.globalStocksValue | currency("USD") }}
+                                {{ getAccountSummary.globalStocksValue | kobo | currency("USD") }}
                             </h3>
                             <p><small>Stock Value</small></p>
                         </div>
