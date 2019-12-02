@@ -143,13 +143,12 @@ export default {
 				this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime);
 			});
         },
-        handletimeframe(index) {
-            this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(index)
+        async handletimeframe(index) {
+            await this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(index)
             const payloadsinglestock = {
                 interval:this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             }
-            console.log('>>>>>>>>>handletimeframe>>>>>>>>',index);
              this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(()=>{
                 console.log('>>>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
             })
