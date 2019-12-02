@@ -117,8 +117,8 @@ const getters = {
 };
 
 const mutations = {
-    SET_PORTFOLIO_POSITIONS_FOR_SELECT(state, derived) {
-		state.portfolioposition = derived;
+    SET_PORTFOLIO_POSITIONS_FOR_SELECT(state, select) {
+		state.portfolioposition = select;
     },
     SET_PORTFOLIO_DERIVED_PRICE(state, derived) {
 		state.portfolioDerivedPrice = derived;

@@ -134,7 +134,7 @@ export default {
     },
     mounted(){
         const currency = {currency:this.getPorfolioglobalCurrencyforGraph}
-        this.GET_ACCOUNT_SUMMARY({currency}).then(() => {
+        this.GET_ACCOUNT_SUMMARY(currency).then(() => {
             console.log("YYYYYYYYYYYYYYYYYYYYYY",this.getAccountSummary)
         });
     },

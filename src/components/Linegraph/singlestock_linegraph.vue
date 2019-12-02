@@ -1,5 +1,8 @@
 <template>
-    <div class="graphholder">
+<Fragment>
+    <div
+    v-if="((getOpenPrice.length > 1) && (getDates.length > 1))"
+    class="graphholder">
             <div class="header-container">
                 <div class="right-menue-item">
                     <div class="parent-container-main">
@@ -40,12 +43,16 @@
                 </div>
             </div>
         <Graph
-        :price="getOpenPrice"
-        :date="getDates"
+            :price="getOpenPrice"
+            :date="getDates"
          />
     </div>
+    <div v-else 
+        class="graphholder"></div>
+    </Fragment>
 </template>
 <script>
+import {Fragment} from 'vue-fragment';
 import Graph from './linegraph';
 import { mapGetters,mapMutations,mapActions } from 'vuex';
 
@@ -127,7 +134,8 @@ export default {
         }
     },
     components: {
-        Graph
+        Graph,
+        Fragment
     },
     props:{
         instrument:{

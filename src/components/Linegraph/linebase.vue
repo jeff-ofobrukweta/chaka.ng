@@ -1,52 +1,60 @@
 <template>
-    <div class="graphholder">
-            <div class="header-container">
-                <div class="left-menue-item">
-                    <h3 class="holder">Holdings</h3>
-                    <h4 class="sub-holder">text here dummy</h4>
-                </div>
-                <div class="right-menue-item">
-                    <section class="btn-sell"><button>Buy</button></section>
-                    <section class="cash-networth">{{getAccountSummary.netWorth | currency(getAccountSummary.currency)}}
-                        <span class="derived">
-                        <span
-                        :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']" 
-                        >{{getPortfolioDerivedPrice}}</span>
-                        <span
-                        :class="[getPortfolioDerivedChange < 0 ? 'red' : 'green']"
-                        >({{getPortfolioDerivedChange}}%)</span>
-                        </span></section>
-                    <section class="toogle-section">
-                        <section class="option-container">
-                            <button
-                            v-for="(item, index) in currencyOption"
-                            :key="index"
-                            @click="toogleCurrency(item.currency,item.id)"
-                            :title="item.description"
-                            :class="[item.id == getPortfolioIntervalposition ? 'btn-one-active' : '','btn-one']"
-                            >{{item.symbol}}</button>
-                            <button>
-                                <div id="select" class="dropdown">
-                                <select class="drop-down">
-                                    <option
-                                     v-for="(item,index) in buttonoption"
-                                    :key="index" 
-                                     @click="handletimeframe(item.time)"
-                                    class="option">{{item.name}}</option>
-                                </select>
-                                </div>
-                            </button>
+    <Fragment>
+        <div
+        v-if="((gethistoryportfolioprice.length > 1) && (gethistoryportfoliodate.length > 1))" 
+        class="graphholder">
+                <div class="header-container">
+                    <div class="left-menue-item">
+                        <h3 class="holder">Holdings</h3>
+                        <h4 class="sub-holder">text here dummy</h4>
+                    </div>
+                    <div class="right-menue-item">
+                        <section class="btn-sell"><button>Fund</button></section>
+                        <section class="cash-networth">{{getAccountSummary.netWorth | currency(getAccountSummary.currency)}}
+                            <span class="derived">
+                            <span
+                            :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']" 
+                            >{{getPortfolioDerivedPrice}}</span>
+                            <span
+                            :class="[getPortfolioDerivedChange < 0 ? 'red' : 'green']"
+                            >({{getPortfolioDerivedChange}}%)</span>
+                            </span></section>
+                        <section class="toogle-section">
+                            <section class="option-container">
+                                <button
+                                v-for="(item, index) in currencyOption"
+                                :key="index"
+                                @click="toogleCurrency(item.currency,item.id)"
+                                :title="item.description"
+                                :class="[item.id == getPortfolioIntervalposition ? 'btn-one-active' : '','btn-one']"
+                                >{{item.symbol}}</button>
+                                <button>
+                                    <div id="select" class="dropdown">
+                                    <select class="drop-down">
+                                        <option
+                                        v-for="(item,index) in buttonoption"
+                                        :key="index" 
+                                        @click="handletimeframe(item.time)"
+                                        class="option">{{item.name}}</option>
+                                    </select>
+                                    </div>
+                                </button>
+                            </section>
                         </section>
-                    </section>
+                    </div>
                 </div>
-            </div>
-        <Graph 
-            :price="gethistoryportfolioprice" 
-            :date="gethistoryportfoliodate"/>
-    </div>
+            <Graph 
+                :price="gethistoryportfolioprice" 
+                :date="gethistoryportfoliodate"/>
+        </div>
+        <div
+        v-else 
+        class="graphholder"></div>
+    </Fragment>
 </template>
 <script>
 import Graph from './linegraph';
+import {Fragment} from 'vue-fragment';
 import { mapGetters,mapMutations,mapActions } from 'vuex';
 
 export default {
@@ -103,7 +111,8 @@ export default {
         }
     },
     components: {
-        Graph
+        Graph,
+        Fragment
     },
     computed:{
         ...mapGetters([
