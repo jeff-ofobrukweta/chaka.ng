@@ -1,16 +1,16 @@
 <template>
   <div class="portfolio-card__box">
-    <PortfolioCard v-for="(card, index) in cards" :key="index" :data="card" />
+    <!-- <PortfolioCard v-for="(card, index) in cards" :key="index" :data="card" /> -->
   </div>
 </template>
 
 <script>
-import PortfolioCard from './PortfolioCard';
+// import PortfolioCard from './PortfolioCard';
 
 export default {
     name: 'portfolio-list',
     components: {
-        PortfolioCard
+        // PortfolioCard
     },
     data() {
         return {
