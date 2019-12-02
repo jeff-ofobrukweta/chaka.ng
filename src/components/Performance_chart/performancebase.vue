@@ -1,6 +1,8 @@
 <template>
     <Fragment>
-        <div class="container-packet">
+        <div
+        v-if="(getPositionBarperformancepercentage.length > 1 && getPositionBarperformancesymbol.length > 1)" 
+        class="container-packet">
             <h1 class="title-name">Performance</h1>
             <h1 class="subtitle-name">lorem ipsum here</h1>
             <section class="graphholder">
@@ -31,7 +33,7 @@ export default {
         ...mapActions(['GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA']),
             mountedActions(){
                 const chakacredentials ={chakaID:1012567810};
-                this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA(chakacredentials).then(()=>{
+                this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA().then(()=>{
                     console.log('>>>>>>SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_PERCENTAGE>>>>>>>>>>>>>>',this.getPositionBarperformancepercentage,this.getPositionBarperformancesymbol);
                 })
             }
