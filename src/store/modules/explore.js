@@ -106,7 +106,6 @@ const actions = {
         /**
          * @param payload: an array pf stock symbols
          */
-        console.log(state.collectionStocks);
         const temp = state.collectionStocks.join(",");
         return new Promise((resolve, reject) => {
             return api.get(`/instruments/?symbols=${temp}`).then(

@@ -88,7 +88,7 @@ export default {
         InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist")
     },
     computed: {
-        ...mapGetters(["getSingleCollection", "getWindowWidth"]),
+        ...mapGetters(["getSingleCollection", "getWindowWidth", "getCollectionStocks"]),
         name() {
             return this.$route.params.name;
         }
@@ -98,8 +98,10 @@ export default {
         ...mapMutations(["SET_SINGLE_COLLECTION", "SET_COLLECTION_STOCKS"])
     },
     async mounted() {
-        console.log(this.name);
         await this.GET_SINGLE_COLLECTION();
+        if (this.getCollectionStocks.length < 0) {
+            this.$router.replace({ name: "explore" });
+        }
     },
     beforeDestroy() {
         this.SET_SINGLE_COLLECTION([]);

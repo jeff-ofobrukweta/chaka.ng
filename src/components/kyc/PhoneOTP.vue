@@ -48,6 +48,12 @@
                     >Submit</action-button
                 >
             </section>
+            <p class="text-center">
+                <small
+                    ><a @click="backToUsePhone" class="underline primary">Go back</a> to use your
+                    registered phone number</small
+                >
+            </p>
         </form>
         <form @submit.prevent="submitOTP" v-else>
             <p class="text-center mb-3">
