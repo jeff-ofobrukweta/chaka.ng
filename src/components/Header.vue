@@ -190,7 +190,7 @@
                 </div>
 
                 <ul class="nav__dashboard--menu">
-                    <p>
+                    <p v-if="Object.keys(getAccountSummary).length > 0">
                         <router-link
                             class="nav__dashboard--mobile"
                             :to="{ name: 'accounts-wallet' }"
@@ -199,21 +199,26 @@
                             <span
                                 :title="
                                     getAccountSummary.localWallet.availableBalance
+                                        | kobo
                                         | currency('NGN', true)
                                 "
                                 >:
                                 {{
-                                    getAccountSummary.localWallet.availableBalance | currency("NGN")
+                                    getAccountSummary.localWallet.availableBalance
+                                        | kobo
+                                        | currency("NGN")
                                 }}</span
                             >
                             <span>&nbsp;|&nbsp;</span>
                             <span
                                 :title="
                                     getAccountSummary.globalWallet.availableBalance
+                                        | kobo
                                         | currency('USD', true)
                                 "
                                 >{{
                                     getAccountSummary.globalWallet.availableBalance
+                                        | kobo
                                         | currency("USD")
                                 }}</span
                             ></router-link

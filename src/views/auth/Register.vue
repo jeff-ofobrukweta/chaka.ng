@@ -73,7 +73,7 @@
 </template>
 
 <script>
-// import auth from "../../services/validations/auth";
+import auth from "../../services/validations/auth";
 import { mapActions, mapMutations } from "vuex";
 export default {
     name: "Login",

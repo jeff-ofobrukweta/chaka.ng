@@ -189,7 +189,9 @@
                             >
                         </p>
                         <p class="skip-button" v-if="getWindowWidth !== 'mobile'">
-                            <button class="btn btn__white btn-small" type="button">Skip</button>
+                            <button class="btn btn__white btn-small" type="button" @click="skipNIN">
+                                Skip
+                            </button>
                         </p>
                     </div>
                     <div class="kyc-nav__field">
@@ -228,7 +230,7 @@
                             >Submit</action-button
                         >
                         <div>
-                            <a class="skip" href="">Skip</a>
+                            <a class="skip" href="" @click="skipNIN">Skip</a>
                             <a href="">Hide</a>
                         </div>
                     </div>
@@ -268,7 +270,7 @@
                         <button
                             @click="showNextModalBtn"
                             type="buttom"
-                            class="btn-block btn__primary"
+                            class="btn btn-block btn__primary"
                         >
                             Continue
                         </button>
@@ -404,7 +406,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import Field from "./KYCField";
 import ModalKYC from "./ModalKYC";
 import KYCTitles from "../../services/kyc/kycTitles";
@@ -452,7 +454,13 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "getKYC", "getNavbarNextKYC", "getCountryCodes"]),
+        ...mapGetters([
+            "getWindowWidth",
+            "getKYC",
+            "getNavbarNextKYC",
+            "getCountryCodes",
+            "getNavbarTrigger"
+        ]),
         currentIndex() {}
     },
     methods: {
@@ -466,6 +474,7 @@ export default {
             "GET_COUNTRY_CODES",
             "USE_BVN_PHONE"
         ]),
+        ...mapMutations(["SET_NAVBAR_TRIGGER"]),
         handleInput(e) {
             this.$set(this.itemData, e.name, e.value);
             // this.itemData[e.name] = e.value;
@@ -477,6 +486,7 @@ export default {
             this.UPDATE_KYC(this.itemData).then(resp => {
                 this.loading = false;
                 if (resp) {
+                    this.checkNextKYC();
                     this.itemData = {};
                 }
             });
@@ -486,6 +496,7 @@ export default {
             this.RESOLVE_BVN(this.itemData).then(resp => {
                 this.loading = false;
                 if (resp) {
+                    this.checkNextKYC();
                     this.itemData = {};
                 }
             });
@@ -495,6 +506,7 @@ export default {
             this.UPDATE_KYC_NIN(this.itemData).then(resp => {
                 this.loading = false;
                 if (resp) {
+                    this.checkNextKYC();
                     this.itemData = {};
                 }
             });
@@ -623,12 +635,29 @@ export default {
                     }
                 });
             });
+        },
+        skipNIN() {
+            this.loading = true;
+            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.itemData = {};
+                }
+            });
         }
     },
     async mounted() {
         await this.GET_NEXT_KYC();
         if (Object.keys(this.getNavbarNextKYC).length > 0) this.checkNextKYC();
         await this.GET_COUNTRY_CODES();
+    },
+    watch: {
+        getNavbarTrigger(newVal) {
+            if (newVal) {
+                this.checkNextKYC();
+                this.SET_NAVBAR_TRIGGER(false);
+            }
+        }
     }
 };
 </script>

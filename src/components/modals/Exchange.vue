@@ -10,20 +10,20 @@
                         <h4
                             class="cursor-context"
                             :title="
-                                getAccountSummary.localWallet.availableBalance
+                                getAccountSummary.localWallet.availableBalance | kobo
                                     | currency('NGN', true)
                             "
                         >
-                            {{ getAccountSummary.localWallet.availableBalance | currency("NGN") }}
+                            {{ getAccountSummary.localWallet.availableBalance | kobo | currency("NGN") }}
                         </h4>
                         <p><small>Available Cash</small></p>
                     </div>
                     <div>
                         <h4
                             class="cursor-context"
-                            :title="getAccountSummary.localPendingBalance | currency('NGN', true)"
+                            :title="getAccountSummary.localPendingBalance | kobo | currency('NGN', true)"
                         >
-                            {{ getAccountSummary.localPendingBalance | currency("NGN") }}
+                            {{ getAccountSummary.localPendingBalance | kobo | currency("NGN") }}
                         </h4>
                         <p><small>Pending Cash</small></p>
                     </div>
@@ -37,20 +37,20 @@
                         <h4
                             class="cursor-context"
                             :title="
-                                getAccountSummary.globalWallet.availableBalance
+                                getAccountSummary.globalWallet.availableBalance | kobo
                                     | currency('USD', true)
                             "
                         >
-                            {{ getAccountSummary.globalWallet.availableBalance | currency("USD") }}
+                            {{ getAccountSummary.globalWallet.availableBalance | kobo | currency("USD") }}
                         </h4>
                         <p><small>Available Cash</small></p>
                     </div>
                     <div>
                         <h4
                             class="cursor-context"
-                            :title="getAccountSummary.globalPendingBalance | currency('USD', true)"
+                            :title="getAccountSummary.globalPendingBalance | kobo | currency('USD', true)"
                         >
-                            {{ getAccountSummary.globalPendingBalance | currency("USD") }}
+                            {{ getAccountSummary.globalPendingBalance | kobo | currency("USD") }}
                         </h4>
                         <p><small>Pending Cash</small></p>
                     </div>

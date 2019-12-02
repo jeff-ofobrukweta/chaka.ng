@@ -1,6 +1,6 @@
 <template>
     <form class="uploads" @submit.prevent="uploadImage" enctype="multipart/form-data">
-        <p class="uploads__name">{{ name }}</p>
+        <p class="uploads__name">{{ formDetails.name }}</p>
         <div class="uploads__empty">
             <input
                 class="uploads__input"
@@ -26,10 +26,14 @@
             </template>
             <img class="uploads__image--local" :src="image" alt="" v-else-if="image" />
             <div class="uploads__overlay">
-                <img src="../assets/img/uploads-add.svg" alt="Upload" />
+                <img
+                    src="../assets/img/uploads-add.svg"
+                    class="uploads__image--plus"
+                    alt="Upload"
+                />
             </div>
         </div>
-        <p class="uploads__meta">{{ description }}</p>
+        <p class="uploads__meta">{{ formDetails.description }}</p>
         <action-button
             v-if="uploadedImage"
             type="submit"
@@ -96,16 +100,8 @@ import { mapActions } from "vuex";
 export default {
     name: "uploads",
     props: {
-        name: {
-            type: String,
-            required: true
-        },
         image: {
             type: String
-        },
-        description: {
-            type: String,
-            required: true
         },
         formName: {
             type: String,
@@ -120,6 +116,21 @@ export default {
             errorMessage: null,
             loading: false
         };
+    },
+    computed: {
+        formDetails() {
+            if (this.formName === "passportUrl")
+                return { name: "Profile Picture", description: "Set Profile Picture" };
+            else if (this.formName === "idPhotoUrl")
+                return {
+                    name: "Passport/National ID",
+                    description: "Upload your National ID, Voter's Card or International Passport"
+                };
+            return {
+                name: "Address Proof",
+                description: "Upload your Utility bill or Bank Statement"
+            };
+        }
     },
     methods: {
         ...mapActions(["UPLOAD_KYC_FILE"]),

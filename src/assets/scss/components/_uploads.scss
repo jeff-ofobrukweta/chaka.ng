@@ -11,7 +11,7 @@
 
         &--local {
             position: absolute;
-            z-index: -1;
+            z-index: 0;
             left: 0;
             top: 0;
             bottom: 0;
@@ -21,6 +21,10 @@
             margin-left: 12.5%;
             margin-top: 10%;
             object-fit: contain;
+        }
+
+        &--plus{
+            z-index: 2;
         }
     }
 

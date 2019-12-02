@@ -115,7 +115,6 @@ export default {
     data() {
         return {
             loading: false,
-            showOTP: null,
             showNewPhone: false,
             newPhone: {},
             otpData: {},
@@ -137,7 +136,6 @@ export default {
             this.USE_BVN_PHONE(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.showOTP = true;
                     this.showNewPhone = false;
                     this.itemData = {};
                 }
@@ -158,8 +156,8 @@ export default {
             this.RESOLVE_OTP(this.otpData).then(resp => {
                 this.loading = false;
                 if (resp) {
+                    this.$emit("close");
                     this.itemData = {};
-                    this.showOTP = false;
                 }
             });
         },
@@ -173,7 +171,6 @@ export default {
             this.OTPResend = true;
             this.smsSender = 1;
             if (!this.showNewPhone) {
-                // this.card1();
                 this.useBVNPhone();
                 return true;
             }
@@ -181,7 +178,6 @@ export default {
             this.newPhone.smsSender = this.smsSender;
             this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 if (resp) {
-                    this.showOTP = false;
                     this.OTPResend = false;
                     this.itemData = {};
                 }
@@ -200,7 +196,6 @@ export default {
             this.newPhone.smsSender = this.smsSender;
             this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 if (resp) {
-                    this.showOTP = false;
                     this.OTPResend = false;
                     this.itemData = {};
                 }

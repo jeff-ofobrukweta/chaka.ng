@@ -70,11 +70,11 @@ const kycFields = [
         options: [
             {
                 name: "Yes",
-                value: "true"
+                value: true
             },
             {
                 name: "No",
-                value: "false"
+                value: false
             }
         ]
     },
@@ -85,11 +85,11 @@ const kycFields = [
         options: [
             {
                 name: "Yes",
-                value: "true"
+                value: true
             },
             {
                 name: "No",
-                value: "false"
+                value: false
             }
         ]
     },
@@ -188,7 +188,7 @@ const kycFields = [
     {
         name: "LGA",
         value: "lg",
-        type: "text"
+        type: "select"
     },
     // {
     //     name: "Maiden Name",
@@ -240,7 +240,7 @@ const kycFields = [
     // },
     {
         name: "Passport Image",
-        value: "passporturl",
+        value: "passportUrl",
         type: "image"
     },
     {
@@ -250,11 +250,11 @@ const kycFields = [
         options: [
             {
                 name: "Yes",
-                value: "true"
+                value: true
             },
             {
                 name: "No",
-                value: "false"
+                value: false
             }
         ]
     },
