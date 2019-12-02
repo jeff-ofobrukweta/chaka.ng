@@ -162,15 +162,20 @@ export default {
         }
     },
     async mounted() {
-        const date = new Date();
-        const fromTemp = date.setDate(date.getDate() - 30);
-        const toTemp = Date.now();
-        this.payload.fromDate = new Date(fromTemp).toISOString();
-        this.payload.toDate = new Date(toTemp).toISOString();
-        this.fromDate = this.$options.filters.reverseDate(this.payload.fromDate);
-        this.toDate = this.$options.filters.reverseDate(this.payload.toDate);
-        await this.GET_ACCOUNT_HISTORY(this.payload);
-        this.loading = false;
+        try {
+            const date = new Date();
+            const fromTemp = date.setDate(date.getDate() - 30);
+            const toTemp = Date.now();
+            this.payload.fromDate = new Date(fromTemp).toISOString();
+            this.payload.toDate = new Date(toTemp).toISOString();
+            this.fromDate = this.$options.filters.reverseDate(this.payload.fromDate);
+            this.toDate = this.$options.filters.reverseDate(this.payload.toDate);
+            await this.GET_ACCOUNT_HISTORY(this.payload);
+            this.loading = false;
+        } catch (err) {
+            this.loading = false;
+            console.log(err);
+        }
     }
 };
 </script>

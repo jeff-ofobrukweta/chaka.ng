@@ -11,9 +11,9 @@
                             type="email"
                             name="email"
                             v-model="itemData.email"
+                            @focus="resetError"
                             placeholder="Email Address"
-                            :error-message="errors.emsil"
-                            :invalid="$v.itemData.email"
+                            :error-message="errors.email"
                             @reset="resetError"
                     /></label>
                 </div>
@@ -28,7 +28,7 @@
                             :error-message="errors.password"
                             @reset="resetError"
                     /></label>
-                    <div class="form-info" v-if="!$v.itemData.password.$error">
+                    <div class="form-info" v-if="!errors.password">
                         <small
                             >**Password should contain at least one uppercase character, number or
                             symbol and at least 7 characters</small
@@ -43,7 +43,7 @@
                             name="confirm-password"
                             v-model="confirmPassword"
                             placeholder="Confirm Password"
-                            error-message="Password should match your initial password"
+                            :error-message="errors.confirmPassword"
                             @reset="resetError"
                     /></label>
                 </div>
@@ -96,7 +96,7 @@ export default {
         register() {
             this.RESET_REQ();
             if (this.confirmPassword !== this.itemData.password) {
-                this.$set(this.errors, "confirmPassword", true);
+                this.$set(this.errors, "confirmPassword", "Password should match initial password");
                 return false;
             }
             // this.validate(this.itemData, auth.register);
@@ -107,8 +107,8 @@ export default {
             });
         },
         resetError() {
-            this.$v.$reset();
-            this.passwordError = {};
+            this.errors = {};
+            // this.passwordError = {};
         }
     },
     mounted() {

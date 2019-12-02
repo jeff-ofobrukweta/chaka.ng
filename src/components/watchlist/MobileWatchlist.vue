@@ -72,9 +72,13 @@
                         <img v-else src="../../assets/img/watchlist-down.svg" alt="Growth" />
                         <span>{{ +stock.InstrumentDynamic.yclose >= 0 ? "+" : "" }}</span>
                         <small
-                            >{{ stock.InstrumentDynamic.yclose | units(2) }} ({{
-                                stock.InstrumentDynamic.ycloseChange | units(2)
-                            }}%)</small
+                            >{{ stock.InstrumentDynamic.yclose | units(2) }}
+                            <span
+                                :class="[
+                                    +stock.InstrumentDynamic.ycloseChange >= 0 ? 'green' : 'red'
+                                ]"
+                                >({{ stock.InstrumentDynamic.ycloseChange | units(2) }}%)</span
+                            ></small
                         >
                     </p>
                     <p class="watchlist-mobile__price">
@@ -129,6 +133,7 @@
 <script>
 import KYCButton from "../form/KYCButton";
 import ModalKYC from "../kyc/ModalKYC";
+import KYCTitles from "../../services/kyc/kycTitles";
 import { mapActions, mapGetters } from "vuex";
 export default {
     name: "watchlist-card",
@@ -150,52 +155,7 @@ export default {
             step: null,
             showKYC: false,
             selectedField: {},
-            allNextKYC: [
-                {
-                    title: "Bank Details",
-                    subtitle: "Enter your bank details",
-                    fields: ["bankAcctNo", "bankCode"]
-                },
-                {
-                    title: "National Identity Number",
-                    subtitle:
-                        "Enter your national identity number to fast track your verification process",
-                    fields: ["nin"]
-                },
-                {
-                    title: "Postal Address",
-                    subtitle: "Enter your postal address",
-                    fields: ["gender", "address", "lg"]
-                },
-                {
-                    title: "Employment Details",
-                    subtitle: "Fill in your employment details",
-                    fields: [
-                        "employmentStatus",
-                        "employedByBroker",
-                        "directorOfPublicCo",
-                        "pepStatus",
-                        "pepNames"
-                    ]
-                },
-                {
-                    title: "Investment Preferences",
-                    subtitle: "Fill in your investment preferences",
-                    fields: [
-                        "investmentObjectives",
-                        "investmentExperience",
-                        "riskTolerance",
-                        "annualIncome",
-                        "networthLiquid",
-                        "networthTotal"
-                    ]
-                },
-                {
-                    title: "Uploads",
-                    subtitle: "Make your details",
-                    fields: ["addressProofUrl", "idPhotoUrl", "passportUrl"]
-                }
-            ]
+            allNextKYC: KYCTitles.titles
         };
     },
     computed: {

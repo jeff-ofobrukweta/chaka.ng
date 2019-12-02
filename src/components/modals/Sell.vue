@@ -343,7 +343,7 @@ export default {
                 return false;
             }
             const { isQuantity } = this;
-            const payload = {
+            let payload = {
                 currency: this.currency,
                 instrumentSymbol: this.symbol,
                 orderSide: "SELL",

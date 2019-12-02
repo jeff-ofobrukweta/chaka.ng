@@ -65,7 +65,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             // commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_ACCOUNT_HISTORY", resp.data.data);
+                            commit("SET_ACCOUNT_HISTORY", resp.data.data.history);
                             resolve(true);
                         } else {
                             errorFn(resp, "accounts");

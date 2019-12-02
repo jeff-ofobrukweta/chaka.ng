@@ -56,5 +56,5 @@ module.exports = {
             }
         }
     },
-    transpileDependencies: ["vuex-persist", "@hapi/joi"]
+    transpileDependencies: ["vuex-persist"]
 };

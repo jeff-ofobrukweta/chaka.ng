@@ -139,19 +139,22 @@ export default {
             }
             if (this.field.value === "employmentStatus" && this.value !== "UNEMPLOYED") {
                 if (!this.employment.employmentType) {
-                    this.errors = {
-                        employmentType: "Field is required"
-                    };
+                    this.$set(this.errors, 'employmentType', "Company type is required")
+                    // this.errors = {
+                    //     employmentType: "Field is required"
+                    // };
                 }
                 if (!this.employment.employmentCompany) {
-                    this.errors = {
-                        employmentType: "Company name is required"
-                    };
+                    this.$set(this.errors, 'employmentCompany', "Company name is required")
+                    // this.errors = {
+                    //     employmentType: "Company name is required"
+                    // };
                 }
                 if (!this.employment.employmentPosition) {
-                    this.errors = {
-                        employmentType: "Employment Position is required"
-                    };
+                    this.$set(this.errors, 'employmentPosition', "Employment position is required")
+                    // this.errors = {
+                    //     employmentType: "Employment Position is required"
+                    // };
                 } else if (Object.keys(this.employment).length === 3) {
                     this.employment.employmentStatus = this.value;
                     this.$emit("optional", this.employment);

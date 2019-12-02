@@ -84,7 +84,6 @@ const actions = {
                 resp => {
                     if (resp.status === 200) {
                         commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
-                        console.log(resp.data.data);
                         resolve(true);
                     } else {
                         errorFn(resp, "kyc");
