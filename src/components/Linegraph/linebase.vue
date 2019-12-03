@@ -10,14 +10,14 @@
                     </div>
                     <div class="right-menue-item">
                         <section class="btn-sell"><button>Fund</button></section>
-                        <section class="cash-networth">{{getAccountSummary.netWorth | currency(getAccountSummary.currency)}}
+                        <section class="cash-networth">{{getAccountSummary.netWorth | kobo  | currency(getAccountSummary.currency)}}
                             <span class="derived">
                             <span
                             :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']" 
-                            >{{getPortfolioDerivedPrice}}</span>
+                            >{{getPortfolioDerivedPrice | units(2)}}</span>
                             <span
                             :class="[getPortfolioDerivedChange < 0 ? 'red' : 'green']"
-                            >({{getPortfolioDerivedChange}}%)</span>
+                            >({{getPortfolioDerivedChange | units(2)}}%)</span>
                             </span></section>
                         <section class="toogle-section">
                             <section class="option-container">
@@ -143,13 +143,12 @@ export default {
 				this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime);
 			});
         },
-        handletimeframe(index) {
-            this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(index)
+        async handletimeframe(index) {
+            await this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(index)
             const payloadsinglestock = {
                 interval:this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             }
-            console.log('>>>>>>>>>handletimeframe>>>>>>>>',index);
              this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(()=>{
                 console.log('>>>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
             })

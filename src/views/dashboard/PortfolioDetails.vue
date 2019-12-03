@@ -23,13 +23,14 @@
                 <span>Open Orders</span>
             </div>
         </div>
-        <PortfolioTable :data="localStocks" />
+        <PortfolioTable
+        :storedata="stocks" />
     </section>
 </template>
 
 <script>
 import PortfolioTable from '../../components/portfolio/PortfolioTable';
-
+import { mapGetters,mapActions,mapMutations } from "vuex";
 export default {
     name: 'portfolio-details',
     components: {
@@ -87,20 +88,51 @@ export default {
                     change: -10,
                     currency: 'USD'
                 }
-            ]
+            ],
+            stocks:[]
         };
     },
     computed: {
+         ...mapGetters(["getglobalstocksowned","getlocalstocksowned","getopenstocks"]),
         type() {
             return this.$route.params.type || 'open-orders';
         }
     },
     methods: {
+        ...mapActions(['GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS']),
         changeType(type) {
             if (this.type !== type) {
                 this.$router.replace({ name: 'portfolio-details', params: { type } });
             }
         }
+    },
+    mounted(){
+        this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS().then(()=>{});
+        if(this.$route.params.type == 'local'){
+            this.stocks = this.getlocalstocksowned;
+             console.log('OPEN HERE MMMMMMMMMMMMMMMMMMMMMmmMMM',this.stocks)
+        }
+        else if(this.$route.params.type == 'global'){
+            this.stocks = this.getglobalstocksowned;
+             console.log('OPEN HERE MMMMMMMMMMMMMMMMMMMMMmmMMM',this.stocks)
+        }
+        else{
+            this.stocks = this.getopenstocks;
+             console.log('OPEN HERE MMMMMMMMMMMMMMMMMMMMMmmMMM',this.stocks)
+        }
+        console.log('OPEN HERE MMMMMMMMMMMMMMMMMMMMMMMM',this.getglobalstocksowned,this.getlocalstocksowned,this.getopenstocks)
+    },
+    beforeRouteUpdate(to, from, next){
+        if(to.params.type == 'local'){
+            this.stocks = this.getlocalstocksowned;
+        }
+        else if(to.params.type == 'global'){
+            this.stocks = this.getglobalstocksowned;
+        }
+        else{
+            this.stocks = this.getopenstocks;
+        }
+        next()
     }
 };
 </script>

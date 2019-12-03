@@ -3,12 +3,12 @@
     box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
     border-radius: 11.4872px;
     padding: 1em;
-    width: 100%;
     flex-basis: 65%;
-    max-width:65%;
+    max-width: 100%;
     margin: 0px;
-    
+    width: 90vh;
 }
+.display{display:none;}
 .drop-down{
     width: 112px;
     height: 30px;
@@ -171,7 +171,7 @@
         box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
         border-radius: 11.4872px;
         padding: 1em;
-        width: 100%;
+        width: 90vh;
         flex-basis: 100%;
         max-width:100%;
         // margin-bottom: 1em;
@@ -188,18 +188,6 @@
         flex-basis: 100%;
         max-width:100%;
         margin-bottom: 1em;
-        
-    }
-}
-@include desktop {
-    .graphholder{
-        background:#FFFFFF;
-        box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
-        border-radius: 11.4872px;
-        padding: 1em;
-        width: 100%;
-        flex-basis: 65%;
-        max-width:65%;
         
     }
 }

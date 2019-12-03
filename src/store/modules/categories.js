@@ -45,11 +45,13 @@ const actions = {
     async GET_INSTRUMENT_BY_TAGS({commit}, params) {
 		await API_CONTEXT.get(`/instruments/`,params)
 			.then((response) => {
-                commit('SET_INSTRUMENT_BY_TAGS',response.data.data.instruments);
-                console.log('this is the state>>:::::::>>>>>>::::::>>',state.instrumentslists);
+                const { instruments } = response.data.data;
+                commit('SET_INSTRUMENT_BY_TAGS',instruments);
+                return true;
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);
+               return false
 			});
     }
     

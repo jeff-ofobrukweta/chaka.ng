@@ -31,7 +31,7 @@
             />
         </section>
         <section class="portfolio-card__box">
-            <PortfolioCard v-for="(card, index) in getPortfolioSummary" :key="index" :data="card" />
+            <!-- <PortfolioCard v-for="(card, index) in getPortfolioSummary" :key="index" :data="card" /> -->
         </section>
         <Linebase />
         <Doughnut />
@@ -53,7 +53,6 @@
 import { mapGetters } from "vuex";
 import KYCModal from "../../components/kyc/ModalKYC";
 import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
-import PortfolioCard from "../../components/portfolio/PortfolioCard";
 import StockTable from "../../components/singlestock/StockTable";
 import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
 import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
@@ -69,7 +68,6 @@ export default {
     components: {
         WatchlistCard,
         KYCModal,
-        PortfolioCard,
         StockTable,
         MobileWatchlist,
         ExploreWatchlist,

@@ -1,96 +1,77 @@
 <template>
-    <Fragment>
-        <div class="wraper-main">
-            <div class="header-container">
-                <section class="right-header" v-if="getSingleinstrument.length > 0">
-                    <h1 class="price">
-                        {{
-                            getSingleinstrument[0].InstrumentDynamic.askPrice
-                                | currency(getSingleinstrument[0].currency)
-                        }}
-                    </h1>
-                    <h1 class="percentage">
-                        <span
-                            :class="[
-                                getSingleinstrument[0].InstrumentDynamic.yclose < 0
-                                    ? 'red'
-                                    : 'green',
-                                'price'
-                            ]"
-                            >{{ getSingleinstrument[0].InstrumentDynamic.yclose }}</span
-                        >
-                        <span
-                            :class="[
-                                getSingleinstrument[0].InstrumentDynamic.ycloseChange < 0
-                                    ? 'red'
-                                    : 'green',
-                                'price'
-                            ]"
-                            class="delta"
-                        >
-                            ({{ getSingleinstrument[0].InstrumentDynamic.ycloseChange }})%</span
-                        >
-                    </h1>
-                </section>
-                <section class="left-header">
-                    <section class="name-country">
-                        <img
-                            class="logo-company"
-                            :src="getSingleinstrument[0].logoUrl"
-                            alt="logo"
-                        />
-                        <aside class="item-name-country">
-                            <section class="stockname">
-                                {{ getSingleinstrument[0].name || "" | truncate(10) }}
-                            </section>
-                            <img
-                                class="state"
-                                :src="
+  <Fragment>
+    <div class="wraper-main">
+      <div class="header-container">
+        <section class="right-header">
+          <h1 class="price">
+            {{
+            getSingleinstrument[0].InstrumentDynamic.askPrice
+            | currency(getSingleinstrument[0].currency)
+            }}
+          </h1>
+          <h1 class="percentage">
+            <Fragment
+              :class="[getSingleinstrument[0].InstrumentDynamic.yclose < 0 ? 'red': 'green','price']"
+            >{{ getSingleinstrument[0].InstrumentDynamic.yclose }}</Fragment>
+            <Fragment
+              :class="[getSingleinstrument[0].InstrumentDynamic.ycloseChange < 0 ? 'red': 'green','price']"
+              class="delta"
+            >({{ getSingleinstrument[0].InstrumentDynamic.ycloseChange }})%</Fragment>
+          </h1>
+        </section>
+        <section class="left-header">
+          <section class="name-country">
+            <img class="logo-company" :src="getSingleinstrument[0].logoUrl" alt="logo" />
+            <aside class="item-name-country">
+              <section
+              :title="getSingleinstrument[0].name" 
+              class="stockname">{{ getSingleinstrument[0].name || "" | truncate(10) }}</section>
+              <img
+                class="state"
+                :src="
                                     require(`../../assets/img/icons/flags/${getSingleinstrument[0].countryCode.toLowerCase()}-flag.svg`)
                                 "
-                                alt="state"
-                            />
-                        </aside>
-                    </section>
-                    <button class="buy-btn">Buy</button>
-                </section>
-            </div>
-            <button v-if="getWindowWidth === 'mobile'" class="small-size">Buy</button>
-            <section class="sumary">
-                <div class="summary-cover">
-                    {{ getSingleinstrument[0].description || "" | truncate(500) }}
-                </div>
-                <div
-                    v-for="(tag, index) in getSingleinstrument[0]"
-                    :key="index"
-                    class="stocktag-container"
-                >
-                    <div class="item-tag">{{ index.name }}</div>
-                </div>
-            </section>
-            <section class="container-graph">
-                <Linegraph :instrument="getSingleinstrument[0]" />
-                <Cardblue :instrument="getPricedetailsonblackcard" />
-            </section>
-            <section class="container-instrument">
-                <StockTable
-                    :getPositionsforcurrentstock="getPositionsWithparams()"
-                    :instrument="getSingleinstrument[0]"
-                />
-            </section>
-            <section class="container-stocks">
-                <Horizontalchart />
-                <Analysisbarchart />
-            </section>
-            <section class="news-container">
-                <h1 class="title">News</h1>
-                <section class="sub-title">lorem ipsun blabala here</section>
-                <section class="news-container-main">
-                    <news-card :news="item" v-for="(item, index) in news" :key="index" />
-                </section>
-            </section>
+                alt="state"
+              />
+            </aside>
+          </section>
+          <button class="buy-btn">Buy</button>
+        </section>
+      </div>
+      <button v-if="getWindowWidth === 'mobile'" class="small-size">Buy</button>
+      <section class="sumary">
+        <div
+        :title="getSingleinstrument[0].description" 
+        class="summary-cover">{{ getSingleinstrument[0].description || "" | truncate(500) }}</div>
+        <div v-for="(tag, index) in getSingleinstrument[0]" :key="index" class="stocktag-container">
+          <div class="item-tag">{{ index.name }}</div>
         </div>
-    </Fragment>
+      </section>
+      <section class="container-graph">
+        <div class="graph-container">
+            <Linegraph :instrument="getSingleinstrument[0]" />
+        </div>
+        <Cardblue :instrument="getPricedetailsonblackcard" />
+      </section>
+      <section class="container-instrument">
+        <StockTable
+          :getPositionsforcurrentstock="getPositionsWithparams()"
+          :instrument="getSingleinstrument[0]"
+        />
+      </section>
+      <section class="container-stocks">
+        <Horizontalchart />
+        <Analysisbarchart />
+      </section>
+      <section class="news-container">
+        <h1 class="title">News</h1>
+        <section class="sub-title">lorem ipsun blabala here</section>
+        <section class="news-container-main">
+          <news-card :news="item" v-for="(item, index) in news" :key="index" />
+        </section>
+      </section>
+    </div>
+  </Fragment>
 </template>
 <script>
 import { Fragment } from "vue-fragment";
@@ -102,142 +83,143 @@ import Analysisbarchart from "../../components/Analysisbarchart/analysisbarchart
 import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
-    components: {
-        Fragment,
-        Linegraph,
-        Cardblue,
-        StockTable,
-        Horizontalchart,
-        Analysisbarchart
-    },
-    computed: {
-        ...mapGetters([
-            "getWindowWidth",
-            "getSingleinstrument",
-            "getPricedetailsonblackcard",
-            "getPositionsWithparams"
-        ])
-    },
-    methods: {
-        //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "GET_CURRENT_STOCK_POSITION"]),
-        ...mapMutations(["SET_SINGLE_INSTRUMENT"])
-    },
-    async mounted() {
-        const singlestockpayload = {
-            symbols: this.$route.params.symbol
-        };
-        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-            // this.getPositionsWithparams(this.$route.params.id)
-            this.GET_CURRENT_STOCK_POSITION().then(() => {
-                console.log("get positions", this.getPositionsWithparams());
-            });
-        });
-    },
-    beforeRouteUpdate(to, from, next) {
-        const singlestockpayload = {
-            symbols: to.params.symbol
-        };
-        this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload);
-        next();
-    },
-    beforeDestroy() {
-        this.SET_SINGLE_INSTRUMENT([]);
-    },
-    data() {
-        return {
-            watchlist: [
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 20
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 20
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 4
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 2
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 1
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 0
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: -3
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: -10
-                }
-            ],
-            news: [
-                {
-                    title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
-                },
-                {
-                    title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
-                },
-                {
-                    title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
-                },
-                {
-                    title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
-                },
-                {
-                    title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
-                }
-            ]
-        };
-    }
+name:"Singlestock",
+  components: {
+    Fragment,
+    Linegraph,
+    Cardblue,
+    StockTable,
+    Horizontalchart,
+    Analysisbarchart
+  },
+  computed: {
+    ...mapGetters([
+      "getWindowWidth",
+      "getSingleinstrument",
+      "getPricedetailsonblackcard",
+      "getPositionsWithparams"
+    ])
+  },
+  methods: {
+    //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
+    ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "GET_CURRENT_STOCK_POSITION"]),
+    ...mapMutations(["SET_SINGLE_INSTRUMENT"])
+  },
+  async mounted() {
+    const singlestockpayload = {
+      symbols: this.$route.params.symbol
+    };
+    await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
+      // this.getPositionsWithparams(this.$route.params.id)
+      this.GET_CURRENT_STOCK_POSITION().then(() => {
+        console.log("get positions", this.getPositionsWithparams());
+      });
+    });
+  },
+  beforeRouteUpdate(to, from, next) {
+    const singlestockpayload = {
+      symbols: to.params.symbol
+    };
+    this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload);
+    next();
+  },
+  beforeDestroy() {
+    this.SET_SINGLE_INSTRUMENT([]);
+  },
+  data() {
+    return {
+      watchlist: [
+        {
+          name: "Spotify",
+          currency: "USD",
+          price: 656.9,
+          percent: 0.67,
+          change: 20
+        },
+        {
+          name: "Spotify",
+          currency: "USD",
+          price: 656.9,
+          percent: 0.67,
+          change: 20
+        },
+        {
+          name: "Spotify",
+          currency: "USD",
+          price: 656.9,
+          percent: 0.67,
+          change: 4
+        },
+        {
+          name: "Spotify",
+          currency: "USD",
+          price: 656.9,
+          percent: 0.67,
+          change: 2
+        },
+        {
+          name: "Spotify",
+          currency: "USD",
+          price: 656.9,
+          percent: 0.67,
+          change: 1
+        },
+        {
+          name: "Spotify",
+          currency: "USD",
+          price: 656.9,
+          percent: 0.67,
+          change: 0
+        },
+        {
+          name: "Spotify",
+          currency: "USD",
+          price: 656.9,
+          percent: 0.67,
+          change: -3
+        },
+        {
+          name: "Spotify",
+          currency: "USD",
+          price: 656.9,
+          percent: 0.67,
+          change: -10
+        }
+      ],
+      news: [
+        {
+          title:
+            "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+          link: "https://google.com",
+          image: "../../assets/img/news/news.png"
+        },
+        {
+          title:
+            "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+          link: "https://google.com",
+          image: "../../assets/img/news/news.png"
+        },
+        {
+          title:
+            "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+          link: "https://google.com",
+          image: "../../assets/img/news/news.png"
+        },
+        {
+          title:
+            "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+          link: "https://google.com",
+          image: "../../assets/img/news/news.png"
+        },
+        {
+          title:
+            "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
+          link: "https://google.com",
+          image: "../../assets/img/news/news.png"
+        }
+      ]
+    };
+  }
 };
 </script>
 
