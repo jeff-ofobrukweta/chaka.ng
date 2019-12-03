@@ -1,9 +1,9 @@
 <template>
-    <modal @close="showKYC = false" v-if="showKYC">
+    <modal @close="$emit('close')">
         <template slot="header">{{ ninField.title }}</template>
         <form @submit.prevent="submitNIN">
             <div>
-                <ModalKYC :requiredFields="ninField.fields" @updated="handleUpdate" />
+                <ModalKYC :requiredFields="ninField.fields" @updated="handleUpdate" nin />
             </div>
         </form>
     </modal>
@@ -13,7 +13,9 @@
 import ModalKYC from "./ModalKYC";
 export default {
     name: "enter-nin",
-    components: {},
+    components: {
+        ModalKYC
+    },
     data() {
         return {
             ninField: {
@@ -22,6 +24,11 @@ export default {
                 fields: ["nin"]
             }
         };
+    },
+    methods: {
+        handleUpdate() {
+            this.$emit("updated");
+        }
     }
 };
 </script>

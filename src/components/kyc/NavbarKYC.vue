@@ -1,5 +1,5 @@
 <template>
-    <section class="kyc-nav__section kyc-navbar" v-if="getNavbarNextKYC.status === 'INCOMPLETE'">
+    <section class="kyc-nav__section" v-if="getNavbarNextKYC.status === 'INCOMPLETE'">
         <template v-if="getNavbarNextKYC.nextKYC[0] === 'disclosureName'">
             <form @submit.prevent="submitDisclosure">
                 <div class="kyc-nav container">
@@ -37,13 +37,13 @@
                             "
                         >
                             <a class="underline" @click="enterNIN = true"
-                                >Enter NIN to fast track your verificatiom</a
+                                ><small>Enter your NIN to fast track your verification</small></a
                             >
                         </p>
                     </div>
 
                     <div class="kyc-nav__field">
-                        <Field :field="disclosureField" @input="handleInput" no-label />
+                        <Field :field="disclosureField" @input="handleInput" no-label inline />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a href="#">Hide</a>
@@ -81,7 +81,7 @@
                             class="underline"
                             v-if="getKYC.ninFetchStatus === 'SKIPPED'"
                             @click="enterNIN = true"
-                            >Enter NIN to fast track your verificatiom</a
+                            ><small>Enter your NIN to fast track your verification</small></a
                         >
                         <a href="#">Hide</a>
                     </div>
@@ -103,12 +103,17 @@
                             "
                         >
                             <a class="underline" @click="enterNIN = true"
-                                >Enter NIN to fast track your verificatiom</a
+                                ><small>Enter your NIN to fast track your verification</small></a
                             >
                         </p>
                     </div>
                     <div class="kyc-nav__field">
-                        <Field :field="bvnField" @input="handleInput" v-model="itemData.bvn" />
+                        <Field
+                            :field="bvnField"
+                            @input="handleInput"
+                            v-model="itemData.bvn"
+                            inline
+                        />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a href="#">Hide</a>
@@ -146,7 +151,7 @@
                             class="underline"
                             v-if="getKYC.ninFetchStatus === 'SKIPPED'"
                             @click="enterNIN = true"
-                            >Enter NIN to fast track your verificatiom</a
+                            ><small>Enter your NIN to fast track your verification</small></a
                         >
                         <a href="#">Hide</a>
                     </div>
@@ -221,7 +226,12 @@
                         </p>
                     </div>
                     <div class="kyc-nav__field">
-                        <Field :field="ninField" @input="handleInput" v-model="itemData.nin" />
+                        <Field
+                            :field="ninField"
+                            @input="handleInput"
+                            v-model="itemData.nin"
+                            inline
+                        />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a href="#">Hide</a>
@@ -278,7 +288,7 @@
                             "
                         >
                             <a class="underline" @click="enterNIN = true"
-                                >Enter NIN to fast track your verificatiom</a
+                                ><small>Enter your NIN to fast track your verification</small></a
                             >
                         </p>
                     </div>
@@ -314,7 +324,7 @@
                             class="underline"
                             v-if="getKYC.ninFetchStatus === 'SKIPPED'"
                             @click="enterNIN = true"
-                            >Enter NIN to fast track your verificatiom</a
+                            ><small>Enter your NIN to fast track your verification</small></a
                         >
                         <div>
                             <a href="#">Hide</a>
@@ -438,7 +448,7 @@
             <ModalKYC :requiredFields="selectedField.fields" @updated="showNextModal = false" />
         </modal>
 
-        <EnterNIN v-if="enterNIN" />
+        <EnterNIN v-if="enterNIN" @updated="closeNIN" @close="closeNIN" />
     </section>
 </template>
 
@@ -685,6 +695,9 @@ export default {
                     this.itemData = {};
                 }
             });
+        },
+        closeNIN() {
+            this.enterNIN = false;
         }
     },
     async mounted() {
