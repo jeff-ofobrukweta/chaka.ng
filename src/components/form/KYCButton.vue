@@ -1,7 +1,7 @@
 <template>
     <component
         :is="tag"
-        :disabled="disabled"
+        :disabled="disabled || clicked"
         class="action"
         :class="[classes, tag === 'button' ? 'btn' : '']"
         @click="handleClick($event)"
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import EventBus from "../../views/dashboard/event-bus";
 import { mapGetters, mapActions } from "vuex";
 export default {
     name: "check-kyc",
@@ -41,7 +42,7 @@ export default {
     },
     data() {
         return {
-            clicked: this.pending
+            clicked: false
         };
     },
     methods: {
@@ -52,9 +53,11 @@ export default {
                 this.GET_NEXT_KYC({ context: "FUND" }).then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
                         this.$emit("step", { type: "fund", kyc: true });
+                        this.clicked = false;
                         return true;
                     } else if (this.getNextKYC.status === "COMPLETE") {
                         this.$emit("step", { type: "fund", kyc: false });
+                        this.clicked = false;
                         return true;
                     }
                 });
@@ -62,9 +65,11 @@ export default {
                 this.GET_NEXT_KYC({ context: "LOCAL" }).then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
                         this.$emit("step", { type: "local", kyc: true });
+                        this.clicked = false;
                         return true;
                     } else if (this.getNextKYC.status === "COMPLETE") {
                         this.$emit("step", { type: "local", kyc: false });
+                        this.clicked = false;
                         return true;
                     }
                 });
@@ -72,9 +77,11 @@ export default {
                 this.GET_NEXT_KYC({ context: "GLOBAL" }).then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
                         this.$emit("step", { type: "global", kyc: true });
+                        this.clicked = false;
                         return true;
                     } else if (this.getNextKYC.status === "COMPLETE") {
                         this.$emit("step", { type: "global", kyc: false });
+                        this.clicked = false;
                         return true;
                     }
                 });
@@ -82,12 +89,19 @@ export default {
                 this.GET_NEXT_KYC().then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
                         this.$emit("step", "kyc");
+                        this.clicked = false;
                         return true;
                     }
                     this.$emit("step");
+                    this.clicked = false;
                 });
             }
         }
+    },
+    mounted() {
+        EventBus.$on("MODAL_CLOSED", () => {
+            this.clicked = false;
+        });
     }
 };
 </script>

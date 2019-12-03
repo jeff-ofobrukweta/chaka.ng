@@ -24,6 +24,12 @@
                     v-else
                 />
             </template>
+            <img
+                class="uploads__image--local"
+                :src="require('../assets/img/pdf.svg')"
+                alt=""
+                v-else-if="isImagePDF"
+            />
             <img class="uploads__image--local" :src="image" alt="" v-else-if="image" />
             <div class="uploads__overlay">
                 <img
@@ -130,6 +136,12 @@ export default {
                 name: "Address Proof",
                 description: "Upload your Utility bill or Bank Statement"
             };
+        },
+        isImagePDF() {
+            if (this.image) {
+                const stripped = this.image.substr(this.image.length - 3);
+                return stripped.toLowerCase() === "pdf";
+            }
         }
     },
     methods: {

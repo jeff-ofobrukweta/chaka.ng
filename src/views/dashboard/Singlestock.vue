@@ -2,7 +2,7 @@
     <Fragment>
         <div class="wraper-main">
             <div class="header-container">
-                <section class="right-header">
+                <section class="right-header" v-if="getSingleinstrument.length > 0">
                     <h1 class="price">
                         {{
                             getSingleinstrument[0].InstrumentDynamic.askPrice

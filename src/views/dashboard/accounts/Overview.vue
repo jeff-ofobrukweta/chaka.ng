@@ -131,9 +131,11 @@ export default {
     computed: {
         ...mapGetters(["getLoggedUser", "getAccountSummary"]),
         username() {
-            return this.getLoggedUser.UserKYC.firstname
-                ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}`
-                : "-";
+            if (this.getLoggedUser.UserKYC)
+                return this.getLoggedUser.UserKYC
+                    ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}`
+                    : "-";
+            return "-";
         },
         localStatus() {
             if (this.getLoggedUser.localKycStatus === "COMPLETE") return "Approved";

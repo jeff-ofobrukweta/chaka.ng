@@ -25,33 +25,32 @@
                 <strong>{{ instrument.name }}</strong>
             </p>
         </router-link>
-        <div class="watchlist-explore__flex" v-if="Object.keys(chartData).length > 0">
+        <div class="watchlist-explore__flex">
             <p
                 class="watchlist-explore__change"
-                :class="[chartData.derivedPrice >= 0 ? 'green' : 'red']"
+                :class="[instrument.derivedPrice >= 0 ? 'green' : 'red']"
             >
                 <img
                     src="../../assets/img/green-arrow.svg"
-                    v-if="+chartData.derivedPrice >= 0"
+                    v-if="+instrument.derivedPrice >= 0"
                     alt="Gain"
                 />
                 <img src="../../assets/img/red-arrow.svg" v-else alt="Loss" />
                 <small
-                    >{{ +chartData.derivedPricePercentage >= 0 ? "+" : ""
-                    }}{{ +chartData.derivedPricePercentage | units(2) }} ({{
-                        +chartData.derivedPricePercentage | units(2)
+                    >{{ +instrument.derivedPricePercentage >= 0 ? "+" : ""
+                    }}{{ +instrument.derivedPrice | units(2) }} ({{
+                        +instrument.derivedPricePercentage | units(2)
                     }}%)</small
                 >
             </p>
             <p v-if="instrument.InstrumentDynamic">
                 <strong
                     class=" cursor-context"
-                    :title="chartData.askPrice | currency(instrument.currency, true)"
-                    >{{ chartData.askPrice | currency(instrument.currency) }}</strong
+                    :title="instrument.askPrice | currency(instrument.currency, true)"
+                    >{{ instrument.askPrice | currency(instrument.currency) }}</strong
                 >
             </p>
         </div>
-        <div class="watchlist-explore__flex" v-else></div>
         <div class="watchlist-explore__graph--box">
             <line-chart
                 class="watchlist-explore__graph"
@@ -124,7 +123,7 @@
 import LineChart from "../Linegraph/linegraph_config.js";
 import KYCButton from "../form/KYCButton";
 import ModalKYC from "../kyc/ModalKYC";
-import KYCTitles from '../../services/kyc/kycTitles'
+import KYCTitles from "../../services/kyc/kycTitles";
 import { mapActions, mapGetters } from "vuex";
 
 export default {

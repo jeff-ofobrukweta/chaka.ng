@@ -106,7 +106,7 @@
                     </div>
                 </Fragment>
 
-                <error-block type="kyc" />
+                <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
                 <div class="text-center" v-if="!isFileImage">
                     <action-button
                         type="submit"
@@ -133,7 +133,7 @@ import Positions from "../../services/kyc/employmentPosition";
 import Banks from "../../services/kyc/banks";
 import lg from "../../services/kyc/lgNames";
 import PhoneOTP from "./PhoneOTP";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 export default {
     name: "kyc-modal",
     components: {
@@ -167,6 +167,7 @@ export default {
         };
     },
     computed: {
+        ...mapGetters(["getErrorLog"]),
         isFileImage() {
             const test = this.requiredFields[0];
             const stripped = test.substr(test.length - 3);
@@ -215,31 +216,37 @@ export default {
         updateKYC() {
             Object.keys(this.itemData).forEach(el => {
                 if (el === "bvn") this.state = "bvn";
-                if (el === "nin") this.state = "nin";
+                else if (el === "nin") this.state = "nin";
                 else if (el === "bankCode" || el === "bankAcctNo") this.state = "bank";
-                else if (el === "employmentStatus" || el === "directorOfPublicCo" || "pepStatus")
+                else if (
+                    el === "employmentStatus" ||
+                    el === "directorOfPublicCo" ||
+                    el === "pepStatus"
+                )
                     this.state = "employment";
                 else if (el === "addressProofUrl" || el === "idPhotoUrl" || el === "passportUrl")
                     this.state = "file";
                 else this.state = "default";
             });
             this.loading = true;
+            const payload = { ...this.itemData };
+            payload.source = "modal";
             if (this.state === "bvn") {
-                this.RESOLVE_BVN(this.itemData).then(resp => {
+                this.RESOLVE_BVN(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
                         this.$emit("updated");
                     }
                 });
             } else if (this.state === "nin") {
-                this.UPDATE_KYC_NIN(this.itemData).then(resp => {
+                this.UPDATE_KYC_NIN(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
                         this.$emit("updated");
                     }
                 });
             } else if (this.state === "bank") {
-                this.UPDATE_KYC_BANK(this.itemData).then(resp => {
+                this.UPDATE_KYC_BANK(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
                         this.$emit("updated");
@@ -274,32 +281,32 @@ export default {
                 }
                 if (this.showEmployment) {
                     Object.entries(this.employment).forEach(([key, value]) => {
-                        this.itemData[key] = value;
+                        payload[key] = value;
                     });
                 }
                 if (this.showPepStatus) {
-                    this.itemData["pepNames"] = this.pepNames.pepNames;
+                    payload["pepNames"] = this.pepNames.pepNames;
                 }
                 if (this.showDirector) {
-                    this.itemData.directorOfPublicCo = this.director.name;
+                    payload.directorOfPublicCo = this.director.name;
                 } else {
-                    this.itemData.directorOfPublicCo = "";
+                    payload.directorOfPublicCo = "";
                 }
-                this.UPDATE_KYC(this.itemData).then(resp => {
+                this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
                         this.$emit("updated");
                     }
                 });
             } else if (this.state === "file") {
-                this.UPLOAD_KYC_FILE(this.itemData).then(resp => {
+                this.UPLOAD_KYC_FILE(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
                         this.$emit("updated");
                     }
                 });
             } else {
-                this.UPDATE_KYC(this.itemData).then(resp => {
+                this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
                         this.$emit("updated");

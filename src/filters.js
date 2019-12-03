@@ -25,22 +25,46 @@ const numberFormat = (value, currency, threshold, decimalPlaces, showFull) => {
     return new Intl.NumberFormat(initial, options).format(value);
 };
 
+const checkNumber = value => {
+    if (value === 0 || !Number.isNaN(+value)) {
+        return true;
+    }
+    if (value === null || value === undefined) {
+        return false;
+    }
+    return value;
+};
+
 export default {
     kobo(value) {
-        if (Number.isNaN(+value)) return value;
-        return value / 100;
+        const valueCheck = checkNumber(value);
+        if (valueCheck === true) {
+            return value / 100;
+        }
+        if (!valueCheck) {
+            return "-";
+        }
+        return value;
     },
 
     currency(value, currency, showFull, decimalPlaces = 2) {
-        if (value === 0 || !Number.isNaN(+value)) {
+        const valueCheck = checkNumber(value);
+        if (valueCheck === true) {
             return numberFormat(value, currency, 100000, decimalPlaces, showFull);
+        }
+        if (!valueCheck) {
+            return "-";
         }
         return value;
     },
 
     units(value, decimalPlaces = 4, showFull) {
-        if (!Number.isNaN(+value)) {
+        const valueCheck = checkNumber(value);
+        if (valueCheck === true) {
             return numberFormat(value, null, 10000, decimalPlaces, showFull);
+        }
+        if (!valueCheck) {
+            return "-";
         }
         return value;
     },

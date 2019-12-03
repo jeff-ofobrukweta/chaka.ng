@@ -105,23 +105,25 @@ const actions = {
     UPDATE_KYC: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
+        const { source, ...params } = payload;
         return new Promise((resolve, reject) => {
-            return api.patch(`/users/${rootState.auth.loggedUser.chakaID}/kyc`, payload).then(
+            return api.patch(`/users/${rootState.auth.loggedUser.chakaID}/kyc`, params).then(
                 resp => {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_KYC", resp.data.data.kyc);
-                        commit("SET_NAVBAR_TRIGGER"), true;
+                        commit("SET_NAVBAR_TRIGGER", true);
+                        dispatch("GET_LOGGED_USER", null, { root: true });
                         dispatch("GET_NEXT_KYC").then(() => {
                             resolve(true);
                         });
                     } else {
-                        errorFn(resp, "kyc");
+                        errorFn(resp, "kyc", source);
                         resolve(false);
                     }
                 },
                 error => {
-                    errorFn(error.response, "kyc");
+                    errorFn(error.response, "kyc", source);
                     resolve(false);
                 }
             );
@@ -130,24 +132,26 @@ const actions = {
     UPDATE_KYC_NIN: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
+        const { source, ...params } = payload;
         return new Promise((resolve, reject) => {
             return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-nin`, payload)
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-nin`, params)
                 .then(
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_KYC", resp.data.data.kyc);
                             commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });
                         } else {
-                            errorFn(resp, "kyc");
+                            errorFn(resp, "kyc", source);
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "kyc");
+                        errorFn(error.response, "kyc", source);
                         resolve(false);
                     }
                 );
@@ -156,27 +160,28 @@ const actions = {
     UPDATE_KYC_BANK: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
+        const { source, ...params } = payload;
         return new Promise((resolve, reject) => {
             return api
                 .patch(
                     `/users/${rootState.auth.loggedUser.chakaID}/kyc/update-bank-details`,
-                    payload
+                    params
                 )
                 .then(
                     resp => {
                         if (resp.status === 200) {
-                            commit("SET_NAVBAR_TRIGGER"), true;
-                            dispatch("GET_KYC");
+                            commit("SET_NAVBAR_TRIGGER", true);
+                            commit("SET_KYC", resp.data.data.kyc);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });
                         } else {
-                            errorFn(resp, "kyc");
+                            errorFn(resp, "kyc", source);
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "kyc");
+                        errorFn(error.response, "kyc", source);
                         resolve(false);
                     }
                 );
@@ -185,25 +190,27 @@ const actions = {
     UPLOAD_KYC_FILE: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
+        const { source, ...params } = payload;
         return new Promise((resolve, reject) => {
             return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/upload-file`, payload)
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/upload-file`, params)
                 .then(
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_NEXT_KYC");
+                            dispatch("GET_LOGGED_USER", null, { root: true });
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
                             });
                         } else {
-                            errorFn(resp, "kyc");
+                            errorFn(resp, "kyc", source);
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "kyc");
+                        errorFn(error.response, "kyc", source);
                         resolve(false);
                     }
                 );
@@ -212,24 +219,26 @@ const actions = {
     RESOLVE_BVN: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
+        const { source, ...params } = payload;
         return new Promise((resolve, reject) => {
             return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-bvn`, payload)
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-bvn`, params)
                 .then(
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_NAVBAR_TRIGGER", true);
+                            commit("SET_KYC", resp.data.data.kyc);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });
                         } else {
-                            errorFn(resp, "kyc");
+                            errorFn(resp, "kyc", source);
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "kyc");
+                        errorFn(error.response, "kyc", source);
                         resolve(false);
                     }
                 );
@@ -245,6 +254,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
                             });
@@ -260,51 +270,28 @@ const actions = {
                 );
         });
     },
-    RESOLVE_DOB: ({ commit, dispatch, rootState }, payload) => {
-        commit("RESET_REQ", null, { root: true });
-        commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) => {
-            return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-dob`, payload)
-                .then(
-                    resp => {
-                        if (resp.status === 200) {
-                            commit("REQ_SUCCESS", null, { root: true });
-                            dispatch("GET_KYC").then(() => {
-                                resolve(true);
-                            });
-                        } else {
-                            errorFn(resp, "kyc");
-                            resolve(false);
-                        }
-                    },
-                    error => {
-                        errorFn(error.response, "kyc");
-                        resolve(false);
-                    }
-                );
-        });
-    },
     RESOLVE_OTP: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
+        const { source, ...params } = payload;
         return new Promise((resolve, reject) => {
             return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-otp`, payload)
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-otp`, params)
                 .then(
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
+                            commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });
                         } else {
-                            errorFn(resp, "kyc-otp");
+                            errorFn(resp, "kyc-otp", source);
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "kyc-otp");
+                        errorFn(error.response, "kyc-otp", source);
                         resolve(false);
                     }
                 );
