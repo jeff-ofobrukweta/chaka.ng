@@ -114,7 +114,12 @@
         &__center {
             text-align: center;
             margin-bottom: 1rem;
-            font-weight: lighter;
+            // font-weight: lighter;
+        }
+
+        &__text {
+            color: $grey-cool;
+            margin-bottom: 0;
         }
 
         &__right {

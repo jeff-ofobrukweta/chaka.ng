@@ -132,13 +132,12 @@ import Types from "../../services/kyc/employmentTypes";
 import Positions from "../../services/kyc/employmentPosition";
 import Banks from "../../services/kyc/banks";
 import lg from "../../services/kyc/lgNames";
-import PhoneOTP from "./PhoneOTP";
 import { mapActions, mapMutations, mapGetters } from "vuex";
 export default {
     name: "kyc-modal",
     components: {
+        PhoneOTP: () => import('./PhoneOTP'),
         Field,
-        PhoneOTP,
         Fragment
     },
     props: {

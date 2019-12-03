@@ -21,7 +21,7 @@ export function getSession() {
  * @returns {Boolean} loggedIn state
  */
 export function isLoggedIn() {
-    return store.state.auth.isLoggedIn;
+    return store.getters.isLoggedIn;
 }
 
 /**

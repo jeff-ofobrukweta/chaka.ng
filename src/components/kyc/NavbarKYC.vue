@@ -30,6 +30,16 @@
                                 ></small
                             >
                         </p>
+                        <p
+                            class="skip-button"
+                            v-if="
+                                getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
+                            "
+                        >
+                            <a class="underline" @click="enterNIN = true"
+                                >Enter NIN to fast track your verificatiom</a
+                            >
+                        </p>
                     </div>
 
                     <div class="kyc-nav__field">
@@ -67,6 +77,12 @@
                             :classes="['btn-block', 'btn__primary']"
                             >Submit</action-button
                         >
+                        <a
+                            class="underline"
+                            v-if="getKYC.ninFetchStatus === 'SKIPPED'"
+                            @click="enterNIN = true"
+                            >Enter NIN to fast track your verificatiom</a
+                        >
                         <a href="#">Hide</a>
                     </div>
                 </div>
@@ -79,6 +95,16 @@
                         <h5>BVN Verification</h5>
                         <p>
                             <small>Enter your Bank Verification Number</small>
+                        </p>
+                        <p
+                            class="skip-button"
+                            v-if="
+                                getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
+                            "
+                        >
+                            <a class="underline" @click="enterNIN = true"
+                                >Enter NIN to fast track your verificatiom</a
+                            >
                         </p>
                     </div>
                     <div class="kyc-nav__field">
@@ -115,6 +141,12 @@
                             icon
                             :classes="['btn-block', 'btn__primary']"
                             >Submit</action-button
+                        >
+                        <a
+                            class="underline"
+                            v-if="getKYC.ninFetchStatus === 'SKIPPED'"
+                            @click="enterNIN = true"
+                            >Enter NIN to fast track your verificatiom</a
                         >
                         <a href="#">Hide</a>
                     </div>
@@ -239,6 +271,16 @@
                         <p>
                             <small>{{ selectedField.subtitle }}</small>
                         </p>
+                        <p
+                            class="skip-button"
+                            v-if="
+                                getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
+                            "
+                        >
+                            <a class="underline" @click="enterNIN = true"
+                                >Enter NIN to fast track your verificatiom</a
+                            >
+                        </p>
                     </div>
                     <div class="kyc-nav__field"></div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
@@ -268,6 +310,12 @@
                         >
                             Continue
                         </button>
+                        <a
+                            class="underline"
+                            v-if="getKYC.ninFetchStatus === 'SKIPPED'"
+                            @click="enterNIN = true"
+                            >Enter NIN to fast track your verificatiom</a
+                        >
                         <div>
                             <a href="#">Hide</a>
                         </div>
@@ -389,6 +437,8 @@
             <template slot="header">{{ selectedField.title }}</template>
             <ModalKYC :requiredFields="selectedField.fields" @updated="showNextModal = false" />
         </modal>
+
+        <EnterNIN v-if="enterNIN" />
     </section>
 </template>
 
@@ -402,7 +452,8 @@ export default {
     name: "kyc-navbar",
     components: {
         Field,
-        ModalKYC
+        ModalKYC,
+        EnterNIN: () => import("./EnterNIN")
     },
     data() {
         return {
@@ -437,7 +488,8 @@ export default {
             countdown: null,
             smsSender: 0,
             newPhone: {},
-            otpData: {}
+            otpData: {},
+            enterNIN: false
         };
     },
     computed: {
@@ -447,7 +499,8 @@ export default {
             "getNavbarNextKYC",
             "getCountryCodes",
             "getNavbarTrigger",
-            "getErrorLog"
+            "getErrorLog",
+            "getKYC"
         ]),
         currentIndex() {}
     },
@@ -638,6 +691,7 @@ export default {
         await this.GET_NEXT_KYC();
         if (Object.keys(this.getNavbarNextKYC).length > 0) this.checkNextKYC();
         await this.GET_COUNTRY_CODES();
+        await this.GET_KYC();
     },
     watch: {
         getNavbarTrigger(newVal) {

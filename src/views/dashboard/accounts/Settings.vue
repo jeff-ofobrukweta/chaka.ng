@@ -643,7 +643,7 @@
             </form>
         </template>
         <modal no-header @close="showOTP = false" v-if="showOTP">
-            <PhoneOTP />
+            <PhoneOTP @close="OTPSuccess" />
         </modal>
     </div>
 </template>
@@ -869,6 +869,9 @@ export default {
         },
         switchCountry(name) {
             this.newPhone.countryCode = this.selectedCountry.value;
+        },
+        OTPSuccess() {
+            this.$emit("updated");
         }
     },
     async mounted() {

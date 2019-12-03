@@ -89,6 +89,7 @@ const actions = {
                 resp => {
                     if (resp.status === 200) {
                         commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
+                        commit("SET_NAVBAR_TRIGGER", true);
                         resolve(true);
                     } else {
                         errorFn(resp, "kyc");
@@ -112,7 +113,6 @@ const actions = {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_KYC", resp.data.data.kyc);
-                        commit("SET_NAVBAR_TRIGGER", true);
                         dispatch("GET_LOGGED_USER", null, { root: true });
                         dispatch("GET_NEXT_KYC").then(() => {
                             resolve(true);
@@ -141,7 +141,7 @@ const actions = {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_KYC", resp.data.data.kyc);
-                            commit("SET_NAVBAR_TRIGGER", true);
+                            dispatch("GET_KYC");
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });
@@ -170,7 +170,6 @@ const actions = {
                 .then(
                     resp => {
                         if (resp.status === 200) {
-                            commit("SET_NAVBAR_TRIGGER", true);
                             commit("SET_KYC", resp.data.data.kyc);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
@@ -198,7 +197,6 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_NEXT_KYC");
                             dispatch("GET_LOGGED_USER", null, { root: true });
                             dispatch("GET_KYC").then(() => {
@@ -227,7 +225,6 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_NAVBAR_TRIGGER", true);
                             commit("SET_KYC", resp.data.data.kyc);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
@@ -254,7 +251,7 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_NAVBAR_TRIGGER", true);
+                            dispatch("GET_NEXT_KYC");
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
                             });
@@ -281,7 +278,6 @@ const actions = {
                     resp => {
                         if (resp.status === 200) {
                             commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_NAVBAR_TRIGGER", true);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
                             });
