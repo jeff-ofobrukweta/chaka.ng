@@ -10,14 +10,14 @@
                     </div>
                     <div class="right-menue-item">
                         <section class="btn-sell"><button>Fund</button></section>
-                        <section class="cash-networth">{{getAccountSummary.netWorth | currency(getAccountSummary.currency)}}
+                        <section class="cash-networth">{{getAccountSummary.netWorth | kobo  | currency(getAccountSummary.currency)}}
                             <span class="derived">
                             <span
                             :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']" 
-                            >{{getPortfolioDerivedPrice}}</span>
+                            >{{getPortfolioDerivedPrice | units(2)}}</span>
                             <span
                             :class="[getPortfolioDerivedChange < 0 ? 'red' : 'green']"
-                            >({{getPortfolioDerivedChange}}%)</span>
+                            >({{getPortfolioDerivedChange | units(2)}}%)</span>
                             </span></section>
                         <section class="toogle-section">
                             <section class="option-container">

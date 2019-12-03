@@ -4,6 +4,7 @@
         :taglists="gettagslistsArray"/>
         <hr class="division-logger"/>
         <Instrumentbase
+         :loadercardState="cardState"
          :instrumentsList="getInstrumentsListArray"/>
     </Fragment>
 </template>
@@ -15,6 +16,11 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
     name: 'Categories',
+    data(){
+        return{
+            cardState:true
+        }
+    },
     components: {
         Fragment,
         Instrumentbase,
@@ -29,13 +35,14 @@ export default {
             mountingActions(){
                 
                 this.$store.dispatch('GET_TAGS_CATEGORIES').then(()=>{
-                    const payloadGetInstrument = {
-                        symbols:this.gettagslistsArray[0].Instruments
-                    }
-                    console.log('payload>>>>>>>>>>',this.gettagslistsArray[0].Instruments)
-                    this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.gettagslistsArray[0].Instruments ?this.gettagslistsArray[0].Instruments :null );
-                    this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument)
-                    console.log('here is the gertter???????',this.getInstrumentsListArray)
+                    const payloadGetInstrument = {symbols:this.gettagslistsArray[0].Instruments}
+                     this.cardState = true;
+                    this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.gettagslistsArray[0].Instruments ? this.gettagslistsArray[0].Instruments : null );
+                    this.cardState = true;
+                    this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then((response)=>{
+                        this.cardState = response;
+                        console.log('here is the gertter???????',this.getInstrumentsListArray)
+                    });
                 });
             }
     },

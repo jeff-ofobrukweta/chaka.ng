@@ -10,30 +10,22 @@
             }}
           </h1>
           <h1 class="percentage">
-            <span
-              :class="[
-                                getSingleinstrument[0].InstrumentDynamic.yclose < 0
-                                    ? 'red'
-                                    : 'green',
-                                'price'
-                            ]"
-            >{{ getSingleinstrument[0].InstrumentDynamic.yclose }}</span>
-            <span
-              :class="[
-                                getSingleinstrument[0].InstrumentDynamic.ycloseChange < 0
-                                    ? 'red'
-                                    : 'green',
-                                'price'
-                            ]"
+            <Fragment
+              :class="[getSingleinstrument[0].InstrumentDynamic.yclose < 0 ? 'red': 'green','price']"
+            >{{ getSingleinstrument[0].InstrumentDynamic.yclose }}</Fragment>
+            <Fragment
+              :class="[getSingleinstrument[0].InstrumentDynamic.ycloseChange < 0 ? 'red': 'green','price']"
               class="delta"
-            >({{ getSingleinstrument[0].InstrumentDynamic.ycloseChange }})%</span>
+            >({{ getSingleinstrument[0].InstrumentDynamic.ycloseChange }})%</Fragment>
           </h1>
         </section>
         <section class="left-header">
           <section class="name-country">
             <img class="logo-company" :src="getSingleinstrument[0].logoUrl" alt="logo" />
             <aside class="item-name-country">
-              <section class="stockname">{{ getSingleinstrument[0].name || "" | truncate(10) }}</section>
+              <section
+              :title="getSingleinstrument[0].name" 
+              class="stockname">{{ getSingleinstrument[0].name || "" | truncate(10) }}</section>
               <img
                 class="state"
                 :src="
@@ -48,13 +40,17 @@
       </div>
       <button v-if="getWindowWidth === 'mobile'" class="small-size">Buy</button>
       <section class="sumary">
-        <div class="summary-cover">{{ getSingleinstrument[0].description || "" | truncate(500) }}</div>
+        <div
+        :title="getSingleinstrument[0].description" 
+        class="summary-cover">{{ getSingleinstrument[0].description || "" | truncate(500) }}</div>
         <div v-for="(tag, index) in getSingleinstrument[0]" :key="index" class="stocktag-container">
           <div class="item-tag">{{ index.name }}</div>
         </div>
       </section>
       <section class="container-graph">
-        <Linegraph :instrument="getSingleinstrument[0]" />
+        <div class="graph-container">
+            <Linegraph :instrument="getSingleinstrument[0]" />
+        </div>
         <Cardblue :instrument="getPricedetailsonblackcard" />
       </section>
       <section class="container-instrument">
@@ -87,6 +83,7 @@ import Analysisbarchart from "../../components/Analysisbarchart/analysisbarchart
 import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
+name:"Singlestock",
   components: {
     Fragment,
     Linegraph,

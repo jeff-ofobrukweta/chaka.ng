@@ -1,7 +1,7 @@
 <template>
     <Fragment>
-        <section
-        v-if="(instrumentsList.length <= 0)" 
+        <!-- <section
+        v-if="(!loadercardState)" 
         class="card-container-holder-parent">
             <div class="card-container-holder"></div>
             <div class="card-container-holder"></div>
@@ -11,14 +11,17 @@
             <div class="card-container-holder"></div>
             <div class="card-container-holder"></div>
             <div class="card-container-holder"></div>
-        </section>
+        </section> -->
+        <section v-if="instrumentsList.length <= 0">no Instrument loaded at this time</section>
         <div
         v-else
         v-for="(item,index) in instrumentsList" 
         :key="index"
         class="card-container">
             <section class="section1">
-                <router-link class="section1 linking" :to="{name:'singlestock',params:{symbol:item.symbol}}">
+                <router-link 
+                class="section1 linking" 
+                :to="{name:'singlestock',params:{symbol:item.symbol}}">
                 <img class="course-item-main-list-flex"
                     id="company"
                     :src="item.logoUrl" alt="courses"/>
@@ -72,9 +75,19 @@ export default {
         tagdetails:{
             type: Object,
 			required: false
+        },
+        loadercardState:{
+            type: Boolean,
+			required: false
         }
     },
     mounted(){
+        console.log('RRRRRRRRRRRRRRRRRRRRRRRR',this.loadercardState)
+    },
+    watch:{
+        instrumentsList(newInstrument, oldInstrument){
+            console.log('Array change here JJJJJJJJJJJJJJJJJJJJJJJ',newInstrument,oldInstrument)
+        }
     }
 };
 </script>
