@@ -21,85 +21,135 @@
                 </div>
             </div>
         </template>
-        <form class="modal-form" @submit.prevent="fundWallet">
-            <div class="modal-form__group">
-                <label class="form__label"
-                    >Amount
-                    <form-input
-                        type="number"
-                        name="amount"
-                        v-model="itemData.amount"
-                        :error-message="issues.amount"
-                        @reset="handleReset"
-                        placeholder="Amount"
-                /></label>
-                <div class="form-info">
-                    <small>**Allow up to 1 business day</small>
+        <template v-if="currency === 'USD' && canFundGlobal !== 3">
+            <div class="modal-form" v-if="canFundGlobal === 1">
+                <h5 class="text-center mb-2">Verification Incomplete</h5>
+                <p class="text-center">
+                    To continue your verification, click the button below
+                </p>
+                <div class="text-center mt-3">
+                    <KYCButton
+                        ref="globalBtn"
+                        type="button"
+                        :classes="['btn__primary']"
+                        action="global"
+                        @step="handleStep"
+                        >Continue</KYCButton
+                    >
                 </div>
-            </div>
-            <error-block type="fund" />
-            <div class="modal-form__buttons">
-                <action-button
-                    type="submit"
-                    :disabled="!itemData.amount || Object.keys(issues).length > 0"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Fund</action-button
-                >
-            </div>
-        </form>
 
-        <section>
-            <p v-if="currency === 'USD'">
-                <small class="grey-dark"
-                    >EXCHANGE RATE:&nbsp; <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
-                >
-            </p>
-            <p>
-                You're now requesting a funds transfer
-                <span v-if="itemData.amount"
-                    >of <span class="green">{{ actualValue | currency("NGN") }}</span></span
-                >
-                into your wallet
-            </p>
-            <p>
-                Total amount to be debited (including PAYSTACK fees)
-                <span class="green">{{ paystackValue | currency("NGN") }}</span>
-            </p>
-            <br />
-            <p>To fund your account manually (without PAYSTACK fees), make a transfer to:</p>
-            <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
-            <p><span class="grey-dark">Bank Name:&nbsp;</span>GTBank</p>
-            <p><span class="grey-dark">Account Number:&nbsp;</span>0467937290</p>
-            <br />
-            <p>
-                <small class="grey-dark">
-                    Please put your User ID (in the Accounts section) in the Comments section of
-                    your transfer request. Email
-                    <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
-                    completion to confirm manual transfer</small
-                >
-            </p>
-        </section>
+                <modal @close="showKYC = false" v-if="showKYC">
+                    <template slot="header">{{ selectedField.title }}</template>
+                    <form @submit.prevent="submitPhone">
+                        <div>
+                            <ModalKYC
+                                :requiredFields="selectedField.fields"
+                                @updated="handleUpdate"
+                            />
+                        </div>
+                    </form>
+                </modal>
+            </div>
+            <div class="modal-form" v-if="canFundGlobal === 2">
+                <h5 class="text-center mb-2">Your Verification is Under Review</h5>
+                <p class="text-center">
+                    You will be notified through email when your account gets activated for global
+                    transactions
+                </p>
+            </div>
+        </template>
+        <template v-else>
+            <form class="modal-form" @submit.prevent="fundWallet">
+                <div class="modal-form__group">
+                    <label class="form__label"
+                        >Amount
+                        <form-input
+                            type="number"
+                            name="amount"
+                            v-model="itemData.amount"
+                            :error-message="issues.amount"
+                            @reset="handleReset"
+                            placeholder="Amount"
+                    /></label>
+                    <div class="form-info">
+                        <small>**Allow up to 1 business day</small>
+                    </div>
+                </div>
+                <error-block type="fund" />
+                <div class="modal-form__buttons">
+                    <action-button
+                        type="submit"
+                        :disabled="!itemData.amount || Object.keys(issues).length > 0"
+                        :pending="loading"
+                        :classes="['btn-block', 'btn__primary']"
+                        >Fund</action-button
+                    >
+                </div>
+            </form>
+
+            <section>
+                <p v-if="currency === 'USD'">
+                    <small class="grey-dark"
+                        >EXCHANGE RATE:&nbsp;
+                        <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
+                    >
+                </p>
+                <p>
+                    You're now requesting a funds transfer
+                    <span v-if="itemData.amount"
+                        >of <span class="green">{{ actualValue | currency("NGN") }}</span></span
+                    >
+                    into your wallet
+                </p>
+                <p>
+                    Total amount to be debited (including PAYSTACK fees)
+                    <span class="green">{{ paystackValue | currency("NGN") }}</span>
+                </p>
+                <br />
+                <p>To fund your account manually (without PAYSTACK fees), make a transfer to:</p>
+                <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
+                <p><span class="grey-dark">Bank Name:&nbsp;</span>GTBank</p>
+                <p><span class="grey-dark">Account Number:&nbsp;</span>0467937290</p>
+                <br />
+                <p>
+                    <small class="grey-dark">
+                        Please put your User ID (in the Accounts section) in the Comments section of
+                        your transfer request. Email
+                        <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
+                        completion to confirm manual transfer</small
+                    >
+                </p>
+            </section>
+        </template>
     </modal>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-// import fundValidation from "../../services/validations/wallet";
+import KYCButton from "../form/KYCButton";
+import ModalKYC from "../kyc/ModalKYC";
+import KYCTitles from "../../services/kyc/kycTitles";
 export default {
     name: "fund-modal",
+    components: {
+        KYCButton,
+        ModalKYC
+    },
     data() {
         return {
             itemData: {},
             loading: false,
             message: null,
             issues: {},
-            currency: "NGN"
+            currency: "NGN",
+            showSuccess: false,
+            showKYC: false,
+            selectedField: {},
+            allNextKYC: KYCTitles.titles
         };
     },
     computed: {
-        ...mapGetters(["getLoggedUser", "getExchangeRate"]),
+        ...mapGetters(["getLoggedUser", "getExchangeRate", "getNextKYC"]),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.actualValue > 2500) {
@@ -111,6 +161,11 @@ export default {
             if (!this.itemData.amount) return 0;
             if (this.currency === "NGN") return this.itemData.amount;
             return this.itemData.amount * this.getExchangeRate.sell;
+        },
+        canFundGlobal() {
+            if (this.getLoggedUser.globalKycStatus === "NONE") return 1;
+            if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
+            return 3;
         }
     },
     methods: {
@@ -167,6 +222,31 @@ export default {
             });
             handler.openIframe();
             this.RESET_REQ();
+            return true;
+        },
+        handleStep(step) {
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else if (step.type === "global") {
+                // this.showGlobal = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            this.GET_LOGGED_USER().then(() => {
+                if (this.canFundGlobal === 1) {
+                    this.$refs.globalBtn.$el.click();
+                }
+            });
             return true;
         },
         switchCurrency(currency) {

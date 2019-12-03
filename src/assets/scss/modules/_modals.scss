@@ -106,7 +106,7 @@
     }
 
     &-body {
-        margin: 20px 0;
+        margin: 1rem 0;
         height: 100%;
     }
 
@@ -205,27 +205,17 @@
         &--details {
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            justify-content: space-between;
-
-            &>div {
-                &:first-child {
-                    @include mobile {
-                        flex: 0 0 100%;
-                        max-width: 100%;
-                        width: 100%
-                    }
-                }
-            }
+            flex-direction: column;
+            text-align: center;
         }
 
         &-left {
             display: flex;
             align-items: center;
+            flex-direction: column;
         }
 
         &--image {
-            margin-right: 10px;
 
             img {
                 width: 60px;
@@ -235,7 +225,37 @@
         }
 
         &--symbol {
-            margin-right: 40px;
+            margin-bottom: 1rem;
+        }
+
+        &--current {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+            margin-bottom: .5rem;
+
+            &>p {
+                flex: 0 0 100%;
+                max-width: 100%;
+
+                @include tablet {
+                    &:first-child {
+                        padding-right: 10px;
+                        text-align: right;
+                    }
+
+                    &:last-child {
+                        text-align: left;
+                    }
+                }
+
+                @include tablet {
+
+                    flex: 0 0 50%;
+                    max-width: 50%;
+                }
+            }
         }
 
         &--price {

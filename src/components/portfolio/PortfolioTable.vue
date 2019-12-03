@@ -15,14 +15,27 @@
                 <th>P/L</th>
                 <th>+/-</th>
             </thead>
-            <tbody
-            v-if="storedata.length >= 1" 
-            class="portfolio-table__tbody">
+            <tbody v-if="storedata.length >= 1" class="portfolio-table__tbody">
                 <tr v-for="(item, index) in storedata" :key="index">
-                    <td class="capitalize">{{ item.name }}</td>
-                    <td class="uppercase">{{ item.symbol }}</td>
-                    <td class="cursor-context" :title="item.InstrumentDynamic.askPrice | currency(item.currency, true)">
-                        {{ item.price | currency(item.currency) }}
+                    <router-link
+                        class="capitalize pointer"
+                        tag="td"
+                        :to="{ name: 'singlestock', params: { symbol: item.symbol } }"
+                        >{{ item.name }}</router-link
+                    >
+                    <router-link
+                        class="uppercase pointer"
+                        tag="td"
+                        :to="{ name: 'singlestock', params: { symbol: item.symbol } }"
+                        >{{ item.symbol }}</router-link
+                    >
+                    <td
+                        class="cursor-context"
+                        :title="
+                            item.InstrumentDynamic.askPrice | kobo | currency(item.currency, true)
+                        "
+                    >
+                        {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity | units(2, true)">
                         {{ item.quantity | units }}
@@ -48,7 +61,9 @@
                         <img src="../../assets/img/red-arrow.svg" v-else alt="Loss" />
                         <small
                             >{{ checkChange(item.netEarningsPercentage) ? "+" : ""
-                            }}{{ item.netEarningsPercentage | units(2) }} ({{ item.netEarningsPercentage | units(2) }}%)</small
+                            }}{{ item.netEarnings | kobo | units(2) }} ({{
+                                item.netEarningsPercentage | units(2)
+                            }}%)</small
                         >
                     </td>
                     <td>
@@ -57,7 +72,7 @@
                             :classes="['portfolio-table__buy']"
                             :action="item.currency === 'NGN' ? 'local' : 'global'"
                             @step="handleStep"
-                            @click="type = 'buy'"
+                            @click="selectInstrument(item, 'buy')"
                             tag="a"
                             >+&nbsp;Buy</KYCButton
                         >
@@ -66,30 +81,32 @@
                             :classes="['portfolio-table__buy']"
                             :action="item.currency === 'NGN' ? 'local' : 'global'"
                             @step="handleStep"
-                            @click="type = 'sell'"
+                            @click="selectInstrument(item, 'sell')"
                             tag="a"
                             >-&nbsp;Sell</KYCButton
                         >
                     </td>
-                    <buy-modal
-                        @close="closeBuyModal"
-                        :currency="item.currency"
-                        :symbol="item.symbol"
-                        :instrument="item"
-                        v-if="showBuy"
-                    />
-                    <sell-modal
-                        @close="showSell = false"
-                        :currency="item.currency"
-                        :symbol="item.symbol"
-                        :instrument="item"
-                        v-if="showSell"
-                    />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
                 </tr>
-    </tbody>
-    <tbody v-else>No current Stocks availiable at this time</tbody>
+            </tbody>
+            <tbody v-else>
+                No current Stocks availiable at this time
+            </tbody>
         </table>
+        <buy-modal
+            @close="closeBuyModal"
+            :currency="selectedInstrument.currency"
+            :symbol="selectedInstrument.symbol"
+            :instrument="selectedInstrument"
+            v-if="showBuy"
+        />
+        <sell-modal
+            @close="showSell = false"
+            :currency="selectedInstrument.currency"
+            :symbol="selectedInstrument.symbol"
+            :instrument="selectedInstrument"
+            v-if="showSell"
+        />
+        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
         <modal @close="showKYC = false" v-if="showKYC">
             <template slot="header">{{ selectedField.title }}</template>
@@ -105,7 +122,7 @@
 <script>
 import KYCButton from "../form/KYCButton";
 import ModalKYC from "../kyc/ModalKYC";
-import KYCTitles from '../../services/kyc/kycTitles'
+import KYCTitles from "../../services/kyc/kycTitles";
 import { mapGetters } from "vuex";
 export default {
     name: "portfolio-table",
@@ -128,18 +145,22 @@ export default {
             showKYC: false,
             selectedField: {},
             type: null,
-            allNextKYC: KYCTitles.titles
+            allNextKYC: KYCTitles.titles,
+            selectedInstrument: {}
         };
     },
     computed: {
         ...mapGetters(["getNextKYC"])
     },
-    mounted(){
-    },
+    mounted() {},
     methods: {
         checkChange(value) {
             if (value >= 0) return true;
             return false;
+        },
+        selectInstrument(instrument, type) {
+            this.selectedInstrument = instrument;
+            this.type = type;
         },
         handleStep(step) {
             this.step = step.type;

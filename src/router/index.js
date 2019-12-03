@@ -17,10 +17,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     store.commit("RESET_REQ");
-    if (store.getters.getLoggedUser.chakaID && localStorage.getItem("AUTH_TOKEN")) {
+    next();
+});
+
+router.afterEach((to, from) => {
+    if (localStorage.getItem("AUTH_TOKEN")) {
         store.dispatch("GET_NEXT_KYC");
     }
-    next();
 });
 
 export default router;
