@@ -4,23 +4,23 @@
             <p class="watchlist-portfolio__name capitalize">{{ instrument.name }}</p>
             <p class="watchlist-portfolio__change">
                 <img
-                    v-if="instrument.change >= 0"
+                    v-if="instrument.derivedPrice >= 0"
                     src="../../assets/img/watchlist-up.svg"
                     alt="Growth"
                 />
                 <img v-else src="../../assets/img/watchlist-down.svg" alt="Growth" />
-                <span>{{ instrument.change >= 0 ? "+" : "" }}</span>
+                <span>{{ instrument.derivedPrice >= 0 ? "+" : "" }}</span>
                 <small
-                    >{{ instrument.change | units(2) }} ({{
-                        instrument.percent | units(2)
+                    >{{ instrument.derivedPrice | units(2) }} ({{
+                        instrument.derivedPricePercentage | units(2)
                     }}%)</small
                 >
             </p>
             <p>
                 <strong
                     class="cursor-context"
-                    :title="instrument.price | currency(instrument.currency, true)"
-                    >{{ instrument.price | currency(instrument.currency) }}</strong
+                    :title="instrument.InstrumentDynamic.askPrice | currency(instrument.currency, true)"
+                    >{{ instrument.InstrumentDynamic.askPrice | currency(instrument.currency) }}</strong
                 >
             </p>
         </div>
@@ -91,11 +91,11 @@ export default {
     computed: {
         ...mapGetters(["getNextKYC"]),
         color() {
-            if (this.instrument.change > 3) return "dark-green";
-            if (this.instrument.change > 2) return "green";
-            if (this.instrument.change >= 0) return "light-green";
-            if (this.instrument.change >= -1) return "light-red";
-            if (this.instrument.change >= -2) return "red";
+            if (this.instrument.derivedPrice > 3) return "dark-green";
+            if (this.instrument.derivedPrice > 2) return "green";
+            if (this.instrument.derivedPrice >= 0) return "light-green";
+            if (this.instrument.derivedPrice >= -1) return "light-red";
+            if (this.instrument.derivedPrice >= -2) return "red";
             return "dark-red";
         }
     },

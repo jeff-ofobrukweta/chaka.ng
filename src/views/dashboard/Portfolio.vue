@@ -31,7 +31,7 @@
         </section>
         <section class="watchlist-portfolio__box">
             <WatchlistCard
-                v-for="(instrument, index) in watchlist"
+                v-for="(instrument, index) in getWatchlist"
                 :key="index"
                 :instrument="instrument"
             />
@@ -137,9 +137,13 @@ export default {
         }    
     },
      methods:{
-        ...mapActions(['GET_ACCOUNT_SUMMARY','GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS']),
+        ...mapActions(['GET_ACCOUNT_SUMMARY','GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS','GET_WATCHLIST']),
     },
     mounted(){
+        const payload = {interval:'1D'};
+        this.GET_WATCHLIST(payload).then(()=>{
+            console.log('HELLO GOODRESULT HERE TTTTTTTTTTTTTTTnew',this.getWatchlist )
+        })
         const currency = {currency:this.getPorfolioglobalCurrencyforGraph}
         this.GET_ACCOUNT_SUMMARY(currency).then(() => {
             console.log("YYYYYYGET_ACCOUNT_SUMMARYYYYYYYYYYYYYYYYY",this.getAccountSummary)
@@ -149,7 +153,7 @@ export default {
         });
     },
     computed: {
-        ...mapGetters(["getPortfolioSummary","getPorfolioglobalCurrencyforGraph","getAccountSummary","getPortfoliopositionsCarddetails"])
+        ...mapGetters(["getWatchlist","getPortfolioSummary","getPorfolioglobalCurrencyforGraph","getAccountSummary","getPortfoliopositionsCarddetails"])
     }
 };
 </script>

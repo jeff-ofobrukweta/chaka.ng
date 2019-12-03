@@ -190,7 +190,7 @@ export default {
                     {
                         label: 'Stocks',
                         fill: true,
-                        backgroundColor: ['#00C48C', '#E94F37', '#00C48C', '#E94F37', '#E46751', '#00D6EF', '#61K846', '#A76451'],
+                        backgroundColor: ['#57D11F', '#EFC120', '#D80027'],
                         borderWidth: 1.7,
                         showLine: true,
                         borderJoinStyle: 'miter',

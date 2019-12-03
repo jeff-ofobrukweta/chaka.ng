@@ -234,7 +234,7 @@ export default {
                         label: 'Stocks',
                         lineTension: 0.4,
                         fill: true,
-                        backgroundColor: ['#00C48C', '#E94F37', '#00C48C', '#E94F37', '#E46751', '#00D6EF', '#61K846', '#A76451'],
+                        backgroundColor: ['#22A4EF','#293D4A', '#B3811C'],
                         borderWidth: 1.7,
                         showLine: true,
                         borderJoinStyle: 'miter',
