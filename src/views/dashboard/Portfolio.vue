@@ -4,11 +4,14 @@
             <Linegraph />
         </section>
         <section class="portfolio-card__box">
-            <PortfolioCard 
-            v-for="(card, index) in getPortfolioSummary"
-            :instrument="getAccountSummary"
-            :key="index" 
-            :data="card"
+            <PortfolioCardLocal 
+            :instrument="getPortfoliopositionsCarddetails"
+            />
+            <PortfolioCardGlobal
+            :instrument="getPortfoliopositionsCarddetails"
+            />
+            <PortfolioCardOpenorders
+            :instrument="getPortfoliopositionsCarddetails"
             />
         </section>
         <section class="portfolio__charts">
@@ -39,7 +42,9 @@
 <script>
 import { mapGetters,mapActions,mapMutations } from "vuex";
 import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
-import PortfolioCard from "../../components/portfolio/PortfolioCard";
+import PortfolioCardLocal from "../../components/portfolio/PortfolioCardLocal";
+import PortfolioCardGlobal from "../../components/portfolio/PortfolioCardGlobal";
+import PortfolioCardOpenorders from "../../components/portfolio/PortfolioCardOpenorders";
 import Linegraph from "../../components/Linegraph/linebase";
 import Doughnut from "../../components/Doughnut/dbase";
 import Performancebarchart from "../../components/Performance_chart/performancebase";
@@ -51,7 +56,9 @@ export default {
     name: "portfolio",
     components: {
         WatchlistCard,
-        PortfolioCard,
+        PortfolioCardLocal,
+        PortfolioCardGlobal,
+        PortfolioCardOpenorders,
         Linegraph,
         Doughnut,
         Performancebarchart,
@@ -126,20 +133,23 @@ export default {
                     percent: 0.67,
                     change: -10
                 }
-            ]
-        };
+            ], 
+        }    
     },
      methods:{
-        ...mapActions(['GET_ACCOUNT_SUMMARY']),
+        ...mapActions(['GET_ACCOUNT_SUMMARY','GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS']),
     },
     mounted(){
         const currency = {currency:this.getPorfolioglobalCurrencyforGraph}
         this.GET_ACCOUNT_SUMMARY(currency).then(() => {
-            console.log("YYYYYYYYYYYYYYYYYYYYYY",this.getAccountSummary)
+            console.log("YYYYYYGET_ACCOUNT_SUMMARYYYYYYYYYYYYYYYYY",this.getAccountSummary)
+                this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS().then(()=>{
+                    console.log('KKKKKKKKKKKKKKGET_POSITIONS_HELD_FOR_PORTFOLIOCARDSKKKKKKKKKKKKKKKK',this.getPortfoliopositionsCarddetails.positions.filled.localOrders)
+                });
         });
     },
     computed: {
-        ...mapGetters(["getPortfolioSummary","getPorfolioglobalCurrencyforGraph","getAccountSummary"])
+        ...mapGetters(["getPortfolioSummary","getPorfolioglobalCurrencyforGraph","getAccountSummary","getPortfoliopositionsCarddetails"])
     }
 };
 </script>

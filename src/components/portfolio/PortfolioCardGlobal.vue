@@ -1,14 +1,14 @@
 <template>
-    <div class="portfolio-card" @click="toDetailsPage(data.type)">
+    <div class="portfolio-card" @click="toDetailsPage('global')">
         <div class="portfolio-card__img">
-            <img :src="require(`../../assets/img/${data.icon}.svg`)" alt="Portfolio Icon" />
+            <img :src="require(`../../assets/img/portfolio2.svg`)" alt="Portfolio Icon" />
         </div>
-        <h2 class="cursor-context" :title="data.total | currency(data.currency, true)">
-            {{ data.total | currency(data.currency) }}
+        <h2 class="cursor-context" :title="instrument.positions.filled.globalTotal | currency('USD', true)">
+            {{ instrument.positions.filled.globalTotal }}
         </h2>
-        <p class="portfolio-card__title">{{ data.title }}</p>
-        <table v-if="data.stocks.length > 0" class="portfolio-card__table">
-            <tr v-for="(stock, index) in data.stocks" :key="index" class="portfolio-card__tr">
+        <p class="portfolio-card__title">{{ 'Total Value on Global Stocks' }}</p>
+        <table v-if="instrument.positions.filled.global.length > 0" class="portfolio-card__table">
+            <tr v-for="(stock, index) in instrument.positions.filled.global.slice(0, 5)" :key="index" class="portfolio-card__tr">
                 <td class="portfolio-card__tr--left capitalize">{{ stock.name }}</td>
                 <td
                     class="portfolio-card__tr--right cursor-context"
@@ -24,9 +24,9 @@
                 </td>
                 <td
                     class="portfolio-card__tr--right cursor-context"
-                    :title="stock.percent | units(2, true)"
+                    :title="stock.percentChange | units(2, true)"
                 >
-                    {{ stock.percent | units(2) }}%
+                    {{ stock.percentChange | units(2) }}%
                 </td>
             </tr>
         </table>
@@ -41,7 +41,7 @@ export default {
             type: Object,
             required: false
         },
-        details:{
+        instrument:{
              type: Object,
             required: false
         }

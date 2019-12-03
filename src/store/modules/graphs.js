@@ -25,9 +25,6 @@ const state = {
 };
 
 const getters = {
-
-
-
     getPorfolioglobalTimeforGraph: (state) => {
         return state.globalTimeforportfolioGraph;
     },
@@ -37,8 +34,6 @@ const getters = {
     getPortfolioIntervalposition:(state) => {
         return state.portfolioposition;
     },
-
-
 
     getPortfolioDerivedPrice: (state) => {
 		return state.portfolioDerivedPrice;
@@ -111,9 +106,7 @@ const getters = {
 		return state.actionanalysis.map((data) => {
 			return(data.value);
 		});
-    },
-
-
+    }
 };
 
 const mutations = {
@@ -227,8 +220,7 @@ const mutations = {
     SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(state, currency) {
         state.globalCurrencyforportfolioGraph = currency;
         
-    },
-    
+    }
 
 };
 
@@ -244,22 +236,6 @@ const actions = {
                 //derived prices high lows etc are gotton here
                 commit('SET_PRICE_INFO_ON_BLACKCARD', response.data.data)
                 console.log('inside vuex store',chart);
-			})
-			.catch((error) => {
-               console.log(`::::::::::::::::::::${error}`);
-			});
-    },
-    async GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS({ commit }, params) {
-        console.log('?????????????????????',params);
-		await API_CONTEXT.get(`/users/${params.chakaID}/positions/`)
-			.then((response) => {
-                //console.log('>>FFFFFFFFFFFFFFFFFFFFF>>>>>>>>GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS>>>>>>>>>>>>>>',response.data.data)
-                //const { chart, derivedPrice, derivedPricePercentage, askPrice } = response.data.data;
-                // commit('SET_LINE_SINGLESTOCK_CHARTDATA',chart);
-                // commit('SET_LINE_SINGLESTOCK_CHART_DATE',chart)
-                // //derived prices high lows etc are gotton here
-                // commit('SET_PRICE_INFO_ON_BLACKCARD', response.data.data)
-                console.log('GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS>>>FFFFFFFFFFFFFF',response);
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);

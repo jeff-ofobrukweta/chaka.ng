@@ -202,7 +202,7 @@ export default {
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
-                        data: [...this.values]
+                        data: this.values
                     }
                 ]
             };

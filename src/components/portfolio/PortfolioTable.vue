@@ -6,7 +6,7 @@
                 <th>Symbol</th>
                 <th>Price</th>
                 <th>Units Owned</th>
-                <th>Units<br />Ordered</th>
+                <!-- <th>Units<br />Ordered</th> -->
                 <th>Invested<br />Amount</th>
                 <th>
                     Invested<br />
@@ -15,38 +15,40 @@
                 <th>P/L</th>
                 <th>+/-</th>
             </thead>
-            <tbody class="portfolio-table__tbody">
-                <tr v-for="(item, index) in data" :key="index">
+            <tbody
+            v-if="storedata.length >= 1" 
+            class="portfolio-table__tbody">
+                <tr v-for="(item, index) in storedata" :key="index">
                     <td class="capitalize">{{ item.name }}</td>
                     <td class="uppercase">{{ item.symbol }}</td>
-                    <td class="cursor-context" :title="item.price | currency(item.currency, true)">
+                    <td class="cursor-context" :title="item.InstrumentDynamic.askPrice | currency(item.currency, true)">
                         {{ item.price | currency(item.currency) }}
                     </td>
-                    <td class="cursor-context" :title="item.unitsOwned | units(2, true)">
-                        {{ item.unitsOwned | units }}
+                    <td class="cursor-context" :title="item.quantity | units(2, true)">
+                        {{ item.quantity | units }}
                     </td>
-                    <td class="cursor-context" :title="item.unitsOrdered | units(2, true)">
+                    <!-- <td class="cursor-context" :title="item.unitsOrdered | units(2, true)">
                         {{ item.unitsOrdered | units }}
-                    </td>
+                    </td> -->
                     <td
                         class="cursor-context"
-                        :title="item.investedAmount | currency(item.currency, true)"
+                        :title="item.currentValue | currency(item.currency, true)"
                     >
-                        {{ item.investedAmount | currency(item.currency) }}
+                        {{ item.currentValue | currency(item.currency) }}
                     </td>
-                    <td class="cursor-context" :title="item.investedPercentage | units(2, true)">
-                        {{ item.investedPercentage | units(2) }}%
+                    <td class="cursor-context" :title="item.percentTotal | units(2, true)">
+                        {{ item.percentTotal | units(2) }}%
                     </td>
-                    <td :class="[checkChange(item.change) ? 'green' : 'red']">
+                    <td :class="[checkChange(item.netEarnings) ? 'green' : 'red']">
                         <img
                             src="../../assets/img/green-arrow.svg"
-                            v-if="checkChange(item.change)"
+                            v-if="checkChange(item.netEarnings)"
                             alt="Gain"
                         />
                         <img src="../../assets/img/red-arrow.svg" v-else alt="Loss" />
                         <small
-                            >{{ checkChange(item.change) ? "+" : ""
-                            }}{{ item.change | units(2) }} ({{ item.percent | units(2) }}%)</small
+                            >{{ checkChange(item.netEarningsPercentage) ? "+" : ""
+                            }}{{ item.netEarningsPercentage | units(2) }} ({{ item.netEarningsPercentage | units(2) }}%)</small
                         >
                     </td>
                     <td>
@@ -85,7 +87,8 @@
                     />
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
                 </tr>
-            </tbody>
+    </tbody>
+    <tbody v-else>No current Stocks availiable at this time</tbody>
         </table>
 
         <modal @close="showKYC = false" v-if="showKYC">
@@ -111,7 +114,7 @@ export default {
         ModalKYC
     },
     props: {
-        data: {
+        storedata: {
             type: Array,
             required: true
         }
@@ -130,6 +133,8 @@ export default {
     },
     computed: {
         ...mapGetters(["getNextKYC"])
+    },
+    mounted(){
     },
     methods: {
         checkChange(value) {

@@ -126,9 +126,9 @@ export default {
           			max: this.max,
           			min: this.min,
           			stepSize: this.interval,
-          			callback: value => (this.currency == 'USD'
-          					? `$${numeral(value).value()}`
-          					: `N${numeral(value).value()}`)
+          			// callback: value => (this.currency == 'USD'
+          			// 		? `$${numeral(value).value()}`
+          			// 		: `N${numeral(value).value()}`)
           		},
           		gridLines: {
           			display: false,

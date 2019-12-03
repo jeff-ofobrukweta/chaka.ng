@@ -42,7 +42,14 @@
 
                 </div>
             </div>
+         <technical-chart
+              v-if="tooglegraph"
+			 :symbol="getSingleinstrument[0].symbol"
+			 :exchangeID="getSingleinstrument[0].exchangeID"
+		/>
         <Graph
+            v-else
+            :class="tooglegraph ? 'display':'nodisplay'"
             :price="getOpenPrice"
             :date="getDates"
          />
@@ -106,6 +113,7 @@ export default {
                     description:"convert to Dollar value"
                 }
             ],
+            tooglegraph:false,
             options:[
                 {
                     name:'Normal',
@@ -135,7 +143,8 @@ export default {
     },
     components: {
         Graph,
-        Fragment
+        Fragment,
+        TechnicalChart: () => import('../Technicalgraph')
     },
     props:{
         instrument:{
@@ -144,7 +153,7 @@ export default {
         }
     },
     computed:{
-        ...mapGetters(['getOpenPrice','getDates'])
+        ...mapGetters(['getOpenPrice','getDates','getSingleinstrument'])
     },
     methods:{
         ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
@@ -161,6 +170,7 @@ export default {
         },
         OntooglePositions(response){
             this.activeButton = response;
+            this.tooglegraph = !this.tooglegraph;
         },
         handletimeframe(index) {
             const payloadsinglestock = {
