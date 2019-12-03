@@ -28,12 +28,17 @@
             />
         </section>
 
-        <error-block type="kyc" :message="showUploadError" status="error" v-if="showUploadError" />
+        <error-block
+            type="kyc"
+            :message="showUploadError"
+            status="error"
+            v-if="showUploadError && getErrorLog === 'accounts'"
+        />
         <error-block
             type="kyc"
             message="File uploaded successfully"
             status="success"
-            v-else-if="showUploadSuccess"
+            v-else-if="showUploadSuccess && getErrorLog === 'accounts'"
         />
 
         <div class="accounts-settings__form">
@@ -77,7 +82,7 @@
                 </div>
             </section>
             <template v-if="!getKYC.disclosureName">
-                <error-block type="kyc" />
+                <error-block type="kyc" v-if="getErrorLog.source === 'accounts'" />
                 <section v-if="!getKYC.disclosureName" class="accounts-settings__submit">
                     <action-button
                         type="submit"
@@ -119,7 +124,7 @@
                 </div>
             </section>
             <template v-if="edit === 'bvn'">
-                <error-block type="kyc" />
+                <error-block type="kyc" v-if="getErrorLog.source === 'accounts'" />
                 <section class="accounts-settings__submit">
                     <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                         Cancel
@@ -141,7 +146,7 @@
         </template>
 
         <template v-else-if="getKYC.phoneConfirmed">
-            <form class="accounts-settings__form" @submit.prevent="submitPhone">
+            <div class="accounts-settings__form">
                 <div class="accounts-settings__title">
                     <h5>Verify Phone Number</h5>
                     <a class="accounts-settings__edit" v-if="!edit" @click="editExistingPhone"
@@ -159,7 +164,7 @@
                     </div>
                 </section>
                 <template v-if="edit === 'phone'">
-                    <error-block type="kyc" />
+                    <error-block type="kyc" v-if="getErrorLog.source === 'accounts'" />
                     <section class="accounts-settings__submit">
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
@@ -172,11 +177,11 @@
                         >
                     </section>
                 </template>
-            </form>
+            </div>
 
             <form class="accounts-settings__form" @submit.prevent="submitBank">
                 <div class="accounts-settings__title">
-                    <h5>BVN Verification</h5>
+                    <h5>Bank Details</h5>
                     <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('bank')"
                         >edit</a
                     >
@@ -221,7 +226,7 @@
                     </div>
                 </section>
                 <template v-if="edit === 'bank'">
-                    <error-block type="kyc" />
+                    <error-block type="kyc" v-if="getErrorLog.source === 'accounts'" />
                     <section class="accounts-settings__submit">
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
@@ -345,8 +350,8 @@
                     </div>
                     <template
                         v-if="
-                            itemData.employmentStatus !== 'UNEMPLOYED' ||
-                                getKYC.employmentStatus !== 'UNEMPLOYED'
+                            itemData.employmentStatus === 'EMPLOYED' ||
+                                itemData.employmentStatus === 'SELF_EMPLOYED'
                         "
                     >
                         <div class="accounts-settings__group">
@@ -406,7 +411,7 @@
                     </template>
                 </section>
                 <template v-if="edit === 'employment'">
-                    <error-block type="kyc" />
+                    <error-block type="kyc" v-if="getErrorLog.source === 'accounts'" />
                     <section class="accounts-settings__submit">
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
@@ -533,7 +538,7 @@
                     </div>
                 </section>
                 <template v-if="edit === 'investment'">
-                    <error-block type="kyc" />
+                    <error-block type="kyc" v-if="getErrorLog.source === 'accounts'" />
                     <section class="accounts-settings__submit">
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
@@ -548,7 +553,7 @@
                 </template>
             </form>
 
-            <form class="accounts-settings__form">
+            <form class="accounts-settings__form" @submit.prevent="updateKYC">
                 <div class="accounts-settings__title">
                     <h5>Confirm Compliance Status</h5>
                     <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('compliance')"
@@ -594,8 +599,8 @@
                                 v-if="edit === 'compliance'"
                                 v-model="itemData.pepStatus"
                             >
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
+                                <option :value="true">Yes</option>
+                                <option :value="false">No</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
                                 {{
@@ -608,9 +613,21 @@
                             </p></label
                         >
                     </div>
+                    <template v-if="itemData.pepStatus">
+                        <div class="accounts-settings__group">
+                            <label class="form__label"
+                                >Name of Politically Exposed Person<form-input
+                                    type="text"
+                                    name="pepNames"
+                                    v-model="itemData.pepNames"
+                                    placeholder="Name of Politically Exposed Person"
+                                    required
+                            /></label>
+                        </div>
+                    </template>
                 </section>
                 <template v-if="edit === 'compliance'">
-                    <error-block type="kyc" />
+                    <error-block type="kyc" v-if="getErrorLog.source === 'accounts'" />
                     <section class="accounts-settings__submit">
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
@@ -634,7 +651,7 @@
 <script>
 import Uploads from "../../../components/FileUpload";
 import PhoneOTP from "../../../components/kyc/PhoneOTP";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 const Types = () => import("../../../services/kyc/employmentTypes");
 const Positions = () => import("../../../services/kyc/employmentPosition");
@@ -673,7 +690,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getCountryCodes"])
+        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getCountryCodes", "getErrorLog"])
     },
     methods: {
         ...mapActions([
@@ -683,10 +700,10 @@ export default {
             "UPDATE_KYC_BANK",
             "RESOLVE_BVN",
             "USE_BVN_PHONE",
-            "RESOLVE_DOB",
             "RESOLVE_OTP",
             "GET_COUNTRY_CODES"
         ]),
+        ...mapMutations(["RESET_REQ"]),
         editBtn(name) {
             this.edit = name;
             this.showUploadError = null;
@@ -694,40 +711,42 @@ export default {
         },
         cancelEdit() {
             this.edit = null;
+            this.itemData = {};
+            this.RESET_REQ();
         },
         updateKYC() {
+            const payload = { ...this.itemData };
+            payload.source = "accounts";
             this.loading = true;
-            this.UPDATE_KYC(this.itemData).then(resp => {
+            this.UPDATE_KYC(payload).then(resp => {
                 this.loading = false;
                 this.edit = null;
                 if (resp) this.itemData = {};
             });
         },
         submitBVN() {
+            const payload = { ...this.bvnData };
+            payload.source = "accounts";
             this.loading = true;
-            this.RESOLVE_BVN(this.bvnData).then(resp => {
+            this.RESOLVE_BVN(payload).then(resp => {
                 if (resp) {
-                    this.bvnData.bvn = {};
+                    this.bvnData = {};
                     this.edit = null;
                 }
                 this.loading = false;
             });
         },
         submitBank() {
+            const payload = { ...this.itemData };
+            payload.source = "accounts";
             this.loading = true;
-            this.UPDATE_KYC_BANK(this.itemData).then(resp => {
+            this.UPDATE_KYC_BANK(payload).then(resp => {
                 if (resp) {
                     this.itemData = {};
                     this.edit = null;
                 }
                 this.loading = false;
             });
-        },
-        submitPhone() {
-            this.loading = true;
-            setTimeout(() => {
-                this.loading = false;
-            }, 2000);
         },
         useBVNPhone() {
             this.loading = true;
@@ -754,11 +773,13 @@ export default {
             });
         },
         submitOTP() {
+            const payload = { ...this.otpData };
+            payload.source = "accounts";
             this.loading = true;
-            this.RESOLVE_OTP(this.otpData).then(resp => {
+            this.RESOLVE_OTP(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.itemData = {};
+                    this.otpData = {};
                     this.showOTP = false;
                 }
             });
@@ -783,7 +804,6 @@ export default {
             this.OTPResend = true;
             this.smsSender = 1;
             if (!this.showNewPhone) {
-                // this.card1();
                 this.useBVNPhone();
                 return true;
             }

@@ -4,7 +4,7 @@
             <img :src="require(`../../assets/img/portfolio2.svg`)" alt="Portfolio Icon" />
         </div>
         <h2 class="cursor-context" :title="instrument.positions.filled.globalTotal | currency('USD', true)">
-            {{ instrument.positions.filled.globalTotal | currency('USD') }}
+            {{ instrument.positions.filled.globalTotal }}
         </h2>
         <p class="portfolio-card__title">{{ 'Total Value on Global Stocks' }}</p>
         <table v-if="instrument.positions.filled.global.length > 0" class="portfolio-card__table">

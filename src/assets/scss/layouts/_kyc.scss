@@ -150,6 +150,16 @@
         }
     }
 
+    &-navbar {
+        input {
+            margin-top: 0;
+        }
+
+        .kyc-field__group {
+            margin-bottom: 0.5rem;
+        }
+    }
+
     &-form {
         &__group {
             @extend .modal-form__group;

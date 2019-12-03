@@ -10,18 +10,25 @@
                         <h4
                             class="cursor-context"
                             :title="
-                                getAccountSummary.localWallet.availableBalance | kobo
+                                getAccountSummary.localWallet.availableBalance
+                                    | kobo
                                     | currency('NGN', true)
                             "
                         >
-                            {{ getAccountSummary.localWallet.availableBalance | kobo | currency("NGN") }}
+                            {{
+                                getAccountSummary.localWallet.availableBalance
+                                    | kobo
+                                    | currency("NGN")
+                            }}
                         </h4>
                         <p><small>Available Cash</small></p>
                     </div>
                     <div>
                         <h4
                             class="cursor-context"
-                            :title="getAccountSummary.localPendingBalance | kobo | currency('NGN', true)"
+                            :title="
+                                getAccountSummary.localPendingBalance | kobo | currency('NGN', true)
+                            "
                         >
                             {{ getAccountSummary.localPendingBalance | kobo | currency("NGN") }}
                         </h4>
@@ -37,18 +44,27 @@
                         <h4
                             class="cursor-context"
                             :title="
-                                getAccountSummary.globalWallet.availableBalance | kobo
+                                getAccountSummary.globalWallet.availableBalance
+                                    | kobo
                                     | currency('USD', true)
                             "
                         >
-                            {{ getAccountSummary.globalWallet.availableBalance | kobo | currency("USD") }}
+                            {{
+                                getAccountSummary.globalWallet.availableBalance
+                                    | kobo
+                                    | currency("USD")
+                            }}
                         </h4>
                         <p><small>Available Cash</small></p>
                     </div>
                     <div>
                         <h4
                             class="cursor-context"
-                            :title="getAccountSummary.globalPendingBalance | kobo | currency('USD', true)"
+                            :title="
+                                getAccountSummary.globalPendingBalance
+                                    | kobo
+                                    | currency('USD', true)
+                            "
                         >
                             {{ getAccountSummary.globalPendingBalance | kobo | currency("USD") }}
                         </h4>
@@ -57,7 +73,14 @@
                 </div>
             </div>
         </div>
-        <form class="modal-form" @submit.prevent="exchangeWallet">
+        <div class="modal-form" v-if="!canExchange">
+            <h5 class="text-center mb-2">Your Verification is Under Review</h5>
+            <p class="text-center">
+                You will be notified through email when your account gets activated for global
+                transactions
+            </p>
+        </div>
+        <form v-else class="modal-form" @submit.prevent="exchangeWallet">
             <div class="modal-form__group">
                 <label class="form__label"
                     >Amount
@@ -69,7 +92,7 @@
                         placeholder="Amount"
                 /></label>
             </div>
-            <error-block type="exchange" :message="message" :status="status" @reset="handleReset" />
+            <error-block type="exchange" />
             <br />
 
             <section>
@@ -145,19 +168,20 @@ export default {
         return {
             itemData: { currency: "NGN", fromWallet: "local", toWallet: "global" },
             loading: false,
-            selectedCurrency: null,
-            message: null,
-            status: null
+            selectedCurrency: null
         };
     },
     computed: {
-        ...mapGetters(["getExchangeRate", "getAccountSummary"]),
+        ...mapGetters(["getExchangeRate", "getAccountSummary", "getLoggedUser"]),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.itemData.amount > 2500) {
                 return (this.itemData.amount + 100) / (1 - 0.015);
             }
             return this.itemData.amount / (1 - 0.015);
+        },
+        canExchange() {
+            return this.getLoggedUser.globalKycStatus === "COMPLETE";
         }
     },
     methods: {
@@ -181,10 +205,6 @@ export default {
                     }
                 });
             }
-        },
-        handleReset() {
-            this.message = null;
-            this.status = null;
         }
     },
     async mounted() {

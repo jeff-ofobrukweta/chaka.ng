@@ -4,11 +4,22 @@
         min-height: 150px;
         display: flex;
         align-items: flex-end;
-        margin-right: 10px;
+        margin-right: .5%;
         margin-bottom: 1rem;
-        flex: 0 1 19%;
-        max-width: 19%;
+        flex: 0 1 19.5%;
+        max-width: 19.5%;
         min-width: 200px;
+
+        &.flex {
+            align-items: center;
+            justify-content: center;
+        }
+
+        &:last-child{
+            max-width: 20%;
+            flex-basis: 20%;
+            margin-right: 0;
+        }
 
         &::before {
             content: '';
@@ -32,6 +43,12 @@
             object-position: center;
             object-fit: cover;
             border-radius: 7px;
+
+            &.faded {
+                width: 50px;
+                height: 50px;
+                object-fit: contain;
+            }
         }
 
         &__title {

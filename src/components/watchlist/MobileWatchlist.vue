@@ -58,26 +58,22 @@
                     </div>
                 </div>
                 <div class="watchlist-mobile__right">
-                    <p class="watchlist-mobile__change" v-if="Object.keys(stock).length <= 0">-</p>
                     <p
-                        v-else
                         class="watchlist-mobile__change"
-                        :class="[+stock.InstrumentDynamic.yclose >= 0 ? 'green' : 'red']"
+                        :class="[+instrument.derivedPrice >= 0 ? 'green' : 'red']"
                     >
                         <img
-                            v-if="+stock.InstrumentDynamic.yclose < 0 >= 0"
+                            v-if="+instrument.derivedPrice >= 0"
                             src="../../assets/img/watchlist-up.svg"
                             alt="Growth"
                         />
                         <img v-else src="../../assets/img/watchlist-down.svg" alt="Growth" />
-                        <span>{{ +stock.InstrumentDynamic.yclose >= 0 ? "+" : "" }}</span>
+                        <span>{{ +instrument.derivedPrice >= 0 ? "+" : "" }}</span>
                         <small
-                            >{{ stock.InstrumentDynamic.yclose | units(2) }}
+                            >{{ +instrument.derivedPrice | units(2) }}
                             <span
-                                :class="[
-                                    +stock.InstrumentDynamic.ycloseChange >= 0 ? 'green' : 'red'
-                                ]"
-                                >({{ stock.InstrumentDynamic.ycloseChange | units(2) }}%)</span
+                                :class="[+instrument.derivedPricePercentage >= 0 ? 'green' : 'red']"
+                                >({{ +instrument.derivedPricePercentage | units(2) }}%)</span
                             ></small
                         >
                     </p>

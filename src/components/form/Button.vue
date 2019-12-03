@@ -1,41 +1,46 @@
 <template>
-    <button class="btn" :class="{}">{{ text }}</button>
+    <component
+        :is="tag"
+        :disabled="disabled || clicked"
+        class="action"
+        :class="[classes, tag === 'button' ? 'btn' : '']"
+        @click="handleClick($event)"
+    >
+        <slot></slot>
+    </component>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
-    name: "form-button",
+    name: "custom-button",
     props: {
-        name: {
-            type: String,
+        classes: {
+            type: Array,
             required: true
         },
-        placeholder: {
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        tag: {
             type: String,
-            required: true
-        },
-        value: {
-            type: [String, Number, Boolean]
-        },
-        primary: {
-            type: Boolean
-        },
-        white: {
-            type: Boolean
-        },
-        text: {
-            type: String,
-            required: true
+            default: "button"
         }
     },
     data() {
         return {
-            content: this.value
+            clicked: false
         };
     },
     methods: {
-        handleInput() {
-            this.$emit("input", this.content);
+        handleClick(e) {
+            this.clicked = true;
+            console.log(e);
+            this.$emit("click");
+            setTimeout(() => {
+                this.clicked = false;
+            }, 4000);
         }
     }
 };

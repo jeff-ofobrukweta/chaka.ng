@@ -1,5 +1,5 @@
 <template>
-    <section class="kyc-nav__section" v-if="getNavbarNextKYC.status === 'INCOMPLETE'">
+    <section class="kyc-nav__section kyc-navbar" v-if="getNavbarNextKYC.status === 'INCOMPLETE'">
         <template v-if="getNavbarNextKYC.nextKYC[0] === 'disclosureName'">
             <form @submit.prevent="submitDisclosure">
                 <div class="kyc-nav container">
@@ -33,10 +33,10 @@
                     </div>
 
                     <div class="kyc-nav__field">
-                        <Field :field="disclosureField" @input="handleInput" />
+                        <Field :field="disclosureField" @input="handleInput" no-label />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="">Hide</a>
+                        <a href="#">Hide</a>
                         <action-button
                             type="submit"
                             :disabled="!itemData.disclosureName"
@@ -67,7 +67,7 @@
                             :classes="['btn-block', 'btn__primary']"
                             >Submit</action-button
                         >
-                        <a href="">Hide</a>
+                        <a href="#">Hide</a>
                     </div>
                 </div>
             </form>
@@ -85,7 +85,7 @@
                         <Field :field="bvnField" @input="handleInput" v-model="itemData.bvn" />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="">Hide</a>
+                        <a href="#">Hide</a>
                         <action-button
                             :disabled="!itemData.bvn"
                             type="submit"
@@ -116,66 +116,60 @@
                             :classes="['btn-block', 'btn__primary']"
                             >Submit</action-button
                         >
-                        <a href="">Hide</a>
+                        <a href="#">Hide</a>
                     </div>
                 </div>
             </form>
         </template>
         <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'phone'">
-            <form @submit.prevent="submitPhone">
-                <div class="kyc-nav container">
-                    <div class="kyc-nav__text">
-                        <h5>Verify Phone</h5>
-                        <p>
-                            <small
-                                >Do you wish to use your registered phone number({{
-                                    getKYC.phone
-                                }})?</small
-                            >
-                        </p>
-                        <p>
-                            <small
-                                ><a class="underline" @click="showUseNewPhone">Click here</a> to use
-                                a different phone number</small
-                            >
-                        </p>
-                    </div>
-                    <div class="kyc-nav__field">
-                        <!-- <Field :field="OTPField" @input="handleInput" v-model="itemData.otp" /> -->
-                    </div>
-                    <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="">Hide</a>
-                        <button type="button" @click="confirmPhone" class="btn kyc-nav__button">
-                            <svg
-                                width="30"
-                                height="16"
-                                viewBox="0 0 30 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z"
-                                    fill="white"
-                                />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="kyc-nav__actions" v-else>
-                        <button
-                            type="button"
-                            @click="confirmPhone"
-                            class="btn btn-block btn__primary"
+            <div class="kyc-nav container">
+                <div class="kyc-nav__text">
+                    <h5>Verify Phone</h5>
+                    <p>
+                        <small
+                            >Do you wish to use your registered phone number({{
+                                getKYC.phone
+                            }})?</small
                         >
-                            Continue
-                        </button>
-                        <div>
-                            <a href="">Hide</a>
-                        </div>
+                    </p>
+                    <p>
+                        <small
+                            ><a class="underline" @click="showUseNewPhone">Click here</a> to use a
+                            different phone number</small
+                        >
+                    </p>
+                </div>
+                <div class="kyc-nav__field">
+                    <!-- <Field :field="OTPField" @input="handleInput" v-model="itemData.otp" /> -->
+                </div>
+                <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
+                    <a href="#">Hide</a>
+                    <button type="button" @click="confirmPhone" class="btn kyc-nav__button">
+                        <svg
+                            width="30"
+                            height="16"
+                            viewBox="0 0 30 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z"
+                                fill="white"
+                            />
+                        </svg>
+                    </button>
+                </div>
+                <div class="kyc-nav__actions" v-else>
+                    <button type="button" @click="confirmPhone" class="btn btn-block btn__primary">
+                        Continue
+                    </button>
+                    <div>
+                        <a href="#">Hide</a>
                     </div>
                 </div>
-            </form>
+            </div>
         </template>
         <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'nin'">
             <form @submit.prevent="submitNIN">
@@ -198,7 +192,7 @@
                         <Field :field="ninField" @input="handleInput" v-model="itemData.nin" />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="">Hide</a>
+                        <a href="#">Hide</a>
                         <action-button
                             type="submit"
                             :disabled="!itemData.nin"
@@ -231,7 +225,7 @@
                         >
                         <div>
                             <a class="skip" href="" @click="skipNIN">Skip</a>
-                            <a href="">Hide</a>
+                            <a href="#">Hide</a>
                         </div>
                     </div>
                 </div>
@@ -248,7 +242,7 @@
                     </div>
                     <div class="kyc-nav__field"></div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="">Hide</a>
+                        <a href="#">Hide</a>
                         <button type="button" class="btn kyc-nav__button" @click="showNextModalBtn">
                             <svg
                                 width="30"
@@ -275,13 +269,13 @@
                             Continue
                         </button>
                         <div>
-                            <a href="">Hide</a>
+                            <a href="#">Hide</a>
                         </div>
                     </div>
                 </div>
             </div>
         </template>
-        <error-block type="kyc" navbar />
+        <error-block type="kyc" navbar v-if="getErrorLog.source === 'navbar'" />
         <modal no-header @close="showOTP = false" v-if="showOTP">
             <form @submit.prevent="useNewPhone" v-if="showNewPhone">
                 <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
@@ -393,14 +387,7 @@
 
         <modal @close="showNextModal = false" v-if="showNextModal">
             <template slot="header">{{ selectedField.title }}</template>
-            <form @submit.prevent="submitPhone">
-                <div>
-                    <ModalKYC
-                        :requiredFields="selectedField.fields"
-                        @updated="showNextModal = false"
-                    />
-                </div>
-            </form>
+            <ModalKYC :requiredFields="selectedField.fields" @updated="showNextModal = false" />
         </modal>
     </section>
 </template>
@@ -459,7 +446,8 @@ export default {
             "getKYC",
             "getNavbarNextKYC",
             "getCountryCodes",
-            "getNavbarTrigger"
+            "getNavbarTrigger",
+            "getErrorLog"
         ]),
         currentIndex() {}
     },
@@ -477,13 +465,12 @@ export default {
         ...mapMutations(["SET_NAVBAR_TRIGGER"]),
         handleInput(e) {
             this.$set(this.itemData, e.name, e.value);
-            // this.itemData[e.name] = e.value;
-            console.log(this.itemData);
         },
         submitDisclosure() {
+            const payload = { ...this.itemData };
+            payload.source = "navbar";
             this.loading = true;
-            // this.navbarError = true;
-            this.UPDATE_KYC(this.itemData).then(resp => {
+            this.UPDATE_KYC(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.checkNextKYC();
@@ -492,8 +479,10 @@ export default {
             });
         },
         submitBVN() {
+            const payload = { ...this.itemData };
+            payload.source = "navbar";
             this.loading = true;
-            this.RESOLVE_BVN(this.itemData).then(resp => {
+            this.RESOLVE_BVN(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.checkNextKYC();
@@ -502,17 +491,16 @@ export default {
             });
         },
         submitNIN() {
+            const payload = { ...this.itemData };
+            payload.source = "navbar";
             this.loading = true;
-            this.UPDATE_KYC_NIN(this.itemData).then(resp => {
+            this.UPDATE_KYC_NIN(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.checkNextKYC();
                     this.itemData = {};
                 }
             });
-        },
-        submitPhone() {
-            console.log("YET TO BE IMPLEMENTED");
         },
         useBVNPhone() {
             this.loading = true;
