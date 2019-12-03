@@ -28,7 +28,7 @@ export default {
             max: '',
             graphstyle: {
                 width: '100%',
-                height: '300px',
+                height: '400px',
                 margin: '0px -2em'
             },
             interval: 10,

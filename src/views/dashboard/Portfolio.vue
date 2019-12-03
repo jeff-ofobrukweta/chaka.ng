@@ -24,9 +24,11 @@
                 <p class="explore__title--sub">Keep a close watch on top stocks</p>
             </div>
             <select class="form__input" name="" id="">
-                <option value="1">Daily</option>
-                <option value="2">Weekly</option>
-                <option value="3">Monthly</option>
+                <option
+                v-for="(item,index) in interval"
+                :key="index"
+                @click="handlewatchlistintervalToogle(item.value)"
+                >{{item.name}}</option>
             </select>
         </section>
         <section class="watchlist-portfolio__box">
@@ -68,76 +70,50 @@ export default {
     },
     data() {
         return {
-            watchlist: [
+            interval: [
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 20
+                    name: "Daily",
+                    value:"1D",
+                    id:0,
+                    description:""
                 },
                 {
-                    name: "Google",
-                    symbol: "GOOGL",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 20
+                    name: "One Month",
+                    value:"1M",
+                    id:1,
+                    description:""
                 },
                 {
-                    name: "MTN Nigeria",
-                    symbol: "MTNN",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 4
+                    name: "Three Month",
+                    value:"3M",
+                    id:2,
+                    description:""
                 },
                 {
-                    name: "Jumia Technologies",
-                    symbol: "JUMIA",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 2
+                    name: "One Year",
+                    value:"1Y",
+                    id:3,
+                    description:""
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 1
-                },
-                {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 0
-                },
-                {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: -3
-                },
-                {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: -10
+                    name: "Five Years",
+                    value:"5Y",
+                    id:4,
+                    description:""
                 }
             ], 
+
         }    
     },
      methods:{
         ...mapActions(['GET_ACCOUNT_SUMMARY','GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS','GET_WATCHLIST']),
+        handlewatchlistintervalToogle(payload){
+            console.log('This is the current Interval here',payload)
+            const watchPayload = {interval:payload}
+                this.GET_WATCHLIST(watchPayload).then(()=>{
+                    // put loader state here
+            })
+        }
     },
     mounted(){
         const payload = {interval:'1D'};
