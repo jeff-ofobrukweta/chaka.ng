@@ -24,8 +24,8 @@
                     </p>
                 </div>
             </div>
-            <div>
-                <p class="grey-cool"><small>CURRENT STOCK PRICE</small></p>
+            <div class="modal__buy--current">
+                <p><small>CURRENT STOCK PRICE:</small></p>
                 <p>
                     <span
                         class="cursor-context modal__buy--price"
@@ -39,21 +39,22 @@
                     >&nbsp;&nbsp;
                     <img
                         v-if="instrument.derivedPrice >= 0"
-                        src="../../assets/img/watchlist-up.svg"
+                        :src="require('../../assets/img/green-arrow.svg')"
                         alt="Growth"
                     />
-                    <img v-else src="../../assets/img/watchlist-down.svg" alt="Growth" />
+                    <img v-else :src="require('../../assets/img/red-arrow.svg')" alt="Growth" />
                     <span :class="[+instrument.derivedPrice >= 0 ? 'green' : 'red']">
-                        <span>{{ +instrument.derivedPrice >= 0 ? "+" : "" }}</span
-                        >{{ +instrument.derivedPrice | units(2) }}
-                        <small :class="[+instrument.derivedPricePercentage >= 0 ? 'green' : 'red']">
-                            ({{ +instrument.derivedPricePercentage | units(2) }}%)</small
+                        <small
+                            >{{ +instrument.derivedPrice >= 0 ? "+" : ""
+                            }}{{ +instrument.derivedPrice | units(2) }} ({{
+                                +instrument.derivedPricePercentage | units(2)
+                            }}%)</small
                         ></span
                     >
                 </p>
             </div>
-            <div>
-                <p class="grey-cool"><small>AVAILABLE AMOUNT</small></p>
+            <div class="modal__buy--current">
+                <p><small>AVAILABLE AMOUNT</small></p>
                 <p
                     v-if="currency === 'NGN'"
                     class="cursor-context modal__buy--price"
@@ -339,7 +340,7 @@ export default {
             "GET_MARKET_DATA",
             "GET_PRE_ORDER"
         ]),
-        ...mapMutations(["SET_MARKET_DATA", "SET_SELL_ORDER", "SET_BUY_ORDER"]),
+        ...mapMutations(["SET_MARKET_DATA", "SET_SELL_ORDER", "SET_BUY_ORDER", "RESET_REQ"]),
         closeModal() {
             this.$emit("close");
         },
@@ -434,6 +435,7 @@ export default {
         }
     },
     async mounted() {
+        this.RESET_REQ();
         this.SET_BUY_ORDER({});
         this.SET_SELL_ORDER({});
         this.GET_MARKET_DATA(this.symbol);
