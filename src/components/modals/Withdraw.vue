@@ -13,6 +13,9 @@
                         @reset="issues = {}"
                         :error-message="issues.amount"
                 /></label>
+                <div class="form-info">
+                    <small>**Allow up to 1 business day</small>
+                </div>
             </div>
             <error-block type="withdraw" />
             <div class="modal-form__buttons">
@@ -27,7 +30,6 @@
         </form>
 
         <section>
-            <p class="grey-dark">Allow up to 1 business day</p>
             <br />
             <p>
                 You're now requesting a withdrawal
@@ -67,8 +69,8 @@ export default {
                 this.$set(this.issues, "amount", "Invalid number input");
                 return false;
             }
-            if (+this.itemData.amount < 500) {
-                this.$set(this.issues, "amount", "Minimum withdrawal amount is ₦500");
+            if (+this.itemData.amount < 1000) {
+                this.$set(this.issues, "amount", "Minimum withdrawal amount is ₦1000");
                 return false;
             }
             this.loading = true;

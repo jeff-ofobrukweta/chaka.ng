@@ -1,5 +1,9 @@
 <template>
-    <div class="kyc-field__group" v-if="field.type === 'text' || field.type === 'number'">
+    <div
+        class="kyc-field__group"
+        :class="{ inline: inline }"
+        v-if="field.type === 'text' || field.type === 'number'"
+    >
         <label class="form__label"
             >{{ noLabel ? field.name : "" }}
             <form-input
@@ -110,6 +114,9 @@ export default {
         },
         noLabel: {
             type: Boolean
+        },
+        inline: {
+            type: Boolean
         }
     },
     components: {
@@ -157,14 +164,14 @@ export default {
         }
     },
     mounted() {
-        if (this.field.type === "select") {
-            if (this.field.value === "bankCode") {
-                this.value = this.options[0].bankCode;
-            } else this.value = this.options[0].value;
-            this.handleInput();
-        } else if (this.field.value === "employmentStatus") {
-            this.value = "EMPLOYED";
-        }
+        // if (this.field.type === "select") {
+        //     if (this.field.value === "bankCode") {
+        //         this.value = this.options[0].bankCode;
+        //     } else this.value = this.options[0].value;
+        //     this.handleInput();
+        // } else if (this.field.value === "employmentStatus") {
+        //     this.value = "EMPLOYED";
+        // }
     }
 };
 </script>

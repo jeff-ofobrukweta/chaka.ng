@@ -117,7 +117,7 @@
                     >
                 </div>
                 <div class="text-center mt-2" v-if="allFields[0].value === 'nin'">
-                    <a @click="skipNIN" class="unerline primary">Skip</a>
+                    <a @click="skipNIN" class="unerline primary" v-if="!nin">Skip</a>
                 </div>
             </form>
         </template>
@@ -132,19 +132,21 @@ import Types from "../../services/kyc/employmentTypes";
 import Positions from "../../services/kyc/employmentPosition";
 import Banks from "../../services/kyc/banks";
 import lg from "../../services/kyc/lgNames";
-import PhoneOTP from "./PhoneOTP";
 import { mapActions, mapMutations, mapGetters } from "vuex";
 export default {
     name: "kyc-modal",
     components: {
+        PhoneOTP: () => import("./PhoneOTP"),
         Field,
-        PhoneOTP,
         Fragment
     },
     props: {
         requiredFields: {
             type: Array,
             required: true
+        },
+        nin: {
+            type: Boolean
         }
     },
     data() {

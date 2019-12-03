@@ -1,148 +1,185 @@
-.header-container{
+.header-container {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
     flex: 0 0 100%;
 }
-.right-header{
+
+.right-header {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
-    .price{
+
+    .price {
         font-style: normal;
         font-weight: bold;
         font-size: 26.9856px;
-        color:#293D4A;
+        color: #293D4A;
     }
-    .percentage{
+
+    .percentage {
         font-style: normal;
         font-weight: bold;
         font-size: 1em;
-        color:#00C48C;
-        .red{color:rgb(196, 0, 0);}
-        .green{color:#00C48C;}
+        color: #00C48C;
+
+        .red {
+            color: rgb(196, 0, 0);
+        }
+
+        .green {
+            color: #00C48C;
+        }
     }
 }
-.wraper-main{
+
+.wraper-main {
     margin: 4em 0px;
 }
-.left-header{
-    display:flex;
+
+.left-header {
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
-    .name-country{
+
+    .name-country {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        .logo-company{
+
+        .logo-company {
             object-fit: contain;
             margin-right: .5em;
             width: 5em;
             height: 5em;
         }
-        .item-name-country{
-            display:flex;
+
+        .item-name-country {
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-            .stockname{
+
+            .stockname {
                 font-style: normal;
                 font-weight: bold;
                 font-size: 20px;
-                color:#293D4A;
+                color: #293D4A;
             }
-            .state{
+
+            .state {
                 object-fit: contain;
                 width: 20px;
                 height: 20px;
             }
         }
     }
-    .buy-btn{
-        background:#22A4EF;
+
+    .buy-btn {
+        background: #22A4EF;
         border-radius: 3.875px;
         padding: 0.68em 4em;
         font-weight: bold;
         font-size: 15.4204px;
         text-align: center;
-        color:#FFFFFF;
+        color: #FFFFFF;
         margin-top: .5em;
     }
-    
+
 }
-.summary-cover{
+
+.summary-cover {
     font-style: normal;
     font-weight: normal;
     font-size: 1em;
-    color:#293D4A;
+    color: #293D4A;
     margin: 1.5em 0px;
 }
-.container-graph{
+
+.container-graph {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
 }
-.container-instrument{
+
+.graph-container {
+    width: 100%;
+
+    @include tablet {
+        flex: 0 0 68%;
+        max-width: 68%;
+    }
+}
+
+.container-instrument {
     margin: 2em auto;
 }
 
-.container-stocks{
+.container-stocks {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
     flex-wrap: wrap;
 }
-.news-container{
+
+.news-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-content: center;
-    .news-container-main{
+
+    .news-container-main {
         display: flex;
     }
-    .title{
+
+    .title {
         font-style: normal;
         font-weight: bold;
         font-size: 20px;
         line-height: 52px;
-        color:#293D4A;
+        color: #293D4A;
     }
-    .sub-title{
+
+    .sub-title {
         font-style: italic;
         font-weight: normal;
         font-size: 14px;
         line-height: 43px;
-        color:#8A939A;
+        color: #8A939A;
     }
 }
 
 @include tablet {
-    .container-stocks{
+    .container-stocks {
         flex-wrap: wrap;
         flex-direction: row-reverse;
     }
 }
+
 @include mobile {
-    .container-stocks{
+    .container-stocks {
         flex-wrap: wrap;
         flex-direction: column-reverse;
     }
-    .small-size{
-        background:#22A4EF;
+
+    .small-size {
+        background: #22A4EF;
         border-radius: 3.875px;
         padding: 0.68em 4em;
         font-weight: bold;
         font-size: 19.4204px;
         text-align: center;
-        color:#FFFFFF;
+        color: #FFFFFF;
         margin: 1em auto;
         width: 100%;
     }
-    .buy-btn{
-        display:none;
+
+    .buy-btn {
+        display: none;
     }
-    .container-graph{
+
+    .container-graph {
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;

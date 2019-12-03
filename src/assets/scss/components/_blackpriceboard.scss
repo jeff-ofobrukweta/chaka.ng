@@ -1,63 +1,80 @@
-.board-container-price{
+.board-container-price {
     width: 100%;
     top: 741px;
-    background:#293D4A;
+    background: #293D4A;
     box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
     border-radius: 11.4872px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .direct{object-fit: contain;}
-    .price{
+
+    .direct {
+        object-fit: contain;
+    }
+
+    .price {
         font-style: normal;
         font-weight: 800;
         font-size: 2.5em;
-        color:#FFFFFF;
+        color: #FFFFFF;
     }
-    .info-details{
+
+    .info-details {
         font-style: normal;
         font-weight: bold;
         font-size: 17.1318px;
-        line-height: 69px;
+        margin-top: .5rem;
         color: #FFFFFF;
-        .increase{
+        text-align: center;
+
+        .increase {
             margin-right: 5px;
-            .red{color:rgb(196, 0, 0);}
-            .green{color:#00C48C;}
+
+            .red {
+                color: rgba($color: $orange, $alpha: 0.85);
+            }
+
+            .green {
+                color: #00C48C;
+            }
         }
     }
 }
 
 @include mobile {
-    .board-container-price{
-       width: 100%;
-       display: flex;
-       justify-content: space-evenly;
-       margin-bottom:1em;
-       margin-top:1em;
+    .board-container-price {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 1em;
+        margin-top: 1em;
     }
-    #direct{
+
+    #direct {
         padding: 2em 0px 2em 0px;
     }
 
 }
+
 @include desktop {
-    .board-container-price{
+    .board-container-price {
         width: 33%;
     }
-    #direct{
+
+    #direct {
         padding: 2em 0px 2em 0px;
     }
 
 }
 
 @include tablet {
-    // .board-container-price{
-    //     margin-bottom:1em;
-    //     margin-top:1em;
-    // }
-     #direct{
+    .board-container-price {
+        flex: 0 0 30%;
+        max-width: 30%;
+    }
+
+    #direct {
         padding: 2em 0px 2em 0px;
-     }
+    }
 }

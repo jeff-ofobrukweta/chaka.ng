@@ -1,4 +1,4 @@
-import { clearSession } from "../services/auth";
+import { clearSession, requireAuth } from "../services/auth";
 
 const Home = () => import(/* webpackChunkName: "home" */ "../views/Home");
 const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
@@ -60,6 +60,7 @@ const routes = [
         name: "dashboard",
         component: DashboardLayout,
         redirect: "/dashboard/portfolio",
+        beforeEnter: requireAuth,
         children: [
             {
                 path: "portfolio",
@@ -134,6 +135,10 @@ const routes = [
                 ]
             }
         ]
+    },
+    {
+        path: "*",
+        redirect: "/dashboard"
     }
 ];
 export default routes;

@@ -17,7 +17,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     store.commit("RESET_REQ");
-    if (store.getters.isLoggedIn) store.dispatch("GET_NEXT_KYC");
+    if (store.getters.getLoggedUser.chakaID && localStorage.getItem("AUTH_TOKEN")) {
+        store.dispatch("GET_NEXT_KYC");
+    }
     next();
 });
 
