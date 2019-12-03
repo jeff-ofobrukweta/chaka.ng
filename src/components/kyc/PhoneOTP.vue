@@ -141,6 +141,10 @@ export default {
                 }
             });
         },
+        backToUsePhone() {
+            this.showNewPhone = false;
+            this.resendOTPWhatsapp();
+        },
         useNewPhone() {
             this.loading = true;
             this.USE_BVN_PHONE(this.newPhone).then(resp => {

@@ -1,7 +1,7 @@
 <template>
     <div class="kyc-field__group" v-if="field.type === 'text' || field.type === 'number'">
         <label class="form__label"
-            >{{ field.name }}
+            >{{ noLabel ? field.name : "" }}
             <form-input
                 :type="field.type"
                 :name="field.name"
@@ -107,6 +107,9 @@ export default {
         options: {
             type: Array,
             default: () => []
+        },
+        noLabel: {
+            type: Boolean
         }
     },
     components: {
@@ -158,10 +161,10 @@ export default {
             if (this.field.value === "bankCode") {
                 this.value = this.options[0].bankCode;
             } else this.value = this.options[0].value;
+            this.handleInput();
         } else if (this.field.value === "employmentStatus") {
             this.value = "EMPLOYED";
         }
-        this.handleInput();
     }
 };
 </script>

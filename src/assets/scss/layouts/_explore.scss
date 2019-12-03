@@ -73,14 +73,7 @@
     &-actions {
         @extend .portfolio-table__buy;
         font-style: italic;
-
-        &:first-child {
-            margin-right: 1rem;
-        }
-
-        &:last-child {
-            margin-right: 10px;
-        }
+        margin-right: 0 !important;
 
         &__bottom {
             display: flex;

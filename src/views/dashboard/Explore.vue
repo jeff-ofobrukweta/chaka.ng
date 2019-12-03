@@ -24,7 +24,14 @@
             </div>
             <div class="explore-actions__bottom">
                 <!-- <a class="explore-actions">See All</a> -->
-                <a class="explore-actions" @click="shuffleNews">Shuffle</a>
+                <a v-if="loadNews">
+                    <img
+                        :src="require('../../assets/img/ring-loader.jpeg')"
+                        alt="Loading..."
+                        width="16px"
+                    />
+                </a>
+                <a class="explore-actions" @click="shuffleNews" v-else>Shuffle</a>
             </div>
         </section>
 
@@ -36,7 +43,14 @@
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
                     <!-- <a class="explore-actions">See All</a> -->
-                    <a class="explore-actions" @click="shuffleCollections">Shuffle</a>
+                    <a v-if="loadCollections">
+                        <img
+                            :src="require('../../assets/img/ring-loader.jpeg')"
+                            alt="Loading..."
+                            width="16px"
+                        />
+                    </a>
+                    <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
                 </div>
             </section>
             <div class="card-news__box explore__news">
@@ -49,7 +63,14 @@
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
                 <!-- <a class="explore-actions">See All</a> -->
-                <a class="explore-actions" @click="shuffleCollections">Shuffle</a>
+                <a v-if="loadCollections">
+                    <img
+                        :src="require('../../assets/img/ring-loader.jpeg')"
+                        alt="Loading..."
+                        width="16px"
+                    />
+                </a>
+                <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
             </div>
         </section>
 
@@ -61,7 +82,14 @@
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
                     <!-- <a class="explore-actions">See All</a> -->
-                    <a class="explore-actions" @click="shuffleLearn">Shuffle</a>
+                    <a class="explore-actions" v-if="loadLearn">
+                        <img
+                            :src="require('../../assets/img/ring-loader.jpeg')"
+                            alt="Loading..."
+                            width="16px"
+                        />
+                    </a>
+                    <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
                 </div>
             </section>
             <div class="card-news__box explore__news">
@@ -69,7 +97,14 @@
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
                 <!-- <a class="explore-actions">See All</a> -->
-                <a class="explore-actions" @click="shuffleLearn">Shuffle</a>
+                <a class="explore-actions" v-if="loadLearn">
+                    <img
+                        :src="require('../../assets/img/ring-loader.jpeg')"
+                        alt="Loading..."
+                        width="16px"
+                    />
+                </a>
+                <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
             </div>
         </section>
 
@@ -104,7 +139,7 @@ import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
 import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
 
 export default {
-    name: "portfolio",
+    name: "explore",
     components: {
         ExploreWatchlist,
         MobileWatchlist
@@ -112,7 +147,10 @@ export default {
     data() {
         return {
             featured: {},
-            allNews: []
+            allNews: [],
+            loadNews: null,
+            loadCollections: null,
+            loadLearn: null
         };
     },
     computed: {
@@ -133,14 +171,20 @@ export default {
             "GET_WATCHLIST"
         ]),
         async shuffleNews() {
+            this.loadNews = true;
             await this.GET_EXPLORE_NEWS({ shuffle: true });
             this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
+            this.loadNews = null;
         },
-        shuffleCollections() {
-            this.GET_EXPLORE_COLLECTIONS({ shuffle: true });
+        async shuffleCollections() {
+            this.loadCollections = true;
+            await this.GET_EXPLORE_COLLECTIONS({ shuffle: true });
+            this.loadCollections = null;
         },
-        shuffleLearn() {
-            this.GET_EXPLORE_LEARN({ shuffle: true });
+        async shuffleLearn() {
+            this.loadLearn = "learn";
+            await this.GET_EXPLORE_LEARN({ shuffle: true });
+            this.loadLearn = null;
         }
     },
     async mounted() {

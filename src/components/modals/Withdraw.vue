@@ -10,10 +10,11 @@
                         name="amount"
                         v-model="itemData.amount"
                         placeholder="Amount"
-                        :error-message="errors.amount"
+                        @reset="issues = {}"
+                        :error-message="issues.amount"
                 /></label>
             </div>
-            <error-block type="withdraw" :message="message" :status="status" @reset="handleReset" />
+            <error-block type="withdraw" />
             <div class="modal-form__buttons">
                 <action-button
                     type="submit"
@@ -32,7 +33,8 @@
                 You're now requesting a withdrawal
                 <span v-if="itemData.amount"
                     >of <span class="green">{{ itemData.amount | currency("NGN") }}</span></span
-                >&nbsp;into your {{ getKYC.bankAcctName || "bank" }}
+                >&nbsp;into your
+                {{ getKYC.bankAcctName ? `account with ${getKYC.bankAcctName}` : "bank" }}
             </p>
             <br />
         </section>
@@ -48,8 +50,7 @@ export default {
         return {
             itemData: {},
             loading: false,
-            message: null,
-            status: null
+            issues: {}
         };
     },
     computed: {
@@ -62,29 +63,27 @@ export default {
             this.$emit("close");
         },
         withdraw() {
-            // this.validate(this.itemData, withdrawValidation.withdraw);
-            if (Object.keys(this.errors).length > 0) {
+            if (typeof +this.itemData.amount !== "number") {
+                this.$set(this.issues, "amount", "Invalid number input");
                 return false;
             }
-            if (this.itemData.amount) {
-                this.loading = true;
-                let payload = { ...this.itemData };
-                payload.amount *= 100;
-                this.WITHDRAW_WALLET(payload).then(resp => {
-                    this.loading = false;
-                    if (resp) {
-                        /**
-                         * close buy modal
-                         * show success modal
-                         */
-                        this.$emit("close", true);
-                    }
-                });
+            if (+this.itemData.amount < 500) {
+                this.$set(this.issues, "amount", "Minimum withdrawal amount is ₦500");
+                return false;
             }
-        },
-        handleReset() {
-            this.message = null;
-            this.status = null;
+            this.loading = true;
+            let payload = { ...this.itemData };
+            payload.amount *= 100;
+            this.WITHDRAW_WALLET(payload).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    /**
+                     * close buy modal
+                     * show success modal
+                     */
+                    this.$emit("close", true);
+                }
+            });
         }
     },
     destroyed() {

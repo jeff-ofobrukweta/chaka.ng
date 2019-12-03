@@ -26,7 +26,9 @@
                     <hr />
                     <div class="accounts-wallet__money">
                         <div>
+                            <h3 v-if="!getAccountSummary.localWallet" class="cursor-context">-</h3>
                             <h3
+                                v-else
                                 class="cursor-context"
                                 :title="
                                     getAccountSummary.localWallet.availableBalance
@@ -75,7 +77,9 @@
                     <hr />
                     <div class="accounts-wallet__money">
                         <div>
+                            <h3 v-if="!getAccountSummary.globalWallet" class="cursor-context">-</h3>
                             <h3
+                                v-else
                                 class="cursor-context"
                                 :title="
                                     getAccountSummary.globalWallet.availableBalance

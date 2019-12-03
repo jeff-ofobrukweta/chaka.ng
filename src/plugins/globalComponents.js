@@ -18,7 +18,7 @@ import ErrorBlock from "../components/ErrorBlock";
 const GlobalComponents = {
     install(Vue) {
         Vue.component("form-input", Input);
-        Vue.component("form-button", Button);
+        Vue.component("c-button", Button);
         Vue.component("action-button", ActionButton);
         Vue.component("news-card", NewsCard);
         Vue.component("modal", Modal);
