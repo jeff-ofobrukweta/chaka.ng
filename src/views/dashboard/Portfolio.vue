@@ -33,7 +33,7 @@
         </section>
         <section class="watchlist-portfolio__box">
             <WatchlistCard
-                v-for="(instrument, index) in getWatchlist"
+                v-for="(instrument, index) in watchList"
                 :key="index"
                 :instrument="instrument"
             />
@@ -102,15 +102,18 @@ export default {
                     description:""
                 }
             ], 
+            watchList:[]
 
         }    
     },
      methods:{
         ...mapActions(['GET_ACCOUNT_SUMMARY','GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS','GET_WATCHLIST']),
         handlewatchlistintervalToogle(payload){
+             this.watchList = [];
             console.log('This is the current Interval here',payload)
             const watchPayload = {interval:payload}
                 this.GET_WATCHLIST(watchPayload).then(()=>{
+                     this.watchList = [...this.getWatchlist];
                     // put loader state here
             })
         }
@@ -118,6 +121,7 @@ export default {
     mounted(){
         const payload = {interval:'1D'};
         this.GET_WATCHLIST(payload).then(()=>{
+            this.watchList = [...this.getWatchlist];
             console.log('HELLO GOODRESULT HERE TTTTTTTTTTTTTTTnew',this.getWatchlist )
         })
         const currency = {currency:this.getPorfolioglobalCurrencyforGraph}
