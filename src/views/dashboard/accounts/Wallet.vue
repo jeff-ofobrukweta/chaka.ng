@@ -237,7 +237,6 @@ export default {
     },
     async mounted() {
         await this.GET_ACCOUNT_SUMMARY();
-        this.$toasted.show("Testing toaster");
     }
 };
 </script>
