@@ -1,11 +1,7 @@
 <template>
     <modal @close="$emit('close')">
         <template slot="header">{{ ninField.title }}</template>
-        <form @submit.prevent="submitNIN">
-            <div>
-                <ModalKYC :requiredFields="ninField.fields" @updated="handleUpdate" nin />
-            </div>
-        </form>
+        <ModalKYC :requiredFields="ninField.fields" @updated="handleUpdate" nin />
     </modal>
 </template>
 

@@ -46,7 +46,7 @@
             v-else-if="getAccountHistory.length > 0"
         />
 
-        <section v-else>You have no history at the moment</section>
+        <section v-else>You have no transaction</section>
     </div>
 </template>
 
@@ -142,6 +142,7 @@ export default {
         orderHistoryCheck() {
             this.loading = true;
             this.SET_ACCOUNT_HISTORY([]);
+            this.payload.actionType = this.selectedType;
             if (this.selectedType !== "ORDER") {
                 this.GET_ACCOUNT_HISTORY(this.payload).then(() => {
                     this.loading = false;
