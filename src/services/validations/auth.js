@@ -1,31 +1,11 @@
-import Joi from "@hapi/joi";
-
 const auth = {
-    register: Joi.object({
-        // password: Joi.string()
-        //     .min(7)
-        //     .required()
-        email: Joi.string().required()
-    }),
-    // login: Joi.object({
-    //     email: Joi.string()
-    //         .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
-    //         .required(),
-    //     password: Joi.string()
-    //         .min(7)
-    //         .required()
-    // }),
-    // forgotPassword: {
-    //     email: Joi.string()
-    //         .email()
-    //         .required()
-    // },
-    resetPassword: {
-        newPassword: Joi.string()
-            .min(7)
-            .required(),
-        chakaID: Joi.number().required(),
-        token: Joi.string().required()
+    email: value => {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(value).toLowerCase());
+    },
+    password: value => {
+        var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
+        return re.test(String(value).toLowerCase());
     }
 };
 

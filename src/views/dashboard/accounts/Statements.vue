@@ -91,7 +91,7 @@ export default {
                 },
                 {
                     name: "Confirmations",
-                    value: "CONFIRMATIONS"
+                    value: "TRADE"
                 },
                 {
                     name: "Tax",

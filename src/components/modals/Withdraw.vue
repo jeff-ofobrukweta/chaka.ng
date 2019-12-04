@@ -10,8 +10,8 @@
                         name="amount"
                         v-model="itemData.amount"
                         placeholder="Amount"
-                        @reset="issues = {}"
-                        :error-message="issues.amount"
+                        @reset="errors = {}"
+                        :error-message="errors.amount"
                 /></label>
                 <div class="form-info">
                     <small>**Allow up to 1 business day</small>
@@ -21,7 +21,7 @@
             <div class="modal-form__buttons">
                 <action-button
                     type="submit"
-                    :disabled="!itemData.amount"
+                    :disabled="Object.keys(errors).length > 0"
                     :pending="loading"
                     :classes="['btn-block', 'btn__primary']"
                     >Withdraw</action-button
@@ -45,14 +45,13 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-// import withdrawValidation from "../../services/validations/wallet";
 export default {
     name: "withdraw-modal",
     data() {
         return {
             itemData: {},
             loading: false,
-            issues: {}
+            errors: {}
         };
     },
     computed: {
@@ -65,12 +64,16 @@ export default {
             this.$emit("close");
         },
         withdraw() {
+            if (!this.itemData.amount) {
+                this.$set(this.errors, "amount", "Amount is required");
+                return false;
+            }
             if (typeof +this.itemData.amount !== "number") {
-                this.$set(this.issues, "amount", "Invalid number input");
+                this.$set(this.errors, "amount", "Invalid number input");
                 return false;
             }
             if (+this.itemData.amount < 1000) {
-                this.$set(this.issues, "amount", "Minimum withdrawal amount is ₦1000");
+                this.$set(this.errors, "amount", "Minimum withdrawal amount is ₦1000");
                 return false;
             }
             this.loading = true;

@@ -75,7 +75,7 @@ const actions = {
                 console.log(`::::::::::::::::::::${error}`);
             });
     },
-    BUY_INSTRUMENT: ({ commit, rootState }, payload) => {
+    BUY_INSTRUMENT: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
@@ -87,6 +87,7 @@ const actions = {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_BUY_ORDER", resp.data.data.order);
+                        dispatch("GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS", null, { root: true });
                         resolve(true);
                     } else {
                         errorFn(resp, "buy");
@@ -100,7 +101,7 @@ const actions = {
             );
         });
     },
-    SELL_INSTRUMENT: ({ commit, rootState }, payload) => {
+    SELL_INSTRUMENT: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
@@ -112,6 +113,7 @@ const actions = {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_SELL_ORDER", resp.data.data.order);
+                        dispatch("GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS", null, { root: true });
                         resolve(true);
                     } else {
                         errorFn(resp, "sell");

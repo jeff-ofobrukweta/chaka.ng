@@ -161,14 +161,14 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-// import exchangeValidation from "../../services/validations/wallet";
 export default {
     name: "exchange-modal",
     data() {
         return {
             itemData: { currency: "NGN", fromWallet: "local", toWallet: "global" },
             loading: false,
-            selectedCurrency: null
+            selectedCurrency: null,
+            errors: {}
         };
     },
     computed: {
@@ -190,21 +190,23 @@ export default {
             this.$emit("close");
         },
         exchangeWallet() {
-            // this.validate(this.itemData, exchangeValidation.exchange);
+            if (!this.itemData.amount) {
+                this.$set(this.errors, "amount", "Amount is required");
+            } else if (Number.isNaN(+this.itemData.amount)) {
+                this.$set(this.errors, "quantity", "Invalid amount");
+            }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
-            if (this.itemData.amount) {
-                this.loading = true;
-                let payload = { ...this.itemData };
-                payload.amount *= 100;
-                this.EXCHANGE_WALLET(payload).then(resp => {
-                    this.loading = false;
-                    if (resp) {
-                        this.$emit("close", true);
-                    }
-                });
-            }
+            this.loading = true;
+            let payload = { ...this.itemData };
+            payload.amount *= 100;
+            this.EXCHANGE_WALLET(payload).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.$emit("close", true);
+                }
+            });
         }
     },
     async mounted() {
