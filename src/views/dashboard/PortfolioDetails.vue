@@ -23,116 +23,54 @@
                 <span>Open Orders</span>
             </div>
         </div>
-        <PortfolioTable
-        :storedata="stocks" />
+        <PortfolioTable :storedata="stocks" />
     </section>
 </template>
 
 <script>
-import PortfolioTable from '../../components/portfolio/PortfolioTable';
-import { mapGetters,mapActions,mapMutations } from "vuex";
+import PortfolioTable from "../../components/portfolio/PortfolioTable";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
-    name: 'portfolio-details',
+    name: "portfolio-details",
     components: {
         PortfolioTable
     },
     data() {
         return {
             activeTab: 0,
-            localStocks: [
-                {
-                    name: 'Tesla Inc',
-                    symbol: 'TSLA',
-                    price: 123.4,
-                    unitsOwned: 0.0031,
-                    unitsOrdered: 0.1,
-                    investedAmount: 50.3,
-                    investedPercentage: 60,
-                    percent: 0.67,
-                    change: 20,
-                    currency: 'USD'
-                },
-                {
-                    name: 'Tesla Inc',
-                    symbol: 'TSLA',
-                    price: 123.4,
-                    unitsOwned: 0.0031,
-                    unitsOrdered: 0.1,
-                    investedAmount: 50.3,
-                    investedPercentage: 60.65,
-                    percent: 0.67,
-                    change: 20,
-                    currency: 'NGN'
-                },
-                {
-                    name: 'Tesla Inc',
-                    symbol: 'TSLA',
-                    price: 123235,
-                    unitsOwned: 0.0031,
-                    unitsOrdered: 0.1,
-                    investedAmount: 50.3,
-                    investedPercentage: 60.65,
-                    percent: 0.67,
-                    change: 12,
-                    currency: 'NGN'
-                },
-                {
-                    name: 'Tesla Inc',
-                    symbol: 'TSLA',
-                    price: 123.4,
-                    unitsOwned: 0.0031,
-                    unitsOrdered: 0.1,
-                    investedAmount: 50.3,
-                    investedPercentage: 60.65,
-                    percent: 0.67,
-                    change: -10,
-                    currency: 'USD'
-                }
-            ],
-            stocks:[]
+            stocks: []
         };
     },
     computed: {
-         ...mapGetters(["getglobalstocksowned","getlocalstocksowned","getopenstocks"]),
+        ...mapGetters(["getglobalstocksowned", "getlocalstocksowned", "getopenstocks"]),
         type() {
-            return this.$route.params.type || 'open-orders';
+            return this.$route.params.type;
         }
     },
     methods: {
-        ...mapActions(['GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS']),
+        ...mapActions(["GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS"]),
         changeType(type) {
             if (this.type !== type) {
-                this.$router.replace({ name: 'portfolio-details', params: { type } });
+                this.$router.replace({ name: "portfolio-details", params: { type } });
+            }
+        },
+        mountAction(type) {
+            if (type == "local") {
+                this.stocks = this.getlocalstocksowned;
+            } else if (type == "global") {
+                this.stocks = this.getglobalstocksowned;
+            } else {
+                this.stocks = this.getopenstocks;
             }
         }
     },
-    mounted(){
-        this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS().then(()=>{});
-        if(this.$route.params.type == 'local'){
-            this.stocks = this.getlocalstocksowned;
-             console.log('OPEN HERE MMMMMMMMMMMMMMMMMMMMMmmMMM',this.stocks)
-        }
-        else if(this.$route.params.type == 'global'){
-            this.stocks = this.getglobalstocksowned;
-             console.log('OPEN HERE MMMMMMMMMMMMMMMMMMMMMmmMMM',this.stocks)
-        }
-        else{
-            this.stocks = this.getopenstocks;
-             console.log('OPEN HERE MMMMMMMMMMMMMMMMMMMMMmmMMM',this.stocks)
-        }
-        console.log('OPEN HERE MMMMMMMMMMMMMMMMMMMMMMMM',this.getglobalstocksowned,this.getlocalstocksowned,this.getopenstocks)
+    async mounted() {
+        await this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS();
+        this.mountAction(this.type);
     },
-    beforeRouteUpdate(to, from, next){
-        if(to.params.type == 'local'){
-            this.stocks = this.getlocalstocksowned;
-        }
-        else if(to.params.type == 'global'){
-            this.stocks = this.getglobalstocksowned;
-        }
-        else{
-            this.stocks = this.getopenstocks;
-        }
-        next()
+    beforeRouteUpdate(to, from, next) {
+        this.mountAction(to.params.type);
+        next();
     }
 };
 </script>

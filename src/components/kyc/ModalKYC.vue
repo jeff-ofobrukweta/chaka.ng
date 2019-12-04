@@ -165,7 +165,8 @@ export default {
             director: {},
             showEmployment: true,
             showPepStatus: false,
-            showDirector: false
+            showDirector: false,
+            errors: {}
         };
     },
     computed: {

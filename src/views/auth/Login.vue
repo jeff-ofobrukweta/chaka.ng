@@ -57,7 +57,7 @@
 </template>
 
 <script>
-// import auth from "../../services/validations/auth";
+import auth from "../../services/validations/auth";
 import { mapActions, mapMutations } from "vuex";
 
 export default {
@@ -65,12 +65,13 @@ export default {
     data() {
         return {
             itemData: {},
+            errors: {},
             loading: false
         };
     },
     computed: {
         formValid() {
-            if (this.loading) return false;
+            if (this.loading || Object.keys(this.errors).length > 0) return false;
             return true;
         }
     },
@@ -79,10 +80,19 @@ export default {
         ...mapMutations(["RESET_REQ"]),
         login() {
             this.RESET_REQ();
-            // this.validate(this.itemData, auth.login);
-
-            console.log(this.errors);
-
+            if (!this.itemData.email) {
+                this.$set(this.errors, "email", "Field is required");
+            } else if (!auth.email(this.itemData.email)) {
+                this.$set(this.errors, "email", "Invalid email");
+            }
+            if (!this.itemData.password) {
+                this.$set(this.errors, "password", "Field is required");
+            }
+            // const p = auth.password(this.itemData.password);
+            // console.log(p);
+            // else if(){
+            //     console.log()
+            // }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
@@ -93,7 +103,7 @@ export default {
             });
         },
         resetError() {
-            this.clearErrors();
+            this.errors = {};
         }
     },
     mounted() {

@@ -117,11 +117,7 @@
 
         <modal @close="showKYC = false" v-if="showKYC">
             <template slot="header">{{ selectedField.title }}</template>
-            <form @submit.prevent="submitPhone">
-                <div>
-                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-                </div>
-            </form>
+            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
         </modal>
     </div>
 </template>

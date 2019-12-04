@@ -72,7 +72,7 @@
                             :classes="['portfolio-table__buy']"
                             :action="item.currency === 'NGN' ? 'local' : 'global'"
                             @step="handleStep"
-                            @click="selectInstrument(item, 'buy')"
+                            @click.native="selectInstrument(item, 'buy')"
                             tag="a"
                             >+&nbsp;Buy</KYCButton
                         >
@@ -80,8 +80,8 @@
                             ref="sellBtn"
                             :classes="['portfolio-table__buy']"
                             :action="item.currency === 'NGN' ? 'local' : 'global'"
+                            @click.native="selectInstrument(item, 'sell')"
                             @step="handleStep"
-                            @click="selectInstrument(item, 'sell')"
                             tag="a"
                             >-&nbsp;Sell</KYCButton
                         >
@@ -93,14 +93,14 @@
             </tbody>
         </table>
         <buy-modal
-            @close="closeBuyModal"
+            @close="closeSaleModal"
             :currency="selectedInstrument.currency"
             :symbol="selectedInstrument.symbol"
             :instrument="selectedInstrument"
             v-if="showBuy"
         />
         <sell-modal
-            @close="showSell = false"
+            @close="closeSaleModal"
             :currency="selectedInstrument.currency"
             :symbol="selectedInstrument.symbol"
             :instrument="selectedInstrument"
@@ -110,11 +110,7 @@
 
         <modal @close="showKYC = false" v-if="showKYC">
             <template slot="header">{{ selectedField.title }}</template>
-            <form @submit.prevent="submitPhone">
-                <div>
-                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-                </div>
-            </form>
+            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
         </modal>
     </section>
 </template>
@@ -162,6 +158,9 @@ export default {
             this.selectedInstrument = instrument;
             this.type = type;
         },
+        checkPassive() {
+            console.log("check passive");
+        },
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -176,8 +175,11 @@ export default {
                 });
                 return true;
             } else {
-                if (this.type === "buy") this.showBuy = true;
-                else this.showSell = true;
+                if (this.type === "buy") {
+                    this.showBuy = true;
+                    return true;
+                }
+                this.showSell = true;
             }
         },
         handleUpdate() {
@@ -187,11 +189,12 @@ export default {
                 else this.$refs.sellBtn.$el.click();
             }
         },
-        closeBuyModal(e) {
+        closeSaleModal(e) {
             if (e) {
                 this.showSuccess = true;
             }
             this.showBuy = false;
+            this.showSell = false;
         }
     }
 };

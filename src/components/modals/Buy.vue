@@ -1,6 +1,6 @@
 <template>
     <modal :close-on-click="false" @close="closeModal" class="modal__buy">
-        <template slot="header">Buy {{ instrument.name }}</template>
+        <template slot="header">Buy {{ instrument.name }} stock</template>
         <section class="modal__buy--details">
             <div class="modal__buy-left">
                 <div class="modal__buy--image">
@@ -26,35 +26,33 @@
             </div>
             <div class="modal__buy--current">
                 <p><small>CURRENT STOCK PRICE:</small></p>
-                <p>
+                <p v-if="getSingleinstrument.length <= 0">-</p>
+                <p v-else>
                     <span
                         class="cursor-context modal__buy--price"
                         :title="
-                            instrument.InstrumentDynamic.askPrice
-                                | currency(instrument.currency, true)
+                            getSingleinstrument[0].askPrice | currency(instrument.currency, true)
                         "
-                        >{{
-                            instrument.InstrumentDynamic.askPrice | currency(instrument.currency)
-                        }}</span
+                        >{{ getSingleinstrument[0].askPrice | currency(instrument.currency) }}</span
                     >&nbsp;&nbsp;
                     <img
-                        v-if="instrument.derivedPrice >= 0"
+                        v-if="getSingleinstrument[0].derivedPrice >= 0"
                         :src="require('../../assets/img/green-arrow.svg')"
                         alt="Growth"
                     />
                     <img v-else :src="require('../../assets/img/red-arrow.svg')" alt="Growth" />
-                    <span :class="[+instrument.derivedPrice >= 0 ? 'green' : 'red']">
+                    <span :class="[+getSingleinstrument[0].derivedPrice >= 0 ? 'green' : 'red']">
                         <small
-                            >{{ +instrument.derivedPrice >= 0 ? "+" : ""
-                            }}{{ +instrument.derivedPrice | units(2) }} ({{
-                                +instrument.derivedPricePercentage | units(2)
+                            >{{ +getSingleinstrument[0].derivedPrice >= 0 ? "+" : ""
+                            }}{{ +getSingleinstrument[0].derivedPrice | units(2) }} ({{
+                                +getSingleinstrument[0].derivedPricePercentage | units(2)
                             }}%)</small
                         ></span
                     >
                 </p>
             </div>
             <div class="modal__buy--current">
-                <p><small>AVAILABLE AMOUNT</small></p>
+                <p><small>AVAILABLE AMOUNT:</small></p>
                 <p
                     v-if="currency === 'NGN'"
                     class="cursor-context modal__buy--price"
@@ -79,7 +77,28 @@
                 </p>
             </div>
         </section>
-        <div v-if="!isBuyValid" class="modal-form">
+        <div v-if="isBuyValid === 1" class="modal-form">
+            <h5 class="text-center mb-2">Verification Incomplete</h5>
+            <p class="text-center">
+                To continue your verification, click the button below
+            </p>
+            <div class="text-center mt-3">
+                <KYCButton
+                    ref="buyBtn"
+                    type="button"
+                    :classes="['btn__primary']"
+                    action="global"
+                    @step="handleStep"
+                    >Continue</KYCButton
+                >
+            </div>
+
+            <modal @close="showKYC = false" v-if="showKYC">
+                <template slot="header">{{ selectedField.title }}</template>
+                <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+            </modal>
+        </div>
+        <div v-else-if="isBuyValid === 2" class="modal-form">
             <h5 class="text-center mb-2">Your Verification is Under Review</h5>
             <p class="text-center">
                 You will be notified through email when your account gets activated for global
@@ -97,7 +116,7 @@
                             v-model="itemData.amountCash"
                             placeholder="Amount"
                             :disabled="Object.keys(getMarketData).length <= 0"
-                            @focus="clearIssues"
+                            @reset="clearErrors"
                             @input="onTypeAmount"
                             :error-message="errors.amountCash"
                     /></label>
@@ -109,7 +128,7 @@
                             v-model="itemData.price"
                             placeholder="Limit Order Price"
                             :disabled="Object.keys(getMarketData).length <= 0"
-                            @focus="clearIssues"
+                            @reset="clearErrors"
                             :error-message="errors.price"
                     /></label>
                 </div>
@@ -121,7 +140,7 @@
                             name="quantity"
                             v-model="itemData.quantity"
                             :disabled="Object.keys(getMarketData).length <= 0"
-                            @focus="clearIssues"
+                            @reset="clearErrors"
                             @input="onTypeQuantity"
                             placeholder="Quantity"
                             :error-message="errors.quantity"
@@ -141,14 +160,14 @@
                     <action-button
                         type="submit"
                         :pending="loading"
-                        :disabled="Object.keys(getMarketData).length <= 0"
+                        :disabled="Object.keys(getMarketData).length <= 0 || !isFormValid"
                         :classes="['btn-block', 'btn__primary']"
                         >Buy</action-button
                     >
                 </div>
             </form>
             <template v-else>
-                <form class="modal-form" @submit.prevent="buyInstrument">
+                <form @submit.prevent="buyInstrument">
                     <div class="stock-vdr">
                         <div class="stock-vdr__flex">
                             <div class="stock-vdr__box stock-vdr__right">
@@ -298,6 +317,9 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import KYCButton from "../form/KYCButton";
+import ModalKYC from "../kyc/ModalKYC";
+import KYCTitles from "../../services/kyc/kycTitles";
 export default {
     name: "buy-modal",
     props: {
@@ -314,6 +336,10 @@ export default {
             required: true
         }
     },
+    components: {
+        ModalKYC,
+        KYCButton
+    },
     data() {
         return {
             itemData: {},
@@ -322,15 +348,34 @@ export default {
             orderType: "MARKET",
             showResponse: false,
             isQuantity: true,
-            errors: {}
+            errors: {},
+            showSuccess: false,
+            showKYC: false,
+            selectedField: {},
+            allNextKYC: KYCTitles.titles
         };
     },
     computed: {
-        ...mapGetters(["getAccountSummary", "getMarketData", "getPreOrder", "getLoggedUser"]),
+        ...mapGetters([
+            "getAccountSummary",
+            "getSingleinstrument",
+            "getMarketData",
+            "getPreOrder",
+            "getLoggedUser",
+            "getNextKYC"
+        ]),
         isBuyValid() {
-            if (this.instrument.currency === "NGN")
-                return this.getLoggedUser.localKycStatus === "COMPLETE";
-            return this.getLoggedUser.globalKycStatus === "COMPLETE";
+            if (this.instrument.currency === "NGN") {
+                if (this.getLoggedUser.localKycStatus === "NONE") return 1;
+                else if (this.getLoggedUser.localKycStatus === "PENDING") return 2;
+                return 3;
+            }
+            if (this.getLoggedUser.globalKycStatus === "NONE") return 1;
+            else if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
+            return 3;
+        },
+        isFormValid() {
+            return Object.keys(this.errors).length <= 0;
         }
     },
     methods: {
@@ -338,17 +383,44 @@ export default {
             "GET_ACCOUNT_SUMMARY",
             "BUY_INSTRUMENT",
             "GET_MARKET_DATA",
-            "GET_PRE_ORDER"
+            "GET_PRE_ORDER",
+            "GET_SINGLESTOCK_INSTRUMENT"
         ]),
-        ...mapMutations(["SET_MARKET_DATA", "SET_SELL_ORDER", "SET_BUY_ORDER", "RESET_REQ"]),
+        ...mapMutations([
+            "SET_MARKET_DATA",
+            "SET_SELL_ORDER",
+            "SET_BUY_ORDER",
+            "RESET_REQ",
+            "SET_SINGLE_INSTRUMENT"
+        ]),
         closeModal() {
             this.$emit("close");
         },
         switchOrder(value) {
             this.orderType = value;
+            this.clearErrors();
         },
         validateBuy() {
-            if (Object.keys(this.itemData).length < 2) {
+            this.RESET_REQ();
+            if (this.orderType === "MARKET") {
+                if (!this.itemData.amountCash) {
+                    this.$set(this.errors, "amountCash", "Amount is required");
+                } else if (Number.isNaN(+this.itemData.amountCash)) {
+                    this.$set(this.errors, "quantity", "Invalid quantity");
+                }
+            } else {
+                if (!this.itemData.price) {
+                    this.$set(this.errors, "price", "Limit price is required");
+                } else if (Number.isNaN(+this.itemData.price)) {
+                    this.$set(this.errors, "quantity", "Invalid quantity");
+                }
+            }
+            if (!this.itemData.quantity) {
+                this.$set(this.errors, "quantity", "Quantity is required");
+            } else if (Number.isNaN(+this.itemData.quantity)) {
+                this.$set(this.errors, "quantity", "Invalid quantity");
+            }
+            if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             const { isQuantity } = this;
@@ -430,8 +502,33 @@ export default {
                 }
             }
         },
-        clearIssues() {
+        clearErrors() {
             this.errors = {};
+        },
+        handleStep(step) {
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            } else if (step.type === "global") {
+                // this.showGlobal = true;
+            }
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            this.GET_LOGGED_USER().then(() => {
+                if (this.isBuyValid === 1) {
+                    this.$refs.buyBtn.$el.click();
+                }
+            });
+            return true;
         }
     },
     async mounted() {
@@ -439,10 +536,12 @@ export default {
         this.SET_BUY_ORDER({});
         this.SET_SELL_ORDER({});
         this.GET_MARKET_DATA(this.symbol);
+        this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol });
         await this.GET_ACCOUNT_SUMMARY();
     },
     beforeDestroy() {
         this.SET_MARKET_DATA({});
+        this.SET_SINGLE_INSTRUMENT([]);
     }
 };
 </script>
