@@ -167,7 +167,7 @@
                 </div>
             </form>
             <template v-else>
-                <form class="modal-form" @submit.prevent="sellInstrument">
+                <form @submit.prevent="sellInstrument">
                     <div class="stock-vdr">
                         <div class="stock-vdr__flex">
                             <div class="stock-vdr__box stock-vdr__right">
