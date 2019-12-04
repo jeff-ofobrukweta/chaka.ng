@@ -102,8 +102,12 @@ name:"Singlestock",
   },
   methods: {
     //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-    ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "GET_CURRENT_STOCK_POSITION"]),
-    ...mapMutations(["SET_SINGLE_INSTRUMENT"])
+    ...mapActions([
+      "GET_SINGLESTOCK_INSTRUMENT", 
+      "GET_CURRENT_STOCK_POSITION"
+      ]),
+    ...mapMutations([
+      "SET_SINGLE_INSTRUMENT"])
   },
   async mounted() {
     const singlestockpayload = {

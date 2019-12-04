@@ -8,7 +8,7 @@
         </h2>
         <p class="portfolio-card__title">{{ 'Total Value on Open Stocks' }}</p>
         <table v-if="instrument.positions.open.orders.length > 0" class="portfolio-card__table">
-            <tr v-for="(stock, index) in instrument.positions.open.orders.slice(0, 5)" 
+            <tr v-for="(stock, index) in instrument.positions.open.orders.slice(0, 3)" 
             :key="index" class="portfolio-card__tr">
                 <td class="portfolio-card__tr--left capitalize">{{ stock.name }}</td>
                 <td

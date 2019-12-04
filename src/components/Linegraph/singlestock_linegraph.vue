@@ -12,8 +12,10 @@
                                      <button
                                         v-for="(item, index) in currencyOption"
                                         :key="index"
+                                         @click="toogleCurrency(item.currency,item.id)"
                                         :title="item.description"
-                                        class="btn-one">{{item.symbol}}</button>
+                                        :class="[item.currency == getSinglestockglobalCurrencyforGraph ? 'btn-one-active' : '','btn-one']"
+                                        >{{item.symbol}}</button>
                                     <button>
                                         <div id="select" class="dropdown">
                                         <select
@@ -30,13 +32,15 @@
                         </section>
                     </div>
                         <section class="btn-parent-container">
-                            <section class="btn-container">
+                            <section
+                            :class="[getSingleinstrument[0].currency == 'USD'?'':'display']"
+                            class="btn-container">
                                 <button
                                 v-for="(item,index) in options"
                                 :key="index"
                                 @click="OntooglePositions(item.id)"
                                 :class="[item.id == activeButton ? 'active-btn' : '','option']"
-                                class="option">{{item.name}}</button>
+                               >{{item.name}}</button>
                             </section>
                         </section>
 
@@ -52,6 +56,7 @@
             :class="tooglegraph ? 'display':'nodisplay'"
             :price="getOpenPrice"
             :date="getDates"
+            :currency="getSingleinstrument[0].currency"
          />
     </div>
     <div v-else 
@@ -102,14 +107,14 @@ export default {
              currencyOption:[
                 {
                     symbol:"₦",
-                    value:'NGN',
+                    currency:'NGN',
                     id:0,
                     description:"convert to Naira value"
                 },
                 {
                     symbol:"$",
-                    value:'USD',
-                    id:0,
+                    currency:'USD',
+                    id:1,
                     description:"convert to Dollar value"
                 }
             ],
@@ -138,7 +143,8 @@ export default {
                     state:false,
                     id:1
                 }
-            ]
+            ],
+            currentId:''
         }
     },
     components: {
@@ -150,42 +156,77 @@ export default {
         instrument:{
             type:Object,
             required:true
-        }
+        },
+         currency: {
+            type: String,
+            required: false
+        },
     },
     computed:{
-        ...mapGetters(['getOpenPrice','getDates','getSingleinstrument'])
+        ...mapGetters([
+            "getOpenPrice",
+            "getDates",
+            "getSingleinstrument",
+            "getSinglestockglobalTimeforGraph",
+            "getSinglestockglobalCurrencyforGraph",
+            "getSinglestockIntervalposition"
+            ])
     },
     methods:{
-        ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
+        ...mapMutations([
+            "SET_LINE_SINGLESTOCK_CHARTDATA",
+            "SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH",
+            "SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH",
+            "SET_SINGLESTOCK_POSITIONS_FOR_SELECT"
+            ]),
         ...mapActions(['GET_LINECHART_SINGLESTOCK_GRAPH_DATA']),
-        onhandleGraphdata(){
-            const payloadsinglestock = {
-                interval:'1D',
-                symbol:this.instrument.symbol
-            }
-             console.log('>>>>>>XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX>>>>>>>>>>>>>>',this.instrument);
-            this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
-                console.log('>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
-            })
-        },
         OntooglePositions(response){
             this.activeButton = response;
             this.tooglegraph = !this.tooglegraph;
         },
-        handletimeframe(index) {
+        mountAction(){
             const payloadsinglestock = {
-                interval:index,
+                interval:this.getSinglestockglobalTimeforGraph,
+                currency:this.getSinglestockglobalCurrencyforGraph,
                 symbol:this.$route.params.symbol
             }
+             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
+                //  call back state like loader state here
+                console.log('this is the single Instrument LLLLLLLLLLLLLL', this.getSingleinstrument[0].currency)
+            })
+        },
+        handletimeframe(index) {
             console.log('>>>>>>>>>handletimeframe>>>>>>>>',index);
+            this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(index);
+            const payloadsinglestock = {
+                interval:this.getSinglestockglobalTimeforGraph,
+                currency:this.getSinglestockglobalCurrencyforGraph,
+                symbol:this.$route.params.symbol
+            }
              this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
                 console.log('>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
             })
-        }
+        },
+         async toogleCurrency(currency,id) {
+             console.log('TOOOOOOOOGLE_CUUUUUUUUURENCY',currency,id)
+             this.currentId = id
+            this.SET_SINGLESTOCK_POSITIONS_FOR_SELECT(id);
+            console.log('CURRENCY TOOGLE SELECT STATE',this.getSinglestockIntervalposition)
+            this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(currency)
+            console.log('toggle HHHHHHHHHHHHHHHHHHHHHHH',this.getSinglestockglobalCurrencyforGraph)
+            const defaulttime = {
+                interval:this.getSinglestockglobalTimeforGraph,
+                currency:this.getSinglestockglobalCurrencyforGraph,
+                symbol:this.$route.params.symbol
+            }
+			this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(defaulttime).then(()=>{
+
+            });
+        },
     },
     mounted(){
         console.log('are this getters??????????????',this.instrument,this.getOpenPrice,this.getDates)
-        this.onhandleGraphdata();
+        this.mountAction();
     }
 };
 </script>
