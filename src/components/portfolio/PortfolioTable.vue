@@ -110,11 +110,7 @@
 
         <modal @close="showKYC = false" v-if="showKYC">
             <template slot="header">{{ selectedField.title }}</template>
-            <form @submit.prevent="submitPhone">
-                <div>
-                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-                </div>
-            </form>
+            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
         </modal>
     </section>
 </template>
@@ -159,6 +155,7 @@ export default {
             return false;
         },
         selectInstrument(instrument, type) {
+            console.log(instrument);
             this.selectedInstrument = instrument;
             this.type = type;
         },

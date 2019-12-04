@@ -40,14 +40,7 @@
 
                 <modal @close="showKYC = false" v-if="showKYC">
                     <template slot="header">{{ selectedField.title }}</template>
-                    <form @submit.prevent="submitPhone">
-                        <div>
-                            <ModalKYC
-                                :requiredFields="selectedField.fields"
-                                @updated="handleUpdate"
-                            />
-                        </div>
-                    </form>
+                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
                 </modal>
             </div>
             <div class="modal-form" v-if="canFundGlobal === 2">
@@ -79,7 +72,7 @@
                 <div class="modal-form__buttons">
                     <action-button
                         type="submit"
-                        :disabled="!itemData.amount || Object.keys(issues).length > 0"
+                        :disabled="Object.keys(issues).length > 0"
                         :pending="loading"
                         :classes="['btn-block', 'btn__primary']"
                         >Fund</action-button
@@ -175,6 +168,10 @@ export default {
             this.$emit("close");
         },
         fundWallet() {
+            if (!this.itemData.amount) {
+                this.$set(this.issues, "amount", "Amount is required");
+                return false;
+            }
             if (typeof +this.itemData.amount !== "number") {
                 this.$set(this.issues, "amount", "Invalid number input");
                 return false;
@@ -251,6 +248,7 @@ export default {
         },
         switchCurrency(currency) {
             this.currency = currency;
+            this.handleReset();
         },
         handleReset() {
             this.issues = {};
