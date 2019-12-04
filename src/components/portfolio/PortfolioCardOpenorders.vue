@@ -59,9 +59,6 @@ export default {
         toDetailsPage(type) {
             this.$router.push({ name: "portfolio-details", params: { type } });
         }
-    },
-    mounted() {
-        console.log("XXXXXXXXXXXXXXXXXXXX", this.details);
     }
 };
 </script>

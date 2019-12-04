@@ -28,7 +28,7 @@ export default {
             max: '',
             graphstyle: {
                 width: '100%',
-                height: '300px',
+                height: '350px',
                 margin: '0px -2em'
             },
             interval: 10,
@@ -38,7 +38,7 @@ export default {
             showError: false,
             activeButton: 2,
             padding: 0,
-            width: 20,
+            width: '200%',
             options: {
                 scales: {
                     xAxes: [
@@ -167,7 +167,7 @@ export default {
     //    ...mapGetters(['getWindowWidth','getOpenPrice','getDates'])
     },
     mounted() {
-        console.log('this are props >>>>>>>>>>>>>',this.date,this.price)
+        console.log('this are HHHSSSSSSSSSSSSSSSSSSSHHHHHHHHHHHHHHHHHHSSSSSSS >>>>>>>>>>>>>',this.currency,this.date,this.price)
         this.fillData();
     },
 
@@ -204,7 +204,7 @@ export default {
                 datasets: [
                     {
                         label: 'Stocks',
-                        lineTension: 0.4,
+                        lineTension: 0.5,
                         fill: true,
                         backgroundColor: '#d4eaf8cf',
                         borderColor: '#2da5ec',

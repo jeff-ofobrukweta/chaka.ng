@@ -50,6 +50,14 @@ export default {
         handleClick(e) {
             this.clicked = true;
             if (this.action === "fund") {
+                if (
+                    this.getLoggedUser.localKycStatus !== "NONE" &&
+                    this.getLoggedUser.globalKycStatus !== "NONE"
+                ) {
+                    this.$emit("step", { type: "fund", kyc: false });
+                    this.clicked = false;
+                    return true;
+                }
                 this.GET_NEXT_KYC({ context: "FUND" }).then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
                         this.$emit("step", { type: "fund", kyc: true });

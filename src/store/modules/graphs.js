@@ -18,7 +18,12 @@ const state = {
     portfolioDerivedChange: null,
     globalCurrencyforportfolioGraph:'NGN',
     globalTimeforportfolioGraph:'1D',
-    portfolioposition:0
+    portfolioposition:0,
+
+
+    globalCurrencyforsinglestockGraph:'NGN',
+    globalTmeforsinglestockGraph:'1D',
+    singlestockposition:0,
 
 
     
@@ -34,6 +39,18 @@ const getters = {
     getPortfolioIntervalposition:(state) => {
         return state.portfolioposition;
     },
+
+    // start single stock getter global variables here
+    getSinglestockglobalTimeforGraph: (state) => {
+        return state.globalTmeforsinglestockGraph;
+    },
+    getSinglestockglobalCurrencyforGraph: (state) => {
+        return state.globalCurrencyforsinglestockGraph;
+    },
+    getSinglestockIntervalposition:(state) => {
+        return state.singlestockposition;
+    },
+//end the single-stock variable here
 
     getPortfolioDerivedPrice: (state) => {
 		return state.portfolioDerivedPrice;
@@ -110,9 +127,7 @@ const getters = {
 };
 
 const mutations = {
-    SET_PORTFOLIO_POSITIONS_FOR_SELECT(state, select) {
-		state.portfolioposition = select;
-    },
+    
     SET_PORTFOLIO_DERIVED_PRICE(state, derived) {
 		state.portfolioDerivedPrice = derived;
 	},
@@ -214,11 +229,28 @@ const mutations = {
 		pricedetailsvariable = pricedetails;
         state.pricedetailsvariable = pricedetailsvariable;
     },
+    SET_PORTFOLIO_POSITIONS_FOR_SELECT(state, select) {
+		state.portfolioposition = select;
+    },
     SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(state, interval) {
         state.globalTimeforportfolioGraph = interval;
     },
     SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(state, currency) {
         state.globalCurrencyforportfolioGraph = currency;
+        
+    },
+
+
+    // start the global-single-stock variable here
+    // singlestock global varaiable seeetters
+    SET_SINGLESTOCK_POSITIONS_FOR_SELECT(state, select) {
+		state.singlestockposition = select;
+    },
+    SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(state, interval) {
+        state.globalTmeforsinglestockGraph = interval;
+    },
+    SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(state, currency) {
+        state.globalCurrencyforsinglestockGraph = currency;
         
     }
 
@@ -235,7 +267,7 @@ const actions = {
                 commit('SET_LINE_SINGLESTOCK_CHART_DATE',chart)
                 //derived prices high lows etc are gotton here
                 commit('SET_PRICE_INFO_ON_BLACKCARD', response.data.data)
-                console.log('inside vuex store',chart);
+                console.log('inside vuex store BBOOOOOOOOOOOOOOOM',response.data.data);
 			})
 			.catch((error) => {
                console.log(`::::::::::::::::::::${error}`);
