@@ -3,7 +3,8 @@
         <div class="portfolio-card__img">
             <img :src="require(`../../assets/img/portfolio3.svg`)" alt="Portfolio Icon" />
         </div>
-        <h2 class="cursor-context" :title="instrument.positions.open.openTotal">
+        <h2 class="cursor-context" 
+        :title="instrument.positions.open.openTotal">
             {{ instrument.positions.open.openTotal }}
         </h2>
         <p class="portfolio-card__title">{{ 'Total Value on Open Stocks' }}</p>

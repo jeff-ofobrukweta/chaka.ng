@@ -5,13 +5,13 @@
         </section>
         <section class="portfolio-card__box">
             <PortfolioCardLocal 
-            :instrument="getPortfoliopositionsCarddetails"
+            :instrument="getPortfoliopositionsCarddetails ? getPortfoliopositionsCarddetails : {}"
             />
             <PortfolioCardGlobal
-            :instrument="getPortfoliopositionsCarddetails"
+            :instrument="getPortfoliopositionsCarddetails ? getPortfoliopositionsCarddetails:{}"
             />
             <PortfolioCardOpenorders
-            :instrument="getPortfoliopositionsCarddetails"
+            :instrument="getPortfoliopositionsCarddetails ?getPortfoliopositionsCarddetails : {}"
             />
         </section>
         <section class="portfolio__charts">

@@ -22,13 +22,15 @@ instance.interceptors.response.use(
     response => {
         return response;
     },
-    function(error) {
+    function (error) {
         const originalRequest = error.config;
+        console.log('>>>> in intercetor', originalRequest.url, error.response.status)
 
         if (
             originalRequest.url === `${baseURL}/auth/refresh-token` &&
             error.response.status === 400
         ) {
+            console.log('>>>> redirecting to login')
             router.push("/login");
             return Promise.reject(error);
         }
@@ -38,7 +40,7 @@ instance.interceptors.response.use(
             const token = jwtDecode(localStorage.getItem("AUTH_TOKEN"));
             const refreshToken = localStorage.getItem("REFRESH_TOKEN");
 
-            return axios
+            return instance
                 .post(`${baseURL}/auth/refresh-token/`, {
                     chakaID: `${token.user.chakaID}`,
                     refreshToken
