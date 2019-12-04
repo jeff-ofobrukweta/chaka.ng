@@ -188,6 +188,9 @@ export default {
             this.UPLOAD_KYC_FILE(formData).then(resp => {
                 this.loading = false;
                 if (resp) {
+                    this.$toasted.show(`${this.formDetails.name} uploaded successful`, {
+                        type: "success"
+                    });
                     this.uploadedImage = null;
                     this.fileExtension = null;
                     this.file = null;

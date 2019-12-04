@@ -10,13 +10,25 @@ import "aos/dist/aos.css";
 import "lazysizes";
 import "lazysizes/plugins/parent-fit/ls.parent-fit";
 import filters from "./filters";
-import Vuelidate from "vuelidate";
+import Toaster from "vue-toasted";
 
 Vue.config.productionTip = false;
 
+const toasterOptions = {
+    duration: 4000,
+    keepOnHover: true,
+    action: {
+        text: "X",
+        onClick: (e, toastObject) => {
+            toastObject.goAway(0);
+        }
+    },
+    type: "info"
+};
+
 // Vue Global Components Plugin
 Vue.use(GlobalComponents);
-Vue.use(Vuelidate);
+Vue.use(Toaster, toasterOptions);
 
 // Vue Global Mixins
 

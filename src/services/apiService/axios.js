@@ -2,6 +2,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import router from "../../router";
+import store from "../../store/index";
 
 const baseURL = "https://test-api.chaka.io";
 const instance = axios.create({
@@ -23,7 +24,6 @@ instance.interceptors.response.use(
     response => response,
     error => {
         const originalRequest = error.config;
-        console.log('>>>> in intercetor', originalRequest.url, error.response.status)
 
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
@@ -44,7 +44,7 @@ instance.interceptors.response.use(
                 })
                 .catch(err => {
                     if (err.response.status === 400) {
-                        router.push("/login");
+                        router.push("/logout");
                         return Promise.reject(error);
                     }
                 });

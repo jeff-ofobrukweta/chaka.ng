@@ -189,10 +189,9 @@ const actions = {
     UPLOAD_KYC_FILE: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        const { source, ...params } = payload;
         return new Promise((resolve, reject) => {
             return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/upload-file`, params)
+                .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/upload-file`, payload)
                 .then(
                     resp => {
                         if (resp.status === 200) {
