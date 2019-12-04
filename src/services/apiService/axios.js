@@ -1,8 +1,8 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import router from "@/router";
+import router from "../../router";
 
-const baseURL = `https://test-api.chaka.io`;
+const baseURL = "https://test-api.chaka.io";
 const instance = axios.create({
     // baseURL: `https://c89940da-8733-4b38-9260-058a90e8895f.mock.pstmn.io`,
     baseURL,
@@ -13,7 +13,6 @@ const instance = axios.create({
         Authorization: {
             toString() {
                 return `Bearer ${localStorage.getItem("AUTH_TOKEN")}`;
-                // return `Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJjaGFrYUlEIjoxMDEyNTY3ODEwLCJlbWFpbCI6InNldW5AY2hha2EubmciLCJyb2xlIjoiQ1VTVE9NRVIifSwiaWF0IjoxNTYxMzgzNzI3LCJleHAiOjE1NjEzODM3NDJ9.awx6JB7PHppMtP-PdsylXCaVqqcZRrR6SoeL-8gEohc"`;
             }
         }
     }
