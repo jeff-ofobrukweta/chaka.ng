@@ -41,7 +41,7 @@ const actions = {
                 );
         });
     },
-    GET_WATCHLIST_CHART: ({ commit, rootState }, payload) => {
+    GET_WATCHLIST_CHART: ({}, payload) => {
         /**
          * @params {interval, symbol}
          */
@@ -62,6 +62,58 @@ const actions = {
                     resolve(false);
                 }
             );
+        });
+    },
+    ADD_TO_WATCHLIST: ({ commit, rootState }, payload) => {
+        /**
+         * @params {symbols}
+         */
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api
+                .patch(`/users/${rootState.auth.loggedUser.chakaID}/watchlists/`, { ...payload })
+                .then(
+                    resp => {
+                        if (resp.status === 200) {
+                            commit("REQ_SUCCESS", null, { root: true });
+                            resolve(true);
+                        } else {
+                            errorFn(resp, "watchlist");
+                            resolve(false);
+                        }
+                    },
+                    error => {
+                        errorFn(error.response, "watchlist");
+                        resolve(false);
+                    }
+                );
+        });
+    },
+    REMOVE_FROM_WATCHLIST: ({ commit, rootState }, payload) => {
+        /**
+         * @params {symbols}
+         */
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api
+                .delete(`/users/${rootState.auth.loggedUser.chakaID}/watchlists/`, { ...payload })
+                .then(
+                    resp => {
+                        if (resp.status === 200) {
+                            commit("REQ_SUCCESS", null, { root: true });
+                            resolve(true);
+                        } else {
+                            errorFn(resp, "watchlist");
+                            resolve(false);
+                        }
+                    },
+                    error => {
+                        errorFn(error.response, "watchlist");
+                        resolve(false);
+                    }
+                );
         });
     }
 };

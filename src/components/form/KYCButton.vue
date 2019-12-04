@@ -38,7 +38,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getNextKYC"])
+        ...mapGetters(["getNextKYC", "getLoggedUser"])
     },
     data() {
         return {
@@ -61,40 +61,52 @@ export default {
                         return true;
                     }
                 });
-            } else if (this.action === "local") {
-                this.GET_NEXT_KYC({ context: "LOCAL" }).then(() => {
-                    if (this.getNextKYC.status === "INCOMPLETE") {
-                        this.$emit("step", { type: "local", kyc: true });
-                        this.clicked = false;
-                        return true;
-                    } else if (this.getNextKYC.status === "COMPLETE") {
+            } else {
+                if (this.action === "local") {
+                    if (this.getLoggedUser.localKycStatus !== "NONE") {
                         this.$emit("step", { type: "local", kyc: false });
                         this.clicked = false;
                         return true;
                     }
-                });
-            } else if (this.action === "global") {
-                this.GET_NEXT_KYC({ context: "GLOBAL" }).then(() => {
-                    if (this.getNextKYC.status === "INCOMPLETE") {
-                        this.$emit("step", { type: "global", kyc: true });
-                        this.clicked = false;
-                        return true;
-                    } else if (this.getNextKYC.status === "COMPLETE") {
+                    this.GET_NEXT_KYC({ context: "LOCAL" }).then(() => {
+                        if (this.getNextKYC.status === "INCOMPLETE") {
+                            this.$emit("step", { type: "local", kyc: true });
+                            this.clicked = false;
+                            return true;
+                        } else if (this.getNextKYC.status === "COMPLETE") {
+                            this.$emit("step", { type: "local", kyc: false });
+                            this.clicked = false;
+                            return true;
+                        }
+                    });
+                } else if (this.action === "global") {
+                    if (this.getLoggedUser.globalKycStatus !== "NONE") {
                         this.$emit("step", { type: "global", kyc: false });
                         this.clicked = false;
                         return true;
                     }
-                });
-            } else {
-                this.GET_NEXT_KYC().then(() => {
-                    if (this.getNextKYC.status === "INCOMPLETE") {
-                        this.$emit("step", "kyc");
+                    this.GET_NEXT_KYC({ context: "GLOBAL" }).then(() => {
+                        if (this.getNextKYC.status === "INCOMPLETE") {
+                            this.$emit("step", { type: "global", kyc: true });
+                            this.clicked = false;
+                            return true;
+                        } else if (this.getNextKYC.status === "COMPLETE") {
+                            this.$emit("step", { type: "global", kyc: false });
+                            this.clicked = false;
+                            return true;
+                        }
+                    });
+                } else {
+                    this.GET_NEXT_KYC().then(() => {
+                        if (this.getNextKYC.status === "INCOMPLETE") {
+                            this.$emit("step", "kyc");
+                            this.clicked = false;
+                            return true;
+                        }
+                        this.$emit("step");
                         this.clicked = false;
-                        return true;
-                    }
-                    this.$emit("step");
-                    this.clicked = false;
-                });
+                    });
+                }
             }
         }
     },

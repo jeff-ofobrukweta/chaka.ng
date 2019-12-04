@@ -1,4 +1,5 @@
 import API_CONTEXT from "../../services/apiService/api";
+import errorFn from "../../services/apiService/error";
 
 const state = {
     portfolioSummary: [],

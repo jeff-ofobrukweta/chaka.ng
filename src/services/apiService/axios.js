@@ -38,7 +38,7 @@ instance.interceptors.response.use(
             const token = jwtDecode(localStorage.getItem("AUTH_TOKEN"));
             const refreshToken = localStorage.getItem("REFRESH_TOKEN");
 
-            return axios
+            return instance
                 .post(`${baseURL}/auth/refresh-token/`, {
                     chakaID: `${token.user.chakaID}`,
                     refreshToken

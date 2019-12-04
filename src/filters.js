@@ -1,28 +1,56 @@
+import numeral from "numeral";
+
+numeral.register("locale", "ng", {
+    delimiters: {
+        thousands: ",",
+        decimal: "."
+    },
+    ordinal: function(number) {
+        return number === 1 ? "er" : "ème";
+    },
+
+    abbreviations: {
+        thousand: "K",
+        million: "M",
+        billion: "B",
+        trillion: "T"
+    },
+    currency: {
+        symbol: "₦"
+    }
+});
+
+numeral.register("locale", "us", {
+    delimiters: {
+        thousands: ",",
+        decimal: "."
+    },
+    ordinal: function(number) {
+        return number === 1 ? "er" : "ème";
+    },
+
+    abbreviations: {
+        thousand: "K",
+        million: "M",
+        billion: "B",
+        trillion: "T"
+    },
+    currency: {
+        symbol: "$"
+    }
+});
+
 const numberFormat = (value, currency, threshold, decimalPlaces, showFull) => {
-    let options = {};
-    let initial = "";
     if (!currency) {
-        initial = "en-US";
-        options = {
-            style: "decimal",
-            minimumFractionDigits: decimalPlaces,
-            maximumFractionDigits: decimalPlaces
-        };
-    } else {
-        initial = `en-${currency.substring(0, 2)}`;
-        options = {
-            style: "currency",
-            currency,
-            minimumFractionDigits: decimalPlaces,
-            maximumFractionDigits: decimalPlaces
-        };
+        if (decimalPlaces === 2) return numeral(value).format("0,0.00a");
+        if (decimalPlaces === 4) return numeral(value).format("0,0.0000a");
     }
+    const locale = currency.substring(0, 2).toLowerCase();
+    numeral.locale(locale);
     if (value < threshold || showFull) {
-        return new Intl.NumberFormat(initial, options).format(value);
+        return numeral(value).format("$0,0.00");
     }
-    options.notation = "compact";
-    options.compactDisplay = "short";
-    return new Intl.NumberFormat(initial, options).format(value);
+    return numeral(value).format("$0,0.00a");
 };
 
 const checkNumber = value => {
@@ -50,7 +78,8 @@ export default {
     currency(value, currency, showFull, decimalPlaces = 2) {
         const valueCheck = checkNumber(value);
         if (valueCheck === true) {
-            return numberFormat(value, currency, 100000, decimalPlaces, showFull);
+            const threshold = currency === "USD" ? 1000 : 10000;
+            return numberFormat(value, currency, threshold, decimalPlaces, showFull);
         }
         if (!valueCheck) {
             return "-";
