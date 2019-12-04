@@ -8,11 +8,13 @@
         <section class="explore-section">
             <div class="explore-featured">
                 <div class="explore-featured__image">
-                    <img :src="featured.imageUrl" :alt="featured.name" />
+                    <a :href="featured.pageUrl">
+                        <img :src="featured.imageUrl" :alt="featured.name"
+                    /></a>
                 </div>
                 <div class="explore-featured__text">
                     <h4 class="explore-featured__text--title">
-                        {{ featured.name }}
+                        <a :href="featured.pageUrl"> {{ featured.name }}</a>
                     </h4>
                     <p>
                         {{ featured.description || "" | truncate(380) }}
