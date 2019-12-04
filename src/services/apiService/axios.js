@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import router from "../../router";
@@ -19,19 +20,9 @@ const instance = axios.create({
 });
 
 instance.interceptors.response.use(
-    response => {
-        return response;
-    },
-    function(error) {
+    response => response,
+    error => {
         const originalRequest = error.config;
-
-        if (
-            originalRequest.url === `${baseURL}/auth/refresh-token` &&
-            error.response.status === 400
-        ) {
-            router.push("/login");
-            return Promise.reject(error);
-        }
 
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
@@ -48,6 +39,12 @@ instance.interceptors.response.use(
                         localStorage.setItem("AUTH_TOKEN", resp.data.data.token);
                         localStorage.setItem("REFRESH_TOKEN", resp.data.data.newRefreshToken);
                         return instance(originalRequest);
+                    }
+                })
+                .catch(err => {
+                    if (err.response.status === 400) {
+                        router.push("/login");
+                        return Promise.reject(error);
                     }
                 });
         }
