@@ -51,6 +51,7 @@ const actions = {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
                         localStorage.setItem("AUTH_TOKEN", resp.data.data.token);
+                        localStorage.setItem("REFRESH_TOKEN", resp.data.data.refreshToken);
                         dispatch("GET_LOGGED_USER").then(() => {
                             resolve(true);
                         });
