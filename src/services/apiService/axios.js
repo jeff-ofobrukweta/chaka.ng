@@ -23,13 +23,14 @@ instance.interceptors.response.use(
     response => response,
     error => {
         const originalRequest = error.config;
+        console.log('>>>> in intercetor', originalRequest.url, error.response.status)
 
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             const token = jwtDecode(localStorage.getItem("AUTH_TOKEN"));
             const refreshToken = localStorage.getItem("REFRESH_TOKEN");
 
-            return axios
+            return instance
                 .post(`${baseURL}/auth/refresh-token/`, {
                     chakaID: `${token.user.chakaID}`,
                     refreshToken

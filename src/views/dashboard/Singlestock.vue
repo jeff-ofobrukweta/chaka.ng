@@ -5,18 +5,17 @@
         <section class="right-header">
           <h1 class="price">
             {{
-            getSingleinstrument[0].InstrumentDynamic.askPrice
-            | currency(getSingleinstrument[0].currency)
+            getSingleinstrument[0].InstrumentDynamic.askPrice| kobo |currency(getSingleinstrument[0].currency)
             }}
           </h1>
           <h1 class="percentage">
             <Fragment
-              :class="[getSingleinstrument[0].InstrumentDynamic.yclose < 0 ? 'red': 'green','price']"
-            >{{ getSingleinstrument[0].InstrumentDynamic.yclose }}</Fragment>
+              :class="[getPricedetailsonblackcard.derivedPrice < 0 ? 'red': 'green','price']"
+            >{{ getPricedetailsonblackcard.derivedPrice }}</Fragment>
             <Fragment
-              :class="[getSingleinstrument[0].InstrumentDynamic.ycloseChange < 0 ? 'red': 'green','price']"
+              :class="[getPricedetailsonblackcard.derivedPricePercentage < 0 ? 'red': 'green','price']"
               class="delta"
-            >({{ getSingleinstrument[0].InstrumentDynamic.ycloseChange }})%</Fragment>
+            >({{ getPricedetailsonblackcard.derivedPricePercentage }})%</Fragment>
           </h1>
         </section>
         <section class="left-header">
@@ -28,9 +27,7 @@
               class="stockname">{{ getSingleinstrument[0].name || "" | truncate(10) }}</section>
               <img
                 class="state"
-                :src="
-                                    require(`../../assets/img/icons/flags/${getSingleinstrument[0].countryCode.toLowerCase()}-flag.svg`)
-                                "
+                :src="require(`../../assets/img/icons/flags/${getSingleinstrument[0].countryCode.toLowerCase()}-flag.svg`)"
                 alt="state"
               />
             </aside>
@@ -102,8 +99,12 @@ name:"Singlestock",
   },
   methods: {
     //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-    ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "GET_CURRENT_STOCK_POSITION"]),
-    ...mapMutations(["SET_SINGLE_INSTRUMENT"])
+    ...mapActions([
+      "GET_SINGLESTOCK_INSTRUMENT", 
+      "GET_CURRENT_STOCK_POSITION"
+      ]),
+    ...mapMutations([
+      "SET_SINGLE_INSTRUMENT"])
   },
   async mounted() {
     const singlestockpayload = {
