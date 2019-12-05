@@ -1,5 +1,34 @@
 <template>
     <section class="dashboard__main">
+        <section class="portfolio-title">
+            <div>
+                <h3>Holdings</h3>
+                <p class="dashboard__title--sub">Portfolio</p>
+            </div>
+            <section class="portfolio-title__fund">
+                <KYCButton
+                    ref="fundBtn"
+                    type="button"
+                    :classes="['btn-block', 'btn__primary']"
+                    action="fund"
+                    @step="handleStep"
+                    >Fund</KYCButton
+                >
+            </section>
+        </section>
+        <section class="portfolio-networth">
+            <h5>
+                {{ getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency) }}
+                <span class="derived">
+                    <span :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']">{{
+                        getPortfolioDerivedPrice | units(2)
+                    }}</span>
+                    <span :class="[getPortfolioDerivedChange < 0 ? 'red' : 'green']"
+                        >({{ getPortfolioDerivedChange | units(2) }}%)</span
+                    >
+                </span>
+            </h5>
+        </section>
         <section class="portfolio-line__graph">
             <Linegraph />
         </section>
@@ -39,13 +68,20 @@
                 }}</option>
             </select>
         </section>
-        <section class="watchlist-portfolio__box">
+                <error-block type="watchlist" />
+        <section class="watchlist-portfolio__box" v-if="watchlistLoading">
+            <WatchlistCard v-for="i in 5" :key="i" :instrument="{}" dummy />
+        </section>
+        <section class="watchlist-portfolio__box" v-else-if="getWatchlist.length > 0">
             <WatchlistCard
-                v-for="(instrument, index) in watchList"
+                v-for="(instrument, index) in getWatchlist"
                 :key="index"
                 :instrument="instrument"
             />
         </section>
+        <section v-else>You have no items in your watchlist</section>
+        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
+        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
     </section>
 </template>
 
@@ -61,6 +97,8 @@ import Performancebarchart from "../../components/Performance_chart/performanceb
 import Analysischart from "../../components/Analysisbarchart/analysisbarchartbase";
 import HorizontalBarchart from "../../components/Horizontalbar/hbase";
 import Singlecourselinegraph from "../../components/Linegraph/singlestock_linegraph";
+import KYCButton from "../../components/form/KYCButton";
+import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "portfolio",
@@ -74,7 +112,8 @@ export default {
         Performancebarchart,
         Analysischart,
         HorizontalBarchart,
-        Singlecourselinegraph
+        Singlecourselinegraph,
+        KYCButton
     },
     data() {
         return {
@@ -111,7 +150,14 @@ export default {
                 }
             ],
             watchlistInterval: "1D",
-            watchList: []
+            watchList: [],
+            watchlistLoading: true,
+            showFund: false,
+            showSuccess: false,
+            showKYC: false,
+            selectedField: {},
+            step: null,
+            allNextKYC: KYCTitles.titles,
         };
     },
     methods: {
@@ -120,30 +166,50 @@ export default {
             "GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS",
             "GET_WATCHLIST"
         ]),
+        ...mapMutations(["SET_WATCHLIST"]),
+        handleStep(step) {
+            this.step = step.type;
+            if (step.kyc) {
+                this.showKYC = true;
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNextKYC.nextKYC;
+                        }
+                    });
+                });
+                return true;
+            }
+            this.showFund = true;
+        },
+        handleUpdate() {
+            this.showKYC = false;
+            this.$refs.fundBtn.$el.click();
+        },
+        closeFundBtn(e) {
+            if (e) this.showSuccess = true;
+            this.showFund = false;
+        },
         handlewatchlistintervalToogle(e) {
-            this.watchList = [];
+            this.watchlistLoading = true;
+            this.SET_WATCHLIST([]);
             const watchPayload = { interval: this.watchlistInterval };
             this.GET_WATCHLIST(watchPayload).then(() => {
-                this.watchList = [...this.getWatchlist];
+                this.watchlistLoading = false;
                 // put loader state here
             });
         }
     },
     mounted() {
         const payload = { interval: "1D" };
+        this.watchlistLoading = true;
         this.GET_WATCHLIST(payload).then(() => {
-            this.watchList = [...this.getWatchlist];
-            console.log("HELLO GOODRESULT HERE TTTTTTTTTTTTTTTnew", this.getWatchlist);
+            this.watchlistLoading = false;
         });
         const currency = { currency: this.getPorfolioglobalCurrencyforGraph };
         this.GET_ACCOUNT_SUMMARY(currency).then(() => {
-            console.log("YYYYYYGET_ACCOUNT_SUMMARYYYYYYYYYYYYYYYYY", this.getAccountSummary);
-            this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS().then(() => {
-                console.log(
-                    "KKKKKKKKKKKKKKGET_POSITIONS_HELD_FOR_PORTFOLIOCARDSKKKKKKKKKKKKKKKK",
-                    this.getPortfoliopositionsCarddetails.positions.filled.localOrders
-                );
-            });
+            this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS();
         });
     },
     computed: {
@@ -152,7 +218,9 @@ export default {
             "getPortfolioSummary",
             "getPorfolioglobalCurrencyforGraph",
             "getAccountSummary",
-            "getPortfoliopositionsCarddetails"
+            "getPortfoliopositionsCarddetails",
+            "getPortfolioDerivedPrice",
+            "getPortfolioDerivedChange"
         ])
     }
 };

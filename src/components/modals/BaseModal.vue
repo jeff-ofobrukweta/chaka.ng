@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import EventBus from "../../views/dashboard/event-bus";
+import EventBus from "../../event-bus";
 import { mapMutations } from "vuex";
 export default {
     name: "modal",

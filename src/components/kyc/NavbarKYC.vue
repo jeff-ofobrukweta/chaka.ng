@@ -46,7 +46,7 @@
                         <Field :field="disclosureField" @input="handleInput" no-label inline />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="#">Hide</a>
+                        <a @click="hideKYCBtn">Hide</a>
                         <action-button
                             type="submit"
                             :disabled="!itemData.disclosureName"
@@ -83,7 +83,7 @@
                             @click="enterNIN = true"
                             ><small>Enter your NIN to fast track your verification</small></a
                         >
-                        <a href="#">Hide</a>
+                        <a @click="hideKYCBtn">Hide</a>
                     </div>
                 </div>
             </form>
@@ -116,7 +116,7 @@
                         />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="#">Hide</a>
+                        <a @click="hideKYCBtn">Hide</a>
                         <action-button
                             :disabled="!itemData.bvn"
                             type="submit"
@@ -153,7 +153,7 @@
                             @click="enterNIN = true"
                             ><small>Enter your NIN to fast track your verification</small></a
                         >
-                        <a href="#">Hide</a>
+                        <a @click="hideKYCBtn">Hide</a>
                     </div>
                 </div>
             </form>
@@ -180,7 +180,7 @@
                     <!-- <Field :field="OTPField" @input="handleInput" v-model="itemData.otp" /> -->
                 </div>
                 <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                    <a href="#">Hide</a>
+                    <a @click="hideKYCBtn">Hide</a>
                     <button type="button" @click="confirmPhone" class="btn kyc-nav__button">
                         <svg
                             width="30"
@@ -203,7 +203,7 @@
                         Continue
                     </button>
                     <div>
-                        <a href="#">Hide</a>
+                        <a @click="hideKYCBtn">Hide</a>
                     </div>
                 </div>
             </div>
@@ -234,7 +234,7 @@
                         />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="#">Hide</a>
+                        <a @click="hideKYCBtn">Hide</a>
                         <action-button
                             type="submit"
                             :disabled="!itemData.nin"
@@ -267,7 +267,7 @@
                         >
                         <div>
                             <a class="skip" href="" @click="skipNIN">Skip</a>
-                            <a href="#">Hide</a>
+                            <a @click="hideKYCBtn">Hide</a>
                         </div>
                     </div>
                 </div>
@@ -294,7 +294,7 @@
                     </div>
                     <div class="kyc-nav__field"></div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
-                        <a href="#">Hide</a>
+                        <a @click="hideKYCBtn">Hide</a>
                         <button type="button" class="btn kyc-nav__button" @click="showNextModalBtn">
                             <svg
                                 width="30"
@@ -327,7 +327,7 @@
                             ><small>Enter your NIN to fast track your verification</small></a
                         >
                         <div>
-                            <a href="#">Hide</a>
+                            <a @click="hideKYCBtn">Hide</a>
                         </div>
                     </div>
                 </div>
@@ -525,7 +525,7 @@ export default {
             "GET_COUNTRY_CODES",
             "USE_BVN_PHONE"
         ]),
-        ...mapMutations(["SET_NAVBAR_TRIGGER"]),
+        ...mapMutations(["SET_NAVBAR_TRIGGER", "SET_SHOW_NAVBAR_KYC"]),
         handleInput(e) {
             this.$set(this.itemData, e.name, e.value);
         },
@@ -698,6 +698,9 @@ export default {
         },
         closeNIN() {
             this.enterNIN = false;
+        },
+        hideKYCBtn() {
+            this.SET_SHOW_NAVBAR_KYC(false);
         }
     },
     async mounted() {

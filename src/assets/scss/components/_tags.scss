@@ -1,67 +1,79 @@
-.parent-container{
-    display:flex;
+.parent-container {
+    display: flex;
     flex-direction: column;
-    .title-tag{
+
+    .title-tag {
         font-style: normal;
         font-weight: bold;
         font-size: 20px;
         line-height: 35px;
-        color:#293D4A;
+        color: #293D4A;
     }
-    .info-tag{
+
+    .info-tag {
         font-style: italic;
         font-weight: normal;
         font-size: 14px;
         line-height: 45px;
-        color:#8A939A;
+        color: #8A939A;
     }
 }
+
 ::-webkit-scrollbar {
-    height: 4px;              /* height of horizontal scrollbar ← You're missing this */
-    width: 4px;               /* width of vertical scrollbar */
+    height: 4px;
+    /* height of horizontal scrollbar ← You're missing this */
+    width: 4px;
+    /* width of vertical scrollbar */
     border: 1px solid transparent;
-  }
-
-.tag-placeholder-container-parent{
-    display:flex;
-    flex-direction: row;
-    overflow-x: scroll;
-.tag-placeholder{
-    width: 10em;
-    height: 8em;
-    background: #fff;
-    margin: .3em;
-    border-radius: 7px;
-    border: 1px solid rgba(164, 164, 164, 0.2) ;
-    // box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
-}
 }
 
-.container-tag{
-    display:flex;
+.tag-placeholder-container-parent {
+    display: flex;
     flex-direction: row;
     overflow-x: scroll;
-    .tag-item{
+
+    .tag-placeholder {
+        width: 10em;
+        height: 8em;
+        background: #fff;
+        margin: .3em;
+        border-radius: 7px;
+        border: 1px solid rgba(164, 164, 164, 0.2);
+        // box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
+    }
+}
+
+.tags-container {
+
+    .tag-item {
         width: 217px;
         min-width: 217px;
         height: 116px;
         min-height: 116px;
         border: 1px solid rgba(175, 175, 175, 0.4);
         border-radius: 7px;
-        margin: 5px;
+        margin-right: 10px;
         display: flex;
         position: relative;
-        #tag{
+
+        .card-news__img {
+            right: 0;
+            bottom: 0;
+            opacity: 1
+        }
+
+        #tag {
             height: 100%;
             width: 100%;
             object-fit: cover;
             border-radius: 7px;
         }
-        .tag-name{
+
+        .tag-name {
+            background-color: rgba($color: $black, $alpha: 0.5);
             font-weight: bold;
-            font-size: 16px;
-            line-height: 52px;
-            color:#FFFFFF;
+            font-size: 1rem;
+            color: #FFFFFF;
             position: absolute;
             top: 0px;
             left: 0px;
@@ -71,20 +83,19 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            border-radius: 7px;
+
+            &.active {
+                background-color: rgba($color: $primary, $alpha: 0.85)
+            }
         }
     }
 }
 
 @include tablet {
-    .container-tag{
-        
-    }
+    .container-tag {}
 }
 
 @include mobile {
-    .container-tag{
-        
-    }
+    .container-tag {}
 }
-
-

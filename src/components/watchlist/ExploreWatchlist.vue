@@ -1,5 +1,10 @@
 <template>
-    <div class="watchlist-explore">
+    <div v-if="dummy" class="watchlist-explore loader">
+        <div
+            class="loader-div"
+        />
+    </div>
+    <div v-else class="watchlist-explore">
         <div class="watchlist-explore__name">
             <img height="30px" :src="instrument.logoUrl" :alt="instrument.symbol" />
             <img
@@ -137,6 +142,9 @@ export default {
         color: {
             type: String,
             default: "green"
+        },
+        dummy: {
+            type: Boolean
         }
     },
     data() {

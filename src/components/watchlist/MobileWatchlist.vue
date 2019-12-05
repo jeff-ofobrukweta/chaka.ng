@@ -1,5 +1,10 @@
 <template>
-    <div class="watchlist-mobile">
+    <div v-if="dummy" class="watchlist-mobile loader">
+        <div
+            class="loader-div"
+        />
+    </div>
+    <div v-else class="watchlist-mobile">
         <div class="watchlist-mobile__top">
             <svg
                 width="16"
@@ -137,6 +142,9 @@ export default {
         instrument: {
             type: Object,
             required: true
+        },
+        dummy: {
+            type: Boolean
         }
     },
     data() {

@@ -75,6 +75,45 @@
             <Horizontalchart />
             <Analysisbarchart />
         </section>
+        <section v-if="getWindowWidth === 'desktop'">
+            <div class="instrument-base">
+                <template v-if="similarLoading">
+                    <InstrumentCard
+                        dummy
+                        v-for="i in 10"
+                        :key="i"
+                        :instrument="{}"
+                    />
+                </template>
+                <template v-else-if="getSimilarStocks.length > 0">
+                    <InstrumentCard
+                        v-for="(instrument, index) in getSimilarStocks"
+                        :key="index"
+                        :instrument="instrument"
+                    />
+                </template>
+                <template v-else>
+                <p class="text-center">There are no similar stocks for {{ getSingleinstrument[0].name }}</p>
+                </template>
+            </div>
+        </section>
+        <section v-else>
+            <template v-if="similarLoading">
+                <InstrumentMobile v-for="i in 3" :key="i" :instrument="{}" dummy
+            /></template>
+            <template v-else-if="getSimilarStocks.length > 0">
+                <transition-group name="kyc-navbar">
+                    <InstrumentMobile
+                        v-for="(instrument, index) in getSimilarStocks"
+                        :key="index"
+                        :instrument="instrument"
+                    />
+                </transition-group>
+            </template>
+            <template v-else>
+                <p class="text-center">There are no similar stocks for {{ getSingleinstrument[0].name }}</p>
+            </template>
+        </section>
         <section class="news-container">
             <h1 class="title">News</h1>
             <section class="sub-title">lorem ipsun blabala here</section>
@@ -101,14 +140,17 @@ export default {
         Cardblue,
         StockTable,
         Horizontalchart,
-        Analysisbarchart
+        Analysisbarchart,
+        InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
+        InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist')
     },
     computed: {
         ...mapGetters([
             "getWindowWidth",
             "getSingleinstrument",
             "getPricedetailsonblackcard",
-            "getPositionsWithparams"
+            "getPositionsWithparams",
+            "getSimilarStocks"
         ])
     },
     methods: {
@@ -120,18 +162,19 @@ export default {
         const singlestockpayload = {
             symbols: this.$route.params.symbol
         };
-        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-            // this.getPositionsWithparams(this.$route.params.id)
-            this.GET_CURRENT_STOCK_POSITION().then(() => {
-                console.log("get positions", this.getPositionsWithparams());
-            });
-        });
+        this.similarLoading = true
+        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload)
+            this.GET_CURRENT_STOCK_POSITION()
+            this.similarLoading = false
     },
     beforeRouteUpdate(to, from, next) {
         const singlestockpayload = {
             symbols: to.params.symbol
         };
-        this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload);
+        this.similarLoading = true
+        this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
+            this.similarLoading = false
+        })
         next();
     },
     beforeDestroy() {
@@ -139,64 +182,7 @@ export default {
     },
     data() {
         return {
-            watchlist: [
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 20
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 20
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 4
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 2
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 1
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: 0
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: -3
-                },
-                {
-                    name: "Spotify",
-                    currency: "USD",
-                    price: 656.9,
-                    percent: 0.67,
-                    change: -10
-                }
-            ],
+            similarLoading: false,
             news: [
                 {
                     title:

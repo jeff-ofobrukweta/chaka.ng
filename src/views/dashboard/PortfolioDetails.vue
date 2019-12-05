@@ -23,7 +23,8 @@
                 <span>Open Orders</span>
             </div>
         </div>
-        <PortfolioTable :storedata="stocks" />
+        <PortfolioTable :storedata="stocks" v-if="stocks.length > 0" />
+        <p class="mt-3 text-center" v-else>You have no {{ type }} stocks</p>
     </section>
 </template>
 
