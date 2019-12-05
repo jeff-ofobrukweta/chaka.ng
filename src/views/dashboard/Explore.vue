@@ -8,11 +8,13 @@
         <section class="explore-section">
             <div class="explore-featured">
                 <div class="explore-featured__image">
-                    <img :src="featured.imageUrl" :alt="featured.name" />
+                    <a :href="featured.pageUrl">
+                        <img :src="featured.imageUrl" :alt="featured.name"
+                    /></a>
                 </div>
                 <div class="explore-featured__text">
                     <h4 class="explore-featured__text--title">
-                        {{ featured.name }}
+                        <a :href="featured.pageUrl"> {{ featured.name }}</a>
                     </h4>
                     <p>
                         {{ featured.description || "" | truncate(380) }}
@@ -115,19 +117,32 @@
             </section>
 
             <section class="watchlist-explore__box" v-if="getWindowWidth === 'desktop'">
-                <ExploreWatchlist
-                    v-for="(instrument, index) in getWatchlist"
-                    :key="index"
-                    :instrument="instrument"
-                />
+                <template v-if="watchlistLoading">
+                    <ExploreWatchlist v-for="i in 3" :key="i" :instrument="{}" dummy
+                /></template>
+                <template v-else-if="getWatchlist.length > 0">
+                    <transition-group name="kyc-navbar">
+                        <ExploreWatchlist
+                            v-for="(instrument, index) in getWatchlist"
+                            :key="index"
+                            :instrument="instrument"
+                        />
+                    </transition-group>
+                </template>
+                <template v-else><p class="text-center">You have no items in your watchlist</p></template>
             </section>
 
             <section class="watchlist-mobile__box" v-else>
-                <MobileWatchlist
-                    v-for="(instrument, index) in getWatchlist"
-                    :key="index"
-                    :instrument="instrument"
-                />
+                <template v-if="watchlistLoading">
+                    <MobileWatchlist v-for="i in 3" :key="i" :instrument="{}" dummy
+                /></template>
+                <template v-else-if="getWatchlist.length > 0">
+                    <MobileWatchlist
+                        v-for="(instrument, index) in getWatchlist"
+                        :key="index"
+                        :instrument="instrument"
+                /></template>
+                <template v-else><p class="text-center">You have no items in your watchlist</p></template>
             </section>
         </section>
     </section>
@@ -150,7 +165,8 @@ export default {
             allNews: [],
             loadNews: null,
             loadCollections: null,
-            loadLearn: null
+            loadLearn: null,
+            watchlistLoading: false
         };
     },
     computed: {
@@ -188,12 +204,14 @@ export default {
         }
     },
     async mounted() {
+        this.watchlistLoading = true;
         await Promise.all([
             this.GET_EXPLORE_NEWS(),
             this.GET_EXPLORE_COLLECTIONS(),
             this.GET_EXPLORE_LEARN(),
             this.GET_WATCHLIST()
         ]);
+        this.watchlistLoading = false;
         this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
         this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
     }

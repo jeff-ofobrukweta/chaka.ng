@@ -11,7 +11,6 @@
 @import "modules/cards";
 @import "modules/tables";
 @import "modules/modals";
-@import "modules/utils";
 
 @import "layouts/home";
 @import "layouts/kyc";
@@ -19,7 +18,8 @@
 @import "layouts/accounts";
 @import "layouts/explore";
 @import "layouts/header";
-@import "layouts/auth.scss";
+@import "layouts/auth";
+@import "layouts/tags";
 
 @import "modules/main";
 
@@ -28,3 +28,4 @@
 @import "components/stock";
 @import "components/instrument";
 @import "components/uploads";
+@import "modules/utils";

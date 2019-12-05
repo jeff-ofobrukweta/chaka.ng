@@ -1,7 +1,7 @@
 <template>
     <div>
         <section class="accounts__title">
-            <h3>History</h3>
+            <h3>Statements</h3>
             <select class="form__input" @change="marketChange" v-model="market">
                 <option v-for="(option, i) in markets" :key="i" :value="option.value">{{
                     option.name

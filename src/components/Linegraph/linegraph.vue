@@ -1,49 +1,56 @@
 <template>
-	<div
-  class="small chart__box">
-		<div
-    class="chart__aspect-ratio">
-			<line-chart
+    <div class="small chart__box">
+        <div class="chart__aspect-ratio">
+            <div class="portfolio-graph__placeholder" v-if="loading">
+                
+            </div>
+            <line-chart
                 :style="graphstyle"
                 class="chart__graph"
                 :chart-data="datacollection"
-                :options="options"></line-chart>
-		</div>
-	</div>
+                :options="options"
+                v-else-if="isGraphValid"
+            ></line-chart>
+            <div class="portfolio-graph__placeholder" v-else>
+                Technical difficulty fetching chart data
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-import { mapGetters,mapMutations } from 'vuex';
-import numeral from 'numeral';
-import LineChart from './linegraph_config';
+import { mapGetters, mapMutations } from "vuex";
+import numeral from "numeral";
+import LineChart from "./linegraph_config";
 
 export default {
-    name: 'linechartgraph',
+    name: "linechartgraph",
     components: {
         LineChart
     },
     data() {
         return {
-            min: '',
-            max: '',
+            isGraphValid: true,
+            min: "",
+            max: "",
             graphstyle: {
-                width: '100%',
-                height: '350px',
-                margin: '0px -2em'
+                width: "100%",
+                height: "350px",
+                margin: "0px -2em"
             },
             interval: 10,
             datacollection: {},
             loaderGraph: true,
-            day: '',
+            day: "",
             showError: false,
             activeButton: 2,
             padding: 0,
-            width: '200%',
+            width: "200%",
             options: {
                 scales: {
                     xAxes: [
                         {
-                            distribution: 'linear',
+                            distribution: "linear",
                             display: true,
                             ticks: {
                                 maxTicksLimit: 8,
@@ -53,7 +60,7 @@ export default {
                                 display: true,
                                 // borderDash: [4, 4],
                                 // color: '#4394c7',
-                                labelString: 'Date',
+                                labelString: "Date",
                                 drawBorder: false
                             },
                             // type: 'time',
@@ -63,15 +70,15 @@ export default {
                                 // min: "2017-01-01",
                                 // max: "2017-12-01",
                                 displayFormats: {
-                                    millisecond: 'MMM DD',
-                                    second: 'MMM DD',
-                                    minute: 'MMM DD',
-                                    hour: 'MMM DD',
-                                    day: 'MMM DD',
-                                    week: 'MMM DD',
-                                    month: 'MMM DD',
-                                    quarter: 'MMM DD',
-                                    year: 'MMM DD'
+                                    millisecond: "MMM DD",
+                                    second: "MMM DD",
+                                    minute: "MMM DD",
+                                    hour: "MMM DD",
+                                    day: "MMM DD",
+                                    week: "MMM DD",
+                                    month: "MMM DD",
+                                    quarter: "MMM DD",
+                                    year: "MMM DD"
                                 }
                             }
                         }
@@ -83,18 +90,19 @@ export default {
                                 display: true
                                 // labelString: 'Price'
                             },
-                            position: 'left',
+                            position: "left",
                             ticks: {
                                 beginAtZero: false,
-                                fontColor: '#8A939A',
+                                fontColor: "#8A939A",
                                 padding: 0,
                                 fontSize: 10,
                                 max: this.max,
                                 min: this.min,
                                 stepSize: this.interval,
-                                callback: value => (this.currency == 'USD'
-                                    ? `$${numeral(value).value()}`
-                                    : `N${numeral(value).value()}`)
+                                callback: value =>
+                                    this.currency == "USD"
+                                        ? `$${numeral(value).value()}`
+                                        : `N${numeral(value).value()}`
                             },
                             gridLines: {
                                 display: false,
@@ -104,7 +112,7 @@ export default {
                     ]
                 },
                 animation: {
-                duration: 0 // general animation time
+                    duration: 0 // general animation time
                 },
                 hover: {
                     animationDuration: 0 // duration of animations when hovering an item
@@ -125,14 +133,14 @@ export default {
                     }
                 },
                 tooltips: {
-                    mode: 'index',
+                    mode: "index",
                     intersect: false,
-                    titleFontColor: '#293D4A',
-                    bodyFontColor: '#293D4A',
+                    titleFontColor: "#293D4A",
+                    bodyFontColor: "#293D4A",
                     titleFontSize: 15,
-                    bodyFontSize: '15',
+                    bodyFontSize: "15",
                     // backgroundColor: '#2DA5EC',
-                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    backgroundColor: "rgba(0, 0, 0, 0)",
                     displayColors: false,
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
@@ -140,7 +148,7 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${'Price:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+                            return `${"Price:" + ""}${data.datasets[0].data[tooltipItem.index]}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
@@ -149,7 +157,7 @@ export default {
                         }
                     },
                     hover: {
-                        mode: 'index',
+                        mode: "index",
                         intersect: false
                     }
                 },
@@ -163,11 +171,8 @@ export default {
             }
         };
     },
-    computed: {
-    //    ...mapGetters(['getWindowWidth','getOpenPrice','getDates'])
-    },
     mounted() {
-         this.fillData();
+        this.fillData();
     },
 
     props: {
@@ -175,62 +180,78 @@ export default {
             type: String,
             required: false
         },
-        price:{
-          type: Array,
-          required: false
+        price: {
+            type: Array,
+            required: false
         },
-        date:{
-          type: Array,
-          required: false
+        date: {
+            type: Array,
+            required: false
+        },
+        loading: {
+            type: Boolean
         }
     },
     created() {
         this.fillData();
-		this.handlescaling();
-	},
+        this.handlescaling();
+    },
     methods: {
         handlescaling() {
-			if (this.getOpenPrice) {
-				this.min = this.price.sort()[0];
-				this.max = this.price.sort()[this.price.sort().length - 1];
-				this.interval = Math.ceil((this.max - this.min) / 10);
-			}
-			return true;
-		},
+            if (this.getOpenPrice) {
+                this.min = this.price.sort()[0];
+                this.max = this.price.sort()[this.price.sort().length - 1];
+                this.interval = Math.ceil((this.max - this.min) / 10);
+            }
+            return true;
+        },
         fillData() {
             this.datacollection = {
-                labels:this.date,
+                labels: this.date,
                 datasets: [
                     {
-                        label: 'Stocks',
+                        label: "Stocks",
                         lineTension: 0.5,
                         fill: true,
-                        backgroundColor: '#d4eaf8cf',
-                        borderColor: '#2da5ec',
+                        backgroundColor: "#d4eaf8cf",
+                        borderColor: "#2da5ec",
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: 'miter',
-                        pointBackgroundColor: '#484848',
+                        borderJoinStyle: "miter",
+                        pointBackgroundColor: "#484848",
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#2DA5EC',
-                        pointHoverBorderColor: 'rgba(220,220,220,1)',
+                        pointHoverBackgroundColor: "#2DA5EC",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
-                        data:this.price
+                        data: this.price
                     }
                 ]
             };
-        },
+            this.isGraphValid = true;
+            console.log("I WAS CALLED");
+        }
     },
     watch: {
-		price(newvalue, oldvalue) {
-			this.fillData();
-		},
-		date(newvalue, oldvalue) {
-			this.fillData();
-		},
+        price(newvalue, oldvalue) {
+            const checkNaN = newvalue.filter(element => Number.isNaN(+element));
+            if (!checkNaN || (checkNaN.length <= 0 && this.date[0] !== null)) {
+                this.fillData();
+                return true;
+            }
+            this.isGraphValid = false;
+            return false;
+        }
+        // date(newvalue, oldvalue) {
+        //     const checkNaN = newvalue.filter(element => {
+        //         const date = new Date(element);
+        //         if (Number.isNaN(date.getDate())) return element;
+        //     });
+        //     if (!checkNaN || checkNaN.length <= 0) this.fillData();
+        //     console.log("From date ", checkNaN, newvalue);
+        // }
     }
 };
 </script>
