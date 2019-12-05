@@ -87,7 +87,7 @@ const actions = {
                 commit("SET_CURRENTSTOCK_POSITIONS", position);
             })
             .catch(error => {
-                console.log(`::::::::::::::::::::${error}`);
+                //console.log(`::::::::::::::::::::${error}`);
             });
     },
     BUY_INSTRUMENT: ({ commit, dispatch, rootState }, payload) => {
