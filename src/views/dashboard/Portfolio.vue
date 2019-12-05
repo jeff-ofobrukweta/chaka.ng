@@ -133,16 +133,13 @@ export default {
         const payload = { interval: "1D" };
         this.GET_WATCHLIST(payload).then(() => {
             this.watchList = [...this.getWatchlist];
-            console.log("HELLO GOODRESULT HERE TTTTTTTTTTTTTTTnew", this.getWatchlist);
+            
         });
         const currency = { currency: this.getPorfolioglobalCurrencyforGraph };
         this.GET_ACCOUNT_SUMMARY(currency).then(() => {
-            console.log("YYYYYYGET_ACCOUNT_SUMMARYYYYYYYYYYYYYYYYY", this.getAccountSummary);
+            
             this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS().then(() => {
-                console.log(
-                    "KKKKKKKKKKKKKKGET_POSITIONS_HELD_FOR_PORTFOLIOCARDSKKKKKKKKKKKKKKKK",
-                    this.getPortfoliopositionsCarddetails.positions.filled.localOrders
-                );
+                
             });
         });
     },

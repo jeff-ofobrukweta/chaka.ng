@@ -167,8 +167,7 @@ export default {
     //    ...mapGetters(['getWindowWidth','getOpenPrice','getDates'])
     },
     mounted() {
-        console.log('this are HHHSSSSSSSSSSSSSSSSSSSHHHHHHHHHHHHHHHHHHSSSSSSS >>>>>>>>>>>>>',this.currency,this.date,this.price)
-        this.fillData();
+         this.fillData();
     },
 
     props: {

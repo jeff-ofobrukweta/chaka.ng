@@ -137,70 +137,64 @@ const mutations = {
 	},
 
     SET_LINE_SINGLESTOCK_CHARTDATA(state, prices) {
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.singlestockpricedata)
+        
 		let singlestockpricedata = [];
 		singlestockpricedata = prices;
         state.singlestockpricedata = [...singlestockpricedata];
        
     },
     SET_LINE_SINGLESTOCK_CHART_DATE(state, date) {
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.singlestockdate)
+       
 		let singlestockdate = [];
 		singlestockdate = date;
         state.singlestockdate = [...singlestockdate];
        
     },
     SET_LINE_PORTFOLIO_CHART_PRICE(state, prices) {
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.portfolioprice)
-		let portfolioprice = [];
+        
 		portfolioprice = prices;
         state.portfolioprice = [...portfolioprice];
        
     },
     SET_LINE_PORTFOLIO_CHART_DATE(state, date) {
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.portfoliodate)
+      
 		let portfoliodate = [];
 		portfoliodate = date;
         state.portfoliodate = [...portfoliodate];
     },
     
     SET_HORIZONTAL_PERFORMANCE_CHART_DATE(state, date) {
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.singlestockdate)
+        
 		let performancedate = [];
 		performancedate = date;
         state.singlestockdate = [...performancedate];
        
     },
     SET_HORIZONTAL_PERFORMANCE_CHART_PRICE(state, price) {
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.singlestockdate)
-		let performanceprice = [];
+        let performanceprice = [];
 		performanceprice = price;
         state.performanceprice = [...performanceprice];
        
     },
     SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATE(state, date) {
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.positionweightdate)
-		let positionweightdate = [];
+       	let positionweightdate = [];
 		positionweightdate = date;
         state.positionweightdate = [...positionweightdate];
        
     },
     SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA_PRICE(state, price) {
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.positionweightprice)
-		let positionweightprice = [];
+       let positionweightprice = [];
 		positionweightprice = price;
         state.positionweightprice = [...positionweightprice];
        
     },
     SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_PERCENTAGE(state, price){
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.positionperformancepercentage)
-		let positionperformancepercentage = [];
+       let positionperformancepercentage = [];
 		positionperformancepercentage = price;
         state.positionperformancepercentage = [...positionperformancepercentage];
     },
     SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_SYMBOL(state, symbol){
-        console.log('>>>>>>>>>>>>>>>boom new>>>>//////////////',state.positionperformancepercentage)
-		let positionperformancesymbol = [];
+        let positionperformancesymbol = [];
 		positionperformancesymbol = symbol;
         state.positionperformancesymbol = [...positionperformancesymbol];
     },
@@ -258,36 +252,33 @@ const mutations = {
 
 const actions = {
     async GET_LINECHART_SINGLESTOCK_GRAPH_DATA({ commit }, params) {
-        console.log('?????????????????????',params);
+         
 		await API_CONTEXT.get(`/instruments/charts`,params)
-			.then((response) => {
-                console.log('>>FFFFFFFFFFFFFFFFFFFFF>>>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
+			.then((response) => { 
                 const { chart, derivedPrice, derivedPricePercentage, askPrice } = response.data.data;
                 commit('SET_LINE_SINGLESTOCK_CHARTDATA',chart);
                 commit('SET_LINE_SINGLESTOCK_CHART_DATE',chart)
                 //derived prices high lows etc are gotton here
                 commit('SET_PRICE_INFO_ON_BLACKCARD', response.data.data)
-                console.log('inside vuex store BBOOOOOOOOOOOOOOOM',response.data.data);
+                
 			})
 			.catch((error) => {
-               console.log(`::::::::::::::::::::${error}`);
+               //console.log(`::::::::::::::::::::${error}`);
 			});
     },
     async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit,rootState },params) {
 		await API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`,params)
 			.then((response) => {
-                console.log('>>>>>>new>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>',response.data.data)
+               
                 const { positions, derivedNetWorth, derivedNetWorthPercentage } = response.data.data;
-                console.log('GET_LINECHART_PORTFOLIO_GRAPH_DATAJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ',derivedNetWorth,derivedNetWorthPercentage)
-                commit('SET_PORTFOLIO_DERIVED_PRICE', derivedNetWorth);
+                 commit('SET_PORTFOLIO_DERIVED_PRICE', derivedNetWorth);
                 commit('SET_PORTFOLIO_DERIVED_CHANGE', derivedNetWorthPercentage);
                 
                 commit('SET_LINE_PORTFOLIO_CHART_PRICE',positions);
-                commit('SET_LINE_PORTFOLIO_CHART_DATE',positions)
-                console.log('inside vuex store',positions,derivedNetWorth,derivedNetWorthPercentage);
+                commit('SET_LINE_PORTFOLIO_CHART_DATE',positions) 
 			})
 			.catch((error) => {
-               console.log(`::::::::::<<<<<>>>>>::::::::::${error}`);
+               //console.log(`::::::::::<<<<<>>>>>::::::::::${error}`);
 			});
     },
     async GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA({ commit,rootState}) {
@@ -307,7 +298,7 @@ const actions = {
                 commit('SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_SYMBOL',response.data.data.chart)
 			})
 			.catch((error) => {
-               console.log(`::::::::::::::::::::${error}`);
+               //console.log(`::::::::::::::::::::${error}`);
 			});
     },
 
@@ -319,7 +310,7 @@ const actions = {
                 commit('SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE',performance)
 			})
 			.catch((error) => {
-               console.log(`::::::::::::::::::::${error}`);
+               //console.log(`::::::::::::::::::::${error}`);
 			});
     },
     async GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA({commit},params) {
@@ -330,7 +321,7 @@ const actions = {
                 commit('SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE',recommendations)
 			})
 			.catch((error) => {
-               console.log(`::::::::::::::::::::${error}`);
+               //console.log(`::::::::::::::::::::${error}`);
                return false;
 			});
     },
