@@ -9,13 +9,13 @@
             }}
           </h1>
           <h1 class="percentage">
-            <Fragment
+            <span
               :class="[getPricedetailsonblackcard.derivedPrice < 0 ? 'red': 'green','price']"
-            >{{ getPricedetailsonblackcard.derivedPrice }}</Fragment>
-            <Fragment
+            >{{ getPricedetailsonblackcard.derivedPrice }}</span>
+            <span
               :class="[getPricedetailsonblackcard.derivedPricePercentage < 0 ? 'red': 'green','price']"
               class="delta"
-            >({{ getPricedetailsonblackcard.derivedPricePercentage }})%</Fragment>
+            >({{ getPricedetailsonblackcard.derivedPricePercentage }})%</span>
           </h1>
         </section>
         <section class="left-header">

@@ -7,7 +7,7 @@
             <div class="header-container">
                 <div class="left-menue-item">
                     <h3 class="holder">Holdings</h3>
-                    <h4 class="sub-holder">text here dummy</h4>
+                    <h4 class="sub-holder">lorem ipsum</h4>
                 </div>
                 <div class="right-menue-item">
                     <section class="btn-sell">
@@ -72,9 +72,9 @@
                 :date="gethistoryportfoliodate"
             />
         </div>
+        <div v-else class="graphholder"></div>
         <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
         <wallet-success @close="showSuccess = false" v-if="showSuccess" />
-        <div v-else class="graphholder"></div>
     </Fragment>
 </template>
 <script>

@@ -1,8 +1,8 @@
 <template>
 <Fragment>
-    <div
-    v-if="((getOpenPrice.length > 1) && (getDates.length > 1))"
-    class="graphholder">
+        <div
+            v-if="((getOpenPrice.length > 1) && (getDates.length > 1))"
+            class="graphholder">
             <div class="header-container">
                 <div class="right-menue-item">
                     <div class="parent-container-main">
@@ -22,12 +22,18 @@
                                     <button>
                                         <div id="select" class="dropdown">
                                         <select
-                                        class="drop-down">
-                                            <option
+                                            v-model="Interval"
+                                            @change="handletimeframe" 
+                                            class="drop-down">
+                                            <option v-for="(item, index) in buttonoption" 
+                                            :key="index" :value="item.time">{{
+                                                item.name
+                                            }}</option>
+                                            <!-- <option
                                              v-for="(item,index) in buttonoption"
                                              :key="index"
                                              @click="handletimeframe(item.time)"
-                                            class="option">{{item.name}}</option>
+                                            class="option">{{item.name}}</option> -->
                                         </select>
                                         </div>
                                     </button>
@@ -62,8 +68,6 @@
             :currency="getSingleinstrument[0].currency"
          />
     </div>
-    <div v-else 
-        class="graphholder"></div>
     </Fragment>
 </template>
 <script>
@@ -122,6 +126,7 @@ export default {
                 }
             ],
             tooglegraph:false,
+            Interval:'1D',
             options:[
                 {
                     name:'Normal',
@@ -198,9 +203,9 @@ export default {
                 console.log('this is the single Instrument LLLLLLLLLLLLLL', this.getSingleinstrument[0].currency)
             })
         },
-        handletimeframe(index) {
-            console.log('>>>>>>>>>handletimeframe>>>>>>>>',index);
-            this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(index);
+        handletimeframe(e) {
+            console.log('>>>>>>>>>handletimeframe>>>>>>>>',this.Interval);
+            this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
             const payloadsinglestock = {
                 interval:this.getSinglestockglobalTimeforGraph,
                 currency:this.getSinglestockglobalCurrencyforGraph,
