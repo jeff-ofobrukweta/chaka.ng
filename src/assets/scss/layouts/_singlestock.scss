@@ -14,7 +14,7 @@
     .price {
         font-style: normal;
         font-weight: bold;
-        font-size: 26.9856px;
+        font-size: 16.986px;
         color: #293D4A;
     }
 
@@ -94,6 +94,13 @@
     flex-direction: row;
     justify-content: space-between;
     margin-left: 10px;
+    .item-tag{
+        background:#293D4A;
+        border-radius: 2.95652px;
+        color:#fff;
+        padding: 7px 10px;
+        margin: 5px 0px;
+    }
 }
 
 .summary-cover {
