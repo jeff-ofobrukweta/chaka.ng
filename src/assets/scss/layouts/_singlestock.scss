@@ -88,6 +88,13 @@
     }
 
 }
+.stocktag-container{
+    display: inline-flex;
+    flex: 1 1 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 10px;
+}
 
 .summary-cover {
     font-style: normal;

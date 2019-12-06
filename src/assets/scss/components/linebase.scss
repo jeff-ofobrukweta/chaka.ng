@@ -4,7 +4,8 @@
     border-radius: 11.4872px;
     padding: 1em;
     width: 100%;
-
+    margin: 3em 0px;
+    min-height: 522px;
 }
 
 .drop-down {
@@ -121,14 +122,13 @@
         }
 
         .sub-holder {
-            font-family: SF Pro Text;
-            font-style: italic;
-            font-weight: normal;
-            font-size: 11px;
-            color: #8A939A;
+            font-size: 15px;
+            color:#8A939A;
             font-family: "SF Pro";
             font-style: normal;
             font-weight: bolder;
+            font-style: italic;
+            font-weight: normal;
         }
     }
 

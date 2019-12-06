@@ -28,11 +28,11 @@
         <hr class="division-logger" />
         <section class="dashboard__title" v-if="Object.keys(getInstrumentsPayload).length > 0">
             <h3>{{ getInstrumentsPayload.name }}</h3>
-            <p class="dashboard__title--sub" v-if="instrumentLength !== false">
-                {{ instrumentLength }} Stock{{
-                    instrumentLength === 1 ? "" : "s"
+            <!-- <p class="dashboard__title--sub">
+                {{ getInstrumentsPayload.Instruments.length }} Stock{{
+                    getInstrumentsPayload.Instruments.length === 1 ? "" : "s"
                 }}
-            </p>
+            </p> -->
         </section>
         <section v-if="getWindowWidth === 'desktop'">
             <div class="instrument-base">

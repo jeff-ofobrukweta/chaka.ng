@@ -2,7 +2,10 @@
     <Fragment>
         <div class="graphholder">
             <div class="header-container">
-                <div class="left-menue-item"></div>
+                <div class="left-menue-item">
+                    <h3 class="holder">Holdings</h3>
+                    <h4 class="sub-holder">lorem ipsum</h4>
+                </div>
                 <div class="right-menue-item">
                     <section class="toogle-section">
                         <section class="option-container">
