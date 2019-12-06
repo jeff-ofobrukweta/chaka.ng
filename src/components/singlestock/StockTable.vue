@@ -11,9 +11,9 @@
             <p class="stock-table__head">Value of Shares</p>
             <p
                 class="stock-table__body stock-table__img cursor-context"
-                :title="checkforUndefined(getPositionsforcurrentstock.currentValue) || 0.00 | currency('USD', true)"
+                :title="checkforUndefined(getPositionsforcurrentstock.currentValue) || 0.00 | kobo | currency('USD', true)"
             >
-                {{ checkforUndefined(getPositionsforcurrentstock.currentValue) || 0.00 | currency("USD") }}
+                {{ checkforUndefined(getPositionsforcurrentstock.currentValue) || 0.00 | kobo | currency("USD") }}
                 <img
                     v-if="instrument.shareValue >= 0"
                     :src="require('../../assets/img/chevron-up.svg')"

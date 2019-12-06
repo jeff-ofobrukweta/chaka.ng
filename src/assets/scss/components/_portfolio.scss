@@ -26,7 +26,7 @@
         &__box {
             display: flex;
             flex-wrap: wrap;
-            margin-top: 3rem;
+            margin-top: 5rem;
         }
 
         h2 {
@@ -185,6 +185,10 @@
         }
     }
 
+    &__charts{
+        margin-top: 3rem;
+    }
+
     &-networth {
         margin-bottom: 1rem;
         text-align: right;
@@ -201,5 +205,9 @@
             align-items: center;
             justify-content: center;
         }
+    }
+
+    &-watch{
+        margin-top: 5rem;
     }
 }

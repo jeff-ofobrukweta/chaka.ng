@@ -52,28 +52,14 @@
                 </p>
             </div>
             <div class="modal__buy--current">
-                <p><small>AVAILABLE AMOUNT:</small></p>
+                <p><small>AVAILABLE QUANTITY:</small></p>
                 <p
-                    v-if="currency === 'NGN'"
                     class="cursor-context modal__buy--price"
                     :title="
-                        getAccountSummary.localWallet.availableBalance
-                            | kobo
-                            | currency('NGN', true)
+                       maxQuantity | units(2, true)
                     "
                 >
-                    {{ getAccountSummary.localWallet.availableBalance | kobo | currency("NGN") }}
-                </p>
-                <p
-                    v-else
-                    class="cursor-context modal__buy--price"
-                    :title="
-                        getAccountSummary.globalWallet.availableBalance
-                            | kobo
-                            | currency('USD', true)
-                    "
-                >
-                    {{ getAccountSummary.globalWallet.availableBalance | kobo | currency("USD") }}
+                    {{ maxQuantity | units }} Units
                 </p>
             </div>
         </section>
@@ -276,7 +262,7 @@
                                 <p>Fees</p>
                             </div>
                             <div class="stock-vdr__box stock-vdr__right">
-                                <h5>{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
+                                <h5>-{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
                             </div>
                         </div>
                         <hr />
@@ -334,6 +320,10 @@ export default {
         instrument: {
             type: Object,
             required: true
+        },
+        maxQuantity: {
+            type: Number,
+            required: true
         }
     },
     components: {
@@ -362,7 +352,9 @@ export default {
             "getPreOrder",
             "getLoggedUser",
             "getNextKYC",
-            "getSingleinstrument"
+            "getSingleinstrument",
+            "getglobalstocksowned",
+            "getlocalstocksowned"
         ]),
         isSellValid() {
             if (this.instrument.currency === "NGN") {
@@ -384,7 +376,6 @@ export default {
             "SELL_INSTRUMENT",
             "GET_SINGLESTOCK_INSTRUMENT",
             "GET_MARKET_DATA",
-            "GET_PRE_ORDER"
         ]),
         ...mapMutations([
             "SET_MARKET_DATA",

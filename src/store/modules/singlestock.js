@@ -8,7 +8,8 @@ const state = {
     preOrder: {},
     buyOrder: {},
     sellOrder: {},
-    marketData: {}
+    marketData: {},
+    openOrders: []
 };
 
 const getters = {
@@ -24,7 +25,8 @@ const getters = {
     getPreOrder: state => state.preOrder,
     getBuyOrder: state => state.buyOrder,
     getSellOrder: state => state.sellOrder,
-    getMarketData: state => state.marketData
+    getMarketData: state => state.marketData,
+    getOpenOrders: state => state.openOrders
 };
 
 const mutations = {
@@ -50,6 +52,9 @@ const mutations = {
     },
     SET_MARKET_DATA(state, payload) {
         state.marketData = payload;
+    },
+    SET_OPEN_ORDERS(state, payload){
+        state.openOrders = payload
     }
 };
 
@@ -61,7 +66,7 @@ const actions = {
                     if (response.status === 200) {
                         const { instruments } = response.data.data;
                         commit("SET_SINGLE_INSTRUMENT", instruments);
-                        dispatch('GET_SIMILAR_STOCKS', instruments[0].similar.join(','))
+                        if(instruments.similar )dispatch('GET_SIMILAR_STOCKS', instruments[0].similar.join(','))
                         resolve(instruments[0]);
                     }
                 })
@@ -89,6 +94,41 @@ const actions = {
             .catch(error => {
                 //console.log(`::::::::::::::::::::${error}`);
             });
+    },
+    GET_OPEN_ORDERS({ commit, rootState }) {
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/orders/open/`)
+                .then(response => {
+                    if (response.status === 200) {
+                        commit("SET_OPEN_ORDERS", response.data.data);
+                        resolve(true)
+                    }
+                })
+        });
+    },
+    CANCEL_ORDER: ({ commit, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.post(
+                `/users/${rootState.auth.loggedUser.chakaID}/orders/${payload.orderRef}/cancel`,
+                payload.reference
+            ).then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("REQ_SUCCESS", null, { root: true });
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "cancel-order");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "cancel-order");
+                    resolve(false);
+                }
+            );
+        });
     },
     BUY_INSTRUMENT: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });

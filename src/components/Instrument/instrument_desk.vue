@@ -23,7 +23,7 @@
                         class="course-item-main-list-flex"
                         id="company"
                         :src="item.logoUrl"
-                        alt="courses"
+                        :alt="item.symbol"
                     />
                 </router-link>
                 <img

@@ -1,6 +1,65 @@
 <template>
     <section class="portfolio-table__box">
-        <table class="portfolio-table">
+        <table class="portfolio-table" v-if="openOrders">
+            <thead class="portfolio-table__thead">
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Price</th>
+                <th>Units Ordered</th>
+                <!-- <th>Units<br />Ordered</th> -->
+                <th>Invested<br />Amount</th>
+                <th>Action</th>
+            </thead>
+            <tbody v-if="storedata.length >= 1" class="portfolio-table__tbody">
+                <tr v-for="(item, index) in storedata" :key="index">
+                    <router-link
+                        class="capitalize pointer"
+                        tag="td"
+                        :to="{ name: 'singlestock', params: { symbol: item.symbol } }"
+                        >{{ item.name }}</router-link
+                    >
+                    <router-link
+                        class="uppercase pointer"
+                        tag="td"
+                        :to="{ name: 'singlestock', params: { symbol: item.symbol } }"
+                        >{{ item.symbol }}</router-link
+                    >
+                    <td
+                        class="cursor-context"
+                        :title="
+                            item.InstrumentDynamic.askPrice | kobo | currency(item.currency, true)
+                        "
+                    >
+                        {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
+                    </td>
+                    <td class="cursor-context" :title="item.quantityBought | units(2, true)">
+                        {{ item.quantityBought | units }}
+                    </td>
+                    <!-- <td class="cursor-context" :title="item.unitsOrdered | units(2, true)">
+                        {{ item.unitsOrdered | units }}
+                    </td> -->
+                    <td
+                        class="cursor-context"
+                        :title="item.netPurchaseCost | kobo | currency(item.currency, true)"
+                    >
+                        {{ item.netPurchaseCost | kobo | currency(item.currency) }}
+                    </td>
+                    <td>
+                        <action-button
+                            type="button"
+                            @click="cancelOrder(item)"
+                            :pending="loading"
+                            :classes="['btn-block', 'btn__primary--outline']"
+                            >Cancel</action-button
+                        >
+                    </td>
+                </tr>
+            </tbody>
+            <tbody v-else>
+                No current Stocks availiable at this time
+            </tbody>
+        </table>
+        <table class="portfolio-table" v-else>
             <thead class="portfolio-table__thead">
                 <th>Name</th>
                 <th>Symbol</th>
@@ -45,9 +104,9 @@
                     </td> -->
                     <td
                         class="cursor-context"
-                        :title="item.currentValue | currency(item.currency, true)"
+                        :title="item.currentValue | kobo | currency(item.currency, true)"
                     >
-                        {{ item.currentValue | currency(item.currency) }}
+                        {{ item.currentValue | kobo | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.percentTotal | units(2, true)">
                         {{ item.percentTotal | units(2) }}%
@@ -97,14 +156,15 @@
             :currency="selectedInstrument.currency"
             :symbol="selectedInstrument.symbol"
             :instrument="selectedInstrument"
-            v-if="showBuy"
+            v-if="showBuy && Object.keys(selectedInstrument).length > 0"
         />
         <sell-modal
             @close="closeSaleModal"
             :currency="selectedInstrument.currency"
             :symbol="selectedInstrument.symbol"
             :instrument="selectedInstrument"
-            v-if="showSell"
+            :max-quantity="maxQuantity"
+            v-if="showSell && Object.keys(selectedInstrument).length > 0"
         />
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
@@ -119,7 +179,7 @@
 import KYCButton from "../form/KYCButton";
 import ModalKYC from "../kyc/ModalKYC";
 import KYCTitles from "../../services/kyc/kycTitles";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
     name: "portfolio-table",
     components: {
@@ -130,6 +190,9 @@ export default {
         storedata: {
             type: Array,
             required: true
+        },
+        openOrders: {
+            type: Boolean
         }
     },
     data() {
@@ -142,24 +205,55 @@ export default {
             selectedField: {},
             type: null,
             allNextKYC: KYCTitles.titles,
-            selectedInstrument: {}
+            selectedInstrument: {},
+            loading: false,
+            maxQuantity: null
         };
     },
     computed: {
-        ...mapGetters(["getNextKYC"])
+        ...mapGetters(["getNextKYC", "getlocalstocksowned", "getglobalstocksowned"])
     },
-    mounted() {},
     methods: {
         checkChange(value) {
             if (value >= 0) return true;
             return false;
         },
+        checkPositions(symbol, currency) {
+            let check = []
+            if (currency === "NGN") {
+                 check = this.getlocalstocksowned.filter(
+                    element => element.symbol === symbol
+                );
+            } else {
+                 check = this.getglobalstocksowned.filter(
+                    element => element.symbol === symbol
+                );
+            }
+            if (check.length > 0) {
+                const { quantity } = check[0]
+                this.maxQuantity = +quantity;
+                return true;
+            }
+            this.maxQuantity = 0;
+            return false;
+        },
         selectInstrument(instrument, type) {
             this.selectedInstrument = instrument;
+            this.checkPositions(instrument.symbol, instrument.currency)
             this.type = type;
         },
-        checkPassive() {
-            console.log("check passive");
+        cancelOrder(item) {
+            this.loading = true;
+            const details = {
+                orderRef: item.reference,
+                reference: {
+                    currency: item.currency,
+                    symbol: item.Instrument.symbol
+                }
+            };
+            setTimeout(() => {
+                this.loading = false;
+            }, 2000);
         },
         handleStep(step) {
             this.step = step.type;
@@ -195,6 +289,7 @@ export default {
             }
             this.showBuy = false;
             this.showSell = false;
+            this.selectedInstrument = {};
         }
     }
 };

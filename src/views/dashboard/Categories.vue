@@ -28,21 +28,16 @@
         <hr class="division-logger" />
         <section class="dashboard__title" v-if="Object.keys(getInstrumentsPayload).length > 0">
             <h3>{{ getInstrumentsPayload.name }}</h3>
-            <p class="dashboard__title--sub">
-                {{ getInstrumentsPayload.Instruments.length }} Stock{{
-                    getInstrumentsPayload.Instruments.length === 1 ? "" : "s"
+            <p class="dashboard__title--sub" v-if="instrumentLength !== false">
+                {{ instrumentLength }} Stock{{
+                    instrumentLength === 1 ? "" : "s"
                 }}
             </p>
         </section>
         <section v-if="getWindowWidth === 'desktop'">
             <div class="instrument-base">
                 <template v-if="loading">
-                    <InstrumentCard
-                        dummy
-                        v-for="i in 10"
-                        :key="i"
-                        :instrument="{}"
-                    />
+                    <InstrumentCard dummy v-for="i in 10" :key="i" :instrument="{}" />
                 </template>
                 <template v-else-if="getInstrumentsListArray.length > 0">
                     <InstrumentCard
@@ -86,7 +81,6 @@ export default {
     name: "Categories",
     data() {
         return {
-            cardState: true,
             loading: false
         };
     },
@@ -102,7 +96,17 @@ export default {
             "getInstrumentsListArray",
             "getWindowWidth",
             "getInstrumentsPayload"
-        ])
+        ]),
+        instrumentLength(){
+            if(Object.keys(this.getInstrumentsPayload).length > 0){
+                if(this.getInstrumentsPayload.Instruments === ''){
+                    return 0
+                }
+                const length = this.getInstrumentsPayload.Instruments.split(',')
+                return length.length
+            }
+            return false
+        }
     },
     methods: {
         ...mapMutations(["SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS", "SET_INSTRUMENT_BY_TAGS"]),
@@ -119,26 +123,18 @@ export default {
             this.GET_INSTRUMENT_BY_TAGS(payload).then(() => {
                 this.loading = false;
             });
-        },
-        mountingActions() {
-            if (Object.keys(this.getInstrumentsPayload).length > 0) {
-                return true;
-            }
-            this.$store.dispatch("GET_TAGS_CATEGORIES").then(() => {
-                const payloadGetInstrument = { symbols: this.gettagslistsArray[0].Instrumnents };
-                this.cardState = true;
-                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
-                    this.gettagslistsArray[0] ? this.gettagslistsArray[0] : {}
-                );
-                this.cardState = true;
-                this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(response => {
-                    this.cardState = response;
-                });
-            });
         }
     },
-    mounted() {
-        this.mountingActions();
+    async mounted() {
+        if (Object.keys(this.getInstrumentsPayload).length > 0) {
+            return true;
+        }
+        await this.GET_TAGS_CATEGORIES();
+        const payloadGetInstrument = { symbols: this.gettagslistsArray[0].Instrumnents };
+        this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
+            this.gettagslistsArray.length > 0 ? this.gettagslistsArray[0] : {}
+        );
+        await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
     }
 };
 </script>

@@ -276,7 +276,7 @@
                                 <p>Fees</p>
                             </div>
                             <div class="stock-vdr__box stock-vdr__right">
-                                <h5>{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
+                                <h5>-{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
                             </div>
                         </div>
                         <hr />
@@ -535,8 +535,8 @@ export default {
         this.RESET_REQ();
         this.SET_BUY_ORDER({});
         this.SET_SELL_ORDER({});
-        this.GET_MARKET_DATA(this.symbol);
-        this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol });
+        this.GET_MARKET_DATA(this.symbol || this.instrument.symbol);
+        this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol|| this.instrument.symbol });
         await this.GET_ACCOUNT_SUMMARY();
     },
     beforeDestroy() {

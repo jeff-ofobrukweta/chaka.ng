@@ -13,55 +13,52 @@
 </template>
 
 <script>
-import {
-    mapGetters, mapMutations, mapActions, mapState
-} from 'vuex';
-import numeral from 'numeral';
-import Doughnut from './doughnut_config';
+import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
+import numeral from "numeral";
+import Doughnut from "./doughnut_config";
 
 export default {
-    name: 'doughnutgraph',
+    name: "doughnutgraph",
     components: {
         Doughnut
     },
     data() {
         return {
-            min: '',
-            max: '',
-            interval: 10,
+            min: "",
+            max: "",
             datacollection: {},
             loaderGraph: true,
-            day: '',
+            day: "",
             showError: false,
             buttonoption: [
                 {
-                    name: 'TAB1',
-                    time: '1D',
+                    name: "TAB1",
+                    time: "1D",
                     id: 1
                 },
                 {
-                    name: 'TAB2',
-                    time: '1W',
+                    name: "TAB2",
+                    time: "1W",
                     id: 2
                 },
                 {
-                    name: 'TAB3',
-                    time: '1M',
+                    name: "TAB3",
+                    time: "1M",
                     id: 3
                 },
                 {
-                    name: 'TAB4',
-                    time: '3M',
+                    name: "TAB4",
+                    time: "3M",
                     id: 4
                 },
                 {
-                    name: 'TAB5',
-                    time: '1Y',
+                    name: "TAB5",
+                    time: "1Y",
                     id: 5
                 },
                 {
-                    name: 'TAB6',
-                    time: '5Y',
+                    name: "TAB6",
+                    time: "5Y",
                     id: 6
                 }
             ],
@@ -69,72 +66,8 @@ export default {
             padding: 0,
             width: 20,
             options: {
-                scales: {
-                    // xAxes: [
-                    // 	{
-                    // 		distribution: 'linear',
-                    // 		display: false,
-                    // 		ticks: {
-                    // 			maxTicksLimit: 8,
-                    // 			fontSize: 10
-                    // 		},
-                    // 		gridLines: {
-                    // 			display: true,
-                    // 			// borderDash: [4, 4],
-                    // 			// color: '#4394c7',
-                    // 			labelString: 'Date',
-                    // 			drawBorder: false
-                    // 		},
-                    // 		// type: 'time',
-                    // 		time: {
-                    // 			// unit: this.day,
-                    // 			// unitStepSize: this.datelength,
-                    // 			// min: "2017-01-01",
-                    // 			// max: "2017-12-01",
-                    // 			displayFormats: {
-                    // 				millisecond: 'MMM DD',
-                    // 				second: 'MMM DD',
-                    // 				minute: 'MMM DD',
-                    // 				hour: 'MMM DD',
-                    // 				day: 'MMM DD',
-                    // 				week: 'MMM DD',
-                    // 				month: 'MMM DD',
-                    // 				quarter: 'MMM DD',
-                    // 				year: 'MMM DD'
-                    // 			}
-                    // 		}
-                    // 	}
-                    // ],
-
-                    // yAxes: [
-                    // 	{
-                    // 		scaleLabel: {
-                    // 			display: false,
-                    // 			// labelString: 'Price'
-                    // 		},
-                    // 		position: 'left',
-                    // 		ticks: {
-                    // 			beginAtZero: false,
-                    // 			fontColor: '#8A939A',
-                    // 			padding: 0,
-                    // 			fontSize: 10,
-                    // 			max: this.max,
-                    // 			min: this.min,
-                    // 			stepSize: this.interval,
-                    // 			callback: (value) =>
-                    // 				this.currency == 'USD'
-                    // 					? `$${numeral(value).value()}`
-                    // 					: `N${numeral(value).value()}`
-                    // 		},
-                    // 		gridLines: {
-                    // 			display: false,
-                    // 			drawBorder: false
-                    // 		}
-                    // 	}
-                    // ]
-                },
                 animation: {
-                duration: 0 // general animation time
+                    duration: 0 // general animation time
                 },
                 hover: {
                     animationDuration: 0 // duration of animations when hovering an item
@@ -155,16 +88,16 @@ export default {
                     }
                 },
                 tooltips: {
-                    mode: 'index',
+                    mode: "index",
                     intersect: false,
-                    backgroundColor: '#2DA5EC',
+                    backgroundColor: "#2DA5EC",
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
                         return data.labels[tooltipItem[0].index];
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${'Price:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+                            return `${"Price:" + ""}${data.datasets[0].data[tooltipItem.index]}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
@@ -173,7 +106,7 @@ export default {
                         }
                     },
                     hover: {
-                        mode: 'index',
+                        mode: "index",
                         intersect: false
                     }
                 },
@@ -183,11 +116,11 @@ export default {
                 aspectRatio: 2,
                 legend: {
                     display: true,
-                    position: 'right',
-                    align:'center',
-                    fullWidth:true,
+                    position: "right",
+                    align: "center",
+                    fullWidth: true,
                     boxWidth: 100,
-                    align: 'center',
+                    align: "center",
                     fullWidth: true,
                     labels: {
                         boxWidth: 10,
@@ -200,45 +133,42 @@ export default {
             }
         };
     },
-    computed: {
-
-    },
+    computed: {},
 
     mounted() {
         this.fillData();
         this.handlescaling();
     },
-    props:{
-        percentage:{
-          type: Array,
-          required: false
+    props: {
+        percentage: {
+            type: Array,
+            required: false
         },
-        symbol:{
-          type: Array,
-          required: false
+        symbol: {
+            type: Array,
+            required: false
         }
     },
     methods: {
-         handlescaling() {
-			if (this.getOpenPrice) {
-				this.min = this.percentage.sort()[0];
-				this.max = this.percentage.sort()[this.percentage.sort().length - 1];
-				this.interval = Math.ceil((this.max - this.min) / 10);
-			}
-			return true;
-		},
-        fillData() {
-        this.datacollection = {
-            labels: this.symbol,
-            datasets: [
-                {
-                    label: 'Data One',
-                    backgroundColor: ['#00C48C', '#0052B4', '#FF647C', '##FFA26B','#FFE29D'],
-                    data: this.percentage
-                }
-            ]
-            };
+        handlescaling() {
+            if (this.getOpenPrice) {
+                this.min = this.percentage.sort()[0];
+                this.max = this.percentage.sort()[this.percentage.sort().length - 1];
+            }
+            return true;
         },
+        fillData() {
+            this.datacollection = {
+                labels: this.symbol,
+                datasets: [
+                    {
+                        label: "Data One",
+                        backgroundColor: ["#00C48C", "#0052B4", "#FF647C", "##FFA26B", "#FFE29D"],
+                        data: this.percentage
+                    }
+                ]
+            };
+        }
     }
 };
 </script>
