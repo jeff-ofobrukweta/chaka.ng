@@ -1,9 +1,6 @@
 <template>
     <Fragment>
-        <div
-            v-if="gethistoryportfolioprice.length >= 1 && gethistoryportfoliodate.length >= 1"
-            class="graphholder"
-        >
+        <div class="graphholder">
             <div class="header-container">
                 <div class="left-menue-item">
                     <h3 class="holder">Holdings</h3>
@@ -15,6 +12,7 @@
                             <button
                                 v-for="(item, index) in currencyOption"
                                 :key="index"
+                                :disabled="loading"
                                 @click="toogleCurrency(item.currency, item.id)"
                                 :title="item.description"
                                 :class="[
@@ -28,7 +26,11 @@
                             </button>
                             <button>
                                 <div id="select" class="dropdown">
-                                    <select class="drop-down" @change="handletimeframe($event)">
+                                    <select
+                                        class="drop-down"
+                                        @change="handletimeframe($event)"
+                                        :disabled="loading"
+                                    >
                                         <option
                                             v-for="(item, index) in buttonoption"
                                             :key="index"
@@ -43,16 +45,29 @@
                     </section>
                 </div>
             </div>
-            <Graph
-                :price="gethistoryportfolioprice"
-                :currency="getAccountSummary.currency"
-                :date="gethistoryportfoliodate"
-                :loading="loading"
-            />
+            <template v-if="loading"
+                ><div class="portfolio-graph__placeholder">Loading...</div>
+            </template>
+            <template v-else-if="isGraphValid === 1">
+                <div class="portfolio-graph__placeholder">
+                    <img
+                        src="../../assets/img/gifs/portfolio.gif"
+                        alt="Positions Chart demo"
+                    /></div
+            ></template>
+            <template v-else-if="isGraphValid === 2">
+                <div class="portfolio-graph__placeholder">
+                    Technical difficulty fetching chart data
+                </div>
+            </template>
+            <template v-else>
+                <Graph
+                    :price="gethistoryportfolioprice"
+                    :currency="getAccountSummary.currency"
+                    :date="gethistoryportfoliodate"
+                />
+            </template>
         </div>
-        <div v-else class="graphholder"></div>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
     </Fragment>
 </template>
 <script>
@@ -136,7 +151,19 @@ export default {
             "getAccountSummary",
             "getPortfolioDerivedPrice",
             "getPortfolioDerivedChange"
-        ])
+        ]),
+        isGraphValid() {
+            if (this.gethistoryportfolioprice.length <= 0) {
+                return 1;
+            }
+            const checkForNull = this.gethistoryportfolioprice.filter(
+                el => el === null || el === undefined || Number.isNaN(+el)
+            );
+            if (!checkForNull || (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null)) {
+                return 3;
+            }
+            return 2;
+        }
     },
     methods: {
         ...mapMutations([
@@ -169,6 +196,9 @@ export default {
             this.showFund = false;
         },
         async toogleCurrency(currency, id) {
+            if (currency === this.getPorfolioglobalCurrencyforGraph) {
+                return true;
+            }
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
             this.loading = true;
             await this.GET_ACCOUNT_SUMMARY({ currency }).then(() => {
@@ -182,6 +212,9 @@ export default {
             });
         },
         async handletimeframe(e) {
+            if (e.target.value === this.getPorfolioglobalTimeforGraph) {
+                return true;
+            }
             this.loading = true;
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(e.target.value);
             const payloadsinglestock = {
@@ -199,8 +232,10 @@ export default {
             this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
         }
     },
-    mounted() {
-        this.mountedActions();
+    async mounted() {
+        this.loading = true
+        await this.mountedActions();
+        this.loading = false
     }
 };
 </script>

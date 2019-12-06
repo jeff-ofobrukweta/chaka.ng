@@ -33,24 +33,29 @@ const mutations = {
 
 const actions = {
     async GET_TAGS_CATEGORIES({ commit }, params) {
-        await API_CONTEXT.get(`/tags`)
-            .then(response => {
-                commit("SET_TAGS_LISTS", response.data.tags);
-            })
-            .catch(error => {
-                console.log(`::::::::::::::::::::${error}`);
-            });
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/tags`)
+                .then(response => {
+                    commit("SET_TAGS_LISTS", response.data.tags);
+                    resolve(true);
+                })
+                .catch(error => {
+                    console.log(`::::::::::::::::::::${error}`);
+                });
+        });
     },
     async GET_INSTRUMENT_BY_TAGS({ commit }, params) {
-        await API_CONTEXT.get(`/instruments/`, params)
-            .then(response => {
-                const { instruments } = response.data.data;
-                commit("SET_INSTRUMENT_BY_TAGS", instruments);
-                return true;
-            })
-            .catch(error => {
-                return false;
-            });
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/instruments/`, params)
+                .then(response => {
+                    const { instruments } = response.data.data;
+                    commit("SET_INSTRUMENT_BY_TAGS", instruments);
+                     resolve(true);
+                })
+                .catch(error => {
+                    resolve(false);
+                });
+        });
     }
 };
 
