@@ -28,11 +28,9 @@
         <hr class="division-logger" />
         <section class="dashboard__title" v-if="Object.keys(getInstrumentsPayload).length > 0">
             <h3>{{ getInstrumentsPayload.name }}</h3>
-            <!-- <p class="dashboard__title--sub">
-                {{ getInstrumentsPayload.Instruments.length }} Stock{{
-                    getInstrumentsPayload.Instruments.length === 1 ? "" : "s"
-                }}
-            </p> -->
+            <p class="dashboard__title--sub" v-if="instrumentLength !== false">
+                {{ instrumentLength }} Stock{{ instrumentLength === 1 ? "" : "s" }}
+            </p>
         </section>
         <section v-if="getWindowWidth === 'desktop'">
             <div class="instrument-base">
@@ -97,15 +95,15 @@ export default {
             "getWindowWidth",
             "getInstrumentsPayload"
         ]),
-        instrumentLength(){
-            if(Object.keys(this.getInstrumentsPayload).length > 0){
-                if(this.getInstrumentsPayload.Instruments === ''){
-                    return 0
+        instrumentLength() {
+            if (Object.keys(this.getInstrumentsPayload).length > 0) {
+                if (this.getInstrumentsPayload.Instruments === "") {
+                    return 0;
                 }
-                const length = this.getInstrumentsPayload.Instruments.split(',')
-                return length.length
+                const length = this.getInstrumentsPayload.Instruments.split(",");
+                return length.length;
             }
-            return false
+            return false;
         }
     },
     methods: {
@@ -126,18 +124,17 @@ export default {
         }
     },
     async mounted() {
+        this.loading = true
         await this.GET_TAGS_CATEGORIES();
-        // if (Object.keys(this.getInstrumentsPayload).length > 0) {
-        //     return true;
-        // }
         const payloadGetInstrument = { symbols: this.gettagslistsArray[0].Instrumnents };
         this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
             this.gettagslistsArray.length > 0 ? this.gettagslistsArray[0] : {}
         );
         await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
+        this.loading = false
     },
-    beforeRouteLeave(to, from, next){
-        next()
+    beforeDestroy(){
+        this.SET_INSTRUMENT_BY_TAGS([])
     }
 };
 </script>

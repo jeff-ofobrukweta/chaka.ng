@@ -50,7 +50,7 @@ const actions = {
                 .then(response => {
                     const { instruments } = response.data.data;
                     commit("SET_INSTRUMENT_BY_TAGS", instruments);
-                     resolve(true);
+                    resolve(true);
                 })
                 .catch(error => {
                     resolve(false);
