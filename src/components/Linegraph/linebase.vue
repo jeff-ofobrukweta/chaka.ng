@@ -153,9 +153,11 @@ export default {
             "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
+            // check if the arr length is less or equal to zero,then return 1
             if (this.gethistoryportfolioprice.length <= 0) {
                 return 1;
             }
+            // filter the array for conditions null or undefined or is Not a number
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );

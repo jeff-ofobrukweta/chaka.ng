@@ -44,8 +44,7 @@
             <div
                 v-for="(tag, index) in getSingleinstrument[0].Tags"
                 :key="index"
-                class="stocktag-container"
-            >
+                class="stocktag-container">
                 <div class="item-tag">{{ tag.name }}</div>
             </div>
         </section>
