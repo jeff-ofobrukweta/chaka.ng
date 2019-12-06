@@ -221,14 +221,7 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then(() => {
-                console.log(
-                    "beep here >>>>MMMMMMMMMMMMMMMMMMMM>>>>>>",
-                    this.getAccountSummary.currency,
-                    this.getAccountSummary.netWorth,
-                    this.getPortfolioDerivedPrice,
-                    this.getPortfolioDerivedChange
-                );
+            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then(() => { 
             });
         }
     },

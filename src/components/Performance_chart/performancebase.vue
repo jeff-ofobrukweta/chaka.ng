@@ -34,7 +34,7 @@ export default {
             mountedActions(){
                 const chakacredentials ={chakaID:1012567810};
                 this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA().then(()=>{
-                    console.log('>>>>>>SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_PERCENTAGE>>>>>>>>>>>>>>',this.getPositionBarperformancepercentage,this.getPositionBarperformancesymbol);
+                  //  console.log('>>>>>>SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_PERCENTAGE>>>>>>>>>>>>>>',this.getPositionBarperformancepercentage,this.getPositionBarperformancesymbol);
                 })
             }
         },
