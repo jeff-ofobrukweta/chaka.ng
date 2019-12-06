@@ -19,9 +19,9 @@
                 <p>Portfolio Value</p>
                 <h4
                     class="cursor-context"
-                    :title="getAccountSummary.netWorth | currency('NGN', true)"
+                    :title="getAccountSummary.netWorth | kobo | currency('NGN', true)"
                 >
-                    {{ getAccountSummary.netWorth | currency("NGN") }}
+                    {{ getAccountSummary.netWorth | kobo | currency("NGN") }}
                 </h4>
             </div>
             <div class="accounts-overview__text">

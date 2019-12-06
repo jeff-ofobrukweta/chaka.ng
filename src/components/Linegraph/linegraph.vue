@@ -1,19 +1,12 @@
 <template>
     <div class="small chart__box">
         <div class="chart__aspect-ratio">
-            <div class="portfolio-graph__placeholder" v-if="loading">
-                
-            </div>
             <line-chart
                 :style="graphstyle"
                 class="chart__graph"
                 :chart-data="datacollection"
                 :options="options"
-                v-else-if="isGraphValid"
             ></line-chart>
-            <div class="portfolio-graph__placeholder" v-else>
-                Technical difficulty fetching chart data
-            </div>
         </div>
     </div>
 </template>
@@ -30,7 +23,6 @@ export default {
     },
     data() {
         return {
-            isGraphValid: true,
             min: "",
             max: "",
             graphstyle: {
@@ -40,12 +32,6 @@ export default {
             },
             interval: 10,
             datacollection: {},
-            loaderGraph: true,
-            day: "",
-            showError: false,
-            activeButton: 2,
-            padding: 0,
-            width: "200%",
             options: {
                 scales: {
                     xAxes: [
@@ -58,17 +44,10 @@ export default {
                             },
                             gridLines: {
                                 display: true,
-                                // borderDash: [4, 4],
-                                // color: '#4394c7',
                                 labelString: "Date",
                                 drawBorder: false
                             },
-                            // type: 'time',
                             time: {
-                                // unit: this.day,
-                                // unitStepSize: this.datelength,
-                                // min: "2017-01-01",
-                                // max: "2017-12-01",
                                 displayFormats: {
                                     millisecond: "MMM DD",
                                     second: "MMM DD",
@@ -173,6 +152,7 @@ export default {
     },
     mounted() {
         this.fillData();
+        this.handlescaling();
     },
 
     props: {
@@ -187,14 +167,7 @@ export default {
         date: {
             type: Array,
             required: false
-        },
-        loading: {
-            type: Boolean
         }
-    },
-    created() {
-        this.fillData();
-        this.handlescaling();
     },
     methods: {
         handlescaling() {
@@ -230,8 +203,6 @@ export default {
                     }
                 ]
             };
-            this.isGraphValid = true;
-            console.log("I WAS CALLED");
         }
     },
     watch: {
@@ -241,7 +212,6 @@ export default {
                 this.fillData();
                 return true;
             }
-            this.isGraphValid = false;
             return false;
         }
         // date(newvalue, oldvalue) {

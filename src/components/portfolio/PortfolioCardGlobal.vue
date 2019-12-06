@@ -1,18 +1,18 @@
 <template>
-    <div class="portfolio-card" @click="toDetailsPage('global')">
+    <div v-if="getPortfoliopositionsCarddetails.positions" class="portfolio-card" @click="toDetailsPage('global')">
         <div class="portfolio-card__img">
             <img :src="require(`../../assets/img/portfolio2.svg`)" alt="Portfolio Icon" />
         </div>
         <h2
             class="cursor-context"
-            :title="instrument.positions.filled.globalTotal | kobo | currency('USD', true)"
+            :title="getPortfoliopositionsCarddetails.positions.filled.globalTotal | kobo | currency('USD', true)"
         >
-            {{ instrument.positions.filled.globalTotal | kobo | currency("USD") }}
+            {{ getPortfoliopositionsCarddetails.positions.filled.globalTotal | kobo | currency("USD") }}
         </h2>
         <p class="portfolio-card__title">{{ "Total Value on Global Stocks" }}</p>
-        <table v-if="instrument.positions.filled.global.length > 0" class="portfolio-card__table">
+        <table v-if="getPortfoliopositionsCarddetails.positions.filled.global.length > 0" class="portfolio-card__table">
             <tr
-                v-for="(stock, index) in instrument.positions.filled.global.slice(0, 3)"
+                v-for="(stock, index) in getPortfoliopositionsCarddetails.positions.filled.global.slice(0, 3)"
                 :key="index"
                 class="portfolio-card__tr"
             >
@@ -26,9 +26,9 @@
                 &nbsp;
                 <td
                     class="portfolio-card__tr--right cursor-context"
-                    :title="stock.netEarnings | currency(stock.currency, true)"
+                    :title="stock.netEarnings | kobo | currency(stock.currency, true)"
                 >
-                    {{ +stock.netEarnings | currency(stock.currency) }}
+                    {{ +stock.netEarnings | kobo | currency(stock.currency) }}
                 </td>
                 &nbsp;
                 <td
@@ -43,17 +43,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
     name: "portfolio-card",
-    props: {
-        data: {
-            type: Object,
-            required: false
-        },
-        instrument: {
-            type: Object,
-            required: false
-        }
+    computed: {
+        ...mapGetters(['getPortfoliopositionsCarddetails'])
     },
     methods: {
         toDetailsPage(type) {

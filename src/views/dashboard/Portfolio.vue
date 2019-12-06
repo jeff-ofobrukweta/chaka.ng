@@ -32,87 +32,67 @@
         <section class="portfolio-line__graph">
             <Linegraph />
         </section>
-        <section class="portfolio-card__box">
-            <PortfolioCardLocal
-                :instrument="
-                    getPortfoliopositionsCarddetails ? getPortfoliopositionsCarddetails : {}
-                "
-            />
-            <PortfolioCardGlobal
-                :instrument="
-                    getPortfoliopositionsCarddetails ? getPortfoliopositionsCarddetails : {}
-                "
-            />
-            <PortfolioCardOpenorders
-                :instrument="
-                    getPortfoliopositionsCarddetails ? getPortfoliopositionsCarddetails : {}
-                "
-            />
+        <section class="portfolio-card__box" v-if="!portfolioCardsLoading">
+            <PortfolioCardLocal />
+            <PortfolioCardGlobal />
+            <PortfolioCardOpenorders />
         </section>
         <section class="portfolio__charts">
             <Doughnut />
             <Performancebarchart />
         </section>
-        <section class="explore__title">
-            <div>
-                <h3>Watchlist</h3>
-                <p class="explore__title--sub">Keep a close watch on top stocks</p>
+        <section class="portfolio-watch">
+            <div class="explore__title">
+                <div>
+                    <h3>Watchlist</h3>
+                    <p class="explore__title--sub">Keep a close watch on top stocks</p>
+                </div>
+                <select
+                    class="form__input"
+                    v-model="watchlistInterval"
+                    @change="handlewatchlistintervalToogle"
+                >
+                    <option v-for="(item, index) in interval" :key="index" :value="item.value">{{
+                        item.name
+                    }}</option>
+                </select>
             </div>
-            <select
-                class="form__input"
-                v-model="watchlistInterval"
-                @change="handlewatchlistintervalToogle"
-            >
-                <option v-for="(item, index) in interval" :key="index" :value="item.value">{{
-                    item.name
-                }}</option>
-            </select>
+            <error-block type="watchlist" />
+            <section class="watchlist-portfolio__box" v-if="watchlistLoading">
+                <WatchlistCard v-for="i in 5" :key="i" :instrument="{}" dummy />
+            </section>
+            <section class="watchlist-portfolio__box" v-else-if="getWatchlist.length > 0">
+                <WatchlistCard
+                    v-for="(instrument, index) in getWatchlist"
+                    :key="index"
+                    :instrument="instrument"
+                />
+            </section>
+            <section v-else>You have no items in your watchlist</section>
+            <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
+            <wallet-success @close="showSuccess = false" v-if="showSuccess" />
         </section>
-                <error-block type="watchlist" />
-        <section class="watchlist-portfolio__box" v-if="watchlistLoading">
-            <WatchlistCard v-for="i in 5" :key="i" :instrument="{}" dummy />
-        </section>
-        <section class="watchlist-portfolio__box" v-else-if="getWatchlist.length > 0">
-            <WatchlistCard
-                v-for="(instrument, index) in getWatchlist"
-                :key="index"
-                :instrument="instrument"
-            />
-        </section>
-        <section v-else>You have no items in your watchlist</section>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
     </section>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
-import PortfolioCardLocal from "../../components/portfolio/PortfolioCardLocal";
-import PortfolioCardGlobal from "../../components/portfolio/PortfolioCardGlobal";
-import PortfolioCardOpenorders from "../../components/portfolio/PortfolioCardOpenorders";
 import Linegraph from "../../components/Linegraph/linebase";
 import Doughnut from "../../components/Doughnut/dbase";
 import Performancebarchart from "../../components/Performance_chart/performancebase";
-import Analysischart from "../../components/Analysisbarchart/analysisbarchartbase";
-import HorizontalBarchart from "../../components/Horizontalbar/hbase";
-import Singlecourselinegraph from "../../components/Linegraph/singlestock_linegraph";
 import KYCButton from "../../components/form/KYCButton";
 import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "portfolio",
     components: {
-        WatchlistCard,
-        PortfolioCardLocal,
-        PortfolioCardGlobal,
-        PortfolioCardOpenorders,
+        WatchlistCard: () => import("../../components/watchlist/PortfolioWatchlist"),
+        PortfolioCardLocal: () => import("../../components/portfolio/PortfolioCardLocal"),
+        PortfolioCardGlobal: () => import("../../components/portfolio/PortfolioCardGlobal"),
+        PortfolioCardOpenorders: () => import("../../components/portfolio/PortfolioCardOpenorders"),
         Linegraph,
         Doughnut,
         Performancebarchart,
-        Analysischart,
-        HorizontalBarchart,
-        Singlecourselinegraph,
         KYCButton
     },
     data() {
@@ -150,14 +130,15 @@ export default {
                 }
             ],
             watchlistInterval: "1D",
-            watchList: [],
+            cacheWatchlistInterval: "1D",
             watchlistLoading: true,
+            portfolioCardsLoading: false,
             showFund: false,
             showSuccess: false,
             showKYC: false,
             selectedField: {},
             step: null,
-            allNextKYC: KYCTitles.titles,
+            allNextKYC: KYCTitles.titles
         };
     },
     methods: {
@@ -192,25 +173,28 @@ export default {
             this.showFund = false;
         },
         handlewatchlistintervalToogle(e) {
+            if (this.watchlistInterval === this.cacheWatchlistInterval) {
+                return true;
+            }
             this.watchlistLoading = true;
             this.SET_WATCHLIST([]);
             const watchPayload = { interval: this.watchlistInterval };
             this.GET_WATCHLIST(watchPayload).then(() => {
                 this.watchlistLoading = false;
-                // put loader state here
             });
+            this.cacheWatchlistInterval = this.watchlistInterval;
         }
     },
-    mounted() {
+    async mounted() {
         const payload = { interval: "1D" };
-        this.watchlistLoading = true;
-        this.GET_WATCHLIST(payload).then(() => {
-            this.watchlistLoading = false;
-        });
         const currency = { currency: this.getPorfolioglobalCurrencyforGraph };
-        this.GET_ACCOUNT_SUMMARY(currency).then(() => {
-            this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS();
-        });
+        this.watchlistLoading = true;
+        this.portfolioCardsLoading = true;
+        this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS();
+        this.portfolioCardsLoading = false;
+        await this.GET_WATCHLIST(payload);
+        this.watchlistLoading = false;
+        await this.GET_ACCOUNT_SUMMARY(currency);
     },
     computed: {
         ...mapGetters([

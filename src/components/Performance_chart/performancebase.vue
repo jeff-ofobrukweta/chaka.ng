@@ -1,45 +1,73 @@
 <template>
-    <Fragment>
-        <div
-        v-if="(getPositionBarperformancepercentage.length > 1 && getPositionBarperformancesymbol.length > 1)" 
-        class="container-packet">
-            <h1 class="title-name">Performance</h1>
-            <h1 class="subtitle-name">lorem ipsum here</h1>
+    <div class="container-packet">
+        <section class="dashboard__title">
+            <h3>Performance</h3>
+            <p class="dashboard__title--sub">See your stock performances</p>
+        </section>
+        <template v-if="loading"
+            ><div class="container-packet__placeholder">Loading...</div>
+        </template>
+        <template v-else-if="isGraphValid === 1"
+            >
+            <div class="container-packet__placeholder">
+                <img src="../../assets/img/gifs/performance.gif" alt="Performace Chart demo">
+            </div></template>
+        <template v-else-if="isGraphValid === 2"
+            >
+            <div class="container-packet__placeholder">
+                Technical difficulty fetching chart data
+            </div>
+        </template>
+        <template v-else
+            >
             <section class="graphholder">
                 <Performancegraph
                     :percentage="getPositionBarperformancepercentage"
                     :symbol="getPositionBarperformancesymbol"
-                 />
+                />
             </section>
-        </div>
-    </Fragment>
+        </template>
+    </div>
 </template>
 <script>
-import { mapGetters,mapMutations,mapActions } from 'vuex';
-import { Fragment } from 'vue-fragment';
-import Performancegraph from './performancechart';
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import { Fragment } from "vue-fragment";
+import Performancegraph from "./performancechart";
 
 export default {
-    name: 'performancebase',
+    name: "performancebase",
     components: {
         Fragment,
         Performancegraph
     },
-    computed:{
-        ...mapGetters(['getPositionBarperformancepercentage','getPositionBarperformancesymbol'])
+    data() {
+        return {
+            loading: false
+        };
     },
-    methods:{
-        // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(['GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA']),
-            mountedActions(){
-                const chakacredentials ={chakaID:1012567810};
-                this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA().then(()=>{
-                    console.log('>>>>>>SET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_PERCENTAGE>>>>>>>>>>>>>>',this.getPositionBarperformancepercentage,this.getPositionBarperformancesymbol);
-                })
+    computed: {
+        ...mapGetters(["getPositionBarperformancepercentage", "getPositionBarperformancesymbol"]),
+        isGraphValid() {
+            if (this.getPositionBarperformancepercentage.length <= 0) {
+                return 1;
             }
-        },
-    mounted(){
-        this.mountedActions();
+            const checkForNull = this.getPositionBarperformancepercentage.filter(
+                el => el === null || el === undefined
+            );
+            if (checkForNull.length > 0) {
+                return 2;
+            }
+            return 3;
+        }
+    },
+    methods: {
+        // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
+        ...mapActions(["GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA"])
+    },
+    async mounted() {
+        this.loading = true;
+        await this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();
+        this.loading = false;
     }
 };
 </script>

@@ -18,7 +18,7 @@
                     class="course-item-main-list-flex"
                     id="company"
                     :src="instrument.logoUrl"
-                    alt="courses"
+                    :alt="instrument.symbol"
                 />
             </router-link>
             <img
