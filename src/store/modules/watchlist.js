@@ -2,34 +2,43 @@ import api from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
 
 const state = {
-    watchlist: []
+    watchlist: [],
+    cacheWatchlist: []
 };
 
 const getters = {
-    getWatchlist: state => state.watchlist
+    getWatchlist: state => state.watchlist,
+    getCacheWatchlist: state => state.cacheWatchlist
 };
 
 const mutations = {
     SET_WATCHLIST(state, payload) {
         state.watchlist = payload;
+    },
+    SET_CACHE_WATCHLIST(state, payload) {
+        state.cacheWatchlist = payload;
     }
 };
 
 const actions = {
-    GET_WATCHLIST: ({ commit, rootState }, payload) => {
+    GET_WATCHLIST: ({ commit, state, rootState }, payload) => {
         /**
          * @params {interval}
          */
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/watchlists`, { ...payload })
                 .then(
                     resp => {
                         if (resp.status === 200) {
-                            // commit("REQ_SUCCESS", null, { root: true });
-                            // const {instruments} = resp.data.data.watchlistDetails;
-                            // console.log('HELLO GOODRESULT HERE TTTTTTTTTTTTTTTnew',resp.data.data.watchlistDetails )
+                            commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_WATCHLIST", resp.data.data.watchlistDetails.instruments);
+                            commit(
+                                "SET_CACHE_WATCHLIST",
+                                resp.data.data.watchlistDetails.instruments
+                            );
                             resolve(true);
                         } else {
                             errorFn(resp, "watchlist");
@@ -37,6 +46,12 @@ const actions = {
                         }
                     },
                     error => {
+                        if (
+                            error.response.data.message ===
+                            "Data unavailable for selected day/interval"
+                        ) {
+                            commit("SET_WATCHLIST", state.cacheWatchlist);
+                        }
                         errorFn(error.response, "watchlist");
                         resolve(false);
                     }

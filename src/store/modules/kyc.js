@@ -3,6 +3,7 @@ import errorFn from "../../services/apiService/error";
 
 const state = {
     kyc: {},
+    navbarKYC: true,
     nextKYC: {},
     navbarNextKYC: {},
     countryCodes: [],
@@ -11,6 +12,7 @@ const state = {
 
 const getters = {
     getKYC: state => state.kyc,
+    showNavbarKYC: state => state.navbarKYC,
     getNextKYC: state => state.nextKYC,
     getNavbarNextKYC: state => state.navbarNextKYC,
     getNavbarTrigger: state => state.triggerNavbar,
@@ -20,6 +22,9 @@ const getters = {
 const mutations = {
     SET_KYC(state, payload) {
         state.kyc = payload;
+    },
+    SET_SHOW_NAVBAR_KYC(state, payload) {
+        state.navbarKYC = payload
     },
     SET_NEXT_KYC(state, payload) {
         state.nextKYC = payload;

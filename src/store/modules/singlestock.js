@@ -4,6 +4,7 @@ import errorFn from "../../services/apiService/error";
 const state = {
     instrument: [],
     singlestockpositions: [],
+    similarStocks: [],
     preOrder: {},
     buyOrder: {},
     sellOrder: {},
@@ -12,6 +13,7 @@ const state = {
 
 const getters = {
     getSingleinstrument: state => state.instrument,
+    getSimilarStocks: state => state.similarStocks,
     getPositionsWithparams: state => symbol => {
         const filtered = state.singlestockpositions.filter(position => position.symbol === symbol);
         if (filtered) {
@@ -28,6 +30,9 @@ const getters = {
 const mutations = {
     SET_SINGLE_INSTRUMENT(state, instrument) {
         state.instrument = instrument;
+    },
+    SET_SIMILAR_STOCKS(state, stocks) {
+        state.similarStocks = stocks;
     },
     SET_CURRENTSTOCK_POSITIONS(state, positions) {
         let singlestockpositions = {};
@@ -49,19 +54,29 @@ const mutations = {
 };
 
 const actions = {
-    async GET_SINGLESTOCK_INSTRUMENT({ commit }, params) {
+    async GET_SINGLESTOCK_INSTRUMENT({ commit, dispatch }, params) {
         return new Promise((resolve, reject) => {
             return API_CONTEXT.get(`/instruments/?symbols=${params.symbols}`)
                 .then(response => {
                     if (response.status === 200) {
                         const { instruments } = response.data.data;
                         commit("SET_SINGLE_INSTRUMENT", instruments);
+                        dispatch('GET_SIMILAR_STOCKS', instruments[0].similar.join(','))
                         resolve(instruments[0]);
                     }
                 })
-                .catch(error => {
-                    console.log(`::::::::::::::::::::${error}`);
-                });
+        });
+    },
+    GET_SIMILAR_STOCKS({ commit }, params) {
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/instruments/?symbols=${params.symbols}`)
+                .then(response => {
+                    if (response.status === 200) {
+                        const { instruments } = response.data.data;
+                        commit("SET_SIMILAR_STOCKS", instruments);
+                        resolve(instruments[0]);
+                    }
+                })
         });
     },
     async GET_CURRENT_STOCK_POSITION({ commit, rootState }) {
@@ -72,7 +87,7 @@ const actions = {
                 commit("SET_CURRENTSTOCK_POSITIONS", position);
             })
             .catch(error => {
-                console.log(`::::::::::::::::::::${error}`);
+                //console.log(`::::::::::::::::::::${error}`);
             });
     },
     BUY_INSTRUMENT: ({ commit, dispatch, rootState }, payload) => {

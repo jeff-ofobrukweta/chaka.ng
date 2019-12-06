@@ -26,6 +26,7 @@
         &__box {
             display: flex;
             flex-wrap: wrap;
+            margin-top: 3rem;
         }
 
         h2 {
@@ -160,6 +161,45 @@
 
         &__box {
             overflow-x: auto;
+        }
+    }
+
+    &-title {
+        @extend .accounts__title;
+
+        @include mobile {
+            flex-direction: column;
+            align-items: flex-start;
+
+            &__fund {
+                margin-top: 1rem;
+            }
+        }
+
+        &__fund {
+            // text-align: right;
+
+            button {
+                min-width: 150px;
+            }
+        }
+    }
+
+    &-networth {
+        margin-bottom: 1rem;
+        text-align: right;
+
+        @include mobile {
+            text-align: left;
+        }
+    }
+
+    &-graph {
+        &__placeholder {
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 }

@@ -24,6 +24,7 @@ router.afterEach((to, from) => {
     if (localStorage.getItem("AUTH_TOKEN")) {
         store.dispatch("GET_NEXT_KYC");
     }
+    store.commit("SET_SHOW_NAVBAR_KYC", true);
 });
 
 export default router;

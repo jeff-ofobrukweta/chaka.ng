@@ -1,4 +1,14 @@
 <template>
+    <!-- <span v-if="dummy"
+        class="card-news flex"
+        target="_blank"
+    >
+        <img
+            class="card-news__img faded"
+            :src="require('../../assets/img/chaka-icon.svg')"
+            :alt="news.title"
+        />
+    </span> -->
     <a
         class="card-news"
         :class="{ flex: !news.imageUrl }"
@@ -48,6 +58,9 @@ export default {
         collection: {
             type: Boolean,
             default: false
+        },
+        dummy: {
+            type: Boolean
         }
     },
     methods: {

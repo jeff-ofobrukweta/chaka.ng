@@ -2,7 +2,9 @@
     <Fragment>
         <Navbar />
         <main role="main">
-            <KYC />
+            <transition name="kyc-navbar">
+                <KYC v-if="showNavbarKYC" />
+            </transition>
             <section class="container">
                 <router-view />
             </section>
@@ -14,7 +16,7 @@
 import { Fragment } from "vue-fragment";
 import KYC from "../components/kyc/NavbarKYC";
 import Navbar from "../components/Navbar";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "dashboard-layout",
@@ -22,6 +24,9 @@ export default {
         Navbar,
         KYC,
         Fragment
+    },
+    computed: {
+        ...mapGetters(["showNavbarKYC"])
     },
     methods: {
         ...mapActions(["GET_LOGGED_USER", "GET_NEXT_KYC", "GET_ACCOUNT_SUMMARY"])

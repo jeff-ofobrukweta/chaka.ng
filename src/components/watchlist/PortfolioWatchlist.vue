@@ -1,6 +1,15 @@
 <template>
-    <div class="watchlist-portfolio__card" :class="color">
-        <div class="watchlist-portfolio__left">
+    <div v-if="dummy" class="watchlist-portfolio__card loader loader-watchlist">
+        <img
+            src="../../assets/img/chaka-icon.svg"
+            class="faded"
+            alt="Chaka"
+            width="90px"
+            height="90px"
+        />
+    </div>
+    <div v-else class="watchlist-portfolio__card" :class="color">
+        <router-link class="watchlist-portfolio__left" :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }">
             <p class="watchlist-portfolio__name capitalize">{{ instrument.name }}</p>
             <p class="watchlist-portfolio__change">
                 <img
@@ -19,11 +28,15 @@
             <p>
                 <strong
                     class="cursor-context"
-                    :title="instrument.InstrumentDynamic.askPrice | currency(instrument.currency, true)"
-                    >{{ instrument.InstrumentDynamic.askPrice | currency(instrument.currency) }}</strong
+                    :title="
+                        instrument.InstrumentDynamic.askPrice | currency(instrument.currency, true)
+                    "
+                    >{{
+                        instrument.InstrumentDynamic.askPrice | currency(instrument.currency)
+                    }}</strong
                 >
             </p>
-        </div>
+        </router-link>
         <div class="watchlist-portfolio__right">
             <div>
                 <img src="../../assets/img/watch-open.svg" alt="Watch" />
@@ -68,6 +81,9 @@ export default {
         instrument: {
             type: Object,
             required: true
+        },
+        dummy: {
+            type: Boolean
         }
     },
     components: {

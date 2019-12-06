@@ -10,29 +10,6 @@
                     <h4 class="sub-holder">lorem ipsum</h4>
                 </div>
                 <div class="right-menue-item">
-                    <section class="btn-sell">
-                        <KYCButton
-                            ref="fundBtn"
-                            type="button"
-                            :classes="['btn-block', 'btn--lg', 'btn__primary']"
-                            action="fund"
-                            @step="handleStep"
-                            >Fund</KYCButton
-                        >
-                    </section>
-                    <section class="cash-networth">
-                        {{
-                            getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency)
-                        }}
-                        <span class="derived">
-                            <span :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']">{{
-                                getPortfolioDerivedPrice | units(2)
-                            }}</span>
-                            <span :class="[getPortfolioDerivedChange < 0 ? 'red' : 'green']"
-                                >({{ getPortfolioDerivedChange | units(2) }}%)</span
-                            >
-                        </span>
-                    </section>
                     <section class="toogle-section">
                         <section class="option-container">
                             <button
@@ -51,12 +28,12 @@
                             </button>
                             <button>
                                 <div id="select" class="dropdown">
-                                    <select class="drop-down">
+                                    <select class="drop-down" @change="handletimeframe($event)">
                                         <option
                                             v-for="(item, index) in buttonoption"
                                             :key="index"
-                                            @click="handletimeframe(item.time, item.id)"
                                             class="option"
+                                            :value="item.time"
                                             >{{ item.name }}</option
                                         >
                                     </select>
@@ -70,6 +47,7 @@
                 :price="gethistoryportfolioprice"
                 :currency="getAccountSummary.currency"
                 :date="gethistoryportfoliodate"
+                :loading="loading"
             />
         </div>
         <div v-else class="graphholder"></div>
@@ -93,6 +71,7 @@ export default {
             selectedField: {},
             step: null,
             allNextKYC: KYCTitles.titles,
+            loading: false,
             currencyOption: [
                 {
                     symbol: "₦",
@@ -156,14 +135,12 @@ export default {
             "getPorfolioglobalTimeforGraph",
             "getAccountSummary",
             "getPortfolioDerivedPrice",
-            "getPortfolioIntervalposition",
             "getPortfolioDerivedChange"
         ])
     },
     methods: {
         ...mapMutations([
             "SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH",
-            "SET_PORTFOLIO_POSITIONS_FOR_SELECT",
             "SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH"
         ]),
         ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA", "GET_ACCOUNT_SUMMARY"]),
@@ -193,43 +170,33 @@ export default {
         },
         async toogleCurrency(currency, id) {
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
+            this.loading = true;
             await this.GET_ACCOUNT_SUMMARY({ currency }).then(() => {
                 const defaulttime = {
                     interval: this.getPorfolioglobalTimeforGraph,
                     currency: this.getPorfolioglobalCurrencyforGraph
                 };
-                console.log("toggle HHHHHHHHHHHHHHHHHHHHHHH", this.getAccountSummary);
-                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime);
+                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then(() => {
+                    this.loading = false;
+                });
             });
         },
-        async handletimeframe(index, id) {
-            this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(index);
-            this.SET_PORTFOLIO_POSITIONS_FOR_SELECT(id);
+        async handletimeframe(e) {
+            this.loading = true;
+            this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(e.target.value);
             const payloadsinglestock = {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(() => {
-                console.log(
-                    ">>>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>",
-                    this.getOpenPrice
-                );
-            });
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock);
+            this.loading = false;
         },
         mountedActions() {
             const payload = {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then(() => {
-                console.log(
-                    "beep here >>>>MMMMMMMMMMMMMMMMMMMM>>>>>>",
-                    this.getAccountSummary.currency,
-                    this.getAccountSummary.netWorth,
-                    this.getPortfolioDerivedPrice,
-                    this.getPortfolioDerivedChange
-                );
-            });
+            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
         }
     },
     mounted() {

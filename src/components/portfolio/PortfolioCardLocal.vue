@@ -1,5 +1,5 @@
 <template>
-    <Fragment>
+    <!-- <Fragment> -->
         <div v-if="instrument" class="portfolio-card" @click="toDetailsPage('local')">
             <div class="portfolio-card__img">
                 <img :src="require(`../../assets/img/portfolio1.svg`)" alt="Portfolio Icon" />
@@ -47,7 +47,7 @@
             </table>
         </div>
         <div v-else class="portfolio-card"></div>
-    </Fragment>
+    <!-- </Fragment> -->
 </template>
 
 <script>

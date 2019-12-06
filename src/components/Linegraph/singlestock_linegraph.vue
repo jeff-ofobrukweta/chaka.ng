@@ -6,9 +6,9 @@
             <div class="header-container">
                 <div class="right-menue-item">
                     <div class="parent-container-main">
-                        <section class="btn-sell">
-                            <button>Buy</button>
-                            <button>Sell</button>
+                        <section class="buy-sell-action">
+                            <button class="buying">Buy</button>
+                            <button class="selling">Sell</button>
                         </section>
                         <section class="toogle-section">
                                 <section class="option-container">

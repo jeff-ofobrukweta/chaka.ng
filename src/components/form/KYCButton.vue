@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import EventBus from "../../views/dashboard/event-bus";
+import EventBus from "../../event-bus";
 import { mapGetters, mapActions } from "vuex";
 export default {
     name: "check-kyc",

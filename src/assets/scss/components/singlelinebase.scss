@@ -100,7 +100,7 @@
                 border-radius: 3.27272px;
             }
             .option{
-                padding: 0px 30px;
+                padding: 0px 25px;
                 border: 1px solid #e6e6e6;
                 background:#FFFFFF;
                 outline: none;
@@ -113,7 +113,7 @@
                 font-size: 15.42px;
             }
             .active-btn{
-                padding: 0px 30px;
+                padding: 0px 25px;
                 border: 1px solid #e6e6e6;
                 background:$primary;
                 outline: none;
@@ -126,15 +126,32 @@
                 transition: all 0.35s;
             }
         }
-        .btn-sell{
+        // $primary-green
+        .buy-sell-action{
             display: flex;
             justify-content: space-between;
             margin: 5px 0px;
-            button{
+            .selling{
                 font-family: "SF Pro";
                 font-style: normal;
                 font-weight: bolder;
-                padding: 10px 3em;
+                padding: 10px 2em;
+                border: 1px solid#e6e6e6;
+                background:$orange;
+                outline: none;
+                border: none;
+                border-radius: 3.875px;
+                color:#fff;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 15.4204px;
+                margin: 5px;
+            }
+            .buying{
+                font-family: "SF Pro";
+                font-style: normal;
+                font-weight: bolder;
+                padding: 10px 2em;
                 border: 1px solid#e6e6e6;
                 background:$primary;
                 outline: none;
@@ -144,6 +161,28 @@
                 font-style: normal;
                 font-weight: bold;
                 font-size: 15.4204px;
+                margin: 5px;
+            }
+        }
+        .btn-sell{
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0px;
+            button{
+                font-family: "SF Pro";
+                font-style: normal;
+                font-weight: bolder;
+                padding: 10px 2em;
+                border: 1px solid#e6e6e6;
+                background:$primary;
+                outline: none;
+                border: none;
+                border-radius: 3.875px;
+                color:#fff;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 15.4204px;
+                margin: 5px;
             }
         }
     }
@@ -196,6 +235,9 @@
         flex-basis: 100%;
         max-width:100%;
         margin-bottom: 1em;
+        .buy-sell-action{
+            display: none !important;
+        }
         
     }
 }
