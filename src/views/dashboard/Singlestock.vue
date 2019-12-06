@@ -42,11 +42,11 @@
                 {{ getSingleinstrument[0].description || "" | truncate(500) }}
             </div>
             <div
-                v-for="(tag, index) in getSingleinstrument[0]"
+                v-for="(tag, index) in getSingleinstrument[0].Tags"
                 :key="index"
                 class="stocktag-container"
             >
-                <div class="item-tag">{{ index.name }}</div>
+                <div class="item-tag">{{ tag.name }}</div>
             </div>
         </section>
         <section class="container-graph">
@@ -149,13 +149,13 @@ export default {
         ...mapMutations(["SET_SINGLE_INSTRUMENT"])
     },
     async mounted() {
-        const singlestockpayload = {
-            symbols: this.$route.params.symbol
-        };
+        const singlestockpayload = {symbols: this.$route.params.symbol};
         this.similarLoading = true
-        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload)
-            this.GET_CURRENT_STOCK_POSITION()
-            this.similarLoading = false
+        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
+             console.log('this is the tags for single stock BBBBBBBBBBBBBBBTTTTTTTTTTTTTTTBBBBBBBBBBBBBBTTTTT',this.getSingleinstrument[0].Tags)
+             this.GET_CURRENT_STOCK_POSITION()
+             this.similarLoading = false
+        })
     },
     beforeRouteUpdate(to, from, next) {
         const singlestockpayload = {
