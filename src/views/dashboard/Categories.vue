@@ -126,15 +126,18 @@ export default {
         }
     },
     async mounted() {
-        if (Object.keys(this.getInstrumentsPayload).length > 0) {
-            return true;
-        }
         await this.GET_TAGS_CATEGORIES();
+        // if (Object.keys(this.getInstrumentsPayload).length > 0) {
+        //     return true;
+        // }
         const payloadGetInstrument = { symbols: this.gettagslistsArray[0].Instrumnents };
         this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
             this.gettagslistsArray.length > 0 ? this.gettagslistsArray[0] : {}
         );
         await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
+    },
+    beforeRouteLeave(to, from, next){
+        next()
     }
 };
 </script>

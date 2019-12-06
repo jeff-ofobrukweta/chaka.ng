@@ -74,6 +74,9 @@ const getters = {
     gethistoryportfoliodate: state => {
         return state.portfoliodate.map(data => {
             if (data.date === 0) return null;
+            if(state.globalTimeforportfolioGraph === '1D'){
+                return filters.resolveTime(data.date)
+            }
             return filters.resolveDate(data.date);
         });
     },
