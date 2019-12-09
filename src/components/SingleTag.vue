@@ -1,5 +1,14 @@
 <template>
-    <div @click="tagSelect" class="tag-item pointer">
+    <div v-if="dummy" class="tag-item loader tag-item__placeholder">
+        <img
+            src="../assets/img/chaka-icon.svg"
+            class="faded"
+            alt="Chaka"
+            width="90px"
+            height="90px"
+        />
+    </div>
+    <div v-else @click="tagSelect" class="tag-item pointer">
         <template v-if="!tag.imageurl">
             <img
                 v-if="!active"
@@ -34,6 +43,9 @@ export default {
             required: true
         },
         active: {
+            type: Boolean
+        },
+        dummy: {
             type: Boolean
         }
     },

@@ -40,11 +40,12 @@ const actions = {
                     resolve(true);
                 })
                 .catch(error => {
-                    console.log(`::::::::::::::::::::${error}`);
+                    resolve(false)
                 });
         });
     },
     async GET_INSTRUMENT_BY_TAGS({ commit }, params) {
+        // const payload = params.join(',')
         return new Promise((resolve, reject) => {
             return API_CONTEXT.get(`/instruments/`, params)
                 .then(response => {

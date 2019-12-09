@@ -70,7 +70,7 @@
         }
 
         .tag-name {
-            background-color: rgba($color: $black, $alpha: 0.5);
+            background-color: rgba($color: $black, $alpha: 0.75);
             font-weight: bold;
             font-size: 1rem;
             color: #FFFFFF;
@@ -83,20 +83,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #79797961;
             border-radius: 7px;
 
             &.active {
                 background-color: rgba($color: $primary, $alpha: 0.85)
             }
         }
+        &__placeholder{
+            // display: flex;
+            // align-items: center;
+            // justify-content: center;
+        }
     }
-}
-
-@include tablet {
-    .container-tag {}
-}
-
-@include mobile {
-    .container-tag {}
 }
