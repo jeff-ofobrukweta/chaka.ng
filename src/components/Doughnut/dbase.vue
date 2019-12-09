@@ -1,46 +1,65 @@
 <template>
-    <Fragment>
-        <div
-        v-if="((getDoughnutWeightpercentage.length > 1) && (getDoughnutWeightsymbol.length > 1))"
-        class="container-packet">
-            <h1 class="title-name">Positions</h1>
-             <h1 class="subtitle-name">lorem ipsum here</h1>
+    <div class="container-packet">
+        <section class="dashboard__title">
+            <h3>Positions</h3>
+            <p class="dashboard__title--sub">View your positions</p>
+        </section>
+        <template v-if="loading"><div class="container-packet__placeholder">Loading...</div> </template>
+        <template v-else-if="isGraphValid === 1">
+            <div class="container-packet__placeholder">
+                <img src="../../assets/img/gifs/positions.gif" alt="Positions Chart demo" /></div
+        ></template>
+        <template v-else-if="isGraphValid === 2">
+            <div class="container-packet__placeholder">
+                Technical difficulty fetching chart data
+            </div>
+        </template>
+        <template v-else>
             <section class="graphholder">
-                <DoughnutGrapgh 
-                :percentage="getDoughnutWeightpercentage" 
-                :symbol="getDoughnutWeightsymbol" />
+                <DoughnutGrapgh
+                    :percentage="getDoughnutWeightpercentage"
+                    :symbol="getDoughnutWeightsymbol"
+                />
             </section>
-        </div>
-         <div
-         v-else 
-         class="container-packet"></div>
-    </Fragment>
+        </template>
+    </div>
 </template>
 <script>
-import { Fragment } from 'vue-fragment';
-import { mapGetters,mapMutations,mapActions } from 'vuex';
-import DoughnutGrapgh from './doughnut';
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import DoughnutGrapgh from "./doughnut";
 
 export default {
-    name: 'dbase',
+    name: "dbase",
     components: {
-        Fragment,
         DoughnutGrapgh
     },
-    computed:{
-        ...mapGetters(['getDoughnutWeightsymbol','getDoughnutWeightpercentage'])
+    data() {
+        return {
+            loading: false
+        };
     },
-    methods:{
-        // ...mapMutations(['','']),
-        ...mapActions(['GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA']),
-        mountedActions(){
-            this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA().then(()=>{
-
-            })
+    computed: {
+        ...mapGetters(["getDoughnutWeightsymbol", "getDoughnutWeightpercentage"]),
+        isGraphValid() {
+            if (this.getDoughnutWeightpercentage.length <= 0) {
+                return 1;
+            }
+            const checkForNull = this.getDoughnutWeightpercentage.filter(
+                el => el === null || el === undefined
+            );
+            if (checkForNull.length > 0) {
+                return 2;
+            }
+            return 3;
         }
     },
-    mounted(){
-        this.mountedActions();
+    methods: {
+        ...mapActions(["GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA"])
+    },
+    async mounted() {
+        this.loading = true;
+        await this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA();
+        this.loading = false;
     }
 };
 </script>

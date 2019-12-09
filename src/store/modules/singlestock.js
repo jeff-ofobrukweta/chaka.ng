@@ -4,14 +4,17 @@ import errorFn from "../../services/apiService/error";
 const state = {
     instrument: [],
     singlestockpositions: [],
+    similarStocks: [],
     preOrder: {},
     buyOrder: {},
     sellOrder: {},
-    marketData: {}
+    marketData: {},
+    openOrders: []
 };
 
 const getters = {
     getSingleinstrument: state => state.instrument,
+    getSimilarStocks: state => state.similarStocks,
     getPositionsWithparams: state => symbol => {
         const filtered = state.singlestockpositions.filter(position => position.symbol === symbol);
         if (filtered) {
@@ -22,12 +25,16 @@ const getters = {
     getPreOrder: state => state.preOrder,
     getBuyOrder: state => state.buyOrder,
     getSellOrder: state => state.sellOrder,
-    getMarketData: state => state.marketData
+    getMarketData: state => state.marketData,
+    getOpenOrders: state => state.openOrders
 };
 
 const mutations = {
     SET_SINGLE_INSTRUMENT(state, instrument) {
         state.instrument = instrument;
+    },
+    SET_SIMILAR_STOCKS(state, stocks) {
+        state.similarStocks = stocks;
     },
     SET_CURRENTSTOCK_POSITIONS(state, positions) {
         let singlestockpositions = {};
@@ -45,23 +52,36 @@ const mutations = {
     },
     SET_MARKET_DATA(state, payload) {
         state.marketData = payload;
+    },
+    SET_OPEN_ORDERS(state, payload){
+        state.openOrders = payload
     }
 };
 
 const actions = {
-    async GET_SINGLESTOCK_INSTRUMENT({ commit }, params) {
+    async GET_SINGLESTOCK_INSTRUMENT({ commit, dispatch }, params) {
         return new Promise((resolve, reject) => {
             return API_CONTEXT.get(`/instruments/?symbols=${params.symbols}`)
                 .then(response => {
                     if (response.status === 200) {
                         const { instruments } = response.data.data;
                         commit("SET_SINGLE_INSTRUMENT", instruments);
+                        if(instruments.similar )dispatch('GET_SIMILAR_STOCKS', instruments[0].similar.join(','))
                         resolve(instruments[0]);
                     }
                 })
-                .catch(error => {
-                    //console.log(`::::::::::::::::::::${error}`);
-                });
+        });
+    },
+    GET_SIMILAR_STOCKS({ commit }, params) {
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/instruments/?symbols=${params.symbols}`)
+                .then(response => {
+                    if (response.status === 200) {
+                        const { instruments } = response.data.data;
+                        commit("SET_SIMILAR_STOCKS", instruments);
+                        resolve(instruments[0]);
+                    }
+                })
         });
     },
     async GET_CURRENT_STOCK_POSITION({ commit, rootState }) {
@@ -74,6 +94,42 @@ const actions = {
             .catch(error => {
                 //console.log(`::::::::::::::::::::${error}`);
             });
+    },
+    GET_OPEN_ORDERS({ commit, rootState }) {
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/orders/open/`)
+                .then(response => {
+                    if (response.status === 200) {
+                        commit("SET_OPEN_ORDERS", response.data.data);
+                        resolve(true)
+                    }
+                })
+        });
+    },
+    CANCEL_ORDER: ({ commit,dispatch, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.post(
+                `/users/${rootState.auth.loggedUser.chakaID}/orders/${payload.orderRef}/cancel`,
+                payload.reference
+            ).then(
+                resp => {
+                    if (resp.status === 200) {
+                        commit("REQ_SUCCESS", null, { root: true });
+                        dispatch('GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS')
+                        resolve(true);
+                    } else {
+                        errorFn(resp, "cancel-order");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "cancel-order");
+                    resolve(false);
+                }
+            );
+        });
     },
     BUY_INSTRUMENT: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });

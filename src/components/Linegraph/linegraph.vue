@@ -1,49 +1,43 @@
 <template>
-	<div
-  class="small chart__box">
-		<div
-    class="chart__aspect-ratio">
-			<line-chart
+    <div class="small chart__box">
+        <div class="chart__aspect-ratio">
+            <line-chart
                 :style="graphstyle"
                 class="chart__graph"
                 :chart-data="datacollection"
-                :options="options"></line-chart>
-		</div>
-	</div>
+                :options="options"
+            ></line-chart>
+        </div>
+    </div>
 </template>
 
 <script>
-import { mapGetters,mapMutations } from 'vuex';
-import numeral from 'numeral';
-import LineChart from './linegraph_config';
+import { mapGetters, mapMutations } from "vuex";
+import numeral from "numeral";
+import LineChart from "./linegraph_config";
 
 export default {
-    name: 'linechartgraph',
+    name: "linechartgraph",
     components: {
         LineChart
     },
     data() {
         return {
-            min: '',
-            max: '',
+            min: "",
+            max: "",
+            gradient: null,
             graphstyle: {
-                width: '100%',
-                height: '350px',
-                margin: '0px -2em'
+                width: "100%",
+                height: "350px",
+                margin: "0px -2em"
             },
             interval: 10,
             datacollection: {},
-            loaderGraph: true,
-            day: '',
-            showError: false,
-            activeButton: 2,
-            padding: 0,
-            width: '200%',
             options: {
                 scales: {
                     xAxes: [
                         {
-                            distribution: 'linear',
+                            distribution: "linear",
                             display: true,
                             ticks: {
                                 maxTicksLimit: 8,
@@ -51,27 +45,20 @@ export default {
                             },
                             gridLines: {
                                 display: true,
-                                // borderDash: [4, 4],
-                                // color: '#4394c7',
-                                labelString: 'Date',
+                                labelString: "Date",
                                 drawBorder: false
                             },
-                            // type: 'time',
                             time: {
-                                // unit: this.day,
-                                // unitStepSize: this.datelength,
-                                // min: "2017-01-01",
-                                // max: "2017-12-01",
                                 displayFormats: {
-                                    millisecond: 'MMM DD',
-                                    second: 'MMM DD',
-                                    minute: 'MMM DD',
-                                    hour: 'MMM DD',
-                                    day: 'MMM DD',
-                                    week: 'MMM DD',
-                                    month: 'MMM DD',
-                                    quarter: 'MMM DD',
-                                    year: 'MMM DD'
+                                    millisecond: "MMM DD",
+                                    second: "MMM DD",
+                                    minute: "MMM DD",
+                                    hour: "MMM DD",
+                                    day: "MMM DD",
+                                    week: "MMM DD",
+                                    month: "MMM DD",
+                                    quarter: "MMM DD",
+                                    year: "MMM DD"
                                 }
                             }
                         }
@@ -83,18 +70,19 @@ export default {
                                 display: true
                                 // labelString: 'Price'
                             },
-                            position: 'left',
+                            position: "left",
                             ticks: {
                                 beginAtZero: false,
-                                fontColor: '#8A939A',
+                                fontColor: "#8A939A",
                                 padding: 0,
                                 fontSize: 10,
                                 max: this.max,
                                 min: this.min,
-                                stepSize: this.interval,
-                                callback: value => (this.currency == 'USD'
-                                    ? `$${numeral(value).value()}`
-                                    : `N${numeral(value).value()}`)
+                                // stepSize: 5,
+                                callback: value =>
+                                    this.currency == "USD"
+                                        ? `$${numeral(value).format("0.0a")}`
+                                        : `N${numeral(value).format("0.0a")}`
                             },
                             gridLines: {
                                 display: false,
@@ -104,7 +92,7 @@ export default {
                     ]
                 },
                 animation: {
-                duration: 0 // general animation time
+                    duration: 800 // general animation time
                 },
                 hover: {
                     animationDuration: 0 // duration of animations when hovering an item
@@ -125,14 +113,15 @@ export default {
                     }
                 },
                 tooltips: {
-                    mode: 'index',
+                    mode: "index",
                     intersect: false,
-                    titleFontColor: '#293D4A',
-                    bodyFontColor: '#293D4A',
+                    titleFontColor: "#ffffff",
+                    bodyFontColor: "#ffffff",
                     titleFontSize: 15,
-                    bodyFontSize: '15',
-                    // backgroundColor: '#2DA5EC',
-                    backgroundColor: 'rgba(0, 0, 0, 0)',
+                    bodyFontSize: "15",
+                    backgroundColor: "#2DA5EC",
+                    xPadding: 10,
+                    yPadding: 8,
                     displayColors: false,
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
@@ -140,16 +129,19 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${'Price:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+                            const currency =
+                                this.currency == "USD"
+                                    ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`
+                                    : `N${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`;
+                            return `Price: ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
                             const percent = dataset.data[tooltipItem.index];
-                            return this.getcurrency;
                         }
                     },
                     hover: {
-                        mode: 'index',
+                        mode: "index",
                         intersect: false
                     }
                 },
@@ -163,11 +155,14 @@ export default {
             }
         };
     },
-    computed: {
-    //    ...mapGetters(['getWindowWidth','getOpenPrice','getDates'])
-    },
     mounted() {
-         this.fillData();
+        this.gradient = this.$refs.canvas.getContext('2d').createLinearGradient(0, 0, 0, 450)
+        this.gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)')
+        this.gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
+        this.gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
+        
+        this.fillData();
+        this.handlescaling();
     },
 
     props: {
@@ -175,62 +170,68 @@ export default {
             type: String,
             required: false
         },
-        price:{
-          type: Array,
-          required: false
+        price: {
+            type: Array,
+            required: false
         },
-        date:{
-          type: Array,
-          required: false
+        date: {
+            type: Array,
+            required: false
         }
     },
-    created() {
-        this.fillData();
-		this.handlescaling();
-	},
     methods: {
         handlescaling() {
-			if (this.getOpenPrice) {
-				this.min = this.price.sort()[0];
-				this.max = this.price.sort()[this.price.sort().length - 1];
-				this.interval = Math.ceil((this.max - this.min) / 10);
-			}
-			return true;
-		},
+            if (this.getOpenPrice) {
+                this.min = this.price.sort()[0];
+                this.max = this.price.sort()[this.price.sort().length - 1];
+                this.interval = Math.ceil((this.max - this.min) / 10);
+            }
+            return true;
+        },
         fillData() {
             this.datacollection = {
-                labels:this.date,
+                labels: this.date,
                 datasets: [
                     {
-                        label: 'Stocks',
+                        label: "Stocks",
                         lineTension: 0.5,
                         fill: true,
-                        backgroundColor: '#d4eaf8cf',
-                        borderColor: '#2da5ec',
+                        backgroundColor: "#d4eaf8cf",
+                        borderColor: "#2da5ec",
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: 'miter',
-                        pointBackgroundColor: '#484848',
+                        borderJoinStyle: "miter",
+                        pointBackgroundColor: "#484848",
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#2DA5EC',
-                        pointHoverBorderColor: 'rgba(220,220,220,1)',
+                        pointHoverBackgroundColor: "#2DA5EC",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
-                        data:this.price
+                        data: this.price
                     }
                 ]
             };
-        },
+        }
     },
     watch: {
-		price(newvalue, oldvalue) {
-			this.fillData();
-		},
-		date(newvalue, oldvalue) {
-			this.fillData();
-		},
+        price(newvalue, oldvalue) {
+            const checkNaN = newvalue.filter(element => Number.isNaN(+element));
+            if (!checkNaN || (checkNaN.length <= 0 && this.date[0] !== null)) {
+                this.fillData();
+                return true;
+            }
+            return false;
+        }
+        // date(newvalue, oldvalue) {
+        //     const checkNaN = newvalue.filter(element => {
+        //         const date = new Date(element);
+        //         if (Number.isNaN(date.getDate())) return element;
+        //     });
+        //     if (!checkNaN || checkNaN.length <= 0) this.fillData();
+        //     console.log("From date ", checkNaN, newvalue);
+        // }
     }
 };
 </script>

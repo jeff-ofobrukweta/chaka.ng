@@ -1,5 +1,23 @@
 <template>
-    <div class="watchlist-portfolio__card" :class="color">
+    <div class="watchlist-portfolio__card loader">
+        <div class="watchlist-portfolio__left">
+            <p class="watchlist-portfolio__name"></p>
+            <p class="watchlist-portfolio__change">
+                <img />
+                <span></span>
+                <small></small>
+            </p>
+            <p>
+                <strong></strong>
+            </p>
+        </div>
+        <div class="watchlist-portfolio__right">
+            <div>
+                <a class="watchlist-portfolio__buy"></a>
+            </div>
+        </div>
+    </div>
+    <!-- <div v-else class="watchlist-portfolio__card" :class="color">
         <div class="watchlist-portfolio__left">
             <p class="watchlist-portfolio__name">{{ instrument.name }}</p>
             <p class="watchlist-portfolio__change">
@@ -32,7 +50,7 @@
             v-if="showBuy"
         />
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -48,16 +66,22 @@ export default {
         instrument: {
             type: Object,
             required: true
+        },
+        dummy: {
+            type: Boolean
         }
     },
     computed: {
         color() {
-            if (this.instrument.change > 3) return "dark-green";
-            if (this.instrument.change > 2) return "green";
-            if (this.instrument.change >= 0) return "light-green";
-            if (this.instrument.change >= -1) return "light-red";
-            if (this.instrument.change >= -2) return "red";
-            return "dark-red";
+            if (!this.dummy) {
+                if (this.instrument.change > 3) return "dark-green";
+                if (this.instrument.change > 2) return "green";
+                if (this.instrument.change >= 0) return "light-green";
+                if (this.instrument.change >= -1) return "light-red";
+                if (this.instrument.change >= -2) return "red";
+                return "dark-red";
+            }
+            return null;
         }
     },
     methods: {

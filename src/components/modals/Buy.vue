@@ -276,7 +276,7 @@
                                 <p>Fees</p>
                             </div>
                             <div class="stock-vdr__box stock-vdr__right">
-                                <h5>{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
+                                <h5>-{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
                             </div>
                         </div>
                         <hr />
@@ -431,10 +431,10 @@ export default {
                 orderType: this.orderType
             };
             if (this.orderType === "LIMIT") {
-                payload.price = this.itemData.price * 100;
-                payload.quantity = this.itemData.quantity;
+                payload.price = +this.itemData.price * 100;
+                payload.quantity = +this.itemData.quantity;
             } else {
-                payload.amountCash = this.itemData.amountCash * 100;
+                payload.amountCash = +this.itemData.amountCash * 100;
             }
             this.loading = true;
             this.GET_PRE_ORDER(payload).then(resp => {
@@ -535,8 +535,8 @@ export default {
         this.RESET_REQ();
         this.SET_BUY_ORDER({});
         this.SET_SELL_ORDER({});
-        this.GET_MARKET_DATA(this.symbol);
-        this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol });
+        this.GET_MARKET_DATA(this.symbol || this.instrument.symbol);
+        this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol|| this.instrument.symbol });
         await this.GET_ACCOUNT_SUMMARY();
     },
     beforeDestroy() {

@@ -1,60 +1,63 @@
-import API_CONTEXT from '../../services/apiService/api';
+import API_CONTEXT from "../../services/apiService/api";
 
 const state = {
-    tags:[],
-    instrumentslists:[],
-    instrumentpayload:{},
-    singlestockpricedata:[]
+    tags: [],
+    instrumentslists: [],
+    instrumentpayload: {},
+    singlestockpricedata: []
 };
 
 const getters = {
-    gettagslistsArray: (state) => {
-		return state.tags;
+    gettagslistsArray: state => {
+        return state.tags;
     },
-    getInstrumentsListArray: (state)=>{
+    getInstrumentsListArray: state => {
         return state.instrumentslists;
     },
-    getInstrumentsPayload: (state)=>{
+    getInstrumentsPayload: state => {
         return state.instrumentpayload;
     }
 };
 
 const mutations = {
     SET_TAGS_LISTS(state, tags) {
-		state.tags = tags;
+        state.tags = tags;
     },
-    SET_INSTRUMENT_BY_TAGS(state, instruments){
+    SET_INSTRUMENT_BY_TAGS(state, instruments) {
         state.instrumentslists = instruments;
     },
-    SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(state, payload){
+    SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(state, payload) {
         state.instrumentpayload = payload;
     }
-
 };
 
 const actions = {
     async GET_TAGS_CATEGORIES({ commit }, params) {
-		await API_CONTEXT.get(`/tags`)
-			.then((response) => {
-                commit('SET_TAGS_LISTS',response.data.tags)
-			})
-			.catch((error) => {
-               console.log(`::::::::::::::::::::${error}`);
-			});
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/tags`)
+                .then(response => {
+                    commit("SET_TAGS_LISTS", response.data.tags);
+                    resolve(true);
+                })
+                .catch(error => {
+                    resolve(false)
+                });
+        });
     },
-    async GET_INSTRUMENT_BY_TAGS({commit}, params) {
-		await API_CONTEXT.get(`/instruments/`,params)
-			.then((response) => {
-                const { instruments } = response.data.data;
-                commit('SET_INSTRUMENT_BY_TAGS',instruments);
-                return true;
-			})
-			.catch((error) => {
-               console.log(`::::::::::::::::::::${error}`);
-               return false
-			});
+    async GET_INSTRUMENT_BY_TAGS({ commit }, params) {
+        // const payload = params.join(',')
+        return new Promise((resolve, reject) => {
+            return API_CONTEXT.get(`/instruments/`, params)
+                .then(response => {
+                    const { instruments } = response.data.data;
+                    commit("SET_INSTRUMENT_BY_TAGS", instruments);
+                    resolve(true);
+                })
+                .catch(error => {
+                    resolve(false);
+                });
+        });
     }
-    
 };
 
 export default {

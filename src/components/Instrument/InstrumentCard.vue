@@ -1,5 +1,14 @@
 <template>
-    <div class="card-container">
+    <div v-if="dummy" class="card-container loader loader-instrument">
+        <img
+            src="../../assets/img/chaka-icon.svg"
+            class="faded"
+            alt="Chaka"
+            width="90px"
+            height="90px"
+        />
+    </div>
+    <div v-else class="card-container">
         <section class="section1">
             <router-link
                 class="section1 linking"
@@ -9,7 +18,7 @@
                     class="course-item-main-list-flex"
                     id="company"
                     :src="instrument.logoUrl"
-                    alt="courses"
+                    :alt="instrument.symbol"
                 />
             </router-link>
             <img
@@ -95,6 +104,9 @@ export default {
         instrument: {
             type: Object,
             required: true
+        },
+        dummy: {
+            type: Boolean
         }
     },
     components: {

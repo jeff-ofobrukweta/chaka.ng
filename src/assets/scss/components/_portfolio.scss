@@ -26,6 +26,7 @@
         &__box {
             display: flex;
             flex-wrap: wrap;
+            margin-top: 5rem;
         }
 
         h2 {
@@ -121,7 +122,6 @@
                             border-left-color: $primary-dark;
                             border-top-left-radius: 8px;
                             border-bottom-left-radius: 8px;
-                            display: block;
                         }
                     }
                 }
@@ -133,7 +133,6 @@
                         border-left: 7px solid transparent;
                         border-top-left-radius: 8px;
                         border-bottom-left-radius: 8px;
-                        display: block;
                     }
                 }
             }
@@ -161,5 +160,52 @@
         &__box {
             overflow-x: auto;
         }
+    }
+
+    &-title {
+        @extend .accounts__title;
+
+        @include mobile {
+            flex-direction: column;
+            align-items: flex-start;
+
+            &__fund {
+                margin-top: 1rem;
+            }
+        }
+
+        &__fund {
+            // text-align: right;
+
+            button {
+                min-width: 150px;
+            }
+        }
+    }
+
+    &__charts{
+        margin-top: 2rem;
+    }
+
+    &-networth {
+        margin-bottom: 1rem;
+        text-align: right;
+
+        @include mobile {
+            text-align: left;
+        }
+    }
+
+    &-graph {
+        &__placeholder {
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    &-watch{
+        margin-top: 5rem;
     }
 }

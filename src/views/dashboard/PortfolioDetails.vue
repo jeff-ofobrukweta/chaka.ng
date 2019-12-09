@@ -23,7 +23,13 @@
                 <span>Open Orders</span>
             </div>
         </div>
-        <PortfolioTable :storedata="stocks" />
+        <p v-if="loading" class="mt-3 text-center">Loading...</p>
+        <PortfolioTable
+            :storedata="stocks"
+            :open-orders="type === 'open-orders'"
+            v-else-if="stocks.length > 0"
+        />
+        <p class="mt-3 text-center" v-else>You have no {{ type }} stocks</p>
     </section>
 </template>
 
@@ -38,7 +44,8 @@ export default {
     data() {
         return {
             activeTab: 0,
-            stocks: []
+            stocks: [],
+            loading: false
         };
     },
     computed: {
@@ -65,7 +72,9 @@ export default {
         }
     },
     async mounted() {
+        this.loading = true;
         await this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS();
+        this.loading = false;
         this.mountAction(this.type);
     },
     beforeRouteUpdate(to, from, next) {

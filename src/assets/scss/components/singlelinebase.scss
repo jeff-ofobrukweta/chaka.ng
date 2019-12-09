@@ -1,10 +1,12 @@
 .graphholder{
     background:#FFFFFF;
+    border: 1px solid #EEE;
     box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
     border-radius: 11.4872px;
     padding: 1em;
     flex-basis:0 0 66%;
     max-width: 100%;
+    min-height: 522px;
     margin: 0px;
     width: inherit;
 }
@@ -99,7 +101,7 @@
                 border-radius: 3.27272px;
             }
             .option{
-                padding: 0px 30px;
+                padding: 0px 25px;
                 border: 1px solid #e6e6e6;
                 background:#FFFFFF;
                 outline: none;
@@ -112,7 +114,7 @@
                 font-size: 15.42px;
             }
             .active-btn{
-                padding: 0px 30px;
+                padding: 0px 25px;
                 border: 1px solid #e6e6e6;
                 background:$primary;
                 outline: none;
@@ -125,15 +127,32 @@
                 transition: all 0.35s;
             }
         }
-        .btn-sell{
+        // $primary-green
+        .buy-sell-action{
             display: flex;
             justify-content: space-between;
             margin: 5px 0px;
-            button{
+            .selling{
                 font-family: "SF Pro";
                 font-style: normal;
                 font-weight: bolder;
-                padding: 10px 3em;
+                padding: 10px 2em;
+                border: 1px solid#e6e6e6;
+                background:$orange;
+                outline: none;
+                border: none;
+                border-radius: 3.875px;
+                color:#fff;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 15.4204px;
+                margin: 5px;
+            }
+            .buying{
+                font-family: "SF Pro";
+                font-style: normal;
+                font-weight: bolder;
+                padding: 10px 2em;
                 border: 1px solid#e6e6e6;
                 background:$primary;
                 outline: none;
@@ -143,6 +162,28 @@
                 font-style: normal;
                 font-weight: bold;
                 font-size: 15.4204px;
+                margin: 5px;
+            }
+        }
+        .btn-sell{
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0px;
+            button{
+                font-family: "SF Pro";
+                font-style: normal;
+                font-weight: bolder;
+                padding: 10px 2em;
+                border: 1px solid#e6e6e6;
+                background:$primary;
+                outline: none;
+                border: none;
+                border-radius: 3.875px;
+                color:#fff;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 15.4204px;
+                margin: 5px;
             }
         }
     }
@@ -180,7 +221,7 @@
         border-radius: 11.4872px;
         padding: 1em;
         flex-basis: 100%;
-        max-width:100%;
+        max-width:100
         // margin-bottom: 1em;
         
     }
@@ -195,6 +236,9 @@
         flex-basis: 100%;
         max-width:100%;
         margin-bottom: 1em;
+        .buy-sell-action{
+            display: none !important;
+        }
         
     }
 }
