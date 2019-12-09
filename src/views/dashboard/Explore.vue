@@ -8,13 +8,13 @@
         <section class="explore-section">
             <div class="explore-featured">
                 <div class="explore-featured__image">
-                    <a :href="featured.pageUrl">
+                    <a :href="featured.pageUrl" target="_blank">
                         <img :src="featured.imageUrl" :alt="featured.name"
                     /></a>
                 </div>
                 <div class="explore-featured__text">
                     <h4 class="explore-featured__text--title">
-                        <a :href="featured.pageUrl"> {{ featured.name }}</a>
+                        <a :href="featured.pageUrl" target="_blank"> {{ featured.name }}</a>
                     </h4>
                     <p>
                         {{ featured.description || "" | truncate(380) }}
