@@ -7,6 +7,12 @@
   margin-right: auto;
   margin-left: auto;
 
+  @include mobile{
+&.side-nav {
+  padding: 0;
+}
+  }
+
   @include tablet {
     width: 100%;
     // max-width: 800px;
@@ -352,6 +358,10 @@ main {
 
 .faded {
   opacity: 0.5
+}
+
+.text-light{
+  font-weight: lighter;
 }
 
 .alert {

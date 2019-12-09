@@ -18,7 +18,8 @@
         </section>
         <section class="portfolio-networth">
             <h5>
-                {{ getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency) }}
+                <span v-if="Object.keys(getAccountSummary).length > 0">{{ getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency) }}</span>
+                <span v-else>{{ getPorfolioglobalCurrencyforGraph === 'NGN' ? '₦' : '$'}}-</span><span class="text-light">&nbsp;|&nbsp;</span>
                 <span class="derived">
                     <span :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']">{{
                         getPortfolioDerivedPrice | units(2)
@@ -204,7 +205,7 @@ export default {
             "getAccountSummary",
             "getPortfoliopositionsCarddetails",
             "getPortfolioDerivedPrice",
-            "getPortfolioDerivedChange"
+            "getPortfolioDerivedChange",
         ])
     }
 };
