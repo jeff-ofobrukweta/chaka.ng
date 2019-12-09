@@ -152,6 +152,7 @@ export default {
             else if (this.gethistoryportfolioprice.length <= 0) {
                 return 1;
             }
+            // filter the array for conditions null or undefined or is Not a number
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
