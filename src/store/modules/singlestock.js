@@ -106,7 +106,7 @@ const actions = {
                 })
         });
     },
-    CANCEL_ORDER: ({ commit, rootState }, payload) => {
+    CANCEL_ORDER: ({ commit,dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
@@ -117,6 +117,7 @@ const actions = {
                 resp => {
                     if (resp.status === 200) {
                         commit("REQ_SUCCESS", null, { root: true });
+                        dispatch('GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS')
                         resolve(true);
                     } else {
                         errorFn(resp, "cancel-order");

@@ -38,6 +38,7 @@ export default {
         }
     },
     created() {
+        this.STOP_LOADER()
         this.prevScrollpos = window.pageYOffset;
         window.onscroll = () => {
             const currentScrollPos = window.pageYOffset;
