@@ -78,11 +78,11 @@ export default {
                                 fontSize: 10,
                                 max: this.max,
                                 min: this.min,
-                                stepSize: this.interval,
+                                // stepSize: 5,
                                 callback: value =>
                                     this.currency == "USD"
-                                        ? `$${numeral(value).value()}`
-                                        : `N${numeral(value).value()}`
+                                        ? `$${numeral(value).format("0.0a")}`
+                                        : `N${numeral(value).format("0.0a")}`
                             },
                             gridLines: {
                                 display: false,
@@ -92,7 +92,7 @@ export default {
                     ]
                 },
                 animation: {
-                    duration: 0 // general animation time
+                    duration: 800 // general animation time
                 },
                 hover: {
                     animationDuration: 0 // duration of animations when hovering an item
@@ -115,12 +115,13 @@ export default {
                 tooltips: {
                     mode: "index",
                     intersect: false,
-                    titleFontColor: "#293D4A",
-                    bodyFontColor: "#293D4A",
+                    titleFontColor: "#ffffff",
+                    bodyFontColor: "#ffffff",
                     titleFontSize: 15,
                     bodyFontSize: "15",
-                    // backgroundColor: '#2DA5EC',
-                    backgroundColor: "rgba(0, 0, 0, 0)",
+                    backgroundColor: "#2DA5EC",
+                    xPadding: 10,
+                    yPadding: 8,
                     displayColors: false,
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
@@ -128,12 +129,15 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${"Price:" + ""}${data.datasets[0].data[tooltipItem.index]}`;
+                            const currency =
+                                this.currency == "USD"
+                                    ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`
+                                    : `N${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`;
+                            return `Price: ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
                             const percent = dataset.data[tooltipItem.index];
-                            return this.getcurrency;
                         }
                     },
                     hover: {

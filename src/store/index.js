@@ -92,8 +92,6 @@ export default new Vuex.Store({
                 try {
                     Object.assign(state[key], initialState[key]);
                 } catch (error) {
-                    console.log("the key is: ", key);
-                    console.log(error);
                 }
             });
         }

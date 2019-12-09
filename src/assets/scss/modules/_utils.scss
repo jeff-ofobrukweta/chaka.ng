@@ -357,6 +357,7 @@ main {
 .alert {
   padding: 10px;
   margin-bottom: .5rem;
+  margin-top: .5rem;
   border-radius: 5px;
   font-size: 0.85;
   width: 100%;
@@ -393,7 +394,7 @@ main {
   border-radius: 5px !important;
   width: 100%;
   will-change: transform;
-  animation-duration: 1.5s;
+  animation-duration: 6s;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
   animation-name: loaderGradient;
@@ -411,13 +412,13 @@ main {
 
   &-watchlist {
     border-color: $white;
-    animation-duration: 5s;
+    // animation-duration: 5s;
   }
 
   &-instrument{
     min-height: 200px;
     border-radius: 7px !important;
-    animation-duration: 8s;
+    // animation-duration: 8s;
 
     &:hover{
       border-color: transparent !important;

@@ -74,6 +74,9 @@ const getters = {
     gethistoryportfoliodate: state => {
         return state.portfoliodate.map(data => {
             if (data.date === 0) return null;
+            if(state.globalTimeforportfolioGraph === '1D'){
+                return filters.resolveTime(data.date)
+            }
             return filters.resolveDate(data.date);
         });
     },
@@ -240,10 +243,6 @@ const actions = {
     async GET_LINECHART_SINGLESTOCK_GRAPH_DATA({ commit }, params) {
         await API_CONTEXT.get(`/instruments/charts`, params)
             .then(response => {
-                console.log(
-                    ">>FFFFFFFFFFFFFFFFFFFFF>>>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>",
-                    response.data.data
-                );
                 const {
                     chart,
                     derivedPrice,
@@ -262,10 +261,6 @@ const actions = {
     async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit, rootState }, params) {
         await API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`, params)
             .then(response => {
-                console.log(
-                    ">>>>>>new>>>>GET_LINECHART_PORTFOLIO_GRAPH_DATA>>>>>>>>>>>>>>",
-                    response.data.data
-                );
                 const {
                     positions,
                     derivedNetWorth,

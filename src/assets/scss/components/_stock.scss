@@ -95,6 +95,10 @@
         &__box {
             width: 100%;
 
+            label{
+                color: $text-color;
+            }
+
             @include desktop {
                 width: 50%;
                 padding: 0.375em 0.875em;

@@ -104,14 +104,6 @@ export default {
             type: Boolean,
             required: false
         }
-    },
-    mounted() {
-        console.log("RRRRRRRRRRRRRRRRRRRRRRRR", this.loadercardState);
-    },
-    watch: {
-        instrumentsList(newInstrument, oldInstrument) {
-            console.log("Array change here JJJJJJJJJJJJJJJJJJJJJJJ", newInstrument, oldInstrument);
-        }
     }
 };
 </script>

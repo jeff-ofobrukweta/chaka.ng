@@ -5,7 +5,7 @@
             class="alert"
             role="alert"
             :class="{
-                'alert-success': getStatus === 'success',
+                'alert-success': getStatus === 'success' || status === 'success',
                 'alert-danger': getErrorLog.type === type || status === 'error'
             }"
         >
@@ -18,7 +18,7 @@
             class="alert__navbar"
             role="alert"
             :class="{
-                'alert-success__navbar': getStatus === 'success',
+                'alert-success__navbar': getStatus === 'success' || status === 'success',
                 'alert-danger__navbar': getErrorLog.type === type || status === 'error'
             }"
         >

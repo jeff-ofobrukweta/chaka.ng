@@ -1,12 +1,14 @@
 <template>
     <section class="portfolio-table__box">
+        <error-block type="cancel-order" :message="cancelStatus.message" :status="cancelStatus.status" />
         <table class="portfolio-table" v-if="openOrders">
             <thead class="portfolio-table__thead">
                 <th>Name</th>
                 <th>Symbol</th>
+                <th>Order<br/>Type</th>
+                <th>Market<br/>Type</th>
                 <th>Price</th>
                 <th>Units Ordered</th>
-                <!-- <th>Units<br />Ordered</th> -->
                 <th>Invested<br />Amount</th>
                 <th>Action</th>
             </thead>
@@ -24,6 +26,12 @@
                         :to="{ name: 'singlestock', params: { symbol: item.symbol } }"
                         >{{ item.symbol }}</router-link
                     >
+                    <td class="cursor-context capitalize">
+                        {{ item.orderSide }}
+                    </td>
+                    <td class="cursor-context">
+                        {{ item.orderType || '-' }}
+                    </td>
                     <td
                         class="cursor-context"
                         :title="
@@ -32,23 +40,37 @@
                     >
                         {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
                     </td>
-                    <td class="cursor-context" :title="item.quantityBought | units(2, true)">
-                        {{ item.quantityBought | units }}
+                    <td class="cursor-context" :title="item.quantity | units(2, true)">
+                        {{ item.quantity | units }}
                     </td>
-                    <!-- <td class="cursor-context" :title="item.unitsOrdered | units(2, true)">
-                        {{ item.unitsOrdered | units }}
-                    </td> -->
                     <td
                         class="cursor-context"
-                        :title="item.netPurchaseCost | kobo | currency(item.currency, true)"
+                        :title="item.netCost | kobo | currency(item.currency, true)"
                     >
-                        {{ item.netPurchaseCost | kobo | currency(item.currency) }}
+                        {{ item.netCost | kobo | currency(item.currency) }}
                     </td>
                     <td>
                         <action-button
                             type="button"
+                            :pending="loading===item.reference"
+                            v-if="loading===item.reference"
+                            pending-text="Processing"
+                            :classes="['btn-block', 'btn__primary--outline']"
+                            >Cancel</action-button
+                        >
+                        <action-button
+                            type="button"
+                            :pending="false"
+                            disabled
+                            v-else-if="loading"
+                            :classes="['btn-block', 'btn__primary--outline']"
+                            >Cancel</action-button
+                        >
+                        <action-button
+                            type="button"
                             @click="cancelOrder(item)"
-                            :pending="loading"
+                            :pending="false"
+                            v-else
                             :classes="['btn-block', 'btn__primary--outline']"
                             >Cancel</action-button
                         >
@@ -207,30 +229,28 @@ export default {
             allNextKYC: KYCTitles.titles,
             selectedInstrument: {},
             loading: false,
-            maxQuantity: null
+            maxQuantity: null,
+            cancelStatus: {}
         };
     },
     computed: {
         ...mapGetters(["getNextKYC", "getlocalstocksowned", "getglobalstocksowned"])
     },
     methods: {
+        ...mapActions(["CANCEL_ORDER"]),
         checkChange(value) {
             if (value >= 0) return true;
             return false;
         },
         checkPositions(symbol, currency) {
-            let check = []
+            let check = [];
             if (currency === "NGN") {
-                 check = this.getlocalstocksowned.filter(
-                    element => element.symbol === symbol
-                );
+                check = this.getlocalstocksowned.filter(element => element.symbol === symbol);
             } else {
-                 check = this.getglobalstocksowned.filter(
-                    element => element.symbol === symbol
-                );
+                check = this.getglobalstocksowned.filter(element => element.symbol === symbol);
             }
             if (check.length > 0) {
-                const { quantity } = check[0]
+                const { quantity } = check[0];
                 this.maxQuantity = +quantity;
                 return true;
             }
@@ -239,21 +259,29 @@ export default {
         },
         selectInstrument(instrument, type) {
             this.selectedInstrument = instrument;
-            this.checkPositions(instrument.symbol, instrument.currency)
+            this.checkPositions(instrument.symbol, instrument.currency);
             this.type = type;
         },
         cancelOrder(item) {
-            this.loading = true;
+            this.cancelStatus = {}
+            this.loading = item.reference;
             const details = {
                 orderRef: item.reference,
                 reference: {
                     currency: item.currency,
-                    symbol: item.Instrument.symbol
+                    symbol: item.symbol
                 }
             };
-            setTimeout(() => {
-                this.loading = false;
-            }, 2000);
+            this.CANCEL_ORDER(details).then(resp=> {
+                this.loading = false
+                if(resp){
+                    this.cancelStatus.message = 'Order cancellation successful'
+                    this.cancelStatus.status = 'success'
+                    this.$toasted.show(`Order cancellation successful`, {
+                        type: "success"
+                    });
+                }
+            })
         },
         handleStep(step) {
             this.step = step.type;
@@ -290,6 +318,11 @@ export default {
             this.showBuy = false;
             this.showSell = false;
             this.selectedInstrument = {};
+        }
+    },
+    watch: {
+        openOrders(newVal){
+            this.cancelStatus = {}
         }
     }
 };

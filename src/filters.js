@@ -133,6 +133,21 @@ export default {
         return [year, month, day].join("-");
     },
 
+    resolveTime(value){
+        const date = new Date(value);
+        if (typeof date === "object" && !Number.isNaN(date.getDate())) {
+            return `${date.toLocaleString("en-NG", {
+                hour: "numeric",
+                minute: "numeric",
+                day: "2-digit",
+                month: "2-digit",
+                hour12: false,
+            })}`;
+        }
+        return value;
+
+    },
+
     truncate(text, length, suffix) {
         if (text) {
             if (text.length > length) {

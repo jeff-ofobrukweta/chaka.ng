@@ -122,7 +122,6 @@
                             border-left-color: $primary-dark;
                             border-top-left-radius: 8px;
                             border-bottom-left-radius: 8px;
-                            display: block;
                         }
                     }
                 }
@@ -134,7 +133,6 @@
                         border-left: 7px solid transparent;
                         border-top-left-radius: 8px;
                         border-bottom-left-radius: 8px;
-                        display: block;
                     }
                 }
             }
@@ -186,7 +184,7 @@
     }
 
     &__charts{
-        margin-top: 3rem;
+        margin-top: 2rem;
     }
 
     &-networth {

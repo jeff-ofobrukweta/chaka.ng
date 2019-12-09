@@ -431,10 +431,10 @@ export default {
                 orderType: this.orderType
             };
             if (this.orderType === "LIMIT") {
-                payload.price = this.itemData.price * 100;
-                payload.quantity = this.itemData.quantity;
+                payload.price = +this.itemData.price * 100;
+                payload.quantity = +this.itemData.quantity;
             } else {
-                payload.amountCash = this.itemData.amountCash * 100;
+                payload.amountCash = +this.itemData.amountCash * 100;
             }
             this.loading = true;
             this.GET_PRE_ORDER(payload).then(resp => {

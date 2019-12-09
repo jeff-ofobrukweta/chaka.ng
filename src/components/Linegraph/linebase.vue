@@ -2,10 +2,7 @@
     <Fragment>
         <div class="graphholder">
             <div class="header-container">
-                <div class="left-menue-item">
-                    <h3 class="holder">Holdings</h3>
-                    <h4 class="sub-holder">lorem ipsum</h4>
-                </div>
+                <div class="left-menue-item"></div>
                 <div class="right-menue-item">
                     <section class="toogle-section">
                         <section class="option-container">
@@ -45,16 +42,14 @@
                     </section>
                 </div>
             </div>
-            <template v-if="loading"
-                ><div class="portfolio-graph__placeholder">Loading...</div>
+            <template v-if="isGraphValid === 0">
+                <div class="portfolio-graph__placeholder">Loading...</div>
             </template>
             <template v-else-if="isGraphValid === 1">
                 <div class="portfolio-graph__placeholder">
-                    <img
-                        src="../../assets/img/gifs/portfolio.gif"
-                        alt="Positions Chart demo"
-                    /></div
-            ></template>
+                    <img src="../../assets/img/gifs/portfolio.gif" alt="Positions Chart demo" />
+                </div>
+            </template>
             <template v-else-if="isGraphValid === 2">
                 <div class="portfolio-graph__placeholder">
                     Technical difficulty fetching chart data
@@ -86,7 +81,7 @@ export default {
             selectedField: {},
             step: null,
             allNextKYC: KYCTitles.titles,
-            loading: false,
+            loading: true,
             currencyOption: [
                 {
                     symbol: "₦",
@@ -153,15 +148,15 @@ export default {
             "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
-            // check if the arr length is less or equal to zero,then return 1
-            if (this.gethistoryportfolioprice.length <= 0) {
+            if (this.loading) return 0;
+            else if (this.gethistoryportfolioprice.length <= 0) {
                 return 1;
             }
             // filter the array for conditions null or undefined or is Not a number
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
-            if (!checkForNull || (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null)) {
+            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null) {
                 return 3;
             }
             return 2;
@@ -235,9 +230,9 @@ export default {
         }
     },
     async mounted() {
-        this.loading = true
+        this.loading = true;
         await this.mountedActions();
-        this.loading = false
+        this.loading = false;
     }
 };
 </script>

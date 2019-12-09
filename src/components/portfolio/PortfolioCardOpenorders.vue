@@ -4,12 +4,10 @@
             <img :src="require(`../../assets/img/portfolio3.svg`)" alt="Portfolio Icon" />
         </div>
         <h2
-            class="cursor-context"
-            :title="getPortfoliopositionsCarddetails.positions.open.openTotal | kobo | currency('NGN')"
-        >
-            {{ getPortfoliopositionsCarddetails.positions.open.openTotal | kobo | currency("NGN") }}
+            class="cursor-context">
+            {{ getPortfoliopositionsCarddetails.positions.open.orders.length }}
         </h2>
-        <p class="portfolio-card__title">{{ "Total Value on Open Stocks" }}</p>
+        <p class="portfolio-card__title">Total Open Orders</p>
         <table v-if="getPortfoliopositionsCarddetails.positions.open.orders.length > 0" class="portfolio-card__table">
             <tr
                 v-for="(stock, index) in getPortfoliopositionsCarddetails.positions.open.orders.slice(0, 3)"
