@@ -42,7 +42,7 @@
                     </section>
                 </div>
             </div>
-            <template v-if="loading">
+            <template v-if="isGraphValid === 0">
                 <div class="portfolio-graph__placeholder">Loading...</div>
             </template>
             <template v-else-if="isGraphValid === 1">
@@ -148,16 +148,14 @@ export default {
             "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
-            if (this.gethistoryportfolioprice.length <= 0) {
+            if (this.loading) return 0;
+            else if (this.gethistoryportfolioprice.length <= 0) {
                 return 1;
             }
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
-            if (
-                checkForNull.length <= 0 &&
-                this.gethistoryportfoliodate[0] !== null
-            ) {
+            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null) {
                 return 3;
             }
             return 2;
