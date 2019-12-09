@@ -1,7 +1,7 @@
 <template>
 <Fragment>
         <div
-            v-if="((getOpenPrice.length > 1) && (getDates.length > 1))"
+            v-if="((getOpenPrice.length >= 1) && (getDates.length >= 1))"
             class="graphholder">
             <div class="header-container">
                 <div class="right-menue-item">
@@ -26,9 +26,7 @@
                                             @change="handletimeframe" 
                                             class="drop-down">
                                             <option v-for="(item, index) in buttonoption" 
-                                            :key="index" :value="item.time">{{
-                                                item.name
-                                            }}</option>
+                                            :key="index" :value="item.time">{{item.name}}</option>
                                             <!-- <option
                                              v-for="(item,index) in buttonoption"
                                              :key="index"
@@ -68,6 +66,9 @@
             :currency="getSingleinstrument[0].currency"
          />
     </div>
+    <div
+    v-else 
+    class="graphholder">problem retrieving data @ this moment</div>
     </Fragment>
 </template>
 <script>
