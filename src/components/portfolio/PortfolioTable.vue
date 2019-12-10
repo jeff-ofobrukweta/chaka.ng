@@ -40,7 +40,7 @@
                     >
                         {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
                     </td>
-                    <td class="cursor-context" :title="item.quantity | units(2, true)">
+                    <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}
                     </td>
                     <td
@@ -118,7 +118,7 @@
                     >
                         {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
                     </td>
-                    <td class="cursor-context" :title="item.quantity | units(2, true)">
+                    <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}
                     </td>
                     <!-- <td class="cursor-context" :title="item.unitsOrdered | units(2, true)">
@@ -130,7 +130,7 @@
                     >
                         {{ item.currentValue | kobo | currency(item.currency) }}
                     </td>
-                    <td class="cursor-context" :title="item.percentTotal | units(2, true)">
+                    <td class="cursor-context" :title="item.percentTotal">
                         {{ item.percentTotal | units(2) }}%
                     </td>
                     <td :class="[checkChange(item.netEarnings) ? 'green' : 'red']">

@@ -56,24 +56,24 @@
                 <p
                     v-if="currency === 'NGN'"
                     class="cursor-context modal__buy--price"
-                    :title="
-                        getAccountSummary.localWallet.availableBalance
+                    :title=" getAccountSummary.localWallet ?
+                        getAccountSummary.localWallet.availableBalance: '-'
                             | kobo
                             | currency('NGN', true)
                     "
                 >
-                    {{ getAccountSummary.localWallet.availableBalance | kobo | currency("NGN") }}
+                    {{getAccountSummary.localWallet ? getAccountSummary.localWallet.availableBalance : '-' | kobo | currency("NGN") }}
                 </p>
                 <p
                     v-else
                     class="cursor-context modal__buy--price"
-                    :title="
-                        getAccountSummary.globalWallet.availableBalance
+                    :title="getAccountSummary.globalWallet ? 
+                        getAccountSummary.globalWallet.availableBalance : '-'
                             | kobo
                             | currency('USD', true)
                     "
                 >
-                    {{ getAccountSummary.globalWallet.availableBalance | kobo | currency("USD") }}
+                    {{getAccountSummary.globalWallet ? getAccountSummary.globalWallet.availableBalance : '-' | kobo | currency("USD") }}
                 </p>
             </div>
         </section>

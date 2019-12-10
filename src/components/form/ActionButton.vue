@@ -8,8 +8,8 @@
     >
         <slot></slot>
     </button>
-    <button v-else class="btn action" disabled :class="[classes]">
-        <span v-if="!icon">{{pendingText}}</span>...
+    <button v-else class="btn action btn-loader" disabled :class="[classes]">
+        <img src="../../assets/img/loader.gif" alt="Loader" />
     </button>
 </template>
 
@@ -27,7 +27,7 @@ export default {
         },
         pendingText: {
             type: String,
-            default: 'Pending...'
+            default: "Pending..."
         },
         disabled: {
             type: Boolean,

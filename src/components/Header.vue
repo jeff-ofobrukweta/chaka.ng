@@ -203,8 +203,8 @@
                                         | currency('NGN', true)
                                 "
                                 >:
-                                {{
-                                    getAccountSummary.localWallet.availableBalance
+                                {{ getAccountSummary.localWallet ?
+                                    getAccountSummary.localWallet.availableBalance : '-'
                                         | kobo
                                         | currency("NGN")
                                 }}</span
@@ -221,6 +221,27 @@
                                         | kobo
                                         | currency("USD")
                                 }}</span
+                            ></router-link
+                        >
+                        <KYCButton
+                            ref="fundBtn"
+                            type="button"
+                            :classes="['btn__icon', 'btn__icon--md', 'btn__primary']"
+                            action="fund"
+                            @step="handleStep"
+                            >+</KYCButton
+                        >
+                    </p>
+                    <p v-else>
+                        <router-link
+                            class="nav__dashboard--mobile"
+                            :to="{ name: 'accounts-wallet' }"
+                        >
+                            <strong>Avail:&nbsp;</strong>
+                            <span>₦-</span
+                            >
+                            <span>&nbsp;|&nbsp;</span>
+                            <span>$-</span
                             ></router-link
                         >
                         <KYCButton

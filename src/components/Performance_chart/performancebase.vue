@@ -4,22 +4,21 @@
             <h3>Performance</h3>
             <p class="dashboard__title--sub">See your stock performances</p>
         </section>
-        <template v-if="loading"
-            ><div class="container-packet__placeholder">Loading...</div>
-        </template>
-        <template v-else-if="isGraphValid === 1"
-            >
-            <div class="container-packet__placeholder">
-                <img src="../../assets/img/gifs/performance.gif" alt="Performace Chart demo">
-            </div></template>
-        <template v-else-if="isGraphValid === 2"
-            >
-            <div class="container-packet__placeholder">
-                Technical difficulty fetching chart data
+        <template v-if="loading">
+            <div class="graphholder container-packet__placeholder loader-gif__big">
+                <img src="../../assets/img/loader.gif" alt="Loader" />
             </div>
         </template>
-        <template v-else
-            >
+        <template v-else-if="isGraphValid === 1">
+            <div class="graphholder container-packet__placeholder">
+                <img src="../../assets/img/gifs/performance.gif" alt="Performace Chart demo" /></div
+        ></template>
+        <template v-else-if="isGraphValid === 2">
+            <div class="graphholder container-packet__placeholder caution__big">
+                <img src="../../assets/img/caution.svg" alt="Caution" />
+            </div>
+        </template>
+        <template v-else>
             <section class="graphholder">
                 <Performancegraph
                     :percentage="getPositionBarperformancepercentage"

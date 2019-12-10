@@ -79,7 +79,10 @@ export default {
                                 max: this.max,
                                 min: this.min,
                                 // stepSize: 5,
-                                callback: value => this.currency == "NGN" ? `N${numeral(value).format("0.0a")}`:`$${numeral(value).format("0.0a")}`
+                                callback: value =>
+                                    this.currency == "NGN"
+                                        ? `N${numeral(value).format("0.0a")}`
+                                        : `$${numeral(value).format("0.0a")}`
                             },
                             gridLines: {
                                 display: false,
@@ -128,8 +131,12 @@ export default {
                         label(tooltipItem, data) {
                             const currency =
                                 this.currency == "USD"
-                                    ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`
-                                    : `N${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`;
+                                    ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format(
+                                          "0.00a"
+                                      )}`
+                                    : `N${numeral(data.datasets[0].data[tooltipItem.index]).format(
+                                          "0.00a"
+                                      )}`;
                             return `Price: ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
@@ -153,20 +160,11 @@ export default {
         };
     },
     mounted() {
-        // this.gradient = this.$refs.canvas
-        // .getContext("2d")
-        // .createLinearGradient(0, 0, 0, 450);
+        // this.gradient = this.$refs.canvas.getContext('2d').createLinearGradient(0, 0, 0, 450)
+        // this.gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)')
+        // this.gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
+        // this.gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
 
-        // this.gradient.addColorStop(0, "rgba(255, 0,0, 0.5)");
-        // this.gradient.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
-        // this.gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
-
-        var gradient = this.$refs.canvas.getContext('2d');
-
-        this.gradient = gradient.createLinearGradient(0, 0, 0, 600);
-        this.gradient.addColorStop(0, 'orange');
-        this.gradient.addColorStop(1, 'purple');
-        
         this.fillData();
         this.handlescaling();
     },
