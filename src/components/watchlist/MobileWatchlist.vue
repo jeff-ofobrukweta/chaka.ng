@@ -1,8 +1,6 @@
 <template>
     <div v-if="dummy" class="watchlist-mobile loader">
-        <div
-            class="loader-div"
-        />
+        <div class="loader-div" />
     </div>
     <div v-else class="watchlist-mobile">
         <div class="watchlist-mobile__top">
@@ -151,7 +149,6 @@ export default {
         return {
             showBuy: false,
             showSuccess: false,
-            stock: {},
             step: null,
             showKYC: false,
             selectedField: {},
@@ -190,13 +187,6 @@ export default {
             if (e) this.showSuccess = true;
             this.showBuy = false;
         }
-    },
-    mounted() {
-        this.GET_SINGLESTOCK_INSTRUMENT({
-            symbols: this.instrument.symbol
-        }).then(resp => {
-            this.stock = resp;
-        });
     }
 };
 </script>

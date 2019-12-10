@@ -35,24 +35,23 @@ const actions = {
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
-            return api
-                .get(`/users/${rootState.auth.loggedUser.chakaID}/summary`, payload)
-                .then(
-                    resp => {
-                        if (resp.status === 200) {
-                            // commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_ACCOUNT_SUMMARY", resp.data.data);
-                            resolve(true);
-                        } else {
-                            errorFn(resp, "accounts");
-                            resolve(false);
-                        }
-                    },
-                    error => {
-                        errorFn(error.response, "accounts");
+            return api.get(`/users/${rootState.auth.loggedUser.chakaID}/summary`, payload).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        // commit("REQ_SUCCESS", null, { root: true });
+                        commit("SET_ACCOUNT_SUMMARY", resp.data.data);
+                        resolve(true);
+                        return true;
+                    } else {
+                        errorFn(resp, "accounts");
                         resolve(false);
                     }
-                );
+                },
+                error => {
+                    errorFn(error.response, "accounts");
+                    resolve(false);
+                }
+            );
         });
     },
     GET_ACCOUNT_HISTORY: ({ commit, rootState }, payload) => {
@@ -63,10 +62,11 @@ const actions = {
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/wallets/history/`, { ...payload })
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             // commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_ACCOUNT_HISTORY", resp.data.data.history);
                             resolve(true);
+                            return true;
                         } else {
                             errorFn(resp, "accounts");
                             resolve(false);
@@ -87,10 +87,11 @@ const actions = {
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/orders/`, { ...payload })
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             // commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_ACCOUNT_HISTORY", resp.data.data.orders);
                             resolve(true);
+                            return true;
                         } else {
                             errorFn(resp, "accounts");
                             resolve(false);
@@ -114,10 +115,11 @@ const actions = {
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/reports/`, { ...payload })
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             // commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_STATEMENTS", resp.data.data.reports);
                             resolve(true);
+                            return true;
                         } else {
                             errorFn(resp, "accounts");
                             resolve(false);

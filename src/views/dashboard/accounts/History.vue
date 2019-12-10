@@ -37,7 +37,7 @@
         </section>
 
         <section class="accounts-statements__downloads loader-gif__big" v-if="loading">
-            <img src="../../../assets/img/loader.gif" alt="Loader" />
+            <img :src="require('../../../assets/img/loader.gif')" alt="Loader" />
         </section>
 
         <HistoryTable

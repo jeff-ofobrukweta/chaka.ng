@@ -6,17 +6,20 @@
         </section>
         <template v-if="loading">
             <div class="graphholder container-packet__placeholder loader-gif__big">
-                <img src="../../assets/img/loader.gif" alt="Loader" />
+                <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
             </div>
         </template>
         <template v-else-if="isGraphValid === 1">
             <div class="graphholder container-packet__placeholder">
-                <img src="../../assets/img/gifs/positions.gif" alt="Positions Chart demo" />
+                <img
+                    :src="require('../../assets/img/gifs/positions.gif')"
+                    alt="Positions Chart demo"
+                />
             </div>
         </template>
         <template v-else-if="isGraphValid === 2">
             <div class="graphholder container-packet__placeholder caution__big">
-                <img src="../../assets/img/caution.svg" alt="Caution" />
+                <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
                 <a class="caution__reload" @click="reload">Reload</a>
             </div>
         </template>

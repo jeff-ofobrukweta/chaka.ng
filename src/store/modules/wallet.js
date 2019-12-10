@@ -29,11 +29,12 @@ const actions = {
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/withdraw/`, payload)
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_WALLET_TX", resp.data.data.transaction);
                             dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "withdraw");
@@ -55,11 +56,12 @@ const actions = {
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/deposit/`, payload)
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_WALLET_TX", resp.data.data.transaction);
                             dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "fund");
@@ -81,11 +83,12 @@ const actions = {
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/transfer/`, payload)
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_WALLET_TX", resp.data.data.transaction);
                             dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "exchange");
@@ -103,9 +106,10 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get("/currency-rates/today").then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         commit("SET_EXCHANGE_RATE", resp.data.data.rate);
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "exchange");
                         resolve(false);

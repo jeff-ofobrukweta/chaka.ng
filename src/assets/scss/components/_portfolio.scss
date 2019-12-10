@@ -39,7 +39,7 @@
         }
 
         &__table {
-            width: 85%;
+            width: 90%;
             margin: 1rem auto;
             max-width: 300px;
 
@@ -50,12 +50,21 @@
             font-size: 0.825rem;
             line-height: 1.5rem;
 
+            td {
+                padding-right: 10px;
+
+                &:last-child {
+                    padding-right: 0;
+                }
+            }
+
             &--left {
                 text-align: left;
             }
 
             &--right {
                 text-align: right;
+                min-width: 30px
             }
         }
     }
@@ -183,8 +192,8 @@
         }
     }
 
-    &__charts{
-        margin-top: 2rem;
+    &__charts {
+        margin-top: 1rem;
     }
 
     &-networth {
@@ -205,7 +214,7 @@
         }
     }
 
-    &-watch{
-        margin-top: 5rem;
+    &-watch {
+        margin-top: 2rem;
     }
 }

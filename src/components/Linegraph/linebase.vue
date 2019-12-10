@@ -44,12 +44,12 @@
             </div>
             <template v-if="isGraphValid === 1">
                 <div class="portfolio-graph__placeholder loader-gif__big">
-                    <img src="../../assets/img/loader.gif" alt="Loader" />
+                    <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
                 </div>
             </template>
             <template v-else-if="isGraphValid === 2">
                 <div class="portfolio-graph__placeholder caution__big">
-                    <img src="../../assets/img/caution.svg" alt="Caution" />
+                    <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
                     <a class="caution__reload" @click="mountedActions">Reload</a>
                 </div>
             </template>

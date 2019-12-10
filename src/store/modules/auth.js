@@ -27,9 +27,10 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.post("/auth/signup", payload).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "register");
                         resolve(false);
@@ -48,12 +49,13 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.post(`/auth/login`, payload).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         localStorage.setItem("AUTH_TOKEN", resp.data.data.token);
                         localStorage.setItem("REFRESH_TOKEN", resp.data.data.refreshToken);
                         dispatch("GET_LOGGED_USER").then(() => {
                             resolve(true);
+                            return true;
                         });
                     } else {
                         errorFn(resp, "login");
@@ -74,11 +76,12 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get(`/users/${token.user.chakaID}`).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_LOGGED_USER", resp.data.data.user);
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "login");
                         resolve(false);

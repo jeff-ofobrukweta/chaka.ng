@@ -24,7 +24,7 @@ const mutations = {
         state.kyc = payload;
     },
     SET_SHOW_NAVBAR_KYC(state, payload) {
-        state.navbarKYC = payload
+        state.navbarKYC = payload;
     },
     SET_NEXT_KYC(state, payload) {
         state.nextKYC = payload;
@@ -45,9 +45,10 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get(`/users/${rootState.auth.loggedUser.chakaID}/kyc`).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         commit("SET_KYC", resp.data.data.kyc);
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "kyc");
                         resolve(false);
@@ -69,10 +70,11 @@ const actions = {
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`, { ...payload })
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("SET_NEXT_KYC", resp.data.data);
                             dispatch("GET_NAVBAR_NEXT_KYC");
                             resolve(true);
+                            return true;
                         } else {
                             errorFn(resp, "kyc");
                             resolve(false);
@@ -92,10 +94,11 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
                         commit("SET_NAVBAR_TRIGGER", true);
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "kyc");
                         resolve(false);
@@ -115,12 +118,13 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.patch(`/users/${rootState.auth.loggedUser.chakaID}/kyc`, params).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_KYC", resp.data.data.kyc);
                         dispatch("GET_LOGGED_USER", null, { root: true });
                         dispatch("GET_NEXT_KYC").then(() => {
                             resolve(true);
+                            return true;
                         });
                     } else {
                         errorFn(resp, "kyc", source);
@@ -143,12 +147,13 @@ const actions = {
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-nin`, params)
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_KYC", resp.data.data.kyc);
                             dispatch("GET_KYC");
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "kyc", source);
@@ -174,10 +179,11 @@ const actions = {
                 )
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("SET_KYC", resp.data.data.kyc);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "kyc", source);
@@ -199,12 +205,13 @@ const actions = {
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/upload-file`, payload)
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_NEXT_KYC");
                             dispatch("GET_LOGGED_USER", null, { root: true });
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "kyc", source);
@@ -227,11 +234,12 @@ const actions = {
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-bvn`, params)
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_KYC", resp.data.data.kyc);
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "kyc", source);
@@ -253,11 +261,12 @@ const actions = {
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-phone`, payload)
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_NEXT_KYC");
                             dispatch("GET_KYC").then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "kyc-phone");
@@ -280,10 +289,11 @@ const actions = {
                 .post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-otp`, params)
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_NEXT_KYC").then(() => {
                                 resolve(true);
+                                return true;
                             });
                         } else {
                             errorFn(resp, "kyc-otp", source);
