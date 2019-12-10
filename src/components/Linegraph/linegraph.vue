@@ -79,10 +79,7 @@ export default {
                                 max: this.max,
                                 min: this.min,
                                 // stepSize: 5,
-                                callback: value =>
-                                    this.currency == "USD"
-                                        ? `$${numeral(value).format("0.0a")}`
-                                        : `N${numeral(value).format("0.0a")}`
+                                callback: value => this.currency == "NGN" ? `N${numeral(value).format("0.0a")}`:`$${numeral(value).format("0.0a")}`
                             },
                             gridLines: {
                                 display: false,
