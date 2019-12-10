@@ -80,9 +80,9 @@ export default {
                                 min: this.min,
                                 // stepSize: 5,
                                 callback: value =>
-                                    this.currency == "USD"
-                                        ? `$${numeral(value).format("0.0a")}`
-                                        : `N${numeral(value).format("0.0a")}`
+                                    this.currency == "NGN"
+                                        ? `N${numeral(value).format("0.0a")}`
+                                        : `$${numeral(value).format("0.0a")}`
                             },
                             gridLines: {
                                 display: false,
@@ -131,8 +131,12 @@ export default {
                         label(tooltipItem, data) {
                             const currency =
                                 this.currency == "USD"
-                                    ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`
-                                    : `N${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`;
+                                    ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format(
+                                          "0.00a"
+                                      )}`
+                                    : `N${numeral(data.datasets[0].data[tooltipItem.index]).format(
+                                          "0.00a"
+                                      )}`;
                             return `Price: ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
@@ -160,7 +164,7 @@ export default {
         // this.gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)')
         // this.gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
         // this.gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
-        
+
         this.fillData();
         this.handlescaling();
     },
@@ -196,7 +200,7 @@ export default {
                         label: "Stocks",
                         lineTension: 0.5,
                         fill: true,
-                        backgroundColor: "#d4eaf8cf",
+                        backgroundColor: this.gradient,
                         borderColor: "#2da5ec",
                         borderWidth: 1.7,
                         showLine: true,
