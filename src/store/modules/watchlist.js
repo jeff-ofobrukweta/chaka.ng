@@ -46,11 +46,13 @@ const actions = {
                         }
                     },
                     error => {
-                        if (
-                            error.response.data.message ===
-                            "Data unavailable for selected day/interval"
-                        ) {
-                            commit("SET_WATCHLIST", state.cacheWatchlist);
+                        if (error.response) {
+                            if (
+                                error.response.data.message ===
+                                "Data unavailable for selected day/interval"
+                            ) {
+                                commit("SET_WATCHLIST", state.cacheWatchlist);
+                            }
                         }
                         errorFn(error.response, "watchlist");
                         resolve(false);

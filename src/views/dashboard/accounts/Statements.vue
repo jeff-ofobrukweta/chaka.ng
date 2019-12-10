@@ -36,8 +36,8 @@
             />
         </section>
 
-        <section class="accounts-statements__downloads" v-if="loading">
-            Loading...
+        <section class="accounts-statements__downloads loader-gif__big" v-if="loading">
+            <img src="../../../assets/img/loader.gif" alt="Loader" />
         </section>
 
         <section class="accounts-statements__downloads" v-else-if="getStatements.length > 0">

@@ -42,17 +42,15 @@
                     </section>
                 </div>
             </div>
-            <template v-if="isGraphValid === 0">
-                <div class="portfolio-graph__placeholder">Loading...</div>
-            </template>
-            <template v-else-if="isGraphValid === 1">
-                <div class="portfolio-graph__placeholder">
-                    <img src="../../assets/img/gifs/portfolio.gif" alt="Positions Chart demo" />
+            <template v-if="isGraphValid === 1">
+                <div class="portfolio-graph__placeholder loader-gif__big">
+                    <img src="../../assets/img/loader.gif" alt="Loader" />
                 </div>
             </template>
             <template v-else-if="isGraphValid === 2">
-                <div class="portfolio-graph__placeholder">
-                    Technical difficulty fetching chart data
+                <div class="portfolio-graph__placeholder caution__big">
+                    <img src="../../assets/img/caution.svg" alt="Caution" />
+                    <a class="caution__reload" @click="mountedActions">Reload</a>
                 </div>
             </template>
             <template v-else>
@@ -148,8 +146,7 @@ export default {
             "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
-            if (this.loading) return 0;
-            else if (this.gethistoryportfolioprice.length <= 0) {
+            if (this.loading || this.gethistoryportfolioprice.length <= 0) {
                 return 1;
             }
             // filter the array for conditions null or undefined or is Not a number
@@ -221,18 +218,18 @@ export default {
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock);
             this.loading = false;
         },
-        mountedActions() {
+        async mountedActions() {
             const payload = {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
+            this.loading = true;
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
+            this.loading = false;
         }
     },
     async mounted() {
-        this.loading = true;
         await this.mountedActions();
-        this.loading = false;
     }
 };
 </script>
