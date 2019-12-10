@@ -9,7 +9,7 @@
         />
     </div>
     <div v-else @click="tagSelect" class="tag-item pointer">
-        <template v-if="!tag.imageurl">
+        <template v-if="!tag.imageUrl">
             <img
                 v-if="!active"
                 class="card-news__img faded"

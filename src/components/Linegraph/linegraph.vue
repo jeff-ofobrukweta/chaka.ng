@@ -79,10 +79,7 @@ export default {
                                 max: this.max,
                                 min: this.min,
                                 // stepSize: 5,
-                                callback: value =>
-                                    this.currency == "USD"
-                                        ? `$${numeral(value).format("0.0a")}`
-                                        : `N${numeral(value).format("0.0a")}`
+                                callback: value => this.currency == "NGN" ? `N${numeral(value).format("0.0a")}`:`$${numeral(value).format("0.0a")}`
                             },
                             gridLines: {
                                 display: false,
@@ -156,10 +153,19 @@ export default {
         };
     },
     mounted() {
-        this.gradient = this.$refs.canvas.getContext('2d').createLinearGradient(0, 0, 0, 450)
-        this.gradient.addColorStop(0, 'rgba(255, 0,0, 0.5)')
-        this.gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
-        this.gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
+        // this.gradient = this.$refs.canvas
+        // .getContext("2d")
+        // .createLinearGradient(0, 0, 0, 450);
+
+        // this.gradient.addColorStop(0, "rgba(255, 0,0, 0.5)");
+        // this.gradient.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
+        // this.gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
+
+        var gradient = this.$refs.canvas.getContext('2d');
+
+        this.gradient = gradient.createLinearGradient(0, 0, 0, 600);
+        this.gradient.addColorStop(0, 'orange');
+        this.gradient.addColorStop(1, 'purple');
         
         this.fillData();
         this.handlescaling();
@@ -196,7 +202,7 @@ export default {
                         label: "Stocks",
                         lineTension: 0.5,
                         fill: true,
-                        backgroundColor: "#d4eaf8cf",
+                        backgroundColor: this.gradient,
                         borderColor: "#2da5ec",
                         borderWidth: 1.7,
                         showLine: true,
