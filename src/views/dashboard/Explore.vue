@@ -5,70 +5,62 @@
             <p class="dashboard__title--sub">See the latest on the stock market</p>
         </section>
 
-        <!-- <template v-if="Object.keys(getErrorLog).length > 0 && getErrorLog.type === 'explore'">
-            Error fetching data
-        </template> -->
+        <section class="accounts-statements__downloads loader-gif__big" v-if="loading">
+            <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
+        </section>
 
-        <template>
-            <section class="explore-section">
-                <div class="explore-featured">
-                    <div class="explore-featured__image">
-                        <a :href="featured.pageUrl" target="_blank">
-                            <img :src="featured.imageUrl" :alt="featured.name"
-                        /></a>
-                    </div>
-                    <div class="explore-featured__text">
-                        <h4 class="explore-featured__text--title">
-                            <a :href="featured.pageUrl" target="_blank"> {{ featured.name }}</a>
-                        </h4>
-                        <p>
-                            {{ featured.description || "" | truncate(380) }}
-                        </p>
-                    </div>
-                </div>
-                <div class="card-news__box explore__news">
-                    <news-card :news="item" v-for="(item, index) in allNews" :key="index" />
-                </div>
-                <div class="explore-actions__bottom">
-                    <!-- <a class="explore-actions">See All</a> -->
-                    <a v-if="loadNews">
-                        <img
-                            :src="require('../../assets/img/loader.gif')"
-                            alt="Loading..."
-                            width="16px"
-                        />
-                    </a>
-                    <a class="explore-actions" @click="shuffleNews" v-else>Shuffle</a>
-                </div>
-            </section>
+        <div
+            class="caution__big"
+            v-else-if="getErrorLog.type === 'explore' && getExploreNews.length <= 0"
+        >
+            <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
+            <a class="caution__reload" @click="mount">Reload</a>
+        </div>
 
-            <section class="explore-section" v-if="getExploreCollections.length > 0">
-                <section class="explore__title">
-                    <div>
-                        <h3>Collections</h3>
-                        <p class="explore__title--sub">See the latest on the stock market</p>
-                    </div>
-                    <div v-if="getWindowWidth !== 'mobile'">
-                        <!-- <a class="explore-actions">See All</a> -->
-                        <a v-if="loadCollections">
-                            <img
-                                :src="require('../../assets/img/loader.gif')"
-                                alt="Loading..."
-                                width="16px"
-                            />
-                        </a>
-                        <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
-                    </div>
-                </section>
-                <div class="card-news__box explore__news">
-                    <news-card
-                        :news="item"
-                        v-for="(item, index) in getExploreCollections"
-                        :key="index"
-                        collection
+        <section class="explore-section" v-else-if="getExploreNews.length > 0">
+            <div class="explore-featured">
+                <div class="explore-featured__image">
+                    <a :href="featured.pageUrl" target="_blank">
+                        <img :src="featured.imageUrl" :alt="featured.name"
+                    /></a>
+                </div>
+                <div class="explore-featured__text">
+                    <h4 class="explore-featured__text--title">
+                        <a :href="featured.pageUrl" target="_blank"> {{ featured.name }}</a>
+                    </h4>
+                    <p>
+                        {{ featured.description || "" | truncate(380) }}
+                    </p>
+                </div>
+            </div>
+            <div class="card-news__box explore__news">
+                <news-card :news="item" v-for="(item, index) in allNews" :key="index" />
+            </div>
+            <div class="explore-actions__bottom">
+                <!-- <a class="explore-actions">See All</a> -->
+                <a v-if="loadNews">
+                    <img
+                        :src="require('../../assets/img/loader.gif')"
+                        alt="Loading..."
+                        width="16px"
                     />
+                </a>
+                <a class="explore-actions" @click="shuffleNews" v-else>Shuffle</a>
+            </div>
+        </section>
+
+        <section class="empty-center" v-else>
+            <img width="80px" :src="require('../../assets/img/papers.svg')" alt="Papers" />
+            <p>There are no news available at the moment</p>
+        </section>
+
+        <section class="explore-section" v-if="getExploreCollections.length > 0">
+            <section class="explore__title">
+                <div>
+                    <h3>Collections</h3>
+                    <p class="explore__title--sub">See the latest on the stock market</p>
                 </div>
-                <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
+                <div v-if="getWindowWidth !== 'mobile'">
                     <!-- <a class="explore-actions">See All</a> -->
                     <a v-if="loadCollections">
                         <img
@@ -80,33 +72,38 @@
                     <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
                 </div>
             </section>
+            <div class="card-news__box explore__news">
+                <news-card
+                    :news="item"
+                    v-for="(item, index) in getExploreCollections"
+                    :key="index"
+                    collection
+                />
+            </div>
+            <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
+                <!-- <a class="explore-actions">See All</a> -->
+                <a v-if="loadCollections">
+                    <img
+                        :src="require('../../assets/img/loader.gif')"
+                        alt="Loading..."
+                        width="16px"
+                    />
+                </a>
+                <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
+            </div>
+        </section>
 
-            <section class="explore-section" v-if="getExploreLearn.length > 0">
-                <section class="explore__title">
-                    <div>
-                        <h3>Learn</h3>
-                        <p class="explore__title--sub">See the latest on the stock market</p>
-                    </div>
-                    <div v-if="getWindowWidth !== 'mobile'">
-                        <!-- <a class="explore-actions">See All</a> -->
-                        <a class="explore-actions" v-if="loadLearn">
-                            <img
-                                :src="require('../../assets/img/ring-loader.jpeg')"
-                                alt="Loading..."
-                                width="16px"
-                            />
-                        </a>
-                        <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
-                    </div>
-                </section>
-                <div class="card-news__box explore__news">
-                    <news-card :news="item" v-for="(item, index) in getExploreLearn" :key="index" />
+        <section class="explore-section" v-if="getExploreLearn.length > 0">
+            <section class="explore__title">
+                <div>
+                    <h3>Learn</h3>
+                    <p class="explore__title--sub">See the latest on the stock market</p>
                 </div>
-                <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
+                <div v-if="getWindowWidth !== 'mobile'">
                     <!-- <a class="explore-actions">See All</a> -->
                     <a class="explore-actions" v-if="loadLearn">
                         <img
-                            :src="require('../../assets/img/loader.gif')"
+                            :src="require('../../assets/img/ring-loader.jpeg')"
                             alt="Loading..."
                             width="16px"
                         />
@@ -114,7 +111,22 @@
                     <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
                 </div>
             </section>
-        </template>
+            <div class="card-news__box explore__news">
+                <news-card :news="item" v-for="(item, index) in getExploreLearn" :key="index" />
+            </div>
+            <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
+                <!-- <a class="explore-actions">See All</a> -->
+                <a class="explore-actions" v-if="loadLearn">
+                    <img
+                        :src="require('../../assets/img/loader.gif')"
+                        alt="Loading..."
+                        width="16px"
+                    />
+                </a>
+                <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
+            </div>
+        </section>
+        <!-- </template> -->
 
         <section class="explore-section" v-if="getWatchlist.length > 0">
             <section class="dashboard__title">
@@ -171,6 +183,7 @@ export default {
     },
     data() {
         return {
+            loading: false,
             featured: {},
             allNews: [],
             loadNews: null,
@@ -212,19 +225,39 @@ export default {
             this.loadLearn = "learn";
             await this.GET_EXPLORE_LEARN({ shuffle: true });
             this.loadLearn = null;
+        },
+        async mount() {
+            this.loading = true;
+            if (this.getExploreCollections.length <= 0) {
+                this.GET_EXPLORE_COLLECTIONS();
+            }
+            if (this.getExploreLearn.length <= 0) {
+                this.GET_EXPLORE_LEARN();
+            }
+            await this.GET_EXPLORE_NEWS();
+            this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
+            this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
+            this.loading = false;
         }
     },
     async mounted() {
-        this.watchlistLoading = true;
-        await Promise.all([
-            this.GET_EXPLORE_NEWS(),
-            this.GET_EXPLORE_COLLECTIONS(),
-            this.GET_EXPLORE_LEARN(),
-            this.GET_WATCHLIST()
-        ]);
-        this.watchlistLoading = false;
+        this.loading = true;
+        if (this.getExploreNews.length > 0) {
+            this.loading = false;
+            this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
+            this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
+        }
+        await this.GET_EXPLORE_NEWS();
         this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
         this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
+        this.loading = false;
+        this.watchlistLoading = true;
+        if (this.getWatchlist.length > 0) {
+            this.watchlistLoading = false;
+        }
+        await this.GET_WATCHLIST();
+        this.watchlistLoading = false;
+        await Promise.all([this.GET_EXPLORE_COLLECTIONS(), this.GET_EXPLORE_LEARN()]);
     }
 };
 </script>

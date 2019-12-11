@@ -48,11 +48,11 @@ instance.interceptors.response.use(
                 .catch(err => {
                     if (err.response.status === 400) {
                         router.push("/logout");
-                        return Promise.reject(error);
+                        return Promise.resolve(false);
                     }
                 });
         }
-        return Promise.reject(error);
+        return Promise.resolve(false);
     }
 );
 

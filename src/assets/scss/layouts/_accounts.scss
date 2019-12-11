@@ -317,7 +317,11 @@
             display: flex;
             flex-wrap: wrap;
             max-width: 700px;
-            justify-content: space-between;
+            justify-content: space-around;
+
+            @include tablet {
+                justify-content: flex-start;
+            }
 
             &>div {
                 flex: 0 0 40%;
@@ -386,6 +390,8 @@
 
         &__submit {
             margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
 
             button:first-child {
                 margin-right: .825rem;

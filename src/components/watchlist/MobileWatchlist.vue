@@ -4,7 +4,17 @@
     </div>
     <div v-else class="watchlist-mobile">
         <div class="watchlist-mobile__top">
+            <img
+                v-if="loading"
+                :src="require('../../assets/img/loader.gif')"
+                alt="Loading"
+                width="12px"
+                height="12px"
+            />
             <svg
+                v-else-if="!watched"
+                @click="addToWatchlist"
+                class="pointer"
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -31,6 +41,25 @@
                         <rect width="10" height="10" fill="white" transform="translate(3 3.5)" />
                     </clipPath>
                 </defs>
+            </svg>
+            <svg
+                v-else
+                @click="removeFromWatchlist"
+                class="pointer"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M12 0.5H4C2.067 0.5 0.5 2.067 0.5 4V12C0.5 13.933 2.067 15.5 4 15.5H12C13.933 15.5 15.5 13.933 15.5 12V4C15.5 2.067 13.933 0.5 12 0.5Z"
+                    fill="white"
+                />
+                <path
+                    d="M8.00001 4C5.04547 4 2.52227 5.83773 1.5 8.43183C2.52227 11.0259 5.04547 12.8637 8.00001 12.8637C10.9545 12.8637 13.4778 11.0259 14.5 8.43183C13.4778 5.83773 10.9545 4 8.00001 4ZM8.00001 11.3863C6.3691 11.3863 5.04546 10.0627 5.04546 8.43183C5.04546 6.80092 6.3691 5.47728 8.00001 5.47728C9.63093 5.47728 10.9545 6.80092 10.9545 8.43183C10.9545 10.0627 9.63093 11.3863 8.00001 11.3863ZM8.00001 6.6591C7.0191 6.6591 6.22728 7.45091 6.22728 8.43183C6.22728 9.41275 7.0191 10.2046 8.00001 10.2046C8.98093 10.2046 9.77275 9.41275 9.77275 8.43183C9.77275 7.45091 8.98093 6.6591 8.00001 6.6591Z"
+                    fill="#2DA5EC"
+                />
             </svg>
 
             <div>
@@ -152,14 +181,22 @@ export default {
             step: null,
             showKYC: false,
             selectedField: {},
-            allNextKYC: KYCTitles.titles
+            allNextKYC: KYCTitles.titles,
+            loading: false
         };
     },
     computed: {
-        ...mapGetters(["getNextKYC"])
+        ...mapGetters(["getNextKYC", "getWatchlist"]),
+        watched() {
+            const filter = this.getWatchlist.filter(el => el.symbol === this.instrument.symbol);
+            if (filter.length <= 0) {
+                return false;
+            }
+            return true;
+        }
     },
     methods: {
-        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT"]),
+        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "REMOVE_FROM_WATCHLIST", "ADD_TO_WATCHLIST"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -186,6 +223,20 @@ export default {
         closeBuyModal(e) {
             if (e) this.showSuccess = true;
             this.showBuy = false;
+        },
+        async removeFromWatchlist() {
+            this.loading = true;
+            const payload = { symbols: String(this.instrument.symbol) };
+            await this.REMOVE_FROM_WATCHLIST(payload);
+            this.loading = false;
+        },
+        async addToWatchlist() {
+            this.loading = true;
+            const payload = { symbols: String(this.instrument.symbol) };
+            await this.ADD_TO_WATCHLIST(payload);
+            setTimeout(() => {
+                this.loading = false;
+            }, 200);
         }
     }
 };

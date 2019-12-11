@@ -160,7 +160,7 @@
 
         &--link {
             @extend .side-nav__link;
-            font-size: 1.25rem;
+            font-size: 1.25rem !important;
 
             &:hover {
                 border-radius: 12px;

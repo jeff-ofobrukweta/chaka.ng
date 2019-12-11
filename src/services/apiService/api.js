@@ -10,7 +10,7 @@ export default {
     patch(url, data) {
         return instance.patch(url, data);
     },
-    delete(url) {
-        return instance.delete(url);
+    delete(url, data) {
+        return instance.delete(url, { data });
     }
 };

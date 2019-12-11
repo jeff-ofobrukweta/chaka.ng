@@ -1,6 +1,12 @@
 .uploads {
     position: relative;
     text-align: center;
+    flex: 0 0 120px;
+    max-width: 120px;
+
+    @include tablet {
+        margin-right: 10%;
+    }
 
     &__image {
         width: 106px;
@@ -23,7 +29,7 @@
             object-fit: contain;
         }
 
-        &--plus{
+        &--plus {
             z-index: 2;
         }
     }
