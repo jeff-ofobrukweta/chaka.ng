@@ -1,36 +1,40 @@
-import api from "../../services/apiService/api";
+import API_CONTEXT from "../../services/apiService/api";
 
-const state = {};
+const state = {
+  positionsObject: []
+};
 
-const getters = {};
+const getters = {
+  getPositions: (state) => {
+    return state.positionsObject;
+}
+};
 
-const mutations = {};
+const mutations = {
+  SET_FETCH_POSITIONS_INSTRUMENTS(state, data) {
+    let positions = {};
+    positions = data.data.positions;
+    state.positionsObject = positions.filled;
+},
+};
 
 const actions = {
-    GET_STAMPS: ({ commit, dispatch, rootState }, payload) => {
-        return new Promise((resolve, reject) => {
-            return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/withdraw/`, payload)
-                .then(
-                    resp => {
-                        // if (resp.status >= 200 && resp.status < 400) {
-                        //     commit("REQ_SUCCESS", null, { root: true });
-                        //     commit("SET_WALLET_TX", resp.data.data.transaction);
-                        //     dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
-                        //         resolve(true);return true
-                        //     });
-                        // } else {
-                        //     errorFn(resp, "withdraw");
-                        //     resolve(false);
-                        // }
-                    },
-                    error => {
-                        // errorFn(error.response, "withdraw");
-                        resolve(false);
-                    }
-                );
+  async FETCH_POSITIONS_INSTRUMENTS({ commit, rootState }) {
+    await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions/`)
+        .then((response) => {
+          console.log('THIS IS THE CERTIFICATE AAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRR',response)
+            if (true) {
+                const collection = response.data;
+                commit('SET_FETCH_POSITIONS_INSTRUMENTS', collection);
+                console.log('THIS IS THE CERTIFICATE AAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRR',response)
+                return true;
+            }
+            return false;
+        })
+        .catch((error) => {
+            return error;
         });
-    }
+},
 };
 
 export default {

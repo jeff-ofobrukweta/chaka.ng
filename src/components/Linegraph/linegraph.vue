@@ -165,6 +165,16 @@ export default {
         // this.gradient.addColorStop(0.5, 'rgba(255, 0, 0, 0.25)');
         // this.gradient.addColorStop(1, 'rgba(255, 0, 0, 0)');
 
+        // this.gradient.addColorStop(0, "rgba(255, 0,0, 0.5)");
+        // this.gradient.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
+        // this.gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
+
+        // var gradient = this.$refs.canvas.getContext('2d');
+
+        // this.gradient = gradient.createLinearGradient(0, 0, 0, 600);
+        // this.gradient.addColorStop(0, 'orange');
+        // this.gradient.addColorStop(1, 'purple');
+        
         this.fillData();
         this.handlescaling();
     },

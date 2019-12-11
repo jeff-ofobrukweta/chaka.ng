@@ -4,7 +4,7 @@
             <section class="right-header">
                  <h1 class="price">
             {{
-            getSingleinstrument[0].InstrumentDynamic.askPrice| kobo |currency(getSingleinstrument[0].currency)
+            getSingleinstrument[0].InstrumentDynamic.askPrice | kobo |currency(getSingleinstrument[0].currency)
             }}
           </h1>
           <h1 class="percentage">
@@ -157,7 +157,6 @@ export default {
         const singlestockpayload = {symbols: this.$route.params.symbol};
         this.similarLoading = true
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
-             console.log('this is the tags for single stock BBBBBBBBBBBBBBBTTTTTTTTTTTTTTTBBBBBBBBBBBBBBTTTTT',this.getSingleinstrument[0].Tags)
              this.GET_CURRENT_STOCK_POSITION()
              this.similarLoading = false
         })

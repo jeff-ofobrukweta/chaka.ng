@@ -57,19 +57,28 @@ const getters = {
     },
 
     getOpenPrice: state => {
-        return state.singlestockpricedata.map(data => {
-            return data.price;
-        });
+        if(state.singlestockpricedata){
+            return state.singlestockpricedata.map(data => {
+                return data.price;
+            });
+        }
+        return state.singlestockpricedata;
     },
     getDates: state => {
-        return state.singlestockdate.map(data => {
-            return filters.resolveDate(data.date);
-        });
+        if(state.singlestockdate){
+            return state.singlestockdate.map(data => {
+                return filters.resolveDate(data.date);
+            });
+        }
+        return state.singlestockdate;
     },
     gethistoryportfolioprice: state => {
-        return state.portfolioprice.map(data => {
-            return data.netWorth;
-        });
+        if(state.portfolioprice){
+            return state.portfolioprice.map(data => {
+                return data.netWorth;
+            });
+        }
+        return state.portfolioprice;
     },
     gethistoryportfoliodate: state => {
         return state.portfoliodate.map(data => {
@@ -86,20 +95,30 @@ const getters = {
         });
     },
     getDoughnutWeightsymbol: state => {
-        return state.positionweightdate.map(data => {
-            return data.symbol;
-        });
+        if(state.positionweightdate){
+            return state.positionweightdate.map(data => {
+                return data.symbol;
+            });
+        }
+        return state.positionweightdate;
+        
     },
     getPositionBarperformancesymbol: state => {
-        return state.positionperformancesymbol.map(data => {
-            return data.symbol;
-        });
+        if(state.positionperformancesymbol){
+            return state.positionperformancesymbol.map(data => {
+                return data.symbol;
+            });
+        }
+        return state.positionperformancesymbol;
     },
 
     getPositionBarperformancepercentage: state => {
-        return state.positionperformancepercentage.map(data => {
-            return data.percentChange;
-        });
+        if(state.positionperformancepercentage){
+            return state.positionperformancepercentage.map(data => {
+                return data.percentChange;
+            });
+        }
+        return state.positionperformancepercentage;
     },
     // blue board on single-stock graph
     getPricedetailsonblackcard: state => {
@@ -112,7 +131,7 @@ const getters = {
     },
     getValueperformance: state => {
         return state.valueperformance.map(data => {
-            return data.value;
+            return data.value ;
         });
     },
     getActionanalysis: state => {
