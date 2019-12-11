@@ -11,6 +11,7 @@
                 @error="handleUploadError"
                 @success="handleUploadSuccess"
                 @reset="handleReset"
+                v-if="!getKYC.passportUrl"
             />
             <Uploads
                 form-name="idPhotoUrl"
@@ -18,6 +19,7 @@
                 @error="handleUploadError"
                 @success="handleUploadSuccess"
                 @reset="handleReset"
+                v-if="!getKYC.idPhotoUrl"
             />
             <Uploads
                 form-name="addressProofUrl"
@@ -25,6 +27,15 @@
                 @error="handleUploadError"
                 @success="handleUploadSuccess"
                 @reset="handleReset"
+                v-if="!getKYC.addressProofUrl"
+            />
+            <Uploads
+                form-name="addressProofUrl"
+                :image="getKYC.addressProofUrl"
+                @error="handleUploadError"
+                @success="handleUploadSuccess"
+                @reset="handleReset"
+                v-if="!getKYC.addressProofUrl"
             />
         </section>
 
