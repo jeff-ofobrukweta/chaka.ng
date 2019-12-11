@@ -390,6 +390,8 @@
 
         &__submit {
             margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
 
             button:first-child {
                 margin-right: .825rem;

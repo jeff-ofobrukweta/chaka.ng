@@ -6,7 +6,7 @@
         justify-content: space-between;
 
         @include tablet {
-            padding-right: 0;
+            padding-right: 0 !important;
         }
 
         label {

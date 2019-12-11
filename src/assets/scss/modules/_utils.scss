@@ -360,6 +360,10 @@ main {
   opacity: 0.5;
 }
 
+.absolute {
+  position: absolute;
+}
+
 .text-light {
   font-weight: lighter;
 }
@@ -375,6 +379,7 @@ main {
   &__navbar {
     @extend .alert;
     border-radius: 0;
+    margin-top: 0;
   }
 
   &-success {

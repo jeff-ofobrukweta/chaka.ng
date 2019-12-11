@@ -1,8 +1,6 @@
 <template>
     <div v-if="dummy" class="watchlist-explore loader">
-        <div
-            class="loader-div"
-        />
+        <div class="loader-div" />
     </div>
     <div v-else class="watchlist-explore">
         <div class="watchlist-explore__name">
@@ -67,7 +65,7 @@
             ></line-chart>
         </div>
         <div class="watchlist-explore__actions">
-            <button>
+            <button @click="removeFromWatchlist" v-if="!loading">
                 <svg
                     width="24"
                     height="24"
@@ -94,6 +92,9 @@
                     </defs>
                 </svg>
             </button>
+            <button v-else>
+                <img :src="require('../../assets/img/loader.gif')" alt="Loading" width="16px" />
+            </button>
             <KYCButton
                 ref="buyBtn"
                 type="button"
@@ -102,7 +103,6 @@
                 @step="handleStep"
                 >Buy</KYCButton
             >
-            <!-- <button @click="showBuy = true">+&nbsp;Buy</button> -->
         </div>
         <buy-modal
             @close="closeBuyModal"
@@ -186,6 +186,7 @@ export default {
                     ]
                 }
             },
+            loading: false,
             chartData: {},
             labelsArray: [],
             chartArray: []
@@ -195,7 +196,7 @@ export default {
         ...mapGetters(["getNextKYC"])
     },
     methods: {
-        ...mapActions(["GET_WATCHLIST_CHART"]),
+        ...mapActions(["GET_WATCHLIST_CHART", "REMOVE_FROM_WATCHLIST"]),
         fillData() {
             this.datacollection = {
                 labels: this.labelsArray,
@@ -249,6 +250,12 @@ export default {
                 this.showSuccess = true;
             }
             this.showBuy = false;
+        },
+        async removeFromWatchlist() {
+            this.loading = true;
+            const payload = { symbols: String(this.instrument.symbol) };
+            await this.REMOVE_FROM_WATCHLIST(payload);
+            this.loading = false;
         }
     },
 

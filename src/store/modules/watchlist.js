@@ -1,5 +1,6 @@
 import api from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
+import Vue from "vue";
 
 const state = {
     watchlist: [],
@@ -40,12 +41,16 @@ const actions = {
                                 resp.data.data.watchlistDetails.instruments
                             );
                             resolve(true);
-                            return true;
+                        } else {
+                            if (resp === false) {
+                                errorFn("Data unavailable for selected day/interval", "watchlist");
+                                commit("SET_WATCHLIST", state.cacheWatchlist);
+                            } else errorFn(resp, "watchlist");
+                            resolve(false);
                         }
-                        errorFn(resp, "watchlist");
-                        resolve(false);
                     },
                     error => {
+                        console.log(error.response);
                         if (error.response) {
                             if (
                                 error.response.data.message ===
@@ -71,18 +76,18 @@ const actions = {
                         resolve(resp.data.data);
                         return true;
                     } else {
-                        errorFn(resp, "watchlist");
+                        errorFn(resp, "watchlist-chart");
                         resolve(false);
                     }
                 },
                 error => {
-                    errorFn(error.response, "watchlist");
+                    errorFn(error.response, "watchlist-chart");
                     resolve(false);
                 }
             );
         });
     },
-    ADD_TO_WATCHLIST: ({ commit, rootState }, payload) => {
+    ADD_TO_WATCHLIST: ({ commit, dispatch, rootState }, payload) => {
         /**
          * @params {symbols}
          */
@@ -94,22 +99,32 @@ const actions = {
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
+                            Vue.toasted.show(`${payload.symbols} has been added successfully`, {
+                                type: "success"
+                            });
                             commit("REQ_SUCCESS", null, { root: true });
+                            dispatch("GET_WATCHLIST");
                             resolve(true);
                             return true;
                         } else {
-                            errorFn(resp, "watchlist");
+                            Vue.toasted.show(`An error occurred removing ${payload.symbols}`, {
+                                type: "error"
+                            });
+                            errorFn(resp, "add-watchlist");
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "watchlist");
+                        Vue.toasted.show(`An error occurred removing ${payload.symbols}`, {
+                            type: "error"
+                        });
+                        errorFn(error.response, "add-watchlist");
                         resolve(false);
                     }
                 );
         });
     },
-    REMOVE_FROM_WATCHLIST: ({ commit, rootState }, payload) => {
+    REMOVE_FROM_WATCHLIST: ({ commit, dispatch, rootState }, payload) => {
         /**
          * @params {symbols}
          */
@@ -121,16 +136,26 @@ const actions = {
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
+                            Vue.toasted.show(`${payload.symbols} has been removed successfully`, {
+                                type: "success"
+                            });
                             commit("REQ_SUCCESS", null, { root: true });
+                            dispatch("GET_WATCHLIST");
                             resolve(true);
                             return true;
                         } else {
-                            errorFn(resp, "watchlist");
+                            Vue.toasted.show(`An error occurred removing ${payload.symbols}`, {
+                                type: "error"
+                            });
+                            errorFn(resp, "remove-watchlist");
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "watchlist");
+                        Vue.toasted.show(`An error occurred removing ${payload.symbols}`, {
+                            type: "error"
+                        });
+                        errorFn(error.response, "remove-watchlist");
                         resolve(false);
                     }
                 );

@@ -29,14 +29,6 @@
                 @reset="handleReset"
                 v-if="!getKYC.addressProofUrl"
             />
-            <Uploads
-                form-name="addressProofUrl"
-                :image="getKYC.addressProofUrl"
-                @error="handleUploadError"
-                @success="handleUploadSuccess"
-                @reset="handleReset"
-                v-if="!getKYC.addressProofUrl"
-            />
         </section>
 
         <error-block
@@ -125,7 +117,6 @@
                             v-model="bvnData.bvn"
                             placeholder="BVN"
                             v-if="edit === 'bvn'"
-                            maxlength="11"
                             required
                         />
                         <p v-else class=" accounts-settings__data">
@@ -361,30 +352,26 @@
                     </div>
                     <template
                         v-if="
-                            itemData.employmentStatus === 'EMPLOYED' ||
-                                itemData.employmentStatus === 'SELF_EMPLOYED'
+                            (itemData.employmentStatus === 'EMPLOYED' ||
+                                itemData.employmentStatus === 'SELF_EMPLOYED') &&
+                                this.edit === 'employment'
                         "
                     >
                         <div class="accounts-settings__group">
                             <label class="form__label"
                                 >Company Name<form-input
-                                    v-if="edit === 'employment'"
                                     type="text"
                                     name="employment company"
                                     v-model="itemData.employmentCompany"
                                     placeholder="Company Name"
                                 />
-                                <p v-else class="capitalize accounts-settings__data">
-                                    {{ getKYC.employmentCompany || "-" }}
-                                </p></label
-                            >
+                            </label>
                         </div>
                         <div class="accounts-settings__group">
                             <label class="form__label"
                                 >Employment Type
                                 <select
                                     class="form__input form__select"
-                                    v-if="edit === 'employment'"
                                     v-model="itemData.employmentType"
                                 >
                                     <option
@@ -393,10 +380,7 @@
                                         :value="type.value"
                                         >{{ type.text }}</option
                                     >
-                                </select>
-                                <p v-else class="capitalize accounts-settings__data">
-                                    {{ getKYC.employmentType || "-" }}
-                                </p></label
+                                </select></label
                             >
                         </div>
                         <div class="accounts-settings__group">
@@ -404,7 +388,6 @@
                                 >Employment Position
                                 <select
                                     class="form__input form__select"
-                                    v-if="edit === 'employment'"
                                     v-model="itemData.employmentPosition"
                                 >
                                     <option
@@ -413,9 +396,38 @@
                                         :value="position.value"
                                         >{{ position.text }}</option
                                     >
-                                </select>
-                                <p v-else class="capitalize accounts-settings__data">
-                                    {{ getKYC.employmentPosition || "-" }}
+                                </select></label
+                            >
+                        </div>
+                    </template>
+                    <template
+                        v-else-if="
+                            (getKYC.employmentStatus === 'EMPLOYED' ||
+                                getKYC.employmentStatus === 'SELF_EMPLOYED') &&
+                                this.edit !== 'employment'
+                        "
+                    >
+                        <div class="accounts-settings__group">
+                            <label class="form__label"
+                                >Company Name
+                                <p class="capitalize accounts-settings__data">
+                                    {{ getKYC.employmentCompany || "-" }}
+                                </p>
+                            </label>
+                        </div>
+                        <div class="accounts-settings__group">
+                            <label class="form__label"
+                                >Employment Type
+                                <p class="capitalize accounts-settings__data">
+                                    {{ checkInv(types, getKYC.employmentType) || "-" }}
+                                </p></label
+                            >
+                        </div>
+                        <div class="accounts-settings__group">
+                            <label class="form__label"
+                                >Employment Position
+                                <p class="capitalize accounts-settings__data">
+                                    {{ checkInv(positions, getKYC.employmentPosition) || "-" }}
                                 </p></label
                             >
                         </div>
@@ -453,12 +465,15 @@
                                 v-model="itemData.investmentObjectives"
                                 v-if="edit === 'investment'"
                             >
-                                <option value="PROTECTION">Protection</option>
-                                <option value="GROWTH">Growth</option>
-                                <option value="INCOME">Income</option>
+                                <option
+                                    v-for="(item, i) in objectives"
+                                    :key="i"
+                                    :value="item.value"
+                                    >{{ item.text }}</option
+                                >
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.investmentObjectives || "-" }}
+                                {{ checkInv(objectives, getKYC.investmentObjectives) || "-" }}
                             </p></label
                         >
                     </div>
@@ -470,12 +485,15 @@
                                 v-model="itemData.investmentExperience"
                                 v-if="edit === 'investment'"
                             >
-                                <option value="YRS_0_2">0 - 2 Yrs</option>
-                                <option value="YRS_3_5">2 - 5 Yrs</option>
-                                <option value="YRS_5_plus">5 Yrs+</option>
+                                <option
+                                    v-for="(item, i) in experience"
+                                    :key="i"
+                                    :value="item.value"
+                                    >{{ item.text }}</option
+                                >
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.investmentExperience || "-" }}
+                                {{ checkInv(experience, getKYC.investmentExperience) || "-" }}
                             </p></label
                         >
                     </div>
@@ -487,12 +505,15 @@
                                 v-model="itemData.annualIncome"
                                 v-if="edit === 'investment'"
                             >
-                                <option value="LESS_THAN_500k">&lt; 500k</option>
-                                <option value="500K_5MILLION">N500K - N5M</option>
-                                <option value="GREATER_THAN_MILLION">N5M+</option>
+                                <option
+                                    v-for="(item, i) in annualIncome"
+                                    :key="i"
+                                    :value="item.value"
+                                    >{{ item.text }}</option
+                                >
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.annualIncome || "-" }}
+                                {{ checkInv(annualIncome, getKYC.annualIncome) || "-" }}
                             </p></label
                         >
                     </div>
@@ -504,12 +525,12 @@
                                 v-model="itemData.networthLiquid"
                                 v-if="edit === 'investment'"
                             >
-                                <option value="<5m">&lt; N5M</option>
-                                <option value="N5m-N50m">N5M - N50M</option>
-                                <option value="N50m+">N50M+</option>
+                                <option v-for="(item, i) in liquid" :key="i" :value="item.value">{{
+                                    item.text
+                                }}</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.networthLiquid || "-" }}
+                                {{ checkInv(liquid, getKYC.networthLiquid) || "-" }}
                             </p></label
                         >
                     </div>
@@ -521,12 +542,12 @@
                                 v-model="itemData.networthTotal"
                                 v-if="edit === 'investment'"
                             >
-                                <option value="<5m">&lt; N5M</option>
-                                <option value="N5m-N50m">N5M - N50M</option>
-                                <option value="N50m+">N50M+</option>
+                                <option v-for="(item, i) in liquid" :key="i" :value="item.value">{{
+                                    item.text
+                                }}</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.networthTotal || "-" }}
+                                {{ checkInv(liquid, getKYC.networthTotal) || "-" }}
                             </p></label
                         >
                     </div>
@@ -538,12 +559,15 @@
                                 v-model="itemData.riskTolerance"
                                 v-if="edit === 'investment'"
                             >
-                                <option value="CONSERVATIVE">Conservative</option>
-                                <option value="NEUTRAL">Neutral</option>
-                                <option value="RISK-SEEKING">Risk Seeking</option>
+                                <option
+                                    v-for="(item, i) in tolerance"
+                                    :key="i"
+                                    :value="item.value"
+                                    >{{ item.text }}</option
+                                >
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{ getKYC.riskTolerance || "-" }}
+                                {{ checkInv(tolerance, getKYC.riskTolerance) || "-" }}
                             </p></label
                         >
                     </div>
@@ -654,7 +678,7 @@
             </form>
         </template>
         <modal no-header @close="showOTP = false" v-if="showOTP">
-            <PhoneOTP @close="OTPSuccess" />
+            <PhoneOTP @close="OTPSuccess" :edit-old-phone="showNewPhone" />
         </modal>
     </div>
 </template>
@@ -697,11 +721,81 @@ export default {
             showUploadSuccess: false,
             countdown: null,
             OTPResend: false,
-            smsSender: 0
+            smsSender: 0,
+            objectives: [
+                {
+                    text: "Protextion",
+                    value: "PROTECTION"
+                },
+                {
+                    text: "Growth",
+                    value: "GROWTH"
+                },
+                {
+                    text: "Income",
+                    value: "INCOME"
+                }
+            ],
+            tolerance: [
+                {
+                    text: "Conservative",
+                    value: "CONSERVATIVE"
+                },
+                {
+                    text: "Neutral",
+                    value: "NEUTRAL"
+                },
+                {
+                    text: "Risk Seeking",
+                    value: "RISK-SEEKING"
+                }
+            ],
+            annualIncome: [
+                {
+                    text: "Less than N500K",
+                    value: "LESS_THAN_500K"
+                },
+                {
+                    text: "N500K - N5M",
+                    value: "500K_5MILLION"
+                },
+                {
+                    text: "N5M+",
+                    value: "GREATER_THAN_5MILLION"
+                }
+            ],
+            liquid: [
+                {
+                    text: "Less than N500K",
+                    value: "<N5m"
+                },
+                {
+                    text: "N500K - N5M",
+                    value: "N5m-N50m"
+                },
+                {
+                    text: "N5M+",
+                    value: "N50m+"
+                }
+            ],
+            experience: [
+                {
+                    text: "0 - 2 Yrs",
+                    value: "YRS_0_2"
+                },
+                {
+                    text: "2 - 5 Yrs",
+                    value: "YRS_3_5"
+                },
+                {
+                    text: "5 Yrs+",
+                    value: "YRS_5_plus"
+                }
+            ]
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getCountryCodes", "getErrorLog"])
+        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getErrorLog"])
     },
     methods: {
         ...mapActions([
@@ -710,9 +804,8 @@ export default {
             "UPDATE_KYC",
             "UPDATE_KYC_BANK",
             "RESOLVE_BVN",
-            "USE_BVN_PHONE",
             "RESOLVE_OTP",
-            "GET_COUNTRY_CODES"
+            "RESET_REQ"
         ]),
         ...mapMutations(["RESET_REQ"]),
         editBtn(name) {
@@ -759,30 +852,6 @@ export default {
                 this.loading = false;
             });
         },
-        useBVNPhone() {
-            this.loading = true;
-            const payload = {
-                smsSender: this.smsSender
-            };
-            this.USE_BVN_PHONE(payload).then(resp => {
-                this.loading = false;
-                if (resp) {
-                    this.showOTP = true;
-                    this.showNewPhone = false;
-                    this.itemData = {};
-                }
-            });
-        },
-        useNewPhone() {
-            this.loading = true;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
-                this.loading = false;
-                if (resp) {
-                    this.showNewPhone = false;
-                    this.itemData = {};
-                }
-            });
-        },
         submitOTP() {
             const payload = { ...this.otpData };
             payload.source = "accounts";
@@ -810,66 +879,9 @@ export default {
             this.showUploadSuccess = null;
             this.showUploadError = null;
         },
-        resendOTPEmail() {
-            this.startTimer();
-            this.OTPResend = true;
-            this.smsSender = 1;
-            if (!this.showNewPhone) {
-                this.useBVNPhone();
-                return true;
-            }
-            this.loading = true;
-            this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
-                if (resp) {
-                    this.showOTP = false;
-                    this.OTPResend = false;
-                    this.itemData = {};
-                }
-            });
-            return true;
-        },
-        resendOTPWhatsapp() {
-            this.startTimer();
-            this.OTPResend = true;
-            this.smsSender = 2;
-            if (!this.showNewPhone) {
-                this.useBVNPhone();
-                return true;
-            }
-            this.loading = true;
-            this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
-                if (resp) {
-                    this.showOTP = false;
-                    this.OTPResend = false;
-                    this.itemData = {};
-                }
-            });
-            return true;
-        },
-        startTimer() {
-            const countDownDate = new Date().setTime(new Date().getTime() + 60 * 1000);
-
-            // Update the count down every 1 second
-            const x = setInterval(() => {
-                const now = new Date().getTime();
-                const counting = (countDownDate - now) / 1000;
-                if (Math.floor(counting % 60) === 0) {
-                    this.countdown = null;
-                    clearInterval(x);
-                    return true;
-                }
-                const hours = Math.floor(counting / 60);
-                const minutes =
-                    Math.floor(counting % 60) < 10
-                        ? `0${Math.floor(counting % 60)}`
-                        : Math.floor(counting % 60);
-                this.countdown = `${hours}:${minutes}`;
-            }, 1000);
-        },
         confirmPhone() {
-            this.useBVNPhone();
+            this.showOTP = true;
+            this.showNewPhone = false;
         },
         editExistingPhone() {
             this.showOTP = true;
@@ -881,17 +893,23 @@ export default {
         switchCountry(name) {
             this.newPhone.countryCode = this.selectedCountry.value;
         },
-        OTPSuccess() {
-            this.$emit("updated");
+        OTPSuccess(value) {
+            if (value) this.$emit("updated");
+            this.showOTP = false;
+            this.showNewPhone = false;
+        },
+        checkInv(arr, value) {
+            const filter = arr.filter(el => value === el.value);
+            if (filter.length > 0) return filter[0].text;
+            return false;
         }
     },
     async mounted() {
-        await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);
-        this.GET_COUNTRY_CODES();
         this.banks = await Banks().then(({ banks }) => banks);
         this.types = await Types().then(({ company }) => company);
         this.positions = await Positions().then(({ position }) => position);
         this.lgNames = await LG().then(({ lgNames }) => lgNames);
+        await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);
     }
 };
 </script>

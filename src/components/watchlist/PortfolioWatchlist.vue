@@ -9,7 +9,10 @@
         />
     </div>
     <div v-else class="watchlist-portfolio__card" :class="color">
-        <router-link class="watchlist-portfolio__left" :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }">
+        <router-link
+            class="watchlist-portfolio__left"
+            :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }"
+        >
             <p class="watchlist-portfolio__name capitalize">{{ instrument.name }}</p>
             <p class="watchlist-portfolio__change">
                 <img
@@ -39,7 +42,15 @@
         </router-link>
         <div class="watchlist-portfolio__right">
             <div>
-                <img src="../../assets/img/watch-open.svg" alt="Watch" />
+                <a v-if="!loading" @click="removeFromWatchlist"
+                    ><img :src="require('../../assets/img/watch-open.svg')" alt="Watch"
+                /></a>
+                <img
+                    v-else
+                    :src="require('../../assets/img/loader.gif')"
+                    alt="Loading"
+                    width="18px"
+                />
             </div>
             <div>
                 <KYCButton
@@ -51,7 +62,6 @@
                     tag="a"
                     >+&nbsp;Buy</KYCButton
                 >
-                <!-- <a @click="showBuy = true" class="watchlist-portfolio__buy">+ Buy</a> -->
             </div>
         </div>
         <buy-modal
@@ -74,7 +84,7 @@
 import KYCButton from "../form/KYCButton";
 import ModalKYC from "../kyc/ModalKYC";
 import KYCTitles from "../../services/kyc/kycTitles";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
     name: "watchlist-portfolio",
     props: {
@@ -97,6 +107,7 @@ export default {
             step: null,
             showKYC: false,
             selectedField: {},
+            loading: false,
             allNextKYC: KYCTitles.titles
         };
     },
@@ -112,6 +123,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(["REMOVE_FROM_WATCHLIST"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -138,6 +150,12 @@ export default {
         closeBuyModal(e) {
             if (e) this.showSuccess = true;
             this.showBuy = false;
+        },
+        async removeFromWatchlist() {
+            this.loading = true;
+            const payload = { symbols: String(this.instrument.symbol) };
+            await this.REMOVE_FROM_WATCHLIST(payload);
+            this.loading = false;
         }
     }
 };

@@ -47,14 +47,18 @@
                     :classes="['btn-block', 'btn__primary']"
                     >Submit</action-button
                 >
+                <p class="text-center mt-2" v-if="editOldPhone">
+                    <small><a @click="close" class="underline orange">Cancel</a></small>
+                </p>
             </section>
-            <p class="text-center">
+            <p class="text-center" v-if="!editOldPhone">
                 <small
                     ><a @click="backToUsePhone" class="underline primary">Go back</a> to use your
                     registered phone number</small
                 >
             </p>
         </form>
+
         <form @submit.prevent="submitOTP" v-else>
             <p class="text-center mb-3">
                 An OTP has been sent to your registered number ({{ getKYC.phone }})
@@ -112,6 +116,11 @@ export default {
     components: {
         Fragment
     },
+    props: {
+        editOldPhone: {
+            type: Boolean
+        }
+    },
     data() {
         return {
             loading: false,
@@ -160,7 +169,7 @@ export default {
             this.RESOLVE_OTP(this.otpData).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.$emit("close");
+                    this.$emit("close", true);
                     this.itemData = {};
                 }
             });
@@ -229,10 +238,17 @@ export default {
         editExistingPhone() {
             this.showOTP = true;
             this.showNewPhone = true;
+        },
+        close() {
+            this.$emit("close");
         }
     },
     async mounted() {
-        this.useBVNPhone();
+        if (this.editOldPhone) {
+            this.showNewPhone = true;
+        } else {
+            this.useBVNPhone();
+        }
         await Promise.all([this.GET_COUNTRY_CODES(), this.GET_KYC()]);
     }
 };
