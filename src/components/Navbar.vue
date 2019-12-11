@@ -171,7 +171,7 @@ export default {
                     link: "accounts-statements"
                 },
                 {
-                    name: "Stamps",
+                    name: "Ownership",
                     link: "accounts-stamps"
                 },
                 {

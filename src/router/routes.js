@@ -135,7 +135,7 @@ const routes = [
                         component: AccountsSettings
                     },
                     {
-                        path: "stamps",
+                        path: "ownerships",
                         name: "accounts-stamps",
                         component: AccountStamps
                     }

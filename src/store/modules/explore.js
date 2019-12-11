@@ -118,12 +118,12 @@ const actions = {
                         resolve(true);
                         return true;
                     } else {
-                        errorFn(resp, "explore");
+                        errorFn(resp, "explore-collection");
                         resolve(false);
                     }
                 },
                 error => {
-                    errorFn(error.response, "explore");
+                    errorFn(error.response, "explore-collection");
                     resolve(false);
                 }
             );

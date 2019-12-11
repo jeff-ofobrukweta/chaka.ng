@@ -1,5 +1,9 @@
 .dashboard {
     &__main {
+        @include mobile {
+            padding-bottom: 5rem;
+        }
+
         padding-top: 3rem;
         padding-bottom: 3rem;
     }

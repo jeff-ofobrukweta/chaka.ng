@@ -32,13 +32,10 @@ const mutations = {
 
 const actions = {
     GET_ACCOUNT_SUMMARY: ({ commit, rootState }, payload) => {
-        // commit("RESET_REQ", null, { root: true });
-        // commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api.get(`/users/${rootState.auth.loggedUser.chakaID}/summary`, payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
-                        // commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_ACCOUNT_SUMMARY", resp.data.data);
                         resolve(true);
                         return true;
@@ -55,40 +52,36 @@ const actions = {
         });
     },
     GET_ACCOUNT_HISTORY: ({ commit, rootState }, payload) => {
-        // commit("RESET_REQ", null, { root: true });
-        // commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
-                .get(`/users/${rootState.auth.loggedUser.chakaID}/wallets/history/`, { ...payload })
+                .get(`/users/${rootState.auth.loggedUser.chakaID}/wallets/history/`, {
+                    ...payload
+                })
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
-                            // commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_ACCOUNT_HISTORY", resp.data.data.history);
                             resolve(true);
                             return true;
                         } else {
-                            errorFn(resp, "accounts");
+                            errorFn(resp, "history");
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "accounts");
+                        errorFn(error.response, "history");
                         resolve(false);
                     }
                 );
         });
     },
     GET_ORDERS_HISTORY: ({ commit, rootState }, payload) => {
-        // commit("RESET_REQ", null, { root: true });
-        // commit("REQ_INIT", null, { root: true });
         return new Promise((resolve, reject) => {
             return api
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/orders/`, { ...payload })
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
-                            // commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_ACCOUNT_HISTORY", resp.data.data.orders);
                             resolve(true);
                             return true;
@@ -105,8 +98,6 @@ const actions = {
         });
     },
     GET_STATEMENTS: ({ commit, rootState }, payload) => {
-        // commit("RESET_REQ", null, { root: true });
-        // commit("REQ_INIT", null, { root: true });
         /**
          * @params {payload} reportType,fromDate, toDate
          */
@@ -116,17 +107,16 @@ const actions = {
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
-                            // commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_STATEMENTS", resp.data.data.reports);
                             resolve(true);
                             return true;
                         } else {
-                            errorFn(resp, "accounts");
+                            errorFn(resp, "statements");
                             resolve(false);
                         }
                     },
                     error => {
-                        errorFn(error.response, "accounts");
+                        errorFn(error.response, "statements");
                         resolve(false);
                     }
                 );

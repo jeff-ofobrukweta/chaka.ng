@@ -39,6 +39,13 @@
         <section class="accounts-statements__downloads loader-gif__big" v-if="loading">
             <img :src="require('../../../assets/img/loader.gif')" alt="Loader" />
         </section>
+        <div
+            class="caution__big"
+            v-else-if="getErrorLog.type === 'statements' && getStatements.length <= 0"
+        >
+            <img :src="require('../../../assets/img/caution.svg')" alt="Caution" />
+            <a class="caution__reload" @click="mount">Reload</a>
+        </div>
 
         <section class="accounts-statements__downloads" v-else-if="getStatements.length > 0">
             <StatementsCard
@@ -48,7 +55,10 @@
             />
         </section>
 
-        <section v-else>You have no statements at the moment</section>
+        <section class="empty-center" v-else>
+            <img width="80px" :src="require('../../../assets/img/papers.svg')" alt="Papers" />
+            <p>There are no statements available within the selected range</p>
+        </section>
     </div>
 </template>
 
@@ -68,7 +78,7 @@ export default {
                 toDate: null,
                 market: "GLOBAL"
             },
-            loading: true,
+            loading: false,
             market: "GLOBAL",
             reportType: "STATEMENT",
             selectedOrderCurrency: null,
@@ -101,7 +111,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getStatements"])
+        ...mapGetters(["getStatements", "getErrorLog"])
     },
     methods: {
         ...mapActions(["GET_STATEMENTS"]),
@@ -128,18 +138,22 @@ export default {
             this.GET_STATEMENTS(this.payload).then(() => {
                 this.loading = false;
             });
+        },
+        async mount() {
+            this.loading = true;
+            const date = new Date();
+            const fromTemp = date.setDate(date.getDate() - 30);
+            const toTemp = Date.now();
+            this.payload.fromDate = new Date(fromTemp).toISOString();
+            this.payload.toDate = new Date(toTemp).toISOString();
+            this.fromDate = this.$options.filters.reverseDate(this.payload.fromDate);
+            this.toDate = this.$options.filters.reverseDate(this.payload.toDate);
+            await this.GET_STATEMENTS(this.payload);
+            this.loading = false;
         }
     },
     async mounted() {
-        const date = new Date();
-        const fromTemp = date.setDate(date.getDate() - 30);
-        const toTemp = Date.now();
-        this.payload.fromDate = new Date(fromTemp).toISOString();
-        this.payload.toDate = new Date(toTemp).toISOString();
-        this.fromDate = this.$options.filters.reverseDate(this.payload.fromDate);
-        this.toDate = this.$options.filters.reverseDate(this.payload.toDate);
-        await this.GET_STATEMENTS(this.payload);
-        this.loading = false;
+        await this.mount();
     }
 };
 </script>
