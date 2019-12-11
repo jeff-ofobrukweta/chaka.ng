@@ -168,7 +168,7 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${'Price:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+                            return `${data.datasets[0].data[tooltipItem.index]}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
@@ -186,7 +186,7 @@ export default {
                 responsiveAnimationDuration: 0,
                 aspectRatio: 2,
                 legend: {
-                    display: true
+                    display: false
                 }
             }
         };

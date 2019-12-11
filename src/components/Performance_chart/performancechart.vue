@@ -159,14 +159,24 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${' %:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+                            const currency =`${' %:' + ''}${numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a")}`
+                            return ` ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
                             const percent = dataset.data[tooltipItem.index];
-                            return this.getcurrency;
                         }
                     },
+                    // callbacks: {
+                    //     label(tooltipItem, data) {
+                    //         return `${' %:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+                    //     },
+                    //     afterLabel(tooltipItem, data) {
+                    //         const dataset = data.datasets[0];
+                    //         const percent = dataset.data[tooltipItem.index];
+                    //         return this.getcurrency;
+                    //     }
+                    // },
                     hover: {
                         mode: 'index',
                         intersect: false
