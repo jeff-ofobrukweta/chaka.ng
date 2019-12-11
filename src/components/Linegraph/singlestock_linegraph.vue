@@ -212,7 +212,7 @@ export default {
                 currency:this.getSinglestockglobalCurrencyforGraph,
                 symbol:this.$route.params.symbol
             }
-             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
+            this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
                 console.log('>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
             })
         },
