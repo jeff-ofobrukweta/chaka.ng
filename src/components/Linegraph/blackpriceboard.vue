@@ -1,12 +1,22 @@
 <template>
     <Fragment>
         <section class="board-container-price">
-              <img class="direct"
+                <img
+                v-if="(instrument && (instrument.derivedPricePercentage < 0))" 
+                class="direct"
                 id="direct"
-                :src='require(`../../assets/Instrument_assets/arrow_growth.png`)' alt="watch"/>
-                <h1 class="price">
-                    {{instrument.askPrice}}
+                :src='require(`../../assets/Instrument_assets/redarrow.svg`)' alt="decline"/>
+                <img
+                v-else 
+                class="direct"
+                id="direct"
+                :src='require(`../../assets/Instrument_assets/arrow_growth.png`)' alt="growth"/>
+                <h1
+                v-if="instrument.currency" 
+                class="price">
+                    {{(instrument.currency == 'USD' ? '$' :'₦')}}{{instrument.askPrice}}
                 </h1>
+                <h1 v-else>No current data availiable.</h1>
                 <section class="info-details">
                     <span class="increase">
                     <span

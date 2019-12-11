@@ -154,7 +154,7 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${'Price:' + ''}${data.datasets[0].data[tooltipItem.index]}`;
+                            return `${data.datasets[0].data[tooltipItem.index]}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
@@ -172,7 +172,7 @@ export default {
                 responsiveAnimationDuration: 0,
                 aspectRatio: 2,
                 legend: {
-                    display: true
+                    display: false
                 }
             }
         };
@@ -200,7 +200,7 @@ export default {
                     {
                         label: 'Stocks',
                         fill: true,
-                        backgroundColor: ['#57D11F', '#EFC120', '#D80027'],
+                        backgroundColor: ['#57D11F', '#FFBF00', '#D80027'],
                         borderWidth: 1.7,
                         showLine: true,
                         borderJoinStyle: 'miter',
