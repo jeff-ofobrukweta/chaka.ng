@@ -4,7 +4,7 @@
             <section class="right-header">
                  <h1 class="price">
             {{
-            getSingleinstrument[0].InstrumentDynamic.askPrice| kobo |currency(getSingleinstrument[0].currency)
+            getSingleinstrument[0].InstrumentDynamic.askPrice | kobo |currency(getSingleinstrument[0].currency)
             }}
           </h1>
           <h1 class="percentage">
@@ -154,6 +154,7 @@ export default {
         ...mapMutations(["SET_SINGLE_INSTRUMENT"])
     },
     async mounted() {
+        this.singleInstrument = getSingleinstrument[0]
         const singlestockpayload = {symbols: this.$route.params.symbol};
         this.similarLoading = true
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{

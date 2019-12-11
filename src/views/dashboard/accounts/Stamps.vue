@@ -1,37 +1,9 @@
 <template>
     <Fragment>
-        <!-- <div>
-        <section class="accounts__title">
-            <h3>History</h3>
-            <select class="form__input" name="" id="">
-                <option value="1">All</option>
-                <option value="2">Local</option>
-                <option value="3">Global</option>
-            </select>
-        </section>
-        <section class="accounts-statements__all">
-            <button
-                class="btn btn-block"
-                v-for="(button, index) in statementButtons"
-                :key="index"
-                @click="activeButton = button.value"
-                :class="{ active: activeButton === button.value }"
-            >
-                {{ button.name }}
-            </button>
-        </section>
-        <section class="accounts-statements__date">
-            <input class="form__input" type="date" name="start" />to
-            <input class="form__input" type="date" name="start" />
-        </section>
-
-        <section class="accounts-statements__downloads">
-            <StatementsCard v-for="(statement, i) in statements" :key="i" :statement="statement" />
-        </section>
-    </div> -->
-
-        <!-- stamps componemt starts -->
-        <Stampscomponent />
+        <!-- stamps start here -->
+            <Stampscomponent
+             :stamplists="getPositions.global || {}"
+             />
         <!-- stamps end here -->
     </Fragment>
 </template>
@@ -40,6 +12,7 @@
 import { Fragment } from "vue-fragment";
 import StatementsCard from "../../../components/accounts/StatementsCard";
 import Stampscomponent from "../../../components/stamps_and_certificates/stamps";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
     name: "accounts-stamps",
@@ -103,6 +76,21 @@ export default {
                 }
             ]
         };
+    },
+    computed: {
+        ...mapGetters([
+            "getPositions"
+        ]),
+    },
+    methods:{
+        //  ...mapMutations(["SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS", "SET_INSTRUMENT_BY_TAGS"]),
+        ...mapActions(["FETCH_POSITIONS_INSTRUMENTS"]),
+    },
+    mounted(){
+        console.log('this is the mounted point KKKKKKKKKKKKKKKKKKKKK')
+        this.FETCH_POSITIONS_INSTRUMENTS().then(()=>{
+            console.log('FFFFFFFFFFFFFFFFFFFFgetPositions',this.getPositions)
+        });
     }
 };
 </script>
