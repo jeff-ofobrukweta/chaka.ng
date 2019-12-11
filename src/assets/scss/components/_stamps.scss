@@ -9,9 +9,9 @@
   }
   .carousel-cell{
     margin: 0px 10px;
-    object-fit: contain;
-    width: 600px;
+    width: 33.3%;
     height: 200px;
+    object-fit: contain;
   }
   .btn-container-parent{
     display: flex;
@@ -27,7 +27,7 @@
 .flickity-wrapper{
   display: flex;
   flex-direction: column;
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
 }
 .title-news{

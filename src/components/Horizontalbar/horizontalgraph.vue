@@ -182,6 +182,16 @@ export default {
     mounted() {
         this.fillData();
     },
+    props:{
+        values:{
+            type:Array,
+            required:true
+        },
+       actions:{
+            type:Array,
+            required:true
+       } 
+    },
     methods: {
         fillData() {
             this.datacollection = {
