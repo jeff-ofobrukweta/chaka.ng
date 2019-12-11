@@ -19,10 +19,15 @@
 .container-packet {
     display: flex;
     flex-direction: column;
-    flex-basis: 48%;
-    max-width: 48%;
+    flex-basis: 100%;
+    max-width: 100%;
     font-family: "SF Pro";
     font-style: normal;
+
+    @include tablet {
+        max-width: 48%;
+        flex-basis: 48%;
+    }
 
     .title-name {
         font-style: normal;

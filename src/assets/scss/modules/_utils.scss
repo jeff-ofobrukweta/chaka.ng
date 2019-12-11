@@ -26,7 +26,7 @@
 
 main {
   overflow-x: hidden;
-  padding-top: 85px;
+  padding-top: 65px;
   min-height: 100vh;
   margin-top: -75px;
 }
@@ -463,6 +463,7 @@ main {
     padding-top: 4rem;
     padding-bottom: 4rem;
     flex-direction: column;
+    width: 100%;
 
     img {
       width: 50px;
@@ -474,6 +475,17 @@ main {
     text-decoration: underline;
     text-underline-position: under;
     font-size: 0.825rem;
+  }
+}
+
+.empty {
+  &-center {
+    width: 100%;
+    text-align: center;
+
+    p {
+      margin-bottom: 1rem;
+    }
   }
 }
 

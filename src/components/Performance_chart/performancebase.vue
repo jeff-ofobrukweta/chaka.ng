@@ -6,16 +6,20 @@
         </section>
         <template v-if="loading">
             <div class="graphholder container-packet__placeholder loader-gif__big">
-                <img src="../../assets/img/loader.gif" alt="Loader" />
+                <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
             </div>
         </template>
         <template v-else-if="isGraphValid === 1">
             <div class="graphholder container-packet__placeholder">
-                <img src="../../assets/img/gifs/performance.gif" alt="Performace Chart demo" /></div
+                <img
+                    :src="require('../../assets/img/gifs/performance.gif')"
+                    alt="Performace Chart demo"
+                /></div
         ></template>
         <template v-else-if="isGraphValid === 2">
             <div class="graphholder container-packet__placeholder caution__big">
-                <img src="../../assets/img/caution.svg" alt="Caution" />
+                <img :src="'../../assets/img/caution.svg'" alt="Caution" />
+                <a class="caution__reload" @click="reload">Reload</a>
             </div>
         </template>
         <template v-else>
@@ -60,13 +64,15 @@ export default {
         }
     },
     methods: {
-        // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(["GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA"])
+        ...mapActions(["GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA"]),
+        async reload() {
+            this.loading = true;
+            await this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();
+            this.loading = false;
+        }
     },
     async mounted() {
-        this.loading = true;
-        await this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();
-        this.loading = false;
+        await this.reload();
     }
 };
 </script>

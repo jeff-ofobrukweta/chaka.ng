@@ -1,26 +1,13 @@
-.portfolio__charts{
+.portfolio__charts {
     display: flex;
     flex-direction: row-reverse;
-    flex:1 1 100%;
+    flex: 1 1 100%;
     justify-content: space-between;
-}
+    flex-direction: column;
 
 
-@include tablet {
-    .portfolio__charts{
-        display: flex;
-        flex-direction: column;
-    }
-}
-@include mobile {
-    .portfolio__charts{
-        display: flex;
-        flex-direction: column;
-    }
-}
-@include desktop {
-    .portfolio__charts{
-        display: flex;
+    @include tablet {
+        // flex-direction: column
         flex-direction: row-reverse;
     }
 }

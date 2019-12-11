@@ -18,12 +18,20 @@
         </section>
         <section class="portfolio-networth">
             <h5>
-                <span v-if="Object.keys(getAccountSummary).length > 0" class="cursor-context"
-                        :title="
-                            getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency, true)
-                        "
-                        >{{ getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency) }}</span>
-                <span v-else>{{ getPorfolioglobalCurrencyforGraph === 'NGN' ? '₦' : '$'}}-</span><span class="text-light">&nbsp;|&nbsp;</span>
+                <span
+                    v-if="Object.keys(getAccountSummary).length > 0"
+                    class="cursor-context"
+                    :title="
+                        getAccountSummary.netWorth
+                            | kobo
+                            | currency(getAccountSummary.currency, true)
+                    "
+                    >{{
+                        getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency)
+                    }}</span
+                >
+                <span v-else>{{ getPorfolioglobalCurrencyforGraph === "NGN" ? "₦" : "$" }}-</span
+                ><span class="text-light">&nbsp;|&nbsp;</span>
                 <span class="derived">
                     <span :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']">{{
                         getPortfolioDerivedPrice | units(2)
@@ -53,6 +61,7 @@
                     <p class="explore__title--sub">Keep a close watch on top stocks</p>
                 </div>
                 <select
+                    v-if="getWatchlist.length > 0"
                     class="form__input"
                     v-model="watchlistInterval"
                     @change="handlewatchlistintervalToogle"
@@ -73,7 +82,12 @@
                     :instrument="instrument"
                 />
             </section>
-            <section v-else>You have no items in your watchlist</section>
+            <section class="empty-center" v-else>
+                <p>You have no items in your watchlist</p>
+                <router-link :to="{ name: 'categories' }" class="btn btn__primary btn-block"
+                    >Discover</router-link
+                >
+            </section>
             <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
             <wallet-success @close="showSuccess = false" v-if="showSuccess" />
         </section>
@@ -209,7 +223,7 @@ export default {
             "getAccountSummary",
             "getPortfoliopositionsCarddetails",
             "getPortfolioDerivedPrice",
-            "getPortfolioDerivedChange",
+            "getPortfolioDerivedChange"
         ])
     }
 };

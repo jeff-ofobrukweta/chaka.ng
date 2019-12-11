@@ -32,7 +32,7 @@ const actions = {
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/watchlists`, { ...payload })
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             commit("SET_WATCHLIST", resp.data.data.watchlistDetails.instruments);
                             commit(
@@ -40,10 +40,10 @@ const actions = {
                                 resp.data.data.watchlistDetails.instruments
                             );
                             resolve(true);
-                        } else {
-                            errorFn(resp, "watchlist");
-                            resolve(false);
+                            return true;
                         }
+                        errorFn(resp, "watchlist");
+                        resolve(false);
                     },
                     error => {
                         if (error.response) {
@@ -67,10 +67,9 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get(`/instruments/charts`, { ...payload }).then(
                 resp => {
-                    if (resp.status === 200) {
-                        // commit("REQ_SUCCESS", null, { root: true });
-                        // commit("SET_WATCHLIST", resp.data.data);
+                    if (resp.status >= 200 && resp.status < 400) {
                         resolve(resp.data.data);
+                        return true;
                     } else {
                         errorFn(resp, "watchlist");
                         resolve(false);
@@ -94,9 +93,10 @@ const actions = {
                 .patch(`/users/${rootState.auth.loggedUser.chakaID}/watchlists/`, { ...payload })
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             resolve(true);
+                            return true;
                         } else {
                             errorFn(resp, "watchlist");
                             resolve(false);
@@ -120,9 +120,10 @@ const actions = {
                 .delete(`/users/${rootState.auth.loggedUser.chakaID}/watchlists/`, { ...payload })
                 .then(
                     resp => {
-                        if (resp.status === 200) {
+                        if (resp.status >= 200 && resp.status < 400) {
                             commit("REQ_SUCCESS", null, { root: true });
                             resolve(true);
+                            return true;
                         } else {
                             errorFn(resp, "watchlist");
                             resolve(false);

@@ -1,4 +1,5 @@
 import API_CONTEXT from "../../services/apiService/api";
+import errorFn from "../../services/apiService/error";
 
 const state = {
     tags: [],
@@ -32,28 +33,39 @@ const mutations = {
 };
 
 const actions = {
-    async GET_TAGS_CATEGORIES({ commit }, params) {
+    async GET_TAGS_CATEGORIES({ commit }) {
         return new Promise((resolve, reject) => {
             return API_CONTEXT.get(`/tags`)
                 .then(response => {
-                    commit("SET_TAGS_LISTS", response.data.tags);
-                    resolve(true);
+                    if (response.status >= 200 && response.status < 400) {
+                        commit("SET_TAGS_LISTS", response.data.tags);
+                        resolve(true);
+                        return true;
+                    }
+                    errorFn(response, "tags");
+                    resolve(false);
                 })
                 .catch(error => {
-                    resolve(false)
+                    errorFn(error.response, "tags");
+                    resolve(false);
                 });
         });
     },
     async GET_INSTRUMENT_BY_TAGS({ commit }, params) {
-        // const payload = params.join(',')
         return new Promise((resolve, reject) => {
             return API_CONTEXT.get(`/instruments/`, params)
                 .then(response => {
-                    const { instruments } = response.data.data;
-                    commit("SET_INSTRUMENT_BY_TAGS", instruments);
-                    resolve(true);
+                    if (response.status >= 200 && response.status < 400) {
+                        const { instruments } = response.data.data;
+                        commit("SET_INSTRUMENT_BY_TAGS", instruments);
+                        resolve(true);
+                        return true;
+                    }
+                    errorFn(response, "tag-instruments");
+                    resolve(false);
                 })
                 .catch(error => {
+                    errorFn(error.response, "tag-instruments");
                     resolve(false);
                 });
         });
