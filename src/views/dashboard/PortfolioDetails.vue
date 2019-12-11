@@ -23,7 +23,9 @@
                 <span>Open Orders</span>
             </div>
         </div>
-        <p v-if="loading" class="mt-3 text-center">Loading...</p>
+        <div class="loader-gif__big" v-if="loading">
+            <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
+        </div>
         <PortfolioTable
             :storedata="stocks"
             :open-orders="type === 'open-orders'"

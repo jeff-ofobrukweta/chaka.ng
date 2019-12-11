@@ -18,7 +18,11 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
+
+        @include desktop {
+            align-items: center;
+        }
 
         &__text {
             flex: 1 0 50%;
@@ -30,12 +34,10 @@
                 flex: 0 0 100%;
                 max-width: 100%;
 
-                // TO-DO: uncomment If accounts image is added back
-
-                // @include desktop {
-                //     flex: 0 0 200px;
-                //     max-width: 200px
-                // }
+                @include desktop {
+                    flex: 0 0 200px;
+                    max-width: 200px
+                }
             }
 
             @include tablet {

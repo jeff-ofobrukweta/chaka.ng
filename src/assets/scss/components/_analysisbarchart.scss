@@ -4,7 +4,9 @@
     box-sizing: border-box;
     border-radius: 11.4872px;
     margin: 1em 0px;
+    height: 100%;
 }
+
 .graphholder:hover {
     background: #FFFFFF;
     border: 1px solid #EEEEEE;
@@ -14,19 +16,23 @@
     margin: 1em 0px;
     transition: all 0.3s;
 }
-.container-packet{
+
+.container-packet {
     display: flex;
-    flex-direction:column;
-    flex-basis: 49%;
+    flex-direction: column;
     font-family: "SF Pro";
     font-style: normal;
-    .title-name{
+    flex-basis: 48%;
+    max-width: 48%;
+
+    .title-name {
         font-style: normal;
         font-weight: bold;
         font-size: 20px;
-        color:#293D4A;
+        color: #293D4A;
     }
-    .subtitle-name{
+
+    .subtitle-name {
         font-style: italic;
         font-weight: normal;
         font-size: 14px;
@@ -36,12 +42,13 @@
 }
 
 @include mobile {
-    .container-packet{
-       margin: 2em 0px;
+    .container-packet {
+        margin: 2em 0px;
     }
 }
+
 @include tablet {
-    .container-packet{
-       margin: 2em 0px;
+    .container-packet {
+        margin: 2em 0px;
     }
 }

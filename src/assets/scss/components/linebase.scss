@@ -5,7 +5,8 @@
     border-radius: 11.4872px;
     padding: 1em;
     width: 100%;
-    min-height: 522px;
+    // min-height: 522px;
+    height: 100%;
 }
 
 .drop-down {
@@ -123,7 +124,7 @@
 
         .sub-holder {
             font-size: 15px;
-            color:#8A939A;
+            color: #8A939A;
             font-family: "SF Pro";
             font-style: normal;
             font-weight: bolder;

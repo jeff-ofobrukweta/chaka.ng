@@ -4,14 +4,23 @@
             <h3>Positions</h3>
             <p class="dashboard__title--sub">View your positions</p>
         </section>
-        <template v-if="loading"><div class="container-packet__placeholder">Loading...</div> </template>
+        <template v-if="loading">
+            <div class="graphholder container-packet__placeholder loader-gif__big">
+                <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
+            </div>
+        </template>
         <template v-else-if="isGraphValid === 1">
-            <div class="container-packet__placeholder">
-                <img src="../../assets/img/gifs/positions.gif" alt="Positions Chart demo" /></div
-        ></template>
+            <div class="graphholder container-packet__placeholder">
+                <img
+                    :src="require('../../assets/img/gifs/positions.gif')"
+                    alt="Positions Chart demo"
+                />
+            </div>
+        </template>
         <template v-else-if="isGraphValid === 2">
-            <div class="container-packet__placeholder">
-                Technical difficulty fetching chart data
+            <div class="graphholder container-packet__placeholder caution__big">
+                <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
+                <a class="caution__reload" @click="reload">Reload</a>
             </div>
         </template>
         <template v-else>
@@ -54,12 +63,15 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA"])
+        ...mapActions(["GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA"]),
+        async reload() {
+            this.loading = true;
+            await this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA();
+            this.loading = false;
+        }
     },
     async mounted() {
-        this.loading = true;
-        await this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA();
-        this.loading = false;
+        this.reload();
     }
 };
 </script>

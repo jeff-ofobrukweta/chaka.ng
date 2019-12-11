@@ -7,6 +7,12 @@
   margin-right: auto;
   margin-left: auto;
 
+  @include mobile {
+    &.side-nav {
+      padding: 0;
+    }
+  }
+
   @include tablet {
     width: 100%;
     // max-width: 800px;
@@ -20,7 +26,7 @@
 
 main {
   overflow-x: hidden;
-  padding-top: 85px;
+  padding-top: 65px;
   min-height: 100vh;
   margin-top: -75px;
 }
@@ -279,19 +285,19 @@ main {
 }
 
 .orange {
-  color: $orange
+  color: $orange;
 }
 
 .red {
-  color: $red
+  color: $red;
 }
 
 .green {
-  color: $green
+  color: $green;
 }
 
 .grey-cool {
-  color: $grey-cool
+  color: $grey-cool;
 }
 
 .grey-dark {
@@ -339,7 +345,7 @@ main {
 }
 
 .mb-1 {
-  margin-bottom: .825rem;
+  margin-bottom: 0.825rem;
 }
 
 .mb-0 {
@@ -351,13 +357,17 @@ main {
 }
 
 .faded {
-  opacity: 0.5
+  opacity: 0.5;
+}
+
+.text-light {
+  font-weight: lighter;
 }
 
 .alert {
   padding: 10px;
-  margin-bottom: .5rem;
-  margin-top: .5rem;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
   border-radius: 5px;
   font-size: 0.85;
   width: 100%;
@@ -380,13 +390,13 @@ main {
 
     &__navbar {
       background-color: rgba($color: $orange, $alpha: 0.7);
-      color: $white
+      color: $white;
     }
   }
 }
 
 .cursor-context {
-  cursor: context-menu
+  cursor: context-menu;
 }
 
 .loader {
@@ -415,19 +425,67 @@ main {
     // animation-duration: 5s;
   }
 
-  &-instrument{
+  &-instrument {
     min-height: 200px;
     border-radius: 7px !important;
     // animation-duration: 8s;
 
-    &:hover{
+    &:hover {
       border-color: transparent !important;
-  transition: all 200ms ease-in-out;
+      transition: all 200ms ease-in-out;
     }
   }
 
-  &-div{
-    height: 90px
+  &-div {
+    height: 90px;
+  }
+
+  &-gif {
+    &__big {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+
+      img {
+        width: 36px;
+      }
+    }
+  }
+}
+
+.caution {
+  &__big {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    flex-direction: column;
+    width: 100%;
+
+    img {
+      width: 50px;
+    }
+  }
+
+  &__reload {
+    margin-top: 1rem;
+    text-decoration: underline;
+    text-underline-position: under;
+    font-size: 0.825rem;
+  }
+}
+
+.empty {
+  &-center {
+    width: 100%;
+    text-align: center;
+
+    p {
+      margin-bottom: 1rem;
+    }
   }
 }
 
@@ -440,6 +498,7 @@ main {
     background-position: 468px 0;
   }
 }
+
 @-moz-keyframes loaderGradient {
   0% {
     background-position: -468px 0;

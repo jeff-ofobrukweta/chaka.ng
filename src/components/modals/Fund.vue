@@ -106,7 +106,7 @@
                 <br />
                 <p>
                     <small class="grey-dark">
-                        Please put your User ID (in the Accounts section) in the Comments section of
+                        Please put your Chaka ID (in the Accounts section) in the Comments section of
                         your transfer request. Email
                         <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
                         completion to confirm manual transfer</small

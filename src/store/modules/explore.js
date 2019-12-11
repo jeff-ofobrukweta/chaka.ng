@@ -42,10 +42,11 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get(`/news/explore/editorials`, { ...payload }).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         // commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_EXPLORE_NEWS", resp.data.data.articles);
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "explore");
                         resolve(false);
@@ -64,10 +65,11 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get(`/news/explore/collections`, payload).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         // commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_EXPLORE_COLLECTIONS", resp.data.collections);
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "explore");
                         resolve(false);
@@ -86,10 +88,11 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get(`/news/explore/learn`, payload).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         // commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_EXPLORE_LEARN", resp.data.data.articles);
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "explore");
                         resolve(false);
@@ -110,16 +113,17 @@ const actions = {
         return new Promise((resolve, reject) => {
             return api.get(`/instruments/?symbols=${temp}`).then(
                 resp => {
-                    if (resp.status === 200) {
+                    if (resp.status >= 200 && resp.status < 400) {
                         commit("SET_SINGLE_COLLECTION", resp.data.data.instruments);
                         resolve(true);
+                        return true;
                     } else {
-                        errorFn(resp, "explore");
+                        errorFn(resp, "explore-collection");
                         resolve(false);
                     }
                 },
                 error => {
-                    errorFn(error.response, "explore");
+                    errorFn(error.response, "explore-collection");
                     resolve(false);
                 }
             );

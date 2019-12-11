@@ -1,26 +1,42 @@
 <template>
-    <div v-if="getPortfoliopositionsCarddetails.positions" class="portfolio-card" @click="toDetailsPage('local')">
+    <div
+        v-if="getPortfoliopositionsCarddetails.positions"
+        class="portfolio-card"
+        @click="toDetailsPage('local')"
+    >
         <div class="portfolio-card__img">
             <img :src="require(`../../assets/img/portfolio1.svg`)" alt="Portfolio Icon" />
         </div>
         <h2
             class="cursor-context"
-            :title="getPortfoliopositionsCarddetails.positions.filled.localTotal | kobo | currency('NGN', true)"
+            :title="
+                getPortfoliopositionsCarddetails.positions.filled.localTotal
+                    | kobo
+                    | currency('NGN', true)
+            "
         >
-            {{ getPortfoliopositionsCarddetails.positions.filled.localTotal | kobo | currency("NGN") }}
+            {{
+                getPortfoliopositionsCarddetails.positions.filled.localTotal
+                    | kobo
+                    | currency("NGN")
+            }}
         </h2>
         <p class="portfolio-card__title">Total Value on Local Stocks</p>
         <table
-            v-if="getPortfoliopositionsCarddetails.positions.filled.local.length > 0 && getPortfoliopositionsCarddetails.positions.filled"
+            v-if="
+                getPortfoliopositionsCarddetails.positions.filled.local.length > 0 &&
+                    getPortfoliopositionsCarddetails.positions.filled
+            "
             class="portfolio-card__table"
         >
             <tr
-                v-for="(stock, index) in getPortfoliopositionsCarddetails.positions.filled.local.slice(0, 3)"
+                v-for="(stock,
+                index) in getPortfoliopositionsCarddetails.positions.filled.local.slice(0, 3)"
                 :key="index"
                 class="portfolio-card__tr"
             >
-                <td class="portfolio-card__tr--left capitalize">
-                    {{ stock.name | truncate(10) }}
+                <td class="portfolio-card__tr--left capitalize cursor-context" :title="stock.name">
+                    {{ stock.symbol | truncate(6) }}
                 </td>
                 <td
                     class="portfolio-card__tr--right cursor-context"
@@ -48,11 +64,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
     name: "portfolio-card",
     computed: {
-        ...mapGetters(['getPortfoliopositionsCarddetails'])
+        ...mapGetters(["getPortfoliopositionsCarddetails"])
     },
     methods: {
         toDetailsPage(type) {

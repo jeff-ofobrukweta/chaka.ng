@@ -4,22 +4,25 @@
             <h3>Performance</h3>
             <p class="dashboard__title--sub">See your stock performances</p>
         </section>
-        <template v-if="loading"
-            ><div class="container-packet__placeholder">Loading...</div>
-        </template>
-        <template v-else-if="isGraphValid === 1"
-            >
-            <div class="container-packet__placeholder">
-                <img src="../../assets/img/gifs/performance.gif" alt="Performace Chart demo">
-            </div></template>
-        <template v-else-if="isGraphValid === 2"
-            >
-            <div class="container-packet__placeholder">
-                Technical difficulty fetching chart data
+        <template v-if="loading">
+            <div class="graphholder container-packet__placeholder loader-gif__big">
+                <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
             </div>
         </template>
-        <template v-else
-            >
+        <template v-else-if="isGraphValid === 1">
+            <div class="graphholder container-packet__placeholder">
+                <img
+                    :src="require('../../assets/img/gifs/performance.gif')"
+                    alt="Performace Chart demo"
+                /></div
+        ></template>
+        <template v-else-if="isGraphValid === 2">
+            <div class="graphholder container-packet__placeholder caution__big">
+                <img :src="'../../assets/img/caution.svg'" alt="Caution" />
+                <a class="caution__reload" @click="reload">Reload</a>
+            </div>
+        </template>
+        <template v-else>
             <section class="graphholder">
                 <Performancegraph
                     :percentage="getPositionBarperformancepercentage"
@@ -61,13 +64,15 @@ export default {
         }
     },
     methods: {
-        // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(["GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA"])
+        ...mapActions(["GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA"]),
+        async reload() {
+            this.loading = true;
+            await this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();
+            this.loading = false;
+        }
     },
     async mounted() {
-        this.loading = true;
-        await this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();
-        this.loading = false;
+        await this.reload();
     }
 };
 </script>

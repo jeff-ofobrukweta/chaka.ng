@@ -262,7 +262,7 @@
                                 <p>Fees</p>
                             </div>
                             <div class="stock-vdr__box stock-vdr__right">
-                                <h5>{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
+                                <h5>-{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
                             </div>
                         </div>
                         <hr />

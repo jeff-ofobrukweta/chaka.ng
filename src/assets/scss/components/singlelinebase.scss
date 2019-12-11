@@ -1,17 +1,22 @@
-.graphholder{
-    background:#FFFFFF;
+.graphholder {
+    background: #FFFFFF;
     border: 1px solid #EEE;
     box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
     border-radius: 11.4872px;
     padding: 1em;
-    flex-basis:0 0 66%;
+    flex-basis: 0 0 66%;
     max-width: 100%;
     min-height: 522px;
+    height: 100%;
     margin: 0px;
     width: inherit;
 }
-.display{display:none;}
-.drop-down{
+
+.display {
+    display: none;
+}
+
+.drop-down {
     width: 112px;
     height: 30px;
     left: 1214px;
@@ -27,13 +32,14 @@
     color: #293D4A;
 }
 
-.header-container{
+.header-container {
     width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    .right-menue-item{
-        flex-basis:50%;
+
+    .right-menue-item {
+        flex-basis: 50%;
         display: flex;
         flex-direction: column;
         flex: 1 1 100%;
@@ -41,15 +47,18 @@
         font-family: SF Pro Text;
         font-style: normal;
         font-weight: bolder;
-        .parent-container-main{
+
+        .parent-container-main {
             display: flex;
             justify-content: space-between;
             flex-direction: row-reverse;
         }
-        .toogle-section{
+
+        .toogle-section {
             display: flex;
             justify-content: flex-end;
-            .option-container{
+
+            .option-container {
                 display: flex;
                 justify-content: space-between;
                 justify-content: space-between;
@@ -58,23 +67,26 @@
                 font-family: "SF Pro";
                 font-style: normal;
                 flex-direction: row-reverse;
-                .btn-one{
+
+                .btn-one {
                     width: 30.21px;
                     height: 30.21px;
-                    color:rgb(19, 19, 19);
+                    color: rgb(19, 19, 19);
                     font-style: normal;
                     font-weight: 500;
                     font-size: 13.1343px;
                 }
-                .btn-one-active{
-                    background:#22A4EF;
-                    color:#fff;
+
+                .btn-one-active {
+                    background: #22A4EF;
+                    color: #fff;
                     transition: all 0.35s;
                 }
-                .btn-two{
+
+                .btn-two {
                     width: 30.21px;
                     height: 30.21px;
-                    background:#FFFFFF;
+                    background: #FFFFFF;
                     color: #CECECE;
                     font-style: normal;
                     font-weight: 500;
@@ -82,7 +94,8 @@
                 }
             }
         }
-       .btn-parent-container{
+
+        .btn-parent-container {
             font-family: SF Pro Text;
             font-style: normal;
             font-weight: bold;
@@ -93,93 +106,101 @@
             line-height: 45px;
             display: flex;
             justify-content: flex-end;
-            .btn-container{
+
+            .btn-container {
                 margin: 5px 0px;
                 border: 0.467531px solid#C4C4C4;
                 box-sizing: border-box;
                 padding: 3px;
                 border-radius: 3.27272px;
             }
-            .option{
+
+            .option {
                 padding: 0px 25px;
                 border: 1px solid #e6e6e6;
-                background:#FFFFFF;
+                background: #FFFFFF;
                 outline: none;
                 border: none;
                 border-radius: 4.875px;
                 text-align: center;
-                color:#293D4A;
+                color: #293D4A;
                 font-style: normal;
                 font-weight: bold;
                 font-size: 15.42px;
             }
-            .active-btn{
+
+            .active-btn {
                 padding: 0px 25px;
                 border: 1px solid #e6e6e6;
-                background:$primary;
+                background: $primary;
                 outline: none;
                 border: none;
                 border-radius: 4.875px;
-                color:#fff;
+                color: #fff;
                 font-style: normal;
                 font-weight: bold;
                 font-size: 15.42px;
                 transition: all 0.35s;
             }
         }
+
         // $primary-green
-        .buy-sell-action{
+        .buy-sell-action {
             display: flex;
             justify-content: space-between;
             margin: 5px 0px;
-            .selling{
+
+            .selling {
                 font-family: "SF Pro";
                 font-style: normal;
                 font-weight: bolder;
                 padding: 10px 2em;
                 border: 1px solid#e6e6e6;
-                background:$orange;
+                background: $orange;
                 outline: none;
                 border: none;
                 border-radius: 3.875px;
-                color:#fff;
+                color: #fff;
                 font-style: normal;
                 font-weight: bold;
                 font-size: 15.4204px;
                 margin: 5px;
             }
-            .buying{
+
+            .buying {
                 font-family: "SF Pro";
                 font-style: normal;
                 font-weight: bolder;
                 padding: 10px 2em;
                 border: 1px solid#e6e6e6;
-                background:$primary;
+                background: $primary;
                 outline: none;
                 border: none;
                 border-radius: 3.875px;
-                color:#fff;
+                color: #fff;
                 font-style: normal;
                 font-weight: bold;
                 font-size: 15.4204px;
                 margin: 5px;
             }
         }
-        .btn-sell{
+
+        .btn-sell {
             display: flex;
             justify-content: space-between;
             margin: 5px 0px;
-            button{
+
+            button {
                 font-family: "SF Pro";
                 font-style: normal;
                 font-weight: bolder;
                 padding: 10px 2em;
                 border: 1px solid#e6e6e6;
-                background:$primary;
+                background: $primary;
                 outline: none;
                 border: none;
                 border-radius: 3.875px;
-                color:#fff;
+                color: #fff;
                 font-style: normal;
                 font-weight: bold;
                 font-size: 15.4204px;
@@ -187,25 +208,28 @@
             }
         }
     }
-    .left-menue-item{
+
+    .left-menue-item {
         flex-basis: 50%;
-        .holder{
+
+        .holder {
             font-family: SF Pro Text;
             font-style: normal;
             font-weight: bold;
             font-size: 20px;
             line-height: 52px;
-            color:#293D4A;
+            color: #293D4A;
             font-family: "SF Pro";
             font-style: normal;
             font-weight: bolder;
         }
-        .sub-holder{
+
+        .sub-holder {
             font-family: SF Pro Text;
             font-style: italic;
             font-weight: normal;
             font-size: 11px;
-            color:#8A939A;
+            color: #8A939A;
             font-family: "SF Pro";
             font-style: normal;
             font-weight: bolder;
@@ -215,30 +239,31 @@
 }
 
 @include tablet {
-    .graphholder{
-        background:#FFFFFF;
+    .graphholder {
+        background: #FFFFFF;
         box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
         border-radius: 11.4872px;
         padding: 1em;
         flex-basis: 100%;
-        max-width:100
-        // margin-bottom: 1em;
-        
+        max-width: 100 // margin-bottom: 1em;
+
     }
 }
+
 @include mobile {
-    .graphholder{
-        background:#FFFFFF;
+    .graphholder {
+        background: #FFFFFF;
         box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.2);
         border-radius: 11.4872px;
         padding: 1em;
         width: 100%;
         flex-basis: 100%;
-        max-width:100%;
+        max-width: 100%;
         margin-bottom: 1em;
-        .buy-sell-action{
+
+        .buy-sell-action {
             display: none !important;
         }
-        
+
     }
 }

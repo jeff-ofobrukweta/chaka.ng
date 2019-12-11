@@ -5,14 +5,14 @@
         </section>
         <section class="accounts-overview">
             <div class="accounts-overview__text">
-                <!-- <img src="../../../assets/img/dp.png" alt="Avatar" class="avatar avatar-lg" /> -->
+                <img src="../../../assets/img/dp.png" alt="Avatar" class="avatar avatar-lg" />
             </div>
             <div class="accounts-overview__text">
                 <p>Name</p>
                 <h4>{{ username }}</h4>
             </div>
             <div class="accounts-overview__text">
-                <p>User ID</p>
+                <p>Chaka ID</p>
                 <h4>{{ getLoggedUser.chakaID }}</h4>
             </div>
             <div class="accounts-overview__text">
@@ -25,8 +25,10 @@
                 </h4>
             </div>
             <div class="accounts-overview__text">
-                <p>CSCS No.</p>
-                <h4>{{ getLoggedUser.UserKYC.cscsNumber || "-" }}</h4>
+                <template v-if="getLoggedUser.UserKYC.cscsNumber">
+                    <p>CSCS No.</p>
+                    <h4>{{ getLoggedUser.UserKYC.cscsNumber }}</h4>
+                </template>
             </div>
         </section>
 
@@ -94,7 +96,7 @@
                 </div>
             </Card>
             <Card
-                title="Stamps Earned"
+                title="Ownerships"
                 :action="{ text: 'See All', link: 'accounts-stamps' }"
                 class="accounts-overview__card"
             >

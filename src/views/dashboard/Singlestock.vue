@@ -154,11 +154,9 @@ export default {
         ...mapMutations(["SET_SINGLE_INSTRUMENT"])
     },
     async mounted() {
-        this.singleInstrument = getSingleinstrument[0]
         const singlestockpayload = {symbols: this.$route.params.symbol};
         this.similarLoading = true
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
-             console.log('this is the tags for single stock BBBBBBBBBBBBBBBTTTTTTTTTTTTTTTBBBBBBBBBBBBBBTTTTT',this.getSingleinstrument[0].Tags)
              this.GET_CURRENT_STOCK_POSITION()
              this.similarLoading = false
         })
