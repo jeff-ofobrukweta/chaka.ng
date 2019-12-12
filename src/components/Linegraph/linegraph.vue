@@ -81,8 +81,8 @@ export default {
                                 // stepSize: 5,
                                 callback: value =>
                                     this.currency == "NGN"
-                                        ? `N${numeral(value).format("0.0a")}`
-                                        : `$${numeral(value).format("0.0a")}`
+                                        ? `N${numeral(value).format("0.00a")}`
+                                        : `$${numeral(value).format("0.00a")}`
                             },
                             gridLines: {
                                 display: false,
