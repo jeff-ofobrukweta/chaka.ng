@@ -3,6 +3,7 @@ import { clearSession, requireAuth } from "../services/auth";
 const Home = () => import(/* webpackChunkName: "home" */ "../views/Home");
 const VerificationSent = () =>
     import(/* webpackChunkName: "verification-sent" */ "../views/VerificationSent");
+const ForgotPassword = () => import(/* webpackChunkName: "forgot-password" */ "../views/auth/ForgotPassword");
 const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
 const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
@@ -45,6 +46,11 @@ const routes = [
         path: "/verification-sent",
         name: "verification-sent",
         component: VerificationSent
+    },
+    {
+        path: "/forgot-password",
+        name: "forgot-password",
+        component: ForgotPassword
     },
     {
         path: "/login",
