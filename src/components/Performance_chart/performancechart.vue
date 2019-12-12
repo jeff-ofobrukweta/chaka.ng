@@ -193,7 +193,11 @@ export default {
         };
     },
     computed: {
-
+        ...mapGetters(["getPositionBarperformancepercentage"]),
+        colorSwitchRedGreen(){
+            const colours = this.getPositionBarperformancepercentage.map((value) => value < 0 ? 'red' : 'green');
+            return colours;
+        }
     },
 
     mounted() {
@@ -229,7 +233,7 @@ export default {
                 datasets: [
                     {
                         label: 'Stocks2',
-                        backgroundColor: ['#00C48C', '#E94F37', '#00C48C', '#E94F37', '#E46751', '#00D6EF', '#61K846', '#A76451'],
+                        backgroundColor:this.colorSwitchRedGreen,
                         data: this.percentage
                     }
                 ]

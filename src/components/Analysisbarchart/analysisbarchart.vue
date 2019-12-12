@@ -81,7 +81,7 @@ export default {
                             // 			maxTicksLimit: 8,
                             // 			fontSize: 10
                             // 		},
-                            // barPercentage: 1.0,
+                           barPercentage: 0.7,
                             // categoryPercentage: 1.0,
           	gridLines: {
           		display: false,
@@ -182,7 +182,7 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 responsiveAnimationDuration: 0,
-                aspectRatio: 1,
+                aspectRatio: 2,
                 legend: {
                     display: false
                 }
