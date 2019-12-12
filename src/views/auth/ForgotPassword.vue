@@ -1,7 +1,7 @@
 <template>
     <main class="main" role="main">
         <div class="auth-box">
-            <form class="auth-form" @submit.prevent="login" novalidate>
+            <form class="auth-form" @submit.prevent="forgot" novalidate>
                 <h3 class="auth-form__title">Forgot Password</h3>
                 <p class="auth-form__subtitle"></p>
                 <div class="auth-form__group">
@@ -16,8 +16,12 @@
                             @reset="resetError"
                     /></label>
                 </div>
-               
-                <error-block type="login" />
+
+                <error-block
+                    type="forgot-password"
+                    :message="status.message"
+                    :status="status.status"
+                />
                 <div class="auth-form__group">
                     <div>
                         <action-button
@@ -31,10 +35,8 @@
                     <section class="auth-form__meta">
                         <p>
                             Remeber now?
-                            <router-link class="primary" :to="{ name: 'login' }"
-                                >Login</router-link
-                            >
-                        </p> 
+                            <router-link class="primary" :to="{ name: 'login' }">Login</router-link>
+                        </p>
                     </section>
                 </div>
             </form>
@@ -52,7 +54,8 @@ export default {
         return {
             itemData: {},
             errors: {},
-            loading: false
+            loading: false,
+            status: {}
         };
     },
     computed: {
@@ -62,30 +65,28 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["LOGIN"]),
+        ...mapActions(["FORGOT_PASSWORD"]),
         ...mapMutations(["RESET_REQ"]),
-        login() {
+        forgot() {
             this.RESET_REQ();
+            this.status = {};
             if (!this.itemData.email) {
                 this.$set(this.errors, "email", "Field is required");
             } else if (!auth.email(this.itemData.email)) {
                 this.$set(this.errors, "email", "Invalid email");
             }
-            if (!this.itemData.password) {
-                this.$set(this.errors, "password", "Field is required");
-            }
-            // const p = auth.password(this.itemData.password);
-            // console.log(p);
-            // else if(){
-            //     console.log()
-            // }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             this.loading = true;
-            this.LOGIN(this.itemData).then(resp => {
+            this.FORGOT_PASSWORD(this.itemData).then(resp => {
                 this.loading = false;
-                if (resp) this.$router.push({ name: "dashboard" });
+                if (resp) {
+                    this.status = {
+                        message: "Password reset email sent",
+                        status: "success"
+                    };
+                }
             });
         },
         resetError() {
