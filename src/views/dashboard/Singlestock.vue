@@ -47,9 +47,12 @@
             </div>
             <button v-if="getWindowWidth === 'mobile'" class="small-size">Buy</button>
             <section class="sumary">
-                <div :title="getSingleinstrument[0].description" class="summary-cover">
+                <div
+                v-if="getSingleinstrument[0].description" 
+                :title="getSingleinstrument[0].description" class="summary-cover">
                     {{ getSingleinstrument[0].description || "" | truncate(500) }}
                 </div>
+                <div class="no-description" v-else>No description for this stocks</div>
                     <svg
                         class="tag-icon"
                         width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
