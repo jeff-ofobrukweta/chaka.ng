@@ -43,6 +43,28 @@ const actions = {
             );
         });
     },
+    FORGOT_PASSWORD: ({ commit }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api.post("/auth/reset-password/", payload).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit("REQ_SUCCESS", null, { root: true });
+                        resolve(true);
+                        return true;
+                    } else {
+                        errorFn(resp, "forgot-password");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "forgot-password");
+                    resolve(false);
+                }
+            );
+        });
+    },
     LOGIN: ({ commit, dispatch }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
