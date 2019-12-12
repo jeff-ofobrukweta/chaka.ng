@@ -5,6 +5,13 @@ const VerificationSent = () =>
     import(/* webpackChunkName: "verification-sent" */ "../views/VerificationSent");
 const ForgotPassword = () => import(/* webpackChunkName: "forgot-password" */ "../views/auth/ForgotPassword");
 const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
+const Policies = () => import(/* webpackChunkName: "policies" */ "../views/Policies");
+const Developers = () => import(/* webpackChunkName: "developers" */ "../views/Developers");
+const Privacy = () => import(/* webpackChunkName: "privacy" */ "../views/Privacy");
+const Calculator = () => import(/* webpackChunkName: "calculator" */ "../views/Calculator");
+const Terms = () => import(/* webpackChunkName: "terms" */ "../views/Terms");
+const About = () => import(/* webpackChunkName: "about" */ "../views/About");
+const Faq = () => import(/* webpackChunkName: "faq" */ "../views/Faq");
 const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
 const DashboardLayout = () =>
@@ -41,6 +48,41 @@ const routes = [
         path: "/",
         name: "home",
         component: Home
+    },
+    {
+        path: "/about",
+        name: "about",
+        component: About
+    },
+    {
+        path: "/calculator",
+        name: "calculator",
+        component: Calculator
+    },
+    {
+        path: "/policies",
+        name: "policies",
+        component: Policies
+    },
+    {
+        path: "/developers",
+        name: "developers",
+        component: Developers
+    },
+    {
+        path: "/privacy",
+        name: "privacy",
+        component: Privacy
+    },
+    {
+        path: "/faq",
+        name: "faq",
+        component: Faq
+    },
+    {
+        path: "/terms",
+        name: "terms",
+        component: Terms
     },
     {
         path: "/verification-sent",
