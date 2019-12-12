@@ -182,7 +182,7 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 responsiveAnimationDuration: 0,
-                aspectRatio: 1,
+                aspectRatio: 2,
                 legend: {
                     display: false
                 }
