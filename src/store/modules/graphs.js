@@ -22,7 +22,7 @@ const state = {
     // portfolioposition:0,
 
     globalCurrencyforsinglestockGraph: "NGN",
-    globalTmeforsinglestockGraph: "1D",
+    globalTmeforsinglestockGraph: "5Y",
     singlestockposition: 0
 };
 

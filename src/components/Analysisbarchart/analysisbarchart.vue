@@ -19,7 +19,7 @@ import numeral from 'numeral';
 import Analysisbarchart from './analysisbarchart_config.js';
 
 export default {
-    name: 'doughnutgraph',
+    name: 'VerticalbarchartPerformanceratings',
     components: {
         Analysisbarchart
     },
@@ -28,7 +28,7 @@ export default {
             min: '',
             max: '',
             graphstyle: {
-                width: '80%',
+                width: '100%',
                 margin:'0 auto'
             },
             interval: 10,
@@ -126,9 +126,7 @@ export default {
           			max: this.max,
           			min: this.min,
           			stepSize: this.interval,
-          			// callback: value => (this.currency == 'USD'
-          			// 		? `$${numeral(value).value()}`
-          			// 		: `N${numeral(value).value()}`)
+          			 callback: value => numeral(value).format("0a")
           		},
           		gridLines: {
           			display: false,
@@ -168,12 +166,12 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${data.datasets[0].data[tooltipItem.index]}`;
+                            const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
+                            return currency;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
                             const percent = dataset.data[tooltipItem.index];
-                            return this.getcurrency;
                         }
                     },
                     hover: {
@@ -184,7 +182,7 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 responsiveAnimationDuration: 0,
-                aspectRatio: 2,
+                aspectRatio: 1,
                 legend: {
                     display: false
                 }

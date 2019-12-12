@@ -22,7 +22,7 @@ export default {
             min: '',
             max: '',
             graphstyle: {
-               width: '80%',
+               width: '90%',
                margin:'0 auto'
             },
             interval: 10,
