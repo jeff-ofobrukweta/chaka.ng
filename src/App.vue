@@ -3,18 +3,21 @@
         <Progressbar v-if="getProgressbar !== 100" />
         <Header />
         <router-view />
+        <Footer />
     </div>
 </template>
 
 <script>
 import { mapMutations, mapGetters, mapActions } from "vuex";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Progressbar from "./components/Progressbar";
 
 export default {
     name: "app",
     components: {
         Header,
+        Footer,
         Progressbar
     },
     data() {
@@ -38,7 +41,7 @@ export default {
         }
     },
     created() {
-        this.STOP_LOADER()
+        this.STOP_LOADER();
         this.prevScrollpos = window.pageYOffset;
         window.onscroll = () => {
             const currentScrollPos = window.pageYOffset;

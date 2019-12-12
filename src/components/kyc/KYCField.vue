@@ -5,17 +5,19 @@
         v-if="field.type === 'text' || field.type === 'number'"
     >
         <label class="form__label"
-            >{{ noLabel ? field.name : "" }}
+            >{{ noLabel ? "" : field.name }}
             <form-input
                 :type="field.type"
                 :name="field.name"
                 v-model="value"
                 :placeholder="field.name"
                 @input="handleInput"
+                :navbar="navbar"
+                :error-message="errorMessage"
         /></label>
     </div>
     <div class="kyc-field__group" v-else-if="field.value === 'lg'">
-        <!-- <label class="form__label">{{ field.name }}</label>
+        <label class="form__label">{{ field.name }}</label>
         <v-select
             class="form__input form__select"
             placeholder="Local Government Area"
@@ -24,15 +26,15 @@
             label="text"
             @input="handleInput"
             :options="options"
-        ></v-select> -->
-        <label class="form__label"
+        ></v-select>
+        <!-- <label class="form__label"
             >{{ field.name }}
             <select class="form__input" :name="field.name" v-model="value" @change="handleInput">
                 <option v-for="(option, i) in options" :key="i" :value="option.value">{{
                     option.text
                 }}</option>
             </select></label
-        >
+        > -->
     </div>
     <div class="kyc-field__group" v-else-if="field.type === 'select'">
         <label class="form__label"
@@ -50,6 +52,9 @@
                 </template>
             </select></label
         >
+        <p class="form-error" v-if="errorMessage">
+            <small>{{ errorMessage }}</small>
+        </p>
     </div>
     <div v-else-if="field.value === 'employmentStatus'">
         <div class="kyc-field__group">
@@ -117,6 +122,12 @@ export default {
         },
         inline: {
             type: Boolean
+        },
+        errorMessage: {
+            type: String
+        },
+        navbar: {
+            type: Boolean
         }
     },
     components: {
@@ -129,7 +140,7 @@ export default {
             positions: Positions.position,
             types: Types.company,
             employment: {},
-            // selectedLg: {},
+            selectedLg: {},
             showUploadError: false,
             showUploadSuccess: false
         };
@@ -139,9 +150,9 @@ export default {
             if (this.field.type === "button") {
                 this.value = e;
             }
-            // if (this.field.value === "lg") {
-            //     this.value = this.selectedLg.value;
-            // }
+            if (this.field.value === "lg") {
+                this.value = this.selectedLg.value;
+            }
             const temp = {
                 name: this.field.value,
                 value: this.value

@@ -129,7 +129,8 @@ export default {
             otpData: {},
             countdown: null,
             OTPResend: false,
-            smsSender: 0
+            smsSender: 0,
+            issues: {}
         };
     },
     computed: {
@@ -155,6 +156,24 @@ export default {
             this.resendOTPWhatsapp();
         },
         useNewPhone() {
+            // TO-DO
+            // Include Phone validation if needed
+
+            // if (Number.isNaN(+this.newPhone.phone)) {
+            //     this.issues = {
+            //         phone: "Phone should be a number"
+            //     };
+            //     return false;
+            // }
+            // if (this.newPhone.phone.length < 11) {
+            //     this.issues = {
+            //         phone: "Phone number should be 11 digits"
+            //     };
+            //     return false;
+            // }
+            // if (Object.keys(this.issues).length > 0) {
+            //     return false;
+            // }
             this.loading = true;
             this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 this.loading = false;
@@ -250,6 +269,21 @@ export default {
             this.useBVNPhone();
         }
         await Promise.all([this.GET_COUNTRY_CODES(), this.GET_KYC()]);
+    },
+    watch: {
+        // TO-DO
+        // Include Phone validation if needed
+        // "newPhone.phone"(newVal) {
+        //     if (newVal) {
+        //         if (newVal.length > 11) {
+        //             this.issues = {
+        //                 phone: "Phone number should be 11 digits"
+        //             };
+        //         } else {
+        //             this.issues = {};
+        //         }
+        //     }
+        // }
     }
 };
 </script>

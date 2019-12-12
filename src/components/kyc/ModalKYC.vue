@@ -14,7 +14,31 @@
                     </p>
                 </div>
                 <Fragment v-for="(field, i) in allFields" :key="i">
-                    <Field :field="field" @input="handleInput" :options="checkOptions(field)" />
+                    <template v-if="field.value === 'bvn'">
+                        <Field
+                            :field="field"
+                            @input="handleInput"
+                            @click.native="errors = {}"
+                            :error-message="errors.bvn"
+                    /></template>
+                    <template v-else-if="field.value === 'bankAcctNo'">
+                        <Field
+                            :field="field"
+                            @input="handleInput"
+                            @click.native="errors = {}"
+                            :error-message="errors.bankAcctNo"
+                    /></template>
+                    <template v-else-if="field.value === 'bankCode'">
+                        <Field
+                            :field="field"
+                            @input="handleInput"
+                            @click.native="errors = {}"
+                            :error-message="errors.bankCode"
+                            :options="checkOptions(field)"
+                    /></template>
+                    <template v-else>
+                        <Field :field="field" @input="handleInput" :options="checkOptions(field)"
+                    /></template>
 
                     <div v-if="field.value === 'pepStatus' && showPepStatus">
                         <div class="kyc-field__group">
@@ -234,6 +258,18 @@ export default {
             const payload = { ...this.itemData };
             payload.source = "modal";
             if (this.state === "bvn") {
+                if (Number.isNaN(+this.itemData.bvn)) {
+                    this.$set(this.errors, "bvn", "BVN should be a number");
+                    this.loading = false;
+                    return false;
+                }
+                if (this.itemData.bvn.length !== 11) {
+                    this.$set(this.errors, "bvn", "BVN should be 11 digits");
+                }
+                if (Object.keys(this.errors).length > 0) {
+                    this.loading = false;
+                    return false;
+                }
                 this.RESOLVE_BVN(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
@@ -248,6 +284,32 @@ export default {
                     }
                 });
             } else if (this.state === "bank") {
+                if (!this.itemData.bankAcctNo) {
+                    this.$set(this.errors, "bankAcctNo", "Account number is required");
+                }
+                if (!this.itemData.bankCode) {
+                    this.$set(this.errors, "bankCode", "Bank name is required");
+                }
+                if (Object.keys(this.errors).length > 0) {
+                    this.loading = false;
+                    return false;
+                }
+                if (Number.isNaN(+this.itemData.bankAcctNo)) {
+                    this.$set(
+                        this.errors,
+                        "bankAcctNo",
+                        "Account number should be a 10 digit number"
+                    );
+                    this.loading = false;
+                    return false;
+                }
+                if (this.itemData.bankAcctNo.length !== 10) {
+                    this.$set(this.errors, "bankAcctNo", "Account number should be 10 digits");
+                }
+                if (Object.keys(this.errors).length > 0) {
+                    this.loading = false;
+                    return false;
+                }
                 this.UPDATE_KYC_BANK(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
@@ -308,6 +370,10 @@ export default {
                     }
                 });
             } else {
+                if (Object.keys(this.itemData).length <= 0) {
+                    this.loading = false;
+                    return true;
+                }
                 this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
                     if (resp) {

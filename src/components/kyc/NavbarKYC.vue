@@ -112,6 +112,9 @@
                             :field="bvnField"
                             @input="handleInput"
                             v-model="itemData.bvn"
+                            @click.native="issues = {}"
+                            :error-message="issues.bvn"
+                            navbar
                             inline
                         />
                     </div>
@@ -499,7 +502,8 @@ export default {
             smsSender: 0,
             newPhone: {},
             otpData: {},
-            enterNIN: false
+            enterNIN: false,
+            issues: {}
         };
     },
     computed: {
@@ -511,8 +515,16 @@ export default {
             "getNavbarTrigger",
             "getErrorLog",
             "getKYC"
-        ]),
-        currentIndex() {}
+        ])
+        // checkError(){
+        //     if(this.itemData.bvn){
+        //         if(this.itemData.bvn.length > 11){
+        //             this.issues = {
+        //                 bvn: 'BVN should be 11 digits'
+        //             }
+        //         }
+        //     }
+        // }
     },
     methods: {
         ...mapActions([
@@ -542,6 +554,21 @@ export default {
             });
         },
         submitBVN() {
+            if (Number.isNaN(+this.itemData.bvn)) {
+                this.issues = {
+                    bvn: "BVN should be a number"
+                };
+                return false;
+            }
+            if (this.itemData.bvn.length < 11) {
+                this.issues = {
+                    bvn: "BVN should be 11 digits"
+                };
+                return false;
+            }
+            if (Object.keys(this.issues).length > 0) {
+                return false;
+            }
             const payload = { ...this.itemData };
             payload.source = "navbar";
             this.loading = true;
@@ -580,6 +607,24 @@ export default {
             });
         },
         useNewPhone() {
+            // TO-DO
+            // Include Phone validation if needed
+
+            // if (Number.isNaN(+this.newPhone.phone)) {
+            //     this.issues = {
+            //         phone: "Phone should be a number"
+            //     };
+            //     return false;
+            // }
+            // if (this.newPhone.phone.length < 11) {
+            //     this.issues = {
+            //         phone: "Phone number should be 11 digits"
+            //     };
+            //     return false;
+            // }
+            // if (Object.keys(this.issues).length > 0) {
+            //     return false;
+            // }
             this.loading = true;
             this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 this.loading = false;
@@ -715,7 +760,32 @@ export default {
                 this.checkNextKYC();
                 this.SET_NAVBAR_TRIGGER(false);
             }
+        },
+        "itemData.bvn"(newVal) {
+            if (newVal) {
+                if (newVal.length > 11) {
+                    this.issues = {
+                        bvn: "BVN should be 11 digits"
+                    };
+                } else {
+                    this.issues = {};
+                }
+            }
         }
+        // TO-DO
+        // Include Phone validation if needed
+
+        // "newPhone.phone"(newVal) {
+        //     if (newVal) {
+        //         if (newVal.length > 11) {
+        //             this.issues = {
+        //                 phone: "Phone number should be 11 digits"
+        //             };
+        //         } else {
+        //             this.issues = {};
+        //         }
+        //     }
+        // }
     }
 };
 </script>
