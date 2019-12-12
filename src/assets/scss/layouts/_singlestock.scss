@@ -4,16 +4,7 @@
     justify-content: space-between;
     flex: 0 0 100%;
 }
-.issues-with-pageloading{
-    text-align: center;
-    margin: 4em auto;
-    display: flex;
-    justify-content: space-between;
-    max-width: 432px;
-    .loader{
-        width: 3em;;
-    }
-}
+.center-fix-messg{text-align: center;line-height: 5.5;}
 .sumary{margin: 10px 0px;}
 
 .right-header {

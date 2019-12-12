@@ -2,6 +2,12 @@
 	<section class="small chart__box">
 		<div class="chart__aspect-ratio">
 			<VueTradingView class="chart__graph" :options="options" />
+        <div
+        v-if="loaded" 
+        class="tradingview-widget-copyright" style="width: 100%;">
+          <a rel="noopener">
+        <span class="blue-text">{{symbol}} Chart</span>
+      </a> by TradingView</div>
 		</div>
 	</section>
 </template>
@@ -22,6 +28,7 @@ export default {
   },
   data() {
     return {
+      loaded:false,
       options: {
         symbol: `${this.exchangeIDmaping(this.exchangeID)}:${this.symbol}`,
         theme: 'Light',
@@ -31,6 +38,7 @@ export default {
     };
   },
   mounted(){
+    this.loaded = true;
     console.log('this is the symbolSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS',this.symbol,this.exchangeID)
   },
   computed: {
