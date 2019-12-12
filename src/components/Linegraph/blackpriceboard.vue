@@ -16,7 +16,7 @@
                 class="price">
                     {{(instrument.currency == 'USD' ? '$' :'₦')}}{{instrument.askPrice}}
                 </h1>
-                <h1 v-else>No current data availiable.</h1>
+                <h1 v-else></h1>
                 <section class="info-details">
                     <span class="increase">
                     <span

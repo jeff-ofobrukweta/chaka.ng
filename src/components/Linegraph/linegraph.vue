@@ -67,8 +67,8 @@ export default {
                     yAxes: [
                         {
                             scaleLabel: {
-                                display: true
-                                // labelString: 'Price'
+                                display: true,
+                                labelString: 'Price'
                             },
                             position: "left",
                             ticks: {
@@ -92,7 +92,7 @@ export default {
                     ]
                 },
                 animation: {
-                    duration: 800 // general animation time
+                    duration: 0
                 },
                 hover: {
                     animationDuration: 0 // duration of animations when hovering an item
@@ -159,8 +159,9 @@ export default {
             }
         };
     },
-    mounted() {
-        this.fillData();
+    async mounted() {
+
+        await this.fillData();
         this.handlescaling();
         var ctx = document.getElementById('line-chart').getContext("2d");
         
@@ -168,6 +169,7 @@ export default {
         this.purple_orange_gradient.addColorStop(0, "#2DA5EC");
         this.purple_orange_gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
         ctx.fillStyle = this.purple_orange_gradient;
+        ctx.save();
 
     },
 
@@ -195,19 +197,26 @@ export default {
             return true;
         },
         fillData() {
+            var ctx = document.getElementById('line-chart').getContext("2d");
+            this.purple_orange_gradient = ctx.createLinearGradient(5, 0, 0, 270);
+            this.purple_orange_gradient.addColorStop(0, "#2DA5EC");
+            this.purple_orange_gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+            ctx.fillStyle = this.purple_orange_gradient;
+            ctx.save();
+            
             this.datacollection = {
                 labels: this.date,
                 datasets: [
                     {
                         label: "Stocks",
-                        lineTension: 0.8,
+                        lineTension: 0.7,
                         fill: true,
                         backgroundColor: this.purple_orange_gradient,
 						hoverBackgroundColor: this.purple_orange_gradient,
                         borderColor: "#2da5ec",
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: "miter",
+                        borderJoinStyle: "round",
                         pointBackgroundColor: "#484848",
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
