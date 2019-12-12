@@ -116,12 +116,11 @@
                             name="bvn"
                             v-model="bvnData.bvn"
                             placeholder="BVN"
+                            @click.native="issues = {}"
+                            :error-message="issues.bvn"
                             v-if="edit === 'bvn'"
-                            required
                         />
-                        <p v-else class=" accounts-settings__data">
-                            {{ getKYC.bankAcctName || "-" }}
-                        </p></label
+                        <p v-else class=" accounts-settings__data">-</p></label
                     >
                 </div>
             </section>
@@ -192,19 +191,23 @@
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Bank Name
-                            <select
-                                v-if="edit === 'bank'"
-                                class="form__input form__select"
-                                v-model="itemData.bankCode"
-                                required
-                            >
-                                <option
-                                    v-for="(bank, index) in banks"
-                                    :key="index"
-                                    :value="bank.bankCode"
-                                    >{{ bank.name }}</option
+                            <template v-if="edit === 'bank'">
+                                <select
+                                    class="form__input form__select"
+                                    v-model="itemData.bankCode"
+                                    @click="issues = {}"
                                 >
-                            </select>
+                                    <option
+                                        v-for="(bank, index) in banks"
+                                        :key="index"
+                                        :value="bank.bankCode"
+                                        >{{ bank.name }}</option
+                                    >
+                                </select>
+                                <p class="form-error" v-if="issues.bankCode">
+                                    <small>{{ issues.bankCode }}</small>
+                                </p>
+                            </template>
                             <p v-else class=" accounts-settings__data">
                                 {{ getKYC.bankAcctName || "-" }}
                             </p></label
@@ -218,7 +221,8 @@
                                 name="bank number"
                                 v-model="itemData.bankAcctNo"
                                 placeholder="Bank Account Number"
-                                required
+                                @click.prevent="issues = {}"
+                                :error-message="issues.bankAcctNo"
                                 maxlength="10"
                             />
                             <p v-else class=" accounts-settings__data">
@@ -282,7 +286,7 @@
                         >
                     </div>
                     <div class="accounts-settings__group">
-                        <label class="form__label">LGA</label>
+                        <!-- <label class="form__label">LGA</label>
                         <select
                             class="form__input"
                             name="lg"
@@ -292,9 +296,10 @@
                             <option v-for="(option, i) in lgNames" :key="i" :value="option.value">{{
                                 option.text
                             }}</option>
-                        </select>
-                        <!-- <label class="form__label">LGA</label> -->
-                        <!-- <v-select
+                        </select> -->
+                        <label class="form__label">LGA</label>
+                        <v-select
+                            v-if="edit === 'postal'"
                             class="form__input form__select"
                             placeholder="Local Government Area"
                             v-model="selectedLg"
@@ -303,7 +308,7 @@
                             value="value"
                             @input="switchLG($event)"
                             :options="lgNames"
-                        ></v-select> -->
+                        ></v-select>
                         <p v-else class="capitalize accounts-settings__data">
                             {{ getKYC.lg || "-" }}
                         </p>
@@ -722,9 +727,10 @@ export default {
             countdown: null,
             OTPResend: false,
             smsSender: 0,
+            issues: {},
             objectives: [
                 {
-                    text: "Protextion",
+                    text: "Protection",
                     value: "PROTECTION"
                 },
                 {
@@ -752,29 +758,29 @@ export default {
             ],
             annualIncome: [
                 {
-                    text: "Less than N500K",
+                    text: "Less than ₦500K",
                     value: "LESS_THAN_500K"
                 },
                 {
-                    text: "N500K - N5M",
+                    text: "₦500K - ₦5M",
                     value: "500K_5MILLION"
                 },
                 {
-                    text: "N5M+",
+                    text: "₦5M+",
                     value: "GREATER_THAN_5MILLION"
                 }
             ],
             liquid: [
                 {
-                    text: "Less than N500K",
+                    text: "Less than ₦500K",
                     value: "<N5m"
                 },
                 {
-                    text: "N500K - N5M",
+                    text: "₦500K - ₦5M",
                     value: "N5m-N50m"
                 },
                 {
-                    text: "N5M+",
+                    text: "₦5M+",
                     value: "N50m+"
                 }
             ],
@@ -804,7 +810,6 @@ export default {
             "UPDATE_KYC",
             "UPDATE_KYC_BANK",
             "RESOLVE_BVN",
-            "RESOLVE_OTP",
             "RESET_REQ"
         ]),
         ...mapMutations(["RESET_REQ"]),
@@ -829,6 +834,21 @@ export default {
             });
         },
         submitBVN() {
+            if (Number.isNaN(+this.bvnData.bvn)) {
+                this.issues = {
+                    bvn: "BVN should be a number"
+                };
+                return false;
+            }
+            if (this.bvnData.bvn.length < 11) {
+                this.issues = {
+                    bvn: "BVN should be 11 digits"
+                };
+                return false;
+            }
+            if (Object.keys(this.issues).length > 0) {
+                return false;
+            }
             const payload = { ...this.bvnData };
             payload.source = "accounts";
             this.loading = true;
@@ -841,6 +861,25 @@ export default {
             });
         },
         submitBank() {
+            if (!this.itemData.bankAcctNo) {
+                this.$set(this.issues, "bankAcctNo", "Account number is required");
+            }
+            if (!this.itemData.bankCode) {
+                this.$set(this.issues, "bankCode", "Bank name is required");
+            }
+            if (Object.keys(this.issues).length > 0) {
+                return false;
+            }
+            if (Number.isNaN(+this.itemData.bankAcctNo)) {
+                this.$set(this.issues, "bankAcctNo", "Account number should be 10 digits");
+                return false;
+            }
+            if (this.itemData.bankAcctNo.length < 10) {
+                this.$set(this.issues, "bankAcctNo", "Account number should be 10 digits");
+            }
+            if (Object.keys(this.issues).length > 0) {
+                return false;
+            }
             const payload = { ...this.itemData };
             payload.source = "accounts";
             this.loading = true;
@@ -850,18 +889,6 @@ export default {
                     this.edit = null;
                 }
                 this.loading = false;
-            });
-        },
-        submitOTP() {
-            const payload = { ...this.otpData };
-            payload.source = "accounts";
-            this.loading = true;
-            this.RESOLVE_OTP(payload).then(resp => {
-                this.loading = false;
-                if (resp) {
-                    this.otpData = {};
-                    this.showOTP = false;
-                }
             });
         },
         handleDate(e) {
@@ -910,6 +937,28 @@ export default {
         this.positions = await Positions().then(({ position }) => position);
         this.lgNames = await LG().then(({ lgNames }) => lgNames);
         await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);
+    },
+    watch: {
+        "bvnData.bvn"(newVal) {
+            if (newVal) {
+                if (newVal.length > 11) {
+                    this.issues = {
+                        bvn: "BVN should be 11 digits"
+                    };
+                } else {
+                    this.issues = {};
+                }
+            }
+        },
+        "itemData.bankAcctNo"(newVal) {
+            if (newVal) {
+                if (newVal.length > 10) {
+                    this.issues.bankAcctNo = "Account number should be 10 digits";
+                } else {
+                    this.issues = {};
+                }
+            }
+        }
     }
 };
 </script>

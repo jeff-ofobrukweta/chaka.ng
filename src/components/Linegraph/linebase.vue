@@ -42,9 +42,17 @@
                     </section>
                 </div>
             </div>
-            <template v-if="isGraphValid === 1">
+            <template v-if="loading">
                 <div class="portfolio-graph__placeholder loader-gif__big">
                     <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
+                </div>
+            </template>
+            <template v-else-if="isGraphValid === 1">
+                <div class="portfolio-graph__placeholder">
+                    <img
+                        :src="require('../../assets/img/gifs/portfolio.gif')"
+                        alt="Portfolio Chart demo"
+                    />
                 </div>
             </template>
             <template v-else-if="isGraphValid === 2">
@@ -146,7 +154,7 @@ export default {
             "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
-            if (this.loading || this.gethistoryportfolioprice.length <= 0) {
+            if (this.gethistoryportfolioprice.length === 1) {
                 return 1;
             }
             // filter the array for conditions null or undefined or is Not a number
@@ -225,6 +233,7 @@ export default {
             };
             this.loading = true;
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
+            console.log;
             this.loading = false;
         }
     },

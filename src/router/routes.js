@@ -6,6 +6,7 @@ const VerificationSent = () =>
 const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
 const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
+const Disclosures = () => import(/* webpackChunkName: "disclosures" */ "../views/Disclosure");
 const DashboardLayout = () =>
     import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
 const Portfolio = () => import(/* webpackChunkName: "portfolio" */ "../views/dashboard/Portfolio");
@@ -45,6 +46,11 @@ const routes = [
         path: "/verification-sent",
         name: "verification-sent",
         component: VerificationSent
+    },
+    {
+        path: "/disclosures",
+        name: "disclosures",
+        component: Disclosures
     },
     {
         path: "/login",

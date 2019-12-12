@@ -21,6 +21,10 @@
     &.is-invalid {
       border-color: $red;
       animation: shake 400ms ease-in-out;
+
+      &.navbar {
+        border-color: $orange;
+      }
     }
 
     &--file {
@@ -111,7 +115,10 @@
     color: $red;
     font-size: 85%;
     text-transform: none;
-    ;
+
+    &.navbar {
+      color: rgba($color: $orange, $alpha: 0.75);
+    }
   }
 }
 

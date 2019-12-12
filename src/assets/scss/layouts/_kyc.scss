@@ -136,25 +136,35 @@
                     fill: $primary
                 }
             }
-
-            &--mobile {
-                // margin-bottom: 1rem;
-
-            }
         }
 
         &__pill {
-            margin-right: 20px;
-            margin-bottom: 10px;
+            margin-right: 10px;
+            margin-bottom: 6px;
             border-radius: 30px;
             padding: 0.5rem 1rem;
-            border-color: transparent;
+            border-color: rgba($color: $primary, $alpha: 0.25);
             background-color: $white;
+
+            &::before {
+                content: '';
+                width: 7px;
+                height: 7px;
+                background: $primary;
+                border: 1px solid $white;
+                box-shadow: 0 0 2px $primary;
+                border-radius: 50%;
+                margin-right: 6px;
+            }
 
             &.active {
                 border-color: $primary;
                 background-color: $primary;
                 color: $white;
+
+                &::before {
+                    background: $white;
+                }
             }
 
             &--group {

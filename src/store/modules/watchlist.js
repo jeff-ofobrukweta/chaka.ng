@@ -99,25 +99,34 @@ const actions = {
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
-                            Vue.toasted.show(`${payload.symbols} has been added successfully`, {
-                                type: "success"
-                            });
+                            Vue.toasted.show(
+                                `${payload.symbols} has been added to your watchlist successfully`,
+                                {
+                                    type: "success"
+                                }
+                            );
                             commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_WATCHLIST");
                             resolve(true);
                             return true;
                         } else {
-                            Vue.toasted.show(`An error occurred removing ${payload.symbols}`, {
-                                type: "error"
-                            });
+                            Vue.toasted.show(
+                                `An error occurred removing ${payload.symbols} from your watchlist`,
+                                {
+                                    type: "error"
+                                }
+                            );
                             errorFn(resp, "add-watchlist");
                             resolve(false);
                         }
                     },
                     error => {
-                        Vue.toasted.show(`An error occurred removing ${payload.symbols}`, {
-                            type: "error"
-                        });
+                        Vue.toasted.show(
+                            `An error occurred removing ${payload.symbols} from your watchlist`,
+                            {
+                                type: "error"
+                            }
+                        );
                         errorFn(error.response, "add-watchlist");
                         resolve(false);
                     }
@@ -136,25 +145,34 @@ const actions = {
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
-                            Vue.toasted.show(`${payload.symbols} has been removed successfully`, {
-                                type: "success"
-                            });
+                            Vue.toasted.show(
+                                `${payload.symbols} has been removed from your watchlist successfully`,
+                                {
+                                    type: "success"
+                                }
+                            );
                             commit("REQ_SUCCESS", null, { root: true });
                             dispatch("GET_WATCHLIST");
                             resolve(true);
                             return true;
                         } else {
-                            Vue.toasted.show(`An error occurred removing ${payload.symbols}`, {
-                                type: "error"
-                            });
+                            Vue.toasted.show(
+                                `An error occurred removing ${payload.symbols} from your watchlist`,
+                                {
+                                    type: "error"
+                                }
+                            );
                             errorFn(resp, "remove-watchlist");
                             resolve(false);
                         }
                     },
                     error => {
-                        Vue.toasted.show(`An error occurred removing ${payload.symbols}`, {
-                            type: "error"
-                        });
+                        Vue.toasted.show(
+                            `An error occurred removing ${payload.symbols} from your watchlist`,
+                            {
+                                type: "error"
+                            }
+                        );
                         errorFn(error.response, "remove-watchlist");
                         resolve(false);
                     }
