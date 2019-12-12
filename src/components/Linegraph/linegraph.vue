@@ -68,7 +68,7 @@ export default {
                         {
                             scaleLabel: {
                                 display: true,
-                                labelString: 'Price'
+                                // labelString: 'Price'
                             },
                             position: "left",
                             ticks: {
@@ -81,8 +81,8 @@ export default {
                                 // stepSize: 5,
                                 callback: value =>
                                     this.currency == "NGN"
-                                        ? `N${numeral(value).format("0.0a")}`
-                                        : `$${numeral(value).format("0.0a")}`
+                                        ? `N${numeral(value).format("0.00a")}`
+                                        : `$${numeral(value).format("0.00a")}`
                             },
                             gridLines: {
                                 display: false,
@@ -160,17 +160,8 @@ export default {
         };
     },
     async mounted() {
-
         await this.fillData();
         this.handlescaling();
-        var ctx = document.getElementById('line-chart').getContext("2d");
-        
-        this.purple_orange_gradient = ctx.createLinearGradient(5, 0, 0, 270);
-        this.purple_orange_gradient.addColorStop(0, "#2DA5EC");
-        this.purple_orange_gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
-        ctx.fillStyle = this.purple_orange_gradient;
-        ctx.save();
-
     },
 
     props: {
@@ -199,7 +190,9 @@ export default {
         fillData() {
             var ctx = document.getElementById('line-chart').getContext("2d");
             this.purple_orange_gradient = ctx.createLinearGradient(5, 0, 0, 270);
-            this.purple_orange_gradient.addColorStop(0, "#2DA5EC");
+            this.purple_orange_gradient.addColorStop(0, "#2DA5ECF2");
+            this.purple_orange_gradient.addColorStop(0.5, "#49b0ed99");
+            this.purple_orange_gradient.addColorStop(0.7, "#2DA5EC87");
             this.purple_orange_gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
             ctx.fillStyle = this.purple_orange_gradient;
             ctx.save();

@@ -11,22 +11,24 @@
                 class="direct"
                 id="direct"
                 :src='require(`../../assets/Instrument_assets/arrow_growth.png`)' alt="growth"/>
-                <h1
-                v-if="instrument.currency" 
-                class="price">
-                    {{(instrument.currency == 'USD' ? '$' :'₦')}}{{instrument.askPrice}}
-                </h1>
-                <h1 v-else></h1>
-                <section class="info-details">
-                    <span class="increase">
-                    <span
-                    :class="[instrument.derivedPrice < 0 ? 'red' : 'green']">
-                    {{instrument.derivedPrice}}
-                    </span>(<Fragment>
+                <section class="section-price">
+                    <h1
+                    v-if="instrument.currency" 
+                    class="price">
+                        {{(instrument.currency == 'USD' ? '$' :'₦')}}{{instrument.askPrice}}
+                    </h1>
+                    <h1 v-else></h1>
+                    <section class="info-details">
+                        <span class="increase">
                         <span
-                        :class="[instrument.derivedPricePercentage < 0 ? 'red' : 'green']"
-                        >{{instrument.derivedPricePercentage}}</span></Fragment>%)
-               </span>from last month</section>
+                        :class="[instrument.derivedPrice < 0 ? 'red' : 'green']">
+                        {{instrument.derivedPrice}}
+                        </span>(<Fragment>
+                            <span
+                            :class="[instrument.derivedPricePercentage < 0 ? 'red' : 'green']"
+                            >{{instrument.derivedPricePercentage}}</span></Fragment>%)
+                </span>from last month</section>
+                </section>
         </section>
     </Fragment>
 </template>

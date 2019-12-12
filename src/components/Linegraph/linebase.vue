@@ -44,7 +44,7 @@
             </div>
             <template v-if="loading">
                 <div class="portfolio-graph__placeholder loader-gif__big">
-                    <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
+                    <img :src="require('../../assets/img/singlestock_mount_loader.gif')" alt="Loader" />
                 </div>
             </template>
             <template v-else-if="isGraphValid === 1">
@@ -223,8 +223,10 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock);
-            this.loading = false;
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(()=>{
+                this.loading = false;
+            });
+           
         },
         async mountedActions() {
             const payload = {

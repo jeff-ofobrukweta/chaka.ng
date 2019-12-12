@@ -44,6 +44,8 @@
 @include mobile {
     .container-packet {
         margin: 2em 0px;
+        flex-basis: 50%;
+        max-width: 100%;
     }
 }
 
