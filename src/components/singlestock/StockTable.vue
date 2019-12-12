@@ -91,11 +91,9 @@ export default {
     },
     mounted(){
         this.checkforUndefined()
-        console.log('the stock itself >>>>>>>>>>>>>>>>',this.getPositionsforcurrentstock);
     },
     methods:{
         checkforUndefined(payload){
-            console.log('>>>>>>checkforUndefined>>>>>>>>>',payload)
             if(payload === undefined){ return 'Nil';}
             else{
                 return payload;

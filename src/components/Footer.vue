@@ -70,9 +70,12 @@
                         </a>
                     </div>
                     <div class="footer-top__signup">
-                        <button type="button" class="btn btn-small btn__white--outline">
+                        <router-link
+                            :to="{ name: 'register' }"
+                            class="btn btn-small btn__white--outline"
+                        >
                             Sign Up
-                        </button>
+                        </router-link>
                     </div>
                 </div>
                 <div class="footer-top__account">

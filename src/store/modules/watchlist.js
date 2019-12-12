@@ -50,7 +50,6 @@ const actions = {
                         }
                     },
                     error => {
-                        console.log(error.response);
                         if (error.response) {
                             if (
                                 error.response.data.message ===

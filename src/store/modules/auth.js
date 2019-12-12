@@ -65,6 +65,50 @@ const actions = {
             );
         });
     },
+    RESET_PASSWORD: ({ commit }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api.post("/auth/reset-password/confirm/", payload).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit("REQ_SUCCESS", null, { root: true });
+                        resolve(true);
+                        return true;
+                    } else {
+                        errorFn(resp, "reset-password");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "reset-password");
+                    resolve(false);
+                }
+            );
+        });
+    },
+    CONFIRM_EMAIL: ({ commit }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        return new Promise((resolve, reject) => {
+            return api.post("/auth/confirm-email-token/", payload).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit("REQ_SUCCESS", null, { root: true });
+                        resolve(true);
+                        return true;
+                    } else {
+                        errorFn(resp, "confirm-email");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "confirm-email");
+                    resolve(false);
+                }
+            );
+        });
+    },
     LOGIN: ({ commit, dispatch }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
