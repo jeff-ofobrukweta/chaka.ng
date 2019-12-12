@@ -19,7 +19,7 @@ import numeral from 'numeral';
 import Analysisbarchart from './analysisbarchart_config.js';
 
 export default {
-    name: 'doughnutgraph',
+    name: 'VerticalbarchartPerformanceratings',
     components: {
         Analysisbarchart
     },
@@ -28,7 +28,7 @@ export default {
             min: '',
             max: '',
             graphstyle: {
-                width: '80%',
+                width: '100%',
                 margin:'0 auto'
             },
             interval: 10,
@@ -182,7 +182,7 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false,
                 responsiveAnimationDuration: 0,
-                aspectRatio: 2,
+                aspectRatio: 1,
                 legend: {
                     display: false
                 }
