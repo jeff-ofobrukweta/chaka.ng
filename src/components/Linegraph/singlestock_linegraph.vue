@@ -79,7 +79,7 @@
                         :class="tooglegraph ? 'display':'nodisplay'"
                         :price="getOpenPrice"
                         :date="getDates"
-                        :currency="getSingleinstrument[0].currency"
+                        :currency="getSinglestockglobalCurrencyforGraph || getSingleinstrument[0].currency"
                     />
             </template>
             <!-- end here -->
@@ -87,7 +87,12 @@
     </div>
     <div
     v-else 
-    class="graphholder">problem retrieving data @ this moment</div>
+    class="graphholder">
+        <div class="portfolio-graph__placeholder caution__big">
+            <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
+            <a class="caution__reload" @click="mountedActions">Reload</a>
+        </div>
+    </div>
     </Fragment>
 </template>
 <script>

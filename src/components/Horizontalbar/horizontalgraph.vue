@@ -77,38 +77,19 @@ export default {
                             // 		},
           		gridLines: {
           			display: false,
-          			// borderDash: [4, 4],
-          			// color: '#4394c7',
           			labelString: 'Date',
           			drawBorder: false
           		}
-                            // 		// type: 'time',
-                            // 		time: {
-                            // 			// unit: this.day,
-                            // 			// unitStepSize: this.datelength,
-                            // 			// min: "2017-01-01",
-                            // 			// max: "2017-12-01",
-                            // 			displayFormats: {
-                            // 				millisecond: 'MMM DD',
-                            // 				second: 'MMM DD',
-                            // 				minute: 'MMM DD',
-                            // 				hour: 'MMM DD',
-                            // 				day: 'MMM DD',
-                            // 				week: 'MMM DD',
-                            // 				month: 'MMM DD',
-                            // 				quarter: 'MMM DD',
-                            // 				year: 'MMM DD'
-                            // 			}
-                            // 		}
           	}
                     ],
 
                     yAxes: [
-          	{
-          		scaleLabel: {
+          	    {
+          		    scaleLabel: {
           			display: false
           			// labelString: 'Price'
-          		},
+                  },
+                barPercentage: 0.7,
           		position: 'left',
           		ticks: {
           			beginAtZero: false,

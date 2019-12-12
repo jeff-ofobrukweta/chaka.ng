@@ -64,7 +64,7 @@
             <template v-else>
                 <Graph
                     :price="gethistoryportfolioprice"
-                    :currency="getAccountSummary.currency"
+                    :currency="getPorfolioglobalCurrencyforGraph"
                     :date="gethistoryportfoliodate"
                 />
             </template>
@@ -202,6 +202,7 @@ export default {
                 return true;
             }
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
+            console.log('TOOGLE CURRENCY XXXXXXXXXXXXXXXXXXXXXX >>>>>>',this.getPorfolioglobalCurrencyforGraph)
             this.loading = true;
             await this.GET_ACCOUNT_SUMMARY({ currency }).then(() => {
                 const defaulttime = {
