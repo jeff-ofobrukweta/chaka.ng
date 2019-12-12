@@ -20,15 +20,15 @@ const kycFields = [
         type: "button",
         options: [
             {
-                name: "<N500k",
+                name: "< ₦500k",
                 value: "LESS_THAN_500K"
             },
             {
-                name: "N500k - N5M",
+                name: "₦500k - ₦5M",
                 value: "500K_5MILLION"
             },
             {
-                name: "N5M+",
+                name: "₦5M+",
                 value: "GREATER_THAN_5MILLION"
             }
         ]
@@ -201,15 +201,15 @@ const kycFields = [
         type: "button",
         options: [
             {
-                name: "< N5M",
+                name: "< ₦5M",
                 value: "<N5m"
             },
             {
-                name: "N5M - N50M",
+                name: "₦5M - ₦50M",
                 value: "N5m-N50m"
             },
             {
-                name: "N50M+",
+                name: "₦50M+",
                 value: "N50m+"
             }
         ]
@@ -220,15 +220,15 @@ const kycFields = [
         type: "button",
         options: [
             {
-                name: "< N5M",
+                name: "< ₦5M",
                 value: "<N5m"
             },
             {
-                name: "N5M - N50M",
+                name: "₦5M - ₦50M",
                 value: "N5m-N50m"
             },
             {
-                name: "N50M+",
+                name: "₦50M+",
                 value: "N50m+"
             }
         ]

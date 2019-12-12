@@ -8,14 +8,14 @@
             @click="resetError"
             :placeholder="placeholder"
             class="form__input"
-            :class="{ 'is-invalid': errorMessage }"
+            :class="{ 'is-invalid': errorMessage, navbar: navbar }"
             :required="required"
             :minlength="minlength"
             :maxlength="maxlength"
             :disabled="disabled"
             :step="type === 'number' ? 'any' : ''"
         />
-        <p class="form-error" v-if="errorMessage">
+        <p class="form-error" :class="{ navbar: navbar }" v-if="errorMessage">
             <small>{{ errorMessage }}</small>
         </p>
         <!-- <p class="form-error" v-if="errorMessage">
@@ -50,12 +50,6 @@ export default {
         label: {
             type: String
         },
-        invalid: {
-            type: Object,
-            default: () => {
-                return {};
-            }
-        },
         required: {
             type: Boolean
         },
@@ -69,6 +63,9 @@ export default {
             type: String
         },
         disabled: {
+            type: Boolean
+        },
+        navbar: {
             type: Boolean
         }
     },

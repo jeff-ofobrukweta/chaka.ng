@@ -3,7 +3,8 @@ import { clearSession, requireAuth } from "../services/auth";
 const Home = () => import(/* webpackChunkName: "home" */ "../views/Home");
 const VerificationSent = () =>
     import(/* webpackChunkName: "verification-sent" */ "../views/VerificationSent");
-const ForgotPassword = () => import(/* webpackChunkName: "forgot-password" */ "../views/auth/ForgotPassword");
+const ForgotPassword = () =>
+    import(/* webpackChunkName: "forgot-password" */ "../views/auth/ForgotPassword");
 const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
 const Policies = () => import(/* webpackChunkName: "policies" */ "../views/Policies");
 const Developers = () => import(/* webpackChunkName: "developers" */ "../views/Developers");
@@ -14,6 +15,7 @@ const About = () => import(/* webpackChunkName: "about" */ "../views/About");
 const Faq = () => import(/* webpackChunkName: "faq" */ "../views/Faq");
 const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
+const Disclosures = () => import(/* webpackChunkName: "disclosures" */ "../views/Disclosure");
 const DashboardLayout = () =>
     import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
 const Portfolio = () => import(/* webpackChunkName: "portfolio" */ "../views/dashboard/Portfolio");
@@ -88,6 +90,11 @@ const routes = [
         path: "/verification-sent",
         name: "verification-sent",
         component: VerificationSent
+    },
+    {
+        path: "/disclosures",
+        name: "disclosures",
+        component: Disclosures
     },
     {
         path: "/forgot-password",
