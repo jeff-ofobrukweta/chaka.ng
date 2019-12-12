@@ -48,6 +48,18 @@
                 margin-top: 1rem;
             }
 
+            &--center {
+                flex: 0 0 100%;
+                max-width: 100%;
+                text-align: center;
+            }
+
+        }
+
+        &__fund {
+            margin-top: .5rem;
+
+            padding: 0.25rem 0.825rem
         }
 
         &__field {
