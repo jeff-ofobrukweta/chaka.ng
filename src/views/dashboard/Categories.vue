@@ -152,6 +152,9 @@ export default {
         async mount() {
             this.loading = true;
             this.loadingTags = true;
+            if (this.gettagslistsArray.length > 0) {
+                this.loadingTags = false;
+            }
             await this.GET_TAGS_CATEGORIES();
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
@@ -169,7 +172,6 @@ export default {
     },
     beforeRouteLeave(to, from, next) {
         this.SET_INSTRUMENT_BY_TAGS([]);
-        this.SET_TAGS_LISTS([]);
         next();
     }
 };

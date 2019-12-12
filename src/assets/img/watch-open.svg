@@ -1,12 +1,9 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g filter="url(#filter0_d)">
-<rect x="4.5" y="0.5" width="15" height="15" rx="3.5" stroke="white"/>
-</g>
-<g clip-path="url(#clip0)">
-<path d="M11.9998 4.875C9.9165 4.875 8.13734 6.17083 7.4165 8C8.13734 9.82917 9.9165 11.125 11.9998 11.125C14.0832 11.125 15.8623 9.82917 16.5832 8C15.8623 6.17083 14.0832 4.875 11.9998 4.875ZM11.9998 10.0833C10.8498 10.0833 9.9165 9.15 9.9165 8C9.9165 6.85 10.8498 5.91667 11.9998 5.91667C13.1498 5.91667 14.0832 6.85 14.0832 8C14.0832 9.15 13.1498 10.0833 11.9998 10.0833ZM11.9998 6.75C11.3082 6.75 10.7498 7.30833 10.7498 8C10.7498 8.69167 11.3082 9.25 11.9998 9.25C12.6915 9.25 13.2498 8.69167 13.2498 8C13.2498 7.30833 12.6915 6.75 11.9998 6.75Z" fill="white"/>
+<path d="M12.1664 3C8.75738 3 5.84604 5.07333 4.66649 8C5.84604 10.9267 8.75738 13 12.1664 13C15.5756 13 18.4868 10.9267 19.6665 8C18.4868 5.07333 15.5756 3 12.1664 3ZM12.1664 11.3333C10.2846 11.3333 8.75738 9.84 8.75738 8C8.75738 6.16 10.2846 4.66667 12.1664 4.66667C14.0482 4.66667 15.5756 6.16 15.5756 8C15.5756 9.84 14.0482 11.3333 12.1664 11.3333ZM12.1664 6C11.0347 6 10.121 6.89333 10.121 8C10.121 9.10667 11.0347 10 12.1664 10C13.2983 10 14.2119 9.10667 14.2119 8C14.2119 6.89333 13.2983 6 12.1664 6Z" fill="white"/>
 </g>
 <defs>
-<filter id="filter0_d" x="0" y="0" width="24" height="24" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<filter id="filter0_d" x="0.666489" y="3" width="23" height="18" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>
 <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
 <feOffset dy="4"/>
@@ -15,9 +12,5 @@
 <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
 <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
 </filter>
-<clipPath id="clip0">
-<rect width="10" height="10" fill="white" transform="translate(7 3.5)"/>
-</clipPath>
 </defs>
 </svg>
-

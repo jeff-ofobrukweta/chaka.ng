@@ -88,18 +88,19 @@
                     >Discover</router-link
                 >
             </section>
-            <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-            <wallet-success @close="showSuccess = false" v-if="showSuccess" />
         </section>
+        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
+        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
+
+        <modal @close="showKYC = false" v-if="showKYC">
+            <template slot="header">{{ selectedField.title }}</template>
+            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
+        </modal>
     </section>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import Linegraph from "../../components/Linegraph/linebase";
-import Doughnut from "../../components/Doughnut/dbase";
-import Performancebarchart from "../../components/Performance_chart/performancebase";
-import KYCButton from "../../components/form/KYCButton";
 import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
@@ -109,10 +110,11 @@ export default {
         PortfolioCardLocal: () => import("../../components/portfolio/PortfolioCardLocal"),
         PortfolioCardGlobal: () => import("../../components/portfolio/PortfolioCardGlobal"),
         PortfolioCardOpenorders: () => import("../../components/portfolio/PortfolioCardOpenorders"),
-        Linegraph,
-        Doughnut,
-        Performancebarchart,
-        KYCButton
+        Linegraph: () => import("../../components/Linegraph/linebase"),
+        Doughnut: () => import("../../components/Doughnut/dbase"),
+        Performancebarchart: () => import("../../components/Performance_chart/performancebase"),
+        KYCButton: () => import("../../components/form/KYCButton"),
+        ModalKYC: () => import("../../components/kyc/ModalKYC")
     },
     data() {
         return {
@@ -223,7 +225,8 @@ export default {
             "getAccountSummary",
             "getPortfoliopositionsCarddetails",
             "getPortfolioDerivedPrice",
-            "getPortfolioDerivedChange"
+            "getPortfolioDerivedChange",
+            "getNextKYC"
         ])
     }
 };

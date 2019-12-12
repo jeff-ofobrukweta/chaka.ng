@@ -179,7 +179,6 @@ export default {
     },
     methods: {
         ...mapActions([
-            "GET_NEXT_KYC",
             "RESOLVE_BVN",
             "UPDATE_KYC_BANK",
             "UPDATE_KYC_NIN",
