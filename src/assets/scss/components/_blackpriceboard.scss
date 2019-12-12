@@ -9,18 +9,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    .direct {
-        object-fit: contain;
+    .section-price{
+        display: block;
+        .direct {
+            object-fit: contain;
+        }
+    
+        .price {
+            font-style: normal;
+            font-weight: 800;
+            font-size: 2.5em;
+            color: #FFFFFF;
+            text-align: center;
+        }
     }
-
-    .price {
-        font-style: normal;
-        font-weight: 800;
-        font-size: 2.5em;
-        color: #FFFFFF;
-    }
-
     .info-details {
         font-style: normal;
         font-weight: bold;
@@ -48,8 +50,10 @@
         width: 100%;
         display: flex;
         justify-content: space-evenly;
+        flex-direction: row;
         margin-bottom: 1em;
         margin-top: 1em;
+        .price{margin: 0px 10px;}
     }
 
     #direct {

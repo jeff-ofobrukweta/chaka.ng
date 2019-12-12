@@ -22,7 +22,7 @@ export default {
             min: '',
             max: '',
             graphstyle: {
-               width: '80%',
+               width: '90%',
                margin:'0 auto'
             },
             interval: 10,
@@ -117,11 +117,13 @@ export default {
           			fontSize: 10,
           			max: this.max,
           			min: this.min,
-          			stepSize: this.interval
-          			// callback: (value) =>
-          			// 	this.currency == 'USD'
-          			// 		? `$${numeral(value).value()}`
-          			// 		: `N${numeral(value).value()}`
+          			stepSize: this.interval,
+          			// callback:{
+                    //       label(tooltipItem, data){
+                    //         const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
+                    //         return currency;
+                    //     }
+                    //   }
           		},
           		gridLines: {
           			display: false,

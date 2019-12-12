@@ -16,6 +16,7 @@
                                         v-for="(item, index) in currencyOption"
                                         :key="index"
                                          @click="toogleCurrency(item.currency,item.id)"
+                                        :disabled="loading"
                                         :title="item.description"
                                         :class="[item.currency == getSinglestockglobalCurrencyforGraph ? 'btn-one-active' : '','btn-one']"
                                         >{{item.symbol}}</button>
@@ -24,6 +25,7 @@
                                         <select
                                             v-model="Interval"
                                             @change="handletimeframe" 
+                                            :disabled="loading"
                                             class="drop-down">
                                             <option v-for="(item, index) in buttonoption" 
                                             :key="index" :value="item.time">{{item.name}}</option>
@@ -53,18 +55,35 @@
 
                 </div>
             </div>
-         <technical-chart
-              v-if="tooglegraph"
-			 :symbol="getSingleinstrument[0].symbol"
-			 :exchangeID="getSingleinstrument[0].exchangeID"
-		/>
-        <Graph
-            v-else
-            :class="tooglegraph ? 'display':'nodisplay'"
-            :price="getOpenPrice"
-            :date="getDates"
-            :currency="getSingleinstrument[0].currency"
-         />
+
+            <!-- start here -->
+             <template v-if="isGraphValid === 1">
+                <div class="portfolio-graph__placeholder loader-gif__big">
+                    <img :src="require('../../assets/img/singlestock_mount_loader.gif')" alt="Loader" />
+                </div>
+                </template>
+                <template v-else-if="isGraphValid === 2">
+                    <div class="portfolio-graph__placeholder caution__big">
+                        <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
+                        <a class="caution__reload" @click="mountedActions">Reload</a>
+                    </div>
+                </template>
+                <template v-else>
+                    <technical-chart
+                        v-if="tooglegraph"
+                        :symbol="getSingleinstrument[0].symbol"
+                        :exchangeID="getSingleinstrument[0].exchangeID"
+		            />
+                    <Graph
+                        v-else
+                        :class="tooglegraph ? 'display':'nodisplay'"
+                        :price="getOpenPrice"
+                        :date="getDates"
+                        :currency="getSingleinstrument[0].currency"
+                    />
+            </template>
+            <!-- end here -->
+        
     </div>
     <div
     v-else 
@@ -126,8 +145,9 @@ export default {
                     description:"convert to Dollar value"
                 }
             ],
+            loading:true,
             tooglegraph:false,
-            Interval:'1D',
+            Interval:'5Y',
             options:[
                 {
                     name:'Normal',
@@ -179,7 +199,20 @@ export default {
             "getSinglestockglobalTimeforGraph",
             "getSinglestockglobalCurrencyforGraph",
             "getSinglestockIntervalposition"
-            ])
+            ]),
+        isGraphValid() {
+            if (this.loading || this.getOpenPrice.length <= 0) {
+                return 1;
+            }
+            // filter the array for conditions null or undefined or is Not a number
+            const checkForNull = this.getOpenPrice.filter(
+                el => el === null || el === undefined || Number.isNaN(+el)
+            );
+            if (checkForNull.length <= 0 && this.getDates[0] !== null) {
+                return 3;
+            }
+            return 2;
+        }
     },
     methods:{
         ...mapMutations([
@@ -201,11 +234,13 @@ export default {
             }
              this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
                 //  call back state like loader state here
+                this.loading = false;
                 console.log('this is the single Instrument LLLLLLLLLLLLLL', this.getSingleinstrument[0].currency)
             })
         },
         handletimeframe(e) {
             console.log('>>>>>>>>>handletimeframe>>>>>>>>',this.Interval);
+            this.loading = true;
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
             const payloadsinglestock = {
                 interval:this.getSinglestockglobalTimeforGraph,
@@ -213,11 +248,13 @@ export default {
                 symbol:this.$route.params.symbol
             }
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(()=>{
+                this.loading = false;
                 console.log('>>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>',this.getOpenPrice);
             })
         },
          async toogleCurrency(currency,id) {
              console.log('TOOOOOOOOGLE_CUUUUUUUUURENCY',currency,id)
+             this.loading = true;
              this.currentId = id
             this.SET_SINGLESTOCK_POSITIONS_FOR_SELECT(id);
             console.log('CURRENCY TOOGLE SELECT STATE',this.getSinglestockIntervalposition)
@@ -229,7 +266,7 @@ export default {
                 symbol:this.$route.params.symbol
             }
 			this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(defaulttime).then(()=>{
-
+                this.loading = false;
             });
         },
     },
