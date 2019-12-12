@@ -58,9 +58,9 @@
 
             <!-- start here -->
              <template v-if="isGraphValid === 1">
-                <div class="portfolio-graph__placeholder loader-gif__big">
-                    <img :src="require('../../assets/img/singlestock_mount_loader.gif')" alt="Loader" />
-                </div>
+                    <div class="portfolio-graph__placeholder loader-gif__big">
+                        <img class="middle-loader" :src="require('../../assets/img/ring-loader.gif')" alt="spin" />
+                    </div>
                 </template>
                 <template v-else-if="isGraphValid === 2">
                     <div class="portfolio-graph__placeholder caution__big">
