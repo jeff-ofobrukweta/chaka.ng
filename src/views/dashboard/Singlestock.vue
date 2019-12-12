@@ -3,7 +3,7 @@
         <section
             class="issues-with-pageloading" 
             v-if="getSingleinstrument[0] == undefined || !getSingleinstrument || getSingleinstrument[0] == null">
-            <span>fetching the current page, try reloading the browser</span>
+            <span>fetching the current page, try reloading the browser after sometime</span>
             <span><img class="loader" :src="require('../../assets/img/singlestock_mount_loader.gif')" alt="Loader" /></span>
         </section>
         <section
