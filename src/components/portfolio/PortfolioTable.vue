@@ -1,12 +1,16 @@
 <template>
     <section class="portfolio-table__box">
-        <error-block type="cancel-order" :message="cancelStatus.message" :status="cancelStatus.status" />
+        <error-block
+            type="cancel-order"
+            :message="cancelStatus.message"
+            :status="cancelStatus.status"
+        />
         <table class="portfolio-table" v-if="openOrders">
             <thead class="portfolio-table__thead">
                 <th>Name</th>
                 <th>Symbol</th>
-                <th>Order<br/>Type</th>
-                <th>Market<br/>Type</th>
+                <th>Order<br />Type</th>
+                <th>Market<br />Type</th>
                 <th>Price</th>
                 <th>Units Ordered</th>
                 <th>Invested<br />Amount</th>
@@ -30,7 +34,7 @@
                         {{ item.orderSide }}
                     </td>
                     <td class="cursor-context">
-                        {{ item.orderType || '-' }}
+                        {{ item.orderType || "-" }}
                     </td>
                     <td
                         class="cursor-context"
@@ -52,8 +56,8 @@
                     <td>
                         <action-button
                             type="button"
-                            :pending="loading===item.reference"
-                            v-if="loading===item.reference"
+                            :pending="loading === item.reference"
+                            v-if="loading === item.reference"
                             pending-text="Processing"
                             :classes="['btn-block', 'btn__primary--outline']"
                             >Cancel</action-button
@@ -155,6 +159,7 @@
                             @step="handleStep"
                             @click.native="selectInstrument(item, 'buy')"
                             tag="a"
+                            next-action="buy"
                             >+&nbsp;Buy</KYCButton
                         >
                         <KYCButton
@@ -164,6 +169,7 @@
                             @click.native="selectInstrument(item, 'sell')"
                             @step="handleStep"
                             tag="a"
+                            next-action="sell"
                             >-&nbsp;Sell</KYCButton
                         >
                     </td>
@@ -258,12 +264,12 @@ export default {
             return false;
         },
         selectInstrument(instrument, type) {
+            this.type = type;
             this.selectedInstrument = instrument;
             this.checkPositions(instrument.symbol, instrument.currency);
-            this.type = type;
         },
         cancelOrder(item) {
-            this.cancelStatus = {}
+            this.cancelStatus = {};
             this.loading = item.reference;
             const details = {
                 orderRef: item.reference,
@@ -272,19 +278,20 @@ export default {
                     symbol: item.symbol
                 }
             };
-            this.CANCEL_ORDER(details).then(resp=> {
-                this.loading = false
-                if(resp){
-                    this.cancelStatus.message = 'Order cancellation successful'
-                    this.cancelStatus.status = 'success'
+            this.CANCEL_ORDER(details).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.cancelStatus.message = "Order cancellation successful";
+                    this.cancelStatus.status = "success";
                     this.$toasted.show(`Order cancellation successful`, {
                         type: "success"
                     });
                 }
-            })
+            });
         },
         handleStep(step) {
-            this.step = step.type;
+            // this.step = step.type;
+            this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
                 this.allNextKYC.forEach(element => {
@@ -297,7 +304,7 @@ export default {
                 });
                 return true;
             } else {
-                if (this.type === "buy") {
+                if (step.nextAction === "buy") {
                     this.showBuy = true;
                     return true;
                 }
@@ -306,8 +313,8 @@ export default {
         },
         handleUpdate() {
             this.showKYC = false;
-            if (this.step !== "kyc") {
-                if (this.type === "buy") this.$refs.buyBtn.$el.click();
+            if (this.step.type !== "kyc") {
+                if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();
             }
         },
@@ -321,8 +328,8 @@ export default {
         }
     },
     watch: {
-        openOrders(newVal){
-            this.cancelStatus = {}
+        openOrders(newVal) {
+            this.cancelStatus = {};
         }
     }
 };

@@ -31,9 +31,9 @@
                     <span
                         class="cursor-context modal__buy--price"
                         :title="
-                            getSingleinstrument[0].askPrice | kobo | currency(instrument.currency, true)
+                            getSingleinstrument[0].askPrice | currency(instrument.currency, true)
                         "
-                        >{{ getSingleinstrument[0].askPrice | kobo | currency(instrument.currency) }}</span
+                        >{{ getSingleinstrument[0].askPrice | currency(instrument.currency) }}</span
                     >&nbsp;&nbsp;
                     <img
                         v-if="getSingleinstrument[0].derivedPrice >= 0"
@@ -56,24 +56,32 @@
                 <p
                     v-if="currency === 'NGN'"
                     class="cursor-context modal__buy--price"
-                    :title=" getAccountSummary.localWallet ?
-                        getAccountSummary.localWallet.availableBalance: '-'
-                            | kobo
-                            | currency('NGN', true)
+                    :title="
+                        getAccountSummary.localWallet
+                            ? getAccountSummary.localWallet.availableBalance
+                            : '-' | kobo | currency('NGN', true)
                     "
                 >
-                    {{getAccountSummary.localWallet ? getAccountSummary.localWallet.availableBalance : '-' | kobo | currency("NGN") }}
+                    {{
+                        getAccountSummary.localWallet
+                            ? getAccountSummary.localWallet.availableBalance
+                            : "-" | kobo | currency("NGN")
+                    }}
                 </p>
                 <p
                     v-else
                     class="cursor-context modal__buy--price"
-                    :title="getAccountSummary.globalWallet ? 
-                        getAccountSummary.globalWallet.availableBalance : '-'
-                            | kobo
-                            | currency('USD', true)
+                    :title="
+                        getAccountSummary.globalWallet
+                            ? getAccountSummary.globalWallet.availableBalance
+                            : '-' | kobo | currency('USD', true)
                     "
                 >
-                    {{getAccountSummary.globalWallet ? getAccountSummary.globalWallet.availableBalance : '-' | kobo | currency("USD") }}
+                    {{
+                        getAccountSummary.globalWallet
+                            ? getAccountSummary.globalWallet.availableBalance
+                            : "-" | kobo | currency("USD")
+                    }}
                 </p>
             </div>
         </section>
@@ -334,6 +342,9 @@ export default {
         instrument: {
             type: Object,
             required: true
+        },
+        stockPage: {
+            type: Boolean
         }
     },
     components: {
@@ -536,12 +547,12 @@ export default {
         this.SET_BUY_ORDER({});
         this.SET_SELL_ORDER({});
         this.GET_MARKET_DATA(this.symbol || this.instrument.symbol);
-        this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol|| this.instrument.symbol });
+        this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol || this.instrument.symbol });
         await this.GET_ACCOUNT_SUMMARY();
     },
     beforeDestroy() {
         this.SET_MARKET_DATA({});
-        this.SET_SINGLE_INSTRUMENT([]);
+        if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
     }
 };
 </script>

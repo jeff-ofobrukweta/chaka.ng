@@ -30,17 +30,21 @@
     &-header {
         display: flex;
         justify-content: center;
+        align-items: center;
         padding-bottom: 1rem;
 
         &__text {
-            font-size: 20px;
+            font-size: 1.325rem;
             text-align: center;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
         }
 
         &__close {
             color: $text-color;
             position: absolute;
             right: 1.5rem;
+            display: flex;
 
         }
     }

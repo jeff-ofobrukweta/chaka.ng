@@ -80,7 +80,7 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            margin-bottom: .5rem;
+            // margin-bottom: .5rem;
 
             &--top {
                 display: block;
@@ -95,7 +95,7 @@
         &__box {
             width: 100%;
 
-            label{
+            label {
                 color: $text-color;
             }
 
