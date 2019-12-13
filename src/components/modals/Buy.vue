@@ -31,9 +31,9 @@
                     <span
                         class="cursor-context modal__buy--price"
                         :title="
-                            getSingleinstrument[0].askPrice | currency(instrument.currency, true)
+                            getSingleinstrument[0].askPrice | kobo | currency(instrument.currency, true)
                         "
-                        >{{ getSingleinstrument[0].askPrice | currency(instrument.currency) }}</span
+                        >{{ getSingleinstrument[0].askPrice | kobo | currency(instrument.currency) }}</span
                     >&nbsp;&nbsp;
                     <img
                         v-if="getSingleinstrument[0].derivedPrice >= 0"
