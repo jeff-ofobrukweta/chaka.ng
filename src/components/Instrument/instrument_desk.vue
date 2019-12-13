@@ -37,10 +37,12 @@
             <router-link :to="{ name: 'singlestock', params: { symbol: item.symbol } }">
                 <section class="section2">
                     <div
-                        :title="item.InstrumentDynamic.askPrice | currency(item.currency, true)"
+                        :title="
+                            item.InstrumentDynamic.askPrice | kobo | currency(item.currency, true)
+                        "
                         class="price"
                     >
-                        {{ item.InstrumentDynamic.askPrice | currency(item.currency) }}
+                        {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
                     </div>
                     <div class="level">
                         <!-- <img class="direct"

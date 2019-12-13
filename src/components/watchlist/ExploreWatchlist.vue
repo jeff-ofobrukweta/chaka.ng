@@ -49,8 +49,8 @@
             <p v-if="instrument.InstrumentDynamic">
                 <strong
                     class=" cursor-context"
-                    :title="instrument.askPrice | currency(instrument.currency, true)"
-                    >{{ instrument.askPrice | currency(instrument.currency) }}</strong
+                    :title="instrument.askPrice | kobo | currency(instrument.currency, true)"
+                    >{{ instrument.askPrice | kobo | currency(instrument.currency) }}</strong
                 >
             </p>
         </div>

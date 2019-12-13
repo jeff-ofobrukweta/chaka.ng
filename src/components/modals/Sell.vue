@@ -31,9 +31,13 @@
                     <span
                         class="cursor-context modal__buy--price"
                         :title="
-                            getSingleinstrument[0].askPrice | currency(instrument.currency, true)
+                            getSingleinstrument[0].askPrice
+                                | kobo
+                                | currency(instrument.currency, true)
                         "
-                        >{{ getSingleinstrument[0].askPrice | currency(instrument.currency) }}</span
+                        >{{
+                            getSingleinstrument[0].askPrice | kobo | currency(instrument.currency)
+                        }}</span
                     >&nbsp;&nbsp;
                     <img
                         v-if="getSingleinstrument[0].derivedPrice >= 0"
@@ -53,12 +57,7 @@
             </div>
             <div class="modal__buy--current">
                 <p><small>AVAILABLE QUANTITY:</small></p>
-                <p
-                    class="cursor-context modal__buy--price"
-                    :title="
-                       maxQuantity | units(2, true)
-                    "
-                >
+                <p class="cursor-context modal__buy--price" :title="maxQuantity | units(2, true)">
                     {{ maxQuantity | units }} Units
                 </p>
             </div>
@@ -375,7 +374,7 @@ export default {
             "GET_ACCOUNT_SUMMARY",
             "SELL_INSTRUMENT",
             "GET_SINGLESTOCK_INSTRUMENT",
-            "GET_MARKET_DATA",
+            "GET_MARKET_DATA"
         ]),
         ...mapMutations([
             "SET_MARKET_DATA",

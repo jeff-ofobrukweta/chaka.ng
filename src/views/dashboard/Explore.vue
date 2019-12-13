@@ -128,7 +128,7 @@
         </section>
         <!-- </template> -->
 
-        <section class="explore-section" v-if="getWatchlist.length > 0">
+        <section v-if="getWatchlist.length > 0">
             <section class="dashboard__title">
                 <h3>Watchlist</h3>
                 <p class="dashboard__title--sub">See the latest on the stock market</p>
