@@ -5,6 +5,10 @@ const VerificationSent = () =>
     import(/* webpackChunkName: "verification-sent" */ "../views/VerificationSent");
 const ForgotPassword = () =>
     import(/* webpackChunkName: "forgot-password" */ "../views/auth/ForgotPassword");
+const ResetPassword = () =>
+    import(/* webpackChunkName: "reset-password" */ "../views/auth/ResetPassword");
+const ConfirmEmail = () =>
+    import(/* webpackChunkName: "confirm-email" */ "../views/auth/ConfirmEmail");
 const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
 const Policies = () => import(/* webpackChunkName: "policies" */ "../views/Policies");
 const Developers = () => import(/* webpackChunkName: "developers" */ "../views/Developers");
@@ -60,6 +64,16 @@ const routes = [
         path: "/calculator",
         name: "calculator",
         component: Calculator
+    },
+    {
+        path: "/auth/reset-password/:chakaID/:token",
+        name: "reset-password",
+        component: ResetPassword
+    },
+    {
+        path: "/auth/confirm-email-token/:chakaID/:token",
+        name: "confirm-email",
+        component: ConfirmEmail
     },
     {
         path: "/policies",

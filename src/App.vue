@@ -50,11 +50,11 @@ export default {
             if (currentScrollPos < 50) {
                 if (nav) nav.classList.remove("scroll");
                 header.classList.remove("scroll");
-            } else if (currentScrollPos >= 70) {
+            } else if (currentScrollPos >= 60) {
                 if (nav) nav.classList.add("scroll");
                 header.classList.add("scroll");
             }
-            if (this.prevScrollpos <= currentScrollPos && currentScrollPos > 60) {
+            if (this.prevScrollpos <= currentScrollPos && currentScrollPos > 80) {
                 if (nav) nav.classList.add("push");
                 header.classList.add("hide");
             } else {

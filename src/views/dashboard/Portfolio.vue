@@ -61,7 +61,7 @@
                     <p class="explore__title--sub">Keep a close watch on top stocks</p>
                 </div>
                 <select
-                    v-if="getWatchlist.length > 0"
+                    :disabled="getWatchlist.length <= 0 || watchlistLoading"
                     class="form__input"
                     v-model="watchlistInterval"
                     @change="handlewatchlistintervalToogle"

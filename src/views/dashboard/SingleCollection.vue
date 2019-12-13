@@ -5,6 +5,7 @@
             <p class="dashboard__title--sub" v-if="getSingleCollection.length > 0">
                 {{ getSingleCollection.length }} Stocks
             </p>
+            <p class="dashboard__title--sub">{{ getSelectedCollection.description }}</p>
         </section>
         <template v-if="getWindowWidth === 'desktop'">
             <section v-if="loading" class="instrument-base">
@@ -59,7 +60,8 @@ export default {
             "getSingleCollection",
             "getWindowWidth",
             "getCollectionStocks",
-            "getErrorLog"
+            "getErrorLog",
+            "getSelectedCollection"
         ]),
         name() {
             return this.$route.params.name;
