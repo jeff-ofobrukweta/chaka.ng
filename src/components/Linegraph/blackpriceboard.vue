@@ -29,7 +29,11 @@
                             <span
                             :class="[instrument.derivedPricePercentage < 0 ? 'red' : 'green']"
                             >({{instrument.derivedPricePercentage}}%)</span></Fragment>
-                </span><span v-if="timingStatement">from {{timingStatement}}</span><span v-else></span></section>
+                            </span>
+                        <span v-if="timingStatement">from {{timingStatement}}</span>
+                        <span v-else></span>
+                    </section>
+                    <section v-else></section>
                 </section>
         </section>
     </Fragment>
