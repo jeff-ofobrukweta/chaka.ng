@@ -53,12 +53,7 @@
             </div>
             <div class="modal__buy--current">
                 <p><small>AVAILABLE QUANTITY:</small></p>
-                <p
-                    class="cursor-context modal__buy--price"
-                    :title="
-                       maxQuantity | units(2, true)
-                    "
-                >
+                <p class="cursor-context modal__buy--price" :title="maxQuantity | units(2, true)">
                     {{ maxQuantity | units }} Units
                 </p>
             </div>
@@ -324,6 +319,9 @@ export default {
         maxQuantity: {
             type: Number,
             required: true
+        },
+        stockPage: {
+            type: Boolean
         }
     },
     components: {
@@ -376,6 +374,7 @@ export default {
             "SELL_INSTRUMENT",
             "GET_SINGLESTOCK_INSTRUMENT",
             "GET_MARKET_DATA",
+            "GET_PRE_ORDER"
         ]),
         ...mapMutations([
             "SET_MARKET_DATA",
@@ -532,7 +531,7 @@ export default {
     },
     beforeDestroy() {
         this.SET_MARKET_DATA({});
-        this.SET_SINGLE_INSTRUMENT([]);
+        if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
     }
 };
 </script>

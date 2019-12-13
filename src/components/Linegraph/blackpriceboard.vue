@@ -1,8 +1,8 @@
 <template>
     <Fragment>
         <section class="board-container-price">
-                <img
-                v-if="(instrument && (instrument.derivedPricePercentage < 0))" 
+            <img
+                v-if="instrument && instrument.derivedPricePercentage < 0"
                 class="direct"
                 id="direct"
                 :src='require(`../../assets/Instrument_assets/redarrow.svg`)' alt="decline"/>
@@ -35,7 +35,7 @@
                     </section>
                     <section v-else></section>
                 </section>
-        </section>
+            </section>
     </Fragment>
 </template>
 

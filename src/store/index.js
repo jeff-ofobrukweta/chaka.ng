@@ -37,9 +37,9 @@ const initialState = {
     stock: { ...stock.state },
     wallet: { ...wallet.state },
     watchlist: { ...watchlist.state },
-    categories: { ... watchlist.state},
-    graphs:{ ... graphs.state},
-    singlestock:{ ...graphs.state},
+    categories: { ...watchlist.state },
+    graphs: { ...graphs.state },
+    singlestock: { ...graphs.state },
     accounts: { ...accounts.state }
 };
 
@@ -91,8 +91,7 @@ export default new Vuex.Store({
             Object.keys(state).forEach(key => {
                 try {
                     Object.assign(state[key], initialState[key]);
-                } catch (error) {
-                }
+                } catch (error) {}
             });
         }
     },

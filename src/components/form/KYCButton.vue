@@ -35,6 +35,9 @@ export default {
         tag: {
             type: String,
             default: "button"
+        },
+        nextAction: {
+            type: String
         }
     },
     computed: {
@@ -72,7 +75,11 @@ export default {
             } else {
                 if (this.action === "local") {
                     if (this.getLoggedUser.localKycStatus !== "NONE") {
-                        this.$emit("step", { type: "local", kyc: false });
+                        this.$emit("step", {
+                            type: "local",
+                            kyc: false,
+                            nextAction: this.nextAction
+                        });
                         this.clicked = false;
                         return true;
                     }
@@ -82,14 +89,22 @@ export default {
                             this.clicked = false;
                             return true;
                         } else if (this.getNextKYC.status === "COMPLETE") {
-                            this.$emit("step", { type: "local", kyc: false });
+                            this.$emit("step", {
+                                type: "local",
+                                kyc: false,
+                                nextAction: this.nextAction
+                            });
                             this.clicked = false;
                             return true;
                         }
                     });
                 } else if (this.action === "global") {
                     if (this.getLoggedUser.globalKycStatus !== "NONE") {
-                        this.$emit("step", { type: "global", kyc: false });
+                        this.$emit("step", {
+                            type: "global",
+                            kyc: false,
+                            nextAction: this.nextAction
+                        });
                         this.clicked = false;
                         return true;
                     }
@@ -99,7 +114,11 @@ export default {
                             this.clicked = false;
                             return true;
                         } else if (this.getNextKYC.status === "COMPLETE") {
-                            this.$emit("step", { type: "global", kyc: false });
+                            this.$emit("step", {
+                                type: "global",
+                                kyc: false,
+                                nextAction: this.nextAction
+                            });
                             this.clicked = false;
                             return true;
                         }

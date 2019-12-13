@@ -30,7 +30,12 @@ export default {
     computed: {
         ...mapGetters(["showNavbarKYC", "getLoggedUser", "getNavbarNextKYC"]),
         showPending() {
-            if (this.getNavbarNextKYC.status === "COMPLETE") return true;
+            if (
+                this.getNavbarNextKYC.status === "COMPLETE" &&
+                (this.getLoggedUser.localKycStatus !== "COMPLETE" ||
+                    this.getLoggedUser.globalKycStatus !== "COMPLETE")
+            )
+                return true;
             return false;
         }
     },

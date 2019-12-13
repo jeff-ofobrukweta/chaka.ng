@@ -32,10 +32,12 @@
                 <strong
                     class="cursor-context"
                     :title="
-                        instrument.InstrumentDynamic.askPrice | currency(instrument.currency, true)
+                        instrument.InstrumentDynamic.askPrice
+                            | kobo
+                            | currency(instrument.currency, true)
                     "
                     >{{
-                        instrument.InstrumentDynamic.askPrice | currency(instrument.currency)
+                        instrument.InstrumentDynamic.askPrice | kobo | currency(instrument.currency)
                     }}</strong
                 >
             </p>
