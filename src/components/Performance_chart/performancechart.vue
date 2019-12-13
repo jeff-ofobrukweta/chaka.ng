@@ -11,8 +11,10 @@
 <script>
 import { mapGetters,mapMutations,mapActions } from 'vuex';
 import numeral from 'numeral';
+import Chart from 'chart.js'
 import Performancebarchart from './performance_config.js';
 
+Chart.defaults.global.elements.rectangle.borderRadius = 10;
 export default {
     name: 'doughnutgraph',
     components: {

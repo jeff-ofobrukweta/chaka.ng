@@ -26,8 +26,8 @@
         <div class="stock-table__flex">
             <p class="stock-table__head">Net Earnings</p>
             <p class="stock-table__body cursor-context" 
-            :title="checkforUndefined(instrument.netEarningsPercentage) || 0.00 | currency(instrument.currency, true)">
-                {{ checkforUndefined(instrument.netEarningsPercentage) || 0.00 | currency(instrument.currency) }}
+            :title="checkforUndefined(instrument.netEarnings) || 0.00 | currency(instrument.currency, true)">
+                {{ checkforUndefined(instrument.netEarnings) || 0.00 | currency(instrument.currency) }}
             </p>
         </div>
         <div class="stock-table__flex stock-table__flex--full">
