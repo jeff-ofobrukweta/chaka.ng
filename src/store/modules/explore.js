@@ -6,7 +6,8 @@ const state = {
     exploreLearn: [],
     exploreCollections: [],
     singleCollection: [],
-    collectionStocks: []
+    collectionStocks: [],
+    selectedCollection: {}
 };
 
 const getters = {
@@ -14,7 +15,8 @@ const getters = {
     getExploreLearn: state => state.exploreLearn,
     getExploreCollections: state => state.exploreCollections,
     getSingleCollection: state => state.singleCollection,
-    getCollectionStocks: state => state.collectionStocks
+    getCollectionStocks: state => state.collectionStocks,
+    getSelectedCollection: state => state.selectedCollection
 };
 
 const mutations = {
@@ -32,6 +34,9 @@ const mutations = {
     },
     SET_COLLECTION_STOCKS(state, payload) {
         state.collectionStocks = payload;
+    },
+    SET_SELECTED_COLLECTION(state, payload) {
+        state.selectedCollection = payload;
     }
 };
 

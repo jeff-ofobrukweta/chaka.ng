@@ -52,7 +52,7 @@ instance.interceptors.response.use(
                     }
                 });
         }
-        return Promise.resolve(false);
+        return Promise.reject(error);
     }
 );
 

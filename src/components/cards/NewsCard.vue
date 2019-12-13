@@ -1,14 +1,4 @@
 <template>
-    <!-- <span v-if="dummy"
-        class="card-news flex"
-        target="_blank"
-    >
-        <img
-            class="card-news__img faded"
-            :src="require('../../assets/img/chaka-icon.svg')"
-            :alt="news.title"
-        />
-    </span> -->
     <a
         class="card-news"
         :class="{ flex: !news.imageUrl }"
@@ -27,12 +17,7 @@
             <h5>{{ news.name || "" | truncate(48) }}</h5>
         </div>
     </a>
-    <a
-        class="card-news"
-        :class="{ flex: !news.imageUrl }"
-        @click="setCollectionStocks(news.stocks)"
-        v-else
-    >
+    <a class="card-news" :class="{ flex: !news.imageUrl }" @click="setCollectionStocks" v-else>
         <img v-if="news.imageUrl" class="card-news__img" :src="news.imageUrl" :alt="news.title" />
         <img
             v-else
@@ -64,9 +49,10 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(["SET_COLLECTION_STOCKS"]),
-        setCollectionStocks(stocks) {
-            this.SET_COLLECTION_STOCKS(stocks);
+        ...mapMutations(["SET_COLLECTION_STOCKS", "SET_SELECTED_COLLECTION"]),
+        setCollectionStocks() {
+            this.SET_SELECTED_COLLECTION(this.news);
+            this.SET_COLLECTION_STOCKS(this.news.stocks);
             this.$router.push({ name: "explore-collection", params: { name: this.news.name } });
         }
     }

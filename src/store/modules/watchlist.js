@@ -50,7 +50,6 @@ const actions = {
                         }
                     },
                     error => {
-                        console.log(error.response);
                         if (error.response) {
                             if (
                                 error.response.data.message ===
@@ -111,7 +110,7 @@ const actions = {
                             return true;
                         } else {
                             Vue.toasted.show(
-                                `An error occurred removing ${payload.symbols} from your watchlist`,
+                                `An error occurred adding ${payload.symbols} to your watchlist`,
                                 {
                                     type: "error"
                                 }
@@ -122,7 +121,7 @@ const actions = {
                     },
                     error => {
                         Vue.toasted.show(
-                            `An error occurred removing ${payload.symbols} from your watchlist`,
+                            `An error occurred adding ${payload.symbols} to your watchlist`,
                             {
                                 type: "error"
                             }

@@ -116,6 +116,7 @@
                             :error-message="issues.bvn"
                             navbar
                             inline
+                            no-label
                         />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
@@ -234,6 +235,7 @@
                             @input="handleInput"
                             v-model="itemData.nin"
                             inline
+                            no-label
                         />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
