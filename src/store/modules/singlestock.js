@@ -69,6 +69,12 @@ const actions = {
                         dispatch("GET_SIMILAR_STOCKS", instruments[0].similar.join(","));
                     resolve(instruments[0]);
                 }
+            }).catch((error)=>{
+                const msg ={
+                    err:error,
+                    status: false
+                }
+                return msg;
             });
         });
     },
