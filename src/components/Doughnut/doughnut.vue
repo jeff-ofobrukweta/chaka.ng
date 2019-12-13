@@ -90,14 +90,14 @@ export default {
                 tooltips: {
                     mode: "index",
                     intersect: false,
-                    backgroundColor: "#2DA5EC",
+                    backgroundColor: "#293D4A",
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
                         return data.labels[tooltipItem[0].index];
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return data.datasets[0].data[tooltipItem.index].toFixed(2);
+                            return `${'Percentage(%)'} ${data.datasets[0].data[tooltipItem.index].toFixed(2)}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];

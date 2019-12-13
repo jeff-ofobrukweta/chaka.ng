@@ -119,7 +119,7 @@ export default {
                     bodyFontColor: "#ffffff",
                     titleFontSize: 15,
                     bodyFontSize: "15",
-                    backgroundColor: "#2DA5EC",
+                    backgroundColor: "#293D4A",
                     xPadding: 10,
                     yPadding: 8,
                     displayColors: false,
