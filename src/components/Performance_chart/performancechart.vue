@@ -195,7 +195,7 @@ export default {
     computed: {
         ...mapGetters(["getPositionBarperformancepercentage"]),
         colorSwitchRedGreen(){
-            const colours = this.getPositionBarperformancepercentage.map((value) => value < 0 ? 'red' : 'green');
+            const colours = this.getPositionBarperformancepercentage.map((value) => value < 0 ? '#E94F37' : '#00C48C');
             return colours;
         }
     },

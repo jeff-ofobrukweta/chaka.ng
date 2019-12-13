@@ -59,13 +59,13 @@
             <!-- start here -->
              <template v-if="isGraphValid === 1">
                     <div class="portfolio-graph__placeholder loader-gif__big">
-                        <img class="middle-loader" :src="require('../../assets/img/ring-loader.gif')" alt="spin" />
+                        <img class="middle-loader" :src="require('../../assets/img/loader.gif')" alt="spin" />
                     </div>
                 </template>
                 <template v-else-if="isGraphValid === 2">
                     <div class="portfolio-graph__placeholder caution__big">
                         <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
-                        <a class="caution__reload" @click="mountedActions">Reload</a>
+                        <a class="caution__reload">Reload</a>
                     </div>
                 </template>
                 <template v-else>
@@ -90,7 +90,7 @@
     class="graphholder">
         <div class="portfolio-graph__placeholder caution__big">
             <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
-            <a class="caution__reload" @click="mountedActions">Reload</a>
+            <a class="caution__reload">Reload</a>
         </div>
     </div>
     </Fragment>
@@ -98,6 +98,7 @@
 <script>
 import {Fragment} from 'vue-fragment';
 import Graph from './linegraph';
+import EventBus from '../../event-bus';
 import { mapGetters,mapMutations,mapActions } from 'vuex';
 
 export default {
@@ -247,6 +248,7 @@ export default {
             console.log('>>>>>>>>>handletimeframe>>>>>>>>',this.Interval);
             this.loading = true;
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
+            EventBus.$emit('GET_DAYS', this.getSinglestockglobalTimeforGraph);
             const payloadsinglestock = {
                 interval:this.getSinglestockglobalTimeforGraph,
                 currency:this.getSinglestockglobalCurrencyforGraph,

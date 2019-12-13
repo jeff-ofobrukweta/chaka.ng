@@ -44,7 +44,7 @@
             </div>
             <template v-if="loading">
                 <div class="portfolio-graph__placeholder loader-gif__big">
-                    <img class="middle-loader" :src="require('../../assets/img/ring-loader.gif')" alt="spin" />
+                    <img class="middle-loader" :src="require('../../assets/img/loader.gif')" alt="spin" />
                 </div>
             </template>
             <template v-else-if="isGraphValid === 1">

@@ -44,6 +44,9 @@
         }
     }
 }
+.middle-loader{
+    width: 3em;
+}
 
 @include mobile {
     .board-container-price {
@@ -58,6 +61,8 @@
 
     #direct {
         padding: 2em 0px 2em 0px;
+        width: 100px;
+        object-fit: contain;
     }
 
 }
@@ -69,6 +74,8 @@
 
     #direct {
         padding: 2em 0px 2em 0px;
+        width: 100px;
+        object-fit: contain;
     }
 
 }
@@ -81,5 +88,7 @@
 
     #direct {
         padding: 2em 0px 2em 0px;
+        width: 100px;
+        object-fit: contain;
     }
 }

@@ -3,7 +3,10 @@
         <section
             class="issues-with-pageloading" 
             v-if="getSingleinstrument[0] == undefined || !getSingleinstrument || getSingleinstrument[0] == null">
-            <div><aside class="center-fix-messg">fetching the current page, try reloading the browser after sometime</aside></div>
+            <div><aside class="center-fix-messg">
+                    <img class="middle-loader" :src="require('../../assets/img/loader.gif')" alt="spin" />
+                </aside>
+            </div>
         </section>
         <section
         v-else 
@@ -73,8 +76,7 @@
             </section>
             <section class="container-instrument">
                 <StockTable
-                    :getPositionsforcurrentstock="getPositionsWithparams()"
-                    :instrument="getSingleinstrument[0]"
+                    :instrument="getSingleinstrument[0] || []"
                 />
             </section>
             <section class="container-stocks">
@@ -156,21 +158,20 @@ export default {
             "getWindowWidth",
             "getSingleinstrument",
             "getPricedetailsonblackcard",
-            "getPositionsWithparams",
             "getSimilarStocks"
         ])
     },
     methods: {
         //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "GET_CURRENT_STOCK_POSITION"]),
+        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT"]),
         ...mapMutations(["SET_SINGLE_INSTRUMENT"])
     },
     async mounted() {
         const singlestockpayload = {symbols: this.$route.params.symbol};
         this.similarLoading = true
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
-             this.GET_CURRENT_STOCK_POSITION()
-             this.similarLoading = false
+             this.similarLoading = false;
+             console.log('NNNNNNNNNNNEEEEEEEEEEEEEEEWWWWWWWWWW',this.getSingleinstrument[0])
         })
     },
     beforeRouteUpdate(to, from, next) {
