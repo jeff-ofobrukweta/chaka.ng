@@ -72,7 +72,6 @@
                     tag="a"
                     >Buy</KYCButton
                 >
-                <!-- <a class="watchlist-mobile__buy" @click="showBuy = true">+ Buy</a> -->
             </div>
         </div>
         <router-link
@@ -86,7 +85,7 @@
                         <p class="watchlist-mobile__name capitalize">
                             {{ instrument.name | truncate(50) }}
                         </p>
-                        <p class="watchlist-mobile__shares">2 Shares</p>
+                        <!-- <p class="watchlist-mobile__shares">2 Shares</p> -->
                     </div>
                 </div>
                 <div class="watchlist-mobile__right">
@@ -126,11 +125,13 @@
                             v-if="instrument.InstrumentDynamic"
                             class="cursor-context"
                             :title="
-                                instrument.InstrumentDynamic.askPrice | kobo
+                                instrument.InstrumentDynamic.askPrice
+                                    | kobo
                                     | currency(instrument.currency, true)
                             "
                             >{{
-                                instrument.InstrumentDynamic.askPrice | kobo
+                                instrument.InstrumentDynamic.askPrice
+                                    | kobo
                                     | currency(instrument.currency)
                             }}</strong
                         >
