@@ -33,9 +33,9 @@ const mutations = {
 };
 
 const actions = {
-    async GET_TAGS_CATEGORIES({ commit }) {
+    async GET_TAGS_CATEGORIES({ commit }, payload) {
         return new Promise((resolve, reject) => {
-            return API_CONTEXT.get(`/tags`)
+            return API_CONTEXT.get(`/tags`, { ...payload })
                 .then(response => {
                     if (response.status >= 200 && response.status < 400) {
                         commit("SET_TAGS_LISTS", response.data.tags);
