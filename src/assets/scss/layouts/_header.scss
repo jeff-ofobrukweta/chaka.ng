@@ -140,7 +140,7 @@
     &.active {
       color: $primary;
 
-      @include tablet {
+      @include desktop {
         border-bottom: 4px solid $primary;
       }
     }
@@ -197,6 +197,9 @@
       height: 100vh;
       transform: translateX(100%);
       transition: all 300ms;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
       .nav__link {
         padding-bottom: 1.5em;
@@ -207,6 +210,15 @@
       &:first-child {
         margin-right: 1rem;
       }
+    }
+  }
+
+  &__meta {
+    a {
+      text-transform: uppercase;
+      color: $grey-cool;
+      font-size: 12px;
+      margin-bottom: 0.825rem;
     }
   }
 

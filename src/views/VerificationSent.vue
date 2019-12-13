@@ -20,8 +20,7 @@
                     </div>
                     <h4 class="form__title--green">Confirmation Email Sent</h4>
                     <p class="form__caption mt-2">
-                        We have sent you an email with a link to verify your registered email
-                        address.
+                        We have sent you an email with a link to verify your email address.
                     </p>
                 </div>
                 <div class="mt-3">

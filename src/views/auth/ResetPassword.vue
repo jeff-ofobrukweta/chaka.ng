@@ -11,7 +11,7 @@
                             type="password"
                             name="password"
                             v-model="itemData.newPassword"
-                            placeholder="Create Password"
+                            placeholder="New Password"
                             :error-message="errors.newPassword"
                             @reset="resetError"
                     /></label>
@@ -42,13 +42,13 @@
                             :disabled="!formValid"
                             :pending="loading"
                             :classes="['btn-full', 'btn__primary']"
-                            >Sign Up</action-button
+                            >Reset</action-button
                         >
                     </div>
                 </div>
             </form>
         </div>
-        <div class="auth-form text-center" v-else>
+        <div class="auth-box text-center" v-else>
             <div class="form__image">
                 <svg
                     width="83"
@@ -64,7 +64,8 @@
                     />
                 </svg>
             </div>
-            <h3 class="auth-form__title">Reset Password Successful</h3>
+            <p class="auth-form__title">Reset Password Successful</p>
+            <br />
             <div>
                 <router-link class="btn btn__primary" :to="{ name: 'login' }">Login</router-link>
             </div>

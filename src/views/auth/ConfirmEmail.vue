@@ -79,7 +79,7 @@ export default {
                 this.success = true;
                 setTimeout(() => {
                     this.$router.push({ name: "login" });
-                }, 3000);
+                }, 5000);
                 return true;
             } else {
                 this.success = false;
