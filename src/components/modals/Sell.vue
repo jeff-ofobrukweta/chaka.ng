@@ -31,13 +31,9 @@
                     <span
                         class="cursor-context modal__buy--price"
                         :title="
-                            getSingleinstrument[0].askPrice
-                                | kobo
-                                | currency(instrument.currency, true)
+                            getSingleinstrument[0].askPrice | currency(instrument.currency, true)
                         "
-                        >{{
-                            getSingleinstrument[0].askPrice | kobo | currency(instrument.currency)
-                        }}</span
+                        >{{ getSingleinstrument[0].askPrice | currency(instrument.currency) }}</span
                     >&nbsp;&nbsp;
                     <img
                         v-if="getSingleinstrument[0].derivedPrice >= 0"
@@ -323,6 +319,9 @@ export default {
         maxQuantity: {
             type: Number,
             required: true
+        },
+        stockPage: {
+            type: Boolean
         }
     },
     components: {
@@ -374,7 +373,8 @@ export default {
             "GET_ACCOUNT_SUMMARY",
             "SELL_INSTRUMENT",
             "GET_SINGLESTOCK_INSTRUMENT",
-            "GET_MARKET_DATA"
+            "GET_MARKET_DATA",
+            "GET_PRE_ORDER"
         ]),
         ...mapMutations([
             "SET_MARKET_DATA",
@@ -531,7 +531,7 @@ export default {
     },
     beforeDestroy() {
         this.SET_MARKET_DATA({});
-        this.SET_SINGLE_INSTRUMENT([]);
+        if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
     }
 };
 </script>
