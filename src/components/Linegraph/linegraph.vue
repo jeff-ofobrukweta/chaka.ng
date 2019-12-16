@@ -92,7 +92,8 @@ export default {
                     ]
                 },
                 animation: {
-                    duration: 0
+                    duration: 1000,
+                    easing:'easeOutSine'
                 },
                 hover: {
                     animationDuration: 0 // duration of animations when hovering an item
@@ -119,7 +120,7 @@ export default {
                     bodyFontColor: "#ffffff",
                     titleFontSize: 15,
                     bodyFontSize: "15",
-                    backgroundColor: "#2DA5EC",
+                    backgroundColor: "#293D4A",
                     xPadding: 10,
                     yPadding: 8,
                     displayColors: false,
@@ -189,10 +190,10 @@ export default {
         },
         fillData() {
             var ctx = document.getElementById('line-chart').getContext("2d");
-            this.purple_orange_gradient = ctx.createLinearGradient(5, 0, 0, 270);
+            this.purple_orange_gradient = ctx.createLinearGradient(3, 0, 0, 270);
             this.purple_orange_gradient.addColorStop(0, "#2DA5ECF2");
-            this.purple_orange_gradient.addColorStop(0.5, "#49b0ed99");
-            this.purple_orange_gradient.addColorStop(0.7, "#2DA5EC87");
+            this.purple_orange_gradient.addColorStop(0.35, "#49b0ed99");
+            this.purple_orange_gradient.addColorStop(0.47, "#2DA5EC87");
             this.purple_orange_gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
             ctx.fillStyle = this.purple_orange_gradient;
             ctx.save();

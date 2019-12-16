@@ -3,23 +3,26 @@
         <h1 class="title-news">Certificates</h1>
         <flickity ref="flickity" :options="flickityOptions">
             <section 
-                class="v2-landing__vector--img carousel-cell" 
+                class="carousel-cell" 
                 v-for="(cert, index) in stamplists" :key="index">
-                <img
-                    :src="cert.logoUrl"
-                    class="v2-landing__vector--img carousel-cell"
-                    alt="Landing Vector"
-                />
-                <p
-                    :class="{ silver: computeCert(cert) === 1,gold: computeCert(cert) === 2,dark: computeCert(cert) === 3 }"
-                >{{ cert.symbol }}</p>
-                <img
-                    v-if="true"
-                    class="cert"
-                    src="../../assets/img/certs/silver.svg"
-                    alt
+                <div class="stamps-container">
+                    <img
+                        :src="cert.logoUrl"
+                        class="v2-landing__vector--img carousel-cell"
+                        alt="Landing Vector"
                     />
-                <img
+                    <!-- <p
+                        :class="{ silver: computeCert(cert) === 1,gold: computeCert(cert) === 2,dark: computeCert(cert) === 3 }"
+                    >{{ cert.symbol }}</p> -->
+                    <p class="symbol-text">{{cert.symbol}}</p>
+                    <img
+                        v-if="true || computeCert(cert) === 1"
+                        class="cert"
+                        src="../../assets/img/certs/silver.svg"
+                        alt
+                        />
+                </div>
+                <!-- <img
                     v-else-if="computeCert(cert) === 2"
                     class="cert"
                     src="../../assets/img/certs/gold.svg"
@@ -30,7 +33,7 @@
                     class="cert"
                     src="../../assets/img/certs/black.svg"
                     alt
-                />
+                /> -->
              </section>
         </flickity>
     </section>
@@ -50,8 +53,8 @@ export default {
                 prevNextButtons: true,
                 pageDots: false,
                 resize: true,
-                wrapAround: false,
-                cellAlign: "center",
+                wrapAround: true,
+                cellAlign: "left",
                 contain: true
             }
         };
@@ -61,6 +64,9 @@ export default {
         type:Array,
         required:true
         }
+    },
+    mounted(){
+        console.log('GGGGGGGGGGGGGGGGGGGGGGGG',this.stamplists)
     },
     methods: {
         next() {

@@ -1,8 +1,15 @@
 <template>
     <section class="dashboard__main">
-        <section class="dashboard__title">
-            <h3>Categories</h3>
-            <p class="dashboard__title--sub">View all categories</p>
+        <section class="accounts__title">
+            <div>
+                <h3>Categories</h3>
+                <p class="dashboard__title--sub">View all categories</p>
+            </div>
+            <select class="form__input" @change="getNewTags" v-model="selectedTag">
+                <option v-for="(option, i) in tagCategories" :key="i" :value="option.value">{{
+                    option.name
+                }}</option>
+            </select>
         </section>
         <template>
             <section class="tags-container__box">
@@ -72,6 +79,16 @@
                 <template v-if="loading">
                     <InstrumentMobile v-for="i in 3" :key="i" :instrument="{}" dummy
                 /></template>
+                <div
+                    class="caution__big"
+                    v-else-if="
+                        getErrorLog.type === 'tag-instruments' &&
+                            getInstrumentsListArray.length <= 0
+                    "
+                >
+                    <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
+                    <a class="caution__reload" @click="mount">Reload</a>
+                </div>
                 <template v-else-if="getInstrumentsListArray.length > 0">
                     <transition-group name="kyc-navbar">
                         <InstrumentMobile
@@ -90,10 +107,6 @@
     </section>
 </template>
 <script>
-import Tag from "../../components/SingleTag";
-import InstrumentCard from "../../components/Instrument/InstrumentCard";
-import InstrumentMobile from "../../components/watchlist/MobileWatchlist";
-import Instrumentbase from "../../components/Instrument/instrumentbase";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
@@ -101,14 +114,29 @@ export default {
     data() {
         return {
             loading: false,
-            loadingTags: false
+            loadingTags: false,
+            selectedTag: "ALL",
+            currentTag: { filter: "ALL" },
+            tagCategories: [
+                {
+                    name: "All",
+                    value: "ALL"
+                },
+                {
+                    name: "Industries",
+                    value: "INDUSTRIES"
+                },
+                {
+                    name: "Countries",
+                    value: "COUNTRIES"
+                }
+            ]
         };
     },
     components: {
-        Instrumentbase,
-        InstrumentCard,
-        InstrumentMobile,
-        Tag
+        InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
+        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
+        Tag: () => import("../../components/SingleTag")
     },
     computed: {
         ...mapGetters([
@@ -149,13 +177,21 @@ export default {
                 this.loading = false;
             });
         },
+        getNewTags() {
+            if (this.selectedTag !== this.currentTag.filter) {
+                this.SET_TAGS_LISTS([]);
+                this.SET_INSTRUMENT_BY_TAGS([]);
+                this.currentTag.filter = this.selectedTag;
+                this.mount();
+            }
+        },
         async mount() {
             this.loading = true;
             this.loadingTags = true;
             if (this.gettagslistsArray.length > 0) {
                 this.loadingTags = false;
             }
-            await this.GET_TAGS_CATEGORIES();
+            await this.GET_TAGS_CATEGORIES(this.currentTag);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
                 const payloadGetInstrument = { symbols: this.gettagslistsArray[0].Instruments };

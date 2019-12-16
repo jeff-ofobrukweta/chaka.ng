@@ -152,7 +152,7 @@ export default {
                 tooltips: {
                     mode: 'index',
                     intersect: false,
-                    backgroundColor: '#2DA5EC',
+                    backgroundColor: '#293D4A',
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
                         return data.labels[tooltipItem[0].index];
@@ -195,7 +195,7 @@ export default {
     computed: {
         ...mapGetters(["getPositionBarperformancepercentage"]),
         colorSwitchRedGreen(){
-            const colours = this.getPositionBarperformancepercentage.map((value) => value < 0 ? 'red' : 'green');
+            const colours = this.getPositionBarperformancepercentage.map((value) => value < 0 ? '#E94F37' : '#00C48C');
             return colours;
         }
     },

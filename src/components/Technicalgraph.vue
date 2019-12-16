@@ -20,8 +20,14 @@ export default {
   name: 'TechnicalChart',
   mixins: [exchangeIDmaping],
   props: {
-    symbol: String,
-    exchangeID: String
+    symbol: {
+      type:String || Object,
+      required:true
+    },
+    exchangeID: {
+      type:String || Object,
+      required:true
+    }
   },
   components: {
     VueTradingView
@@ -30,7 +36,7 @@ export default {
     return {
       loaded:false,
       options: {
-        symbol: `${this.exchangeIDmaping(this.exchangeID)}:${this.symbol}`,
+        symbol: `${(this.exchangeIDmaping(this.exchangeID)).toString()}:${(this.symbol.toString())}`,
         theme: 'Light',
         autosize: true,
         fullscreen: false
@@ -39,7 +45,6 @@ export default {
   },
   mounted(){
     this.loaded = true;
-    console.log('this is the symbolSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS',this.symbol,this.exchangeID)
   },
   computed: {
     chartOptions() {
