@@ -5,21 +5,21 @@
                 <div class="right-menue-item">
                     <div class="parent-container-main">
                         <section class="buy-sell-action">
-                            <KYCButton
+                            <kyc-button
                                 ref="buyBtn"
                                 :classes="['buying']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
                                 next-action="buy"
-                                >Buy</KYCButton
+                                >Buy</kyc-button
                             >
-                            <KYCButton
+                            <kyc-button
                                 ref="sellBtn"
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
                                 next-action="sell"
-                                >Sell</KYCButton
+                                >Sell</kyc-button
                             >
                             <!-- <button class="selling">Sell</button> -->
                         </section>
@@ -142,17 +142,20 @@
         />
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </Fragment>
 </template>
 <script>
 import { Fragment } from "vue-fragment";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import Graph from "./linegraph";
 import KYCTitles from "../../services/kyc/kycTitles";
-import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
     name: "Linechartgraphchild",
@@ -235,9 +238,7 @@ export default {
     components: {
         Graph,
         Fragment,
-        TechnicalChart: () => import("../Technicalgraph"),
-        KYCButton: () => import("../form/KYCButton"),
-        ModalKYC: () => import("../kyc/ModalKYC")
+        TechnicalChart: () => import("../Technicalgraph")
     },
     props: {
         instrument: {
@@ -298,14 +299,9 @@ export default {
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 //  call back state like loader state here
                 this.loading = false;
-                console.log(
-                    "this is the single Instrument LLLLLLLLLLLLLL",
-                    this.getSingleinstrument[0].currency
-                );
             });
         },
         handletimeframe(e) {
-            console.log(">>>>>>>>>handletimeframe>>>>>>>>", this.Interval);
             this.loading = true;
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
             const payloadsinglestock = {
@@ -315,23 +311,14 @@ export default {
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 this.loading = false;
-                console.log(
-                    ">>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>",
-                    this.getOpenPrice
-                );
             });
         },
         async toogleCurrency(currency, id) {
-            console.log("TOOOOOOOOGLE_CUUUUUUUUURENCY", currency, id);
             this.loading = true;
             this.currentId = id;
             this.SET_SINGLESTOCK_POSITIONS_FOR_SELECT(id);
             console.log("CURRENCY TOOGLE SELECT STATE", this.getSinglestockIntervalposition);
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(currency);
-            console.log(
-                "toggle HHHHHHHHHHHHHHHHHHHHHHH",
-                this.getSinglestockglobalCurrencyforGraph
-            );
             const defaulttime = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
@@ -355,16 +342,15 @@ export default {
                     });
                 });
                 return true;
-            } else {
-                if (step.nextAction === "buy") {
-                    this.showBuy = true;
-                    return true;
-                }
-                this.showSell = true;
             }
+            if (step.nextAction === "buy") {
+                this.showBuy = true;
+                return true;
+            }
+            this.showSell = true;
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step.type !== "kyc") {
                 if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();

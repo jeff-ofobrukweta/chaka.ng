@@ -63,14 +63,14 @@
             </svg>
 
             <div>
-                <KYCButton
+                <kyc-button
                     ref="buyBtn"
                     type="button"
                     :classes="['watchlist-mobile__buy']"
                     :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                     @step="handleStep"
                     tag="a"
-                    >Buy</KYCButton
+                    >Buy</kyc-button
                 >
             </div>
         </div>
@@ -148,24 +148,22 @@
         />
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </div>
 </template>
 
 <script>
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
-import KYCTitles from "../../services/kyc/kycTitles";
 import { mapActions, mapGetters } from "vuex";
+import KYCTitles from "../../services/kyc/kycTitles";
+
 export default {
     name: "watchlist-card",
-    components: {
-        KYCButton,
-        ModalKYC
-    },
     props: {
         instrument: {
             type: Object,
@@ -211,12 +209,11 @@ export default {
                     });
                 });
                 return true;
-            } else {
-                this.showBuy = true;
             }
+            this.showBuy = true;
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step !== "kyc") {
                 this.$refs.buyBtn.$el.click();
             }

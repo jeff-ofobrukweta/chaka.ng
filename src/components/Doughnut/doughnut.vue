@@ -13,52 +13,54 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
-import numeral from "numeral";
-import Doughnut from "./doughnut_config";
+import {
+    mapGetters, mapMutations, mapActions, mapState
+} from 'vuex';
+import numeral from 'numeral';
+import Doughnut from './doughnut_config';
 
 export default {
-    name: "doughnutgraph",
+    name: 'doughnutgraph',
     components: {
         Doughnut
     },
     data() {
         return {
-            min: "",
-            max: "",
+            min: '',
+            max: '',
             datacollection: {},
             loaderGraph: true,
-            day: "",
+            day: '',
             showError: false,
             buttonoption: [
                 {
-                    name: "TAB1",
-                    time: "1D",
+                    name: 'TAB1',
+                    time: '1D',
                     id: 1
                 },
                 {
-                    name: "TAB2",
-                    time: "1W",
+                    name: 'TAB2',
+                    time: '1W',
                     id: 2
                 },
                 {
-                    name: "TAB3",
-                    time: "1M",
+                    name: 'TAB3',
+                    time: '1M',
                     id: 3
                 },
                 {
-                    name: "TAB4",
-                    time: "3M",
+                    name: 'TAB4',
+                    time: '3M',
                     id: 4
                 },
                 {
-                    name: "TAB5",
-                    time: "1Y",
+                    name: 'TAB5',
+                    time: '1Y',
                     id: 5
                 },
                 {
-                    name: "TAB6",
-                    time: "5Y",
+                    name: 'TAB6',
+                    time: '5Y',
                     id: 6
                 }
             ],
@@ -88,9 +90,9 @@ export default {
                     }
                 },
                 tooltips: {
-                    mode: "index",
+                    mode: 'index',
                     intersect: false,
-                    backgroundColor: "#2DA5EC",
+                    backgroundColor: '#2DA5EC',
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
                         return data.labels[tooltipItem[0].index];
@@ -106,7 +108,7 @@ export default {
                         }
                     },
                     hover: {
-                        mode: "index",
+                        mode: 'index',
                         intersect: false
                     }
                 },
@@ -116,11 +118,11 @@ export default {
                 aspectRatio: 2,
                 legend: {
                     display: true,
-                    position: "right",
-                    align: "center",
+                    position: 'right',
+                    align: 'center',
                     fullWidth: true,
                     boxWidth: 100,
-                    align: "center",
+                    align: 'center',
                     fullWidth: true,
                     labels: {
                         boxWidth: 10,
@@ -162,8 +164,8 @@ export default {
                 labels: this.symbol,
                 datasets: [
                     {
-                        label: "Data One",
-                        backgroundColor: ["#00C48C", "#0052B4", "#FF647C", "##FFA26B", "#FFE29D"],
+                        label: 'Data One',
+                        backgroundColor: ['#00C48C', '#0052B4', '#FF647C', '##FFA26B', '#FFE29D'],
                         data: this.percentage
                     }
                 ]

@@ -36,7 +36,7 @@
 
 <script>
 export default {
-    name: "single-tag",
+    name: 'single-tag',
     props: {
         tag: {
             type: Object,
@@ -51,7 +51,7 @@ export default {
     },
     methods: {
         tagSelect() {
-            this.$emit("click", this.tag);
+            this.$emit('click', this.tag);
         }
     }
 };

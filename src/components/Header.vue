@@ -225,13 +225,13 @@
                                 }}</span
                             ></router-link
                         >
-                        <KYCButton
+                        <kyc-button
                             ref="fundBtn"
                             type="button"
                             :classes="['btn__icon', 'btn__icon--md', 'btn__primary']"
                             action="fund"
                             @step="handleStep"
-                            >+</KYCButton
+                            >+</kyc-button
                         >
                     </p>
                     <p v-else>
@@ -244,13 +244,13 @@
                             <span>&nbsp;|&nbsp;</span>
                             <span>$-</span></router-link
                         >
-                        <KYCButton
+                        <kyc-button
                             ref="fundBtn"
                             type="button"
                             :classes="['btn__icon', 'btn__icon--md', 'btn__primary']"
                             action="fund"
                             @step="handleStep"
-                            >+</KYCButton
+                            >+</kyc-button
                         >
                     </p>
                 </ul>
@@ -258,23 +258,21 @@
             <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
             <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
-            <modal @close="showKYC = false" v-if="showKYC">
-                <template slot="header">{{ selectedField.title }}</template>
-                <form @submit.prevent="submitPhone">
-                    <div>
-                        <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-                    </div>
-                </form>
-            </modal>
+            <modal-kyc
+                :requiredFields="selectedField.fields"
+                :title="selectedField.title"
+                @updated="handleUpdate"
+                @close="showKYC = false"
+                v-if="showKYC"
+            />
         </nav>
     </header>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import KYCButton from "./form/KYCButton";
-import ModalKYC from "./kyc/ModalKYC";
 import KYCTitles from "../services/kyc/kycTitles";
+
 export default {
     name: "app-header",
     data() {
@@ -287,10 +285,6 @@ export default {
             selectedField: {},
             allNextKYC: KYCTitles.titles
         };
-    },
-    components: {
-        KYCButton,
-        ModalKYC
     },
     computed: {
         ...mapGetters(["isLoggedIn", "getLoggedUser", "getAccountSummary", "getNextKYC"])
@@ -321,14 +315,13 @@ export default {
                     });
                 });
                 return true;
-            } else if (step.type === "fund") {
+            }
+            if (step.type === "fund") {
                 this.showFund = true;
-            } else if (step.type === "global") {
-                this.showExchange = true;
             }
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             this.$refs.fundBtn.$el.click();
             return true;
         }

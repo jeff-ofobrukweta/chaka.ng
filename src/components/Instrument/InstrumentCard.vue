@@ -120,13 +120,13 @@
                 />
             </section>
         </router-link>
-        <KYCButton
+        <kyc-button
             ref="buyBtn"
             type="button"
             :classes="['section3']"
             :action="instrument.currency === 'NGN' ? 'local' : 'global'"
             @step="handleStep"
-            >Buy</KYCButton
+            >Buy</kyc-button
         >
         <buy-modal
             @close="closeBuyModal"
@@ -137,18 +137,20 @@
         />
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </div>
 </template>
 
 <script>
-import KYCButton from "../../components/form/KYCButton";
-import ModalKYC from "../../components/kyc/ModalKYC";
-import KYCTitles from "../../services/kyc/kycTitles";
 import { mapGetters, mapActions } from "vuex";
+import KYCTitles from "../../services/kyc/kycTitles";
+
 export default {
     name: "instrument-card",
     props: {
@@ -159,10 +161,6 @@ export default {
         dummy: {
             type: Boolean
         }
-    },
-    components: {
-        KYCButton,
-        ModalKYC
     },
     data() {
         return {
@@ -204,12 +202,11 @@ export default {
                     });
                 });
                 return true;
-            } else {
-                this.showBuy = true;
             }
+            this.showBuy = true;
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step !== "kyc") {
                 this.$refs.buyBtn.$el.click();
             }

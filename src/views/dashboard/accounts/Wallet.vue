@@ -14,10 +14,6 @@
                         {{ getAccountSummary.netWorth | kobo | currency("NGN") }}
                     </h2>
                     <p><small>My Portfolio Value</small></p>
-                    <div class="accounts-wallet__graphics">
-                        <img src="../../../assets/img/wallet1.svg" alt="Wallet" />
-                        <img src="../../../assets/img/wallet2.svg" alt="Wallet" />
-                    </div>
                 </div>
             </div>
             <div class="accounts-wallet__text">
@@ -126,21 +122,21 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <KYCButton
+                    <kyc-button
                         ref="fundBtn"
                         type="button"
                         :classes="['btn-block', 'btn--lg', 'btn__primary']"
                         action="fund"
                         @step="handleStep"
-                        >Fund</KYCButton
+                        >Fund</kyc-button
                     >
-                    <KYCButton
+                    <kyc-button
                         ref="exchangeBtn"
                         type="button"
                         :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
                         action="global"
                         @step="handleStep"
-                        >Exchange</KYCButton
+                        >Exchange</kyc-button
                     >
                     <button
                         @click="showWithdraw = true"
@@ -152,27 +148,29 @@
             </div>
         </section>
         <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <exchange-modal :showModal="showExchange" @close="closeExchangeBtn" v-if="showExchange" />
-        <withdraw-modal :showModal="showWithdraw" @close="closeWithdrawBtn" v-if="showWithdraw" />
+        <ExchangeModal :showModal="showExchange" @close="closeExchangeBtn" v-if="showExchange" />
+        <WithdrawModal :showModal="showWithdraw" @close="closeWithdrawBtn" v-if="showWithdraw" />
         <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import KYCButton from "../../../components/form/KYCButton";
-import ModalKYC from "../../../components/kyc/ModalKYC";
 import KYCTitles from "../../../services/kyc/kycTitles";
+
 export default {
     name: "accounts-wallet",
     components: {
-        KYCButton,
-        ModalKYC
+        ExchangeModal: () => import("../../../components/modals/Exchange"),
+        WithdrawModal: () => import("../../../components/modals/Withdraw")
     },
     data() {
         return {
@@ -207,18 +205,20 @@ export default {
                     });
                 });
                 return true;
-            } else if (step.type === "fund") {
+            }
+            if (step.type === "fund") {
                 this.showFund = true;
             } else if (step.type === "global") {
                 this.showExchange = true;
             }
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step === "fund") {
                 this.$refs.fundBtn.$el.click();
                 return true;
-            } else if (this.step === "global") {
+            }
+            if (this.step === "global") {
                 this.$refs.exchangeBtn.$el.click();
             }
         },

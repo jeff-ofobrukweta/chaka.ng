@@ -36,10 +36,11 @@
 </template>
 
 <script>
-import PortfolioTable from "../../components/portfolio/PortfolioTable";
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+import PortfolioTable from '../../components/portfolio/PortfolioTable';
+
 export default {
-    name: "portfolio-details",
+    name: 'portfolio-details',
     components: {
         PortfolioTable
     },
@@ -51,22 +52,22 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getglobalstocksowned", "getlocalstocksowned", "getopenstocks"]),
+        ...mapGetters(['getglobalstocksowned', 'getlocalstocksowned', 'getopenstocks']),
         type() {
             return this.$route.params.type;
         }
     },
     methods: {
-        ...mapActions(["GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS"]),
+        ...mapActions(['GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS']),
         changeType(type) {
             if (this.type !== type) {
-                this.$router.replace({ name: "portfolio-details", params: { type } });
+                this.$router.replace({ name: 'portfolio-details', params: { type } });
             }
         },
         mountAction(type) {
-            if (type == "local") {
+            if (type == 'local') {
                 this.stocks = this.getlocalstocksowned;
-            } else if (type == "global") {
+            } else if (type == 'global') {
                 this.stocks = this.getglobalstocksowned;
             } else {
                 this.stocks = this.getopenstocks;

@@ -1,17 +1,15 @@
 <template>
     <modal @close="$emit('close')">
         <template slot="header">{{ ninField.title }}</template>
-        <ModalKYC :requiredFields="ninField.fields" @updated="handleUpdate" nin />
+        <modal-kyc :requiredFields="ninField.fields" @updated="handleUpdate" nin />
     </modal>
 </template>
 
 <script>
-import ModalKYC from "./ModalKYC";
+import { mapMutations } from "vuex";
+
 export default {
     name: "enter-nin",
-    components: {
-        ModalKYC
-    },
     data() {
         return {
             ninField: {
@@ -22,7 +20,9 @@ export default {
         };
     },
     methods: {
+        ...mapMutations(["SET_NAVBAR_TRIGGER"]),
         handleUpdate() {
+            this.SET_NAVBAR_TRIGGER(true);
             this.$emit("updated");
         }
     }

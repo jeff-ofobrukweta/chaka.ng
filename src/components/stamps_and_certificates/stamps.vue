@@ -2,8 +2,8 @@
     <section class="flickity-wrapper">
         <h1 class="title-news">Certificates</h1>
         <flickity ref="flickity" :options="flickityOptions">
-            <section 
-                class="v2-landing__vector--img carousel-cell" 
+            <section
+                class="v2-landing__vector--img carousel-cell"
                 v-for="(cert, index) in stamplists" :key="index">
                 <img
                     :src="cert.logoUrl"
@@ -36,10 +36,10 @@
     </section>
 </template>
 <script>
-import Flickity from "vue-flickity";
+import Flickity from 'vue-flickity';
 
 export default {
-    name: "slider",
+    name: 'slider',
     components: {
         Flickity
     },
@@ -51,39 +51,39 @@ export default {
                 pageDots: false,
                 resize: true,
                 wrapAround: false,
-                cellAlign: "center",
+                cellAlign: 'center',
                 contain: true
             }
         };
     },
-    props:{
-        stamplists:{
-        type:Array,
-        required:true
+    props: {
+        stamplists: {
+            type: Array,
+            required: true
         }
     },
     methods: {
         next() {
-            console.log(">>>>>> next");
+            console.log('>>>>>> next');
             this.$refs.flickity.next();
         },
         previous() {
             this.$refs.flickity.previous();
         },
         computeCert(cert) {
-			const val = cert.currentValue;
-			switch (cert.currency) {
-				case 'USD':
-					if (val < 500000) return 1;
-					if (val >= 500000 && val < 3000000) return 2;
-					return 3;
+            const val = cert.currentValue;
+            switch (cert.currency) {
+            case 'USD':
+                if (val < 500000) return 1;
+                if (val >= 500000 && val < 3000000) return 2;
+                return 3;
 
-				default:
-					if (val < 100000000) return 1;
-					if (val >= 100000000 && val < 1000000000) return 2;
-					return 3;
-			}
-		}
+            default:
+                if (val < 100000000) return 1;
+                if (val >= 100000000 && val < 1000000000) return 2;
+                return 3;
+            }
+        }
     }
 };
 </script>

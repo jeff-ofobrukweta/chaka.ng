@@ -44,7 +44,11 @@
             </div>
             <template v-if="loading">
                 <div class="portfolio-graph__placeholder loader-gif__big">
-                    <img class="middle-loader" :src="require('../../assets/img/ring-loader.gif')" alt="spin" />
+                    <img
+                        class="middle-loader"
+                        :src="require('../../assets/img/ring-loader.gif')"
+                        alt="spin"
+                    />
                 </div>
             </template>
             <template v-else-if="isGraphValid === 1">
@@ -72,10 +76,10 @@
     </Fragment>
 </template>
 <script>
-import Graph from "./linegraph";
-import KYCTitles from "../../services/kyc/kycTitles";
 import { Fragment } from "vue-fragment";
 import { mapGetters, mapMutations, mapActions } from "vuex";
+import Graph from "./linegraph";
+import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "Linechartgraphchild",
@@ -139,9 +143,7 @@ export default {
     },
     components: {
         Graph,
-        Fragment,
-        ModalKYC: () => import("../kyc/ModalKYC"),
-        KYCButton: () => import("../form/KYCButton")
+        Fragment
     },
     computed: {
         ...mapGetters([
@@ -202,7 +204,10 @@ export default {
                 return true;
             }
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
-            console.log('TOOGLE CURRENCY XXXXXXXXXXXXXXXXXXXXXX >>>>>>',this.getPorfolioglobalCurrencyforGraph)
+            console.log(
+                "TOOGLE CURRENCY XXXXXXXXXXXXXXXXXXXXXX >>>>>>",
+                this.getPorfolioglobalCurrencyforGraph
+            );
             this.loading = true;
             await this.GET_ACCOUNT_SUMMARY({ currency }).then(() => {
                 const defaulttime = {
@@ -224,10 +229,9 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(()=>{
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(() => {
                 this.loading = false;
             });
-           
         },
         async mountedActions() {
             const payload = {

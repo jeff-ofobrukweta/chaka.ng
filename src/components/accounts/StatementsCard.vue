@@ -41,7 +41,7 @@
 
 <script>
 export default {
-    name: "statement-card",
+    name: 'statement-card',
     props: {
         statement: {
             type: Object,

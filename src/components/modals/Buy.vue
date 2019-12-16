@@ -91,20 +91,23 @@
                 To continue your verification, click the button below
             </p>
             <div class="text-center mt-3">
-                <KYCButton
+                <kyc-button
                     ref="buyBtn"
                     type="button"
                     :classes="['btn__primary']"
                     action="global"
                     @step="handleStep"
-                    >Continue</KYCButton
+                    >Continue</kyc-button
                 >
             </div>
 
-            <modal @close="showKYC = false" v-if="showKYC">
-                <template slot="header">{{ selectedField.title }}</template>
-                <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-            </modal>
+            <modal-kyc
+                :requiredFields="selectedField.fields"
+                :title="selectedField.title"
+                @updated="handleUpdate"
+                @close="showKYC = false"
+                v-if="showKYC"
+            />
         </div>
         <div v-else-if="isBuyValid === 2" class="modal-form">
             <h5 class="text-center mb-2">Your Verification is Under Review</h5>
@@ -324,12 +327,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
-import KYCTitles from "../../services/kyc/kycTitles";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import KYCTitles from '../../services/kyc/kycTitles';
+
 export default {
-    name: "buy-modal",
+    name: 'buy-modal',
     props: {
         currency: {
             type: String,
@@ -347,16 +349,12 @@ export default {
             type: Boolean
         }
     },
-    components: {
-        ModalKYC,
-        KYCButton
-    },
     data() {
         return {
             itemData: {},
             loading: false,
             showTerms: false,
-            orderType: "MARKET",
+            orderType: 'MARKET',
             showResponse: false,
             isQuantity: true,
             errors: {},
@@ -368,21 +366,21 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "getAccountSummary",
-            "getSingleinstrument",
-            "getMarketData",
-            "getPreOrder",
-            "getLoggedUser",
-            "getNextKYC"
+            'getAccountSummary',
+            'getSingleinstrument',
+            'getMarketData',
+            'getPreOrder',
+            'getLoggedUser',
+            'getNextKYC'
         ]),
         isBuyValid() {
-            if (this.instrument.currency === "NGN") {
-                if (this.getLoggedUser.localKycStatus === "NONE") return 1;
-                else if (this.getLoggedUser.localKycStatus === "PENDING") return 2;
+            if (this.instrument.currency === 'NGN') {
+                if (this.getLoggedUser.localKycStatus === 'NONE') return 1;
+                if (this.getLoggedUser.localKycStatus === 'PENDING') return 2;
                 return 3;
             }
-            if (this.getLoggedUser.globalKycStatus === "NONE") return 1;
-            else if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
+            if (this.getLoggedUser.globalKycStatus === 'NONE') return 1;
+            if (this.getLoggedUser.globalKycStatus === 'PENDING') return 2;
             return 3;
         },
         isFormValid() {
@@ -391,21 +389,21 @@ export default {
     },
     methods: {
         ...mapActions([
-            "GET_ACCOUNT_SUMMARY",
-            "BUY_INSTRUMENT",
-            "GET_MARKET_DATA",
-            "GET_PRE_ORDER",
-            "GET_SINGLESTOCK_INSTRUMENT"
+            'GET_ACCOUNT_SUMMARY',
+            'BUY_INSTRUMENT',
+            'GET_MARKET_DATA',
+            'GET_PRE_ORDER',
+            'GET_SINGLESTOCK_INSTRUMENT'
         ]),
         ...mapMutations([
-            "SET_MARKET_DATA",
-            "SET_SELL_ORDER",
-            "SET_BUY_ORDER",
-            "RESET_REQ",
-            "SET_SINGLE_INSTRUMENT"
+            'SET_MARKET_DATA',
+            'SET_SELL_ORDER',
+            'SET_BUY_ORDER',
+            'RESET_REQ',
+            'SET_SINGLE_INSTRUMENT'
         ]),
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         switchOrder(value) {
             this.orderType = value;
@@ -413,23 +411,21 @@ export default {
         },
         validateBuy() {
             this.RESET_REQ();
-            if (this.orderType === "MARKET") {
+            if (this.orderType === 'MARKET') {
                 if (!this.itemData.amountCash) {
-                    this.$set(this.errors, "amountCash", "Amount is required");
+                    this.$set(this.errors, 'amountCash', 'Amount is required');
                 } else if (Number.isNaN(+this.itemData.amountCash)) {
-                    this.$set(this.errors, "quantity", "Invalid quantity");
+                    this.$set(this.errors, 'quantity', 'Invalid quantity');
                 }
-            } else {
-                if (!this.itemData.price) {
-                    this.$set(this.errors, "price", "Limit price is required");
-                } else if (Number.isNaN(+this.itemData.price)) {
-                    this.$set(this.errors, "quantity", "Invalid quantity");
-                }
+            } else if (!this.itemData.price) {
+                this.$set(this.errors, 'price', 'Limit price is required');
+            } else if (Number.isNaN(+this.itemData.price)) {
+                this.$set(this.errors, 'quantity', 'Invalid quantity');
             }
             if (!this.itemData.quantity) {
-                this.$set(this.errors, "quantity", "Quantity is required");
+                this.$set(this.errors, 'quantity', 'Quantity is required');
             } else if (Number.isNaN(+this.itemData.quantity)) {
-                this.$set(this.errors, "quantity", "Invalid quantity");
+                this.$set(this.errors, 'quantity', 'Invalid quantity');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
@@ -438,17 +434,17 @@ export default {
             const payload = {
                 currency: this.currency,
                 instrumentSymbol: this.symbol,
-                orderSide: "BUY",
+                orderSide: 'BUY',
                 orderType: this.orderType
             };
-            if (this.orderType === "LIMIT") {
+            if (this.orderType === 'LIMIT') {
                 payload.price = +this.itemData.price * 100;
                 payload.quantity = +this.itemData.quantity;
             } else {
                 payload.amountCash = +this.itemData.amountCash * 100;
             }
             this.loading = true;
-            this.GET_PRE_ORDER(payload).then(resp => {
+            this.GET_PRE_ORDER(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.itemData.instrumentSymbol = this.symbol;
@@ -463,7 +459,7 @@ export default {
         },
         buyInstrument() {
             let value = {};
-            if (this.orderType === "MARKET") {
+            if (this.orderType === 'MARKET') {
                 if (this.isQuantity) {
                     const { price, amountCash, ...newTemp } = this.itemData;
                     value = newTemp;
@@ -478,14 +474,14 @@ export default {
                 value = newTemp;
             }
             this.loading = true;
-            this.BUY_INSTRUMENT(value).then(resp => {
+            this.BUY_INSTRUMENT(value).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     /**
                      * close buy modal
                      * show success modal
                      */
-                    this.$emit("close", true);
+                    this.$emit('close', true);
                 }
             });
         },
@@ -494,7 +490,7 @@ export default {
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = true;
                 if (e) {
-                    if (this.currency === "NGN" && this.orderType === "MARKET") {
+                    if (this.currency === 'NGN' && this.orderType === 'MARKET') {
                         this.itemData.amountCash = e * this.getMarketData.dayMax;
                     } else {
                         this.itemData.amountCash = e * this.getMarketData.ask;
@@ -506,7 +502,7 @@ export default {
             this.itemData.amountCash = e;
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = false;
-                if (this.currency === "NGN" && this.orderType === "MARKET") {
+                if (this.currency === 'NGN' && this.orderType === 'MARKET') {
                     this.itemData.quantity = +e / +this.getMarketData.dayMax;
                 } else {
                     this.itemData.quantity = +e / +this.getMarketData.ask;
@@ -519,8 +515,8 @@ export default {
         handleStep(step) {
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
+                this.allNextKYC.forEach((element) => {
+                    element.fields.forEach((el) => {
                         if (el === this.getNextKYC.nextKYC[0]) {
                             this.selectedField = element;
                             this.selectedField.fields = this.getNextKYC.nextKYC;
@@ -528,12 +524,12 @@ export default {
                     });
                 });
                 return true;
-            } else if (step.type === "global") {
+            } if (step.type === 'global') {
                 // this.showGlobal = true;
             }
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             this.GET_LOGGED_USER().then(() => {
                 if (this.isBuyValid === 1) {
                     this.$refs.buyBtn.$el.click();

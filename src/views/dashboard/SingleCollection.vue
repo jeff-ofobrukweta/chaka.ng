@@ -43,12 +43,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+
 export default {
-    name: "explore-collection",
+    name: 'explore-collection',
     components: {
-        InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist")
+        InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
+        InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist')
     },
     data() {
         return {
@@ -57,23 +58,23 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "getSingleCollection",
-            "getWindowWidth",
-            "getCollectionStocks",
-            "getErrorLog",
-            "getSelectedCollection"
+            'getSingleCollection',
+            'getWindowWidth',
+            'getCollectionStocks',
+            'getErrorLog',
+            'getSelectedCollection'
         ]),
         name() {
             return this.$route.params.name;
         }
     },
     methods: {
-        ...mapActions(["GET_SINGLE_COLLECTION"]),
-        ...mapMutations(["SET_SINGLE_COLLECTION", "SET_COLLECTION_STOCKS"]),
+        ...mapActions(['GET_SINGLE_COLLECTION']),
+        ...mapMutations(['SET_SINGLE_COLLECTION', 'SET_COLLECTION_STOCKS']),
         async mount() {
             this.loading = true;
             if (this.getCollectionStocks.length <= 0) {
-                this.$router.replace({ name: "explore" });
+                this.$router.replace({ name: 'explore' });
             } else await this.GET_SINGLE_COLLECTION();
             this.loading = false;
         }

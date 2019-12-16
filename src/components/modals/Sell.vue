@@ -64,20 +64,23 @@
                 To continue your verification, click the button below
             </p>
             <div class="text-center mt-3">
-                <KYCButton
+                <kyc-button
                     ref="sellBtn"
                     type="button"
                     :classes="['btn__primary']"
                     action="global"
                     @step="handleStep"
-                    >Continue</KYCButton
+                    >Continue</kyc-button
                 >
             </div>
 
-            <modal @close="showKYC = false" v-if="showKYC">
-                <template slot="header">{{ selectedField.title }}</template>
-                <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-            </modal>
+            <modal-kyc
+                :requiredFields="selectedField.fields"
+                :title="selectedField.title"
+                @updated="handleUpdate"
+                @close="showKYC = false"
+                v-if="showKYC"
+            />
         </div>
         <div v-else-if="isSellValid === 2" class="modal-form">
             <h5 class="text-center mb-2">Your Verification is Under Review</h5>
@@ -298,9 +301,8 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
 import KYCTitles from "../../services/kyc/kycTitles";
+
 export default {
     name: "buy-modal",
     props: {
@@ -323,10 +325,6 @@ export default {
         stockPage: {
             type: Boolean
         }
-    },
-    components: {
-        ModalKYC,
-        KYCButton
     },
     data() {
         return {
@@ -357,11 +355,11 @@ export default {
         isSellValid() {
             if (this.instrument.currency === "NGN") {
                 if (this.getLoggedUser.localKycStatus === "NONE") return 1;
-                else if (this.getLoggedUser.localKycStatus === "PENDING") return 2;
+                if (this.getLoggedUser.localKycStatus === "PENDING") return 2;
                 return 3;
             }
             if (this.getLoggedUser.globalKycStatus === "NONE") return 1;
-            else if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
+            if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
             return 3;
         },
         isFormValid() {
@@ -398,12 +396,10 @@ export default {
                 } else if (Number.isNaN(+this.itemData.amountCash)) {
                     this.$set(this.errors, "quantity", "Invalid quantity");
                 }
-            } else {
-                if (!this.itemData.price) {
-                    this.$set(this.errors, "price", "Limit price is required");
-                } else if (Number.isNaN(+this.itemData.price)) {
-                    this.$set(this.errors, "quantity", "Invalid quantity");
-                }
+            } else if (!this.itemData.price) {
+                this.$set(this.errors, "price", "Limit price is required");
+            } else if (Number.isNaN(+this.itemData.price)) {
+                this.$set(this.errors, "quantity", "Invalid quantity");
             }
             if (!this.itemData.quantity) {
                 this.$set(this.errors, "quantity", "Quantity is required");
@@ -507,12 +503,13 @@ export default {
                     });
                 });
                 return true;
-            } else if (step.type === "global") {
+            }
+            if (step.type === "global") {
                 // this.showGlobal = true;
             }
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             this.GET_LOGGED_USER().then(() => {
                 if (this.isSellValid === 1) {
                     this.$refs.sellBtn.$el.click();

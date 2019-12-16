@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import auth from "../../services/validations/auth";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations } from 'vuex';
+import auth from '../../services/validations/auth';
 
 export default {
-    name: "ForgotPassword",
+    name: 'ForgotPassword',
     data() {
         return {
             itemData: {},
@@ -65,26 +65,26 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["FORGOT_PASSWORD"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapActions(['FORGOT_PASSWORD']),
+        ...mapMutations(['RESET_REQ']),
         forgot() {
             this.RESET_REQ();
             this.status = {};
             if (!this.itemData.email) {
-                this.$set(this.errors, "email", "Field is required");
+                this.$set(this.errors, 'email', 'Field is required');
             } else if (!auth.email(this.itemData.email)) {
-                this.$set(this.errors, "email", "Invalid email");
+                this.$set(this.errors, 'email', 'Invalid email');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             this.loading = true;
-            this.FORGOT_PASSWORD(this.itemData).then(resp => {
+            this.FORGOT_PASSWORD(this.itemData).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.status = {
-                        message: "Password reset email sent",
-                        status: "success"
+                        message: 'Password reset email sent',
+                        status: 'success'
                     };
                 }
             });
@@ -95,11 +95,9 @@ export default {
     },
     mounted() {
         this.resetError();
-        document.title = "Chaka - Login";
-        document.getElementsByTagName("meta").keywords.content =
-            "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
-        document.getElementsByTagName("meta").description.content =
-            "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+        document.title = 'Chaka - Login';
+        document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+        document.getElementsByTagName('meta').description.content = 'Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.';
     }
 };
 </script>

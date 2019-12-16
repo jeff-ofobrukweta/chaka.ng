@@ -64,24 +64,24 @@
                             />
                         </aside>
                     </section>
-                    <KYCButton
+                    <kyc-button
                         ref="buyBtn"
                         :classes="['buy-btn']"
                         :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
                         @step="handleStep"
                         next-action="buy"
-                        >Buy</KYCButton
+                        >Buy</kyc-button
                     >
                 </section>
             </div>
-            <KYCButton
+            <kyc-button
                 ref="buyBtn"
                 v-if="getWindowWidth === 'mobile'"
                 :classes="['small-size']"
                 :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
                 @step="handleStep"
                 next-action="buy"
-                >Buy</KYCButton
+                >Buy</kyc-button
             >
             <section class="sumary">
                 <div
@@ -183,10 +183,14 @@
                 </section>
             </section>
         </section>
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
         <buy-modal
             @close="closeSaleModal"
             :currency="getSingleinstrument[0].currency"
@@ -209,13 +213,13 @@
 </template>
 <script>
 import { Fragment } from "vue-fragment";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import Linegraph from "../../components/Linegraph/singlestock_linegraph";
 import Cardblue from "../../components/Linegraph/blackpriceboard";
 import StockTable from "../../components/singlestock/StockTable";
 import Horizontalchart from "../../components/Horizontalbar/hbase";
 import Analysisbarchart from "../../components/Analysisbarchart/analysisbarchartbase";
 import KYCTitles from "../../services/kyc/kycTitles";
-import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
     name: "Singlestock",
@@ -227,9 +231,7 @@ export default {
         Horizontalchart,
         Analysisbarchart,
         InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
-        KYCButton: () => import("../../components/form/KYCButton"),
-        ModalKYC: () => import("../../components/kyc/ModalKYC")
+        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist")
     },
     computed: {
         ...mapGetters([
@@ -244,7 +246,7 @@ export default {
         ])
     },
     methods: {
-        //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
+        // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
         ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "GET_CURRENT_STOCK_POSITION"]),
         ...mapMutations(["SET_SINGLE_INSTRUMENT"]),
         handleStep(step) {
@@ -261,16 +263,15 @@ export default {
                     });
                 });
                 return true;
-            } else {
-                if (step.nextAction === "buy") {
-                    this.showBuy = true;
-                    return true;
-                }
-                this.showSell = true;
             }
+            if (step.nextAction === "buy") {
+                this.showBuy = true;
+                return true;
+            }
+            this.showSell = true;
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step.type !== "kyc") {
                 if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();

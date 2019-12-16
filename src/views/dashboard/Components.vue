@@ -51,7 +51,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import KYCModal from "../../components/kyc/ModalKYC";
 import WatchlistCard from "../../components/watchlist/PortfolioWatchlist";
 import StockTable from "../../components/singlestock/StockTable";
 import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
@@ -67,7 +66,6 @@ export default {
     name: "portfolio",
     components: {
         WatchlistCard,
-        KYCModal,
         StockTable,
         MobileWatchlist,
         ExploreWatchlist,

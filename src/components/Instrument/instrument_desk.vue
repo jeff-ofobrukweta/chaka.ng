@@ -1,7 +1,7 @@
 <template>
     <Fragment>
         <!-- <section
-        v-if="(!loadercardState)" 
+        v-if="(!loadercardState)"
         class="card-container-holder-parent">
             <div class="card-container-holder"></div>
             <div class="card-container-holder"></div>
@@ -79,16 +79,16 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-    name: "Instrumentdesk",
+    name: 'Instrumentdesk',
     components: {
         Fragment
     },
     computed: {
-        ...mapGetters(["gettagslistsArray"])
+        ...mapGetters(['gettagslistsArray'])
     },
     methods: {
         //    ...mapActions(['GET_INSTRUMENT_BY_TAGS']),

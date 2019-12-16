@@ -160,19 +160,20 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
-    name: "exchange-modal",
+    name: 'exchange-modal',
     data() {
         return {
-            itemData: { currency: "NGN", fromWallet: "local", toWallet: "global" },
+            itemData: { currency: 'NGN', fromWallet: 'local', toWallet: 'global' },
             loading: false,
             selectedCurrency: null,
             errors: {}
         };
     },
     computed: {
-        ...mapGetters(["getExchangeRate", "getAccountSummary", "getLoggedUser"]),
+        ...mapGetters(['getExchangeRate', 'getAccountSummary', 'getLoggedUser']),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.itemData.amount > 2500) {
@@ -181,30 +182,30 @@ export default {
             return this.itemData.amount / (1 - 0.015);
         },
         canExchange() {
-            return this.getLoggedUser.globalKycStatus === "COMPLETE";
+            return this.getLoggedUser.globalKycStatus === 'COMPLETE';
         }
     },
     methods: {
-        ...mapActions(["GET_EXCHANGE_RATE", "GET_ACCOUNT_SUMMARY", "EXCHANGE_WALLET"]),
+        ...mapActions(['GET_EXCHANGE_RATE', 'GET_ACCOUNT_SUMMARY', 'EXCHANGE_WALLET']),
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         exchangeWallet() {
             if (!this.itemData.amount) {
-                this.$set(this.errors, "amount", "Amount is required");
+                this.$set(this.errors, 'amount', 'Amount is required');
             } else if (Number.isNaN(+this.itemData.amount)) {
-                this.$set(this.errors, "quantity", "Invalid amount");
+                this.$set(this.errors, 'quantity', 'Invalid amount');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             this.loading = true;
-            let payload = { ...this.itemData };
+            const payload = { ...this.itemData };
             payload.amount *= 100;
-            this.EXCHANGE_WALLET(payload).then(resp => {
+            this.EXCHANGE_WALLET(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
-                    this.$emit("close", true);
+                    this.$emit('close', true);
                 }
             });
         }
@@ -212,22 +213,22 @@ export default {
     async mounted() {
         this.GET_EXCHANGE_RATE();
         setTimeout(() => {
-            this.itemData.currency = "NGN";
-            this.itemData.fromWallet = "local";
-            this.itemData.toWallet = "global";
+            this.itemData.currency = 'NGN';
+            this.itemData.fromWallet = 'local';
+            this.itemData.toWallet = 'global';
         }, 500);
         await this.GET_ACCOUNT_SUMMARY();
     },
     watch: {
-        "itemData.fromWallet"(val) {
-            if (val === "local") {
-                this.selectedCurrency = "NGN";
+        'itemData.fromWallet': function (val) {
+            if (val === 'local') {
+                this.selectedCurrency = 'NGN';
                 this.itemData.currency = this.selectedCurrency;
-                this.itemData.toWallet = "global";
+                this.itemData.toWallet = 'global';
             } else {
-                this.selectedCurrency = "USD";
+                this.selectedCurrency = 'USD';
                 this.itemData.currency = this.selectedCurrency;
-                this.itemData.toWallet = "local";
+                this.itemData.toWallet = 'local';
             }
         }
     }

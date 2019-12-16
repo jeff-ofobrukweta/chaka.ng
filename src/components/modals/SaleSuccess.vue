@@ -72,11 +72,12 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
-    name: "sale-success",
+    name: 'sale-success',
     computed: {
-        ...mapGetters(["getBuyOrder", "getSellOrder"])
+        ...mapGetters(['getBuyOrder', 'getSellOrder'])
     },
     data() {
         return {
@@ -84,9 +85,9 @@ export default {
         };
     },
     methods: {
-        ...mapMutations(["SET_BUY_ORDER", "SET_SELL_ORDER"]),
+        ...mapMutations(['SET_BUY_ORDER', 'SET_SELL_ORDER']),
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     mounted() {

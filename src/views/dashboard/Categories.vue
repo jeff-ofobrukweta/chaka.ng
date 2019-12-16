@@ -107,51 +107,51 @@
     </section>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-    name: "Categories",
+    name: 'Categories',
     data() {
         return {
             loading: false,
             loadingTags: false,
-            selectedTag: "ALL",
-            currentTag: { filter: "ALL" },
+            selectedTag: 'ALL',
+            currentTag: { filter: 'ALL' },
             tagCategories: [
                 {
-                    name: "All",
-                    value: "ALL"
+                    name: 'All',
+                    value: 'ALL'
                 },
                 {
-                    name: "Industries",
-                    value: "INDUSTRIES"
+                    name: 'Industries',
+                    value: 'INDUSTRIES'
                 },
                 {
-                    name: "Countries",
-                    value: "COUNTRIES"
+                    name: 'Countries',
+                    value: 'COUNTRIES'
                 }
             ]
         };
     },
     components: {
-        InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
-        Tag: () => import("../../components/SingleTag")
+        InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
+        InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
+        Tag: () => import('../../components/SingleTag')
     },
     computed: {
         ...mapGetters([
-            "gettagslistsArray",
-            "getInstrumentsListArray",
-            "getWindowWidth",
-            "getInstrumentsPayload",
-            "getErrorLog"
+            'gettagslistsArray',
+            'getInstrumentsListArray',
+            'getWindowWidth',
+            'getInstrumentsPayload',
+            'getErrorLog'
         ]),
         instrumentLength() {
             if (Object.keys(this.getInstrumentsPayload).length > 0) {
-                if (this.getInstrumentsPayload.Instruments === "") {
+                if (this.getInstrumentsPayload.Instruments === '') {
                     return 0;
                 }
-                const length = this.getInstrumentsPayload.Instruments.split(",");
+                const length = this.getInstrumentsPayload.Instruments.split(',');
                 return length.length;
             }
             return false;
@@ -159,16 +159,16 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
-            "SET_INSTRUMENT_BY_TAGS",
-            "SET_TAGS_LISTS"
+            'SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS',
+            'SET_INSTRUMENT_BY_TAGS',
+            'SET_TAGS_LISTS'
         ]),
-        ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS"]),
+        ...mapActions(['GET_TAGS_CATEGORIES', 'GET_INSTRUMENT_BY_TAGS']),
         handleSelect(response) {
             this.loading = true;
             const payload = { symbols: response.Instruments };
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response);
-            if (payload.symbols === "") {
+            if (payload.symbols === '') {
                 this.loading = false;
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 return true;

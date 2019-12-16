@@ -13,8 +13,8 @@
 </template>
 <script>
 import { Fragment } from 'vue-fragment';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 import HorizontalGrapgh from './horizontalgraph';
-import { mapGetters,mapMutations,mapActions } from 'vuex';
 
 export default {
     name: 'hbase',
@@ -22,20 +22,20 @@ export default {
         Fragment,
         HorizontalGrapgh
     },
-     computed:{
-        ...mapGetters(['getActionanalysis','getValueanalysis'])
+    computed: {
+        ...mapGetters(['getActionanalysis', 'getValueanalysis'])
     },
-    methods:{
-         ...mapActions(['GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA']),
-        mountedActions(){
-            const payload ={
-                symbol:this.$route.params.symbol
-            }
-            this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then(()=>{
-            })
+    methods: {
+        ...mapActions(['GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA']),
+        mountedActions() {
+            const payload = {
+                symbol: this.$route.params.symbol
+            };
+            this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then(() => {
+            });
         }
     },
-    mounted(){
+    mounted() {
         this.mountedActions();
     }
 };

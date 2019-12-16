@@ -95,13 +95,13 @@
             <button v-else>
                 <img :src="require('../../assets/img/loader.gif')" alt="Loading" width="16px" />
             </button>
-            <KYCButton
+            <kyc-button
                 ref="buyBtn"
                 type="button"
                 :classes="['']"
                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                 @step="handleStep"
-                >Buy</KYCButton
+                >Buy</kyc-button
             >
         </div>
         <buy-modal
@@ -113,26 +113,24 @@
         />
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </div>
 </template>
 
 <script>
-import LineChart from "../Linegraph/linegraph_config.js";
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
-import KYCTitles from "../../services/kyc/kycTitles";
 import { mapActions, mapGetters } from "vuex";
+import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "explore-watchlist",
     components: {
-        LineChart,
-        KYCButton,
-        ModalKYC
+        LineChart: () => import("../Linegraph/linegraph_config")
     },
     props: {
         instrument: {
@@ -235,12 +233,11 @@ export default {
                     });
                 });
                 return true;
-            } else {
-                this.showBuy = true;
             }
+            this.showBuy = true;
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step !== "kyc") {
                 this.$refs.buyBtn.$el.click();
             }

@@ -104,10 +104,11 @@
 </template>
 
 <script>
-import Types from "../../services/kyc/employmentTypes";
-import Positions from "../../services/kyc/employmentPosition";
+import Types from '../../services/kyc/employmentTypes';
+import Positions from '../../services/kyc/employmentPosition';
+
 export default {
-    name: "kyc-field",
+    name: 'kyc-field',
     props: {
         field: {
             required: true,
@@ -131,8 +132,8 @@ export default {
         }
     },
     components: {
-        vSelect: () => import("vue-select"),
-        Uploads: () => import("../FileUpload")
+        vSelect: () => import('vue-select'),
+        Uploads: () => import('../FileUpload')
     },
     data() {
         return {
@@ -147,21 +148,21 @@ export default {
     },
     methods: {
         handleInput(e) {
-            if (this.field.type === "button") {
+            if (this.field.type === 'button') {
                 this.value = e;
             }
-            if (this.field.value === "lg") {
+            if (this.field.value === 'lg') {
                 this.value = this.selectedLg.value;
             }
             const temp = {
                 name: this.field.value,
                 value: this.value
             };
-            this.$emit("input", temp);
+            this.$emit('input', temp);
         },
         handleEmployment() {
             this.employment.employmentStatus = this.value;
-            this.$emit("input", this.employment);
+            this.$emit('input', this.employment);
         },
         handleUploadError(error) {
             this.showUploadError = error;

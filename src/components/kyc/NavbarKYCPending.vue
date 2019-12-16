@@ -26,7 +26,7 @@
 
 <script>
 export default {
-    name: "kyc-pending",
+    name: 'kyc-pending',
     data() {
         return {
             showFund: false,

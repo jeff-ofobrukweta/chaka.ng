@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
+import { Fragment } from 'vue-fragment';
 
 export default {
     components: {

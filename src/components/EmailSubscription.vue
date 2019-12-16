@@ -59,9 +59,10 @@
 </template>
 
 <script>
-import auth from "../services/validations/auth";
+import auth from '../services/validations/auth';
+
 export default {
-    name: "email-subscription",
+    name: 'email-subscription',
     data() {
         return {
             subscribed: false,
@@ -72,9 +73,9 @@ export default {
     methods: {
         subscribe() {
             if (!this.email) {
-                this.$set(this.errors, "email", "Field is required");
+                this.$set(this.errors, 'email', 'Field is required');
             } else if (!auth.email(this.email)) {
-                this.$set(this.errors, "email", "Invalid email");
+                this.$set(this.errors, 'email', 'Invalid email');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;

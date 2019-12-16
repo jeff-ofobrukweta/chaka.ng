@@ -28,20 +28,23 @@
                     To continue your verification, click the button below
                 </p>
                 <div class="text-center mt-3">
-                    <KYCButton
+                    <kyc-button
                         ref="globalBtn"
                         type="button"
                         :classes="['btn__primary']"
                         action="global"
                         @step="handleStep"
-                        >Continue</KYCButton
+                        >Continue</kyc-button
                     >
                 </div>
 
-                <modal @close="showKYC = false" v-if="showKYC">
-                    <template slot="header">{{ selectedField.title }}</template>
-                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-                </modal>
+                <modal-kyc
+                    :requiredFields="selectedField.fields"
+                    :title="selectedField.title"
+                    @updated="handleUpdate"
+                    @close="showKYC = false"
+                    v-if="showKYC"
+                />
             </div>
             <div class="modal-form" v-if="canFundGlobal === 2">
                 <h5 class="text-center mb-2">Your Verification is Under Review</h5>
@@ -119,15 +122,10 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
 import KYCTitles from "../../services/kyc/kycTitles";
+
 export default {
     name: "fund-modal",
-    components: {
-        KYCButton,
-        ModalKYC
-    },
     data() {
         return {
             itemData: {},
@@ -233,12 +231,13 @@ export default {
                     });
                 });
                 return true;
-            } else if (step.type === "global") {
+            }
+            if (step.type === "global") {
                 // this.showGlobal = true;
             }
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             this.GET_LOGGED_USER().then(() => {
                 if (this.canFundGlobal === 1) {
                     this.$refs.globalBtn.$el.click();

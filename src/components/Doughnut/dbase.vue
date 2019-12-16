@@ -34,11 +34,11 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import DoughnutGrapgh from "./doughnut";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import DoughnutGrapgh from './doughnut';
 
 export default {
-    name: "dbase",
+    name: 'dbase',
     components: {
         DoughnutGrapgh
     },
@@ -48,7 +48,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getDoughnutWeightsymbol", "getDoughnutWeightpercentage"]),
+        ...mapGetters(['getDoughnutWeightsymbol', 'getDoughnutWeightpercentage']),
         isGraphValid() {
             if (this.getDoughnutWeightpercentage.length <= 0) {
                 return 1;
@@ -63,7 +63,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA"]),
+        ...mapActions(['GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA']),
         async reload() {
             this.loading = true;
             await this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA();

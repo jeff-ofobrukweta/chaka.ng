@@ -22,8 +22,8 @@ export default {
             min: '',
             max: '',
             graphstyle: {
-               width: '90%',
-               margin:'0 auto'
+                width: '90%',
+                margin: '0 auto'
             },
             interval: 10,
             datacollection: {},
@@ -88,8 +88,8 @@ export default {
           		    scaleLabel: {
           			display: false
           			// labelString: 'Price'
-                  },
-                barPercentage: 0.7,
+                            },
+                            barPercentage: 0.7,
           		position: 'left',
           		ticks: {
           			beginAtZero: false,
@@ -98,13 +98,13 @@ export default {
           			fontSize: 10,
           			max: this.max,
           			min: this.min,
-          			stepSize: this.interval,
+          			stepSize: this.interval
           			// callback:{
-                    //       label(tooltipItem, data){
-                    //         const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
-                    //         return currency;
-                    //     }
-                    //   }
+                                //       label(tooltipItem, data){
+                                //         const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
+                                //         return currency;
+                                //     }
+                                //   }
           		},
           		gridLines: {
           			display: false,
@@ -165,15 +165,15 @@ export default {
     mounted() {
         this.fillData();
     },
-    props:{
-        values:{
-            type:Array,
-            required:true
+    props: {
+        values: {
+            type: Array,
+            required: true
         },
-       actions:{
-            type:Array,
-            required:true
-       } 
+        actions: {
+            type: Array,
+            required: true
+        }
     },
     methods: {
         fillData() {
@@ -201,13 +201,13 @@ export default {
             };
         }
     },
-     watch: {
-		values(newvalue, oldvalue) {
-			this.fillData();
-		},
-		actions(newaction, oldaction) {
-			this.fillData();
-		},
+    watch: {
+        values(newvalue, oldvalue) {
+            this.fillData();
+        },
+        actions(newaction, oldaction) {
+            this.fillData();
+        }
     }
 
 };

@@ -16,34 +16,33 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import { mapActions, mapGetters } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-    name: "dashboard-layout",
+    name: 'dashboard-layout',
     components: {
-        Navbar: () => import("../components/Navbar"),
-        KYC: () => import("../components/kyc/NavbarKYC"),
-        KYCPending: () => import("../components/kyc/NavbarKYCPending"),
+        Navbar: () => import('../components/Navbar'),
+        KYC: () => import('../components/kyc/NavbarKYC'),
+        KYCPending: () => import('../components/kyc/NavbarKYCPending'),
         Fragment
     },
     computed: {
-        ...mapGetters(["showNavbarKYC", "getLoggedUser", "getNavbarNextKYC"]),
+        ...mapGetters(['showNavbarKYC', 'getLoggedUser', 'getNavbarNextKYC']),
         showPending() {
             if (
-                this.getNavbarNextKYC.status === "COMPLETE" &&
-                (this.getLoggedUser.localKycStatus !== "COMPLETE" ||
-                    this.getLoggedUser.globalKycStatus !== "COMPLETE")
-            )
-                return true;
+                this.getNavbarNextKYC.status === 'COMPLETE'
+                && (this.getLoggedUser.localKycStatus !== 'COMPLETE'
+                    || this.getLoggedUser.globalKycStatus !== 'COMPLETE')
+            ) return true;
             return false;
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "GET_NEXT_KYC", "GET_ACCOUNT_SUMMARY"])
+        ...mapActions(['GET_LOGGED_USER', 'GET_NEXT_KYC', 'GET_ACCOUNT_SUMMARY'])
     },
     mounted() {
-        document.title = "Chaka - Dashboard";
+        document.title = 'Chaka - Dashboard';
         this.GET_LOGGED_USER().then(async () => {
             Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
         });
