@@ -5,7 +5,9 @@
                 <div class="left-menue-item"></div>
                 <div class="right-menue-item">
                     <section class="toogle-section">
-                        <section class="option-container">
+                        <!-- <section v-if="(isGraphValid == 1) || (isGraphValid == 2) "></section> -->
+                        <section  
+                        class="option-container">
                             <button
                                 v-for="(item, index) in currencyOption"
                                 :key="index"
@@ -103,11 +105,11 @@ export default {
                 }
             ],
             buttonoption: [
-                {
-                    name: "1 DAY",
-                    time: "1D",
-                    id: 1
-                },
+                // {
+                //     name: "1 DAY",
+                //     time: "1D",
+                //     id: 1
+                // },
                 {
                     name: "1 WEEK",
                     time: "1W",

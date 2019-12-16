@@ -34,7 +34,7 @@
                                 'price'
                             ]"
                             class="delta"
-                            >({{ getPricedetailsonblackcard.derivedPricePercentage }})%</span
+                            >({{ getPricedetailsonblackcard.derivedPricePercentage }}%)</span
                         >
                     </h1>
                 </section>
@@ -58,14 +58,18 @@
                             />
                         </aside>
                     </section>
+                    <section class="btn-wrapper">
                     <KYCButton
                         ref="buyBtn"
                         :classes="['buy-btn']"
                         :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
                         @step="handleStep"
                         next-action="buy"
-                        >Buy</KYCButton
-                    >
+                        >Buy</KYCButton>
+                        <button :class="[false?'watch':'unwatch']">
+                            <img class="middle-loader" :src="require('../../assets/Instrument_assets/watch.png')" alt="spin" />
+                        </button>
+                    </section>
                 </section>
             </div>
             <KYCButton
@@ -83,7 +87,8 @@
                     :title="getSingleinstrument[0].description"
                     class="summary-cover"
                 >
-                    {{ getSingleinstrument[0].description || "" | truncate(500) }}
+                    <section v-if="true">{{ getSingleinstrument[0].description || "" | truncate(500) }}<span><a>see more</a></span></section>
+                    <section v-else>{{ getSingleinstrument[0].description || "" }}</section>
                 </div>
                 <div class="no-description" v-else>No description for this stocks</div>
                 <svg
@@ -119,7 +124,7 @@
                 <div class="graph-container">
                     <Linegraph :instrument="getSingleinstrument[0]" :max-quantity="maxQuantity" />
                 </div>
-                <Cardblue :instrument="getPricedetailsonblackcard" />
+                <Cardblue :instrument="getSingleinstrument[0]" />
             </section>
             <section class="container-instrument">
                 <StockTable
@@ -331,6 +336,7 @@ export default {
             maxQuantity: null,
             cancelStatus: {},
             similarLoading: false,
+
             news: [
                 {
                     title:

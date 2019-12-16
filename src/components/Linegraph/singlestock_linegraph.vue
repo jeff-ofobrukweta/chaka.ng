@@ -14,6 +14,7 @@
                                 >Buy</KYCButton
                             >
                             <KYCButton
+                                v-if="instrument.currentValue || instrument.unitsOwned"
                                 ref="sellBtn"
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
@@ -304,6 +305,11 @@ export default {
             }
         },
         mountAction() {
+            //set the currency as the component mount to the global state
+            this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
+            if(this.getSinglestockglobalCurrencyforGraph == 'USD'){this.currentId = 1}
+            else{this.currentId = 0};
+            // use the global state variable in the store as payload for request
             const payloadsinglestock = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,

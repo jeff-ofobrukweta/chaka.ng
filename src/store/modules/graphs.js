@@ -18,7 +18,7 @@ const state = {
     portfolioDerivedPrice: null,
     portfolioDerivedChange: null,
     globalCurrencyforportfolioGraph: "NGN",
-    globalTimeforportfolioGraph: "1D",
+    globalTimeforportfolioGraph: "1W",
     // portfolioposition:0,
 
     globalCurrencyforsinglestockGraph: "NGN",

@@ -61,16 +61,15 @@ export default {
     },
     props:{
         stamplists:{
-        type:Array,
-        required:true
+            type:Object,
+            required:true
         }
     },
     mounted(){
-        console.log('GGGGGGGGGGGGGGGGGGGGGGGG',this.stamplists)
+        console.log('GGGGGGGGGGGGGGGGGGGGGGGG',this.stamplists);
     },
     methods: {
         next() {
-            console.log(">>>>>> next");
             this.$refs.flickity.next();
         },
         previous() {
