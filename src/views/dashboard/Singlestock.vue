@@ -44,7 +44,7 @@
                                 'price'
                             ]"
                             class="delta"
-                            >({{ getPricedetailsonblackcard.derivedPricePercentage }})%</span
+                            >({{ getPricedetailsonblackcard.derivedPricePercentage }}%)</span
                         >
                     </h1>
                 </section>
@@ -68,14 +68,34 @@
                             />
                         </aside>
                     </section>
-                    <kyc-button
-                        ref="buyBtn"
-                        :classes="['buy-btn']"
-                        :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
-                        @step="handleStep"
-                        next-action="buy"
-                        >Buy</kyc-button
-                    >
+                    <section class="btn-wrapper">
+                        <kyc-button
+                            ref="buyBtn"
+                            :classes="['buy-btn']"
+                            :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
+                            @step="handleStep"
+                            next-action="buy"
+                            >Buy</kyc-button
+                        >
+                        <button
+                            v-if="checkIfStockInWatchlist.length > 0"
+                            @click="OnhandleremoveFromWatchlist"
+                            class="watch"
+                        >
+                            <img
+                                class="middle-loader"
+                                :src="require('../../assets/Instrument_assets/watch.png')"
+                                alt="spin"
+                            />
+                        </button>
+                        <button v-else @click="OnhandleaddToWatchlist" class="unwatch">
+                            <img
+                                class="middle-loader"
+                                :src="require('../../assets/Instrument_assets/watch.png')"
+                                alt="spin"
+                            />
+                        </button>
+                    </section>
                 </section>
             </div>
             <kyc-button
@@ -93,7 +113,22 @@
                     :title="getSingleinstrument[0].description"
                     class="summary-cover"
                 >
-                    {{ getSingleinstrument[0].description || "" | truncate(500) }}
+                    <section v-if="description">
+                        {{ getSingleinstrument[0].description || "" | truncate(300)
+                        }}<span
+                            ><a class="expand" @click="description = !description"
+                                >see&nbsp;more</a
+                            ></span
+                        >
+                    </section>
+                    <section v-else>
+                        {{ getSingleinstrument[0].description || ""
+                        }}<span
+                            ><a class="expand" @click="description = !description"
+                                >see&nbsp;less</a
+                            ></span
+                        >
+                    </section>
                 </div>
                 <div class="no-description" v-else>No description for this stocks</div>
                 <svg
@@ -122,14 +157,21 @@
                     :key="index"
                     class="stocktag-container"
                 >
-                    <div class="item-tag">{{ tag.name }}</div>
+                    <div class="item-tag">
+                        <router-link
+                            class="taglinking"
+                            :to="{ name: 'categories', params: { category: tag.slug } }"
+                        >
+                            {{ tag.name }}
+                        </router-link>
+                    </div>
                 </div>
             </section>
             <section class="container-graph">
                 <div class="graph-container">
                     <Linegraph :instrument="getSingleinstrument[0]" :max-quantity="maxQuantity" />
                 </div>
-                <Cardblue :instrument="getPricedetailsonblackcard" />
+                <Cardblue :instrument="getSingleinstrument[0]" />
             </section>
             <section class="container-instrument">
                 <StockTable :instrument="getSingleinstrument[0] || []" />
@@ -225,11 +267,18 @@ export default {
             "getSimilarStocks",
             "getlocalstocksowned",
             "getglobalstocksowned",
-            "getNextKYC"
+            "getNextKYC",
+            "getWatchlist"
         ])
     },
+    watch: {},
     methods: {
-        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "GET_CURRENT_STOCK_POSITION"]),
+        ...mapActions([
+            "GET_WATCHLIST",
+            "GET_SINGLESTOCK_INSTRUMENT",
+            "ADD_TO_WATCHLIST",
+            "REMOVE_FROM_WATCHLIST"
+        ]),
         ...mapMutations(["SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
         handleStep(step) {
             // this.step = step.type;
@@ -263,6 +312,34 @@ export default {
                 maxQuamtity: this.maxQuamtity
             });
         },
+        async OnhandleaddToWatchlist() {
+            // this.watchdisable = true;
+            const payload = { symbols: String(this.getSingleinstrument[0].symbol) };
+            await this.ADD_TO_WATCHLIST(payload);
+            setTimeout(() => {
+                // this.watchdisable = false;
+                this.statusOfWatchlist = !this.statusOfWatchlist;
+                this.GET_WATCHLIST().then(() => {
+                    this.checkIfStockInWatchlist = [...this.getWatchlist].filter(status => {
+                        return status.symbol == this.$route.params.symbol;
+                    });
+                    // filter the arr at this point to get if the current stock is in the watchlist
+                });
+            }, 200);
+        },
+        async OnhandleremoveFromWatchlist() {
+            // this.watchdisable = true;
+            const payload = { symbols: String(this.getSingleinstrument[0].symbol) };
+            await this.REMOVE_FROM_WATCHLIST(payload);
+            //  this.watchdisable = false;
+            this.statusOfWatchlist = !this.statusOfWatchlist;
+            this.GET_WATCHLIST().then(() => {
+                this.checkIfStockInWatchlist = [...this.getWatchlist].filter(status => {
+                    return status.symbol == this.$route.params.symbol;
+                });
+                // filter the arr at this point to get if the current stock is in the watchlist
+            });
+        },
         handleUpdate() {
             // this.showKYC = false;
             if (this.step.type !== "kyc") {
@@ -293,6 +370,12 @@ export default {
     async mounted() {
         const singlestockpayload = { symbols: this.$route.params.symbol };
         this.similarLoading = true;
+        this.GET_WATCHLIST().then(() => {
+            this.checkIfStockInWatchlist = [...this.getWatchlist].filter(number => {
+                return number.symbol == this.$route.params.symbol;
+            });
+            // filter the arr at this point to get if the current stock is in the watchlist
+        });
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
             this.similarLoading = false;
             this.checkPositions();
@@ -314,6 +397,7 @@ export default {
     data() {
         return {
             step: null,
+            statusOfWatchlist: true,
             showKYC: false,
             selectedField: {},
             type: null,
@@ -322,6 +406,10 @@ export default {
             maxQuantity: null,
             cancelStatus: {},
             similarLoading: false,
+            description: true,
+            watchdisable: true,
+            checkIfStockInWatchlist: [],
+
             news: [
                 {
                     title:

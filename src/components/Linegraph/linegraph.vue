@@ -242,6 +242,11 @@ export default {
         //     if (!checkNaN || checkNaN.length <= 0) this.fillData();
         //     console.log("From date ", checkNaN, newvalue);
         // }
+    },
+     beforeRouteLeave(to, from, next) {
+        this.price = [];
+        this.date = [];
+        next();
     }
 };
 </script>

@@ -30,7 +30,11 @@
             :src="tag.imageUrl"
             :alt="tag.name"
         />
-        <section class="tag-name" :class="{ active: active }">{{ tag.name }}</section>
+        <router-link
+            class="taglinking"
+            :to="{ name: 'categories', params: { category: tag.name } }">
+            <section class="tag-name" :class="{ active: active }">{{ tag.name }}</section>
+        </router-link>
     </div>
 </template>
 

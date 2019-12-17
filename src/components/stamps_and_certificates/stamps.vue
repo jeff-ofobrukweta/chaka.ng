@@ -59,7 +59,7 @@ export default {
     },
     props: {
         stamplists: {
-            type: Array,
+            type: Object,
             required: true
         }
     },
@@ -68,7 +68,6 @@ export default {
     },
     methods: {
         next() {
-            console.log(">>>>>> next");
             this.$refs.flickity.next();
         },
         previous() {
