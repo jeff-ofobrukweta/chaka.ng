@@ -7,8 +7,10 @@
             <h1 class="subtitle-name">lorem ipsum here</h1>
             <section class="graphholder">
                 <Analysisbarchart
+                v-if="getValueperformance"
                 :actions="getActionperformance" 
                 :values="getValueperformance" />
+                <section v-else></section>
             </section>
         </div>
         <div

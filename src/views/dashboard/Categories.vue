@@ -6,9 +6,9 @@
                 <p class="dashboard__title--sub">View all categories</p>
             </div>
             <select class="form__input" @change="getNewTags" v-model="selectedTag">
-                <option v-for="(option, i) in tagCategories" :key="i" :value="option.value">{{
-                    option.name
-                }}</option>
+                <option v-for="(option, i) in tagCategories" :key="i" :value="option.value">
+                    {{option.name}}
+                </option>
             </select>
         </section>
         <template>
@@ -26,13 +26,14 @@
                         <a class="caution__reload" @click="mount">Reload</a>
                     </div>
                     <template v-else-if="gettagslistsArray.length > 0">
-                        <Tag
-                            v-for="item in gettagslistsArray"
-                            :key="item.id"
-                            :tag="item"
-                            @click="handleSelect"
-                            :active="getInstrumentsPayload.slug === item.slug"
-                        />
+                         
+                            <Tag
+                                v-for="item in gettagslistsArray"
+                                :key="item.id"
+                                :tag="item"
+                                @click="handleSelect"
+                                :active="getInstrumentsPayload.name === item.name"
+                            />
                     </template>
                     <section class="empty-center" v-else>
                         <img
@@ -201,6 +202,7 @@ export default {
                 await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
             }
             this.loading = false;
+            console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
         }
     },
     async mounted() {

@@ -14,6 +14,7 @@
                                 >Buy</KYCButton
                             >
                             <KYCButton
+                                v-if="instrument.currentValue || instrument.unitsOwned"
                                 ref="sellBtn"
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
@@ -23,7 +24,10 @@
                             >
                             <!-- <button class="selling">Sell</button> -->
                         </section>
-                        <section class="toogle-section">
+                        <section v-if="trdingViewStatechange"></section>
+                        <section 
+                        v-else 
+                        class="toogle-section">
                             <section class="option-container">
                                 <button
                                     v-for="(item, index) in currencyOption"
@@ -88,7 +92,7 @@
                 <div class="portfolio-graph__placeholder loader-gif__big">
                     <img
                         class="middle-loader"
-                        :src="require('../../assets/img/ring-loader.gif')"
+                        :src="require('../../assets/img/loader.gif')"
                         alt="spin"
                     />
                 </div>
@@ -151,6 +155,7 @@
 <script>
 import { Fragment } from "vue-fragment";
 import Graph from "./linegraph";
+import EventBus from '../../event-bus';
 import KYCTitles from "../../services/kyc/kycTitles";
 import { mapGetters, mapMutations, mapActions } from "vuex";
 
@@ -229,7 +234,8 @@ export default {
             selectedField: {},
             type: null,
             allNextKYC: KYCTitles.titles,
-            cancelStatus: {}
+            cancelStatus: {},
+            trdingViewStatechange:false
         };
     },
     components: {
@@ -288,8 +294,22 @@ export default {
         OntooglePositions(response) {
             this.activeButton = response;
             this.tooglegraph = !this.tooglegraph;
+            console.log('CHECK IF THE TECHNICAL GRAPH IS TOOGLED',response);
+            if(response == 1) 
+            {
+                this.trdingViewStatechange = true
+                return this.trdingViewStatechange;
+            }else{
+                this.trdingViewStatechange = false
+                return this.trdingViewStatechange;
+            }
         },
         mountAction() {
+            //set the currency as the component mount to the global state
+            this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
+            if(this.getSinglestockglobalCurrencyforGraph == 'USD'){this.currentId = 1}
+            else{this.currentId = 0};
+            // use the global state variable in the store as payload for request
             const payloadsinglestock = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
@@ -308,6 +328,7 @@ export default {
             console.log(">>>>>>>>>handletimeframe>>>>>>>>", this.Interval);
             this.loading = true;
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
+            EventBus.$emit('GET_DAYS', this.getSinglestockglobalTimeforGraph);
             const payloadsinglestock = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
