@@ -164,7 +164,7 @@ const routes = [
                 component: Components
             },
             {
-                path: "categories",
+                path: "categories/:category",
                 name: "categories",
                 component: Categories
             },

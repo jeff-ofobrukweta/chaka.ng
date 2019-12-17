@@ -239,6 +239,11 @@ export default {
                 ]
             };
         }
+    },
+    beforeRouteLeave(to, from, next) {
+        this.percentage = [];
+        this.symbol = [];
+        next();
     }
 };
 </script>

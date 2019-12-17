@@ -208,6 +208,11 @@ export default {
 		actions(newaction, oldaction) {
 			this.fillData();
 		},
+    },
+    beforeRouteLeave(to, from, next) {
+        this.values = [];
+        this.actions = [];
+        next();
     }
 
 };

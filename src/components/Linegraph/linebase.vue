@@ -234,7 +234,7 @@ export default {
         async mountedActions() {
             const payload = {
                 interval: this.getPorfolioglobalTimeforGraph,
-                currency: this.getPorfolioglobalCurrencyforGraph
+                currency: "NGN" || this.getPorfolioglobalCurrencyforGraph
             };
             this.loading = true;
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
@@ -245,6 +245,7 @@ export default {
     async mounted() {
         await this.mountedActions();
     }
+
 };
 </script>
 <style src="../../assets/scss/components/linebase.scss" lang="scss" scoped />

@@ -27,6 +27,7 @@ export default {
     },
     methods:{
          ...mapActions(['GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA']),
+         ...mapMutations(["SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE", "SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION"]),
         mountedActions(){
             const payload ={
                 symbol:this.$route.params.symbol
@@ -37,6 +38,11 @@ export default {
     },
     mounted(){
         this.mountedActions();
+    },
+     beforeRouteLeave(to, from, next) {
+        this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE([]);
+        this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION([]);
+        next();
     }
 };
 </script>
