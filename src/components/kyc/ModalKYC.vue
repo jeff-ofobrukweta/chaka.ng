@@ -66,7 +66,7 @@
                     <div>
                         <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                     </div>
-                    <div class="mt-2">
+                    <div class="mt-2" v-if="resume">
                         <small
                             ><a class="underline" @click="showFund"
                                 >Continue your Verification</a
@@ -90,9 +90,9 @@
                     <div>
                         <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                     </div>
-                    <div class="mt-2">
+                    <div class="mt-2" v-if="resume">
                         <small
-                            ><a class="underline" @click="showFund"
+                            ><a class="underline" @click="showResume"
                                 >Continue Local Verification</a
                             ></small
                         >
@@ -107,14 +107,14 @@
             <div class="kyc-modal">
                 <div class="text-center mb-3">
                     <p class="kyc-modal__small">
-                        Your profile is being verified for global trading. You can now fund your
+                        Your profile is being verified for local trading. You can now fund your
                         Naira or Dollar wallet.
                     </p>
                     <br />
                     <div>
                         <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                     </div>
-                    <div class="mt-2">
+                    <div class="mt-2" v-if="resume">
                         <small
                             ><a class="underline" @click="showFund"
                                 >Continue Global Verification</a
@@ -293,6 +293,8 @@ import Types from "../../services/kyc/employmentTypes";
 import Positions from "../../services/kyc/employmentPosition";
 import Banks from "../../services/kyc/banks";
 import lg from "../../services/kyc/lgNames";
+import KYCTitles from "../../services/kyc/kycTitles";
+import EventBus from "../../event-bus";
 
 export default {
     name: "kyc-modal",
@@ -323,6 +325,9 @@ export default {
         },
         finalFund: {
             type: Boolean
+        },
+        resume: {
+            type: Boolean
         }
     },
     data() {
@@ -342,11 +347,13 @@ export default {
             showEmployment: true,
             showPepStatus: false,
             showDirector: false,
+            allNextKYC: KYCTitles.titles,
+            selectedField: {},
             errors: {}
         };
     },
     computed: {
-        ...mapGetters(["getErrorLog"]),
+        ...mapGetters(["getErrorLog", "getNextKYC"]),
         isFileImage() {
             const test = this.requiredFields[0];
             const stripped = test.substr(test.length - 3);
@@ -386,7 +393,8 @@ export default {
                     this.showDirector = false;
                 }
             }
-            this.formComplete = Object.keys(this.itemData).length >= this.requiredFields.length;
+            this.formComplete =
+                Object.keys(this.itemData).length >= this.selectedField.fields.length;
         },
         OTPSuccess() {
             this.nextStep();
@@ -589,7 +597,22 @@ export default {
             this.$emit("close");
         },
         mount() {
+            console.log("I was checked on modal");
+            this.allFields = [];
+            this.selectedField = {};
+            this.itemData = {};
             this.RESET_REQ();
+            /**
+             * Refactor code for child to determine actionType and act on it instead of being passed as a prop
+             */
+            // this.allNextKYC.forEach(element => {
+            //     element.fields.forEach(el => {
+            //         if (el === this.getNextKYC.nextKYC[0]) {
+            //             this.selectedField = element;
+            //             this.selectedField.fields = this.getNextKYC.nextKYC;
+            //         }
+            //     });
+            // });
             this.requiredFields.map(required => {
                 const all = AllKYCFields.filter(el => {
                     if (required === el.value) {
@@ -600,15 +623,11 @@ export default {
             });
         }
     },
-    mounted() {
+    async mounted() {
         this.mount();
-    },
-    watch: {
-        title(newVal) {
-            this.itemData = {};
-            this.allFields = [];
+        EventBus.$on("modal-trigger", () => {
             this.mount();
-        }
+        });
     }
 };
 </script>

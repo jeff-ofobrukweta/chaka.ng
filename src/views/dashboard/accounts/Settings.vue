@@ -801,7 +801,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getErrorLog"])
+        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getErrorLog", "getNavbarTrigger"])
     },
     methods: {
         ...mapActions([
@@ -830,7 +830,7 @@ export default {
             this.UPDATE_KYC(payload).then(resp => {
                 this.loading = false;
                 this.edit = null;
-                if (resp) this.itemData = {};
+                if (resp) this.temData = {};
             });
         },
         submitBVN() {

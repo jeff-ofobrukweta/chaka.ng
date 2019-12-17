@@ -173,7 +173,7 @@ export default {
             "GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS",
             "GET_WATCHLIST"
         ]),
-        ...mapMutations(["SET_WATCHLIST", "SET_FUND_MODAL"]),
+        ...mapMutations(["SET_WATCHLIST", "SET_FUND_MODAL", "SET_NAVBAR_TRIGGER"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -208,6 +208,7 @@ export default {
         }
     },
     async mounted() {
+        this.SET_NAVBAR_TRIGGER(true);
         const payload = { interval: "1D" };
         const currency = { currency: this.getPorfolioglobalCurrencyforGraph };
         this.watchlistLoading = true;

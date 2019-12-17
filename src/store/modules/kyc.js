@@ -1,13 +1,13 @@
 import api from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
+import EventBus from "../../event-bus";
 
 const state = {
     kyc: {},
     navbarKYC: true,
     nextKYC: {},
     navbarNextKYC: {},
-    countryCodes: [],
-    triggerNavbar: false
+    countryCodes: []
 };
 
 const getters = {
@@ -15,7 +15,6 @@ const getters = {
     showNavbarKYC: state => state.navbarKYC,
     getNextKYC: state => state.nextKYC,
     getNavbarNextKYC: state => state.navbarNextKYC,
-    getNavbarTrigger: state => state.triggerNavbar,
     getCountryCodes: state => state.countryCodes
 };
 
@@ -31,9 +30,6 @@ const mutations = {
     },
     SET_NAVBAR_NEXT_KYC(state, payload) {
         state.navbarNextKYC = payload;
-    },
-    SET_NAVBAR_TRIGGER(state, payload) {
-        state.triggerNavbar = payload;
     },
     SET_COUNTRY_CODES(state, payload) {
         state.countryCodes = payload;
@@ -70,6 +66,7 @@ const actions = {
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
                             commit("SET_NEXT_KYC", resp.data.data);
+                            EventBus.$emit("modal-trigger");
                             dispatch("GET_NAVBAR_NEXT_KYC");
                             resolve(true);
                             return true;
@@ -92,7 +89,7 @@ const actions = {
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
-                        commit("SET_NAVBAR_TRIGGER", true);
+                        EventBus.$emit("navbar-trigger");
                         resolve(true);
                         return true;
                     }

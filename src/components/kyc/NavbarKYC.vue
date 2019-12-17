@@ -30,16 +30,6 @@
                                 ></small
                             >
                         </p>
-                        <p
-                            class="skip-button"
-                            v-if="
-                                getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
-                            "
-                        >
-                            <a class="underline" @click="enterNIN = true"
-                                ><small>Enter your NIN to fast track your verification</small></a
-                            >
-                        </p>
                     </div>
 
                     <div class="kyc-nav__field">
@@ -472,6 +462,7 @@
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import Field from "./KYCField";
 import KYCTitles from "../../services/kyc/kycTitles";
+import EventBus from "../../event-bus";
 
 export default {
     name: "kyc-navbar",
@@ -528,7 +519,6 @@ export default {
             "getKYC",
             "getNavbarNextKYC",
             "getCountryCodes",
-            "getNavbarTrigger",
             "getErrorLog",
             "getKYC"
         ])
@@ -553,7 +543,7 @@ export default {
             "GET_COUNTRY_CODES",
             "USE_BVN_PHONE"
         ]),
-        ...mapMutations(["SET_NAVBAR_TRIGGER", "SET_SHOW_NAVBAR_KYC"]),
+        ...mapMutations(["SET_SHOW_NAVBAR_KYC"]),
         handleInput(e) {
             this.$set(this.itemData, e.name, e.value);
         },
@@ -591,6 +581,7 @@ export default {
             this.RESOLVE_BVN(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
+                    this.confirmPhone();
                     this.checkNextKYC();
                     this.itemData = {};
                 }
@@ -656,6 +647,7 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.itemData = {};
+                    this.showNextModalBtn();
                     this.showOTP = false;
                 }
             });
@@ -736,9 +728,12 @@ export default {
             this.resendOTPWhatsapp();
         },
         showNextModalBtn() {
+            this.checkNextKYC();
+            EventBus.$emit("modal-trigger", true);
             this.showNextModal = true;
         },
         checkNextKYC() {
+            this.selectedField = {};
             this.allNextKYC.forEach(element => {
                 element.fields.forEach(el => {
                     if (el === this.getNavbarNextKYC.nextKYC[0]) {
@@ -755,32 +750,32 @@ export default {
                 if (resp) {
                     this.itemData = {};
                 }
+                this.showNextModalBtn();
             });
         },
         closeNIN() {
-            this.SET_NAVBAR_TRIGGER(true);
+            EventBus.$emit("navbar-trigger");
+            EventBus.$emit("modal-trigger");
             this.enterNIN = false;
         },
         hideKYCBtn() {
             this.SET_SHOW_NAVBAR_KYC(false);
         },
         handleUpdate() {
+            this.showNextModalBtn();
             // this.showNextModal = false
         }
     },
     async mounted() {
+        EventBus.$on("navbar-trigger", () => {
+            this.checkNextKYC();
+        });
         await this.GET_NEXT_KYC();
         if (Object.keys(this.getNavbarNextKYC).length > 0) this.checkNextKYC();
         await this.GET_COUNTRY_CODES();
         await this.GET_KYC();
     },
     watch: {
-        getNavbarTrigger(newVal) {
-            if (newVal) {
-                this.checkNextKYC();
-                this.SET_NAVBAR_TRIGGER(false);
-            }
-        },
         "itemData.bvn": function(newVal) {
             if (newVal) {
                 if (newVal.length > 11) {
