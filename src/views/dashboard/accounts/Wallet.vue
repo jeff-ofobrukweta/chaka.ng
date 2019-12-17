@@ -14,10 +14,6 @@
                         {{ getAccountSummary.netWorth | kobo | currency("NGN") }}
                     </h2>
                     <p><small>My Portfolio Value</small></p>
-                    <div class="accounts-wallet__graphics">
-                        <img src="../../../assets/img/wallet1.svg" alt="Wallet" />
-                        <img src="../../../assets/img/wallet2.svg" alt="Wallet" />
-                    </div>
                 </div>
             </div>
             <div class="accounts-wallet__text">
@@ -126,24 +122,24 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <KYCButton
+                    <kyc-button
                         ref="fundBtn"
                         type="button"
                         :classes="['btn-block', 'btn--lg', 'btn__primary']"
                         action="fund"
                         @step="handleStep"
-                        >Fund</KYCButton
+                        >Fund</kyc-button
                     >
-                    <KYCButton
+                    <kyc-button
                         ref="exchangeBtn"
                         type="button"
                         :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
                         action="global"
                         @step="handleStep"
-                        >Exchange</KYCButton
+                        >Exchange</kyc-button
                     >
                     <button
-                        @click="showWithdraw = true"
+                        @click="showWithdraw"
                         class="btn btn-block btn--lg btn__primary--outline"
                     >
                         Withdraw
@@ -151,35 +147,25 @@
                 </div>
             </div>
         </section>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <exchange-modal :showModal="showExchange" @close="closeExchangeBtn" v-if="showExchange" />
-        <withdraw-modal :showModal="showWithdraw" @close="closeWithdrawBtn" v-if="showWithdraw" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import KYCButton from "../../../components/form/KYCButton";
-import ModalKYC from "../../../components/kyc/ModalKYC";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import KYCTitles from "../../../services/kyc/kycTitles";
+
 export default {
     name: "accounts-wallet",
-    components: {
-        KYCButton,
-        ModalKYC
-    },
     data() {
         return {
-            showFund: false,
-            showWithdraw: false,
-            showExchange: false,
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             step: null,
@@ -194,6 +180,7 @@ export default {
     },
     methods: {
         ...mapActions(["GET_ACCOUNT_SUMMARY"]),
+        ...mapMutations(["SET_FUND_MODAL", "SET_WITHDRAW_MODAL", "SET_EXCHANGE_MODAL"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -207,32 +194,25 @@ export default {
                     });
                 });
                 return true;
-            } else if (step.type === "fund") {
-                this.showFund = true;
+            }
+            if (step.type === "fund") {
+                this.SET_FUND_MODAL(true);
             } else if (step.type === "global") {
-                this.showExchange = true;
+                this.SET_EXCHANGE_MODAL(true);
             }
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step === "fund") {
                 this.$refs.fundBtn.$el.click();
                 return true;
-            } else if (this.step === "global") {
+            }
+            if (this.step === "global") {
                 this.$refs.exchangeBtn.$el.click();
             }
         },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
-        },
-        closeWithdrawBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showWithdraw = false;
-        },
-        closeExchangeBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showExchange = false;
+        showWithdraw() {
+            this.SET_WITHDRAW_MODAL(true);
         }
     },
     async mounted() {

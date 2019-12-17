@@ -97,7 +97,9 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            return `${'Percentage(%)'} ${data.datasets[0].data[tooltipItem.index].toFixed(2)}`;
+                            return `${"Percentage(%)"} ${data.datasets[0].data[
+                                tooltipItem.index
+                            ].toFixed(2)}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];

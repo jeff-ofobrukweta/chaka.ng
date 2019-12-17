@@ -18,77 +18,77 @@
     </Fragment>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
-import { Fragment } from "vue-fragment";
-import Instrumentdesk from "./instrument_desk";
-import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { Fragment } from 'vue-fragment';
+import Instrumentdesk from './instrument_desk';
+import MobileWatchlist from '../watchlist/MobileWatchlist';
 
 export default {
-    name: "GroupInstrument",
+    name: 'GroupInstrument',
     data() {
         return {
             cards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
             watchlist: [
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "Google",
-                    symbol: "GOOGL",
-                    currency: "USD",
+                    name: 'Google',
+                    symbol: 'GOOGL',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 20
                 },
                 {
-                    name: "MTN Nigeria",
-                    symbol: "MTNN",
-                    currency: "USD",
+                    name: 'MTN Nigeria',
+                    symbol: 'MTNN',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 4
                 },
                 {
-                    name: "Jumia Technologies",
-                    symbol: "JUMIA",
-                    currency: "USD",
+                    name: 'Jumia Technologies',
+                    symbol: 'JUMIA',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 2
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 1
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: 0
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: -3
                 },
                 {
-                    name: "Spotify",
-                    symbol: "SPOT",
-                    currency: "USD",
+                    name: 'Spotify',
+                    symbol: 'SPOT',
+                    currency: 'USD',
                     price: 656.9,
                     percent: 0.67,
                     change: -10
@@ -97,11 +97,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "gettagslistsArray", "getInstrumentsListArray"])
+        ...mapGetters(['getWindowWidth', 'gettagslistsArray', 'getInstrumentsListArray'])
     },
     methods: {
         // ...mapMutations([''])
-        ...mapActions(["GET_TAGS_CATEGORIES"]),
+        ...mapActions(['GET_TAGS_CATEGORIES']),
         mountingActions() {}
     },
 

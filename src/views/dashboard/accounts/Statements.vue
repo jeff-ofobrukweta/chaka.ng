@@ -63,11 +63,11 @@
 </template>
 
 <script>
-import StatementsCard from "../../../components/accounts/StatementsCard";
-import { mapActions, mapMutations, mapGetters } from "vuex";
+import { mapActions, mapMutations, mapGetters } from 'vuex';
+import StatementsCard from '../../../components/accounts/StatementsCard';
 
 export default {
-    name: "accounts-statements",
+    name: 'accounts-statements',
     components: {
         StatementsCard
     },
@@ -76,46 +76,46 @@ export default {
             payload: {
                 fromDate: null,
                 toDate: null,
-                market: "GLOBAL"
+                market: 'GLOBAL'
             },
             loading: false,
-            market: "GLOBAL",
-            reportType: "STATEMENT",
+            market: 'GLOBAL',
+            reportType: 'STATEMENT',
             selectedOrderCurrency: null,
             fromDate: null,
             toDate: null,
             markets: [
                 {
-                    name: "Local",
-                    value: "LOCAL"
+                    name: 'Local',
+                    value: 'LOCAL'
                 },
                 {
-                    name: "Global",
-                    value: "GLOBAL"
+                    name: 'Global',
+                    value: 'GLOBAL'
                 }
             ],
             reportTypes: [
                 {
-                    name: "Statement",
-                    value: "STATEMENT"
+                    name: 'Statement',
+                    value: 'STATEMENT'
                 },
                 {
-                    name: "Confirmations",
-                    value: "TRADE"
+                    name: 'Confirmations',
+                    value: 'TRADE'
                 },
                 {
-                    name: "Tax",
-                    value: "TAX"
+                    name: 'Tax',
+                    value: 'TAX'
                 }
             ]
         };
     },
     computed: {
-        ...mapGetters(["getStatements", "getErrorLog"])
+        ...mapGetters(['getStatements', 'getErrorLog'])
     },
     methods: {
-        ...mapActions(["GET_STATEMENTS"]),
-        ...mapMutations(["SET_STATEMENTS"]),
+        ...mapActions(['GET_STATEMENTS']),
+        ...mapMutations(['SET_STATEMENTS']),
         handleDate(e) {
             if (e.target.value) {
                 this.payload.fromDate = new Date(this.fromDate).toISOString();

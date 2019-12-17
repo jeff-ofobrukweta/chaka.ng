@@ -31,10 +31,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding-bottom: 1rem;
+        padding-bottom: 1.325rem;
+        border-bottom: 1px solid $silver;
 
         &__text {
-            font-size: 1.325rem;
+            font-size: 1.25rem;
             text-align: center;
             padding-left: 0.5rem;
             padding-right: 0.5rem;
@@ -57,7 +58,6 @@
         &__box {
             min-height: 5rem;
             display: flex;
-            margin-top: .825rem;
 
             @include tablet {
                 min-height: 2.5rem;
@@ -100,8 +100,12 @@
 
         @include tablet {
             padding: 2rem 4rem 1.5rem;
-            max-width: 600px;
+            max-width: 500px;
             width: 80%
+        }
+
+        @include desktop {
+            max-width: 630px;
         }
 
         &__full {

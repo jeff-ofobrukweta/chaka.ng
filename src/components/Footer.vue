@@ -142,11 +142,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
+
 export default {
-    name: "app-footer",
+    name: 'app-footer',
     computed: {
-        ...mapGetters(["isLoggedIn"])
+        ...mapGetters(['isLoggedIn'])
     }
 };
 </script>

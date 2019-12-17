@@ -5,29 +5,26 @@
                 <div class="right-menue-item">
                     <div class="parent-container-main">
                         <section class="buy-sell-action">
-                            <KYCButton
+                            <kyc-button
                                 ref="buyBtn"
                                 :classes="['buying']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
                                 next-action="buy"
-                                >Buy</KYCButton
+                                >Buy</kyc-button
                             >
-                            <KYCButton
-                                v-if="instrument.currentValue || instrument.unitsOwned"
+                            <kyc-button
                                 ref="sellBtn"
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
                                 next-action="sell"
-                                >Sell</KYCButton
+                                >Sell</kyc-button
                             >
                             <!-- <button class="selling">Sell</button> -->
                         </section>
                         <section v-if="trdingViewStatechange"></section>
-                        <section 
-                        v-else 
-                        class="toogle-section">
+                        <section v-else class="toogle-section">
                             <section class="option-container">
                                 <button
                                     v-for="(item, index) in currencyOption"
@@ -100,7 +97,7 @@
             <template v-else-if="isGraphValid === 2">
                 <div class="portfolio-graph__placeholder caution__big">
                     <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
-                    <a class="caution__reload" @click="mountedActions">Reload</a>
+                    <a class="caution__reload">Reload</a>
                 </div>
             </template>
             <template v-else>
@@ -124,40 +121,25 @@
         <div v-else class="graphholder">
             <div class="portfolio-graph__placeholder caution__big">
                 <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
-                <a class="caution__reload" @click="mountedActions">Reload</a>
+                <a class="caution__reload">Reload</a>
             </div>
         </div>
-        <buy-modal
-            @close="closeSaleModal"
-            :currency="instrument.currency"
-            :symbol="instrument.symbol"
-            :instrument="instrument"
-            stock-page
-            v-if="showBuy && Object.keys(instrument).length > 0"
-        />
-        <sell-modal
-            @close="closeSaleModal"
-            :currency="instrument.currency"
-            :symbol="instrument.symbol"
-            :instrument="instrument"
-            :max-quantity="maxQuantity"
-            stock-page
-            v-if="showSell && Object.keys(instrument).length > 0"
-        />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </Fragment>
 </template>
 <script>
 import { Fragment } from "vue-fragment";
-import Graph from "./linegraph";
-import EventBus from '../../event-bus';
-import KYCTitles from "../../services/kyc/kycTitles";
 import { mapGetters, mapMutations, mapActions } from "vuex";
+import Graph from "./linegraph";
+import EventBus from "../../event-bus";
+import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "Linechartgraphchild",
@@ -226,24 +208,19 @@ export default {
             ],
             activeButton: "",
             currentId: "",
-            showBuy: false,
-            showSell: false,
-            showSuccess: false,
             step: null,
             showKYC: false,
             selectedField: {},
             type: null,
             allNextKYC: KYCTitles.titles,
             cancelStatus: {},
-            trdingViewStatechange:false
+            trdingViewStatechange: false
         };
     },
     components: {
         Graph,
         Fragment,
-        TechnicalChart: () => import("../Technicalgraph"),
-        KYCButton: () => import("../form/KYCButton"),
-        ModalKYC: () => import("../kyc/ModalKYC")
+        TechnicalChart: () => import("../Technicalgraph")
     },
     props: {
         instrument: {
@@ -288,19 +265,20 @@ export default {
             "SET_LINE_SINGLESTOCK_CHARTDATA",
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH",
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH",
-            "SET_SINGLESTOCK_POSITIONS_FOR_SELECT"
+            "SET_SINGLESTOCK_POSITIONS_FOR_SELECT",
+            "SET_BUY_MODAL",
+            "SET_SELL_MODAL"
         ]),
         ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
         OntooglePositions(response) {
             this.activeButton = response;
             this.tooglegraph = !this.tooglegraph;
-            console.log('CHECK IF THE TECHNICAL GRAPH IS TOOGLED',response);
-            if(response == 1) 
-            {
-                this.trdingViewStatechange = true
+            console.log("CHECK IF THE TECHNICAL GRAPH IS TOOGLED", response);
+            if (response == 1) {
+                this.trdingViewStatechange = true;
                 return this.trdingViewStatechange;
-            }else{
-                this.trdingViewStatechange = false
+            } else {
+                this.trdingViewStatechange = false;
                 return this.trdingViewStatechange;
             }
         },
@@ -318,17 +296,12 @@ export default {
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 //  call back state like loader state here
                 this.loading = false;
-                console.log(
-                    "this is the single Instrument LLLLLLLLLLLLLL",
-                    this.getSingleinstrument[0].currency
-                );
             });
         },
         handletimeframe(e) {
-            console.log(">>>>>>>>>handletimeframe>>>>>>>>", this.Interval);
             this.loading = true;
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
-            EventBus.$emit('GET_DAYS', this.getSinglestockglobalTimeforGraph);
+            EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
             const payloadsinglestock = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
@@ -336,23 +309,14 @@ export default {
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 this.loading = false;
-                console.log(
-                    ">>>>>>GET_LINECHART_SINGLESTOCK_GRAPH_DATA>>>>>>>>>>>>>>",
-                    this.getOpenPrice
-                );
             });
         },
         async toogleCurrency(currency, id) {
-            console.log("TOOOOOOOOGLE_CUUUUUUUUURENCY", currency, id);
             this.loading = true;
             this.currentId = id;
             this.SET_SINGLESTOCK_POSITIONS_FOR_SELECT(id);
             console.log("CURRENCY TOOGLE SELECT STATE", this.getSinglestockIntervalposition);
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(currency);
-            console.log(
-                "toggle HHHHHHHHHHHHHHHHHHHHHHH",
-                this.getSinglestockglobalCurrencyforGraph
-            );
             const defaulttime = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
@@ -376,36 +340,33 @@ export default {
                     });
                 });
                 return true;
-            } else {
-                if (step.nextAction === "buy") {
-                    this.showBuy = true;
-                    return true;
-                }
-                this.showSell = true;
             }
+            if (step.nextAction === "buy") {
+                this.SET_BUY_MODAL({
+                    instrument: this.instrument,
+                    currency: this.currency,
+                    stockPage: true,
+                    show: true
+                });
+                return true;
+            }
+            this.SET_SELL_MODAL({
+                instrument: this.instrument,
+                currency: this.instrument.currency,
+                stockPage: true,
+                show: true,
+                maxQuantity: this.maxQuantity
+            });
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step.type !== "kyc") {
                 if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();
             }
-        },
-        closeSaleModal(e) {
-            if (e) {
-                this.showSuccess = true;
-            }
-            this.showBuy = false;
-            this.showSell = false;
         }
     },
     mounted() {
-        console.log(
-            "are this getters??????????????",
-            this.instrument,
-            this.getOpenPrice,
-            this.getDates
-        );
         this.mountAction();
     }
 };

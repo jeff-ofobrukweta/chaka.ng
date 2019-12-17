@@ -109,10 +109,11 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import { mapActions, mapGetters } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapActions, mapGetters } from 'vuex';
+
 export default {
-    name: "phone-otp",
+    name: 'phone-otp',
     components: {
         Fragment
     },
@@ -134,16 +135,16 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getCountryCodes"])
+        ...mapGetters(['getKYC', 'getCountryCodes'])
     },
     methods: {
-        ...mapActions(["GET_KYC", "USE_BVN_PHONE", "RESOLVE_OTP", "GET_COUNTRY_CODES"]),
+        ...mapActions(['GET_KYC', 'USE_BVN_PHONE', 'RESOLVE_OTP', 'GET_COUNTRY_CODES']),
         useBVNPhone() {
             this.loading = true;
             const payload = {
                 smsSender: this.smsSender
             };
-            this.USE_BVN_PHONE(payload).then(resp => {
+            this.USE_BVN_PHONE(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -175,7 +176,7 @@ export default {
             //     return false;
             // }
             this.loading = true;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -185,10 +186,10 @@ export default {
         },
         submitOTP() {
             this.loading = true;
-            this.RESOLVE_OTP(this.otpData).then(resp => {
+            this.RESOLVE_OTP(this.otpData).then((resp) => {
                 this.loading = false;
                 if (resp) {
-                    this.$emit("close", true);
+                    this.$emit('close', true);
                     this.itemData = {};
                 }
             });
@@ -208,7 +209,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 if (resp) {
                     this.OTPResend = false;
                     this.itemData = {};
@@ -226,7 +227,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 if (resp) {
                     this.OTPResend = false;
                     this.itemData = {};
@@ -247,10 +248,9 @@ export default {
                     return true;
                 }
                 const hours = Math.floor(counting / 60);
-                const minutes =
-                    Math.floor(counting % 60) < 10
-                        ? `0${Math.floor(counting % 60)}`
-                        : Math.floor(counting % 60);
+                const minutes = Math.floor(counting % 60) < 10
+                    ? `0${Math.floor(counting % 60)}`
+                    : Math.floor(counting % 60);
                 this.countdown = `${hours}:${minutes}`;
             }, 1000);
         },
@@ -259,7 +259,7 @@ export default {
             this.showNewPhone = true;
         },
         close() {
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     async mounted() {

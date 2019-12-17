@@ -1,10 +1,20 @@
 <template>
     <Fragment>
         <section
-            class="issues-with-pageloading" 
-            v-if="getSingleinstrument[0] == undefined || !getSingleinstrument || getSingleinstrument[0] == null">
-            <div><aside class="center-fix-messg">
-                    <img class="middle-loader" :src="require('../../assets/img/loader.gif')" alt="spin" />
+            class="issues-with-pageloading"
+            v-if="
+                getSingleinstrument[0] == undefined ||
+                    !getSingleinstrument ||
+                    getSingleinstrument[0] == null
+            "
+        >
+            <div>
+                <aside class="center-fix-messg">
+                    <img
+                        class="middle-loader"
+                        :src="require('../../assets/img/loader.gif')"
+                        alt="spin"
+                    />
                 </aside>
             </div>
         </section>
@@ -59,44 +69,66 @@
                         </aside>
                     </section>
                     <section class="btn-wrapper">
-                    <KYCButton
-                        ref="buyBtn"
-                        :classes="['buy-btn']"
-                        :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
-                        @step="handleStep"
-                        next-action="buy"
-                        >Buy</KYCButton>
-                         <button
+                        <kyc-button
+                            ref="buyBtn"
+                            :classes="['buy-btn']"
+                            :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
+                            @step="handleStep"
+                            next-action="buy"
+                            >Buy</kyc-button
+                        >
+                        <button
                             v-if="checkIfStockInWatchlist.length > 0"
                             @click="OnhandleremoveFromWatchlist"
-                            class="watch">
-                            <img class="middle-loader" :src="require('../../assets/Instrument_assets/watch.png')" alt="spin" /> 
+                            class="watch"
+                        >
+                            <img
+                                class="middle-loader"
+                                :src="require('../../assets/Instrument_assets/watch.png')"
+                                alt="spin"
+                            />
                         </button>
-                        <button
-                        v-else
-                        @click="OnhandleaddToWatchlist"
-                        class="unwatch">
-                            <img class="middle-loader" :src="require('../../assets/Instrument_assets/watch.png')" alt="spin" />
+                        <button v-else @click="OnhandleaddToWatchlist" class="unwatch">
+                            <img
+                                class="middle-loader"
+                                :src="require('../../assets/Instrument_assets/watch.png')"
+                                alt="spin"
+                            />
                         </button>
                     </section>
                 </section>
             </div>
-            <KYCButton
+            <kyc-button
                 ref="buyBtn"
                 v-if="getWindowWidth === 'mobile'"
                 :classes="['small-size']"
                 :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
                 @step="handleStep"
                 next-action="buy"
-                >Buy</KYCButton
+                >Buy</kyc-button
             >
             <section class="sumary">
                 <div
                     v-if="getSingleinstrument[0].description"
                     :title="getSingleinstrument[0].description"
-                    class="summary-cover">
-                    <section v-if="description">{{ getSingleinstrument[0].description || "" | truncate(300) }}<span><a class="expand" @click="description = !description">see&nbsp;more</a></span></section>
-                    <section v-else>{{ getSingleinstrument[0].description || "" }}<span><a class="expand" @click="description = !description">see&nbsp;less</a></span></section>
+                    class="summary-cover"
+                >
+                    <section v-if="description">
+                        {{ getSingleinstrument[0].description || "" | truncate(300)
+                        }}<span
+                            ><a class="expand" @click="description = !description"
+                                >see&nbsp;more</a
+                            ></span
+                        >
+                    </section>
+                    <section v-else>
+                        {{ getSingleinstrument[0].description || ""
+                        }}<span
+                            ><a class="expand" @click="description = !description"
+                                >see&nbsp;less</a
+                            ></span
+                        >
+                    </section>
                 </div>
                 <div class="no-description" v-else>No description for this stocks</div>
                 <svg
@@ -128,8 +160,9 @@
                     <div class="item-tag">
                         <router-link
                             class="taglinking"
-                            :to="{ name: 'categories', params: { category: tag.slug } }">
-                        {{ tag.name }}
+                            :to="{ name: 'categories', params: { category: tag.slug } }"
+                        >
+                            {{ tag.name }}
                         </router-link>
                     </div>
                 </div>
@@ -138,12 +171,10 @@
                 <div class="graph-container">
                     <Linegraph :instrument="getSingleinstrument[0]" :max-quantity="maxQuantity" />
                 </div>
-                <Cardblue :instrument="getSingleinstrument[0]"/>
+                <Cardblue :instrument="getSingleinstrument[0]" />
             </section>
             <section class="container-instrument">
-                <StockTable
-                    :instrument="getSingleinstrument[0] || []"
-                />
+                <StockTable :instrument="getSingleinstrument[0] || []" />
             </section>
             <section class="container-stocks">
                 <Horizontalchart />
@@ -195,39 +226,25 @@
                 </section>
             </section>
         </section>
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
-        <buy-modal
-            @close="closeSaleModal"
-            :currency="getSingleinstrument[0].currency"
-            :symbol="getSingleinstrument[0].symbol"
-            :instrument="getSingleinstrument[0]"
-            stock-page
-            v-if="showBuy"
+
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
         />
-        <sell-modal
-            @close="closeSaleModal"
-            :currency="getSingleinstrument[0].currency"
-            :symbol="getSingleinstrument[0].symbol"
-            :instrument="getSingleinstrument[0]"
-            :max-quantity="maxQuantity"
-            stock-page
-            v-if="showSell"
-        />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
     </Fragment>
 </template>
 <script>
 import { Fragment } from "vue-fragment";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import Linegraph from "../../components/Linegraph/singlestock_linegraph";
 import Cardblue from "../../components/Linegraph/blackpriceboard";
 import StockTable from "../../components/singlestock/StockTable";
 import Horizontalchart from "../../components/Horizontalbar/hbase";
 import Analysisbarchart from "../../components/Analysisbarchart/analysisbarchartbase";
 import KYCTitles from "../../services/kyc/kycTitles";
-import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
     name: "Singlestock",
@@ -239,9 +256,7 @@ export default {
         Horizontalchart,
         Analysisbarchart,
         InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
-        KYCButton: () => import("../../components/form/KYCButton"),
-        ModalKYC: () => import("../../components/kyc/ModalKYC")
+        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist")
     },
     computed: {
         ...mapGetters([
@@ -256,13 +271,15 @@ export default {
             "getWatchlist"
         ])
     },
-    watch:{
-        
-    },
+    watch: {},
     methods: {
-        //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(["GET_WATCHLIST","GET_SINGLESTOCK_INSTRUMENT","ADD_TO_WATCHLIST","REMOVE_FROM_WATCHLIST"]),
-        ...mapMutations(["SET_SINGLE_INSTRUMENT"]),
+        ...mapActions([
+            "GET_WATCHLIST",
+            "GET_SINGLESTOCK_INSTRUMENT",
+            "ADD_TO_WATCHLIST",
+            "REMOVE_FROM_WATCHLIST"
+        ]),
+        ...mapMutations(["SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
         handleStep(step) {
             // this.step = step.type;
             this.step = step;
@@ -277,13 +294,23 @@ export default {
                     });
                 });
                 return true;
-            } else {
-                if (step.nextAction === "buy") {
-                    this.showBuy = true;
-                    return true;
-                }
-                this.showSell = true;
             }
+            if (step.nextAction === "buy") {
+                this.SET_BUY_MODAL({
+                    instrument: this.getSingleinstrument[0],
+                    currency: this.getSingleinstrument[0].currency,
+                    stockPage: true,
+                    show: true
+                });
+                return true;
+            }
+            this.SET_SELL_MODAL({
+                instrument: this.getSingleinstrument[0],
+                currency: this.getSingleinstrument[0].currency,
+                stockPage: true,
+                show: true,
+                maxQuamtity: this.maxQuamtity
+            });
         },
         async OnhandleaddToWatchlist() {
             // this.watchdisable = true;
@@ -292,12 +319,12 @@ export default {
             setTimeout(() => {
                 // this.watchdisable = false;
                 this.statusOfWatchlist = !this.statusOfWatchlist;
-                this.GET_WATCHLIST().then(()=>{
-                this.checkIfStockInWatchlist = [...this.getWatchlist].filter((status) =>{
-                    return status.symbol ==  this.$route.params.symbol;
+                this.GET_WATCHLIST().then(() => {
+                    this.checkIfStockInWatchlist = [...this.getWatchlist].filter(status => {
+                        return status.symbol == this.$route.params.symbol;
+                    });
+                    // filter the arr at this point to get if the current stock is in the watchlist
                 });
-                // filter the arr at this point to get if the current stock is in the watchlist
-            });
             }, 200);
         },
         async OnhandleremoveFromWatchlist() {
@@ -305,27 +332,20 @@ export default {
             const payload = { symbols: String(this.getSingleinstrument[0].symbol) };
             await this.REMOVE_FROM_WATCHLIST(payload);
             //  this.watchdisable = false;
-             this.statusOfWatchlist = !this.statusOfWatchlist;
-             this.GET_WATCHLIST().then(()=>{
-                this.checkIfStockInWatchlist = [...this.getWatchlist].filter((status) =>{
-                    return status.symbol ==  this.$route.params.symbol;
+            this.statusOfWatchlist = !this.statusOfWatchlist;
+            this.GET_WATCHLIST().then(() => {
+                this.checkIfStockInWatchlist = [...this.getWatchlist].filter(status => {
+                    return status.symbol == this.$route.params.symbol;
                 });
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step.type !== "kyc") {
                 if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();
             }
-        },
-        closeSaleModal(e) {
-            if (e) {
-                this.showSuccess = true;
-            }
-            this.showBuy = false;
-            this.showSell = false;
         },
         checkPositions() {
             let check = [];
@@ -350,9 +370,9 @@ export default {
     async mounted() {
         const singlestockpayload = { symbols: this.$route.params.symbol };
         this.similarLoading = true;
-        this.GET_WATCHLIST().then(()=>{
-            this.checkIfStockInWatchlist = [...this.getWatchlist].filter((number) =>{
-                return number.symbol ==  this.$route.params.symbol;
+        this.GET_WATCHLIST().then(() => {
+            this.checkIfStockInWatchlist = [...this.getWatchlist].filter(number => {
+                return number.symbol == this.$route.params.symbol;
             });
             // filter the arr at this point to get if the current stock is in the watchlist
         });
@@ -376,9 +396,6 @@ export default {
     },
     data() {
         return {
-            showBuy: false,
-            showSell: false,
-            showSuccess: false,
             step: null,
             statusOfWatchlist: true,
             showKYC: false,
@@ -389,9 +406,9 @@ export default {
             maxQuantity: null,
             cancelStatus: {},
             similarLoading: false,
-            description:true,
-            watchdisable:true,
-            checkIfStockInWatchlist:[],
+            description: true,
+            watchdisable: true,
+            checkIfStockInWatchlist: [],
 
             news: [
                 {

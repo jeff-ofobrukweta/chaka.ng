@@ -448,26 +448,35 @@
             </form>
         </modal>
 
-        <modal @close="showNextModal = false" v-if="showNextModal">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="showNextModal = false" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showNextModal = false"
+            v-if="showNextModal"
+        />
+        <modal-kyc
+            :requiredFields="ninFields.fields"
+            :title="ninFields.title"
+            @updated="closeNIN"
+            @close="enterNIN = false"
+            v-if="enterNIN"
+            nin
+        />
 
-        <EnterNIN v-if="enterNIN" @updated="closeNIN" @close="closeNIN" />
+        <!-- <EnterNIN v-if="enterNIN" @updated="closeNIN" @close="closeNIN" /> -->
     </section>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
 import Field from "./KYCField";
-import ModalKYC from "./ModalKYC";
 import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "kyc-navbar",
     components: {
         Field,
-        ModalKYC,
         EnterNIN: () => import("./EnterNIN")
     },
     data() {
@@ -491,6 +500,11 @@ export default {
                 name: "NIN",
                 value: "nin",
                 type: "number"
+            },
+            ninFields: {
+                title: "National Identity Number",
+                subtitle: "Enter your NIN details",
+                fields: ["nin"]
             },
             selectedField: {},
             showNextModal: false,
@@ -744,10 +758,14 @@ export default {
             });
         },
         closeNIN() {
+            this.SET_NAVBAR_TRIGGER(true);
             this.enterNIN = false;
         },
         hideKYCBtn() {
             this.SET_SHOW_NAVBAR_KYC(false);
+        },
+        handleUpdate() {
+            // this.showNextModal = false
         }
     },
     async mounted() {
@@ -763,7 +781,7 @@ export default {
                 this.SET_NAVBAR_TRIGGER(false);
             }
         },
-        "itemData.bvn"(newVal) {
+        "itemData.bvn": function(newVal) {
             if (newVal) {
                 if (newVal.length > 11) {
                     this.issues = {

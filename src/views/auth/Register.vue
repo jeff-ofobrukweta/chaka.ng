@@ -73,10 +73,11 @@
 </template>
 
 <script>
-import auth from "../../services/validations/auth";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations } from 'vuex';
+import auth from '../../services/validations/auth';
+
 export default {
-    name: "Login",
+    name: 'Login',
     data() {
         return {
             itemData: {},
@@ -92,31 +93,31 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["REGISTER"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapActions(['REGISTER']),
+        ...mapMutations(['RESET_REQ']),
         register() {
             this.RESET_REQ();
             if (!this.itemData.email) {
-                this.$set(this.errors, "email", "Field is required");
+                this.$set(this.errors, 'email', 'Field is required');
             } else if (!auth.email(this.itemData.email)) {
-                this.$set(this.errors, "email", "Invalid email");
+                this.$set(this.errors, 'email', 'Invalid email');
             }
             if (!this.itemData.password) {
-                this.$set(this.errors, "password", "Field is required");
+                this.$set(this.errors, 'password', 'Field is required');
             }
             if (!this.confirmPassword) {
-                this.$set(this.errors, "confirmPassword", "Field is required");
+                this.$set(this.errors, 'confirmPassword', 'Field is required');
             } else if (this.confirmPassword !== this.itemData.password) {
-                this.$set(this.errors, "confirmPassword", "Password should match initial password");
+                this.$set(this.errors, 'confirmPassword', 'Password should match initial password');
                 return false;
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             this.loading = true;
-            this.REGISTER(this.itemData).then(resp => {
+            this.REGISTER(this.itemData).then((resp) => {
                 this.loading = false;
-                if (resp) this.$router.push({ name: "verification-sent" });
+                if (resp) this.$router.push({ name: 'verification-sent' });
             });
         },
         resetError() {
@@ -124,7 +125,7 @@ export default {
         }
     },
     mounted() {
-        document.title = "Chaka - Create Your Chaka Account";
+        document.title = 'Chaka - Create Your Chaka Account';
     }
 };
 </script>

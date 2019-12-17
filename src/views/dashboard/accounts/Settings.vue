@@ -689,9 +689,9 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import Uploads from "../../../components/FileUpload";
 import PhoneOTP from "../../../components/kyc/PhoneOTP";
-import { mapActions, mapGetters, mapMutations } from "vuex";
 
 const Types = () => import("../../../services/kyc/employmentTypes");
 const Positions = () => import("../../../services/kyc/employmentPosition");
@@ -812,7 +812,7 @@ export default {
             "RESOLVE_BVN",
             "RESET_REQ"
         ]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapMutations(["RESET_REQ", "SET_NAVBAR_TRIGGER"]),
         editBtn(name) {
             this.edit = name;
             this.showUploadError = null;
@@ -921,7 +921,10 @@ export default {
             this.newPhone.countryCode = this.selectedCountry.value;
         },
         OTPSuccess(value) {
-            if (value) this.$emit("updated");
+            if (value) {
+                this.SET_NAVBAR_TRIGGER(true);
+                this.$emit("updated");
+            }
             this.showOTP = false;
             this.showNewPhone = false;
         },
@@ -939,7 +942,7 @@ export default {
         await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);
     },
     watch: {
-        "bvnData.bvn"(newVal) {
+        "bvnData.bvn": function(newVal) {
             if (newVal) {
                 if (newVal.length > 11) {
                     this.issues = {
@@ -950,7 +953,7 @@ export default {
                 }
             }
         },
-        "itemData.bankAcctNo"(newVal) {
+        "itemData.bankAcctNo": function(newVal) {
             if (newVal) {
                 if (newVal.length > 10) {
                     this.issues.bankAcctNo = "Account number should be 10 digits";

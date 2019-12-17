@@ -6,13 +6,13 @@
                 <p class="dashboard__title--sub">Portfolio</p>
             </div>
             <section class="portfolio-title__fund">
-                <KYCButton
+                <kyc-button
                     ref="fundBtn"
                     type="button"
                     :classes="['btn-block', 'btn__primary']"
                     action="fund"
                     @step="handleStep"
-                    >Fund</KYCButton
+                    >Fund</kyc-button
                 >
             </section>
         </section>
@@ -75,6 +75,14 @@
             <section class="watchlist-portfolio__box" v-if="watchlistLoading">
                 <WatchlistCard v-for="i in 5" :key="i" :instrument="{}" dummy />
             </section>
+            <template v-else-if="getWatchlist.length <= 0 && getErrorLog.type === 'watchlist'">
+                <div class="caution__big">
+                    <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
+                    <a class="caution__reload" @click="handlewatchlistintervalToogle(true)"
+                        >Reload</a
+                    >
+                </div>
+            </template>
             <section class="watchlist-portfolio__box" v-else-if="getWatchlist.length > 0">
                 <WatchlistCard
                     v-for="(instrument, index) in getWatchlist"
@@ -89,13 +97,14 @@
                 >
             </section>
         </section>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </section>
 </template>
 
@@ -112,9 +121,7 @@ export default {
         PortfolioCardOpenorders: () => import("../../components/portfolio/PortfolioCardOpenorders"),
         Linegraph: () => import("../../components/Linegraph/linebase"),
         Doughnut: () => import("../../components/Doughnut/dbase"),
-        Performancebarchart: () => import("../../components/Performance_chart/performancebase"),
-        KYCButton: () => import("../../components/form/KYCButton"),
-        ModalKYC: () => import("../../components/kyc/ModalKYC")
+        Performancebarchart: () => import("../../components/Performance_chart/performancebase")
     },
     data() {
         return {
@@ -154,8 +161,6 @@ export default {
             cacheWatchlistInterval: "1D",
             watchlistLoading: true,
             portfolioCardsLoading: false,
-            showFund: false,
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             step: null,
@@ -168,7 +173,7 @@ export default {
             "GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS",
             "GET_WATCHLIST"
         ]),
-        ...mapMutations(["SET_WATCHLIST"]),
+        ...mapMutations(["SET_WATCHLIST", "SET_FUND_MODAL"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -183,18 +188,14 @@ export default {
                 });
                 return true;
             }
-            this.showFund = true;
+            this.SET_FUND_MODAL(true);
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             this.$refs.fundBtn.$el.click();
         },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
-        },
         handlewatchlistintervalToogle(e) {
-            if (this.watchlistInterval === this.cacheWatchlistInterval) {
+            if (this.watchlistInterval === this.cacheWatchlistInterval && e !== true) {
                 return true;
             }
             this.watchlistLoading = true;
@@ -226,7 +227,8 @@ export default {
             "getPortfoliopositionsCarddetails",
             "getPortfolioDerivedPrice",
             "getPortfolioDerivedChange",
-            "getNextKYC"
+            "getNextKYC",
+            "getErrorLog"
         ])
     }
 };

@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'Logout',
-  created() {}
+    name: 'Logout',
+    created() {}
 };
 </script>

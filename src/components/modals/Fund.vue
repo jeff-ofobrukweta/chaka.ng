@@ -9,39 +9,42 @@
                         @click="switchCurrency('NGN')"
                         :class="{ active: currency === 'NGN' }"
                     >
-                        ₦&nbsp;&nbsp;Naira Funding
+                        ₦
                     </button>
                     <button
                         class="btn"
                         @click="switchCurrency('USD')"
                         :class="{ active: currency === 'USD' }"
                     >
-                        $&nbsp;&nbsp;Dollar Funding
+                        $
                     </button>
                 </div>
             </div>
         </template>
-        <template v-if="currency === 'USD' && canFundGlobal !== 3">
+        <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
             <div class="modal-form" v-if="canFundGlobal === 1">
                 <h5 class="text-center mb-2">Verification Incomplete</h5>
                 <p class="text-center">
                     To continue your verification, click the button below
                 </p>
                 <div class="text-center mt-3">
-                    <KYCButton
+                    <kyc-button
                         ref="globalBtn"
                         type="button"
                         :classes="['btn__primary']"
                         action="global"
                         @step="handleStep"
-                        >Continue</KYCButton
+                        >Continue</kyc-button
                     >
                 </div>
 
-                <modal @close="showKYC = false" v-if="showKYC">
-                    <template slot="header">{{ selectedField.title }}</template>
-                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-                </modal>
+                <modal-kyc
+                    :requiredFields="selectedField.fields"
+                    :title="selectedField.title"
+                    @updated="handleUpdate"
+                    @close="showKYC = false"
+                    v-if="showKYC"
+                />
             </div>
             <div class="modal-form" v-if="canFundGlobal === 2">
                 <h5 class="text-center mb-2">Your Verification is Under Review</h5>
@@ -50,8 +53,8 @@
                     transactions
                 </p>
             </div>
-        </template>
-        <template v-else>
+        </template> -->
+        <template>
             <form class="modal-form" @submit.prevent="fundWallet">
                 <div class="modal-form__group">
                     <label class="form__label"
@@ -106,7 +109,7 @@
                 <br />
                 <p>
                     <small class="grey-dark">
-                        Please put your Chaka ID (in the Accounts section) in the Comments section
+                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section
                         of your transfer request. Email
                         <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
                         completion to confirm manual transfer</small
@@ -119,15 +122,10 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
 import KYCTitles from "../../services/kyc/kycTitles";
+
 export default {
     name: "fund-modal",
-    components: {
-        KYCButton,
-        ModalKYC
-    },
     data() {
         return {
             itemData: {},
@@ -135,7 +133,6 @@ export default {
             message: null,
             issues: {},
             currency: "NGN",
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             allNextKYC: KYCTitles.titles
@@ -233,12 +230,13 @@ export default {
                     });
                 });
                 return true;
-            } else if (step.type === "global") {
+            }
+            if (step.type === "global") {
                 // this.showGlobal = true;
             }
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             this.GET_LOGGED_USER().then(() => {
                 if (this.canFundGlobal === 1) {
                     this.$refs.globalBtn.$el.click();

@@ -142,7 +142,11 @@
         &__buttons {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-evenly;
+            justify-content: center;
+
+            button:last-child {
+                margin-left: 1rem;
+            }
         }
     }
 

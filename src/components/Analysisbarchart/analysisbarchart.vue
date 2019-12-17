@@ -2,9 +2,9 @@
 <div>
 	<div class="small chart__box">
 		<div class="chart__aspect-ratio">
-			<Analysisbarchart 
+			<Analysisbarchart
             :style="graphstyle"
-            class="chart__graph" :chart-data="datacollection" 
+            class="chart__graph" :chart-data="datacollection"
             :options="options"></Analysisbarchart>
 		</div>
 	</div>
@@ -29,7 +29,7 @@ export default {
             max: '',
             graphstyle: {
                 width: '100%',
-                margin:'0 auto'
+                margin: '0 auto'
             },
             interval: 10,
             datacollection: {},
@@ -81,7 +81,7 @@ export default {
                             // 			maxTicksLimit: 8,
                             // 			fontSize: 10
                             // 		},
-                           barPercentage: 0.7,
+                            barPercentage: 0.7,
                             // categoryPercentage: 1.0,
           	gridLines: {
           		display: false,
@@ -126,7 +126,7 @@ export default {
           			max: this.max,
           			min: this.min,
           			stepSize: this.interval,
-          			 callback: value => numeral(value).format("0a")
+          			 callback: value => numeral(value).format('0a')
           		},
           		gridLines: {
           			display: false,
@@ -136,7 +136,7 @@ export default {
                     ]
                 },
                 animation: {
-                duration: 0 // general animation time
+                    duration: 0 // general animation time
                 },
                 hover: {
                     animationDuration: 0 // duration of animations when hovering an item
@@ -166,7 +166,7 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
+                            const currency = numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a');
                             return currency;
                         },
                         afterLabel(tooltipItem, data) {
@@ -202,28 +202,28 @@ export default {
             type: String,
             required: false
         },
-        values:{
-             type: Array,
+        values: {
+            type: Array,
             required: true
         },
-        actions:{
-             type: Array,
+        actions: {
+            type: Array,
             required: true
         }
     },
     created() {
         this.fillData();
-		this.handlescaling();
-	},
+        this.handlescaling();
+    },
     methods: {
-         handlescaling() {
-			if (this.getOpenPrice) {
-				this.min = this.values.sort()[0];
-				this.max = this.values.sort()[this.values.sort().length - 1];
-				this.interval = Math.ceil((this.max - this.min) / 10);
-			}
-			return true;
-		},
+        handlescaling() {
+            if (this.getOpenPrice) {
+                this.min = this.values.sort()[0];
+                this.max = this.values.sort()[this.values.sort().length - 1];
+                this.interval = Math.ceil((this.max - this.min) / 10);
+            }
+            return true;
+        },
         fillData() {
             this.datacollection = {
                 labels: this.actions,
@@ -232,7 +232,7 @@ export default {
                         label: 'Stocks',
                         lineTension: 0.4,
                         fill: true,
-                        backgroundColor: ['#22A4EF','#293D4A', '#B3811C'],
+                        backgroundColor: ['#22A4EF', '#293D4A', '#B3811C'],
                         borderWidth: 1.7,
                         showLine: true,
                         borderJoinStyle: 'miter',
@@ -251,12 +251,12 @@ export default {
         }
     },
     watch: {
-		values(newvalue, oldvalue) {
-			this.fillData();
-		},
-		actions(newaction, oldaction) {
-			this.fillData();
-		},
+        values(newvalue, oldvalue) {
+            this.fillData();
+        },
+        actions(newaction, oldaction) {
+            this.fillData();
+        }
     }
 };
 </script>
