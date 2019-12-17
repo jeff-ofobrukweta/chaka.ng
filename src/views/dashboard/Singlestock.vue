@@ -70,7 +70,7 @@
                             v-if="checkIfStockInWatchlist.length > 0"
                             @click="OnhandleremoveFromWatchlist"
                             class="watch">
-                            <img class="middle-loader" :src="require('../../assets/Instrument_assets/watch.png')" alt="spin" /> 
+                            <img class="middle-loader" :src="require('../../assets/img/watch-close.svg')" alt="spin" /> 
                         </button>
                         <button
                         v-else
@@ -191,7 +191,7 @@
                 <h1 class="title">News</h1>
                 <section class="sub-title">lorem ipsun blabala here</section>
                 <section class="news-container-main">
-                    <news-card :news="item" v-for="(item, index) in news" :key="index" />
+                    <news-card :news="item" v-for="(item, index) in getNews" :key="index" />
                 </section>
             </section>
         </section>
@@ -253,7 +253,8 @@ export default {
             "getlocalstocksowned",
             "getglobalstocksowned",
             "getNextKYC",
-            "getWatchlist"
+            "getWatchlist",
+            "getNews"
         ])
     },
     watch:{
@@ -261,8 +262,8 @@ export default {
     },
     methods: {
         //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
-        ...mapActions(["GET_WATCHLIST","GET_SINGLESTOCK_INSTRUMENT","ADD_TO_WATCHLIST","REMOVE_FROM_WATCHLIST"]),
-        ...mapMutations(["SET_SINGLE_INSTRUMENT"]),
+        ...mapActions(["GET_WATCHLIST","GET_SINGLESTOCK_INSTRUMENT","GET_ARTICULE_NEWS","ADD_TO_WATCHLIST","REMOVE_FROM_WATCHLIST"]),
+        ...mapMutations(["SET_SINGLE_INSTRUMENT","SET_NEWS"]),
         handleStep(step) {
             // this.step = step.type;
             this.step = step;
@@ -349,6 +350,7 @@ export default {
     },
     async mounted() {
         const singlestockpayload = { symbols: this.$route.params.symbol };
+        const newsSinglestockpayload = { symbol: this.$route.params.symbol };
         this.similarLoading = true;
         this.GET_WATCHLIST().then(()=>{
             this.checkIfStockInWatchlist = [...this.getWatchlist].filter((number) =>{
@@ -359,6 +361,9 @@ export default {
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
             this.similarLoading = false;
             this.checkPositions();
+            this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(()=>{
+                console.log('this is the getter in component for getNews',this.getNews)
+            })
         });
     },
     beforeRouteUpdate(to, from, next) {
