@@ -97,8 +97,6 @@
                 >
             </section>
         </section>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
         <modal-kyc
             :requiredFields="selectedField.fields"
@@ -163,8 +161,6 @@ export default {
             cacheWatchlistInterval: "1D",
             watchlistLoading: true,
             portfolioCardsLoading: false,
-            showFund: false,
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             step: null,
@@ -177,7 +173,7 @@ export default {
             "GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS",
             "GET_WATCHLIST"
         ]),
-        ...mapMutations(["SET_WATCHLIST"]),
+        ...mapMutations(["SET_WATCHLIST", "SET_FUND_MODAL"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -192,15 +188,11 @@ export default {
                 });
                 return true;
             }
-            this.showFund = true;
+            this.SET_FUND_MODAL(true);
         },
         handleUpdate() {
             // this.showKYC = false;
             this.$refs.fundBtn.$el.click();
-        },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
         },
         handlewatchlistintervalToogle(e) {
             if (this.watchlistInterval === this.cacheWatchlistInterval && e !== true) {

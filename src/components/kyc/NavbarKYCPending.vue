@@ -13,31 +13,23 @@
                     <p><small>Most Popular Today</small></p>
                 </div>
                 <div>
-                    <button class="btn btn__white btn-block kyc-nav__fund" @click="showFund = true">
+                    <button class="btn btn__white btn-block kyc-nav__fund" @click="showFund">
                         <small>Fund Wallet</small>
                     </button>
                 </div>
             </div>
         </div>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
     </section>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
 export default {
-    name: 'kyc-pending',
-    data() {
-        return {
-            showFund: false,
-            showSuccess: false
-        };
-    },
-    computed: {},
+    name: "kyc-pending",
     methods: {
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
+        ...mapMutations(["SET_FUND_MODAL"]),
+        showFund() {
+            this.SET_FUND_MODAL(true);
         }
     }
 };

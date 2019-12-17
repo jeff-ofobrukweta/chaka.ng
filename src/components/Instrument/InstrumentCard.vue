@@ -128,14 +128,6 @@
             @step="handleStep"
             >Buy</kyc-button
         >
-        <buy-modal
-            @close="closeBuyModal"
-            :currency="instrument.currency"
-            :symbol="instrument.symbol"
-            :instrument="instrument"
-            v-if="showBuy"
-        />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
         <modal-kyc
             :requiredFields="selectedField.fields"
@@ -148,7 +140,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
@@ -165,9 +157,7 @@ export default {
     data() {
         return {
             step: null,
-            showBuy: false,
             showKYC: false,
-            showSuccess: false,
             selectedField: {},
             allNextKYC: KYCTitles.titles,
             loading: false
@@ -185,6 +175,7 @@ export default {
     },
     methods: {
         ...mapActions(["ADD_TO_WATCHLIST", "REMOVE_FROM_WATCHLIST"]),
+        ...mapMutations(["SET_BUY_MODAL"]),
         checkChange(value) {
             if (+value >= 0) return true;
             return false;
@@ -203,19 +194,18 @@ export default {
                 });
                 return true;
             }
-            this.showBuy = true;
+            this.SET_BUY_MODAL({
+                instrument: this.instrument,
+                currency: this.instrument.currency,
+                stockPage: false,
+                show: true
+            });
         },
         handleUpdate() {
             // this.showKYC = false;
             if (this.step !== "kyc") {
                 this.$refs.buyBtn.$el.click();
             }
-        },
-        closeBuyModal(e) {
-            if (e) {
-                this.showSuccess = true;
-            }
-            this.showBuy = false;
         },
         async removeFromWatchlist() {
             this.loading = true;

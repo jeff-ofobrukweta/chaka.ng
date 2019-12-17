@@ -191,24 +191,6 @@
             @close="showKYC = false"
             v-if="showKYC"
         />
-        <buy-modal
-            @close="closeSaleModal"
-            :currency="getSingleinstrument[0].currency"
-            :symbol="getSingleinstrument[0].symbol"
-            :instrument="getSingleinstrument[0]"
-            stock-page
-            v-if="showBuy"
-        />
-        <sell-modal
-            @close="closeSaleModal"
-            :currency="getSingleinstrument[0].currency"
-            :symbol="getSingleinstrument[0].symbol"
-            :instrument="getSingleinstrument[0]"
-            :max-quantity="maxQuantity"
-            stock-page
-            v-if="showSell"
-        />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
     </Fragment>
 </template>
 <script>
@@ -246,9 +228,8 @@ export default {
         ])
     },
     methods: {
-        // ...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
         ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "GET_CURRENT_STOCK_POSITION"]),
-        ...mapMutations(["SET_SINGLE_INSTRUMENT"]),
+        ...mapMutations(["SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
         handleStep(step) {
             // this.step = step.type;
             this.step = step;
@@ -265,10 +246,21 @@ export default {
                 return true;
             }
             if (step.nextAction === "buy") {
-                this.showBuy = true;
+                this.SET_BUY_MODAL({
+                    instrument: this.getSingleinstrument[0],
+                    currency: this.getSingleinstrument[0].currency,
+                    stockPage: true,
+                    show: true
+                });
                 return true;
             }
-            this.showSell = true;
+            this.SET_SELL_MODAL({
+                instrument: this.getSingleinstrument[0],
+                currency: this.getSingleinstrument[0].currency,
+                stockPage: true,
+                show: true,
+                maxQuamtity: this.maxQuamtity
+            });
         },
         handleUpdate() {
             // this.showKYC = false;
@@ -276,13 +268,6 @@ export default {
                 if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();
             }
-        },
-        closeSaleModal(e) {
-            if (e) {
-                this.showSuccess = true;
-            }
-            this.showBuy = false;
-            this.showSell = false;
         },
         checkPositions() {
             let check = [];
@@ -328,9 +313,6 @@ export default {
     },
     data() {
         return {
-            showBuy: false,
-            showSell: false,
-            showSuccess: false,
             step: null,
             showKYC: false,
             selectedField: {},

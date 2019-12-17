@@ -123,24 +123,6 @@
                 <a class="caution__reload" @click="mountedActions">Reload</a>
             </div>
         </div>
-        <buy-modal
-            @close="closeSaleModal"
-            :currency="instrument.currency"
-            :symbol="instrument.symbol"
-            :instrument="instrument"
-            stock-page
-            v-if="showBuy && Object.keys(instrument).length > 0"
-        />
-        <sell-modal
-            @close="closeSaleModal"
-            :currency="instrument.currency"
-            :symbol="instrument.symbol"
-            :instrument="instrument"
-            :max-quantity="maxQuantity"
-            stock-page
-            v-if="showSell && Object.keys(instrument).length > 0"
-        />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
         <modal-kyc
             :requiredFields="selectedField.fields"
@@ -224,9 +206,6 @@ export default {
             ],
             activeButton: "",
             currentId: "",
-            showBuy: false,
-            showSell: false,
-            showSuccess: false,
             step: null,
             showKYC: false,
             selectedField: {},
@@ -283,7 +262,9 @@ export default {
             "SET_LINE_SINGLESTOCK_CHARTDATA",
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH",
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH",
-            "SET_SINGLESTOCK_POSITIONS_FOR_SELECT"
+            "SET_SINGLESTOCK_POSITIONS_FOR_SELECT",
+            "SET_BUY_MODAL",
+            "SET_SELL_MODAL"
         ]),
         ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
         OntooglePositions(response) {
@@ -344,10 +325,21 @@ export default {
                 return true;
             }
             if (step.nextAction === "buy") {
-                this.showBuy = true;
+                this.SET_BUY_MODAL({
+                    instrument: this.instrument,
+                    currency: this.currency,
+                    stockPage: true,
+                    show: true
+                });
                 return true;
             }
-            this.showSell = true;
+            this.SET_SELL_MODAL({
+                instrument: this.instrument,
+                currency: this.instrument.currency,
+                stockPage: true,
+                show: true,
+                maxQuantity: this.maxQuantity
+            });
         },
         handleUpdate() {
             // this.showKYC = false;
@@ -355,22 +347,9 @@ export default {
                 if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();
             }
-        },
-        closeSaleModal(e) {
-            if (e) {
-                this.showSuccess = true;
-            }
-            this.showBuy = false;
-            this.showSell = false;
         }
     },
     mounted() {
-        console.log(
-            "are this getters??????????????",
-            this.instrument,
-            this.getOpenPrice,
-            this.getDates
-        );
         this.mountAction();
     }
 };

@@ -139,13 +139,13 @@
                 </div>
             </div>
         </router-link>
-        <buy-modal
+        <!-- <buy-modal
             @close="closeBuyModal"
             :currency="instrument.currency"
             :symbol="instrument.symbol"
             :instrument="instrument"
             v-if="showBuy"
-        />
+        /> -->
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
         <modal-kyc
@@ -159,7 +159,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
@@ -196,6 +196,7 @@ export default {
     },
     methods: {
         ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "REMOVE_FROM_WATCHLIST", "ADD_TO_WATCHLIST"]),
+        ...mapMutations(["SET_BUY_MODAL"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -210,7 +211,13 @@ export default {
                 });
                 return true;
             }
-            this.showBuy = true;
+            // this.showBuy = true;
+            this.SET_BUY_MODAL({
+                instrument: this.instrument,
+                currency: this.instrument.currency,
+                stockPage: false,
+                show: true
+            });
         },
         handleUpdate() {
             // this.showKYC = false;
@@ -220,7 +227,8 @@ export default {
         },
         closeBuyModal(e) {
             if (e) this.showSuccess = true;
-            this.showBuy = false;
+            // this.showBuy = false;
+            this.SET_BUY_MODAL({});
         },
         async removeFromWatchlist() {
             this.loading = true;

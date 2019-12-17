@@ -179,39 +179,23 @@
                 No current Stocks availiable at this time
             </tbody>
         </table>
-        <buy-modal
-            @close="closeSaleModal"
-            :currency="selectedInstrument.currency"
-            :symbol="selectedInstrument.symbol"
-            :instrument="selectedInstrument"
-            v-if="showBuy && Object.keys(selectedInstrument).length > 0"
-        />
-        <sell-modal
-            @close="closeSaleModal"
-            :currency="selectedInstrument.currency"
-            :symbol="selectedInstrument.symbol"
-            :instrument="selectedInstrument"
-            :max-quantity="maxQuantity"
-            v-if="showSell && Object.keys(selectedInstrument).length > 0"
-        />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-            <modal-kyc
-                :requiredFields="selectedField.fields"
-                :title="selectedField.title"
-                @updated="handleUpdate"
-                @close="showKYC = false"
-                v-if="showKYC"
-            />
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </section>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import KYCTitles from '../../services/kyc/kycTitles';
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
-    name: 'portfolio-table',
+    name: "portfolio-table",
     props: {
         storedata: {
             type: Array,
@@ -238,17 +222,18 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getNextKYC', 'getlocalstocksowned', 'getglobalstocksowned'])
+        ...mapGetters(["getNextKYC", "getlocalstocksowned", "getglobalstocksowned", "getErrorLog"])
     },
     methods: {
-        ...mapActions(['CANCEL_ORDER']),
+        ...mapActions(["CANCEL_ORDER"]),
+        ...mapMutations(["SET_BUY_MODAL", "SET_SELL_MODAL"]),
         checkChange(value) {
             if (value >= 0) return true;
             return false;
         },
         checkPositions(symbol, currency) {
             let check = [];
-            if (currency === 'NGN') {
+            if (currency === "NGN") {
                 check = this.getlocalstocksowned.filter(element => element.symbol === symbol);
             } else {
                 check = this.getglobalstocksowned.filter(element => element.symbol === symbol);
@@ -276,13 +261,17 @@ export default {
                     symbol: item.symbol
                 }
             };
-            this.CANCEL_ORDER(details).then((resp) => {
+            this.CANCEL_ORDER(details).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.cancelStatus.message = 'Order cancellation successful';
-                    this.cancelStatus.status = 'success';
-                    this.$toasted.show('Order cancellation successful', {
-                        type: 'success'
+                    this.cancelStatus.message = "Order cancellation successful";
+                    this.cancelStatus.status = "success";
+                    this.$toasted.show("Order cancellation successful", {
+                        type: "success"
+                    });
+                } else {
+                    this.$toasted.show(this.getErrorLog.message, {
+                        type: "error"
                     });
                 }
             });
@@ -292,8 +281,8 @@ export default {
             this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach((element) => {
-                    element.fields.forEach((el) => {
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
                         if (el === this.getNextKYC.nextKYC[0]) {
                             this.selectedField = element;
                             this.selectedField.fields = this.getNextKYC.nextKYC;
@@ -302,26 +291,33 @@ export default {
                 });
                 return true;
             }
-            if (step.nextAction === 'buy') {
-                this.showBuy = true;
+            if (step.nextAction === "buy") {
+                setTimeout(() => {
+                    this.SET_BUY_MODAL({
+                        instrument: this.selectedInstrument,
+                        stockPage: false,
+                        currency: this.selectedInstrument.currency,
+                        show: true
+                    });
+                }, 50);
                 return true;
             }
-            this.showSell = true;
+            setTimeout(() => {
+                this.SET_SELL_MODAL({
+                    instrument: this.selectedInstrument,
+                    currency: this.selectedInstrument.currency,
+                    stockPage: false,
+                    show: true,
+                    maxQuantity: this.maxQuantity
+                });
+            }, 50);
         },
         handleUpdate() {
             // this.showKYC = false;
-            if (this.step.type !== 'kyc') {
-                if (this.step.nextAction === 'buy') this.$refs.buyBtn.$el.click();
+            if (this.step.type !== "kyc") {
+                if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
                 else this.$refs.sellBtn.$el.click();
             }
-        },
-        closeSaleModal(e) {
-            if (e) {
-                this.showSuccess = true;
-            }
-            this.showBuy = false;
-            this.showSell = false;
-            this.selectedInstrument = {};
         }
     },
     watch: {

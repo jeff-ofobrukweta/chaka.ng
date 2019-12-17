@@ -459,7 +459,7 @@
             :requiredFields="ninFields.fields"
             :title="ninFields.title"
             @updated="closeNIN"
-            @close="closeNIN"
+            @close="enterNIN = false"
             v-if="enterNIN"
             nin
         />
@@ -759,12 +759,12 @@ export default {
         },
         closeNIN() {
             this.SET_NAVBAR_TRIGGER(true);
-            // this.enterNIN = false;
+            this.enterNIN = false;
         },
         hideKYCBtn() {
             this.SET_SHOW_NAVBAR_KYC(false);
         },
-        handleUpdate(){
+        handleUpdate() {
             // this.showNextModal = false
         }
     },

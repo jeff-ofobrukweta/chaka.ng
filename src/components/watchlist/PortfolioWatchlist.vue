@@ -66,27 +66,27 @@
                 >
             </div>
         </div>
-        <buy-modal
+        <!-- <buy-modal
             @close="closeBuyModal"
             :currency="instrument.currency"
             :symbol="instrument.symbol"
             :instrument="instrument"
             v-if="showBuy"
-        />
+        /> -->
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-            <modal-kyc
-                :requiredFields="selectedField.fields"
-                :title="selectedField.title"
-                @updated="handleUpdate"
-                @close="showKYC = false"
-                v-if="showKYC"
-            />
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
@@ -124,6 +124,7 @@ export default {
     },
     methods: {
         ...mapActions(["REMOVE_FROM_WATCHLIST"]),
+        ...mapMutations(["SET_BUY_MODAL"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -138,7 +139,13 @@ export default {
                 });
                 return true;
             }
-            this.showBuy = true;
+            // this.showBuy = true;
+            this.SET_BUY_MODAL({
+                instrument: this.instrument,
+                currency: this.instrument.currency,
+                stockPage: false,
+                show: true
+            });
         },
         handleUpdate() {
             // this.showKYC = false;
@@ -148,7 +155,8 @@ export default {
         },
         closeBuyModal(e) {
             if (e) this.showSuccess = true;
-            this.showBuy = false;
+            // this.showBuy = false;
+            this.SET_BUY_MODAL({});
         },
         async removeFromWatchlist() {
             this.loading = true;

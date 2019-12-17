@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import EventBus from '../../event-bus';
+import { mapGetters, mapActions } from "vuex";
+import EventBus from "../../event-bus";
 
 export default {
-    name: 'check-kyc',
+    name: "check-kyc",
     props: {
         action: {
             type: String,
@@ -35,14 +35,14 @@ export default {
         },
         tag: {
             type: String,
-            default: 'button'
+            default: "button"
         },
         nextAction: {
             type: String
         }
     },
     computed: {
-        ...mapGetters(['getNextKYC', 'getLoggedUser'])
+        ...mapGetters(["getNextKYC", "getLoggedUser"])
     },
     data() {
         return {
@@ -50,47 +50,49 @@ export default {
         };
     },
     methods: {
-        ...mapActions(['GET_NEXT_KYC']),
+        ...mapActions(["GET_NEXT_KYC"]),
         handleClick(e) {
             this.clicked = true;
-            if (this.action === 'fund') {
+            if (this.action === "fund") {
                 if (
-                    this.getLoggedUser.localKycStatus !== 'NONE'
-                    && this.getLoggedUser.globalKycStatus !== 'NONE'
+                    this.getLoggedUser.localKycStatus !== "NONE" &&
+                    this.getLoggedUser.globalKycStatus !== "NONE"
                 ) {
-                    this.$emit('step', { type: 'fund', kyc: false });
+                    this.$emit("step", { type: "fund", kyc: false });
                     this.clicked = false;
                     return true;
                 }
-                this.GET_NEXT_KYC({ context: 'FUND' }).then(() => {
-                    if (this.getNextKYC.status === 'INCOMPLETE') {
-                        this.$emit('step', { type: 'fund', kyc: true });
+                this.GET_NEXT_KYC({ context: "FUND" }).then(() => {
+                    if (this.getNextKYC.status === "INCOMPLETE") {
+                        this.$emit("step", { type: "fund", kyc: true });
                         this.clicked = false;
                         return true;
-                    } if (this.getNextKYC.status === 'COMPLETE') {
-                        this.$emit('step', { type: 'fund', kyc: false });
+                    }
+                    if (this.getNextKYC.status === "COMPLETE") {
+                        this.$emit("step", { type: "fund", kyc: false });
                         this.clicked = false;
                         return true;
                     }
                 });
-            } else if (this.action === 'local') {
-                if (this.getLoggedUser.localKycStatus !== 'NONE') {
-                    this.$emit('step', {
-                        type: 'local',
+            } else if (this.action === "local") {
+                if (this.getLoggedUser.localKycStatus !== "NONE") {
+                    this.$emit("step", {
+                        type: "local",
                         kyc: false,
                         nextAction: this.nextAction
                     });
                     this.clicked = false;
                     return true;
                 }
-                this.GET_NEXT_KYC({ context: 'LOCAL' }).then(() => {
-                    if (this.getNextKYC.status === 'INCOMPLETE') {
-                        this.$emit('step', { type: 'local', kyc: true });
+                this.GET_NEXT_KYC({ context: "LOCAL" }).then(() => {
+                    if (this.getNextKYC.status === "INCOMPLETE") {
+                        this.$emit("step", { type: "local", kyc: true });
                         this.clicked = false;
                         return true;
-                    } if (this.getNextKYC.status === 'COMPLETE') {
-                        this.$emit('step', {
-                            type: 'local',
+                    }
+                    if (this.getNextKYC.status === "COMPLETE") {
+                        this.$emit("step", {
+                            type: "local",
                             kyc: false,
                             nextAction: this.nextAction
                         });
@@ -98,24 +100,25 @@ export default {
                         return true;
                     }
                 });
-            } else if (this.action === 'global') {
-                if (this.getLoggedUser.globalKycStatus !== 'NONE') {
-                    this.$emit('step', {
-                        type: 'global',
+            } else if (this.action === "global") {
+                if (this.getLoggedUser.globalKycStatus !== "NONE") {
+                    this.$emit("step", {
+                        type: "global",
                         kyc: false,
                         nextAction: this.nextAction
                     });
                     this.clicked = false;
                     return true;
                 }
-                this.GET_NEXT_KYC({ context: 'GLOBAL' }).then(() => {
-                    if (this.getNextKYC.status === 'INCOMPLETE') {
-                        this.$emit('step', { type: 'global', kyc: true });
+                this.GET_NEXT_KYC({ context: "GLOBAL" }).then(() => {
+                    if (this.getNextKYC.status === "INCOMPLETE") {
+                        this.$emit("step", { type: "global", kyc: true });
                         this.clicked = false;
                         return true;
-                    } if (this.getNextKYC.status === 'COMPLETE') {
-                        this.$emit('step', {
-                            type: 'global',
+                    }
+                    if (this.getNextKYC.status === "COMPLETE") {
+                        this.$emit("step", {
+                            type: "global",
                             kyc: false,
                             nextAction: this.nextAction
                         });
@@ -125,19 +128,19 @@ export default {
                 });
             } else {
                 this.GET_NEXT_KYC().then(() => {
-                    if (this.getNextKYC.status === 'INCOMPLETE') {
-                        this.$emit('step', 'kyc');
+                    if (this.getNextKYC.status === "INCOMPLETE") {
+                        this.$emit("step", "kyc");
                         this.clicked = false;
                         return true;
                     }
-                    this.$emit('step');
+                    this.$emit("step");
                     this.clicked = false;
                 });
             }
         }
     },
     mounted() {
-        EventBus.$on('MODAL_CLOSED', () => {
+        EventBus.$on("MODAL_CLOSED", () => {
             this.clicked = false;
         });
     }

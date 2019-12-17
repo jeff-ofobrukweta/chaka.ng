@@ -139,7 +139,7 @@
                         >Exchange</kyc-button
                     >
                     <button
-                        @click="showWithdraw = true"
+                        @click="showWithdraw"
                         class="btn btn-block btn--lg btn__primary--outline"
                     >
                         Withdraw
@@ -147,10 +147,6 @@
                 </div>
             </div>
         </section>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <ExchangeModal :showModal="showExchange" @close="closeExchangeBtn" v-if="showExchange" />
-        <WithdrawModal :showModal="showWithdraw" @close="closeWithdrawBtn" v-if="showWithdraw" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
         <modal-kyc
             :requiredFields="selectedField.fields"
@@ -163,21 +159,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import KYCTitles from "../../../services/kyc/kycTitles";
 
 export default {
     name: "accounts-wallet",
-    components: {
-        ExchangeModal: () => import("../../../components/modals/Exchange"),
-        WithdrawModal: () => import("../../../components/modals/Withdraw")
-    },
     data() {
         return {
-            showFund: false,
-            showWithdraw: false,
-            showExchange: false,
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             step: null,
@@ -192,6 +180,7 @@ export default {
     },
     methods: {
         ...mapActions(["GET_ACCOUNT_SUMMARY"]),
+        ...mapMutations(["SET_FUND_MODAL", "SET_WITHDRAW_MODAL", "SET_EXCHANGE_MODAL"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -207,9 +196,9 @@ export default {
                 return true;
             }
             if (step.type === "fund") {
-                this.showFund = true;
+                this.SET_FUND_MODAL(true);
             } else if (step.type === "global") {
-                this.showExchange = true;
+                this.SET_EXCHANGE_MODAL(true);
             }
         },
         handleUpdate() {
@@ -222,17 +211,8 @@ export default {
                 this.$refs.exchangeBtn.$el.click();
             }
         },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
-        },
-        closeWithdrawBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showWithdraw = false;
-        },
-        closeExchangeBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showExchange = false;
+        showWithdraw() {
+            this.SET_WITHDRAW_MODAL(true);
         }
     },
     async mounted() {

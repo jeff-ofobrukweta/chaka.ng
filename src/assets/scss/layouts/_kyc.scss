@@ -36,7 +36,7 @@
 
             h5 {
                 color: white;
-                margin-bottom: .5rem;
+                margin-bottom: .125rem;
                 font-weight: normal;
             }
 
@@ -45,7 +45,7 @@
             }
 
             .skip-button {
-                margin-top: 1rem;
+                margin-top: .5rem;
             }
 
             &--center {
@@ -197,11 +197,56 @@
             @extend .kyc-form__group;
             margin-bottom: 1rem;
 
+            .uploads {
+                margin-right: auto;
+                margin: auto
+            }
+
         }
     }
 
     &-modal {
-        color: $text-color
+        color: $text-color;
+
+        &__uploads {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+
+            &>div {
+                width: auto
+            }
+        }
+
+        &__small {
+            font-size: 0.825rem;
+            color: $grey-cool
+        }
+
+        &__popular {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            max-width: 300px;
+            margin: 1.5rem auto;
+
+            &--div {
+                max-width: 100px;
+                width: 49%
+            }
+
+            &--logo {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+            }
+
+            &--flag {
+                margin-top: .5rem;
+                width: 20px;
+                height: 20px;
+            }
+        }
     }
 
     &-navbar {

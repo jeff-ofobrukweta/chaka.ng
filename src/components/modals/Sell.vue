@@ -24,39 +24,49 @@
                     </p>
                 </div>
             </div>
-            <div class="modal__buy--current">
-                <p><small>CURRENT STOCK PRICE:</small></p>
-                <p v-if="getSingleinstrument.length <= 0">-</p>
-                <p v-else>
-                    <span
+            <template v-if="!showTerms">
+                <div class="modal__buy--current">
+                    <p><small>CURRENT STOCK PRICE:</small></p>
+                    <p v-if="getSingleinstrument.length <= 0">-</p>
+                    <p v-else>
+                        <span
+                            class="cursor-context modal__buy--price"
+                            :title="
+                                getSingleinstrument[0].askPrice
+                                    | currency(instrument.currency, true)
+                            "
+                            >{{
+                                getSingleinstrument[0].askPrice | currency(instrument.currency)
+                            }}</span
+                        >&nbsp;&nbsp;
+                        <img
+                            v-if="getSingleinstrument[0].derivedPrice >= 0"
+                            :src="require('../../assets/img/green-arrow.svg')"
+                            alt="Growth"
+                        />
+                        <img v-else :src="require('../../assets/img/red-arrow.svg')" alt="Growth" />
+                        <span
+                            :class="[+getSingleinstrument[0].derivedPrice >= 0 ? 'green' : 'red']"
+                        >
+                            <small
+                                >{{ +getSingleinstrument[0].derivedPrice >= 0 ? "+" : ""
+                                }}{{ +getSingleinstrument[0].derivedPrice | units(2) }} ({{
+                                    +getSingleinstrument[0].derivedPricePercentage | units(2)
+                                }}%)</small
+                            ></span
+                        >
+                    </p>
+                </div>
+                <div class="modal__buy--current">
+                    <p><small>AVAILABLE QUANTITY:</small></p>
+                    <p
                         class="cursor-context modal__buy--price"
-                        :title="
-                            getSingleinstrument[0].askPrice | currency(instrument.currency, true)
-                        "
-                        >{{ getSingleinstrument[0].askPrice | currency(instrument.currency) }}</span
-                    >&nbsp;&nbsp;
-                    <img
-                        v-if="getSingleinstrument[0].derivedPrice >= 0"
-                        :src="require('../../assets/img/green-arrow.svg')"
-                        alt="Growth"
-                    />
-                    <img v-else :src="require('../../assets/img/red-arrow.svg')" alt="Growth" />
-                    <span :class="[+getSingleinstrument[0].derivedPrice >= 0 ? 'green' : 'red']">
-                        <small
-                            >{{ +getSingleinstrument[0].derivedPrice >= 0 ? "+" : ""
-                            }}{{ +getSingleinstrument[0].derivedPrice | units(2) }} ({{
-                                +getSingleinstrument[0].derivedPricePercentage | units(2)
-                            }}%)</small
-                        ></span
+                        :title="maxQuantity | units(2, true)"
                     >
-                </p>
-            </div>
-            <div class="modal__buy--current">
-                <p><small>AVAILABLE QUANTITY:</small></p>
-                <p class="cursor-context modal__buy--price" :title="maxQuantity | units(2, true)">
-                    {{ maxQuantity | units }} Units
-                </p>
-            </div>
+                        {{ maxQuantity | units }} Units
+                    </p>
+                </div>
+            </template>
         </section>
         <div v-if="isSellValid === 1" class="modal-form">
             <h5 class="text-center mb-2">Verification Incomplete</h5>
@@ -304,13 +314,9 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
-    name: "buy-modal",
+    name: "sell-modal",
     props: {
         currency: {
-            type: String,
-            required: true
-        },
-        symbol: {
             type: String,
             required: true
         },
@@ -335,7 +341,6 @@ export default {
             showResponse: false,
             isQuantity: true,
             errors: {},
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             allNextKYC: KYCTitles.titles
@@ -364,6 +369,9 @@ export default {
         },
         isFormValid() {
             return Object.keys(this.errors).length <= 0;
+        },
+        symbol() {
+            return this.instrument.symbol;
         }
     },
     methods: {
@@ -382,6 +390,7 @@ export default {
             "SET_SINGLE_INSTRUMENT"
         ]),
         closeModal() {
+            if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
             this.$emit("close");
         },
         switchOrder(value) {
@@ -441,6 +450,7 @@ export default {
             if (this.orderType === "MARKET") {
                 if (this.isQuantity) {
                     const { price, amountCash, ...newTemp } = this.itemData;
+                    newTemp.quantity = +newTemp.quantity;
                     value = newTemp;
                 } else {
                     const { price, quantity, ...newTemp } = this.itemData;
@@ -450,6 +460,7 @@ export default {
             } else {
                 const { amountCash, ...newTemp } = this.itemData;
                 newTemp.price *= 100;
+                newTemp.quantity = +newTemp.quantity;
                 value = newTemp;
             }
             this.loading = true;
@@ -460,6 +471,7 @@ export default {
                      * close buy modal
                      * show success modal
                      */
+                    if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
                     this.$emit("close", true);
                 }
             });
@@ -528,7 +540,6 @@ export default {
     },
     beforeDestroy() {
         this.SET_MARKET_DATA({});
-        if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
     }
 };
 </script>

@@ -1,12 +1,142 @@
 <template>
-    <modal @close="closeModal">
+    <modal @close="closeModal" v-if="final">
+        <template slot="header">Final Step</template>
+        <div>
+            <div class="kyc-modal">
+                <div class="text-center mb-3">
+                    <p class="kyc-modal__small">
+                        You have completed your submissions and your verification is processing. You
+                        can now fund your wallet.
+                    </p>
+                    <br />
+                    <h5 class="grey-cool">Most Popular Today</h5>
+                    <div class="kyc-modal__popular">
+                        <div class="kyc-modal__popular--div">
+                            <div>
+                                <img
+                                    src="../../assets/img/dp.png"
+                                    class="kyc-modal__popular--logo"
+                                    alt=""
+                                />
+                            </div>
+                            <h5>Netflix</h5>
+                            <div>
+                                <img
+                                    src="../../assets/img/flags/us-flag.svg"
+                                    class="kyc-modal__popular--flag"
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                        <div class="kyc-modal__popular--div">
+                            <div>
+                                <img
+                                    src="../../assets/img/dp.png"
+                                    class="kyc-modal__popular--logo"
+                                    alt=""
+                                />
+                            </div>
+                            <h5>Netflix</h5>
+                            <div>
+                                <img
+                                    src="../../assets/img/flags/us-flag.svg"
+                                    class="kyc-modal__popular--flag"
+                                    alt=""
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </modal>
+    <modal @close="closeModal" v-else-if="finalFund">
+        <template slot="header">Funding Activated</template>
+        <div>
+            <div class="kyc-modal">
+                <div class="text-center mb-3">
+                    <p class="kyc-modal__small">
+                        You can now fund your Naira and Dollar wallet to trade local and global
+                        markets
+                    </p>
+                    <br />
+                    <div>
+                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
+                    </div>
+                    <div class="mt-2">
+                        <small
+                            ><a class="underline" @click="showFund"
+                                >Continue your Verification</a
+                            ></small
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </modal>
+    <modal @close="closeModal" v-else-if="finalGlobal">
+        <template slot="header">Processing Global Verification</template>
+        <div>
+            <div class="kyc-modal">
+                <div class="text-center mb-3">
+                    <p class="kyc-modal__small">
+                        Your profile is being verified for global trading. You can now fund your
+                        Naira or Dollar wallet.
+                    </p>
+                    <br />
+                    <div>
+                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
+                    </div>
+                    <div class="mt-2">
+                        <small
+                            ><a class="underline" @click="showFund"
+                                >Continue Local Verification</a
+                            ></small
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </modal>
+    <modal @close="closeModal" v-else-if="finalLocal">
+        <template slot="header">Processing Local Verification</template>
+        <div>
+            <div class="kyc-modal">
+                <div class="text-center mb-3">
+                    <p class="kyc-modal__small">
+                        Your profile is being verified for global trading. You can now fund your
+                        Naira or Dollar wallet.
+                    </p>
+                    <br />
+                    <div>
+                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
+                    </div>
+                    <div class="mt-2">
+                        <small
+                            ><a class="underline" @click="showFund"
+                                >Continue Global Verification</a
+                            ></small
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </modal>
+    <modal @close="closeModal" v-else>
         <template slot="header">{{ title || "Complete your verification to proceed" }}</template>
         <div v-if="allFields.length > 0">
             <template v-if="allFields[0].value === 'phone'">
                 <PhoneOTP @close="OTPSuccess" />
             </template>
             <template v-else>
-                <form class="kyc-modal" @submit.prevent="updateKYC">
+                <form
+                    class="kyc-modal"
+                    @submit.prevent="updateKYC"
+                    :class="{ 'kyc-modal__uploads': allFields[0].value.endsWith('Url') }"
+                >
                     <div class="text-center mb-3" v-if="allFields[0].value === 'nin'">
                         <p>
                             <small class="grey-cool"
@@ -181,6 +311,18 @@ export default {
         },
         nin: {
             type: Boolean
+        },
+        final: {
+            type: Boolean
+        },
+        finalLocal: {
+            type: Boolean
+        },
+        finalGlobal: {
+            type: Boolean
+        },
+        finalFund: {
+            type: Boolean
         }
     },
     data() {
@@ -219,7 +361,7 @@ export default {
             "UPDATE_KYC",
             "UPLOAD_KYC_FILE"
         ]),
-        ...mapMutations(["RESET_REQ", "SET_NAVBAR_TRIGGER"]),
+        ...mapMutations(["RESET_REQ", "SET_NAVBAR_TRIGGER", "SET_FUND_MODAL"]),
         handleInput(e) {
             this.itemData[e.name] = e.value;
             this.errors = {};
@@ -441,6 +583,10 @@ export default {
             // setTimeout(() => {
             //     this.mount();
             // }, 100);
+        },
+        showFund() {
+            this.SET_FUND_MODAL(true);
+            this.$emit("close");
         },
         mount() {
             this.RESET_REQ();

@@ -9,19 +9,19 @@
                         @click="switchCurrency('NGN')"
                         :class="{ active: currency === 'NGN' }"
                     >
-                        ₦&nbsp;&nbsp;Naira Funding
+                        ₦
                     </button>
                     <button
                         class="btn"
                         @click="switchCurrency('USD')"
                         :class="{ active: currency === 'USD' }"
                     >
-                        $&nbsp;&nbsp;Dollar Funding
+                        $
                     </button>
                 </div>
             </div>
         </template>
-        <template v-if="currency === 'USD' && canFundGlobal !== 3">
+        <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
             <div class="modal-form" v-if="canFundGlobal === 1">
                 <h5 class="text-center mb-2">Verification Incomplete</h5>
                 <p class="text-center">
@@ -53,8 +53,8 @@
                     transactions
                 </p>
             </div>
-        </template>
-        <template v-else>
+        </template> -->
+        <template>
             <form class="modal-form" @submit.prevent="fundWallet">
                 <div class="modal-form__group">
                     <label class="form__label"
@@ -109,7 +109,7 @@
                 <br />
                 <p>
                     <small class="grey-dark">
-                        Please put your Chaka ID (in the Accounts section) in the Comments section
+                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section
                         of your transfer request. Email
                         <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
                         completion to confirm manual transfer</small
@@ -133,7 +133,6 @@ export default {
             message: null,
             issues: {},
             currency: "NGN",
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             allNextKYC: KYCTitles.titles

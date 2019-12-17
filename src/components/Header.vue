@@ -255,8 +255,6 @@
                     </p>
                 </ul>
             </template>
-            <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-            <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
             <modal-kyc
                 :requiredFields="selectedField.fields"
@@ -270,7 +268,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../services/kyc/kycTitles";
 
 export default {
@@ -279,8 +277,6 @@ export default {
         return {
             isSidebarOpen: false,
             search: null,
-            showFund: false,
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             allNextKYC: KYCTitles.titles
@@ -290,6 +286,7 @@ export default {
         ...mapGetters(["isLoggedIn", "getLoggedUser", "getAccountSummary", "getNextKYC"])
     },
     methods: {
+        ...mapMutations(["SET_KYC_MODAL", "SET_FUND_MODAL"]),
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
         },
@@ -298,10 +295,6 @@ export default {
             this.$refs.trigger.nextElementSibling.classList.toggle("show");
             document.body.classList.toggle("no-scroll");
             this.toggleSidebar();
-        },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
         },
         handleStep(step) {
             if (step.kyc) {
@@ -317,7 +310,7 @@ export default {
                 return true;
             }
             if (step.type === "fund") {
-                this.showFund = true;
+                this.SET_FUND_MODAL(true);
             }
         },
         handleUpdate() {
