@@ -1,61 +1,65 @@
 <template>
-<div>
-	<div class="small chart__box">
-		<div class="chart__aspect-ratio">
-			<Performancebarchart class="chart__graph" :chart-data="datacollection" :options="options"></Performancebarchart>
-		</div>
-	</div>
-  </div>
+    <div>
+        <div class="small chart__box">
+            <div class="chart__aspect-ratio">
+                <Performancebarchart
+                    class="chart__graph"
+                    :chart-data="datacollection"
+                    :options="options"
+                ></Performancebarchart>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex';
-import numeral from 'numeral';
-import Performancebarchart from './performance_config.js';
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import numeral from "numeral";
+import Performancebarchart from "./performance_config.js";
 
 export default {
-    name: 'doughnutgraph',
+    name: "doughnutgraph",
     components: {
         Performancebarchart
     },
     data() {
         return {
-            min: '',
-            max: '',
+            min: "",
+            max: "",
             interval: 10,
             datacollection: {},
             loaderGraph: true,
-            day: '',
+            day: "",
             showError: false,
             buttonoption: [
                 {
-                    name: 'TAB1',
-                    time: '1D',
+                    name: "TAB1",
+                    time: "1D",
                     id: 1
                 },
                 {
-                    name: 'TAB2',
-                    time: '1W',
+                    name: "TAB2",
+                    time: "1W",
                     id: 2
                 },
                 {
-                    name: 'TAB3',
-                    time: '1M',
+                    name: "TAB3",
+                    time: "1M",
                     id: 3
                 },
                 {
-                    name: 'TAB4',
-                    time: '3M',
+                    name: "TAB4",
+                    time: "3M",
                     id: 4
                 },
                 {
-                    name: 'TAB5',
-                    time: '1Y',
+                    name: "TAB5",
+                    time: "1Y",
                     id: 5
                 },
                 {
-                    name: 'TAB6',
-                    time: '5Y',
+                    name: "TAB6",
+                    time: "5Y",
                     id: 6
                 }
             ],
@@ -78,7 +82,7 @@ export default {
                                 display: false,
                                 // borderDash: [4, 4],
                                 // color: '#4394c7',
-                                labelString: 'Date',
+                                labelString: "Date",
                                 drawBorder: false
                             }
                             // 		// type: 'time',
@@ -99,33 +103,34 @@ export default {
                             // 				year: 'MMM DD'
                             // 			}
                             // 		}
-          	}
+                        }
                     ],
 
                     yAxes: [
-          	{
-          		scaleLabel: {
-          			display: false
-          			// labelString: 'Price'
-          		},
-          		position: 'left',
-          		ticks: {
-          			beginAtZero: false,
-          			fontColor: '#8A939A',
-          			padding: 0,
-          			fontSize: 10,
-          			max: this.max,
-          			min: this.min,
-          			stepSize: this.interval,
-          			callback: value => (this.currency == 'USD'
-          					? `${numeral(value).value()}%`
-          					: `${numeral(value).value()}%`)
-          		},
-          		gridLines: {
-          			display: false,
-          			drawBorder: false
-          		}
-          	}
+                        {
+                            scaleLabel: {
+                                display: false
+                                // labelString: 'Price'
+                            },
+                            position: "left",
+                            ticks: {
+                                beginAtZero: false,
+                                fontColor: "#8A939A",
+                                padding: 0,
+                                fontSize: 10,
+                                max: this.max,
+                                min: this.min,
+                                stepSize: this.interval,
+                                callback: value =>
+                                    this.currency == "USD"
+                                        ? `${numeral(value).value()}%`
+                                        : `${numeral(value).value()}%`
+                            },
+                            gridLines: {
+                                display: false,
+                                drawBorder: false
+                            }
+                        }
                     ]
                 },
                 animation: {
@@ -150,16 +155,18 @@ export default {
                     }
                 },
                 tooltips: {
-                    mode: 'index',
+                    mode: "index",
                     intersect: false,
-                    backgroundColor: '#2DA5EC',
+                    backgroundColor: "#293D4A",
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
                         return data.labels[tooltipItem[0].index];
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            const currency = `${' %:' + ''}${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`;
+                            const currency = `${" %:" + ""}${numeral(
+                                data.datasets[0].data[tooltipItem.index]
+                            ).format("0.00a")}`;
                             return ` ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
@@ -178,7 +185,7 @@ export default {
                     //     }
                     // },
                     hover: {
-                        mode: 'index',
+                        mode: "index",
                         intersect: false
                     }
                 },
@@ -193,9 +200,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getPositionBarperformancepercentage']),
+        ...mapGetters(["getPositionBarperformancepercentage"]),
         colorSwitchRedGreen() {
-            const colours = this.getPositionBarperformancepercentage.map(value => (value < 0 ? 'red' : 'green'));
+            const colours = this.getPositionBarperformancepercentage.map(value =>
+                value < 0 ? "#E94F37" : "#00C48C"
+            );
             return colours;
         }
     },
@@ -232,7 +241,7 @@ export default {
                 labels: this.symbol,
                 datasets: [
                     {
-                        label: 'Stocks2',
+                        label: "Stocks2",
                         backgroundColor: this.colorSwitchRedGreen,
                         data: this.percentage
                     }

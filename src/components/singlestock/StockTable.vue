@@ -2,31 +2,32 @@
     <div class="stock-table">
         <div class="stock-table__flex">
             <p class="stock-table__head">No. of Shares</p>
-            <p class="stock-table__body cursor-context"
-            :title="checkforUndefined(getPositionsforcurrentstock.quantity)|| 0.00 | units(4, true)">
-                {{checkforUndefined(getPositionsforcurrentstock.quantity) || 0.00 | units }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.unitsOwned)|| 0.00 | units(4, true)">
+                {{checkforUndefined(instrument.unitsOwned) || 0.00 | units }}
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">Value of Shares</p>
             <p
                 class="stock-table__body stock-table__img cursor-context"
-                :title="checkforUndefined(getPositionsforcurrentstock.currentValue) || 0.00 | kobo | currency('USD', true)"
+                :title="checkforUndefined(instrument.currentValue) || 0.00 | kobo | currency(instrument.currency, true)"
             >
-                {{ checkforUndefined(getPositionsforcurrentstock.currentValue) || 0.00 | kobo | currency("USD") }}
+                {{ checkforUndefined(instrument.currentValue) || 0.00 | kobo | currency(instrument.currency) }}
                 <img
-                    v-if="instrument.shareValue >= 0"
+                    v-if=" instrument.currentValue && instrument.currentValue >= 0"
                     :src="require('../../assets/img/chevron-up.svg')"
                     alt="growth"
                 />
+                <section v-else-if="!instrument.currentValue">?</section>
                 <img v-else :src="require('../../assets/img/chevron-down.svg')" alt="growth" />
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">Net Earnings</p>
-            <p class="stock-table__body cursor-context"
-            :title="checkforUndefined(getPositionsforcurrentstock.netEarnings) || 0.00 | currency('USD', true)">
-                {{ checkforUndefined(getPositionsforcurrentstock.netEarnings) || 0.00 | currency("USD") }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.netEarnings) || 0.00 | currency(instrument.currency, true)">
+                {{ checkforUndefined(instrument.netEarnings) || 0.00 | currency(instrument.currency) }}
             </p>
         </div>
         <div class="stock-table__flex stock-table__flex--full">
@@ -75,29 +76,21 @@
 </template>
 
 <script>
-import myMixin from '../../services/mixins/prices';
-
 export default {
     name: 'stock-table',
-    mixins: [myMixin],
     props: {
         instrument: {
             type: Object,
             required: true
-        },
-        getPositionsforcurrentstock: {
-            type: Array,
-            required: false
         }
     },
-    mounted() {
+    mounted(){
         this.checkforUndefined();
     },
-    methods: {
-        checkforUndefined(payload) {
-            if (payload === undefined) { return 'Nil'; }
-
-            return payload;
+    methods:{
+        checkforUndefined(payload){
+            if(payload === undefined || Number.isNaN(payload) || payload == ""){ return '-';}
+            else{return payload;}
         }
     }
 };

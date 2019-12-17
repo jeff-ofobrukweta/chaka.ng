@@ -46,7 +46,7 @@
                 <div class="portfolio-graph__placeholder loader-gif__big">
                     <img
                         class="middle-loader"
-                        :src="require('../../assets/img/ring-loader.gif')"
+                        :src="require('../../assets/img/loader.gif')"
                         alt="spin"
                     />
                 </div>

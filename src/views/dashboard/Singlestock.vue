@@ -10,7 +10,11 @@
         >
             <div>
                 <aside class="center-fix-messg">
-                    fetching the current page, try reloading the browser after sometime
+                    <img
+                        class="middle-loader"
+                        :src="require('../../assets/img/loader.gif')"
+                        alt="spin"
+                    />
                 </aside>
             </div>
         </section>
@@ -128,10 +132,7 @@
                 <Cardblue :instrument="getPricedetailsonblackcard" />
             </section>
             <section class="container-instrument">
-                <StockTable
-                    :getPositionsforcurrentstock="getPositionsWithparams()"
-                    :instrument="getSingleinstrument[0]"
-                />
+                <StockTable :instrument="getSingleinstrument[0] || []" />
             </section>
             <section class="container-stocks">
                 <Horizontalchart />
@@ -293,7 +294,6 @@ export default {
         const singlestockpayload = { symbols: this.$route.params.symbol };
         this.similarLoading = true;
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-            this.GET_CURRENT_STOCK_POSITION();
             this.similarLoading = false;
             this.checkPositions();
         });

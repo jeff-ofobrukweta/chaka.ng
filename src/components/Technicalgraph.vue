@@ -1,23 +1,23 @@
 <template>
-	<section class="small chart__box">
-		<div class="chart__aspect-ratio">
-			<VueTradingView class="chart__graph" :options="options" />
-        <div
-        v-if="loaded"
-        class="tradingview-widget-copyright" style="width: 100%;">
-          <a rel="noopener">
-        <span class="blue-text">{{symbol}} Chart</span>
-      </a> by TradingView</div>
-		</div>
-	</section>
+    <section class="small chart__box">
+        <div class="chart__aspect-ratio">
+            <VueTradingView class="chart__graph" :options="options" />
+            <div v-if="loaded" class="tradingview-widget-copyright" style="width: 100%;">
+                <a rel="noopener">
+                    <span class="blue-text">{{ symbol }} Chart</span>
+                </a>
+                by TradingView
+            </div>
+        </div>
+    </section>
 </template>
 
 <script>
-import VueTradingView from 'vue-trading-view';
-import exchangeIDmaping from '../services/mixins/technicalgraphexchangeIDmapping';
+import VueTradingView from "vue-trading-view";
+import exchangeIDmaping from "../services/mixins/technicalgraphexchangeIDmapping";
 
 export default {
-    name: 'TechnicalChart',
+    name: "TechnicalChart",
     mixins: [exchangeIDmaping],
     props: {
         symbol: String,
@@ -31,7 +31,7 @@ export default {
             loaded: false,
             options: {
                 symbol: `${this.exchangeIDmaping(this.exchangeID)}:${this.symbol}`,
-                theme: 'Light',
+                theme: "Light",
                 autosize: true,
                 fullscreen: false
             }
@@ -39,7 +39,11 @@ export default {
     },
     mounted() {
         this.loaded = true;
-        console.log('this is the symbolSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS', this.symbol, this.exchangeID);
+        console.log(
+            "this is the symbolSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS",
+            this.symbol,
+            this.exchangeID
+        );
     },
     computed: {
         chartOptions() {
