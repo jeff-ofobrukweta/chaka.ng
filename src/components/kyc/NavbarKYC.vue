@@ -439,11 +439,10 @@
         </modal>
 
         <modal-kyc
-            :requiredFields="selectedField.fields"
-            :title="selectedField.title"
             @updated="handleUpdate"
             @close="showNextModal = false"
             v-if="showNextModal"
+            navbar
         />
         <modal-kyc
             :requiredFields="ninFields.fields"
@@ -502,7 +501,6 @@ export default {
             allNextKYC: KYCTitles.titles,
             itemData: {},
             loading: false,
-            fromNavbar: false,
             showOTP: false,
             showNewPhone: false,
             countdown: null,
@@ -646,9 +644,9 @@ export default {
             this.RESOLVE_OTP(this.otpData).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.itemData = {};
                     this.showNextModalBtn();
                     this.showOTP = false;
+                    this.itemData = {};
                 }
             });
         },
@@ -729,19 +727,23 @@ export default {
         },
         showNextModalBtn() {
             this.checkNextKYC();
-            EventBus.$emit("modal-trigger", true);
+            EventBus.$emit("modal-trigger");
+            EventBus.$emit("navbar-trigger");
             this.showNextModal = true;
         },
         checkNextKYC() {
-            this.selectedField = {};
-            this.allNextKYC.forEach(element => {
-                element.fields.forEach(el => {
-                    if (el === this.getNavbarNextKYC.nextKYC[0]) {
-                        this.selectedField = element;
-                        this.selectedField.fields = this.getNavbarNextKYC.nextKYC;
-                    }
+            this.resetFields();
+            if (Object.keys(this.getNavbarNextKYC).length > 0) {
+                this.selectedField = {};
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
+                        if (el === this.getNavbarNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNavbarNextKYC.nextKYC;
+                        }
+                    });
                 });
-            });
+            }
         },
         skipNIN() {
             this.loading = true;
@@ -761,19 +763,30 @@ export default {
         hideKYCBtn() {
             this.SET_SHOW_NAVBAR_KYC(false);
         },
-        handleUpdate() {
+        handleUpdate(value) {
             this.showNextModalBtn();
             // this.showNextModal = false
+        },
+        resetFields() {
+            this.itemData = {};
+            this.issues = {};
+            this.otpData = {};
+            this.selectedField = {};
         }
     },
     async mounted() {
+        await this.GET_NEXT_KYC();
+        if (Object.keys(this.getNavbarNextKYC).length > 0) {
+            this.checkNextKYC();
+        }
+        await this.GET_COUNTRY_CODES();
+        await this.GET_KYC();
         EventBus.$on("navbar-trigger", () => {
             this.checkNextKYC();
         });
-        await this.GET_NEXT_KYC();
-        if (Object.keys(this.getNavbarNextKYC).length > 0) this.checkNextKYC();
-        await this.GET_COUNTRY_CODES();
-        await this.GET_KYC();
+        EventBus.$on("modal-trigger", () => {
+            this.checkNextKYC();
+        });
     },
     watch: {
         "itemData.bvn": function(newVal) {

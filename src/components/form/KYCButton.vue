@@ -42,7 +42,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getNextKYC", "getLoggedUser"])
+        ...mapGetters(["getNextKYC", "getLoggedUser", "getKYC"])
     },
     data() {
         return {
@@ -55,8 +55,9 @@ export default {
             this.clicked = true;
             if (this.action === "fund") {
                 if (
-                    this.getLoggedUser.localKycStatus !== "NONE" &&
-                    this.getLoggedUser.globalKycStatus !== "NONE"
+                    this.getKYC.bvnFetchStatus &&
+                    this.getKYC.bankAcctName &&
+                    this.getKYC.bankAcctNo
                 ) {
                     this.$emit("step", { type: "fund", kyc: false });
                     this.clicked = false;

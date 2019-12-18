@@ -98,19 +98,12 @@
             </section>
         </section>
 
-        <modal-kyc
-            :requiredFields="selectedField.fields"
-            :title="selectedField.title"
-            @updated="handleUpdate"
-            @close="showKYC = false"
-            v-if="showKYC"
-        />
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </section>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "portfolio",
@@ -162,9 +155,7 @@ export default {
             watchlistLoading: true,
             portfolioCardsLoading: false,
             showKYC: false,
-            selectedField: {},
-            step: null,
-            allNextKYC: KYCTitles.titles
+            step: null
         };
     },
     methods: {
@@ -173,26 +164,23 @@ export default {
             "GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS",
             "GET_WATCHLIST"
         ]),
-        ...mapMutations(["SET_WATCHLIST", "SET_FUND_MODAL", "SET_NAVBAR_TRIGGER"]),
+        ...mapMutations(["SET_WATCHLIST", "SET_FUND_MODAL"]),
         handleStep(step) {
-            this.step = step.type;
+            this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            this.SET_FUND_MODAL(true);
+            this.showFund();
         },
-        handleUpdate() {
-            // this.showKYC = false;
-            this.$refs.fundBtn.$el.click();
+        handleUpdate(value) {
+            if (value) {
+                this.showFund();
+            }
+        },
+        showFund() {
+            this.showKYC = false;
+            this.SET_FUND_MODAL(true);
         },
         handlewatchlistintervalToogle(e) {
             if (this.watchlistInterval === this.cacheWatchlistInterval && e !== true) {
@@ -208,7 +196,6 @@ export default {
         }
     },
     async mounted() {
-        this.SET_NAVBAR_TRIGGER(true);
         const payload = { interval: "1D" };
         const currency = { currency: this.getPorfolioglobalCurrencyforGraph };
         this.watchlistLoading = true;

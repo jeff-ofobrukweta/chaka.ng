@@ -1,11 +1,5 @@
 <template>
-    <modal-kyc
-        :requiredFields="selectedField.fields"
-        :title="selectedField.title"
-        @updated="handleUpdate"
-        @close="showKYC = false"
-        v-if="showKYC"
-    />
+    <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     <modal @close="closeModal" v-else-if="exchangeStatus === 'PENDING'">
         <template slot="header">Final Step</template>
         <div>
@@ -392,27 +386,14 @@ export default {
         handleStep(step) {
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
-            }
-            if (step.type === "global") {
-                // this.showGlobal = true;
             }
         },
         handleUpdate() {
-            // this.showKYC = false;
             this.GET_LOGGED_USER().then(() => {
-                if (this.exchangeStatus === 1) {
-                    this.$refs.buyBtn.$el.click();
-                } else {
+                if (this.exchangeStatus !== 1) {
                     this.showKYC = false;
+                } else {
                 }
             });
             return true;

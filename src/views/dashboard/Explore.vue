@@ -2,7 +2,7 @@
     <section class="dashboard__main">
         <section class="dashboard__title">
             <h3>Explore</h3>
-            <p class="dashboard__title--sub">See the latest on the stock market</p>
+            <!-- <p class="dashboard__title--sub">See the latest on the stock market</p> -->
         </section>
 
         <section class="accounts-statements__downloads loader-gif__big" v-if="loading">
@@ -58,7 +58,7 @@
             <section class="explore__title">
                 <div>
                     <h3>Collections</h3>
-                    <p class="explore__title--sub">See the latest on the stock market</p>
+                    <!-- <p class="explore__title--sub">See the latest on the stock market</p> -->
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
                     <!-- <a class="explore-actions">See All</a> -->
@@ -97,7 +97,7 @@
             <section class="explore__title">
                 <div>
                     <h3>Learn</h3>
-                    <p class="explore__title--sub">See the latest on the stock market</p>
+                    <!-- <p class="explore__title--sub">See the latest on the stock market</p> -->
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
                     <!-- <a class="explore-actions">See All</a> -->
@@ -131,7 +131,7 @@
         <section v-if="getWatchlist.length > 0">
             <section class="dashboard__title">
                 <h3>Watchlist</h3>
-                <p class="dashboard__title--sub">See the latest on the stock market</p>
+                <!-- <p class="dashboard__title--sub">See the latest on the stock market</p> -->
             </section>
 
             <section class="watchlist-explore__box" v-if="getWindowWidth === 'desktop'">
@@ -171,12 +171,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import ExploreWatchlist from '../../components/watchlist/ExploreWatchlist';
-import MobileWatchlist from '../../components/watchlist/MobileWatchlist';
+import { mapGetters, mapActions } from "vuex";
+import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
+import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
 
 export default {
-    name: 'explore',
+    name: "explore",
     components: {
         ExploreWatchlist,
         MobileWatchlist
@@ -194,26 +194,26 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getPortfolioSummary',
-            'getWindowWidth',
-            'getExploreNews',
-            'getExploreCollections',
-            'getExploreLearn',
-            'getWatchlist',
-            'getErrorLog'
+            "getPortfolioSummary",
+            "getWindowWidth",
+            "getExploreNews",
+            "getExploreCollections",
+            "getExploreLearn",
+            "getWatchlist",
+            "getErrorLog"
         ])
     },
     methods: {
         ...mapActions([
-            'GET_EXPLORE_NEWS',
-            'GET_EXPLORE_COLLECTIONS',
-            'GET_EXPLORE_LEARN',
-            'GET_WATCHLIST'
+            "GET_EXPLORE_NEWS",
+            "GET_EXPLORE_COLLECTIONS",
+            "GET_EXPLORE_LEARN",
+            "GET_WATCHLIST"
         ]),
         async shuffleNews() {
             this.loadNews = true;
             await this.GET_EXPLORE_NEWS({ shuffle: true });
-            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
+            this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
             this.loadNews = null;
         },
         async shuffleCollections() {
@@ -222,7 +222,7 @@ export default {
             this.loadCollections = null;
         },
         async shuffleLearn() {
-            this.loadLearn = 'learn';
+            this.loadLearn = "learn";
             await this.GET_EXPLORE_LEARN({ shuffle: true });
             this.loadLearn = null;
         },
@@ -235,8 +235,8 @@ export default {
                 this.GET_EXPLORE_LEARN();
             }
             await this.GET_EXPLORE_NEWS();
-            this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
-            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
+            this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
+            this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
             this.loading = false;
         }
     },
@@ -244,12 +244,12 @@ export default {
         this.loading = true;
         if (this.getExploreNews.length > 0) {
             this.loading = false;
-            this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
-            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
+            this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
+            this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
         }
         await this.GET_EXPLORE_NEWS();
-        this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
-        this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
+        this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
+        this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
         this.loading = false;
         this.watchlistLoading = true;
         if (this.getWatchlist.length > 0) {

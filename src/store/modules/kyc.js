@@ -66,7 +66,6 @@ const actions = {
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
                             commit("SET_NEXT_KYC", resp.data.data);
-                            EventBus.$emit("modal-trigger");
                             dispatch("GET_NAVBAR_NEXT_KYC");
                             resolve(true);
                             return true;
@@ -90,6 +89,7 @@ const actions = {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
                         EventBus.$emit("navbar-trigger");
+                        EventBus.$emit("modal-trigger");
                         resolve(true);
                         return true;
                     }

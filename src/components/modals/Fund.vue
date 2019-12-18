@@ -21,6 +21,9 @@
                 </div>
             </div>
         </template>
+        
+         <!-- TO-DO: Put back if dollar funding is blocked for incomplete KYCs -->
+
         <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
             <div class="modal-form" v-if="canFundGlobal === 1">
                 <h5 class="text-center mb-2">Verification Incomplete</h5>
@@ -218,32 +221,37 @@ export default {
             this.RESET_REQ();
             return true;
         },
-        handleStep(step) {
-            if (step.kyc) {
-                this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
-                return true;
-            }
-            if (step.type === "global") {
-                // this.showGlobal = true;
-            }
-        },
-        handleUpdate() {
-            // this.showKYC = false;
-            this.GET_LOGGED_USER().then(() => {
-                if (this.canFundGlobal === 1) {
-                    this.$refs.globalBtn.$el.click();
-                }
-            });
-            return true;
-        },
+        /**
+         * TO-DO: Put back if dollar funding is blocked for incomplete KYCs
+         */
+
+        // handleStep(step) {
+        //     this.step = step
+        //     if (step.kyc) {
+        //         this.showKYC = true;
+        //         this.allNextKYC.forEach(element => {
+        //             element.fields.forEach(el => {
+        //                 if (el === this.getNextKYC.nextKYC[0]) {
+        //                     this.selectedField = element;
+        //                     this.selectedField.fields = this.getNextKYC.nextKYC;
+        //                 }
+        //             });
+        //         });
+        //         return true;
+        //     }
+        //     if (step.type === "global") {
+        //         // this.showGlobal = true;
+        //     }
+        // },
+        // handleUpdate() {
+        //     // this.showKYC = false;
+        //     this.GET_LOGGED_USER().then(() => {
+        //         if (this.canFundGlobal === 1) {
+        //             this.$refs.globalBtn.$el.click();
+        //         }
+        //     });
+        //     return true;
+        // },
         switchCurrency(currency) {
             this.currency = currency;
             this.handleReset();

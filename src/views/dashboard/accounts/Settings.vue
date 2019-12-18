@@ -690,8 +690,6 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import Uploads from "../../../components/FileUpload";
-import PhoneOTP from "../../../components/kyc/PhoneOTP";
 
 const Types = () => import("../../../services/kyc/employmentTypes");
 const Positions = () => import("../../../services/kyc/employmentPosition");
@@ -701,8 +699,8 @@ const LG = () => import("../../../services/kyc/lgNames");
 export default {
     name: "accounts-settings",
     components: {
-        Uploads,
-        PhoneOTP,
+        Uploads: () => import("../../../components/FileUpload"),
+        PhoneOTP: () => import("../../../components/kyc/PhoneOTP"),
         vSelect: () => import("vue-select")
     },
     data() {
@@ -812,7 +810,7 @@ export default {
             "RESOLVE_BVN",
             "RESET_REQ"
         ]),
-        ...mapMutations(["RESET_REQ", "SET_NAVBAR_TRIGGER"]),
+        ...mapMutations(["RESET_REQ"]),
         editBtn(name) {
             this.edit = name;
             this.showUploadError = null;
@@ -922,7 +920,8 @@ export default {
         },
         OTPSuccess(value) {
             if (value) {
-                this.SET_NAVBAR_TRIGGER(true);
+                EventBus.$emit("navbar-trigger");
+                EventBus.$emit("modal-trigger");
                 this.$emit("updated");
             }
             this.showOTP = false;

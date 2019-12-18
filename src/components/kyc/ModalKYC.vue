@@ -1,132 +1,8 @@
 <template>
-    <modal @close="closeModal" v-if="final">
-        <template slot="header">Final Step</template>
-        <div>
-            <div class="kyc-modal">
-                <div class="text-center mb-3">
-                    <p class="kyc-modal__small">
-                        You have completed your submissions and your verification is processing. You
-                        can now fund your wallet.
-                    </p>
-                    <br />
-                    <h5 class="grey-cool">Most Popular Today</h5>
-                    <div class="kyc-modal__popular">
-                        <div class="kyc-modal__popular--div">
-                            <div>
-                                <img
-                                    src="../../assets/img/dp.png"
-                                    class="kyc-modal__popular--logo"
-                                    alt=""
-                                />
-                            </div>
-                            <h5>Netflix</h5>
-                            <div>
-                                <img
-                                    src="../../assets/img/flags/us-flag.svg"
-                                    class="kyc-modal__popular--flag"
-                                    alt=""
-                                />
-                            </div>
-                        </div>
-                        <div class="kyc-modal__popular--div">
-                            <div>
-                                <img
-                                    src="../../assets/img/dp.png"
-                                    class="kyc-modal__popular--logo"
-                                    alt=""
-                                />
-                            </div>
-                            <h5>Netflix</h5>
-                            <div>
-                                <img
-                                    src="../../assets/img/flags/us-flag.svg"
-                                    class="kyc-modal__popular--flag"
-                                    alt=""
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </modal>
-    <modal @close="closeModal" v-else-if="finalFund">
-        <template slot="header">Funding Activated</template>
-        <div>
-            <div class="kyc-modal">
-                <div class="text-center mb-3">
-                    <p class="kyc-modal__small">
-                        You can now fund your Naira and Dollar wallet to trade local and global
-                        markets
-                    </p>
-                    <br />
-                    <div>
-                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
-                    </div>
-                    <div class="mt-2" v-if="resume">
-                        <small
-                            ><a class="underline" @click="showFund"
-                                >Continue your Verification</a
-                            ></small
-                        >
-                    </div>
-                </div>
-            </div>
-        </div>
-    </modal>
-    <modal @close="closeModal" v-else-if="finalGlobal">
-        <template slot="header">Processing Global Verification</template>
-        <div>
-            <div class="kyc-modal">
-                <div class="text-center mb-3">
-                    <p class="kyc-modal__small">
-                        Your profile is being verified for global trading. You can now fund your
-                        Naira or Dollar wallet.
-                    </p>
-                    <br />
-                    <div>
-                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
-                    </div>
-                    <div class="mt-2" v-if="resume">
-                        <small
-                            ><a class="underline" @click="showResume"
-                                >Continue Local Verification</a
-                            ></small
-                        >
-                    </div>
-                </div>
-            </div>
-        </div>
-    </modal>
-    <modal @close="closeModal" v-else-if="finalLocal">
-        <template slot="header">Processing Local Verification</template>
-        <div>
-            <div class="kyc-modal">
-                <div class="text-center mb-3">
-                    <p class="kyc-modal__small">
-                        Your profile is being verified for local trading. You can now fund your
-                        Naira or Dollar wallet.
-                    </p>
-                    <br />
-                    <div>
-                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
-                    </div>
-                    <div class="mt-2" v-if="resume">
-                        <small
-                            ><a class="underline" @click="showFund"
-                                >Continue Global Verification</a
-                            ></small
-                        >
-                    </div>
-                </div>
-            </div>
-        </div>
-    </modal>
-    <modal @close="closeModal" v-else>
-        <template slot="header">{{ title || "Complete your verification to proceed" }}</template>
+    <modal @close="closeModal">
+        <template slot="header">{{
+            selectedField.title || "Complete your verification to proceed"
+        }}</template>
         <div v-if="allFields.length > 0">
             <template v-if="allFields[0].value === 'phone'">
                 <PhoneOTP @close="OTPSuccess" />
@@ -269,7 +145,7 @@
                     <div class="text-center" v-if="!isFileImage">
                         <action-button
                             type="submit"
-                            :disabled="!formComplete || Object.keys(errors).length > 0"
+                            :disabled="Object.keys(errors).length > 0"
                             :pending="loading"
                             :classes="['btn-block', 'btn__primary']"
                             >Submit</action-button
@@ -305,11 +181,14 @@ export default {
     },
     props: {
         requiredFields: {
-            type: Array,
-            required: true
+            type: Array
+            // required: true
         },
         title: {
             type: String
+        },
+        navbar: {
+            type: Boolean
         },
         nin: {
             type: Boolean
@@ -353,11 +232,17 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getErrorLog", "getNextKYC"]),
+        ...mapGetters(["getErrorLog", "getNextKYC", "getNavbarNextKYC"]),
         isFileImage() {
-            const test = this.requiredFields[0];
-            const stripped = test.substr(test.length - 3);
-            return stripped.toLowerCase() === "url";
+            if (Object.keys(this.selectedField).length > 0) {
+                const test = this.selectedField.fields[0];
+                const stripped = test.substr(test.length - 3);
+                return stripped.toLowerCase() === "url";
+            }
+        },
+        currentKYC() {
+            if (this.navbar) return this.getNavbarNextKYC;
+            return this.getNextKYC;
         }
     },
     methods: {
@@ -368,7 +253,7 @@ export default {
             "UPDATE_KYC",
             "UPLOAD_KYC_FILE"
         ]),
-        ...mapMutations(["RESET_REQ", "SET_NAVBAR_TRIGGER", "SET_FUND_MODAL"]),
+        ...mapMutations(["RESET_REQ", "SET_FUND_MODAL"]),
         handleInput(e) {
             this.itemData[e.name] = e.value;
             this.errors = {};
@@ -393,13 +278,11 @@ export default {
                     this.showDirector = false;
                 }
             }
-            this.formComplete =
-                Object.keys(this.itemData).length >= this.selectedField.fields.length;
+            // this.formComplete =
+            //     Object.keys(this.itemData).length >= this.selectedField.fields.length;
         },
         OTPSuccess() {
             this.nextStep();
-            // this.SET_NAVBAR_TRIGGER(true);
-            // this.$emit("updated");
         },
         updateKYC() {
             Object.keys(this.itemData).forEach(el => {
@@ -412,6 +295,15 @@ export default {
                     el === "pepStatus"
                 )
                     this.state = "employment";
+                // else if (
+                //     el === "investmentObjectives" ||
+                //     el === "investmentExperience" ||
+                //     el === "riskTolerance" ||
+                //     el === "networthLiquid" ||
+                //     el === "networthTotal" ||
+                //     el === "annualIncome"
+                // )
+                //     this.state = "investment";
                 else if (el === "addressProofUrl" || el === "idPhotoUrl" || el === "passportUrl")
                     this.state = "file";
                 else this.state = "default";
@@ -436,8 +328,6 @@ export default {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
-                        // this.SET_NAVBAR_TRIGGER(true);
-                        // this.$emit("updated");
                     }
                 });
             } else if (this.state === "nin") {
@@ -445,8 +335,6 @@ export default {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
-                        // this.SET_NAVBAR_TRIGGER(true);
-                        // this.$emit("updated");
                     }
                 });
             } else if (this.state === "bank") {
@@ -480,8 +368,6 @@ export default {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
-                        // this.SET_NAVBAR_TRIGGER(true);
-                        // this.$emit("updated");
                     }
                 });
             } else if (this.state === "employment") {
@@ -528,8 +414,6 @@ export default {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
-                        // this.SET_NAVBAR_TRIGGER(true);
-                        // this.$emit("updated");
                     }
                 });
             } else if (this.state === "file") {
@@ -537,8 +421,6 @@ export default {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
-                        // this.SET_NAVBAR_TRIGGER(true);
-                        // this.$emit("updated");
                     }
                 });
             } else {
@@ -550,8 +432,6 @@ export default {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
-                        // this.SET_NAVBAR_TRIGGER(true);
-                        // this.$emit("updated");
                     }
                 });
             }
@@ -577,8 +457,6 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.nextStep();
-                    // this.SET_NAVBAR_TRIGGER(true);
-                    // this.$emit("updated");
                 }
             });
         },
@@ -586,18 +464,16 @@ export default {
             this.$emit("close");
         },
         nextStep() {
-            this.SET_NAVBAR_TRIGGER(true);
+            // EventBus.$emit("navbar-trigger");
+            // EventBus.$emit("modal-trigger");
             this.$emit("updated");
-            // setTimeout(() => {
-            //     this.mount();
-            // }, 100);
+            this.mount();
         },
         showFund() {
             this.SET_FUND_MODAL(true);
             this.$emit("close");
         },
         mount() {
-            console.log("I was checked on modal");
             this.allFields = [];
             this.selectedField = {};
             this.itemData = {};
@@ -605,15 +481,16 @@ export default {
             /**
              * Refactor code for child to determine actionType and act on it instead of being passed as a prop
              */
+
             // this.allNextKYC.forEach(element => {
             //     element.fields.forEach(el => {
-            //         if (el === this.getNextKYC.nextKYC[0]) {
+            //         if (el === this.currentKYC.nextKYC[0]) {
             //             this.selectedField = element;
-            //             this.selectedField.fields = this.getNextKYC.nextKYC;
             //         }
             //     });
             // });
-            this.requiredFields.map(required => {
+            this.selectedField.fields = this.currentKYC.nextKYC;
+            this.currentKYC.nextKYC.map(required => {
                 const all = AllKYCFields.filter(el => {
                     if (required === el.value) {
                         this.allFields.push(el);
@@ -621,11 +498,21 @@ export default {
                     }
                 });
             });
+            if (this.currentKYC.status === "COMPLETE") {
+                this.$emit("updated", true);
+            }
+
+            // console.log(this.allFields);
+            // console.log(this.currentKYC);
+            // console.log("mounted modal", this.currentKYC, this.selectedField);
         }
     },
-    async mounted() {
+    mounted() {
         this.mount();
         EventBus.$on("modal-trigger", () => {
+            this.mount();
+        });
+        EventBus.$on("navbar-trigger", () => {
             this.mount();
         });
     }

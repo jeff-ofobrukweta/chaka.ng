@@ -13,7 +13,7 @@
                     >
                         {{ getAccountSummary.netWorth | kobo | currency("NGN") }}
                     </h2>
-                    <p><small>My Portfolio Value</small></p>
+                    <p><small>Total Value</small></p>
                 </div>
             </div>
             <div class="accounts-wallet__text">
@@ -148,13 +148,7 @@
             </div>
         </section>
 
-        <modal-kyc
-            :requiredFields="selectedField.fields"
-            :title="selectedField.title"
-            @updated="handleUpdate"
-            @close="showKYC = false"
-            v-if="showKYC"
-        />
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </div>
 </template>
 
@@ -182,34 +176,26 @@ export default {
         ...mapActions(["GET_ACCOUNT_SUMMARY"]),
         ...mapMutations(["SET_FUND_MODAL", "SET_WITHDRAW_MODAL", "SET_EXCHANGE_MODAL"]),
         handleStep(step) {
-            this.step = step.type;
+            this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            if (step.type === "fund") {
-                this.SET_FUND_MODAL(true);
-            } else if (step.type === "global") {
-                this.SET_EXCHANGE_MODAL(true);
+            this.showFund()
+        },
+        handleUpdate(value) {
+            if(value){
+                this.showFund()
             }
         },
-        handleUpdate() {
-            // this.showKYC = false;
-            if (this.step === "fund") {
-                this.$refs.fundBtn.$el.click();
-                return true;
+        showFund(){
+            this.showKYC = false;
+            if (this.step.type === "fund") {
+                this.SET_FUND_MODAL(true);
+            } else if (this.step.type === "global") {
+                this.SET_EXCHANGE_MODAL(true);
             }
-            if (this.step === "global") {
-                this.$refs.exchangeBtn.$el.click();
-            }
+
         },
         showWithdraw() {
             this.SET_WITHDRAW_MODAL(true);

@@ -256,20 +256,13 @@
                 </ul>
             </template>
 
-            <modal-kyc
-                :requiredFields="selectedField.fields"
-                :title="selectedField.title"
-                @updated="handleUpdate"
-                @close="showKYC = false"
-                v-if="showKYC"
-            />
+            <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
         </nav>
     </header>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import KYCTitles from "../services/kyc/kycTitles";
 
 export default {
     name: "app-header",
@@ -277,9 +270,7 @@ export default {
         return {
             isSidebarOpen: false,
             search: null,
-            showKYC: false,
-            selectedField: {},
-            allNextKYC: KYCTitles.titles
+            showKYC: false
         };
     },
     computed: {
@@ -299,24 +290,19 @@ export default {
         handleStep(step) {
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            if (step.type === "fund") {
-                this.SET_FUND_MODAL(true);
+            this.showFund();
+        },
+        handleUpdate(value) {
+            if (value) {
+                this.showFund();
+                // this.$refs.fundBtn.$el.click();
             }
         },
-        handleUpdate() {
-            // this.showKYC = false;
-            this.$refs.fundBtn.$el.click();
-            return true;
+        showFund() {
+            this.showKYC = false;
+            this.SET_FUND_MODAL(true);
         }
     },
     watch: {
