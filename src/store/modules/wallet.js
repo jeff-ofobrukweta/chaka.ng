@@ -1,5 +1,5 @@
-import api from "../../services/apiService/api";
-import errorFn from "../../services/apiService/error";
+import api from '../../services/apiService/api';
+import errorFn from '../../services/apiService/error';
 
 const state = {
     exchangeRate: {},
@@ -22,106 +22,95 @@ const mutations = {
 
 const actions = {
     WITHDRAW_WALLET: ({ commit, dispatch, rootState }, payload) => {
-        commit("RESET_REQ", null, { root: true });
-        commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) => {
-            return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/withdraw/`, payload)
-                .then(
-                    resp => {
-                        if (resp.status >= 200 && resp.status < 400) {
-                            commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_WALLET_TX", resp.data.data.transaction);
-                            dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
-                                resolve(true);
-                                return true;
-                            });
-                        } else {
-                            errorFn(resp, "withdraw");
-                            resolve(false);
-                        }
-                    },
-                    error => {
-                        errorFn(error.response, "withdraw");
-                        resolve(false);
-                    }
-                );
-        });
-    },
-    FUND_WALLET: ({ commit, dispatch, rootState }, payload) => {
-        commit("RESET_REQ", null, { root: true });
-        commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) => {
-            return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/deposit/`, payload)
-                .then(
-                    resp => {
-                        if (resp.status >= 200 && resp.status < 400) {
-                            commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_WALLET_TX", resp.data.data.transaction);
-                            dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
-                                resolve(true);
-                                return true;
-                            });
-                        } else {
-                            errorFn(resp, "fund");
-                            resolve(false);
-                        }
-                    },
-                    error => {
-                        errorFn(error.response, "fund");
-                        resolve(false);
-                    }
-                );
-        });
-    },
-    EXCHANGE_WALLET: ({ commit, dispatch, rootState }, payload) => {
-        commit("RESET_REQ", null, { root: true });
-        commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) => {
-            return api
-                .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/transfer/`, payload)
-                .then(
-                    resp => {
-                        if (resp.status >= 200 && resp.status < 400) {
-                            commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_WALLET_TX", resp.data.data.transaction);
-                            dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
-                                resolve(true);
-                                return true;
-                            });
-                        } else {
-                            errorFn(resp, "exchange");
-                            resolve(false);
-                        }
-                    },
-                    error => {
-                        errorFn(error.response, "exchange");
-                        resolve(false);
-                    }
-                );
-        });
-    },
-    GET_EXCHANGE_RATE: ({ commit }) => {
-        return new Promise((resolve, reject) => {
-            return api.get("/currency-rates/today").then(
-                resp => {
+        commit('RESET_REQ', null, { root: true });
+        commit('REQ_INIT', null, { root: true });
+        return new Promise((resolve, reject) => api
+            .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/withdraw/`, payload)
+            .then(
+                (resp) => {
                     if (resp.status >= 200 && resp.status < 400) {
-                        commit("SET_EXCHANGE_RATE", resp.data.data.rate);
-                        resolve(true);
-                        return true;
+                        commit('REQ_SUCCESS', null, { root: true });
+                        commit('SET_WALLET_TX', resp.data.data.transaction);
+                        dispatch('GET_ACCOUNT_SUMMARY', null, { root: true }).then(() => {
+                            resolve(true);
+                            return true;
+                        });
                     } else {
-                        errorFn(resp, "exchange");
+                        errorFn(resp, 'withdraw');
                         resolve(false);
                     }
                 },
-                error => {
-                    errorFn(error.response, "exchange");
+                (error) => {
+                    errorFn(error.response, 'withdraw');
                     resolve(false);
                 }
-            );
-        });
-    }
+            ));
+    },
+    FUND_WALLET: ({ commit, dispatch, rootState }, payload) => {
+        commit('RESET_REQ', null, { root: true });
+        commit('REQ_INIT', null, { root: true });
+        return new Promise((resolve, reject) => api
+            .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/deposit/`, payload)
+            .then(
+                (resp) => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit('REQ_SUCCESS', null, { root: true });
+                        commit('SET_WALLET_TX', resp.data.data.transaction);
+                        dispatch('GET_ACCOUNT_SUMMARY', null, { root: true }).then(() => {
+                            resolve(true);
+                            return true;
+                        });
+                    } else {
+                        errorFn(resp, 'fund');
+                        resolve(false);
+                    }
+                },
+                (error) => {
+                    errorFn(error.response, 'fund');
+                    resolve(false);
+                }
+            ));
+    },
+    EXCHANGE_WALLET: ({ commit, dispatch, rootState }, payload) => {
+        commit('RESET_REQ', null, { root: true });
+        commit('REQ_INIT', null, { root: true });
+        return new Promise((resolve, reject) => api
+            .post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/transfer/`, payload)
+            .then(
+                (resp) => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit('REQ_SUCCESS', null, { root: true });
+                        commit('SET_WALLET_TX', resp.data.data.transaction);
+                        dispatch('GET_ACCOUNT_SUMMARY', null, { root: true }).then(() => {
+                            resolve(true);
+                            return true;
+                        });
+                    } else {
+                        errorFn(resp, 'exchange');
+                        resolve(false);
+                    }
+                },
+                (error) => {
+                    errorFn(error.response, 'exchange');
+                    resolve(false);
+                }
+            ));
+    },
+    GET_EXCHANGE_RATE: ({ commit }) => new Promise((resolve, reject) => api.get('/currency-rates/today').then(
+        (resp) => {
+            if (resp.status >= 200 && resp.status < 400) {
+                commit('SET_EXCHANGE_RATE', resp.data.data.rate);
+                resolve(true);
+                return true;
+            }
+            errorFn(resp, 'exchange');
+            resolve(false);
+        },
+        (error) => {
+            errorFn(error.response, 'exchange');
+            resolve(false);
+        }
+    ))
 };
 
 export default {

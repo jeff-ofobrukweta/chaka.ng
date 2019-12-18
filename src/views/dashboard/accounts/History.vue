@@ -61,11 +61,11 @@
 </template>
 
 <script>
-import HistoryTable from "../../../components/accounts/HistoryTable";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import HistoryTable from '../../../components/accounts/HistoryTable';
 
 export default {
-    name: "accounts-history",
+    name: 'accounts-history',
     components: {
         HistoryTable
     },
@@ -74,59 +74,59 @@ export default {
             payload: {
                 fromDate: null,
                 toDate: null,
-                actionType: "ALL",
-                walletPref: "ALL"
+                actionType: 'ALL',
+                walletPref: 'ALL'
             },
-            selectedType: "ALL",
-            selectedWallet: "ALL",
+            selectedType: 'ALL',
+            selectedWallet: 'ALL',
             selectedOrderCurrency: null,
             loading: false,
             fromDate: null,
             toDate: null,
             walletPref: [
                 {
-                    name: "All",
-                    value: "ALL"
+                    name: 'All',
+                    value: 'ALL'
                 },
                 {
-                    name: "Local",
-                    value: "LOCAL"
+                    name: 'Local',
+                    value: 'LOCAL'
                 },
                 {
-                    name: "Global",
-                    value: "GLOBAL"
+                    name: 'Global',
+                    value: 'GLOBAL'
                 }
             ],
             actionTypes: [
                 {
-                    name: "All",
-                    value: "ALL"
+                    name: 'All',
+                    value: 'ALL'
                 },
                 {
-                    name: "Order",
-                    value: "ORDER"
+                    name: 'Order',
+                    value: 'ORDER'
                 },
                 {
-                    name: "Withdrawal",
-                    value: "DEBIT"
+                    name: 'Withdrawal',
+                    value: 'DEBIT'
                 },
+                // {
+                //     name: 'Transfer',
+                //     value: 'TRANSFER'
+                // },
                 {
-                    name: "Transfer",
-                    value: "TRANSFER"
-                },
-                {
-                    name: "Deposit",
-                    value: "CREDIT"
+                    name: 'Deposit',
+                    value: 'CREDIT'
                 }
             ]
         };
     },
     computed: {
-        ...mapGetters(["getAccountHistory", "getErrorLog"])
+        ...mapGetters(['getAccountHistory', 'getErrorLog'])
     },
     methods: {
-        ...mapActions(["GET_ACCOUNT_HISTORY", "GET_ORDERS_HISTORY"]),
-        ...mapMutations(["SET_ACCOUNT_HISTORY"]),
+        ...mapActions(['GET_ACCOUNT_HISTORY', 'GET_ORDERS_HISTORY']),
+        ...mapMutations(['SET_ACCOUNT_HISTORY']),
         handleDate(e) {
             if (e.target.value) {
                 this.payload.fromDate = new Date(this.fromDate).toISOString();
@@ -136,12 +136,12 @@ export default {
         },
         getHistory() {
             this.payload.walletPref = this.selectedWallet;
-            if (this.selectedWallet === "ALL") {
+            if (this.selectedWallet === 'ALL') {
                 this.selectedOrderCurrency = null;
-            } else if (this.selectedWallet === "LOCAL") {
-                this.selectedOrderCurrency = "NGN";
+            } else if (this.selectedWallet === 'LOCAL') {
+                this.selectedOrderCurrency = 'NGN';
             } else {
-                this.selectedOrderCurrency = "USD";
+                this.selectedOrderCurrency = 'USD';
             }
             this.orderHistoryCheck();
         },
@@ -153,7 +153,7 @@ export default {
             this.loading = true;
             this.SET_ACCOUNT_HISTORY([]);
             this.payload.actionType = this.selectedType;
-            if (this.selectedType !== "ORDER") {
+            if (this.selectedType !== 'ORDER') {
                 this.GET_ACCOUNT_HISTORY(this.payload).then(() => {
                     this.loading = false;
                 });
@@ -161,7 +161,7 @@ export default {
                 const payload = {
                     fromDate: this.payload.fromDate,
                     toDate: this.payload.toDate,
-                    statusType: "open"
+                    statusType: 'open'
                 };
                 if (this.selectedOrderCurrency) {
                     payload.currency = this.selectedWallet;

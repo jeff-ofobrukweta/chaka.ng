@@ -225,13 +225,13 @@
                                 }}</span
                             ></router-link
                         >
-                        <KYCButton
+                        <kyc-button
                             ref="fundBtn"
                             type="button"
                             :classes="['btn__icon', 'btn__icon--md', 'btn__primary']"
                             action="fund"
                             @step="handleStep"
-                            >+</KYCButton
+                            >+</kyc-button
                         >
                     </p>
                     <p v-else>
@@ -244,58 +244,49 @@
                             <span>&nbsp;|&nbsp;</span>
                             <span>$-</span></router-link
                         >
-                        <KYCButton
+                        <kyc-button
                             ref="fundBtn"
                             type="button"
                             :classes="['btn__icon', 'btn__icon--md', 'btn__primary']"
                             action="fund"
                             @step="handleStep"
-                            >+</KYCButton
+                            >+</kyc-button
                         >
                     </p>
                 </ul>
             </template>
-            <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-            <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
-            <modal @close="showKYC = false" v-if="showKYC">
-                <template slot="header">{{ selectedField.title }}</template>
-                <form @submit.prevent="submitPhone">
-                    <div>
-                        <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-                    </div>
-                </form>
-            </modal>
+            <modal-kyc
+                :requiredFields="selectedField.fields"
+                :title="selectedField.title"
+                @updated="handleUpdate"
+                @close="showKYC = false"
+                v-if="showKYC"
+            />
         </nav>
     </header>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import KYCButton from "./form/KYCButton";
-import ModalKYC from "./kyc/ModalKYC";
+import { mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../services/kyc/kycTitles";
+
 export default {
     name: "app-header",
     data() {
         return {
             isSidebarOpen: false,
             search: null,
-            showFund: false,
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             allNextKYC: KYCTitles.titles
         };
     },
-    components: {
-        KYCButton,
-        ModalKYC
-    },
     computed: {
         ...mapGetters(["isLoggedIn", "getLoggedUser", "getAccountSummary", "getNextKYC"])
     },
     methods: {
+        ...mapMutations(["SET_KYC_MODAL", "SET_FUND_MODAL"]),
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
         },
@@ -304,10 +295,6 @@ export default {
             this.$refs.trigger.nextElementSibling.classList.toggle("show");
             document.body.classList.toggle("no-scroll");
             this.toggleSidebar();
-        },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
         },
         handleStep(step) {
             if (step.kyc) {
@@ -321,14 +308,13 @@ export default {
                     });
                 });
                 return true;
-            } else if (step.type === "fund") {
-                this.showFund = true;
-            } else if (step.type === "global") {
-                this.showExchange = true;
+            }
+            if (step.type === "fund") {
+                this.SET_FUND_MODAL(true);
             }
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             this.$refs.fundBtn.$el.click();
             return true;
         }

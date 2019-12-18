@@ -92,9 +92,7 @@
     </div>
     <div class="kyc-field__group" v-else-if="field.type === 'image'">
         <Uploads
-            name="Profile Picture"
             :form-name="field.value"
-            description="Set Profile Picture"
             :image="null"
             @error="handleUploadError"
             @success="handleUploadSuccess"
@@ -106,6 +104,7 @@
 <script>
 import Types from "../../services/kyc/employmentTypes";
 import Positions from "../../services/kyc/employmentPosition";
+
 export default {
     name: "kyc-field",
     props: {

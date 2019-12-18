@@ -102,9 +102,10 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
+
 export default {
-    name: "uploads",
+    name: 'uploads',
     props: {
         image: {
             type: String
@@ -125,38 +126,38 @@ export default {
     },
     computed: {
         formDetails() {
-            if (this.formName === "passportUrl")
-                return { name: "Profile Picture", description: "Set Profile Picture" };
-            else if (this.formName === "idPhotoUrl")
+            if (this.formName === 'passportUrl') return { name: 'Profile Picture', description: 'Set Profile Picture' };
+            if (this.formName === 'idPhotoUrl') {
                 return {
-                    name: "Passport/National ID",
+                    name: 'Passport/National ID',
                     description: "Upload your National ID, Voter's Card or International Passport"
                 };
+            }
             return {
-                name: "Address Proof",
-                description: "Upload your Utility bill or Bank Statement"
+                name: 'Address Proof',
+                description: 'Upload your Utility bill or Bank Statement'
             };
         },
         isImagePDF() {
             if (this.image) {
                 const stripped = this.image.substr(this.image.length - 3);
-                return stripped.toLowerCase() === "pdf";
+                return stripped.toLowerCase() === 'pdf';
             }
         }
     },
     methods: {
-        ...mapActions(["UPLOAD_KYC_FILE"]),
+        ...mapActions(['UPLOAD_KYC_FILE']),
         async handleInput(e) {
             this.handleReset();
             this.file = e.target.files[0];
-            const extensions = e.target.value.split(".");
+            const extensions = e.target.value.split('.');
             this.fileExtension = extensions[extensions.length - 1].toLowerCase();
-            if (this.file.size > 3 * 1024 * 1024 && this.fileExtension !== "pdf") {
-                this.errorMessage = "Image size is too large. Should not be more than 5MB";
+            if (this.file.size > 3 * 1024 * 1024 && this.fileExtension !== 'pdf') {
+                this.errorMessage = 'Image size is too large. Should not be more than 5MB';
                 this.handleError();
                 return false;
-            } else if (this.file.size > 0.5 * 1024 * 1024 && this.fileExtension === "pdf") {
-                this.errorMessage = "File size cannot exceed 3MB";
+            } if (this.file.size > 0.5 * 1024 * 1024 && this.fileExtension === 'pdf') {
+                this.errorMessage = 'File size cannot exceed 3MB';
                 this.handleError();
                 return false;
             }
@@ -168,28 +169,28 @@ export default {
             reader.onload = () => {
                 this.uploadedImage = reader.result;
             };
-            reader.onerror = error => {
-                console.log("Error: ", error);
+            reader.onerror = (error) => {
+                console.log('Error: ', error);
             };
         },
         handleError() {
-            this.$emit("error", this.errorMessage);
+            this.$emit('error', this.errorMessage);
         },
         handleReset() {
-            this.$emit("reset");
+            this.$emit('reset');
         },
         handleSuccess() {
-            this.$emit("success");
+            this.$emit('success');
         },
         uploadImage() {
-            let formData = new FormData();
+            const formData = new FormData();
             formData.append(this.formName, this.file);
             this.loading = true;
-            this.UPLOAD_KYC_FILE(formData).then(resp => {
+            this.UPLOAD_KYC_FILE(formData).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.$toasted.show(`${this.formDetails.name} uploaded successful`, {
-                        type: "success"
+                        type: 'success'
                     });
                     this.uploadedImage = null;
                     this.fileExtension = null;

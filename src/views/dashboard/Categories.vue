@@ -108,51 +108,52 @@
     </section>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-    name: "Categories",
+    name: 'Categories',
     data() {
         return {
             loading: false,
             loadingTags: false,
-            selectedTag: "ALL",
-            currentTag: { filter: "ALL" },
+            selectedTag: 'ALL',
+            currentTag: { filter: 'ALL' },
             tagCategories: [
                 {
-                    name: "All",
-                    value: "ALL"
+                    name: 'All',
+                    value: 'ALL'
                 },
                 {
-                    name: "Industries",
-                    value: "INDUSTRIES"
+                    name: 'Industries',
+                    value: 'INDUSTRIES'
                 },
                 {
-                    name: "Countries",
-                    value: "COUNTRIES"
+                    name: 'Countries',
+                    value: 'COUNTRIES'
                 }
             ]
         };
     },
     components: {
-        InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
-        Tag: () => import("../../components/SingleTag")
+        InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
+        InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
+        Tag: () => import('../../components/SingleTag')
     },
     computed: {
         ...mapGetters([
-            "gettagslistsArray",
-            "getInstrumentsListArray",
-            "getWindowWidth",
-            "getInstrumentsPayload",
-            "getErrorLog"
+            'gettagslistsArray',
+            'getInstrumentsListArray',
+            'getWindowWidth',
+            'getInstrumentsPayload',
+            'getErrorLog',
+            'getcategorySlug'
         ]),
         instrumentLength() {
             if (Object.keys(this.getInstrumentsPayload).length > 0) {
-                if (this.getInstrumentsPayload.Instruments === "") {
+                if (this.getInstrumentsPayload.Instruments === '') {
                     return 0;
                 }
-                const length = this.getInstrumentsPayload.Instruments.split(",");
+                const length = this.getInstrumentsPayload.Instruments.split(',');
                 return length.length;
             }
             return false;
@@ -160,16 +161,17 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
-            "SET_INSTRUMENT_BY_TAGS",
-            "SET_TAGS_LISTS"
+            'SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS',
+            'SET_INSTRUMENT_BY_TAGS',
+            'SET_TAGS_LISTS',
+            'SET_SLUG_FOR_INSTRUMENT'
         ]),
-        ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS"]),
+        ...mapActions(['GET_TAGS_CATEGORIES', 'GET_INSTRUMENT_BY_TAGS']),
         handleSelect(response) {
             this.loading = true;
-            const payload = { symbols: response.Instruments };
+            const payload = { slug: response.slug };
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response);
-            if (payload.symbols === "") {
+            if (payload.slug === '') {
                 this.loading = false;
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 return true;
@@ -189,13 +191,15 @@ export default {
         async mount() {
             this.loading = true;
             this.loadingTags = true;
-            if (this.gettagslistsArray.length > 0) {
-                this.loadingTags = false;
-            }
+            // if (this.gettagslistsArray.length > 0) {
+            //     this.loadingTags = false;
+            // }
             await this.GET_TAGS_CATEGORIES(this.currentTag);
+             console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>nerrr>>>1>',this.gettagslistsArray[0]);
+             await this.SET_SLUG_FOR_INSTRUMENT(this.$route.params.category)
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
-                const payloadGetInstrument = { symbols: this.gettagslistsArray[0].Instruments };
+                const payloadGetInstrument = { slug: this.gettagslistsArray[0].slug};
                 this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
                     this.gettagslistsArray.length > 0 ? this.gettagslistsArray[0] : {}
                 );

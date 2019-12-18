@@ -4,12 +4,12 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    name: "Loader",
+    name: 'Loader',
     computed: {
-        ...mapGetters(["getProgressbar"])
+        ...mapGetters(['getProgressbar'])
     }
 };
 </script>

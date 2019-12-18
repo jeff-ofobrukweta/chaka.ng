@@ -11,9 +11,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
-    name: "custom-button",
+    name: 'custom-button',
     props: {
         classes: {
             type: Array,
@@ -25,7 +26,7 @@ export default {
         },
         tag: {
             type: String,
-            default: "button"
+            default: 'button'
         }
     },
     data() {
@@ -36,7 +37,7 @@ export default {
     methods: {
         handleClick(e) {
             this.clicked = true;
-            this.$emit("click");
+            this.$emit('click');
             setTimeout(() => {
                 this.clicked = false;
             }, 4000);

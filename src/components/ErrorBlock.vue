@@ -28,9 +28,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
+
 export default {
-    name: "error-block",
+    name: 'error-block',
     props: {
         message: {
             type: String
@@ -50,7 +51,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getStatus", "getErrorLog"])
+        ...mapGetters(['getStatus', 'getErrorLog'])
     }
 };
 </script>

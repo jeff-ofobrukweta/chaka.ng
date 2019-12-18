@@ -55,38 +55,40 @@
                 />
             </div>
             <div>
-                <KYCButton
+                <kyc-button
                     ref="buyBtn"
                     type="button"
                     :classes="['watchlist-portfolio__buy']"
                     :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                     @step="handleStep"
                     tag="a"
-                    >+&nbsp;Buy</KYCButton
+                    >+&nbsp;Buy</kyc-button
                 >
             </div>
         </div>
-        <buy-modal
+        <!-- <buy-modal
             @close="closeBuyModal"
             :currency="instrument.currency"
             :symbol="instrument.symbol"
             :instrument="instrument"
             v-if="showBuy"
-        />
+        /> -->
         <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc
+            :requiredFields="selectedField.fields"
+            :title="selectedField.title"
+            @updated="handleUpdate"
+            @close="showKYC = false"
+            v-if="showKYC"
+        />
     </div>
 </template>
 
 <script>
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
-import { mapGetters, mapActions } from "vuex";
+
 export default {
     name: "watchlist-portfolio",
     props: {
@@ -97,10 +99,6 @@ export default {
         dummy: {
             type: Boolean
         }
-    },
-    components: {
-        KYCButton,
-        ModalKYC
     },
     data() {
         return {
@@ -126,6 +124,7 @@ export default {
     },
     methods: {
         ...mapActions(["REMOVE_FROM_WATCHLIST"]),
+        ...mapMutations(["SET_BUY_MODAL"]),
         handleStep(step) {
             this.step = step.type;
             if (step.kyc) {
@@ -139,19 +138,25 @@ export default {
                     });
                 });
                 return true;
-            } else {
-                this.showBuy = true;
             }
+            // this.showBuy = true;
+            this.SET_BUY_MODAL({
+                instrument: this.instrument,
+                currency: this.instrument.currency,
+                stockPage: false,
+                show: true
+            });
         },
         handleUpdate() {
-            this.showKYC = false;
+            // this.showKYC = false;
             if (this.step !== "kyc") {
                 this.$refs.buyBtn.$el.click();
             }
         },
         closeBuyModal(e) {
             if (e) this.showSuccess = true;
-            this.showBuy = false;
+            // this.showBuy = false;
+            this.SET_BUY_MODAL({});
         },
         async removeFromWatchlist() {
             this.loading = true;

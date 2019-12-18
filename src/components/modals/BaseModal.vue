@@ -40,8 +40,9 @@
 </template>
 
 <script>
-import EventBus from "../../event-bus";
 import { mapMutations } from "vuex";
+import EventBus from "../../event-bus";
+
 export default {
     name: "modal",
     props: {

@@ -137,3 +137,11 @@ a {
 select {
   height: 2.5rem;
 }
+
+mark {
+  padding: 0.125rem;
+  background: rgba($color: $primary, $alpha: 0.3);
+  border-radius: 3px;
+  font-size: 85%;
+  letter-spacing: 0.05rem;
+}

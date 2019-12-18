@@ -11,8 +11,9 @@
 </template>
 
 <script>
-import EventBus from "../../event-bus";
 import { mapGetters, mapActions } from "vuex";
+import EventBus from "../../event-bus";
+
 export default {
     name: "check-kyc",
     props: {
@@ -66,15 +67,30 @@ export default {
                         this.$emit("step", { type: "fund", kyc: true });
                         this.clicked = false;
                         return true;
-                    } else if (this.getNextKYC.status === "COMPLETE") {
+                    }
+                    if (this.getNextKYC.status === "COMPLETE") {
                         this.$emit("step", { type: "fund", kyc: false });
                         this.clicked = false;
                         return true;
                     }
                 });
-            } else {
-                if (this.action === "local") {
-                    if (this.getLoggedUser.localKycStatus !== "NONE") {
+            } else if (this.action === "local") {
+                if (this.getLoggedUser.localKycStatus !== "NONE") {
+                    this.$emit("step", {
+                        type: "local",
+                        kyc: false,
+                        nextAction: this.nextAction
+                    });
+                    this.clicked = false;
+                    return true;
+                }
+                this.GET_NEXT_KYC({ context: "LOCAL" }).then(() => {
+                    if (this.getNextKYC.status === "INCOMPLETE") {
+                        this.$emit("step", { type: "local", kyc: true });
+                        this.clicked = false;
+                        return true;
+                    }
+                    if (this.getNextKYC.status === "COMPLETE") {
                         this.$emit("step", {
                             type: "local",
                             kyc: false,
@@ -83,23 +99,24 @@ export default {
                         this.clicked = false;
                         return true;
                     }
-                    this.GET_NEXT_KYC({ context: "LOCAL" }).then(() => {
-                        if (this.getNextKYC.status === "INCOMPLETE") {
-                            this.$emit("step", { type: "local", kyc: true });
-                            this.clicked = false;
-                            return true;
-                        } else if (this.getNextKYC.status === "COMPLETE") {
-                            this.$emit("step", {
-                                type: "local",
-                                kyc: false,
-                                nextAction: this.nextAction
-                            });
-                            this.clicked = false;
-                            return true;
-                        }
+                });
+            } else if (this.action === "global") {
+                if (this.getLoggedUser.globalKycStatus !== "NONE") {
+                    this.$emit("step", {
+                        type: "global",
+                        kyc: false,
+                        nextAction: this.nextAction
                     });
-                } else if (this.action === "global") {
-                    if (this.getLoggedUser.globalKycStatus !== "NONE") {
+                    this.clicked = false;
+                    return true;
+                }
+                this.GET_NEXT_KYC({ context: "GLOBAL" }).then(() => {
+                    if (this.getNextKYC.status === "INCOMPLETE") {
+                        this.$emit("step", { type: "global", kyc: true });
+                        this.clicked = false;
+                        return true;
+                    }
+                    if (this.getNextKYC.status === "COMPLETE") {
                         this.$emit("step", {
                             type: "global",
                             kyc: false,
@@ -108,32 +125,17 @@ export default {
                         this.clicked = false;
                         return true;
                     }
-                    this.GET_NEXT_KYC({ context: "GLOBAL" }).then(() => {
-                        if (this.getNextKYC.status === "INCOMPLETE") {
-                            this.$emit("step", { type: "global", kyc: true });
-                            this.clicked = false;
-                            return true;
-                        } else if (this.getNextKYC.status === "COMPLETE") {
-                            this.$emit("step", {
-                                type: "global",
-                                kyc: false,
-                                nextAction: this.nextAction
-                            });
-                            this.clicked = false;
-                            return true;
-                        }
-                    });
-                } else {
-                    this.GET_NEXT_KYC().then(() => {
-                        if (this.getNextKYC.status === "INCOMPLETE") {
-                            this.$emit("step", "kyc");
-                            this.clicked = false;
-                            return true;
-                        }
-                        this.$emit("step");
+                });
+            } else {
+                this.GET_NEXT_KYC().then(() => {
+                    if (this.getNextKYC.status === "INCOMPLETE") {
+                        this.$emit("step", "kyc");
                         this.clicked = false;
-                    });
-                }
+                        return true;
+                    }
+                    this.$emit("step");
+                    this.clicked = false;
+                });
             }
         }
     },

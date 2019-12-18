@@ -39,21 +39,21 @@
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">P/E Ratio</p>
-            <p class="stock-table__body cursor-context" 
+            <p class="stock-table__body cursor-context"
             :title="checkforUndefined(instrument.InstrumentDynamic.peRatio) | units(2, true)">
                 {{ checkforUndefined(instrument.InstrumentDynamic.peRatio) || 0.00 | units(2) }}
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">Dividend Yield</p>
-            <p class="stock-table__body cursor-context" 
+            <p class="stock-table__body cursor-context"
             :title="checkforUndefined(instrument.InstrumentDynamic.dividendYield) | units(2, true)">
                 {{ checkforUndefined(instrument.InstrumentDynamic.dividendYield) || 0.00 | units(2) }}%
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">Volume</p>
-            <p class="stock-table__body cursor-context" 
+            <p class="stock-table__body cursor-context"
             :title="checkforUndefined(instrument.InstrumentDynamic.avgVol30d) | units(2, true)">
                 {{ checkforUndefined(instrument.InstrumentDynamic.avgVol30d) || 0.00 | units(2) }}
             </p>
