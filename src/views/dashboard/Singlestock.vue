@@ -108,22 +108,29 @@
                     :title="getSingleinstrument[0].description"
                     class="summary-cover"
                 >
-                    <section v-if="description">
-                        {{ getSingleinstrument[0].description || "" | truncate(300)
-                        }}<span
-                            ><a class="expand" @click="description = !description"
-                                >see&nbsp;more</a
-                            ></span
-                        >
-                    </section>
-                    <section v-else>
-                        {{ getSingleinstrument[0].description || ""
-                        }}<span
-                            ><a class="expand" @click="description = !description"
-                                >see&nbsp;less</a
-                            ></span
-                        >
-                    </section>
+                    <div v-if="getSingleinstrument[0].description.length >= 300">
+                        <section v-if="description">
+                            {{ getSingleinstrument[0].description || "" | truncate(300)
+                            }}<span
+                                ><a class="expand" @click="description = !description"
+                                    >see&nbsp;more</a
+                                ></span
+                            >
+                        </section>
+                        <section v-else>
+                            {{ getSingleinstrument[0].description || ""
+                            }}<span
+                                ><a class="expand" @click="description = !description"
+                                    >see&nbsp;less</a
+                                ></span
+                            >
+                        </section>
+                    </div>
+                    <div v-else>
+                        <section>
+                            {{ getSingleinstrument[0].description || ""}}
+                        </section>
+                    </div>
                 </div>
                 <div class="no-description" v-else>No description for this stocks</div>
                 <svg
