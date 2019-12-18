@@ -4,16 +4,19 @@ import errorFn from '../../services/apiService/error';
 const state = {
     tags: [],
     instrumentslists: [],
-    instrumentpayload: {},
+    instrumentpayload: {
+        name:"Most Popular",
+        slug:"most-popular"
+    },
     singlestockpricedata: [],
-    categorySlug:'most-popular'
+    pagination:{},
 };
 
 const getters = {
     gettagslistsArray: state => state.tags,
     getInstrumentsListArray: state => state.instrumentslists,
     getInstrumentsPayload: state => state.instrumentpayload,
-    getcategorySlug: state => state.categorySlug
+    getpagination: state => state.pagination
 };
 
 const mutations = {
@@ -24,10 +27,11 @@ const mutations = {
         state.instrumentslists = instruments;
     },
     SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(state, payload) {
+        console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM",payload)
         state.instrumentpayload = payload;
     },
-    SET_SLUG_FOR_INSTRUMENT(state, payload) {
-        state.categorySlug = payload;
+    SET_INSTRUMENT_PAGENATION(state, paginate) {
+        state.pagination = paginate;
     }
 };
 
@@ -53,7 +57,9 @@ const actions = {
             .then((response) => {
                 if (response.status >= 200 && response.status < 400) {
                     const { Instruments } = response.data.data.tag;
+                    const { pagination } = response.data;
                     commit('SET_INSTRUMENT_BY_TAGS', Instruments);
+                    commit('SET_INSTRUMENT_PAGENATION',pagination)
                     resolve(true);
                     return true;
                 }

@@ -3,7 +3,7 @@
         <section class="accounts__title">
             <div>
                 <h3>Categories</h3>
-                <p class="dashboard__title--sub">View all categories</p>
+                <p class="dashboard__title--sub">Discover new stocks</p>
             </div>
             <select class="form__input" @change="getNewTags" v-model="selectedTag">
                 <option v-for="(option, i) in tagCategories" :key="i" :value="option.value">
@@ -32,7 +32,7 @@
                                 :key="item.id"
                                 :tag="item"
                                 @click="handleSelect"
-                                :active="getInstrumentsPayload.name === item.name"
+                                :active="getInstrumentsPayload.slug === item.slug"
                             />
                     </template>
                     <section class="empty-center" v-else>
@@ -146,15 +146,15 @@ export default {
             'getWindowWidth',
             'getInstrumentsPayload',
             'getErrorLog',
-            'getcategorySlug'
+            'getpagination'
         ]),
         instrumentLength() {
-            if (Object.keys(this.getInstrumentsPayload).length > 0) {
-                if (this.getInstrumentsPayload.Instruments === '') {
+            if (Object.keys(this.getpagination).length > 0) {
+                if (this.getpagination === '') {
                     return 0;
                 }
-                const length = this.getInstrumentsPayload.Instruments.split(',');
-                return length.length;
+                const length = this.getpagination.total;
+                return length;
             }
             return false;
         }
@@ -195,18 +195,15 @@ export default {
             //     this.loadingTags = false;
             // }
             await this.GET_TAGS_CATEGORIES(this.currentTag);
-             console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>nerrr>>>1>',this.gettagslistsArray[0]);
-             await this.SET_SLUG_FOR_INSTRUMENT(this.$route.params.category)
+            //  console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>nerrr>>>1>',this.gettagslistsArray[0]);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
-                const payloadGetInstrument = { slug: this.gettagslistsArray[0].slug};
-                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
-                    this.gettagslistsArray.length > 0 ? this.gettagslistsArray[0] : {}
-                );
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
+                 const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug};
                 await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
             }
             this.loading = false;
-            console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
+            // console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
         }
     },
     async mounted() {

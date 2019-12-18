@@ -152,13 +152,8 @@
                     :key="index"
                     class="stocktag-container"
                 >
-                    <div class="item-tag">
-                        <router-link
-                            class="taglinking"
-                            :to="{ name: 'categories', params: { category: tag.slug } }"
-                        >
-                            {{ tag.name }}
-                        </router-link>
+                    <div @click="setTagPayload(tag)" class="item-tag">
+                        <a>{{ tag.name }}</a>
                     </div>
                 </div>
             </section>
@@ -264,14 +259,14 @@ export default {
             "getglobalstocksowned",
             "getNextKYC",
             "getWatchlist",
-            "getNews"
+            "getNews",
+            "getInstrumentsPayload"
         ])
     },
     watch: {},
     methods: {
-        //...mapMutations(['SET_LINE_SINGLESTOCK_CHARTDATA']),
         ...mapActions(["GET_WATCHLIST","GET_SIMILAR_STOCKS","GET_SINGLESTOCK_INSTRUMENT","GET_ARTICULE_NEWS","ADD_TO_WATCHLIST","REMOVE_FROM_WATCHLIST"]),
-        ...mapMutations(["SET_NEWS","SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
+        ...mapMutations(["SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS","SET_NEWS","SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
         handleStep(step) {
             // this.step = step.type;
             this.step = step;
@@ -357,6 +352,10 @@ export default {
             }
             this.maxQuantity = 0;
             return false;
+        },
+        setTagPayload(valuePayload){
+            this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
+            this.$router.push({ name: 'categories', params: { category: this.getInstrumentsPayload.slug } })
         }
     },
     async mounted() {

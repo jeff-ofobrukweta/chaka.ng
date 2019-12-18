@@ -42,7 +42,7 @@
                 </router-link>
             </li>
             <li class="side-nav__item">
-                <router-link class="side-nav__link" :to="{ name: 'categories' }">
+                <router-link class="side-nav__link"  :to="{ name: 'categories', params: { category: getInstrumentsPayload.slug } }">
                     <span class="side-nav__text">
                         <svg
                             width="20"
@@ -186,7 +186,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getWindowWidth']),
+        ...mapGetters(['getWindowWidth','getInstrumentsPayload']),
         isAccountActive() {
             return this.$route.name.startsWith('accounts');
         }
