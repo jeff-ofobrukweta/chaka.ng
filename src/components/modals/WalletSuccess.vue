@@ -67,8 +67,9 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(["SET_WALLET_TX"]),
+        ...mapMutations(["SET_WALLET_TX", "MODAL_OPENED"]),
         closeModal() {
+            this.MODAL_OPENED(false);
             this.$emit("close");
         }
     },

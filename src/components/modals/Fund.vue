@@ -21,8 +21,8 @@
                 </div>
             </div>
         </template>
-        
-         <!-- TO-DO: Put back if dollar funding is blocked for incomplete KYCs -->
+
+        <!-- TO-DO: Put back if dollar funding is blocked for incomplete KYCs -->
 
         <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
             <div class="modal-form" v-if="canFundGlobal === 1">
@@ -61,15 +61,14 @@
             <form class="modal-form" @submit.prevent="fundWallet">
                 <div class="modal-form__group">
                     <label class="form__label"
-                        >Amount
-                        <form-input
-                            type="number"
-                            name="amount"
+                        >Amount<currency-input
+                            :currency="currency"
+                            placeholder="Enter Amount"
                             v-model="itemData.amount"
                             :error-message="issues.amount"
                             @reset="handleReset"
-                            placeholder="Amount"
-                    /></label>
+                        />
+                    </label>
                     <div class="form-info">
                         <small>**Allow up to 1 business day</small>
                     </div>
@@ -126,9 +125,13 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
+import CurrencyInput from "../form/CurrencyInput";
 
 export default {
     name: "fund-modal",
+    components: {
+        CurrencyInput
+    },
     data() {
         return {
             itemData: {},

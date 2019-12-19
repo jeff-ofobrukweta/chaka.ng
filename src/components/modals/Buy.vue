@@ -202,13 +202,8 @@
                     <p v-else>
                         <span
                             class="cursor-context modal__buy--price"
-                            :title="
-                                getSingleinstrument[0].askPrice
-                                    | currency(instrument.currency, true)
-                            "
-                            >{{
-                                getSingleinstrument[0].askPrice | currency(instrument.currency)
-                            }}</span
+                            :title="getMarketData.ask || '-' | currency(instrument.currency, true)"
+                            >{{ getMarketData.ask || "-" | currency(instrument.currency) }}</span
                         >&nbsp;&nbsp;
                         <img
                             v-if="getSingleinstrument[0].derivedPrice >= 0"
@@ -267,23 +262,22 @@
             <div class="modal-form__group">
                 <label class="form__label" v-if="orderType === 'MARKET'"
                     >Amount
-                    <form-input
-                        type="number"
-                        name="amount"
+                    <currency-input
+                        :currency="currency"
+                        placeholder="Enter Amount"
                         v-model="itemData.amountCash"
-                        placeholder="Amount"
                         :disabled="Object.keys(getMarketData).length <= 0"
                         @reset="clearErrors"
                         @input="onTypeAmount"
                         :error-message="errors.amountCash"
-                /></label>
+                    />
+                </label>
                 <label class="form__label" v-else
                     >Limit Order Price
-                    <form-input
-                        type="number"
-                        name="limit"
+                    <currency-input
+                        :currency="currency"
+                        placeholder="Enter Limit Order Price"
                         v-model="itemData.price"
-                        placeholder="Limit Order Price"
                         :disabled="Object.keys(getMarketData).length <= 0"
                         @reset="clearErrors"
                         :error-message="errors.price"
@@ -468,6 +462,7 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
+import CurrencyInput from "../form/CurrencyInput";
 
 export default {
     name: "buy-modal",
@@ -483,6 +478,9 @@ export default {
         stockPage: {
             type: Boolean
         }
+    },
+    components: {
+        CurrencyInput
     },
     data() {
         return {

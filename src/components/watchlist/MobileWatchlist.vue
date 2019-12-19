@@ -80,7 +80,11 @@
         >
             <div class="watchlist-mobile__bottom">
                 <div class="watchlist-mobile__left">
-                    <img class="watchlist-mobile__logo" :src="instrument.logoUrl" alt="Google" />
+                    <img
+                        class="watchlist-mobile__logo"
+                        :src="instrument.logoUrl"
+                        :alt="instrument.symbol"
+                    />
                     <div>
                         <p class="watchlist-mobile__name capitalize">
                             {{ instrument.name | truncate(50) }}

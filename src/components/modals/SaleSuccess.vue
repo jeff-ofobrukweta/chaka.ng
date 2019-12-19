@@ -88,8 +88,9 @@ export default {
         };
     },
     methods: {
-        ...mapMutations(["SET_BUY_ORDER", "SET_SELL_ORDER"]),
+        ...mapMutations(["SET_BUY_ORDER", "SET_SELL_ORDER", "MODAL_OPENED"]),
         closeModal() {
+            this.MODAL_OPENED(false)
             this.$emit("close");
         }
     },

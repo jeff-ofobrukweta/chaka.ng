@@ -181,29 +181,33 @@
                         <h4
                             class="cursor-context"
                             :title="
-                                getAccountSummary.localWallet.availableBalance
+                                getAccountSummary.localAvailableToTrade
                                     | kobo
                                     | currency('NGN', true)
                             "
                         >
                             {{
-                                getAccountSummary.localWallet.availableBalance
-                                    | kobo
-                                    | currency("NGN")
+                                getAccountSummary.localAvailableToTrade ||
+                                    "-" | kobo | currency("NGN")
                             }}
                         </h4>
-                        <p><small>Available Cash</small></p>
+                        <p><small>Available To Trade</small></p>
                     </div>
                     <div>
                         <h4
                             class="cursor-context"
                             :title="
-                                getAccountSummary.localPendingBalance | kobo | currency('NGN', true)
+                                getAccountSummary.localAvailableToWithdraw
+                                    | kobo
+                                    | currency('NGN', true)
                             "
                         >
-                            {{ getAccountSummary.localPendingBalance | kobo | currency("NGN") }}
+                            {{
+                                getAccountSummary.localAvailableToWithdraw ||
+                                    "-" | kobo | currency("NGN")
+                            }}
                         </h4>
-                        <p><small>Pending Cash</small></p>
+                        <p><small>Available To Withdraw</small></p>
                     </div>
                 </div>
             </div>
@@ -215,31 +219,33 @@
                         <h4
                             class="cursor-context"
                             :title="
-                                getAccountSummary.globalWallet.availableBalance
+                                getAccountSummary.globalAvailableToTrade
                                     | kobo
                                     | currency('USD', true)
                             "
                         >
                             {{
-                                getAccountSummary.globalWallet.availableBalance
-                                    | kobo
-                                    | currency("USD")
+                                getAccountSummary.globalAvailableToTrade ||
+                                    "-" | kobo | currency("USD")
                             }}
                         </h4>
-                        <p><small>Available Cash</small></p>
+                        <p><small>Available To Trade</small></p>
                     </div>
                     <div>
                         <h4
                             class="cursor-context"
                             :title="
-                                getAccountSummary.globalPendingBalance
+                                getAccountSummary.globalAvailableToWithdraw
                                     | kobo
                                     | currency('USD', true)
                             "
                         >
-                            {{ getAccountSummary.globalPendingBalance | kobo | currency("USD") }}
+                            {{
+                                getAccountSummary.globalAvailableToWithdraw ||
+                                    "-" | kobo | currency("USD")
+                            }}
                         </h4>
-                        <p><small>Pending Cash</small></p>
+                        <p><small>Available To Withdraw</small></p>
                     </div>
                 </div>
             </div>
@@ -247,13 +253,12 @@
         <form class="modal-form" @submit.prevent="exchangeWallet">
             <div class="modal-form__group">
                 <label class="form__label"
-                    >Amount
-                    <form-input
-                        type="number"
-                        name="amount"
+                    >Amount<currency-input
+                        :currency="itemData.currency"
+                        placeholder="Enter Amount"
                         v-model="itemData.amount"
                         :error-message="errors.amount"
-                        placeholder="Amount"
+                            @reset="handleReset"
                 /></label>
             </div>
             <error-block type="exchange" />
@@ -326,9 +331,13 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
+import CurrencyInput from "../form/CurrencyInput";
 
 export default {
     name: "exchange-modal",
+    components: {
+        CurrencyInput
+    },
     data() {
         return {
             itemData: { currency: "NGN", fromWallet: "local", toWallet: "global" },

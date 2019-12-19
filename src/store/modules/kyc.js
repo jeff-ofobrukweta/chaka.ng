@@ -7,7 +7,7 @@ const state = {
     navbarKYC: true,
     nextKYC: {},
     navbarNextKYC: {},
-    kycModalAction: "",
+    kycModalAction: "DEFAULT",
     countryCodes: []
 };
 

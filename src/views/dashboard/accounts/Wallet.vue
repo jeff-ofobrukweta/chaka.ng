@@ -23,23 +23,36 @@
                     <hr />
                     <div class="accounts-wallet__money">
                         <div>
-                            <h3 v-if="!getAccountSummary.localWallet" class="cursor-context">-</h3>
                             <h3
-                                v-else
                                 class="cursor-context"
                                 :title="
-                                    getAccountSummary.localWallet.availableBalance
+                                    getAccountSummary.localAvailableToTrade
                                         | kobo
                                         | currency('NGN', true)
                                 "
                             >
                                 {{
-                                    getAccountSummary.localWallet.availableBalance
-                                        | kobo
-                                        | currency("NGN")
+                                    getAccountSummary.localAvailableToTrade ||
+                                        "-" | kobo | currency("NGN")
                                 }}
                             </h3>
-                            <p><small>Available Cash</small></p>
+                            <p><small>Available To Trade</small></p>
+                        </div>
+                        <div>
+                            <h3
+                                class="cursor-context"
+                                :title="
+                                    getAccountSummary.localAvailableToWithdraw
+                                        | kobo
+                                        | currency('NGN', true)
+                                "
+                            >
+                                {{
+                                    getAccountSummary.localAvailableToWithdraw ||
+                                        "-" | kobo | currency("NGN")
+                                }}
+                            </h3>
+                            <p><small>Available To Withdraw</small></p>
                         </div>
                         <div>
                             <h3
@@ -74,23 +87,36 @@
                     <hr />
                     <div class="accounts-wallet__money">
                         <div>
-                            <h3 v-if="!getAccountSummary.globalWallet" class="cursor-context">-</h3>
                             <h3
-                                v-else
                                 class="cursor-context"
                                 :title="
-                                    getAccountSummary.globalWallet.availableBalance
+                                    getAccountSummary.globalAvailableToTrade
                                         | kobo
                                         | currency('USD', true)
                                 "
                             >
                                 {{
-                                    getAccountSummary.globalWallet.availableBalance
-                                        | kobo
-                                        | currency("USD")
+                                    getAccountSummary.globalAvailableToTrade ||
+                                        "-" | kobo | currency("USD")
                                 }}
                             </h3>
-                            <p><small>Available Cash</small></p>
+                            <p><small>Available To Trade</small></p>
+                        </div>
+                        <div>
+                            <h3
+                                class="cursor-context"
+                                :title="
+                                    getAccountSummary.globalAvailableToWithdraw
+                                        | kobo
+                                        | currency('USD', true)
+                                "
+                            >
+                                {{
+                                    getAccountSummary.globalAvailableToWithdraw ||
+                                        "-" | kobo | currency("USD")
+                                }}
+                            </h3>
+                            <p><small>Available To Withdraw</small></p>
                         </div>
                         <div>
                             <h3
