@@ -32,7 +32,7 @@
         />
         <router-link
             class="taglinking"
-            :to="{ name: 'categories', params: { category: tag.name } }">
+            :to="{ name: 'categories', params: { category: tag.slug } }">
             <section class="tag-name" :class="{ active: active }">{{ tag.name }}</section>
         </router-link>
     </div>

@@ -6,9 +6,10 @@
 }
 .expand{
     color:#22a4ef;
+    margin-left: 10px;
 }
 .watch{
-    background:$primary-green;
+    background:#22a4ef;
     border-radius: 3.875px;
     padding: 0.68em 1em;
     font-weight: bold;
@@ -23,7 +24,7 @@
     }
 }
 .unwatch{
-    background: #22a4ef;
+    background: #22a4ef00;
     border-radius: 3.875px;
     padding: 0.68em 1em;
     font-weight: bold;
@@ -32,6 +33,7 @@
     color:#FFF0;
     margin-top: .5em;
     transform: all 0.35s;
+    border: 1px solid #22a4ef;
     .middle-loader{
         width: 13px;
         object-fit: contain;

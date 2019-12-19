@@ -1,9 +1,9 @@
 <template>
     <a
         class="card-news"
-        :class="{ flex: !news.imageUrl }"
+        :class="{ flex: !news.imageUrl}"
         target="_blank"
-        :href="news.pageUrl"
+        :href="news.url"
         v-if="!collection"
     >
         <img v-if="news.imageUrl" class="card-news__img" :src="news.imageUrl" :alt="news.title" />

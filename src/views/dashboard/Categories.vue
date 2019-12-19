@@ -3,7 +3,7 @@
         <section class="accounts__title">
             <div>
                 <h3>Categories</h3>
-                <p class="dashboard__title--sub">View all categories</p>
+                <p class="dashboard__title--sub">Discover new stocks</p>
             </div>
             <select class="form__input" @change="getNewTags" v-model="selectedTag">
                 <option v-for="(option, i) in tagCategories" :key="i" :value="option.value">
@@ -32,7 +32,7 @@
                                 :key="item.id"
                                 :tag="item"
                                 @click="handleSelect"
-                                :active="getInstrumentsPayload.name === item.name"
+                                :active="getInstrumentsPayload.slug === item.slug"
                             />
                     </template>
                     <section class="empty-center" v-else>
@@ -145,15 +145,16 @@ export default {
             'getInstrumentsListArray',
             'getWindowWidth',
             'getInstrumentsPayload',
-            'getErrorLog'
+            'getErrorLog',
+            'getpagination'
         ]),
         instrumentLength() {
-            if (Object.keys(this.getInstrumentsPayload).length > 0) {
-                if (this.getInstrumentsPayload.Instruments === '') {
+            if (Object.keys(this.getpagination).length > 0) {
+                if (this.getpagination === '') {
                     return 0;
                 }
-                const length = this.getInstrumentsPayload.Instruments.split(',');
-                return length.length;
+                const length = this.getpagination.total;
+                return length;
             }
             return false;
         }
@@ -162,14 +163,15 @@ export default {
         ...mapMutations([
             'SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS',
             'SET_INSTRUMENT_BY_TAGS',
-            'SET_TAGS_LISTS'
+            'SET_TAGS_LISTS',
+            'SET_SLUG_FOR_INSTRUMENT'
         ]),
         ...mapActions(['GET_TAGS_CATEGORIES', 'GET_INSTRUMENT_BY_TAGS']),
         handleSelect(response) {
             this.loading = true;
-            const payload = { symbols: response.Instruments };
+            const payload = { slug: response.slug };
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response);
-            if (payload.symbols === '') {
+            if (payload.slug === '') {
                 this.loading = false;
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 return true;
@@ -189,20 +191,19 @@ export default {
         async mount() {
             this.loading = true;
             this.loadingTags = true;
-            if (this.gettagslistsArray.length > 0) {
-                this.loadingTags = false;
-            }
+            // if (this.gettagslistsArray.length > 0) {
+            //     this.loadingTags = false;
+            // }
             await this.GET_TAGS_CATEGORIES(this.currentTag);
+            //  console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>nerrr>>>1>',this.gettagslistsArray[0]);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
-                const payloadGetInstrument = { symbols: this.gettagslistsArray[0].Instruments };
-                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
-                    this.gettagslistsArray.length > 0 ? this.gettagslistsArray[0] : {}
-                );
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
+                 const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug};
                 await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
             }
             this.loading = false;
-            console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
+            // console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
         }
     },
     async mounted() {

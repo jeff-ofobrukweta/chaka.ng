@@ -110,10 +110,10 @@ export default {
                     name: 'Withdrawal',
                     value: 'DEBIT'
                 },
-                {
-                    name: 'Transfer',
-                    value: 'TRANSFER'
-                },
+                // {
+                //     name: 'Transfer',
+                //     value: 'TRANSFER'
+                // },
                 {
                     name: 'Deposit',
                     value: 'CREDIT'
