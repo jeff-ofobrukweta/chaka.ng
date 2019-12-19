@@ -5,9 +5,14 @@
                 <h3>Categories</h3>
                 <p class="dashboard__title--sub">Discover new stocks</p>
             </div>
-            <select class="form__input" @change="getNewTags" v-model="selectedTag">
+            <select
+                class="form__input"
+                @change="getNewTags"
+                v-model="selectedTag"
+                :disabled="loadingTags"
+            >
                 <option v-for="(option, i) in tagCategories" :key="i" :value="option.value">
-                    {{option.name}}
+                    {{ option.name }}
                 </option>
             </select>
         </section>
@@ -26,14 +31,13 @@
                         <a class="caution__reload" @click="mount">Reload</a>
                     </div>
                     <template v-else-if="gettagslistsArray.length > 0">
-                         
-                            <Tag
-                                v-for="item in gettagslistsArray"
-                                :key="item.id"
-                                :tag="item"
-                                @click="handleSelect"
-                                :active="getInstrumentsPayload.slug === item.slug"
-                            />
+                        <Tag
+                            v-for="item in gettagslistsArray"
+                            :key="item.id"
+                            :tag="item"
+                            @click="handleSelect"
+                            :active="getInstrumentsPayload.slug === item.slug"
+                        />
                     </template>
                     <section class="empty-center" v-else>
                         <img
@@ -108,49 +112,53 @@
     </section>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
-    name: 'Categories',
+    name: "Categories",
     data() {
         return {
             loading: false,
             loadingTags: false,
-            selectedTag: 'ALL',
-            currentTag: { filter: 'ALL' },
+            selectedTag: "ALL",
+            currentTag: { filter: "ALL" },
             tagCategories: [
                 {
-                    name: 'All',
-                    value: 'ALL'
+                    name: "All",
+                    value: "ALL"
                 },
                 {
-                    name: 'Industries',
-                    value: 'INDUSTRIES'
+                    name: "Featured",
+                    value: "FEATURED"
                 },
                 {
-                    name: 'Countries',
-                    value: 'COUNTRIES'
+                    name: "Industries",
+                    value: "INDUSTRIES"
+                },
+                {
+                    name: "Countries",
+                    value: "COUNTRIES"
                 }
             ]
         };
     },
     components: {
-        InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
-        InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
-        Tag: () => import('../../components/SingleTag')
+        InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
+        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
+        Tag: () => import("../../components/SingleTag")
     },
     computed: {
         ...mapGetters([
-            'gettagslistsArray',
-            'getInstrumentsListArray',
-            'getWindowWidth',
-            'getInstrumentsPayload',
-            'getErrorLog',
-            'getpagination'
+            "gettagslistsArray",
+            "getInstrumentsListArray",
+            "getWindowWidth",
+            "getInstrumentsPayload",
+            "getErrorLog",
+            "getpagination"
         ]),
         instrumentLength() {
             if (Object.keys(this.getpagination).length > 0) {
-                if (this.getpagination === '') {
+                if (this.getpagination === "") {
                     return 0;
                 }
                 const length = this.getpagination.total;
@@ -161,17 +169,17 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS',
-            'SET_INSTRUMENT_BY_TAGS',
-            'SET_TAGS_LISTS',
-            'SET_SLUG_FOR_INSTRUMENT'
+            "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
+            "SET_INSTRUMENT_BY_TAGS",
+            "SET_TAGS_LISTS",
+            "SET_SLUG_FOR_INSTRUMENT"
         ]),
-        ...mapActions(['GET_TAGS_CATEGORIES', 'GET_INSTRUMENT_BY_TAGS']),
+        ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS"]),
         handleSelect(response) {
             this.loading = true;
             const payload = { slug: response.slug };
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response);
-            if (payload.slug === '') {
+            if (payload.slug === "") {
                 this.loading = false;
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 return true;
@@ -198,8 +206,10 @@ export default {
             //  console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>nerrr>>>1>',this.gettagslistsArray[0]);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
-                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
-                 const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug};
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
+                    this.getInstrumentsPayload ? this.getInstrumentsPayload : {}
+                );
+                const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug };
                 await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
             }
             this.loading = false;
