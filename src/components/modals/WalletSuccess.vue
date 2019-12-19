@@ -4,7 +4,6 @@
             <div class="form__image stock-vdr__center">
                 <svg
                     width="83"
-                    class="stock-vdr__svg"
                     height="83"
                     viewBox="0 0 83 83"
                     fill="none"
@@ -16,7 +15,7 @@
                     />
                 </svg>
             </div>
-            <h3 class="stock-vdr__center">Your Transaction was successful</h3>
+            <h5 class="stock-vdr__center">Your Transaction was successful</h5>
             <div class="stock-vdr__modal">
                 <div class="stock-vdr__flex">
                     <div class="form-group stock-vdr__box stock-vdr__center">
@@ -55,22 +54,22 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: 'wallet-success',
+    name: "wallet-success",
     computed: {
-        ...mapGetters(['getWalletTx']),
+        ...mapGetters(["getWalletTx"]),
         source() {
-            if (this.getWalletTx.source === 'WALLET') return 'Exchange';
-            if (this.getWalletTx.actionType === 'CREDIT') return 'Deposit';
-            return 'Withdrawal';
+            if (this.getWalletTx.source === "WALLET") return "Exchange";
+            if (this.getWalletTx.actionType === "CREDIT") return "Deposit";
+            return "Withdrawal";
         }
     },
     methods: {
-        ...mapMutations(['SET_WALLET_TX']),
+        ...mapMutations(["SET_WALLET_TX"]),
         closeModal() {
-            this.$emit('close');
+            this.$emit("close");
         }
     },
     beforeDestroy() {

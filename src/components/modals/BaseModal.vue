@@ -60,7 +60,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(["RESET_REQ"]),
+        ...mapMutations(["RESET_REQ", "MODAL_OPENED"]),
         closeModal() {
             if (this.closeOnClick) {
                 this.emitClose();
@@ -68,11 +68,14 @@ export default {
         },
         emitClose() {
             EventBus.$emit("MODAL_CLOSED");
+            this.MODAL_OPENED(false);
             this.$emit("close");
             this.RESET_REQ();
         }
     },
-    beforeDestroy() {}
+    mounted() {
+        this.MODAL_OPENED(true);
+    }
 };
 </script>
 

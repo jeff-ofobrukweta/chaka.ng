@@ -5,14 +5,14 @@
         </section>
 
         <section class="accounts-settings__uploads">
-            <Uploads
+            <!-- <Uploads
                 form-name="passportUrl"
                 :image="getKYC.passportUrl"
                 @error="handleUploadError"
                 @success="handleUploadSuccess"
                 @reset="handleReset"
                 v-if="!getKYC.passportUrl"
-            />
+            /> -->
             <Uploads
                 form-name="idPhotoUrl"
                 :image="getKYC.idPhotoUrl"

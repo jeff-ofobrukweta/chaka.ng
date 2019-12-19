@@ -7,6 +7,7 @@ const state = {
     navbarKYC: true,
     nextKYC: {},
     navbarNextKYC: {},
+    kycModalAction: "",
     countryCodes: []
 };
 
@@ -15,6 +16,7 @@ const getters = {
     showNavbarKYC: state => state.navbarKYC,
     getNextKYC: state => state.nextKYC,
     getNavbarNextKYC: state => state.navbarNextKYC,
+    getKycModalAction: state => state.kycModalAction,
     getCountryCodes: state => state.countryCodes
 };
 
@@ -30,6 +32,9 @@ const mutations = {
     },
     SET_NAVBAR_NEXT_KYC(state, payload) {
         state.navbarNextKYC = payload;
+    },
+    SET_KYC_MODAL_ACTION(state, payload) {
+        state.kycModalAction = payload;
     },
     SET_COUNTRY_CODES(state, payload) {
         state.countryCodes = payload;
@@ -55,13 +60,19 @@ const actions = {
                 }
             )
         ),
-    GET_NEXT_KYC: ({ commit, dispatch, rootState }, payload) =>
+    GET_NEXT_KYC: ({ commit, dispatch, state, rootState }, payload) => {
         /**
          * @params {context}
          */
-        new Promise((resolve, reject) =>
+        let params = {};
+        if (state.kycModalAction !== "DEFAULT") {
+            params = { context: state.kycModalAction };
+        } else {
+            params = { ...payload };
+        }
+        return new Promise((resolve, reject) =>
             api
-                .get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`, { ...payload })
+                .get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`, { ...params })
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
@@ -78,7 +89,8 @@ const actions = {
                         resolve(false);
                     }
                 )
-        ),
+        );
+    },
     GET_NAVBAR_NEXT_KYC: ({ commit, rootState }) =>
         /**
          * @params {context}

@@ -25,9 +25,11 @@
                 </h4>
             </div>
             <div class="accounts-overview__text">
-                <template v-if="getLoggedUser.UserKYC.cscsNumber">
-                    <p>CSCS No.</p>
-                    <h4>{{ getLoggedUser.UserKYC.cscsNumber }}</h4>
+                <template v-if="getLoggedUser.UserKYC">
+                    <template v-if="getLoggedUser.UserKYC.cscsNumber">
+                        <p>CSCS No.</p>
+                        <h4>{{ getLoggedUser.UserKYC.cscsNumber }}</h4>
+                    </template>
                 </template>
             </div>
         </section>

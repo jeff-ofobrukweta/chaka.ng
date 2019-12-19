@@ -1,5 +1,6 @@
 <template>
     <div>
+        <error-block type="accounts" />
         <section class="accounts__title">
             <h3>Wallets</h3>
         </section>
@@ -181,21 +182,20 @@ export default {
                 this.showKYC = true;
                 return true;
             }
-            this.showFund()
+            this.showFund();
         },
         handleUpdate(value) {
-            if(value){
-                this.showFund()
+            if (value) {
+                this.showFund();
             }
         },
-        showFund(){
+        showFund() {
             this.showKYC = false;
             if (this.step.type === "fund") {
                 this.SET_FUND_MODAL(true);
             } else if (this.step.type === "global") {
                 this.SET_EXCHANGE_MODAL(true);
             }
-
         },
         showWithdraw() {
             this.SET_WITHDRAW_MODAL(true);

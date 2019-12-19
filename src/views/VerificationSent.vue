@@ -6,7 +6,6 @@
                     <div class="form__image">
                         <svg
                             width="83"
-                            class="stock-vdr__svg"
                             height="83"
                             viewBox="0 0 83 83"
                             fill="none"
@@ -18,9 +17,12 @@
                             />
                         </svg>
                     </div>
-                    <h4 class="form__title--green">Confirmation Email Sent</h4>
-                    <p class="form__caption mt-2">
-                        We have sent you an email with a link to verify your email address.
+                    <h5 class="form__title--green mt-2">Confirmation Email Sent</h5>
+                    <p class="form__caption mt-1 grey-cool">
+                        <small
+                            >We have sent you an email with a link to verify your email
+                            address.</small
+                        >
                     </p>
                 </div>
                 <div class="mt-3">
@@ -35,6 +37,6 @@
 
 <script>
 export default {
-    name: 'VerificationSent'
+    name: "VerificationSent"
 };
 </script>
