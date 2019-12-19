@@ -15,13 +15,6 @@ const state = {
 const getters = {
     getSingleinstrument: state => state.instrument,
     getSimilarStocks: state => state.similarStocks,
-    // getPositionsWithparams: state => symbol => {
-    //     const filtered = state.singlestockpositions.filter(position => position.symbol === symbol);
-    //     if (filtered) {
-    //         return filtered;
-    //     }
-    //     return false;
-    // },
     getPreOrder: state => state.preOrder,
     getBuyOrder: state => state.buyOrder,
     getSellOrder: state => state.sellOrder,
@@ -36,11 +29,6 @@ const mutations = {
     SET_SIMILAR_STOCKS(state, stocks) {
         state.similarStocks = stocks;
     },
-    // SET_CURRENTSTOCK_POSITIONS(state, positions) {
-    //     let singlestockpositions = {};
-    //     singlestockpositions = positions;
-    //     state.singlestockpositions = singlestockpositions.position;
-    // },
     SET_PRE_ORDER(state, payload) {
         state.preOrder = payload;
     },
@@ -81,8 +69,10 @@ const actions = {
         );
     },
     GET_SIMILAR_STOCKS({ commit }, params) {
+        console.log('GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS response outer',params.join(','))
         return new Promise((resolve, reject) =>
-            API_CONTEXT.get(`/instruments/?symbols=${params.symbols}`).then(response => {
+            API_CONTEXT.get(`/instruments/?symbols=${params.join(',')}`).then(response => {
+                console.log('GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS symbols inner',response)
                 if (response.status === 200) {
                     const { instruments } = response.data.data;
                     commit("SET_SIMILAR_STOCKS", instruments);
@@ -91,17 +81,7 @@ const actions = {
             })
         );
     },
-    // async GET_CURRENT_STOCK_POSITION({ commit, rootState }) {
-    //     // console.log('on mount..................',rootState.auth)
-    //     await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions/`)
-    //         .then(response => {
-    //             const { position } = response.data.data;
-    //             commit("SET_CURRENTSTOCK_POSITIONS", position);
-    //         })
-    //         .catch(error => {
-    //             //console.log(`::::::::::::::::::::${error}`);
-    //         });
-    // },
+    
     GET_OPEN_ORDERS({ commit, rootState }) {
         return new Promise((resolve, reject) =>
             API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/orders/open/`).then(

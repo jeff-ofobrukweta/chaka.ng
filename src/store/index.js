@@ -14,6 +14,7 @@ import watchlist from "./modules/watchlist";
 import categories from "./modules/categories";
 import graphs from "./modules/graphs";
 import singlestock from "./modules/singlestock";
+import news from "./modules/news";
 import modals from "./modules/modals";
 
 Vue.use(Vuex);
@@ -43,6 +44,7 @@ const initialState = {
     graphs: { ...graphs.state },
     singlestock: { ...graphs.state },
     accounts: { ...accounts.state },
+    news: {...news.state},
     modals: { ...modals.state }
 };
 
@@ -134,6 +136,7 @@ export default new Vuex.Store({
         categories,
         graphs,
         singlestock,
+        news,
         modals
     },
     strict: debug,

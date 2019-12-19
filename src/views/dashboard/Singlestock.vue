@@ -80,13 +80,8 @@
                         <button
                             v-if="checkIfStockInWatchlist.length > 0"
                             @click="OnhandleremoveFromWatchlist"
-                            class="watch"
-                        >
-                            <img
-                                class="middle-loader"
-                                :src="require('../../assets/Instrument_assets/watch.png')"
-                                alt="spin"
-                            />
+                            class="watch">
+                            <img class="middle-loader" :src="require('../../assets/img/watch-close.svg')" alt="spin" /> 
                         </button>
                         <button v-else @click="OnhandleaddToWatchlist" class="unwatch">
                             <img
@@ -113,22 +108,29 @@
                     :title="getSingleinstrument[0].description"
                     class="summary-cover"
                 >
-                    <section v-if="description">
-                        {{ getSingleinstrument[0].description || "" | truncate(300)
-                        }}<span
-                            ><a class="expand" @click="description = !description"
-                                >see&nbsp;more</a
-                            ></span
-                        >
-                    </section>
-                    <section v-else>
-                        {{ getSingleinstrument[0].description || ""
-                        }}<span
-                            ><a class="expand" @click="description = !description"
-                                >see&nbsp;less</a
-                            ></span
-                        >
-                    </section>
+                    <div v-if="getSingleinstrument[0].description.length >= 300">
+                        <section v-if="description">
+                            {{ getSingleinstrument[0].description || "" | truncate(300)
+                            }}<span
+                                ><a class="expand" @click="description = !description"
+                                    >see&nbsp;more</a
+                                ></span
+                            >
+                        </section>
+                        <section v-else>
+                            {{ getSingleinstrument[0].description || ""
+                            }}<span
+                                ><a class="expand" @click="description = !description"
+                                    >see&nbsp;less</a
+                                ></span
+                            >
+                        </section>
+                    </div>
+                    <div v-else>
+                        <section>
+                            {{ getSingleinstrument[0].description || ""}}
+                        </section>
+                    </div>
                 </div>
                 <div class="no-description" v-else>No description for this stocks</div>
                 <svg
@@ -157,13 +159,8 @@
                     :key="index"
                     class="stocktag-container"
                 >
-                    <div class="item-tag">
-                        <router-link
-                            class="taglinking"
-                            :to="{ name: 'categories', params: { category: tag.slug } }"
-                        >
-                            {{ tag.name }}
-                        </router-link>
+                    <div @click="setTagPayload(tag)" class="item-tag">
+                        <a>{{ tag.name }}</a>
                     </div>
                 </div>
             </section>
@@ -222,7 +219,7 @@
                 <h1 class="title">News</h1>
                 <section class="sub-title">lorem ipsun blabala here</section>
                 <section class="news-container-main">
-                    <news-card :news="item" v-for="(item, index) in news" :key="index" />
+                    <news-card :news="item" v-for="(item, index) in getNews" :key="index" />
                 </section>
             </section>
         </section>
@@ -261,17 +258,14 @@ export default {
             "getlocalstocksowned",
             "getglobalstocksowned",
             "getNextKYC",
-            "getWatchlist"
+            "getWatchlist",
+            "getNews",
+            "getInstrumentsPayload"
         ])
     },
     methods: {
-        ...mapActions([
-            "GET_WATCHLIST",
-            "GET_SINGLESTOCK_INSTRUMENT",
-            "ADD_TO_WATCHLIST",
-            "REMOVE_FROM_WATCHLIST"
-        ]),
-        ...mapMutations(["SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
+        ...mapActions(["GET_WATCHLIST","GET_SIMILAR_STOCKS","GET_SINGLESTOCK_INSTRUMENT","GET_ARTICULE_NEWS","ADD_TO_WATCHLIST","REMOVE_FROM_WATCHLIST"]),
+        ...mapMutations(["SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS","SET_NEWS","SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
         handleStep(step) {
             // this.step = step.type;
             this.step = step;
@@ -351,10 +345,15 @@ export default {
             }
             this.maxQuantity = 0;
             return false;
+        },
+        setTagPayload(valuePayload){
+            this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
+            this.$router.push({ name: 'categories', params: { category: this.getInstrumentsPayload.slug } })
         }
     },
     async mounted() {
         const singlestockpayload = { symbols: this.$route.params.symbol };
+        const newsSinglestockpayload = { symbol: this.$route.params.symbol };
         this.similarLoading = true;
         this.GET_WATCHLIST().then(() => {
             this.checkIfStockInWatchlist = [...this.getWatchlist].filter(number => {
@@ -365,6 +364,10 @@ export default {
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
             this.similarLoading = false;
             this.checkPositions();
+            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
+            this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(()=>{
+            //    loader here maybe
+            })
         });
     },
     beforeRouteUpdate(to, from, next) {

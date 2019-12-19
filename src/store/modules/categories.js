@@ -4,14 +4,19 @@ import errorFn from '../../services/apiService/error';
 const state = {
     tags: [],
     instrumentslists: [],
-    instrumentpayload: {},
-    singlestockpricedata: []
+    instrumentpayload: {
+        name:"Most Popular",
+        slug:"most-popular"
+    },
+    singlestockpricedata: [],
+    pagination:{},
 };
 
 const getters = {
     gettagslistsArray: state => state.tags,
     getInstrumentsListArray: state => state.instrumentslists,
-    getInstrumentsPayload: state => state.instrumentpayload
+    getInstrumentsPayload: state => state.instrumentpayload,
+    getpagination: state => state.pagination
 };
 
 const mutations = {
@@ -22,7 +27,11 @@ const mutations = {
         state.instrumentslists = instruments;
     },
     SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(state, payload) {
+        console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM",payload)
         state.instrumentpayload = payload;
+    },
+    SET_INSTRUMENT_PAGENATION(state, paginate) {
+        state.pagination = paginate;
     }
 };
 
@@ -44,11 +53,13 @@ const actions = {
             }));
     },
     async GET_INSTRUMENT_BY_TAGS({ commit }, params) {
-        return new Promise((resolve, reject) => API_CONTEXT.get('/instruments/', params)
+        return new Promise((resolve, reject) => API_CONTEXT.get(`/tags/slug/${params.slug}/instruments/`)
             .then((response) => {
                 if (response.status >= 200 && response.status < 400) {
-                    const { instruments } = response.data.data;
-                    commit('SET_INSTRUMENT_BY_TAGS', instruments);
+                    const { Instruments } = response.data.data.tag;
+                    const { pagination } = response.data;
+                    commit('SET_INSTRUMENT_BY_TAGS', Instruments);
+                    commit('SET_INSTRUMENT_PAGENATION',pagination)
                     resolve(true);
                     return true;
                 }

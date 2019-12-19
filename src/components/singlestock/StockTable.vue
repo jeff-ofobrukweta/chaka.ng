@@ -3,8 +3,8 @@
         <div class="stock-table__flex">
             <p class="stock-table__head">No. of Shares</p>
             <p class="stock-table__body cursor-context" 
-            :title="checkforUndefined(instrument.unitsOwned)|| 0.00 | units(4, true)">
-                {{checkforUndefined(instrument.unitsOwned) || 0.00 | units }}
+            :title="checkforUndefined(instrument.unitsOwned)|| 0.00 | units(2, true)">
+                {{checkforUndefined(instrument.unitsOwned) || 0.00 | units(2, true) }}
             </p>
         </div>
         <div class="stock-table__flex">
@@ -32,9 +32,9 @@
         </div>
         <div class="stock-table__flex stock-table__flex--full">
             <p class="stock-table__head">Market Cap</p>
-            <p class="stock-table__body cursor-context"
-            :title="checkforUndefined(instrument.InstrumentDynamic.marketCap) || 0.00 | currency(instrument.currency, true)">
-                {{ checkforUndefined(instrument.InstrumentDynamic.marketCap) || 0.00 | currency(instrument.currency) }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.marketCap) || 0.00 | kobo | currency(instrument.currency, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.marketCap) || 0.00 | kobo | currency(instrument.currency) }}
             </p>
         </div>
         <div class="stock-table__flex">
@@ -60,16 +60,16 @@
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">52 Weeks High</p>
-            <p class="stock-table__body cursor-context"
-            :title="checkforUndefined(instrument.InstrumentDynamic.high52) | currency(instrument.currency, true)">
-                {{ checkforUndefined(instrument.InstrumentDynamic.high52) || 0.00 | currency("USD") }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.high52) || 0.00 | kobo | currency(instrument.currency, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.high52) || 0.00  | kobo| currency("USD") }}
             </p>
         </div>
         <div class="stock-table__flex">
             <p class="stock-table__head">52 Weeks Low</p>
-            <p class="stock-table__body cursor-context"
-            :title="checkforUndefined(instrument.InstrumentDynamic.low52) || 0.00 | currency(instrument.currency, true)">
-                {{ checkforUndefined(instrument.InstrumentDynamic.low52) || 0.00 | currency("USD") }}
+            <p class="stock-table__body cursor-context" 
+            :title="checkforUndefined(instrument.InstrumentDynamic.low52) || 0.00 | kobo | currency(instrument.currency, true)">
+                {{ checkforUndefined(instrument.InstrumentDynamic.low52) || 0.00 | kobo | currency("USD") }}
             </p>
         </div>
     </div>
