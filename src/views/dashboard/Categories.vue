@@ -221,7 +221,7 @@ export default {
         ...mapActions(['GET_TAGS_CATEGORIES', 'GET_INSTRUMENT_BY_TAGS']),
         handleSelect(response) {
             this.loading = true;
-            const payload = { slug: response.slug, page :0 ,perPage: 6};
+            const payload = { slug: response.slug, page :0 ,perPage: 20};
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response);
             console.log('DDDDDDDDDDDDDDDDDDDDDDDDDDD',this.getInstrumentsPayload)
             if (payload.slug === '') {
@@ -267,33 +267,57 @@ export default {
     async mounted() {
         await this.mount();
     },
-    beforeRouteLeave(to, from, next) {
+    beforeRouteLeave(to, from, next) 
+    {
         this.SET_INSTRUMENT_BY_TAGS([]);
         next();
     },
     beforeRouteUpdate(to, from, next) {
-		// if (this.observer) {
-		// 	this.observer.unobserve(this.$refs.infinitesscrolltrigger);
-		// }
-		// this.page = 0;
-		// this.loaderState = true;
-		// this.SET_INSTRUMENT_BY_TAGS([]);
-		// const pagenation = {
-		// 	page: this.page,
-		// 	perPage: this.perPage
-		// };
-		// this.newInstrument = [];
-		// this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(pagenation).then(() => {
-		// 	if (this.getInstrumentsListArray.length === 0) {
-		// 		this.newInstrument = ['No Instruments for this collection'];
-		// 	} else {
-		// 		this.newInstrument = [...this.getInstrumentsListArray];
-		// 		this.observer.observe(this.$refs.infinitesscrolltrigger);
-		// 	}
-		// 	this.loaderState = false;
-		// });
+		if (this.observer) {
+			this.observer.unobserve(this.$refs.infinitesscrolltrigger);
+		}
+		this.page = 0;
+		this.loaderState = true;
+		this.SET_INSTRUMENT_BY_TAGS([]);
+		const pagenation = {
+			page: this.page,
+            perPage: this.perPage,
+            slug: this.getInstrumentsPayload.slug
+		};
+		this.newInstrument = [];
+		this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(pagenation).then(() => {
+			if (this.getInstrumentsListArray.length === 0) {
+				this.newInstrument = ['No Instruments for this collection'];
+			} else {
+				this.newInstrument = [...this.getInstrumentsListArray];
+				this.observer.observe(this.$refs.infinitesscrolltrigger);
+			}
+			this.loaderState = false;
+		});
 		next();
-	}
+    },
+    watch:{
+        // selectedTag(newValue,oldValue){
+           
+        //      this.loading = true;
+        //     // if (this.gettagslistsArray.length > 0) {
+        //     //     this.loadingTags = false;
+        //     // }
+        //     if (this.gettagslistsArray.length > 0) {
+        //         this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
+                 
+        //         //  const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
+
+        //         //  this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
+        //         //     console.log('GGGGGGGGGGGGGGGGGGG',this.getInstrumentsListArray)
+        //         // });
+
+        //         // this.handlescrollinfinitly();
+        //     }
+        //     this.loading = false;
+        //     // console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
+        // }
+    }
 };
 </script>
 

@@ -267,7 +267,9 @@ export default {
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH",
             "SET_SINGLESTOCK_POSITIONS_FOR_SELECT",
             "SET_BUY_MODAL",
-            "SET_SELL_MODAL"
+            "SET_SELL_MODAL",
+            "SET_LINE_SINGLESTOCK_CHARTDATA",
+            "SET_LINE_SINGLESTOCK_CHART_DATE"
         ]),
         ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
         OntooglePositions(response) {
@@ -368,6 +370,12 @@ export default {
     },
     mounted() {
         this.mountAction();
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.SET_LINE_SINGLESTOCK_CHART_DATE([]);
+        this.SET_LINE_SINGLESTOCK_CHARTDATA([]);
+        this.mountAction();
+        next();
     }
 };
 </script>
