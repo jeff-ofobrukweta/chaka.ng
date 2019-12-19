@@ -7,6 +7,7 @@
 
 <script>
 import { mapMutations } from "vuex";
+import EventBus from "../../event-bus";
 
 export default {
     name: "enter-nin",
@@ -20,9 +21,9 @@ export default {
         };
     },
     methods: {
-        ...mapMutations(["SET_NAVBAR_TRIGGER"]),
         handleUpdate() {
-            this.SET_NAVBAR_TRIGGER(true);
+            EventBus.$emit("navbar-trigger");
+            EventBus.$emit("modal-trigger");
             this.$emit("updated");
         }
     }

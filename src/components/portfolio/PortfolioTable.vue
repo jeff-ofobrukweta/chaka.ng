@@ -180,19 +180,12 @@
             </tbody>
         </table>
 
-        <modal-kyc
-            :requiredFields="selectedField.fields"
-            :title="selectedField.title"
-            @updated="handleUpdate"
-            @close="showKYC = false"
-            v-if="showKYC"
-        />
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </section>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "portfolio-table",
@@ -212,9 +205,7 @@ export default {
             showSuccess: false,
             step: null,
             showKYC: false,
-            selectedField: {},
             type: null,
-            allNextKYC: KYCTitles.titles,
             selectedInstrument: {},
             loading: false,
             maxQuantity: null,
@@ -277,21 +268,21 @@ export default {
             });
         },
         handleStep(step) {
-            // this.step = step.type;
             this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            if (step.nextAction === "buy") {
+            this.showSale();
+        },
+        handleUpdate(value) {
+            if (value) {
+                this.showSale()
+            }
+        },
+        showSale() {
+            this.showKYC = false;
+            if (this.step.nextAction === "buy") {
                 setTimeout(() => {
                     this.SET_BUY_MODAL({
                         instrument: this.selectedInstrument,
@@ -311,13 +302,6 @@ export default {
                     maxQuantity: this.maxQuantity
                 });
             }, 50);
-        },
-        handleUpdate() {
-            // this.showKYC = false;
-            if (this.step.type !== "kyc") {
-                if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
-                else this.$refs.sellBtn.$el.click();
-            }
         }
     },
     watch: {

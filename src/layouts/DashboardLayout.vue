@@ -32,13 +32,6 @@
         <ExchangeModal @close="closeExchange" v-if="getExchangeModal" />
         <WithdrawModal @close="closeWithdraw" v-if="getWithdrawModal" />
         <wallet-success @close="closeWallet" v-if="getWalletSuccess" />
-        <!-- <modal-kyc
-            :requiredFields="getKycModal.fields"
-            :title="getKycModal.title"
-            @updated="handleUpdate"
-            @close="SET_KYC_MODAL({})"
-            v-if="getKycModal.show"
-        /> -->
     </Fragment>
 </template>
 
@@ -90,7 +83,8 @@ export default {
             "SET_WITHDRAW_MODAL",
             "SET_KYC_MODAL",
             "SET_SALE_SUCCESS",
-            "SET_WALLET_SUCCESS"
+            "SET_WALLET_SUCCESS",
+            "RESET_MODALS"
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});
@@ -133,6 +127,7 @@ export default {
     },
     mounted() {
         document.title = "Chaka - Dashboard";
+        // this.RESET_MODALS();
         this.GET_LOGGED_USER().then(async () => {
             Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
         });

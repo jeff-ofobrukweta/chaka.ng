@@ -44,7 +44,8 @@
         &__close {
             color: $text-color;
             position: absolute;
-            right: 1.5rem;
+            top: 1rem;
+            right: 3%;
             display: flex;
 
         }
@@ -86,7 +87,7 @@
         width: 100%;
         max-width: 85%;
         margin: 0px auto;
-        padding: 1.5rem 1.825rem;
+        padding: 1.5rem 1rem;
         background-color: #fff;
         border-radius: 7px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -99,8 +100,8 @@
         text-align: left;
 
         @include tablet {
-            padding: 2rem 4rem 1.5rem;
-            max-width: 500px;
+            padding: 2rem 2rem 1.5rem;
+            max-width: 560px;
             width: 80%
         }
 
@@ -121,6 +122,11 @@
     &-body {
         margin: 1rem 0;
         height: 100%;
+
+        @include tablet {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
     }
 
     &-enter {

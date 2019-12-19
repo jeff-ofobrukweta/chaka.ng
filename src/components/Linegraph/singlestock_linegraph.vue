@@ -125,13 +125,7 @@
             </div>
         </div>
 
-        <modal-kyc
-            :requiredFields="selectedField.fields"
-            :title="selectedField.title"
-            @updated="handleUpdate"
-            @close="showKYC = false"
-            v-if="showKYC"
-        />
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </Fragment>
 </template>
 <script>
@@ -139,7 +133,6 @@ import { Fragment } from "vue-fragment";
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import Graph from "./linegraph";
 import EventBus from "../../event-bus";
-import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "Linechartgraphchild",
@@ -210,9 +203,7 @@ export default {
             currentId: "",
             step: null,
             showKYC: false,
-            selectedField: {},
             type: null,
-            allNextKYC: KYCTitles.titles,
             cancelStatus: {},
             trdingViewStatechange: false
         };
@@ -285,8 +276,11 @@ export default {
         mountAction() {
             //set the currency as the component mount to the global state
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
-            if(this.getSinglestockglobalCurrencyforGraph == 'USD'){this.currentId = 1}
-            else{this.currentId = 0};
+            if (this.getSinglestockglobalCurrencyforGraph == "USD") {
+                this.currentId = 1;
+            } else {
+                this.currentId = 0;
+            }
             // use the global state variable in the store as payload for request
             const payloadsinglestock = {
                 interval: this.getSinglestockglobalTimeforGraph,
@@ -327,21 +321,20 @@ export default {
             });
         },
         handleStep(step) {
-            // this.step = step.type;
             this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            if (step.nextAction === "buy") {
+            this.showSale();
+        },
+        handleUpdate(value) {
+            if (value) {
+                this.showSale();
+            }
+        },
+        showSale() {
+            if (this.step.nextAction === "buy") {
                 this.SET_BUY_MODAL({
                     instrument: this.instrument,
                     currency: this.currency,
@@ -357,13 +350,6 @@ export default {
                 show: true,
                 maxQuantity: this.maxQuantity
             });
-        },
-        handleUpdate() {
-            // this.showKYC = false;
-            if (this.step.type !== "kyc") {
-                if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
-                else this.$refs.sellBtn.$el.click();
-            }
         }
     },
     mounted() {

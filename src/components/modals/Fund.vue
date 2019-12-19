@@ -21,6 +21,9 @@
                 </div>
             </div>
         </template>
+
+        <!-- TO-DO: Put back if dollar funding is blocked for incomplete KYCs -->
+
         <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
             <div class="modal-form" v-if="canFundGlobal === 1">
                 <h5 class="text-center mb-2">Verification Incomplete</h5>
@@ -58,15 +61,14 @@
             <form class="modal-form" @submit.prevent="fundWallet">
                 <div class="modal-form__group">
                     <label class="form__label"
-                        >Amount
-                        <form-input
-                            type="number"
-                            name="amount"
+                        >Amount<currency-input
+                            :currency="currency"
+                            placeholder="Enter Amount"
                             v-model="itemData.amount"
                             :error-message="issues.amount"
                             @reset="handleReset"
-                            placeholder="Amount"
-                    /></label>
+                        />
+                    </label>
                     <div class="form-info">
                         <small>**Allow up to 1 business day</small>
                     </div>
@@ -123,9 +125,13 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
+import CurrencyInput from "../form/CurrencyInput";
 
 export default {
     name: "fund-modal",
+    components: {
+        CurrencyInput
+    },
     data() {
         return {
             itemData: {},
@@ -218,32 +224,37 @@ export default {
             this.RESET_REQ();
             return true;
         },
-        handleStep(step) {
-            if (step.kyc) {
-                this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
-                return true;
-            }
-            if (step.type === "global") {
-                // this.showGlobal = true;
-            }
-        },
-        handleUpdate() {
-            // this.showKYC = false;
-            this.GET_LOGGED_USER().then(() => {
-                if (this.canFundGlobal === 1) {
-                    this.$refs.globalBtn.$el.click();
-                }
-            });
-            return true;
-        },
+        /**
+         * TO-DO: Put back if dollar funding is blocked for incomplete KYCs
+         */
+
+        // handleStep(step) {
+        //     this.step = step
+        //     if (step.kyc) {
+        //         this.showKYC = true;
+        //         this.allNextKYC.forEach(element => {
+        //             element.fields.forEach(el => {
+        //                 if (el === this.getNextKYC.nextKYC[0]) {
+        //                     this.selectedField = element;
+        //                     this.selectedField.fields = this.getNextKYC.nextKYC;
+        //                 }
+        //             });
+        //         });
+        //         return true;
+        //     }
+        //     if (step.type === "global") {
+        //         // this.showGlobal = true;
+        //     }
+        // },
+        // handleUpdate() {
+        //     // this.showKYC = false;
+        //     this.GET_LOGGED_USER().then(() => {
+        //         if (this.canFundGlobal === 1) {
+        //             this.$refs.globalBtn.$el.click();
+        //         }
+        //     });
+        //     return true;
+        // },
         switchCurrency(currency) {
             this.currency = currency;
             this.handleReset();

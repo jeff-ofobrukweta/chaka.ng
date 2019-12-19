@@ -224,13 +224,7 @@
             </section>
         </section>
 
-        <modal-kyc
-            :requiredFields="selectedField.fields"
-            :title="selectedField.title"
-            @updated="handleUpdate"
-            @close="showKYC = false"
-            v-if="showKYC"
-        />
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </Fragment>
 </template>
 <script>
@@ -241,7 +235,6 @@ import Cardblue from "../../components/Linegraph/blackpriceboard";
 import StockTable from "../../components/singlestock/StockTable";
 import Horizontalchart from "../../components/Horizontalbar/hbase";
 import Analysisbarchart from "../../components/Analysisbarchart/analysisbarchartbase";
-import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "Singlestock",
@@ -270,7 +263,6 @@ export default {
             "getInstrumentsPayload"
         ])
     },
-    watch: {},
     methods: {
         ...mapActions(["GET_WATCHLIST","GET_SIMILAR_STOCKS","GET_SINGLESTOCK_INSTRUMENT","GET_ARTICULE_NEWS","ADD_TO_WATCHLIST","REMOVE_FROM_WATCHLIST"]),
         ...mapMutations(["SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS","SET_NEWS","SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
@@ -279,17 +271,13 @@ export default {
             this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            if (step.nextAction === "buy") {
+            this.showBuy();
+        },
+        showBuy() {
+            this.showKYC = false;
+            if (this.step.nextAction === "buy") {
                 this.SET_BUY_MODAL({
                     instrument: this.getSingleinstrument[0],
                     currency: this.getSingleinstrument[0].currency,
@@ -334,11 +322,9 @@ export default {
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
         },
-        handleUpdate() {
-            // this.showKYC = false;
-            if (this.step.type !== "kyc") {
-                if (this.step.nextAction === "buy") this.$refs.buyBtn.$el.click();
-                else this.$refs.sellBtn.$el.click();
+        handleUpdate(value) {
+            if (value) {
+                this.showBuy();
             }
         },
         checkPositions() {
@@ -402,9 +388,7 @@ export default {
             step: null,
             statusOfWatchlist: true,
             showKYC: false,
-            selectedField: {},
             type: null,
-            allNextKYC: KYCTitles.titles,
             loading: false,
             maxQuantity: null,
             cancelStatus: {},

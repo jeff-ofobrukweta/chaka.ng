@@ -44,6 +44,16 @@ const mutations = {
     },
     SET_WALLET_SUCCESS(state, payload) {
         state.walletSuccess = payload;
+    },
+    RESET_MODALS(state) {
+        state.buyModal = {};
+        state.sellModal = {};
+        state.exchangeModal = {};
+        state.fundModal = {};
+        state.withdrawModal = {};
+        state.saleSuccess = {};
+        state.walletSuccess = {};
+        state.kycModal = {};
     }
 };
 

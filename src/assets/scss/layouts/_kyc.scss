@@ -34,6 +34,13 @@
                 text-align: left;
             }
 
+            &--stretch{
+                @include tablet{
+                    flex: 0 0 65%;
+                    max-width: 65%;
+                }
+            }
+
             h5 {
                 color: white;
                 margin-bottom: .125rem;
@@ -87,8 +94,8 @@
 
             a {
                 text-decoration: underline;
-                margin-top: 1rem;
-                margin-bottom: 1rem;
+                margin-top: .825rem;
+                margin-bottom: .25rem;
                 display: inline-block;
 
                 &.skip {
@@ -142,7 +149,8 @@
             margin-right: 10px;
             margin-bottom: 6px;
             border-radius: 30px;
-            padding: 0.5rem 1rem;
+            padding: 0.325rem 0.825rem;
+            font-size: 0.9rem;
             border-color: rgba($color: $primary, $alpha: 0.25);
             background-color: $white;
 
@@ -152,7 +160,7 @@
                 height: 7px;
                 background: $primary;
                 border: 1px solid $white;
-                box-shadow: 0 0 3px $primary;
+                box-shadow: 0 0 2px 1px $primary;
                 border-radius: 50%;
                 margin-right: 6px;
             }
@@ -246,6 +254,11 @@
                 width: 20px;
                 height: 20px;
             }
+        }
+
+        &__dummy {
+            min-height: 200px;
+            width: 100%
         }
     }
 

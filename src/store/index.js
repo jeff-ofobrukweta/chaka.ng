@@ -31,6 +31,7 @@ const initialState = {
     errorLog: {},
     progressbar: 0,
     windowWidth: "",
+    modalOpened: false,
     auth: { ...auth.state },
     explore: { ...explore.state },
     kyc: { ...kyc.state },
@@ -52,13 +53,15 @@ export default new Vuex.Store({
         status: "",
         errorLog: {},
         progressbar: 0,
-        windowWidth: ""
+        windowWidth: "",
+        modalOpened: false
     },
     getters: {
         getStatus: state => state.status,
         getProgressbar: state => state.progressbar,
         getWindowWidth: state => state.windowWidth,
-        getErrorLog: state => state.errorLog
+        getErrorLog: state => state.errorLog,
+        isModalOpened: state => state.modalOpened
     },
     mutations: {
         LOGOUT: state => {
@@ -86,6 +89,9 @@ export default new Vuex.Store({
         },
         LOG_ERROR: (state, error) => {
             state.errorLog = error;
+        },
+        MODAL_OPENED: (state, payload) => {
+            state.modalOpened = payload;
         },
         RESET_REQ: state => {
             state.status = "";

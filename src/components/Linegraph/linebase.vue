@@ -5,10 +5,8 @@
                 <div class="left-menue-item"></div>
                 <div class="right-menue-item">
                     <section class="toogle-section">
-                        <section v-if="(isGraphValid == 1) || (isGraphValid == 2) "></section>
-                        <section
-                            v-else  
-                            class="option-container">
+                        <section v-if="isGraphValid == 1 || isGraphValid == 2"></section>
+                        <section v-else class="option-container">
                             <button
                                 v-for="(item, index) in currencyOption"
                                 :key="index"
@@ -82,18 +80,12 @@
 import { Fragment } from "vue-fragment";
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import Graph from "./linegraph";
-import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "Linechartgraphchild",
     data() {
         return {
-            showFund: false,
-            showSuccess: false,
             showKYC: false,
-            selectedField: {},
-            step: null,
-            allNextKYC: KYCTitles.titles,
             loading: true,
             currencyOption: [
                 {
@@ -178,30 +170,6 @@ export default {
             "SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH"
         ]),
         ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA", "GET_ACCOUNT_SUMMARY"]),
-        handleStep(step) {
-            this.step = step.type;
-            if (step.kyc) {
-                this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
-                return true;
-            }
-            this.showFund = true;
-        },
-        handleUpdate() {
-            this.showKYC = false;
-            this.$refs.fundBtn.$el.click();
-        },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
-        },
         async toogleCurrency(currency, id) {
             if (currency === this.getPorfolioglobalCurrencyforGraph) {
                 return true;
@@ -250,7 +218,6 @@ export default {
     async mounted() {
         await this.mountedActions();
     }
-
 };
 </script>
 <style src="../../assets/scss/components/linebase.scss" lang="scss" scoped />
