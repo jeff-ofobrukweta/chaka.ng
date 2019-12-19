@@ -22,7 +22,7 @@
   &.scroll {
     padding-bottom: .5rem;
     background: rgba($color: $white, $alpha: 0.95);
-    box-shadow: 0px -1px 10px 1px rgba($color: $text-color, $alpha: 0.1);
+    // box-shadow: 0px 4px 50px rgba($color: $black, $alpha: 0.2);
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
 
@@ -78,6 +78,7 @@
       border-left: 1px solid $grey-light;
       padding: 0rem 1rem;
       width: 100%;
+      position: relative;
 
       @include tablet {
         display: block;
@@ -90,6 +91,67 @@
 
       &::before {
         content: url("/assets/img/search.svg");
+      }
+    }
+
+    &__dropdown {
+      position: absolute;
+      top: 2.5rem;
+      left: 0;
+      padding-left: .925rem;
+      padding-right: .925rem;
+      width: 100%;
+
+      ul {
+        background: rgba($color: $white, $alpha: 0.95);
+        border-radius: 3px;
+        border: 1px solid rgba($color: $border-color, $alpha: 0.5);
+        padding: 0 0.825rem;
+        box-shadow: 0px 4px 50px rgba($color: $box-shadow, $alpha: 0.2);
+
+        li {
+          padding: 0.5rem 0rem;
+          border-bottom: 1px solid rgba($color: $border-color, $alpha: 0.625);
+
+          a {
+            display: flex;
+            align-items: center;
+          }
+
+          &:last-child {
+            border: none
+          }
+        }
+      }
+
+      .loader {
+        opacity: 0.5;
+        border-bottom: 2px solid $white;
+
+        &-div {
+          height: 50px;
+        }
+      }
+
+      &--logo {
+        width: 28px;
+        height: 28px;
+        margin-right: 6px;
+        object-fit: contain;
+        object-position: center;
+      }
+
+      &--country {
+        margin-left: auto;
+      }
+
+      &--loader {
+        padding: 1rem;
+        text-align: center;
+        color: $grey-cool;
+        font-size: 0.825rem;
+        background: rgba($color: $white, $alpha: 0.95);
+        box-shadow: 0px 4px 50px rgba($color: $box-shadow, $alpha: 0.2);
       }
     }
 

@@ -8,7 +8,6 @@ import explore from "./modules/explore";
 import kyc from "./modules/kyc";
 import portfolio from "./modules/portfolio";
 import stamps from "./modules/stamps";
-import stock from "./modules/stock";
 import wallet from "./modules/wallet";
 import watchlist from "./modules/watchlist";
 import categories from "./modules/categories";
@@ -37,14 +36,13 @@ const initialState = {
     kyc: { ...kyc.state },
     portfolio: { ...portfolio.state },
     stamps: { ...stamps.state },
-    stock: { ...stock.state },
     wallet: { ...wallet.state },
     watchlist: { ...watchlist.state },
     categories: { ...watchlist.state },
     graphs: { ...graphs.state },
     singlestock: { ...graphs.state },
     accounts: { ...accounts.state },
-    news: {...news.state},
+    news: { ...news.state },
     modals: { ...modals.state }
 };
 
@@ -130,7 +128,6 @@ export default new Vuex.Store({
         kyc,
         portfolio,
         stamps,
-        stock,
         wallet,
         watchlist,
         categories,
