@@ -308,7 +308,7 @@ export default {
                 currency: this.getSingleinstrument[0].currency,
                 stockPage: true,
                 show: true,
-                maxQuamtity: this.maxQuamtity
+                maxQuantity: this.maxQuantity
             });
         },
         async OnhandleaddToWatchlist() {

@@ -192,11 +192,12 @@
                         />
                         <transition name="kyc-navbar">
                             <div class="nav-left__dropdown" v-if="showSearch">
-                                <div v-if="searchLoading">
+                                <div v-if="searchLoading && search">
                                     <div class=" loader" v-for="i in 3" :key="i">
                                         <div class="loader-div" />
                                     </div>
                                 </div>
+                                <div v-else-if="searchLoading"></div>
                                 <ul v-else-if="getSearchInstruments.length > 0">
                                     <li v-for="(stock, i) in filteredSearch" :key="i">
                                         <router-link

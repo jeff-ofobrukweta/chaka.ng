@@ -154,7 +154,8 @@ export default {
             "getWindowWidth",
             "getInstrumentsPayload",
             "getErrorLog",
-            "getpagination"
+            "getpagination",
+            "getMostPopular"
         ]),
         instrumentLength() {
             if (Object.keys(this.getpagination).length > 0) {
@@ -174,7 +175,7 @@ export default {
             "SET_TAGS_LISTS",
             "SET_SLUG_FOR_INSTRUMENT"
         ]),
-        ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS"]),
+        ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS", "GET_MOST_POPULAR"]),
         handleSelect(response) {
             this.loading = true;
             const payload = { slug: response.slug };
@@ -197,6 +198,7 @@ export default {
             }
         },
         async mount() {
+            this.GET_MOST_POPULAR();
             this.loading = true;
             this.loadingTags = true;
             // if (this.gettagslistsArray.length > 0) {
