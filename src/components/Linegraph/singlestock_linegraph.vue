@@ -15,6 +15,7 @@
                             >
                             <kyc-button
                                 ref="sellBtn"
+                                v-if="getSingleinstrument[0] && checkPositions(getSingleinstrument[0].symbol,getSingleinstrument[0].currency)"
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
@@ -205,7 +206,8 @@ export default {
             showKYC: false,
             type: null,
             cancelStatus: {},
-            trdingViewStatechange: false
+            trdingViewStatechange: false,
+            maximumQuantity: null,
         };
     },
     components: {
@@ -235,7 +237,9 @@ export default {
             "getSinglestockglobalCurrencyforGraph",
             "getSinglestockIntervalposition",
             "getWindowWidth",
-            "getNextKYC"
+            "getNextKYC",
+            "getlocalstocksowned",
+            "getglobalstocksowned"
         ]),
         isGraphValid() {
             if (this.loading || this.getOpenPrice.length <= 0) {
@@ -258,13 +262,31 @@ export default {
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH",
             "SET_SINGLESTOCK_POSITIONS_FOR_SELECT",
             "SET_BUY_MODAL",
-            "SET_SELL_MODAL"
+            "SET_SELL_MODAL",
+            "SET_LINE_SINGLESTOCK_CHARTDATA",
+            "SET_LINE_SINGLESTOCK_CHART_DATE"
         ]),
         ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
+        checkPositions(symbol, currency) {
+            let check = [];
+            if (currency === "NGN") {
+                check = this.getlocalstocksowned.filter(element => element.symbol === symbol);
+            } else {
+                check = this.getglobalstocksowned.filter(element => element.symbol === symbol);
+            }
+            if (check.length > 0) {
+                const { quantity } = check[0];
+                this.maximumQuantity = +quantity;
+                console.log('THIS IS TO RETURN TRUE', this.maximumQuantity)
+                return true;
+            }
+            this.maximumQuantity = 0;
+             console.log('THIS IS TO RETURN FALSE', this.maximumQuantity)
+            return false;
+        },
         OntooglePositions(response) {
             this.activeButton = response;
             this.tooglegraph = !this.tooglegraph;
-            console.log("CHECK IF THE TECHNICAL GRAPH IS TOOGLED", response);
             if (response == 1) {
                 this.trdingViewStatechange = true;
                 return this.trdingViewStatechange;
@@ -274,6 +296,8 @@ export default {
             }
         },
         mountAction() {
+             this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency);
+             console.log('CHECK FOR THE STATE HERE ',this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency));
             //set the currency as the component mount to the global state
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
             if (this.getSinglestockglobalCurrencyforGraph == "USD") {
@@ -309,7 +333,6 @@ export default {
             this.loading = true;
             this.currentId = id;
             this.SET_SINGLESTOCK_POSITIONS_FOR_SELECT(id);
-            console.log("CURRENCY TOOGLE SELECT STATE", this.getSinglestockIntervalposition);
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(currency);
             const defaulttime = {
                 interval: this.getSinglestockglobalTimeforGraph,
@@ -354,6 +377,19 @@ export default {
     },
     mounted() {
         this.mountAction();
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.SET_LINE_SINGLESTOCK_CHART_DATE([]);
+        this.SET_LINE_SINGLESTOCK_CHARTDATA([]);
+        this.mountAction();
+        this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency)
+        next();
+    },
+    watch:{
+        checkStockPosition(newValue,oldValue){
+                console.log('WATCHING PROCESSING HERE',newValue,oldValue)
+            //  this.checkStockPosition = this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency)
+        }
     }
 };
 </script>

@@ -79,6 +79,14 @@
                         <p>There are no stocks in this collection</p>
                     </section>
                 </div>
+                <div ref="infinitesscrolltrigger" id="scroll-trigger">
+                    <img
+                        class="middle-loader"
+                        v-if="infiniteLoader" 
+                        :src="require('../../assets/img/loader.gif')"
+                        alt="spin"
+                    />
+                </div>
             </section>
             <section v-else>
                 <template v-if="loading">
@@ -107,17 +115,38 @@
                     <img width="50px" :src="require('../../assets/img/papers.svg')" alt="Papers" />
                     <p>There are no stocks in this collection</p>
                 </section>
+                <div ref="infinitesscrolltrigger" id="scroll-trigger">
+                    <img
+                        class="middle-loader"
+                        v-if="infiniteLoader" 
+                        :src="require('../../assets/img/loader.gif')"
+                        alt="spin"
+                    />
+                </div>
             </section>
         </template>
     </section>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+const options = {
+	root: null /* uses the page as root */,
+	rootMargin: '400px',
+	threshold: 0
+};
+
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
     name: "Categories",
     data() {
         return {
+            newInstrument: [],
+            page: 0,
+            perPage:6,
+            infiniteLoader: false,
+            loaderState:false,
+
+            // 
             loading: false,
             loadingTags: false,
             selectedTag: "ALL",
@@ -175,12 +204,35 @@ export default {
             "SET_TAGS_LISTS",
             "SET_SLUG_FOR_INSTRUMENT"
         ]),
+        handlescrollinfinitly(from, to) {
+			this.observer = new IntersectionObserver((entries, observer) => {
+				entries.forEach((entry) => {
+					if (entry && entry.isIntersecting) {
+                        console.log('>>>>>>>>>>>isIntersecting>>>>>>>booooooom>')
+						const pagenation = {
+							page: ++this.page,
+							perPage: ++this.perPage
+						};
+						if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
+							this.infiniteLoader = true;
+							this.loaderState = true;
+							this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+								this.infiniteLoader = false;
+								this.loaderState = false;
+                                this.newInstrument.push(...this.getInstrumentsListArray);
+                                console.log('handlescrollinfinitly?????????????',this.newInstrument)
+							});
+						}
+					}
+				});
+            }, options);   
+        },
         ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS", "GET_MOST_POPULAR"]),
         handleSelect(response) {
             this.loading = true;
-            const payload = { slug: response.slug };
+            const payload = { slug: response.slug, page :0 ,perPage: 20};
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response);
-            if (payload.slug === "") {
+            if (payload.slug === '') {
                 this.loading = false;
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 return true;
@@ -188,42 +240,103 @@ export default {
             this.GET_INSTRUMENT_BY_TAGS(payload).then(() => {
                 this.loading = false;
             });
+            
         },
         getNewTags() {
             if (this.selectedTag !== this.currentTag.filter) {
                 this.SET_TAGS_LISTS([]);
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 this.currentTag.filter = this.selectedTag;
-                this.mount();
+                this.OnclickhandleTaToogle();
             }
         },
         async mount() {
             this.GET_MOST_POPULAR();
             this.loading = true;
             this.loadingTags = true;
-            // if (this.gettagslistsArray.length > 0) {
-            //     this.loadingTags = false;
-            // }
             await this.GET_TAGS_CATEGORIES(this.currentTag);
-            //  console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>nerrr>>>1>',this.gettagslistsArray[0]);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
-                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
-                    this.getInstrumentsPayload ? this.getInstrumentsPayload : {}
-                );
-                const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug };
-                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
+                 const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
+
+                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
+                   
+                });
+
+                // this.handlescrollinfinitly();
             }
             this.loading = false;
-            // console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
+        },
+        async OnclickhandleTaToogle(){
+            this.loading = true;
+            this.loadingTags = true;
+            await this.GET_TAGS_CATEGORIES(this.currentTag);
+            this.loadingTags = false;
+            if (this.gettagslistsArray.length > 0) {
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.gettagslistsArray ? this.gettagslistsArray[0] : {});
+                 const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
+
+                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
+                    console.log('the payload after toogle',this.getInstrumentsPayload);
+                });
+            }
+            this.loading = false;
         }
     },
     async mounted() {
         await this.mount();
     },
-    beforeRouteLeave(to, from, next) {
+    beforeRouteLeave(to, from, next) 
+    {
         this.SET_INSTRUMENT_BY_TAGS([]);
         next();
+    },
+    beforeRouteUpdate(to, from, next) {
+		if (this.observer) {
+			this.observer.unobserve(this.$refs.infinitesscrolltrigger);
+		}
+		this.page = 0;
+		this.loaderState = true;
+		this.SET_INSTRUMENT_BY_TAGS([]);
+		const pagenation = {
+			page: this.page,
+            perPage: this.perPage,
+            slug: this.getInstrumentsPayload.slug
+		};
+		this.newInstrument = [];
+		this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(pagenation).then(() => {
+			if (this.getInstrumentsListArray.length === 0) {
+				this.newInstrument = ['No Instruments for this collection'];
+			} else {
+				this.newInstrument = [...this.getInstrumentsListArray];
+				this.observer.observe(this.$refs.infinitesscrolltrigger);
+			}
+			this.loaderState = false;
+		});
+		next();
+    },
+    watch:{
+        // selectedTag(newValue,oldValue){
+           
+        //      this.loading = true;
+        //     // if (this.gettagslistsArray.length > 0) {
+        //     //     this.loadingTags = false;
+        //     // }
+        //     if (this.gettagslistsArray.length > 0) {
+        //         this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
+                 
+        //         //  const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
+
+        //         //  this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
+        //         //     console.log('GGGGGGGGGGGGGGGGGGG',this.getInstrumentsListArray)
+        //         // });
+
+        //         // this.handlescrollinfinitly();
+        //     }
+        //     this.loading = false;
+        //     // console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
+        // }
     }
 };
 </script>
