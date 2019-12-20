@@ -129,19 +129,12 @@
             >Buy</kyc-button
         >
 
-        <modal-kyc
-            :requiredFields="selectedField.fields"
-            :title="selectedField.title"
-            @updated="handleUpdate"
-            @close="showKYC = false"
-            v-if="showKYC"
-        />
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "instrument-card",
@@ -158,8 +151,6 @@ export default {
         return {
             step: null,
             showKYC: false,
-            selectedField: {},
-            allNextKYC: KYCTitles.titles,
             loading: false
         };
     },
@@ -181,31 +172,26 @@ export default {
             return false;
         },
         handleStep(step) {
-            this.step = step.type;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
+            this.showBuy();
+        },
+        handleUpdate(value) {
+            if (value) {
+                this.showBuy();
+            }
+            // this.$refs.buyBtn.$el.click();
+        },
+        showBuy() {
+            this.showKYC = false;
             this.SET_BUY_MODAL({
                 instrument: this.instrument,
                 currency: this.instrument.currency,
                 stockPage: false,
                 show: true
             });
-        },
-        handleUpdate() {
-            // this.showKYC = false;
-            if (this.step !== "kyc") {
-                this.$refs.buyBtn.$el.click();
-            }
         },
         async removeFromWatchlist() {
             this.loading = true;

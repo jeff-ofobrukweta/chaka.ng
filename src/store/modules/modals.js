@@ -1,3 +1,5 @@
+import api from "../../services/apiService/api";
+
 const state = {
     buyModal: {},
     sellModal: {},
@@ -6,7 +8,8 @@ const state = {
     withdrawModal: false,
     saleSuccess: false,
     walletSuccess: false,
-    kycModal: {}
+    kycModal: {},
+    mostPopular: []
 };
 
 const getters = {
@@ -17,7 +20,21 @@ const getters = {
     getWithdrawModal: state => state.withdrawModal,
     getKycModal: state => state.kycModal,
     getSaleSuccess: state => state.saleSuccess,
-    getWalletSuccess: state => state.walletSuccess
+    getWalletSuccess: state => state.walletSuccess,
+    getMostPopular: state => {
+        let push = [];
+        state.mostPopular.filter(el => {
+            if (el.currency === "USD" && push.length === 0) {
+                push.push(el);
+            }
+        });
+        state.mostPopular.filter(el => {
+            if (el.currency === "NGN" && push.length === 1) {
+                push.push(el);
+            }
+        });
+        return push;
+    }
 };
 
 const mutations = {
@@ -44,10 +61,42 @@ const mutations = {
     },
     SET_WALLET_SUCCESS(state, payload) {
         state.walletSuccess = payload;
+    },
+    SET_MOST_POPULAR(state, payload) {
+        state.mostPopular = payload;
+    },
+    RESET_MODALS(state) {
+        state.buyModal = {};
+        state.sellModal = {};
+        state.exchangeModal = {};
+        state.fundModal = {};
+        state.withdrawModal = {};
+        state.saleSuccess = {};
+        state.walletSuccess = {};
+        state.kycModal = {};
     }
 };
 
-const actions = {};
+const actions = {
+    GET_MOST_POPULAR: ({ commit, rootState }) =>
+        new Promise((resolve, reject) =>
+            api.get(`/tags/slug/most-popular/instruments/`).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit("SET_MOST_POPULAR", resp.data.data.tag.Instruments);
+                        resolve(true);
+                        return true;
+                    }
+                    errorFn(resp, "most-popular");
+                    resolve(false);
+                },
+                error => {
+                    errorFn(error.response, "most-popular");
+                    resolve(false);
+                }
+            )
+        )
+};
 
 export default {
     state,

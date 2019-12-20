@@ -184,7 +184,56 @@
                             v-model="search"
                             placeholder="Search stocks by name, symbol, tag.."
                             class="nav-left__input"
+                            @focus="startSearch"
+                            @blur="stopSearch"
+                            @input="startSearch"
+                            autocomplete="off"
+                            ref="search"
                         />
+                        <transition name="kyc-navbar">
+                            <div class="nav-left__dropdown" v-if="showSearch">
+                                <div v-if="searchLoading && search">
+                                    <div class=" loader" v-for="i in 3" :key="i">
+                                        <div class="loader-div" />
+                                    </div>
+                                </div>
+                                <div v-else-if="searchLoading"></div>
+                                <ul v-else-if="getSearchInstruments.length > 0">
+                                    <li v-for="(stock, i) in filteredSearch" :key="i">
+                                        <router-link
+                                            :to="{
+                                                name: 'singlestock',
+                                                params: { symbol: stock.symbol }
+                                            }"
+                                        >
+                                            <img
+                                                :src="stock.logoUrl"
+                                                :alt="stock.symbol"
+                                                class="nav-left__dropdown--logo"
+                                            />
+                                            <div>
+                                                <p>
+                                                    <small>{{ stock.name | truncate(15) }}</small>
+                                                </p>
+                                                <p class="grey-cool">{{ stock.symbol }}</p>
+                                            </div>
+
+                                            <img
+                                                :src="require('../assets/img/flags/us-flag.svg')"
+                                                :alt="stock.symbol"
+                                                class="nav-left__dropdown--country"
+                                            />
+                                        </router-link>
+                                    </li>
+                                </ul>
+                                <div class=" nav-left__dropdown--loader" v-else>
+                                    <p>
+                                        There are no instruments related to
+                                        <strong>{{ search }}</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </transition>
                     </form>
                     <div class="nav-left__icon">
                         <img src="../assets/img/search.svg" alt="Search" width="18px" />
@@ -256,20 +305,14 @@
                 </ul>
             </template>
 
-            <modal-kyc
-                :requiredFields="selectedField.fields"
-                :title="selectedField.title"
-                @updated="handleUpdate"
-                @close="showKYC = false"
-                v-if="showKYC"
-            />
+            <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
         </nav>
     </header>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
-import KYCTitles from "../services/kyc/kycTitles";
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import EventBus from "../event-bus";
 
 export default {
     name: "app-header",
@@ -277,16 +320,27 @@ export default {
         return {
             isSidebarOpen: false,
             search: null,
+            showSearch: false,
             showKYC: false,
-            selectedField: {},
-            allNextKYC: KYCTitles.titles
+            searchLoading: false
         };
     },
     computed: {
-        ...mapGetters(["isLoggedIn", "getLoggedUser", "getAccountSummary", "getNextKYC"])
+        ...mapGetters([
+            "isLoggedIn",
+            "getLoggedUser",
+            "getAccountSummary",
+            "getNextKYC",
+            "getSearchInstruments"
+        ]),
+        filteredSearch() {
+            const splice = [...this.getSearchInstruments].splice(0, 4);
+            return splice;
+        }
     },
     methods: {
-        ...mapMutations(["SET_KYC_MODAL", "SET_FUND_MODAL"]),
+        ...mapActions(["SEARCH_INSTRUMENTS"]),
+        ...mapMutations(["SET_KYC_MODAL", "SET_FUND_MODAL", "SET_SEARCH_INSTRUMENTS"]),
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
         },
@@ -299,25 +353,41 @@ export default {
         handleStep(step) {
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            if (step.type === "fund") {
-                this.SET_FUND_MODAL(true);
+            this.showFund();
+        },
+        handleUpdate(value) {
+            if (value) {
+                this.showFund();
             }
         },
-        handleUpdate() {
-            // this.showKYC = false;
-            this.$refs.fundBtn.$el.click();
-            return true;
+        showFund() {
+            this.showKYC = false;
+            this.SET_FUND_MODAL(true);
+        },
+        async startSearch() {
+            this.showSearch = true;
+            let payload = {};
+            if (!this.search) {
+                payload = {
+                    query: "a"
+                };
+            } else payload = { query: this.search };
+            this.searchLoading = true;
+            await this.SEARCH_INSTRUMENTS(payload);
+            this.searchLoading = false;
+        },
+        stopSearch() {
+            this.showSearch = false;
+            this.search = null;
+            this.SET_SEARCH_INSTRUMENTS([]);
         }
+    },
+    mounted() {
+        EventBus.$on("HIDE_HEADER", payload => {
+            if (payload && this.$refs.search) this.$refs.search.blur();
+        });
     },
     watch: {
         isSidebarOpen(val) {
@@ -330,3 +400,10 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.flex {
+    display: flex;
+    width: 100%;
+}
+</style>

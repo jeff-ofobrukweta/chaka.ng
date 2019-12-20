@@ -1,13 +1,14 @@
 import api from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
+import EventBus from "../../event-bus";
 
 const state = {
     kyc: {},
     navbarKYC: true,
     nextKYC: {},
     navbarNextKYC: {},
-    countryCodes: [],
-    triggerNavbar: false
+    kycModalAction: "DEFAULT",
+    countryCodes: []
 };
 
 const getters = {
@@ -15,7 +16,7 @@ const getters = {
     showNavbarKYC: state => state.navbarKYC,
     getNextKYC: state => state.nextKYC,
     getNavbarNextKYC: state => state.navbarNextKYC,
-    getNavbarTrigger: state => state.triggerNavbar,
+    getKycModalAction: state => state.kycModalAction,
     getCountryCodes: state => state.countryCodes
 };
 
@@ -32,8 +33,8 @@ const mutations = {
     SET_NAVBAR_NEXT_KYC(state, payload) {
         state.navbarNextKYC = payload;
     },
-    SET_NAVBAR_TRIGGER(state, payload) {
-        state.triggerNavbar = payload;
+    SET_KYC_MODAL_ACTION(state, payload) {
+        state.kycModalAction = payload;
     },
     SET_COUNTRY_CODES(state, payload) {
         state.countryCodes = payload;
@@ -59,13 +60,19 @@ const actions = {
                 }
             )
         ),
-    GET_NEXT_KYC: ({ commit, dispatch, rootState }, payload) =>
+    GET_NEXT_KYC: ({ commit, dispatch, state, rootState }, payload) => {
         /**
          * @params {context}
          */
-        new Promise((resolve, reject) =>
+        let params = {};
+        if (state.kycModalAction !== "DEFAULT") {
+            params = { context: state.kycModalAction };
+        } else {
+            params = { ...payload };
+        }
+        return new Promise((resolve, reject) =>
             api
-                .get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`, { ...payload })
+                .get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`, { ...params })
                 .then(
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
@@ -82,7 +89,8 @@ const actions = {
                         resolve(false);
                     }
                 )
-        ),
+        );
+    },
     GET_NAVBAR_NEXT_KYC: ({ commit, rootState }) =>
         /**
          * @params {context}
@@ -92,7 +100,8 @@ const actions = {
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
-                        commit("SET_NAVBAR_TRIGGER", true);
+                        EventBus.$emit("navbar-trigger");
+                        EventBus.$emit("modal-trigger");
                         resolve(true);
                         return true;
                     }

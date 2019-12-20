@@ -1,5 +1,13 @@
 <template>
-    <modal :close-on-click="false" @close="closeModal" class="modal__buy">
+    <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
+    <PendingKYC
+        @close="closeModal"
+        v-else-if="isSellValid !== 3"
+        :is-buy-valid="isSellValid"
+        :currency="instrument.currency"
+        @step="handleStep"
+    />
+    <modal :close-on-click="false" @close="closeModal" v-else class="modal__buy">
         <template slot="header">Sell {{ instrument.name }} stock</template>
         <section class="modal__buy--details">
             <div class="modal__buy-left">
@@ -31,13 +39,8 @@
                     <p v-else>
                         <span
                             class="cursor-context modal__buy--price"
-                            :title="
-                                getSingleinstrument[0].askPrice
-                                    | currency(instrument.currency, true)
-                            "
-                            >{{
-                                getSingleinstrument[0].askPrice | currency(instrument.currency)
-                            }}</span
+                            :title="getMarketData.ask || '-' | currency(instrument.currency, true)"
+                            >{{ getMarketData.ask || "-" | currency(instrument.currency) }}</span
                         >&nbsp;&nbsp;
                         <img
                             v-if="getSingleinstrument[0].derivedPrice >= 0"
@@ -68,243 +71,203 @@
                 </div>
             </template>
         </section>
-        <div v-if="isSellValid === 1" class="modal-form">
-            <h5 class="text-center mb-2">Verification Incomplete</h5>
-            <p class="text-center">
-                To continue your verification, click the button below
-            </p>
-            <div class="text-center mt-3">
-                <kyc-button
-                    ref="sellBtn"
-                    type="button"
-                    :classes="['btn__primary']"
-                    action="global"
-                    @step="handleStep"
-                    >Continue</kyc-button
+        <form class="modal-form" @submit.prevent="validateSell" v-if="!showTerms">
+            <div class="modal-form__group">
+                <label class="form__label" v-if="orderType === 'MARKET'"
+                    >Amount
+                    <currency-input
+                        :currency="currency"
+                        placeholder="Enter Amount"
+                        v-model="itemData.amountCash"
+                        :disabled="Object.keys(getMarketData).length <= 0"
+                        @reset="clearErrors"
+                        @input="onTypeAmount"
+                        :error-message="errors.amountCash"
+                    />
+                </label>
+                <label class="form__label" v-else
+                    >Limit Order Price
+                    <currency-input
+                        :currency="currency"
+                        placeholder="Enter Limit Order Price"
+                        v-model="itemData.price"
+                        :disabled="Object.keys(getMarketData).length <= 0"
+                        @reset="clearErrors"
+                        :error-message="errors.price"
+                /></label>
+            </div>
+            <div class="modal-form__group">
+                <label class="form__label"
+                    >Share Quantity
+                    <form-input
+                        type="number"
+                        name="quantity"
+                        v-model="itemData.quantity"
+                        :disabled="Object.keys(getMarketData).length <= 0"
+                        @reset="clearErrors"
+                        @input="onTypeQuantity"
+                        placeholder="Quantity"
+                        :error-message="errors.quantity"
+                /></label>
+            </div>
+            <error-block type="pre-order" />
+            <error-block type="market-data" />
+            <div>
+                <a class="primary" @click="switchOrder('LIMIT')" v-if="orderType === 'MARKET'"
+                    >Switch to Limit Order</a
+                >
+                <a class="primary" @click="switchOrder('MARKET')" v-else>Switch to Market Order</a>
+            </div>
+            <div class="modal-form__buttons">
+                <action-button
+                    type="submit"
+                    :pending="loading"
+                    :disabled="Object.keys(getMarketData).length <= 0 || !isFormValid"
+                    :classes="['btn-block', 'btn__primary']"
+                    >Sell</action-button
                 >
             </div>
-
-            <modal-kyc
-                :requiredFields="selectedField.fields"
-                :title="selectedField.title"
-                @updated="handleUpdate"
-                @close="showKYC = false"
-                v-if="showKYC"
-            />
-        </div>
-        <div v-else-if="isSellValid === 2" class="modal-form">
-            <h5 class="text-center mb-2">Your Verification is Under Review</h5>
-            <p class="text-center">
-                You will be notified through email when your account gets activated for global
-                transactions
-            </p>
-        </div>
+        </form>
         <template v-else>
-            <form class="modal-form" @submit.prevent="validateSell" v-if="!showTerms">
-                <div class="modal-form__group">
-                    <label class="form__label" v-if="orderType === 'MARKET'"
-                        >Amount
-                        <form-input
-                            type="number"
-                            name="amount"
-                            v-model="itemData.amountCash"
-                            placeholder="Amount"
-                            :disabled="Object.keys(getMarketData).length <= 0"
-                            @reset="clearErrors"
-                            @input="onTypeAmount"
-                            :error-message="errors.amountCash"
-                    /></label>
-                    <label class="form__label" v-else
-                        >Limit Order Price
-                        <form-input
-                            type="number"
-                            name="limit"
-                            v-model="itemData.price"
-                            placeholder="Limit Order Price"
-                            :disabled="Object.keys(getMarketData).length <= 0"
-                            @reset="clearErrors"
-                            :error-message="errors.price"
-                    /></label>
-                </div>
-                <div class="modal-form__group">
-                    <label class="form__label"
-                        >Share Quantity
-                        <form-input
-                            type="number"
-                            name="quantity"
-                            v-model="itemData.quantity"
-                            :disabled="Object.keys(getMarketData).length <= 0"
-                            @reset="clearErrors"
-                            @input="onTypeQuantity"
-                            placeholder="Quantity"
-                            :error-message="errors.quantity"
-                    /></label>
-                </div>
-                <error-block type="pre-order" />
-                <error-block type="market-data" />
-                <div>
-                    <a class="primary" @click="switchOrder('LIMIT')" v-if="orderType === 'MARKET'"
-                        >Switch to Limit Order</a
-                    >
-                    <a class="primary" @click="switchOrder('MARKET')" v-else
-                        >Switch to Market Order</a
-                    >
-                </div>
-                <div class="modal-form__buttons">
-                    <action-button
-                        type="submit"
-                        :pending="loading"
-                        :disabled="Object.keys(getMarketData).length <= 0 || !isFormValid"
-                        :classes="['btn-block', 'btn__primary']"
-                        >Sell</action-button
-                    >
-                </div>
-            </form>
-            <template v-else>
-                <form @submit.prevent="sellInstrument">
-                    <div class="stock-vdr">
-                        <div class="stock-vdr__flex">
-                            <div class="stock-vdr__box stock-vdr__right">
-                                <p>
-                                    {{ getPreOrder.marketData ? getPreOrder.marketData.bid : "-" }}
-                                </p>
-                                <p>
-                                    <span>{{
-                                        getPreOrder.marketData
-                                            ? getPreOrder.marketData.bestAskExchange
-                                            : "-"
-                                    }}</span
-                                    >--
-                                    <span>{{
-                                        getPreOrder.marketData
-                                            ? getPreOrder.marketData.bidSize
-                                            : "-"
-                                    }}</span>
-                                </p>
-                            </div>
-                            <div class="stock-vdr__box">
-                                <p>
-                                    {{ getPreOrder.marketData ? getPreOrder.marketData.bid : "-" }}
-                                </p>
-                                <p>
-                                    <span>{{
-                                        getPreOrder.marketData
-                                            ? getPreOrder.marketData.bidSize
-                                            : "-"
-                                    }}</span
-                                    >--
-                                    <span>{{
-                                        getPreOrder.marketData
-                                            ? getPreOrder.marketData.bestBidExchange
-                                            : "-"
-                                    }}</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="stock-vdr__center stock-vdr__div">
+            <form @submit.prevent="sellInstrument">
+                <div class="stock-vdr">
+                    <div class="stock-vdr__flex">
+                        <div class="stock-vdr__box stock-vdr__right">
                             <p>
-                                {{ getPreOrder.marketData ? getPreOrder.marketData.volume : "0" }}
+                                {{ getPreOrder.marketData ? getPreOrder.marketData.bid : "-" }}
+                            </p>
+                            <p>
+                                <span>{{
+                                    getPreOrder.marketData
+                                        ? getPreOrder.marketData.bestAskExchange
+                                        : "-"
+                                }}</span
+                                >--
+                                <span>{{
+                                    getPreOrder.marketData ? getPreOrder.marketData.bidSize : "-"
+                                }}</span>
                             </p>
                         </div>
-                        <div class="stock-vdr__flex">
-                            <div class="stock-vdr__box">
-                                <p>Last Trade</p>
-                            </div>
-                            <div class="stock-vdr__box stock-vdr__right">
-                                <p>
-                                    {{
-                                        getPreOrder.marketData
-                                            ? getPreOrder.marketData.timeOffset
-                                            : "-" || "-" | date
-                                    }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="stock-vdr__flex">
-                            <div class="stock-vdr__box">
-                                <p>
-                                    {{
-                                        getPreOrder.marketData
-                                            ? getPreOrder.marketData.lastTrade
-                                            : "-" || "-" | currency(currency)
-                                    }}
-                                </p>
-                            </div>
-                            <div class="stock-vdr__box stock-vdr__right">
-                                <p>
-                                    <span>{{
-                                        getPreOrder.marketData
-                                            ? getPreOrder.marketData.lastTradeExchange
-                                            : "-"
-                                    }}</span
-                                    >--
-                                    <span>{{
-                                        getPreOrder.marketData
-                                            ? getPreOrder.marketData.lastTradeSize
-                                            : "-"
-                                    }}</span>
-                                </p>
-                            </div>
+                        <div class="stock-vdr__box">
+                            <p>
+                                {{ getPreOrder.marketData ? getPreOrder.marketData.bid : "-" }}
+                            </p>
+                            <p>
+                                <span>{{
+                                    getPreOrder.marketData ? getPreOrder.marketData.bidSize : "-"
+                                }}</span
+                                >--
+                                <span>{{
+                                    getPreOrder.marketData
+                                        ? getPreOrder.marketData.bestBidExchange
+                                        : "-"
+                                }}</span>
+                            </p>
                         </div>
                     </div>
-                    <div class="stock__price">
-                        <div class="stock-vdr__flex">
-                            <div class="stock-vdr__box">
-                                <p>Quantity</p>
-                            </div>
-                            <div class="stock-vdr__box stock-vdr__right">
-                                <h5>{{ getPreOrder.quantity | units }}</h5>
-                            </div>
+
+                    <div class="stock-vdr__center stock-vdr__div">
+                        <p>
+                            {{ getPreOrder.marketData ? getPreOrder.marketData.volume : "0" }}
+                        </p>
+                    </div>
+                    <div class="stock-vdr__flex">
+                        <div class="stock-vdr__box">
+                            <p>Last Trade</p>
                         </div>
-                        <div class="stock-vdr__flex">
-                            <div class="stock-vdr__box">
-                                <p>Investment</p>
-                            </div>
-                            <div class="stock-vdr__box stock-vdr__right">
-                                <h5>{{ getPreOrder.investment | kobo | currency(currency) }}</h5>
-                            </div>
-                        </div>
-                        <div class="stock-vdr__flex">
-                            <div class="stock-vdr__box">
-                                <p>Fees</p>
-                            </div>
-                            <div class="stock-vdr__box stock-vdr__right">
-                                <h5>-{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="stock-vdr__flex">
-                            <div class="stock-vdr__box">
-                                <p>Estimated Total</p>
-                            </div>
-                            <div class="stock-vdr__box stock-vdr__right">
-                                <h5>
-                                    {{ getPreOrder.estimatedTotal | kobo | currency(currency) }}
-                                </h5>
-                            </div>
+                        <div class="stock-vdr__box stock-vdr__right">
+                            <p>
+                                {{
+                                    getPreOrder.marketData
+                                        ? getPreOrder.marketData.timeOffset
+                                        : "-" || "-" | date
+                                }}
+                            </p>
                         </div>
                     </div>
-                    <error-block type="sell" />
-                    <div class="form-group">
-                        <div class="stock-vdr__buttons">
-                            <button
-                                class="btn btn-block btn__primary--outline"
-                                type="button"
-                                @click.stop="showTerms = false"
-                            >
-                                Back
-                            </button>
-                            <action-button
-                                type="submit"
-                                :pending="loading"
-                                :classes="['btn-block', 'btn__primary']"
-                                >Confirm Sell</action-button
-                            >
+                    <div class="stock-vdr__flex">
+                        <div class="stock-vdr__box">
+                            <p>
+                                {{
+                                    getPreOrder.marketData
+                                        ? getPreOrder.marketData.lastTrade
+                                        : "-" || "-" | currency(currency)
+                                }}
+                            </p>
+                        </div>
+                        <div class="stock-vdr__box stock-vdr__right">
+                            <p>
+                                <span>{{
+                                    getPreOrder.marketData
+                                        ? getPreOrder.marketData.lastTradeExchange
+                                        : "-"
+                                }}</span
+                                >--
+                                <span>{{
+                                    getPreOrder.marketData
+                                        ? getPreOrder.marketData.lastTradeSize
+                                        : "-"
+                                }}</span>
+                            </p>
                         </div>
                     </div>
-                </form>
-            </template>
+                </div>
+                <div class="stock__price">
+                    <div class="stock-vdr__flex">
+                        <div class="stock-vdr__box">
+                            <p>Quantity</p>
+                        </div>
+                        <div class="stock-vdr__box stock-vdr__right">
+                            <h5>{{ getPreOrder.quantity | units }}</h5>
+                        </div>
+                    </div>
+                    <div class="stock-vdr__flex">
+                        <div class="stock-vdr__box">
+                            <p>Investment</p>
+                        </div>
+                        <div class="stock-vdr__box stock-vdr__right">
+                            <h5>{{ getPreOrder.investment | kobo | currency(currency) }}</h5>
+                        </div>
+                    </div>
+                    <div class="stock-vdr__flex">
+                        <div class="stock-vdr__box">
+                            <p>Fees</p>
+                        </div>
+                        <div class="stock-vdr__box stock-vdr__right">
+                            <h5>-{{ getPreOrder.fees | kobo | currency(currency) }}</h5>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="stock-vdr__flex">
+                        <div class="stock-vdr__box">
+                            <p>Estimated Total</p>
+                        </div>
+                        <div class="stock-vdr__box stock-vdr__right">
+                            <h5>
+                                {{ getPreOrder.estimatedTotal | kobo | currency(currency) }}
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <error-block type="sell" />
+                <div class="form-group">
+                    <div class="stock-vdr__buttons">
+                        <button
+                            class="btn btn-block btn__primary--outline"
+                            type="button"
+                            @click.stop="showTerms = false"
+                        >
+                            Back
+                        </button>
+                        <action-button
+                            type="submit"
+                            :pending="loading"
+                            :classes="['btn-block', 'btn__primary']"
+                            >Confirm Sell</action-button
+                        >
+                    </div>
+                </div>
+            </form>
         </template>
     </modal>
 </template>
@@ -312,9 +275,14 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import KYCTitles from "../../services/kyc/kycTitles";
+import CurrencyInput from "../form/CurrencyInput";
 
 export default {
     name: "sell-modal",
+    components: {
+        CurrencyInput,
+        PendingKYC: () => import("./PendingKYC")
+    },
     props: {
         currency: {
             type: String,
@@ -358,6 +326,11 @@ export default {
             "getlocalstocksowned"
         ]),
         isSellValid() {
+            if (
+                this.getLoggedUser.localKycStatus === "PENDING" &&
+                this.getLoggedUser.globalKycStatus === "PENDING"
+            )
+                return "PENDING";
             if (this.instrument.currency === "NGN") {
                 if (this.getLoggedUser.localKycStatus === "NONE") return 1;
                 if (this.getLoggedUser.localKycStatus === "PENDING") return 2;
@@ -387,7 +360,8 @@ export default {
             "SET_SELL_ORDER",
             "SET_BUY_ORDER",
             "RESET_REQ",
-            "SET_SINGLE_INSTRUMENT"
+            "SET_SINGLE_INSTRUMENT",
+            "SET_FUND_MODAL"
         ]),
         closeModal() {
             if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
@@ -504,30 +478,23 @@ export default {
             this.errors = {};
         },
         handleStep(step) {
+            this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
-            }
-            if (step.type === "global") {
-                // this.showGlobal = true;
             }
         },
         handleUpdate() {
-            // this.showKYC = false;
             this.GET_LOGGED_USER().then(() => {
-                if (this.isSellValid === 1) {
-                    this.$refs.sellBtn.$el.click();
+                if (this.isSellValid !== 1) {
+                    this.showKYC = false;
                 }
             });
             return true;
+        },
+        showFund() {
+            this.SET_FUND_MODAL(true);
+            this.$emit("close");
         }
     },
     async mounted() {

@@ -2,32 +2,32 @@
     "titles": [
         {
             "title": "BVN Verification",
-            "subtitle": "Enter your BVN details",
+            "subtitle": "For regulatory protection of your account, please enter your BVN details",
             "fields": ["bvn"]
         },
         {
             "title": "Phone Confirmation",
-            "subtitle": "Confirm your phone number",
+            "subtitle": "To alert you about activity on your account, please confirm your phone number",
             "fields": ["phone"]
         },
         {
             "title": "National Identity Number",
-            "subtitle": "Enter your NIN details",
+            "subtitle": "Not sure about your NIN number? Dial *346# if you're on MTN/Airtel https://www.nimc.gov.ng/sms-service/",
             "fields": ["nin"]
         },
         {
             "title": "Bank Details",
-            "subtitle": "Enter your bank details",
+            "subtitle": "Enter the bank where we will send your withdrawals to",
             "fields": ["bankAcctNo", "bankCode"]
         },
         {
             "title": "Postal Address",
-            "subtitle": "Enter your postal address",
+            "subtitle": "Confirm a few details about yourself",
             "fields": ["gender", "address", "lg"]
         },
         {
             "title": "Employment Details",
-            "subtitle": "Fill in your employment details",
+            "subtitle": "Fill in your employment status and details",
             "fields": [
                 "employmentStatus",
                 "employedByBroker",
@@ -38,7 +38,7 @@
         },
         {
             "title": "Investment Preferences",
-            "subtitle": "Fill in your investment preferences",
+            "subtitle": "Fill in your investment experience and status - required by FINRA, SEC, IRS",
             "fields": [
                 "investmentObjectives",
                 "investmentExperience",
@@ -50,7 +50,7 @@
         },
         {
             "title": "Uploads",
-            "subtitle": "Upload your documents",
+            "subtitle": "Your final step - please upload your Driver's License, Voter's Card, NIMC slip or other national identity document",
             "fields": ["addressProofUrl", "idPhotoUrl", "passportUrl"]
         }
     ]

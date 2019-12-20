@@ -9,6 +9,7 @@ const state = {
     buyOrder: {},
     sellOrder: {},
     marketData: {},
+    searchInstruments: [],
     openOrders: []
 };
 
@@ -19,6 +20,7 @@ const getters = {
     getBuyOrder: state => state.buyOrder,
     getSellOrder: state => state.sellOrder,
     getMarketData: state => state.marketData,
+    getSearchInstruments: state => state.searchInstruments,
     getOpenOrders: state => state.openOrders
 };
 
@@ -43,6 +45,9 @@ const mutations = {
     },
     SET_OPEN_ORDERS(state, payload) {
         state.openOrders = payload;
+    },
+    SET_SEARCH_INSTRUMENTS(state, payload) {
+        state.searchInstruments = payload;
     }
 };
 
@@ -69,10 +74,12 @@ const actions = {
         );
     },
     GET_SIMILAR_STOCKS({ commit }, params) {
-        console.log('GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS response outer',params.join(','))
         return new Promise((resolve, reject) =>
-            API_CONTEXT.get(`/instruments/?symbols=${params.join(',')}`).then(response => {
-                console.log('GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS symbols inner',response)
+            API_CONTEXT.get(`/instruments/?symbols=${params.join(",")}`).then(response => {
+                console.log(
+                    "GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS symbols inner",
+                    response
+                );
                 if (response.status === 200) {
                     const { instruments } = response.data.data;
                     commit("SET_SIMILAR_STOCKS", instruments);
@@ -81,7 +88,7 @@ const actions = {
             })
         );
     },
-    
+
     GET_OPEN_ORDERS({ commit, rootState }) {
         return new Promise((resolve, reject) =>
             API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/orders/open/`).then(
@@ -207,6 +214,24 @@ const actions = {
                 },
                 error => {
                     errorFn(error.response, "market-data");
+                    resolve(false);
+                }
+            )
+        ),
+    SEARCH_INSTRUMENTS: ({ commit }, payload) =>
+        new Promise((resolve, reject) =>
+            API_CONTEXT.get(`/search`, { ...payload }).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit("SET_SEARCH_INSTRUMENTS", resp.data.data.results);
+                        resolve(true);
+                        return true;
+                    }
+                    errorFn(resp, "search");
+                    resolve(false);
+                },
+                error => {
+                    errorFn(error.response, "search");
                     resolve(false);
                 }
             )

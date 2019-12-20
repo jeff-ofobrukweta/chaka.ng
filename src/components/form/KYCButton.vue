@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import EventBus from "../../event-bus";
 
 export default {
@@ -42,7 +42,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getNextKYC", "getLoggedUser"])
+        ...mapGetters(["getNextKYC", "getLoggedUser", "getKYC", "getKycModalAction"])
     },
     data() {
         return {
@@ -51,12 +51,15 @@ export default {
     },
     methods: {
         ...mapActions(["GET_NEXT_KYC"]),
+        ...mapMutations(["SET_KYC_MODAL_ACTION"]),
         handleClick(e) {
             this.clicked = true;
+            this.SET_KYC_MODAL_ACTION(this.action.toUpperCase());
             if (this.action === "fund") {
                 if (
-                    this.getLoggedUser.localKycStatus !== "NONE" &&
-                    this.getLoggedUser.globalKycStatus !== "NONE"
+                    this.getKYC.bvnFetchStatus &&
+                    this.getKYC.bankAcctName &&
+                    this.getKYC.bankAcctNo
                 ) {
                     this.$emit("step", { type: "fund", kyc: false });
                     this.clicked = false;

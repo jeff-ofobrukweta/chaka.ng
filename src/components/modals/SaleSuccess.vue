@@ -4,7 +4,6 @@
             <div class="form__image stock-vdr__center">
                 <svg
                     width="83"
-                    class="stock-vdr__svg"
                     height="83"
                     viewBox="0 0 83 83"
                     fill="none"
@@ -17,7 +16,7 @@
                 </svg>
             </div>
 
-            <h3 class="stock-vdr__center">Your Order has been placed</h3>
+            <h5 class="stock-vdr__center">Your Order has been placed</h5>
             <div class="stock-vdr__modal">
                 <div class="stock-vdr__flex">
                     <div class="form-group stock-vdr__box stock-vdr__center">
@@ -46,13 +45,17 @@
                     </div>
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Order Type</label>
-                        <p class="stock-vdr__text stock-vdr__center">{{ value.orderType }}</p>
+                        <p class="stock-vdr__text stock-vdr__center">
+                            {{ value.orderType || "-" }}
+                        </p>
                     </div>
                 </div>
                 <div class="stock-vdr__flex">
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Order Reference</label>
-                        <p class="stock-vdr__text stock-vdr__center">{{ value.reference }}</p>
+                        <p class="stock-vdr__text stock-vdr__center">
+                            {{ value.reference || "-" }}
+                        </p>
                     </div>
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Date Opened</label>
@@ -72,12 +75,12 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: 'sale-success',
+    name: "sale-success",
     computed: {
-        ...mapGetters(['getBuyOrder', 'getSellOrder'])
+        ...mapGetters(["getBuyOrder", "getSellOrder"])
     },
     data() {
         return {
@@ -85,9 +88,10 @@ export default {
         };
     },
     methods: {
-        ...mapMutations(['SET_BUY_ORDER', 'SET_SELL_ORDER']),
+        ...mapMutations(["SET_BUY_ORDER", "SET_SELL_ORDER", "MODAL_OPENED"]),
         closeModal() {
-            this.$emit('close');
+            this.MODAL_OPENED(false)
+            this.$emit("close");
         }
     },
     mounted() {

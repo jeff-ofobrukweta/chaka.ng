@@ -66,28 +66,13 @@
                 >
             </div>
         </div>
-        <!-- <buy-modal
-            @close="closeBuyModal"
-            :currency="instrument.currency"
-            :symbol="instrument.symbol"
-            :instrument="instrument"
-            v-if="showBuy"
-        /> -->
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal-kyc
-            :requiredFields="selectedField.fields"
-            :title="selectedField.title"
-            @updated="handleUpdate"
-            @close="showKYC = false"
-            v-if="showKYC"
-        />
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </div>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import KYCTitles from "../../services/kyc/kycTitles";
 
 export default {
     name: "watchlist-portfolio",
@@ -102,13 +87,9 @@ export default {
     },
     data() {
         return {
-            showBuy: false,
-            showSuccess: false,
             step: null,
             showKYC: false,
-            selectedField: {},
-            loading: false,
-            allNextKYC: KYCTitles.titles
+            loading: false
         };
     },
     computed: {
@@ -126,37 +107,26 @@ export default {
         ...mapActions(["REMOVE_FROM_WATCHLIST"]),
         ...mapMutations(["SET_BUY_MODAL"]),
         handleStep(step) {
-            this.step = step.type;
+            this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            // this.showBuy = true;
+            this.showBuy();
+        },
+        handleUpdate(value) {
+            if (value) {
+                this.showBuy();
+            }
+        },
+        showBuy() {
+            this.showKYC = false;
             this.SET_BUY_MODAL({
                 instrument: this.instrument,
                 currency: this.instrument.currency,
                 stockPage: false,
                 show: true
             });
-        },
-        handleUpdate() {
-            // this.showKYC = false;
-            if (this.step !== "kyc") {
-                this.$refs.buyBtn.$el.click();
-            }
-        },
-        closeBuyModal(e) {
-            if (e) this.showSuccess = true;
-            // this.showBuy = false;
-            this.SET_BUY_MODAL({});
         },
         async removeFromWatchlist() {
             this.loading = true;

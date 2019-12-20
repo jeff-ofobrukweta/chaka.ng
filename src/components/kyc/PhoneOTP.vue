@@ -85,35 +85,49 @@
                 >
             </section>
             <div class="text-center">
+                <small
+                    ><a @click="showNewPhone = true" class="underline small"
+                        >Use another phone number</a
+                    ></small
+                >
+                <br />
                 <template v-if="!countdown">
-                    <p class="mb-1">Resend OTP</p>
-                    <p class="mb-1">
-                        <a class="underline primary" @click="resendOTPEmail">Via Email</a>
-                    </p>
-                    <p class="mb-3">
-                        <a class="underline primary" @click="resendOTPWhatsapp">Via Whatsapp</a>
-                    </p>
+                    <br />
+                    <div class="accounts-settings__resend">
+                        <p>
+                            <small>
+                                <a class="underline small" @click="resendOTPEmail"
+                                    >Resend Via Email</a
+                                ></small
+                            >
+                        </p>
+                        <p>
+                            <small
+                                ><a class="underline small" @click="resendOTPWhatsapp"
+                                    >Resend Via Whatsapp</a
+                                ></small
+                            >
+                        </p>
+                    </div>
                 </template>
 
                 <p class="countdown--account" v-else>
-                    <span class="countdown__text">Resend in</span>&nbsp;
-                    <span>{{ countdown }}</span>
+                    <small
+                        ><span class="countdown__text">Resend in</span>&nbsp;
+                        <span>{{ countdown }}</span></small
+                    >
                 </p>
-                <small
-                    ><a @click="showNewPhone = true" class="underline primary">Click here</a> to use
-                    a different phone number</small
-                >
             </div>
         </form>
     </Fragment>
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
-import { mapActions, mapGetters } from 'vuex';
+import { Fragment } from "vue-fragment";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-    name: 'phone-otp',
+    name: "phone-otp",
     components: {
         Fragment
     },
@@ -135,16 +149,16 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getKYC', 'getCountryCodes'])
+        ...mapGetters(["getKYC", "getCountryCodes"])
     },
     methods: {
-        ...mapActions(['GET_KYC', 'USE_BVN_PHONE', 'RESOLVE_OTP', 'GET_COUNTRY_CODES']),
+        ...mapActions(["GET_KYC", "USE_BVN_PHONE", "RESOLVE_OTP", "GET_COUNTRY_CODES"]),
         useBVNPhone() {
             this.loading = true;
             const payload = {
                 smsSender: this.smsSender
             };
-            this.USE_BVN_PHONE(payload).then((resp) => {
+            this.USE_BVN_PHONE(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -176,7 +190,7 @@ export default {
             //     return false;
             // }
             this.loading = true;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -186,10 +200,10 @@ export default {
         },
         submitOTP() {
             this.loading = true;
-            this.RESOLVE_OTP(this.otpData).then((resp) => {
+            this.RESOLVE_OTP(this.otpData).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.$emit('close', true);
+                    this.$emit("close", true);
                     this.itemData = {};
                 }
             });
@@ -209,7 +223,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 if (resp) {
                     this.OTPResend = false;
                     this.itemData = {};
@@ -227,7 +241,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 if (resp) {
                     this.OTPResend = false;
                     this.itemData = {};
@@ -248,9 +262,10 @@ export default {
                     return true;
                 }
                 const hours = Math.floor(counting / 60);
-                const minutes = Math.floor(counting % 60) < 10
-                    ? `0${Math.floor(counting % 60)}`
-                    : Math.floor(counting % 60);
+                const minutes =
+                    Math.floor(counting % 60) < 10
+                        ? `0${Math.floor(counting % 60)}`
+                        : Math.floor(counting % 60);
                 this.countdown = `${hours}:${minutes}`;
             }, 1000);
         },
@@ -259,7 +274,7 @@ export default {
             this.showNewPhone = true;
         },
         close() {
-            this.$emit('close');
+            this.$emit("close");
         }
     },
     async mounted() {
@@ -287,3 +302,10 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+p,
+small {
+    color: $text-color;
+}
+</style>
