@@ -341,25 +341,6 @@ export default {
                 else this.$refs.sellBtn.$el.click();
             }
         },
-        checkPositions() {
-            let check = [];
-            if (this.getSingleinstrument[0].currency === "NGN") {
-                check = this.getlocalstocksowned.filter(
-                    element => element.symbol === this.getSingleinstrument[0].symbol
-                );
-            } else {
-                check = this.getglobalstocksowned.filter(
-                    element => element.symbol === this.getSingleinstrument[0].symbol
-                );
-            }
-            if (check.length > 0) {
-                const { quantity } = check[0];
-                this.maxQuantity = +quantity;
-                return true;
-            }
-            this.maxQuantity = 0;
-            return false;
-        },
         setTagPayload(valuePayload){
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
             this.$router.push({ name: 'categories', params: { category: this.getInstrumentsPayload.slug } })
@@ -377,7 +358,6 @@ export default {
         });
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
             this.similarLoading = false;
-            this.checkPositions();
             this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
             this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(()=>{
             //    loader here maybe

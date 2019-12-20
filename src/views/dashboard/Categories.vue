@@ -239,15 +239,12 @@ export default {
                 this.SET_TAGS_LISTS([]);
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 this.currentTag.filter = this.selectedTag;
-                this.mount();
+                this.OnclickhandleTaToogle();
             }
         },
         async mount() {
             this.loading = true;
             this.loadingTags = true;
-            // if (this.gettagslistsArray.length > 0) {
-            //     this.loadingTags = false;
-            // }
             await this.GET_TAGS_CATEGORIES(this.currentTag);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
@@ -255,13 +252,27 @@ export default {
                  const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
 
                 await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
-                    console.log('GGGGGGGGGGGGGGGGGGG',this.getInstrumentsListArray)
+                   
                 });
 
                 // this.handlescrollinfinitly();
             }
             this.loading = false;
-            // console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
+        },
+        async OnclickhandleTaToogle(){
+            this.loading = true;
+            this.loadingTags = true;
+            await this.GET_TAGS_CATEGORIES(this.currentTag);
+            this.loadingTags = false;
+            if (this.gettagslistsArray.length > 0) {
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.gettagslistsArray ? this.gettagslistsArray[0] : {});
+                 const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
+
+                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
+                    console.log('the payload after toogle',this.getInstrumentsPayload);
+                });
+            }
+            this.loading = false;
         }
     },
     async mounted() {
