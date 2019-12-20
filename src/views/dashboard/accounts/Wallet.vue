@@ -32,8 +32,7 @@
                                 "
                             >
                                 {{
-                                    getAccountSummary.localAvailableToTrade ||
-                                        "-" | kobo | currency("NGN")
+                                    getAccountSummary.localAvailableToTrade | kobo | currency("NGN")
                                 }}
                             </h3>
                             <p><small>Available To Trade</small></p>
@@ -48,8 +47,9 @@
                                 "
                             >
                                 {{
-                                    getAccountSummary.localAvailableToWithdraw ||
-                                        "-" | kobo | currency("NGN")
+                                    getAccountSummary.localAvailableToWithdraw
+                                        | kobo
+                                        | currency("NGN")
                                 }}
                             </h3>
                             <p><small>Available To Withdraw</small></p>
@@ -96,8 +96,9 @@
                                 "
                             >
                                 {{
-                                    getAccountSummary.globalAvailableToTrade ||
-                                        "-" | kobo | currency("USD")
+                                    getAccountSummary.globalAvailableToTrade
+                                        | kobo
+                                        | currency("USD")
                                 }}
                             </h3>
                             <p><small>Available To Trade</small></p>
@@ -112,8 +113,9 @@
                                 "
                             >
                                 {{
-                                    getAccountSummary.globalAvailableToWithdraw ||
-                                        "-" | kobo | currency("USD")
+                                    getAccountSummary.globalAvailableToWithdraw
+                                        | kobo
+                                        | currency("USD")
                                 }}
                             </h3>
                             <p><small>Available To Withdraw</small></p>

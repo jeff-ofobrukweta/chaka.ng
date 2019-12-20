@@ -12,6 +12,7 @@ import { mapMutations, mapGetters, mapActions } from "vuex";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Progressbar from "./components/Progressbar";
+import EventBus from "./event-bus";
 
 export default {
     name: "app",
@@ -57,9 +58,11 @@ export default {
             if (this.prevScrollpos <= currentScrollPos && currentScrollPos > 80) {
                 if (nav) nav.classList.add("push");
                 header.classList.add("hide");
+                EventBus.$emit("HIDE_HEADER", true);
             } else {
                 if (nav) nav.classList.remove("push");
                 header.classList.remove("hide");
+                EventBus.$emit("HIDE_HEADER", false);
             }
             this.prevScrollpos = currentScrollPos;
         };

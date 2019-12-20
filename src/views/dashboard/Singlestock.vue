@@ -80,8 +80,13 @@
                         <button
                             v-if="checkIfStockInWatchlist.length > 0"
                             @click="OnhandleremoveFromWatchlist"
-                            class="watch">
-                            <img class="middle-loader" :src="require('../../assets/img/watch-close.svg')" alt="spin" /> 
+                            class="watch"
+                        >
+                            <img
+                                class="middle-loader"
+                                :src="require('../../assets/img/watch-close.svg')"
+                                alt="spin"
+                            />
                         </button>
                         <button v-else @click="OnhandleaddToWatchlist" class="unwatch">
                             <img
@@ -128,7 +133,7 @@
                     </div>
                     <div v-else>
                         <section>
-                            {{ getSingleinstrument[0].description || ""}}
+                            {{ getSingleinstrument[0].description || "" }}
                         </section>
                     </div>
                 </div>
@@ -253,7 +258,6 @@ export default {
             "getWindowWidth",
             "getSingleinstrument",
             "getPricedetailsonblackcard",
-            "getPositionsWithparams",
             "getSimilarStocks",
             "getlocalstocksowned",
             "getglobalstocksowned",
@@ -264,8 +268,21 @@ export default {
         ])
     },
     methods: {
-        ...mapActions(["GET_WATCHLIST","GET_SIMILAR_STOCKS","GET_SINGLESTOCK_INSTRUMENT","GET_ARTICULE_NEWS","ADD_TO_WATCHLIST","REMOVE_FROM_WATCHLIST"]),
-        ...mapMutations(["SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS","SET_NEWS","SET_SINGLE_INSTRUMENT", "SET_BUY_MODAL", "SET_SELL_MODAL"]),
+        ...mapActions([
+            "GET_WATCHLIST",
+            "GET_SIMILAR_STOCKS",
+            "GET_SINGLESTOCK_INSTRUMENT",
+            "GET_ARTICULE_NEWS",
+            "ADD_TO_WATCHLIST",
+            "REMOVE_FROM_WATCHLIST"
+        ]),
+        ...mapMutations([
+            "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
+            "SET_NEWS",
+            "SET_SINGLE_INSTRUMENT",
+            "SET_BUY_MODAL",
+            "SET_SELL_MODAL"
+        ]),
         handleStep(step) {
             // this.step = step.type;
             this.step = step;
@@ -291,7 +308,7 @@ export default {
                 currency: this.getSingleinstrument[0].currency,
                 stockPage: true,
                 show: true,
-                maxQuamtity: this.maxQuamtity
+                maxQuantity: this.maxQuantity
             });
         },
         async OnhandleaddToWatchlist() {
@@ -346,9 +363,12 @@ export default {
             this.maxQuantity = 0;
             return false;
         },
-        setTagPayload(valuePayload){
+        setTagPayload(valuePayload) {
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
-            this.$router.push({ name: 'categories', params: { category: this.getInstrumentsPayload.slug } })
+            this.$router.push({
+                name: "categories",
+                params: { category: this.getInstrumentsPayload.slug }
+            });
         }
     },
     async mounted() {
@@ -365,9 +385,9 @@ export default {
             this.similarLoading = false;
             this.checkPositions();
             this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
-            this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(()=>{
-            //    loader here maybe
-            })
+            this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
+                //    loader here maybe
+            });
         });
     },
     beforeRouteUpdate(to, from, next) {
