@@ -5,7 +5,8 @@
                 <div class="left-menue-item"></div>
                 <div class="right-menue-item">
                     <section class="toogle-section">
-                        <section class="option-container">
+                        <section v-if="isGraphValid == 1 || isGraphValid == 2"></section>
+                        <section v-else class="option-container">
                             <button
                                 v-for="(item, index) in currencyOption"
                                 :key="index"
@@ -44,7 +45,11 @@
             </div>
             <template v-if="loading">
                 <div class="portfolio-graph__placeholder loader-gif__big">
-                    <img class="middle-loader" :src="require('../../assets/img/loader.gif')" alt="spin" />
+                    <img
+                        class="middle-loader"
+                        :src="require('../../assets/img/loader.gif')"
+                        alt="spin"
+                    />
                 </div>
             </template>
             <template v-else-if="isGraphValid === 1">
@@ -72,65 +77,59 @@
     </Fragment>
 </template>
 <script>
-import Graph from "./linegraph";
-import KYCTitles from "../../services/kyc/kycTitles";
-import { Fragment } from "vue-fragment";
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import Graph from './linegraph';
 
 export default {
-    name: "Linechartgraphchild",
+    name: 'Linechartgraphchild',
     data() {
         return {
-            showFund: false,
-            showSuccess: false,
             showKYC: false,
-            selectedField: {},
-            step: null,
-            allNextKYC: KYCTitles.titles,
             loading: true,
             currencyOption: [
                 {
-                    symbol: "₦",
-                    currency: "NGN",
+                    symbol: '₦',
+                    currency: 'NGN',
                     id: 0,
-                    description: "convert to Naira value"
+                    description: 'convert to Naira value'
                 },
                 {
-                    symbol: "$",
-                    currency: "USD",
+                    symbol: '$',
+                    currency: 'USD',
                     id: 1,
-                    description: "convert to Dollar value"
+                    description: 'convert to Dollar value'
                 }
             ],
             buttonoption: [
+                // {
+                //     name: "1 DAY",
+                //     time: "1D",
+                //     id: 1
+                // },
                 {
-                    name: "1 DAY",
-                    time: "1D",
-                    id: 1
-                },
-                {
-                    name: "1 WEEK",
-                    time: "1W",
+                    name: '1 WEEK',
+                    time: '1W',
                     id: 2
                 },
                 {
-                    name: "1 MONTH",
-                    time: "1M",
+                    name: '1 MONTH',
+                    time: '1M',
                     id: 3
                 },
                 {
-                    name: "3 MONTHS",
-                    time: "3M",
+                    name: '3 MONTHS',
+                    time: '3M',
                     id: 4
                 },
                 {
-                    name: "1 YEAR",
-                    time: "1Y",
+                    name: '1 YEAR',
+                    time: '1Y',
                     id: 5
                 },
                 {
-                    name: "5 YEARS",
-                    time: "5Y",
+                    name: '5 YEARS',
+                    time: '5Y',
                     id: 6
                 }
             ],
@@ -139,19 +138,17 @@ export default {
     },
     components: {
         Graph,
-        Fragment,
-        ModalKYC: () => import("../kyc/ModalKYC"),
-        KYCButton: () => import("../form/KYCButton")
+        Fragment
     },
     computed: {
         ...mapGetters([
-            "gethistoryportfolioprice",
-            "gethistoryportfoliodate",
-            "getPorfolioglobalCurrencyforGraph",
-            "getPorfolioglobalTimeforGraph",
-            "getAccountSummary",
-            "getPortfolioDerivedPrice",
-            "getPortfolioDerivedChange"
+            'gethistoryportfolioprice',
+            'gethistoryportfoliodate',
+            'getPorfolioglobalCurrencyforGraph',
+            'getPorfolioglobalTimeforGraph',
+            'getAccountSummary',
+            'getPortfolioDerivedPrice',
+            'getPortfolioDerivedChange'
         ]),
         isGraphValid() {
             if (this.gethistoryportfolioprice.length === 1) {
@@ -169,40 +166,19 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH",
-            "SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH"
+            'SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH',
+            'SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH'
         ]),
-        ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA", "GET_ACCOUNT_SUMMARY"]),
-        handleStep(step) {
-            this.step = step.type;
-            if (step.kyc) {
-                this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
-                return true;
-            }
-            this.showFund = true;
-        },
-        handleUpdate() {
-            this.showKYC = false;
-            this.$refs.fundBtn.$el.click();
-        },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
-        },
+        ...mapActions(['GET_LINECHART_PORTFOLIO_GRAPH_DATA', 'GET_ACCOUNT_SUMMARY']),
         async toogleCurrency(currency, id) {
             if (currency === this.getPorfolioglobalCurrencyforGraph) {
                 return true;
             }
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
-            console.log('TOOGLE CURRENCY XXXXXXXXXXXXXXXXXXXXXX >>>>>>',this.getPorfolioglobalCurrencyforGraph)
+            console.log(
+                'TOOGLE CURRENCY XXXXXXXXXXXXXXXXXXXXXX >>>>>>',
+                this.getPorfolioglobalCurrencyforGraph
+            );
             this.loading = true;
             await this.GET_ACCOUNT_SUMMARY({ currency }).then(() => {
                 const defaulttime = {
@@ -224,15 +200,14 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(()=>{
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(() => {
                 this.loading = false;
             });
-           
         },
         async mountedActions() {
             const payload = {
                 interval: this.getPorfolioglobalTimeforGraph,
-                currency: this.getPorfolioglobalCurrencyforGraph
+                currency: 'NGN' || this.getPorfolioglobalCurrencyforGraph
             };
             this.loading = true;
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);

@@ -6,13 +6,13 @@
                 <p class="dashboard__title--sub">Portfolio</p>
             </div>
             <section class="portfolio-title__fund">
-                <KYCButton
+                <kyc-button
                     ref="fundBtn"
                     type="button"
                     :classes="['btn-block', 'btn__primary']"
                     action="fund"
                     @step="handleStep"
-                    >Fund</KYCButton
+                    >Fund</kyc-button
                 >
             </section>
         </section>
@@ -75,6 +75,14 @@
             <section class="watchlist-portfolio__box" v-if="watchlistLoading">
                 <WatchlistCard v-for="i in 5" :key="i" :instrument="{}" dummy />
             </section>
+            <template v-else-if="getWatchlist.length <= 0 && getErrorLog.type === 'watchlist'">
+                <div class="caution__big">
+                    <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
+                    <a class="caution__reload" @click="handlewatchlistintervalToogle(true)"
+                        >Reload</a
+                    >
+                </div>
+            </template>
             <section class="watchlist-portfolio__box" v-else-if="getWatchlist.length > 0">
                 <WatchlistCard
                     v-for="(instrument, index) in getWatchlist"
@@ -89,112 +97,93 @@
                 >
             </section>
         </section>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </section>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
-import KYCTitles from "../../services/kyc/kycTitles";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-    name: "portfolio",
+    name: 'portfolio',
     components: {
-        WatchlistCard: () => import("../../components/watchlist/PortfolioWatchlist"),
-        PortfolioCardLocal: () => import("../../components/portfolio/PortfolioCardLocal"),
-        PortfolioCardGlobal: () => import("../../components/portfolio/PortfolioCardGlobal"),
-        PortfolioCardOpenorders: () => import("../../components/portfolio/PortfolioCardOpenorders"),
-        Linegraph: () => import("../../components/Linegraph/linebase"),
-        Doughnut: () => import("../../components/Doughnut/dbase"),
-        Performancebarchart: () => import("../../components/Performance_chart/performancebase"),
-        KYCButton: () => import("../../components/form/KYCButton"),
-        ModalKYC: () => import("../../components/kyc/ModalKYC")
+        WatchlistCard: () => import('../../components/watchlist/PortfolioWatchlist'),
+        PortfolioCardLocal: () => import('../../components/portfolio/PortfolioCardLocal'),
+        PortfolioCardGlobal: () => import('../../components/portfolio/PortfolioCardGlobal'),
+        PortfolioCardOpenorders: () => import('../../components/portfolio/PortfolioCardOpenorders'),
+        Linegraph: () => import('../../components/Linegraph/linebase'),
+        Doughnut: () => import('../../components/Doughnut/dbase'),
+        Performancebarchart: () => import('../../components/Performance_chart/performancebase')
     },
     data() {
         return {
             interval: [
                 {
-                    name: "1 DAY",
-                    value: "1D",
+                    name: '1 DAY',
+                    value: '1D',
                     id: 0,
-                    description: ""
+                    description: ''
                 },
                 {
-                    name: "1 MONTH",
-                    value: "1M",
+                    name: '1 MONTH',
+                    value: '1M',
                     id: 1,
-                    description: ""
+                    description: ''
                 },
                 {
-                    name: "3 MONTHS",
-                    value: "3M",
+                    name: '3 MONTHS',
+                    value: '3M',
                     id: 2,
-                    description: ""
+                    description: ''
                 },
                 {
-                    name: "1 YEAR",
-                    value: "1Y",
+                    name: '1 YEAR',
+                    value: '1Y',
                     id: 3,
-                    description: ""
+                    description: ''
                 },
                 {
-                    name: "5 YEARS",
-                    value: "5Y",
+                    name: '5 YEARS',
+                    value: '5Y',
                     id: 4,
-                    description: ""
+                    description: ''
                 }
             ],
-            watchlistInterval: "1D",
-            cacheWatchlistInterval: "1D",
+            watchlistInterval: '1D',
+            cacheWatchlistInterval: '1D',
             watchlistLoading: true,
             portfolioCardsLoading: false,
-            showFund: false,
-            showSuccess: false,
             showKYC: false,
-            selectedField: {},
-            step: null,
-            allNextKYC: KYCTitles.titles
+            step: null
         };
     },
     methods: {
         ...mapActions([
-            "GET_ACCOUNT_SUMMARY",
-            "GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS",
-            "GET_WATCHLIST"
+            'GET_ACCOUNT_SUMMARY',
+            'GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS',
+            'GET_WATCHLIST'
         ]),
-        ...mapMutations(["SET_WATCHLIST"]),
+        ...mapMutations(['SET_WATCHLIST', 'SET_FUND_MODAL']),
         handleStep(step) {
-            this.step = step.type;
+            this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
             }
-            this.showFund = true;
+            this.showFund();
         },
-        handleUpdate() {
+        handleUpdate(value) {
+            if (value) {
+                this.showFund();
+            }
+        },
+        showFund() {
             this.showKYC = false;
-            this.$refs.fundBtn.$el.click();
-        },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
+            this.SET_FUND_MODAL(true);
         },
         handlewatchlistintervalToogle(e) {
-            if (this.watchlistInterval === this.cacheWatchlistInterval) {
+            if (this.watchlistInterval === this.cacheWatchlistInterval && e !== true) {
                 return true;
             }
             this.watchlistLoading = true;
@@ -207,7 +196,7 @@ export default {
         }
     },
     async mounted() {
-        const payload = { interval: "1D" };
+        const payload = { interval: '1D' };
         const currency = { currency: this.getPorfolioglobalCurrencyforGraph };
         this.watchlistLoading = true;
         this.portfolioCardsLoading = true;
@@ -219,14 +208,15 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "getWatchlist",
-            "getPortfolioSummary",
-            "getPorfolioglobalCurrencyforGraph",
-            "getAccountSummary",
-            "getPortfoliopositionsCarddetails",
-            "getPortfolioDerivedPrice",
-            "getPortfolioDerivedChange",
-            "getNextKYC"
+            'getWatchlist',
+            'getPortfolioSummary',
+            'getPorfolioglobalCurrencyforGraph',
+            'getAccountSummary',
+            'getPortfoliopositionsCarddetails',
+            'getPortfolioDerivedPrice',
+            'getPortfolioDerivedChange',
+            'getNextKYC',
+            'getErrorLog'
         ])
     }
 };

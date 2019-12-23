@@ -9,39 +9,45 @@
                         @click="switchCurrency('NGN')"
                         :class="{ active: currency === 'NGN' }"
                     >
-                        ₦&nbsp;&nbsp;Naira Funding
+                        ₦
                     </button>
                     <button
                         class="btn"
                         @click="switchCurrency('USD')"
                         :class="{ active: currency === 'USD' }"
                     >
-                        $&nbsp;&nbsp;Dollar Funding
+                        $
                     </button>
                 </div>
             </div>
         </template>
-        <template v-if="currency === 'USD' && canFundGlobal !== 3">
+
+        <!-- TO-DO: Put back if dollar funding is blocked for incomplete KYCs -->
+
+        <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
             <div class="modal-form" v-if="canFundGlobal === 1">
                 <h5 class="text-center mb-2">Verification Incomplete</h5>
                 <p class="text-center">
                     To continue your verification, click the button below
                 </p>
                 <div class="text-center mt-3">
-                    <KYCButton
+                    <kyc-button
                         ref="globalBtn"
                         type="button"
                         :classes="['btn__primary']"
                         action="global"
                         @step="handleStep"
-                        >Continue</KYCButton
+                        >Continue</kyc-button
                     >
                 </div>
 
-                <modal @close="showKYC = false" v-if="showKYC">
-                    <template slot="header">{{ selectedField.title }}</template>
-                    <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-                </modal>
+                <modal-kyc
+                    :requiredFields="selectedField.fields"
+                    :title="selectedField.title"
+                    @updated="handleUpdate"
+                    @close="showKYC = false"
+                    v-if="showKYC"
+                />
             </div>
             <div class="modal-form" v-if="canFundGlobal === 2">
                 <h5 class="text-center mb-2">Your Verification is Under Review</h5>
@@ -50,20 +56,19 @@
                     transactions
                 </p>
             </div>
-        </template>
-        <template v-else>
+        </template> -->
+        <template>
             <form class="modal-form" @submit.prevent="fundWallet">
                 <div class="modal-form__group">
                     <label class="form__label"
-                        >Amount
-                        <form-input
-                            type="number"
-                            name="amount"
+                        >Amount<currency-input
+                            :currency="currency"
+                            placeholder="Enter Amount"
                             v-model="itemData.amount"
                             :error-message="issues.amount"
                             @reset="handleReset"
-                            placeholder="Amount"
-                    /></label>
+                        />
+                    </label>
                     <div class="form-info">
                         <small>**Allow up to 1 business day</small>
                     </div>
@@ -106,7 +111,7 @@
                 <br />
                 <p>
                     <small class="grey-dark">
-                        Please put your Chaka ID (in the Accounts section) in the Comments section
+                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section
                         of your transfer request. Email
                         <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
                         completion to confirm manual transfer</small
@@ -118,15 +123,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
-import KYCTitles from "../../services/kyc/kycTitles";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import KYCTitles from '../../services/kyc/kycTitles';
+import CurrencyInput from '../form/CurrencyInput';
+
 export default {
-    name: "fund-modal",
+    name: 'fund-modal',
     components: {
-        KYCButton,
-        ModalKYC
+        CurrencyInput
     },
     data() {
         return {
@@ -134,15 +138,14 @@ export default {
             loading: false,
             message: null,
             issues: {},
-            currency: "NGN",
-            showSuccess: false,
+            currency: 'NGN',
             showKYC: false,
             selectedField: {},
             allNextKYC: KYCTitles.titles
         };
     },
     computed: {
-        ...mapGetters(["getLoggedUser", "getExchangeRate", "getNextKYC"]),
+        ...mapGetters(['getLoggedUser', 'getExchangeRate', 'getNextKYC']),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.actualValue > 2500) {
@@ -152,36 +155,36 @@ export default {
         },
         actualValue() {
             if (!this.itemData.amount) return 0;
-            if (this.currency === "NGN") return this.itemData.amount;
+            if (this.currency === 'NGN') return this.itemData.amount;
             return this.itemData.amount * this.getExchangeRate.sell;
         },
         canFundGlobal() {
-            if (this.getLoggedUser.globalKycStatus === "NONE") return 1;
-            if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
+            if (this.getLoggedUser.globalKycStatus === 'NONE') return 1;
+            if (this.getLoggedUser.globalKycStatus === 'PENDING') return 2;
             return 3;
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "FUND_WALLET", "GET_EXCHANGE_RATE"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapActions(['GET_LOGGED_USER', 'FUND_WALLET', 'GET_EXCHANGE_RATE']),
+        ...mapMutations(['RESET_REQ']),
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         fundWallet() {
             if (!this.itemData.amount) {
-                this.$set(this.issues, "amount", "Amount is required");
+                this.$set(this.issues, 'amount', 'Amount is required');
                 return false;
             }
-            if (typeof +this.itemData.amount !== "number") {
-                this.$set(this.issues, "amount", "Invalid number input");
+            if (typeof +this.itemData.amount !== 'number') {
+                this.$set(this.issues, 'amount', 'Invalid number input');
                 return false;
             }
-            if (+this.itemData.amount < 500 && this.currency === "NGN") {
-                this.$set(this.issues, "amount", "Minimum funding amount is ₦500");
+            if (+this.itemData.amount < 500 && this.currency === 'NGN') {
+                this.$set(this.issues, 'amount', 'Minimum funding amount is ₦500');
                 return false;
             }
-            if (+this.itemData.amount < 10 && this.currency === "USD") {
-                this.$set(this.issues, "amount", "Minimum funding amount is $10");
+            if (+this.itemData.amount < 10 && this.currency === 'USD') {
+                this.$set(this.issues, 'amount', 'Minimum funding amount is $10');
                 return false;
             }
             this.loading = true;
@@ -197,21 +200,21 @@ export default {
                 onClose: () => {
                     this.loading = false;
                 },
-                callback: response => {
+                callback: (response) => {
                     const data = {
                         amount: this.actualValue * 100,
-                        source: "PAYSTACK",
+                        source: 'PAYSTACK',
                         reference: response.reference,
                         currency: this.currency
                     };
-                    this.FUND_WALLET(data).then(resp => {
+                    this.FUND_WALLET(data).then((resp) => {
                         this.loading = false;
                         if (resp) {
                             /**
                              * close fund modal
                              * show success modal
                              */
-                            this.$emit("close", true);
+                            this.$emit('close', true);
                         }
                         return false;
                     });
@@ -221,31 +224,37 @@ export default {
             this.RESET_REQ();
             return true;
         },
-        handleStep(step) {
-            if (step.kyc) {
-                this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
-                return true;
-            } else if (step.type === "global") {
-                // this.showGlobal = true;
-            }
-        },
-        handleUpdate() {
-            this.showKYC = false;
-            this.GET_LOGGED_USER().then(() => {
-                if (this.canFundGlobal === 1) {
-                    this.$refs.globalBtn.$el.click();
-                }
-            });
-            return true;
-        },
+        /**
+         * TO-DO: Put back if dollar funding is blocked for incomplete KYCs
+         */
+
+        // handleStep(step) {
+        //     this.step = step
+        //     if (step.kyc) {
+        //         this.showKYC = true;
+        //         this.allNextKYC.forEach(element => {
+        //             element.fields.forEach(el => {
+        //                 if (el === this.getNextKYC.nextKYC[0]) {
+        //                     this.selectedField = element;
+        //                     this.selectedField.fields = this.getNextKYC.nextKYC;
+        //                 }
+        //             });
+        //         });
+        //         return true;
+        //     }
+        //     if (step.type === "global") {
+        //         // this.showGlobal = true;
+        //     }
+        // },
+        // handleUpdate() {
+        //     // this.showKYC = false;
+        //     this.GET_LOGGED_USER().then(() => {
+        //         if (this.canFundGlobal === 1) {
+        //             this.$refs.globalBtn.$el.click();
+        //         }
+        //     });
+        //     return true;
+        // },
         switchCurrency(currency) {
             this.currency = currency;
             this.handleReset();

@@ -57,11 +57,11 @@
 </template>
 
 <script>
-import auth from "../../services/validations/auth";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations } from 'vuex';
+import auth from '../../services/validations/auth';
 
 export default {
-    name: "Login",
+    name: 'Login',
     data() {
         return {
             itemData: {},
@@ -76,17 +76,17 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["LOGIN"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapActions(['LOGIN']),
+        ...mapMutations(['RESET_REQ']),
         login() {
             this.RESET_REQ();
             if (!this.itemData.email) {
-                this.$set(this.errors, "email", "Field is required");
+                this.$set(this.errors, 'email', 'Field is required');
             } else if (!auth.email(this.itemData.email)) {
-                this.$set(this.errors, "email", "Invalid email");
+                this.$set(this.errors, 'email', 'Invalid email');
             }
             if (!this.itemData.password) {
-                this.$set(this.errors, "password", "Field is required");
+                this.$set(this.errors, 'password', 'Field is required');
             }
             // const p = auth.password(this.itemData.password);
             // console.log(p);
@@ -97,9 +97,9 @@ export default {
                 return false;
             }
             this.loading = true;
-            this.LOGIN(this.itemData).then(resp => {
+            this.LOGIN(this.itemData).then((resp) => {
                 this.loading = false;
-                if (resp) this.$router.push({ name: "dashboard" });
+                if (resp) this.$router.push({ name: 'dashboard' });
             });
         },
         resetError() {
@@ -108,11 +108,9 @@ export default {
     },
     mounted() {
         this.resetError();
-        document.title = "Chaka - Login";
-        document.getElementsByTagName("meta").keywords.content =
-            "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
-        document.getElementsByTagName("meta").description.content =
-            "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+        document.title = 'Chaka - Login';
+        document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+        document.getElementsByTagName('meta').description.content = 'Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.';
     }
 };
 </script>

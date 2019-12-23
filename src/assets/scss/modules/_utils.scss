@@ -1,9 +1,8 @@
 .container {
   position: relative;
   width: 100%;
-  // max-width: 500px;
-  padding-right: 2rem;
-  padding-left: 2rem;
+  padding-right: 1.325rem;
+  padding-left: 1.325rem;
   margin-right: auto;
   margin-left: auto;
 
@@ -15,7 +14,8 @@
 
   @include tablet {
     width: 100%;
-    // max-width: 800px;
+    padding-right: 2rem;
+    padding-left: 2rem;
   }
 
   @include desktop {
@@ -26,6 +26,18 @@
 
 #app {
   min-height: 100vh;
+
+  &.overflow {
+    overflow: hidden;
+  }
+}
+
+.app {
+  &-body {
+    @extend .container;
+    margin-top: 2.5rem;
+    padding-bottom: 2rem;
+  }
 }
 
 main {
@@ -59,7 +71,6 @@ main {
 
 .cta {
   text-align: center;
-  padding: 1em 0;
   font-size: 1rem;
 
   @media #{$mobile} {
@@ -156,15 +167,23 @@ main {
   }
 }
 
-.subscribe {
-  padding: 6.125rem;
-
-  @media #{$mobile} {
-    padding: 3rem 1.25rem;
+.hero {
+  &__title {
+    margin-bottom: 0.825rem;
   }
+}
 
-  @media #{$tablet} {
-    padding: 4rem 2rem;
+.subscribe {
+  @extend .container;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  // @media #{$mobile} {
+  //   padding: 3rem 1.25rem;
+  // }
+
+  @include desktop {
+    padding-top: 5rem;
   }
 
   &__body {
@@ -192,6 +211,15 @@ main {
       padding-right: 3rem;
       max-width: 66.6666%;
       flex: 0 0 66.6666%;
+    }
+  }
+
+  &__title {
+    font-weight: normal;
+    margin-bottom: 1.5rem;
+
+    @include tablet {
+      margin-bottom: 1rem;
     }
   }
 
@@ -324,6 +352,10 @@ main {
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -362,6 +394,10 @@ main {
 
 .faded {
   opacity: 0.5;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 .absolute {

@@ -141,16 +141,6 @@
             }
         }
 
-        &__graphics {
-            display: inline-flex;
-            justify-content: space-between;
-            margin-top: 3rem;
-
-            img {
-                width: 48%
-            }
-        }
-
         &__text {
             flex-grow: 1 1 100%;
             margin-top: 2rem;
@@ -235,8 +225,8 @@
             margin-bottom: 1rem;
 
             .btn {
-                flex: 0 0 20%;
-                max-width: 20%;
+                flex: 0 0 25%;
+                max-width: 25%;
                 font-size: 70%;
                 padding-left: 0;
                 padding-right: 0;
@@ -401,7 +391,7 @@
                 max-width: 300px;
                 margin-left: auto;
                 margin-right: auto;
-                margin-bottom: 2rem;
+                margin-bottom: 1rem;
                 text-align: center;
             }
         }
@@ -409,6 +399,11 @@
         &__data {
             color: $primary-dark;
             margin-top: .825rem;
+        }
+
+        &__resend{
+            display: flex;
+            justify-content: space-between;
         }
     }
 }

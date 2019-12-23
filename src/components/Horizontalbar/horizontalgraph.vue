@@ -1,11 +1,15 @@
 <template>
-<div>
-	<div :style="graphstyle" class="small chart__box">
-		<div class="chart__aspect-ratio">
-			<Doughnut class="chart__graph" :chart-data="datacollection" :options="options"></Doughnut>
-		</div>
-	</div>
-  </div>
+    <div>
+        <div :style="graphstyle" class="small chart__box">
+            <div class="chart__aspect-ratio">
+                <Doughnut
+                    class="chart__graph"
+                    :chart-data="datacollection"
+                    :options="options"
+                ></Doughnut>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -22,8 +26,8 @@ export default {
             min: '',
             max: '',
             graphstyle: {
-               width: '90%',
-               margin:'0 auto'
+                width: '90%',
+                margin: '0 auto'
             },
             interval: 10,
             datacollection: {},
@@ -68,49 +72,49 @@ export default {
             options: {
                 scales: {
                     xAxes: [
-          	{
+                        {
                             // 		distribution: 'linear',
                             // 		display: false,
                             // 		ticks: {
                             // 			maxTicksLimit: 8,
                             // 			fontSize: 10
                             // 		},
-          		gridLines: {
-          			display: false,
-          			labelString: 'Date',
-          			drawBorder: false
-          		}
-          	}
+                            gridLines: {
+                                display: false,
+                                labelString: 'Date',
+                                drawBorder: false
+                            }
+                        }
                     ],
 
                     yAxes: [
-          	    {
-          		    scaleLabel: {
-          			display: false
-          			// labelString: 'Price'
-                  },
-                barPercentage: 0.7,
-          		position: 'left',
-          		ticks: {
-          			beginAtZero: false,
-          			fontColor: '#8A939A',
-          			padding: 0,
-          			fontSize: 10,
-          			max: this.max,
-          			min: this.min,
-          			stepSize: this.interval,
-          			// callback:{
-                    //       label(tooltipItem, data){
-                    //         const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
-                    //         return currency;
-                    //     }
-                    //   }
-          		},
-          		gridLines: {
-          			display: false,
-          			drawBorder: false
-          		}
-          	}
+                        {
+                            scaleLabel: {
+                                display: false
+                                // labelString: 'Price'
+                            },
+                            barPercentage: 0.7,
+                            position: 'left',
+                            ticks: {
+                                beginAtZero: false,
+                                fontColor: '#8A939A',
+                                padding: 0,
+                                fontSize: 10,
+                                max: this.max,
+                                min: this.min,
+                                stepSize: this.interval
+                                // callback:{
+                                //       label(tooltipItem, data){
+                                //         const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
+                                //         return currency;
+                                //     }
+                                //   }
+                            },
+                            gridLines: {
+                                display: false,
+                                drawBorder: false
+                            }
+                        }
                     ]
                 },
                 layout: {
@@ -161,19 +165,18 @@ export default {
         };
     },
 
-
     mounted() {
         this.fillData();
     },
-    props:{
-        values:{
-            type:Array,
-            required:true
+    props: {
+        values: {
+            type: Array,
+            required: true
         },
-       actions:{
-            type:Array,
-            required:true
-       } 
+        actions: {
+            type: Array,
+            required: true
+        }
     },
     methods: {
         fillData() {
@@ -201,14 +204,18 @@ export default {
             };
         }
     },
-     watch: {
-		values(newvalue, oldvalue) {
-			this.fillData();
-		},
-		actions(newaction, oldaction) {
-			this.fillData();
-		},
+    watch: {
+        values(newvalue, oldvalue) {
+            this.fillData();
+        },
+        actions(newaction, oldaction) {
+            this.fillData();
+        }
+    },
+    beforeRouteLeave(to, from, next) {
+        this.values = [];
+        this.actions = [];
+        next();
     }
-
 };
 </script>

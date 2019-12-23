@@ -1,0 +1,119 @@
+.calculator {
+    display: flex;
+    flex-wrap: wrap;
+
+    @include tablet {
+        justify-content: space-between;
+    }
+
+    &-text {
+        h2 {
+            font-size: 3rem;
+        }
+
+        p {
+            font-size: 0.85rem;
+        }
+
+        @include tablet {
+            max-width: 40%;
+            flex: 0 0 40%
+        }
+    }
+
+    &-body {
+        background-color: $primary-dark;
+        border-radius: 7px;
+        color: $white;
+        padding: 1.5rem;
+        height: fit-content;
+        height: -moz-fit-content;
+
+        @include mobile {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        h6,
+        h4 {
+            color: $white
+        }
+
+        &__select {
+            width: 100%;
+            margin-bottom: 0.825rem;
+
+            select {
+                width: 100%;
+                background: $white;
+            }
+        }
+
+        &__form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+
+            &--group {
+                width: 100%;
+
+                @include mobile {
+                    margin-top: 1rem;
+                }
+
+                label {
+                    font-size: 0.825rem;
+                    color: rgba($color: $white, $alpha: 0.85)
+                }
+
+                @include tablet {
+                    flex: 1 0 30%;
+
+                    &:nth-child(2),
+                    &:nth-child(3) {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
+
+        &__radio {
+            margin-top: 1rem;
+
+            label {
+                width: 50%;
+                display: inline-block;
+            }
+
+            input {
+                margin-right: 0.5rem;
+            }
+        }
+
+        @include tablet {
+            max-width: 58%;
+            flex: 0 0 58%
+        }
+    }
+
+    &__data {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+
+        &-row {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            padding: 0.825rem 0;
+            border-bottom: 1px solid rgba($color: $white, $alpha: 0.25);
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
+    &-pricing {
+        margin-top: 2.5rem;
+    }
+}

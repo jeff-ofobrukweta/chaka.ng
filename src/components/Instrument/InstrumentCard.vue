@@ -120,37 +120,24 @@
                 />
             </section>
         </router-link>
-        <KYCButton
+        <kyc-button
             ref="buyBtn"
             type="button"
             :classes="['section3']"
             :action="instrument.currency === 'NGN' ? 'local' : 'global'"
             @step="handleStep"
-            >Buy</KYCButton
+            >Buy</kyc-button
         >
-        <buy-modal
-            @close="closeBuyModal"
-            :currency="instrument.currency"
-            :symbol="instrument.symbol"
-            :instrument="instrument"
-            v-if="showBuy"
-        />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </div>
 </template>
 
 <script>
-import KYCButton from "../../components/form/KYCButton";
-import ModalKYC from "../../components/kyc/ModalKYC";
-import KYCTitles from "../../services/kyc/kycTitles";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+
 export default {
-    name: "instrument-card",
+    name: 'instrument-card',
     props: {
         instrument: {
             type: Object,
@@ -160,23 +147,15 @@ export default {
             type: Boolean
         }
     },
-    components: {
-        KYCButton,
-        ModalKYC
-    },
     data() {
         return {
             step: null,
-            showBuy: false,
             showKYC: false,
-            showSuccess: false,
-            selectedField: {},
-            allNextKYC: KYCTitles.titles,
             loading: false
         };
     },
     computed: {
-        ...mapGetters(["getNextKYC", "getWatchlist"]),
+        ...mapGetters(['getNextKYC', 'getWatchlist']),
         watched() {
             const filter = this.getWatchlist.filter(el => el.symbol === this.instrument.symbol);
             if (filter.length <= 0) {
@@ -186,39 +165,33 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["ADD_TO_WATCHLIST", "REMOVE_FROM_WATCHLIST"]),
+        ...mapActions(['ADD_TO_WATCHLIST', 'REMOVE_FROM_WATCHLIST']),
+        ...mapMutations(['SET_BUY_MODAL']),
         checkChange(value) {
             if (+value >= 0) return true;
             return false;
         },
         handleStep(step) {
-            this.step = step.type;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
-            } else {
-                this.showBuy = true;
             }
+            this.showBuy();
         },
-        handleUpdate() {
+        handleUpdate(value) {
+            if (value) {
+                this.showBuy();
+            }
+            // this.$refs.buyBtn.$el.click();
+        },
+        showBuy() {
             this.showKYC = false;
-            if (this.step !== "kyc") {
-                this.$refs.buyBtn.$el.click();
-            }
-        },
-        closeBuyModal(e) {
-            if (e) {
-                this.showSuccess = true;
-            }
-            this.showBuy = false;
+            this.SET_BUY_MODAL({
+                instrument: this.instrument,
+                currency: this.instrument.currency,
+                stockPage: false,
+                show: true
+            });
         },
         async removeFromWatchlist() {
             this.loading = true;

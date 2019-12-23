@@ -44,6 +44,10 @@ h6 {
 
 h1 {
   font-size: 3.325rem;
+
+  @include mobile {
+    font-size: 3rem;
+  }
 }
 
 h2 {

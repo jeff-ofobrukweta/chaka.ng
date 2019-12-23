@@ -4,6 +4,41 @@
     justify-content: space-between;
     flex: 0 0 100%;
 }
+.expand{
+    color:#22a4ef;
+    margin-left: 10px;
+}
+.watch{
+    background:#22a4ef;
+    border-radius: 3.875px;
+    padding: 0.68em 1em;
+    font-weight: bold;
+    font-size: 15.4204px;
+    text-align: center;
+    color:#FFF0;
+    margin-top: .5em;
+    transform: all 0.35s;
+    .middle-loader{
+        width: 13px;
+        object-fit: contain;
+    }
+}
+.unwatch{
+    background: #22a4ef00;
+    border-radius: 3.875px;
+    padding: 0.68em 1em;
+    font-weight: bold;
+    font-size: 15.4204px;
+    text-align: center;
+    color:#FFF0;
+    margin-top: .5em;
+    transform: all 0.35s;
+    border: 1px solid #22a4ef;
+    .middle-loader{
+        width: 13px;
+        object-fit: contain;
+    }
+}
 .issues-with-pageloading{
     .center-fix-messg{
         .middle-loader{
@@ -56,7 +91,7 @@
     .name-country {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
 
         .logo-company {
             object-fit: contain;
@@ -91,12 +126,13 @@
     .buy-btn {
         background: #22A4EF;
         border-radius: 3.875px;
-        padding: 0.68em 4em;
+        padding: 0.68em 2em;
         font-weight: bold;
         font-size: 15.4204px;
         text-align: center;
         color: #FFFFFF;
         margin-top: .5em;
+        margin-right:5px;
     }
 
 }
@@ -202,7 +238,7 @@
         font-size: 19.4204px;
         text-align: center;
         color: #FFFFFF;
-        margin: 1em auto;
+        margin: 0em auto;
         width: 100%;
     }
 

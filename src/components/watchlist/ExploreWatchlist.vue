@@ -95,44 +95,27 @@
             <button v-else>
                 <img :src="require('../../assets/img/loader.gif')" alt="Loading" width="16px" />
             </button>
-            <KYCButton
+            <kyc-button
                 ref="buyBtn"
                 type="button"
                 :classes="['']"
                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                 @step="handleStep"
-                >Buy</KYCButton
+                >Buy</kyc-button
             >
         </div>
-        <buy-modal
-            @close="closeBuyModal"
-            :currency="instrument.currency"
-            :symbol="instrument.symbol"
-            :instrument="instrument"
-            v-if="showBuy"
-        />
-        <sale-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </div>
 </template>
 
 <script>
-import LineChart from "../Linegraph/linegraph_config.js";
-import KYCButton from "../form/KYCButton";
-import ModalKYC from "../kyc/ModalKYC";
-import KYCTitles from "../../services/kyc/kycTitles";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "explore-watchlist",
+    name: 'explore-watchlist',
     components: {
-        LineChart,
-        KYCButton,
-        ModalKYC
+        LineChart: () => import('../Linegraph/linegraph_config')
     },
     props: {
         instrument: {
@@ -141,7 +124,7 @@ export default {
         },
         color: {
             type: String,
-            default: "green"
+            default: 'green'
         },
         dummy: {
             type: Boolean
@@ -149,13 +132,8 @@ export default {
     },
     data() {
         return {
-            showBuy: false,
-            showSuccess: false,
             datacollection: {},
-            step: null,
             showKYC: false,
-            selectedField: {},
-            allNextKYC: KYCTitles.titles,
             options: {
                 responsive: false,
                 legend: {
@@ -163,7 +141,7 @@ export default {
                 },
                 elements: {
                     line: {
-                        borderColor: "#000000",
+                        borderColor: '#000000',
                         borderWidth: 1
                     },
                     point: {
@@ -193,27 +171,28 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getNextKYC"])
+        ...mapGetters(['getNextKYC'])
     },
     methods: {
-        ...mapActions(["GET_WATCHLIST_CHART", "REMOVE_FROM_WATCHLIST"]),
+        ...mapActions(['GET_WATCHLIST_CHART', 'REMOVE_FROM_WATCHLIST']),
+        ...mapMutations(['SET_BUY_MODAL']),
         fillData() {
             this.datacollection = {
                 labels: this.labelsArray,
                 datasets: [
                     {
-                        label: "Stocks",
+                        label: 'Stocks',
                         lineTension: 0.4,
                         fill: false,
                         borderColor: this.color,
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: "miter",
-                        pointBackgroundColor: "#484848",
+                        borderJoinStyle: 'miter',
+                        pointBackgroundColor: '#484848',
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: "#2DA5EC",
-                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBackgroundColor: '#2DA5EC',
+                        pointHoverBorderColor: 'rgba(220,220,220,1)',
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
@@ -223,33 +202,25 @@ export default {
             };
         },
         handleStep(step) {
-            this.step = step.type;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
-            } else {
-                this.showBuy = true;
+            }
+            this.showBuy();
+        },
+        handleUpdate(value) {
+            if (value) {
+                this.showBuy();
             }
         },
-        handleUpdate() {
+        showBuy() {
             this.showKYC = false;
-            if (this.step !== "kyc") {
-                this.$refs.buyBtn.$el.click();
-            }
-        },
-        closeBuyModal(e) {
-            if (e) {
-                this.showSuccess = true;
-            }
-            this.showBuy = false;
+            this.SET_BUY_MODAL({
+                instrument: this.instrument,
+                currency: this.instrument.currency,
+                stockPage: false,
+                show: true
+            });
         },
         async removeFromWatchlist() {
             this.loading = true;
@@ -265,11 +236,11 @@ export default {
             await Promise.all([
                 this.GET_WATCHLIST_CHART({
                     symbol: this.instrument.symbol,
-                    interval: "1W"
-                }).then(resp => {
+                    interval: '1W'
+                }).then((resp) => {
                     this.chartData = resp;
                     if (this.chartData) {
-                        this.chartData.chart.map(el => {
+                        this.chartData.chart.map((el) => {
                             this.labelsArray.push(el.date);
                             this.chartArray.push(el.price);
                         });

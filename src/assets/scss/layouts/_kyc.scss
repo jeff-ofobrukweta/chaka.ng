@@ -34,9 +34,16 @@
                 text-align: left;
             }
 
+            &--stretch {
+                @include tablet {
+                    flex: 0 0 65%;
+                    max-width: 65%;
+                }
+            }
+
             h5 {
                 color: white;
-                margin-bottom: .5rem;
+                margin-bottom: .125rem;
                 font-weight: normal;
             }
 
@@ -45,7 +52,7 @@
             }
 
             .skip-button {
-                margin-top: 1rem;
+                margin-top: .5rem;
             }
 
             &--center {
@@ -87,8 +94,8 @@
 
             a {
                 text-decoration: underline;
-                margin-top: 1rem;
-                margin-bottom: 1rem;
+                margin-top: .825rem;
+                margin-bottom: .25rem;
                 display: inline-block;
 
                 &.skip {
@@ -142,7 +149,8 @@
             margin-right: 10px;
             margin-bottom: 6px;
             border-radius: 30px;
-            padding: 0.5rem 1rem;
+            padding: 0.325rem 0.825rem;
+            font-size: 0.9rem;
             border-color: rgba($color: $primary, $alpha: 0.25);
             background-color: $white;
 
@@ -152,7 +160,7 @@
                 height: 7px;
                 background: $primary;
                 border: 1px solid $white;
-                box-shadow: 0 0 3px $primary;
+                box-shadow: 0 0 2px 1px $primary;
                 border-radius: 50%;
                 margin-right: 6px;
             }
@@ -197,11 +205,68 @@
             @extend .kyc-form__group;
             margin-bottom: 1rem;
 
+            .uploads {
+                margin-right: auto;
+                margin: auto
+            }
+
         }
     }
 
     &-modal {
-        color: $text-color
+        color: $text-color;
+
+        &__uploads {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+
+            &>div {
+                width: auto
+            }
+        }
+
+        &__small {
+            font-size: 0.825rem;
+            color: $grey-cool
+        }
+
+        &__popular {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            max-width: 300px;
+            margin: 1.5rem auto;
+
+            &--div {
+                max-width: 100px;
+                width: 49%
+            }
+
+            &--logo {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+            }
+
+            &--flag {
+                margin-top: .5rem;
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        &__single {
+            &>div {
+                margin: auto;
+                cursor: pointer;
+            }
+        }
+
+        &__dummy {
+            min-height: 200px;
+            width: 100%
+        }
     }
 
     &-navbar {

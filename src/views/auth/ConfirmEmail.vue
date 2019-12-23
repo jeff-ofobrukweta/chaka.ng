@@ -10,7 +10,6 @@
                 <div class="form__image">
                     <svg
                         width="83"
-                        class="stock-vdr__svg"
                         height="83"
                         viewBox="0 0 83 83"
                         fill="none"
@@ -22,8 +21,10 @@
                         />
                     </svg>
                 </div>
-                <h3 class="auth-form__title">Email Verified</h3>
-                <p class="form__caption">You will be redirected to login with your credentials</p>
+                <h5 class="auth-form__title mt-2">Email Verified</h5>
+                <p class="form__caption">
+                    <small>You will be redirected to login with your credentials</small>
+                </p>
                 <div>
                     <router-link class="btn btn__primary" :to="{ name: 'login' }"
                         >Login</router-link
@@ -33,8 +34,10 @@
             <div class="auth-form text-center" v-else>
                 <error-block type="confirm-email" />
                 <p>
-                    There was an error confirming your email. Kindly log in to resend confirmation
-                    link
+                    <small>
+                        There was an error confirming your email. Kindly log in to resend
+                        confirmation link.</small
+                    >
                 </p>
                 <router-link class="btn btn__primary" :to="{ name: 'login' }">Login</router-link>
             </div>
@@ -43,11 +46,11 @@
 </template>
 
 <script>
-import auth from "../../services/validations/auth";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations } from 'vuex';
+import auth from '../../services/validations/auth';
 
 export default {
-    name: "ConfirmEmail",
+    name: 'ConfirmEmail',
     data() {
         return {
             loading: false,
@@ -63,8 +66,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["LOGIN", "CONFIRM_EMAIL"]),
-        ...mapMutations(["RESET_REQ", "LOGOUT", "SET_LOGGED_USER", "RESET_ALL"])
+        ...mapActions(['LOGIN', 'CONFIRM_EMAIL']),
+        ...mapMutations(['RESET_REQ', 'LOGOUT', 'SET_LOGGED_USER', 'RESET_ALL'])
     },
     mounted() {
         this.loading = true;
@@ -73,17 +76,16 @@ export default {
             chakaID: this.chakaID,
             token: this.token
         };
-        this.CONFIRM_EMAIL(payload).then(resp => {
+        this.CONFIRM_EMAIL(payload).then((resp) => {
             this.loading = false;
             if (resp) {
                 this.success = true;
                 setTimeout(() => {
-                    this.$router.push({ name: "login" });
+                    this.$router.push({ name: 'login' });
                 }, 5000);
                 return true;
-            } else {
-                this.success = false;
             }
+            this.success = false;
         });
     },
     created() {

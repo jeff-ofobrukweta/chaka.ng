@@ -30,13 +30,17 @@
             :src="tag.imageUrl"
             :alt="tag.name"
         />
-        <section class="tag-name" :class="{ active: active }">{{ tag.name }}</section>
+        <router-link
+            class="taglinking"
+            :to="{ name: 'categories', params: { category: tag.slug } }">
+            <section class="tag-name" :class="{ active: active }">{{ tag.name }}</section>
+        </router-link>
     </div>
 </template>
 
 <script>
 export default {
-    name: "single-tag",
+    name: 'single-tag',
     props: {
         tag: {
             type: Object,
@@ -51,7 +55,7 @@ export default {
     },
     methods: {
         tagSelect() {
-            this.$emit("click", this.tag);
+            this.$emit('click', this.tag);
         }
     }
 };

@@ -30,16 +30,6 @@
                                 ></small
                             >
                         </p>
-                        <p
-                            class="skip-button"
-                            v-if="
-                                getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
-                            "
-                        >
-                            <a class="underline" @click="enterNIN = true"
-                                ><small>Enter your NIN to fast track your verification</small></a
-                            >
-                        </p>
                     </div>
 
                     <div class="kyc-nav__field">
@@ -80,7 +70,7 @@
                         <a
                             class="underline"
                             v-if="getKYC.ninFetchStatus === 'SKIPPED'"
-                            @click="enterNIN = true"
+                            @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
                         >
                         <a @click="hideKYCBtn">Hide</a>
@@ -102,7 +92,7 @@
                                 getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
                             "
                         >
-                            <a class="underline" @click="enterNIN = true"
+                            <a class="underline" @click="showNextModalBtn('nin')"
                                 ><small>Enter your NIN to fast track your verification</small></a
                             >
                         </p>
@@ -154,7 +144,7 @@
                         <a
                             class="underline"
                             v-if="getKYC.ninFetchStatus === 'SKIPPED'"
-                            @click="enterNIN = true"
+                            @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
                         >
                         <a @click="hideKYCBtn">Hide</a>
@@ -164,7 +154,7 @@
         </template>
         <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'phone'">
             <div class="kyc-nav container">
-                <div class="kyc-nav__text">
+                <div class="kyc-nav__text kyc-nav__text--stretch">
                     <h5>Verify Phone</h5>
                     <p>
                         <small
@@ -179,9 +169,6 @@
                             different phone number</small
                         >
                     </p>
-                </div>
-                <div class="kyc-nav__field">
-                    <!-- <Field :field="OTPField" @input="handleInput" v-model="itemData.otp" /> -->
                 </div>
                 <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                     <a @click="hideKYCBtn">Hide</a>
@@ -224,9 +211,9 @@
                             >
                         </p>
                         <p class="skip-button" v-if="getWindowWidth !== 'mobile'">
-                            <button class="btn btn__white btn-small" type="button" @click="skipNIN">
-                                Skip
-                            </button>
+                            <a class="underline" @click="skipNIN">
+                                <small>Skip</small>
+                            </a>
                         </p>
                     </div>
                     <div class="kyc-nav__field">
@@ -281,7 +268,7 @@
         <template v-else>
             <div>
                 <div class="kyc-nav container">
-                    <div class="kyc-nav__text">
+                    <div class="kyc-nav__text kyc-nav__text--stretch">
                         <h5>{{ selectedField.title }}</h5>
                         <p>
                             <small>{{ selectedField.subtitle }}</small>
@@ -292,12 +279,11 @@
                                 getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
                             "
                         >
-                            <a class="underline" @click="enterNIN = true"
+                            <a class="underline" @click="showNextModalBtn('nin')"
                                 ><small>Enter your NIN to fast track your verification</small></a
                             >
                         </p>
                     </div>
-                    <div class="kyc-nav__field"></div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a @click="hideKYCBtn">Hide</a>
                         <button type="button" class="btn kyc-nav__button" @click="showNextModalBtn">
@@ -328,7 +314,7 @@
                         <a
                             class="underline"
                             v-if="getKYC.ninFetchStatus === 'SKIPPED'"
-                            @click="enterNIN = true"
+                            @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
                         >
                         <div>
@@ -339,7 +325,8 @@
             </div>
         </template>
         <error-block type="kyc" navbar v-if="getErrorLog.source === 'navbar'" />
-        <modal no-header @close="showOTP = false" v-if="showOTP">
+        <modal @close="showOTP = false" v-if="showOTP">
+            <template slot="header">Verify Your Phone</template>
             <form @submit.prevent="useNewPhone" v-if="showNewPhone">
                 <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
                 <div class="accounts-settings__group--modal">
@@ -426,78 +413,104 @@
                     >
                 </section>
                 <div class="text-center">
+                    <small
+                        ><a @click="showNewPhone = true" class="underline small"
+                            >Use another phone number</a
+                        ></small
+                    >
+                    <br />
+                    <br />
                     <template v-if="!countdown">
-                        <p class="mb-1">Resend OTP</p>
-                        <p class="mb-1">
-                            <a class="underline primary" @click="resendOTPEmail">Via Email</a>
-                        </p>
-                        <p class="mb-3">
-                            <a class="underline primary" @click="resendOTPWhatsapp">Via Whatsapp</a>
-                        </p>
+                        <div class="accounts-settings__resend">
+                            <p>
+                                <small>
+                                    <a class="underline small" @click="resendOTPEmail"
+                                        >Resend Via Email</a
+                                    ></small
+                                >
+                            </p>
+                            <p>
+                                <small
+                                    ><a class="underline small" @click="resendOTPWhatsapp"
+                                        >Resend Via Whatsapp</a
+                                    ></small
+                                >
+                            </p>
+                        </div>
                     </template>
 
                     <p class="countdown--account" v-else>
                         <span class="countdown__text">Resend in</span>&nbsp;
                         <span>{{ countdown }}</span>
                     </p>
-                    <small
-                        ><a @click="showNewPhone = true" class="underline primary">Click here</a> to
-                        use a different phone number</small
-                    >
                 </div>
             </form>
         </modal>
 
-        <modal @close="showNextModal = false" v-if="showNextModal">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="showNextModal = false" />
-        </modal>
+        <!-- <modal-kyc
+            :requiredFields="ninFields.fields"
+            :title="ninFields.title"
+            @updated="closeNIN"
+            @close="enterNIN = false"
+            v-if="enterNIN"
+            nin
+        /> -->
+        <modal-kyc
+            @updated="handleUpdate"
+            @close="showNextModal = false"
+            v-if="showNextModal"
+            navbar
+            :nin="enterNIN"
+        />
 
-        <EnterNIN v-if="enterNIN" @updated="closeNIN" @close="closeNIN" />
+        <!-- <EnterNIN v-if="enterNIN" @updated="closeNIN" @close="closeNIN" /> -->
     </section>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
-import Field from "./KYCField";
-import ModalKYC from "./ModalKYC";
-import KYCTitles from "../../services/kyc/kycTitles";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+import Field from './KYCField';
+import KYCTitles from '../../services/kyc/kycTitles';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "kyc-navbar",
+    name: 'kyc-navbar',
     components: {
         Field,
-        ModalKYC,
-        EnterNIN: () => import("./EnterNIN")
+        EnterNIN: () => import('./EnterNIN')
     },
     data() {
         return {
             disclosureField: {
-                name: "Disclosure Name",
-                type: "text",
-                value: "disclosureName"
+                name: 'Disclosure Name',
+                type: 'text',
+                value: 'disclosureName'
             },
             bvnField: {
-                name: "BVN",
-                value: "bvn",
-                type: "number"
+                name: 'BVN',
+                value: 'bvn',
+                type: 'number'
             },
             OTPField: {
-                name: "OTP",
-                value: "otp",
-                type: "number"
+                name: 'OTP',
+                value: 'otp',
+                type: 'number'
             },
             ninField: {
-                name: "NIN",
-                value: "nin",
-                type: "number"
+                name: 'NIN',
+                value: 'nin',
+                type: 'number'
+            },
+            ninFields: {
+                title: 'National Identity Number',
+                subtitle: 'Enter your NIN details',
+                fields: ['nin']
             },
             selectedField: {},
             showNextModal: false,
             allNextKYC: KYCTitles.titles,
             itemData: {},
             loading: false,
-            fromNavbar: false,
             showOTP: false,
             showNewPhone: false,
             countdown: null,
@@ -510,13 +523,12 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "getWindowWidth",
-            "getKYC",
-            "getNavbarNextKYC",
-            "getCountryCodes",
-            "getNavbarTrigger",
-            "getErrorLog",
-            "getKYC"
+            'getWindowWidth',
+            'getKYC',
+            'getNavbarNextKYC',
+            'getCountryCodes',
+            'getErrorLog',
+            'getKYC'
         ])
         // checkError(){
         //     if(this.itemData.bvn){
@@ -530,24 +542,24 @@ export default {
     },
     methods: {
         ...mapActions([
-            "GET_KYC",
-            "GET_NEXT_KYC",
-            "UPDATE_KYC",
-            "UPDATE_KYC_NIN",
-            "RESOLVE_BVN",
-            "RESOLVE_OTP",
-            "GET_COUNTRY_CODES",
-            "USE_BVN_PHONE"
+            'GET_KYC',
+            'GET_NEXT_KYC',
+            'UPDATE_KYC',
+            'UPDATE_KYC_NIN',
+            'RESOLVE_BVN',
+            'RESOLVE_OTP',
+            'GET_COUNTRY_CODES',
+            'USE_BVN_PHONE'
         ]),
-        ...mapMutations(["SET_NAVBAR_TRIGGER", "SET_SHOW_NAVBAR_KYC"]),
+        ...mapMutations(['SET_SHOW_NAVBAR_KYC']),
         handleInput(e) {
             this.$set(this.itemData, e.name, e.value);
         },
         submitDisclosure() {
             const payload = { ...this.itemData };
-            payload.source = "navbar";
+            payload.source = 'navbar';
             this.loading = true;
-            this.UPDATE_KYC(payload).then(resp => {
+            this.UPDATE_KYC(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.checkNextKYC();
@@ -558,13 +570,13 @@ export default {
         submitBVN() {
             if (Number.isNaN(+this.itemData.bvn)) {
                 this.issues = {
-                    bvn: "BVN should be a number"
+                    bvn: 'BVN should be a number'
                 };
                 return false;
             }
             if (this.itemData.bvn.length < 11) {
                 this.issues = {
-                    bvn: "BVN should be 11 digits"
+                    bvn: 'BVN should be 11 digits'
                 };
                 return false;
             }
@@ -572,11 +584,12 @@ export default {
                 return false;
             }
             const payload = { ...this.itemData };
-            payload.source = "navbar";
+            payload.source = 'navbar';
             this.loading = true;
-            this.RESOLVE_BVN(payload).then(resp => {
+            this.RESOLVE_BVN(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
+                    this.confirmPhone();
                     this.checkNextKYC();
                     this.itemData = {};
                 }
@@ -584,9 +597,9 @@ export default {
         },
         submitNIN() {
             const payload = { ...this.itemData };
-            payload.source = "navbar";
+            payload.source = 'navbar';
             this.loading = true;
-            this.UPDATE_KYC_NIN(payload).then(resp => {
+            this.UPDATE_KYC_NIN(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.checkNextKYC();
@@ -599,7 +612,7 @@ export default {
             const payload = {
                 smsSender: this.smsSender
             };
-            this.USE_BVN_PHONE(payload).then(resp => {
+            this.USE_BVN_PHONE(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showOTP = true;
@@ -628,7 +641,7 @@ export default {
             //     return false;
             // }
             this.loading = true;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -638,11 +651,12 @@ export default {
         },
         submitOTP() {
             this.loading = true;
-            this.RESOLVE_OTP(this.otpData).then(resp => {
+            this.RESOLVE_OTP(this.otpData).then((resp) => {
                 this.loading = false;
                 if (resp) {
-                    this.itemData = {};
+                    this.showNextModalBtn();
                     this.showOTP = false;
+                    this.itemData = {};
                 }
             });
         },
@@ -657,7 +671,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 if (resp) {
                     this.showOTP = false;
                     this.OTPResend = false;
@@ -676,7 +690,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 if (resp) {
                     this.showOTP = false;
                     this.OTPResend = false;
@@ -698,10 +712,9 @@ export default {
                     return true;
                 }
                 const hours = Math.floor(counting / 60);
-                const minutes =
-                    Math.floor(counting % 60) < 10
-                        ? `0${Math.floor(counting % 60)}`
-                        : Math.floor(counting % 60);
+                const minutes = Math.floor(counting % 60) < 10
+                    ? `0${Math.floor(counting % 60)}`
+                    : Math.floor(counting % 60);
                 this.countdown = `${hours}:${minutes}`;
             }, 1000);
         },
@@ -721,53 +734,80 @@ export default {
             this.showNewPhone = false;
             this.resendOTPWhatsapp();
         },
-        showNextModalBtn() {
+        showNextModalBtn(nin) {
+            if (nin === 'nin') {
+                this.enterNIN = true;
+            } else {
+                this.closeNIN();
+            }
+            this.checkNextKYC();
+            EventBus.$emit('modal-trigger');
+            EventBus.$emit('navbar-trigger');
             this.showNextModal = true;
         },
         checkNextKYC() {
-            this.allNextKYC.forEach(element => {
-                element.fields.forEach(el => {
-                    if (el === this.getNavbarNextKYC.nextKYC[0]) {
-                        this.selectedField = element;
-                        this.selectedField.fields = this.getNavbarNextKYC.nextKYC;
-                    }
+            this.resetFields();
+            if (Object.keys(this.getNavbarNextKYC).length > 0) {
+                this.selectedField = {};
+                this.allNextKYC.forEach((element) => {
+                    element.fields.forEach((el) => {
+                        if (el === this.getNavbarNextKYC.nextKYC[0]) {
+                            this.selectedField = element;
+                            this.selectedField.fields = this.getNavbarNextKYC.nextKYC;
+                        }
+                    });
                 });
-            });
+            }
         },
         skipNIN() {
             this.loading = true;
-            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
+            this.UPDATE_KYC_NIN({ nin: 'skip' }).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.itemData = {};
                 }
+                this.showNextModalBtn();
             });
         },
         closeNIN() {
+            EventBus.$emit('navbar-trigger');
+            EventBus.$emit('modal-trigger');
             this.enterNIN = false;
         },
         hideKYCBtn() {
             this.SET_SHOW_NAVBAR_KYC(false);
+        },
+        handleUpdate(value) {
+            this.showNextModalBtn();
+            // this.showNextModal = false
+        },
+        resetFields() {
+            this.itemData = {};
+            this.issues = {};
+            this.otpData = {};
+            this.selectedField = {};
         }
     },
     async mounted() {
         await this.GET_NEXT_KYC();
-        if (Object.keys(this.getNavbarNextKYC).length > 0) this.checkNextKYC();
+        if (Object.keys(this.getNavbarNextKYC).length > 0) {
+            this.checkNextKYC();
+        }
         await this.GET_COUNTRY_CODES();
         await this.GET_KYC();
+        EventBus.$on('navbar-trigger', () => {
+            this.checkNextKYC();
+        });
+        EventBus.$on('modal-trigger', () => {
+            this.checkNextKYC();
+        });
     },
     watch: {
-        getNavbarTrigger(newVal) {
-            if (newVal) {
-                this.checkNextKYC();
-                this.SET_NAVBAR_TRIGGER(false);
-            }
-        },
-        "itemData.bvn"(newVal) {
+        'itemData.bvn': function (newVal) {
             if (newVal) {
                 if (newVal.length > 11) {
                     this.issues = {
-                        bvn: "BVN should be 11 digits"
+                        bvn: 'BVN should be 11 digits'
                     };
                 } else {
                     this.issues = {};

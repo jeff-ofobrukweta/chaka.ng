@@ -1,9 +1,9 @@
 <template>
     <a
         class="card-news"
-        :class="{ flex: !news.imageUrl }"
+        :class="{ flex: !news.imageUrl}"
         target="_blank"
-        :href="news.pageUrl"
+        :href="news.url"
         v-if="!collection"
     >
         <img v-if="news.imageUrl" class="card-news__img" :src="news.imageUrl" :alt="news.title" />
@@ -32,9 +32,10 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations } from 'vuex';
+
 export default {
-    name: "news-card",
+    name: 'news-card',
     props: {
         news: {
             type: Object,
@@ -49,11 +50,11 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(["SET_COLLECTION_STOCKS", "SET_SELECTED_COLLECTION"]),
+        ...mapMutations(['SET_COLLECTION_STOCKS', 'SET_SELECTED_COLLECTION']),
         setCollectionStocks() {
             this.SET_SELECTED_COLLECTION(this.news);
             this.SET_COLLECTION_STOCKS(this.news.stocks);
-            this.$router.push({ name: "explore-collection", params: { name: this.news.name } });
+            this.$router.push({ name: 'explore-collection', params: { name: this.news.name } });
         }
     }
 };

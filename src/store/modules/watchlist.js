@@ -1,6 +1,6 @@
-import api from "../../services/apiService/api";
-import errorFn from "../../services/apiService/error";
-import Vue from "vue";
+import Vue from 'vue';
+import api from '../../services/apiService/api';
+import errorFn from '../../services/apiService/error';
 
 const state = {
     watchlist: [],
@@ -26,157 +26,137 @@ const actions = {
         /**
          * @params {interval}
          */
-        commit("RESET_REQ", null, { root: true });
-        commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) => {
-            return api
-                .get(`/users/${rootState.auth.loggedUser.chakaID}/watchlists`, { ...payload })
-                .then(
-                    resp => {
-                        if (resp.status >= 200 && resp.status < 400) {
-                            commit("REQ_SUCCESS", null, { root: true });
-                            commit("SET_WATCHLIST", resp.data.data.watchlistDetails.instruments);
-                            commit(
-                                "SET_CACHE_WATCHLIST",
-                                resp.data.data.watchlistDetails.instruments
-                            );
-                            resolve(true);
-                        } else {
-                            if (resp === false) {
-                                errorFn("Data unavailable for selected day/interval", "watchlist");
-                                commit("SET_WATCHLIST", state.cacheWatchlist);
-                            } else errorFn(resp, "watchlist");
-                            resolve(false);
-                        }
-                    },
-                    error => {
-                        if (error.response) {
-                            if (
-                                error.response.data.message ===
-                                "Data unavailable for selected day/interval"
-                            ) {
-                                commit("SET_WATCHLIST", state.cacheWatchlist);
-                            }
-                        }
-                        errorFn(error.response, "watchlist");
-                        resolve(false);
+        commit('RESET_REQ', null, { root: true });
+        commit('REQ_INIT', null, { root: true });
+        return new Promise((resolve, reject) => api.get(`/users/${rootState.auth.loggedUser.chakaID}/watchlists`, { ...payload }).then(
+            (resp) => {
+                if (resp.status >= 200 && resp.status < 400) {
+                    commit('REQ_SUCCESS', null, { root: true });
+                    commit('SET_WATCHLIST', resp.data.data.watchlistDetails.instruments);
+                    commit('SET_CACHE_WATCHLIST', resp.data.data.watchlistDetails.instruments);
+                    resolve(true);
+                } else {
+                    errorFn(resp, 'watchlist');
+                    resolve(false);
+                }
+            },
+            (error) => {
+                if (error.response) {
+                    if (
+                        error.response.data.message
+                            === 'Data unavailable for selected day/interval'
+                    ) {
+                        commit('SET_WATCHLIST', state.cacheWatchlist);
                     }
-                );
-        });
+                }
+                errorFn(error.response, 'watchlist');
+                resolve(false);
+            }
+        ));
     },
-    GET_WATCHLIST_CHART: ({}, payload) => {
+    GET_WATCHLIST_CHART: ({}, payload) =>
         /**
          * @params {interval, symbol}
          */
-        return new Promise((resolve, reject) => {
-            return api.get(`/instruments/charts`, { ...payload }).then(
-                resp => {
-                    if (resp.status >= 200 && resp.status < 400) {
-                        resolve(resp.data.data);
-                        return true;
-                    } else {
-                        errorFn(resp, "watchlist-chart");
-                        resolve(false);
-                    }
-                },
-                error => {
-                    errorFn(error.response, "watchlist-chart");
-                    resolve(false);
+        new Promise((resolve, reject) => api.get('/instruments/charts', { ...payload }).then(
+            (resp) => {
+                if (resp.status >= 200 && resp.status < 400) {
+                    resolve(resp.data.data);
+                    return true;
                 }
-            );
-        });
-    },
+                errorFn(resp, 'watchlist-chart');
+                resolve(false);
+            },
+            (error) => {
+                errorFn(error.response, 'watchlist-chart');
+                resolve(false);
+            }
+        )),
     ADD_TO_WATCHLIST: ({ commit, dispatch, rootState }, payload) => {
         /**
          * @params {symbols}
          */
-        commit("RESET_REQ", null, { root: true });
-        commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) => {
-            return api
-                .patch(`/users/${rootState.auth.loggedUser.chakaID}/watchlists/`, { ...payload })
-                .then(
-                    resp => {
-                        if (resp.status >= 200 && resp.status < 400) {
-                            Vue.toasted.show(
-                                `${payload.symbols} has been added to your watchlist successfully`,
-                                {
-                                    type: "success"
-                                }
-                            );
-                            commit("REQ_SUCCESS", null, { root: true });
-                            dispatch("GET_WATCHLIST");
-                            resolve(true);
-                            return true;
-                        } else {
-                            Vue.toasted.show(
-                                `An error occurred adding ${payload.symbols} to your watchlist`,
-                                {
-                                    type: "error"
-                                }
-                            );
-                            errorFn(resp, "add-watchlist");
-                            resolve(false);
-                        }
-                    },
-                    error => {
+        commit('RESET_REQ', null, { root: true });
+        commit('REQ_INIT', null, { root: true });
+        return new Promise((resolve, reject) => api
+            .patch(`/users/${rootState.auth.loggedUser.chakaID}/watchlists/`, { ...payload })
+            .then(
+                (resp) => {
+                    if (resp.status >= 200 && resp.status < 400) {
                         Vue.toasted.show(
-                            `An error occurred adding ${payload.symbols} to your watchlist`,
+                            `${payload.symbols} has been added to your watchlist successfully`,
                             {
-                                type: "error"
+                                type: 'success'
                             }
                         );
-                        errorFn(error.response, "add-watchlist");
-                        resolve(false);
+                        commit('REQ_SUCCESS', null, { root: true });
+                        dispatch('GET_WATCHLIST');
+                        resolve(true);
+                        return true;
                     }
-                );
-        });
+                    Vue.toasted.show(
+                        `An error occurred adding ${payload.symbols} to your watchlist`,
+                        {
+                            type: 'error'
+                        }
+                    );
+                    errorFn(resp, 'add-watchlist');
+                    resolve(false);
+                },
+                (error) => {
+                    Vue.toasted.show(
+                        `An error occurred adding ${payload.symbols} to your watchlist`,
+                        {
+                            type: 'error'
+                        }
+                    );
+                    errorFn(error.response, 'add-watchlist');
+                    resolve(false);
+                }
+            ));
     },
     REMOVE_FROM_WATCHLIST: ({ commit, dispatch, rootState }, payload) => {
         /**
          * @params {symbols}
          */
-        commit("RESET_REQ", null, { root: true });
-        commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) => {
-            return api
-                .delete(`/users/${rootState.auth.loggedUser.chakaID}/watchlists/`, { ...payload })
-                .then(
-                    resp => {
-                        if (resp.status >= 200 && resp.status < 400) {
-                            Vue.toasted.show(
-                                `${payload.symbols} has been removed from your watchlist successfully`,
-                                {
-                                    type: "success"
-                                }
-                            );
-                            commit("REQ_SUCCESS", null, { root: true });
-                            dispatch("GET_WATCHLIST");
-                            resolve(true);
-                            return true;
-                        } else {
-                            Vue.toasted.show(
-                                `An error occurred removing ${payload.symbols} from your watchlist`,
-                                {
-                                    type: "error"
-                                }
-                            );
-                            errorFn(resp, "remove-watchlist");
-                            resolve(false);
-                        }
-                    },
-                    error => {
+        commit('RESET_REQ', null, { root: true });
+        commit('REQ_INIT', null, { root: true });
+        return new Promise((resolve, reject) => api
+            .delete(`/users/${rootState.auth.loggedUser.chakaID}/watchlists/`, { ...payload })
+            .then(
+                (resp) => {
+                    if (resp.status >= 200 && resp.status < 400) {
                         Vue.toasted.show(
-                            `An error occurred removing ${payload.symbols} from your watchlist`,
+                            `${payload.symbols} has been removed from your watchlist successfully`,
                             {
-                                type: "error"
+                                type: 'success'
                             }
                         );
-                        errorFn(error.response, "remove-watchlist");
-                        resolve(false);
+                        commit('REQ_SUCCESS', null, { root: true });
+                        dispatch('GET_WATCHLIST');
+                        resolve(true);
+                        return true;
                     }
-                );
-        });
+                    Vue.toasted.show(
+                        `An error occurred removing ${payload.symbols} from your watchlist`,
+                        {
+                            type: 'error'
+                        }
+                    );
+                    errorFn(resp, 'remove-watchlist');
+                    resolve(false);
+                },
+                (error) => {
+                    Vue.toasted.show(
+                        `An error occurred removing ${payload.symbols} from your watchlist`,
+                        {
+                            type: 'error'
+                        }
+                    );
+                    errorFn(error.response, 'remove-watchlist');
+                    resolve(false);
+                }
+            ));
     }
 };
 export default {

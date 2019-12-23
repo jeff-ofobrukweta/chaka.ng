@@ -1,4 +1,4 @@
-import store from "../store/index";
+import store from '../store/index';
 
 /**
  * Resets state and calls logout mutation
@@ -6,7 +6,7 @@ import store from "../store/index";
 function resetState() {
     // store.commit("LOGOUT");
     // store.commit("SET_LOGGED_USER", {});
-    store.commit("RESET_ALL");
+    store.commit('RESET_ALL');
     localStorage.clear();
     return true;
 }
@@ -37,7 +37,7 @@ export function requireAuth(to, from, next) {
         next();
     } else {
         resetState();
-        next({ name: "login" });
+        next({ name: 'login' });
     }
 }
 
@@ -46,5 +46,5 @@ export function requireAuth(to, from, next) {
  */
 export function clearSession(to, from, next) {
     resetState();
-    next({ name: "login" });
+    next({ name: 'login' });
 }

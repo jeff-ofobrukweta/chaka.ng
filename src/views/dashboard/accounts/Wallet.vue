@@ -1,5 +1,6 @@
 <template>
     <div>
+        <error-block type="accounts" />
         <section class="accounts__title">
             <h3>Wallets</h3>
         </section>
@@ -13,11 +14,7 @@
                     >
                         {{ getAccountSummary.netWorth | kobo | currency("NGN") }}
                     </h2>
-                    <p><small>My Portfolio Value</small></p>
-                    <div class="accounts-wallet__graphics">
-                        <img src="../../../assets/img/wallet1.svg" alt="Wallet" />
-                        <img src="../../../assets/img/wallet2.svg" alt="Wallet" />
-                    </div>
+                    <p><small>Total Value</small></p>
                 </div>
             </div>
             <div class="accounts-wallet__text">
@@ -26,23 +23,36 @@
                     <hr />
                     <div class="accounts-wallet__money">
                         <div>
-                            <h3 v-if="!getAccountSummary.localWallet" class="cursor-context">-</h3>
                             <h3
-                                v-else
                                 class="cursor-context"
                                 :title="
-                                    getAccountSummary.localWallet.availableBalance
+                                    getAccountSummary.localAvailableToTrade
                                         | kobo
                                         | currency('NGN', true)
                                 "
                             >
                                 {{
-                                    getAccountSummary.localWallet.availableBalance
+                                    getAccountSummary.localAvailableToTrade | kobo | currency("NGN")
+                                }}
+                            </h3>
+                            <p><small>Available To Trade</small></p>
+                        </div>
+                        <div>
+                            <h3
+                                class="cursor-context"
+                                :title="
+                                    getAccountSummary.localAvailableToWithdraw
+                                        | kobo
+                                        | currency('NGN', true)
+                                "
+                            >
+                                {{
+                                    getAccountSummary.localAvailableToWithdraw
                                         | kobo
                                         | currency("NGN")
                                 }}
                             </h3>
-                            <p><small>Available Cash</small></p>
+                            <p><small>Available To Withdraw</small></p>
                         </div>
                         <div>
                             <h3
@@ -77,23 +87,38 @@
                     <hr />
                     <div class="accounts-wallet__money">
                         <div>
-                            <h3 v-if="!getAccountSummary.globalWallet" class="cursor-context">-</h3>
                             <h3
-                                v-else
                                 class="cursor-context"
                                 :title="
-                                    getAccountSummary.globalWallet.availableBalance
+                                    getAccountSummary.globalAvailableToTrade
                                         | kobo
                                         | currency('USD', true)
                                 "
                             >
                                 {{
-                                    getAccountSummary.globalWallet.availableBalance
+                                    getAccountSummary.globalAvailableToTrade
                                         | kobo
                                         | currency("USD")
                                 }}
                             </h3>
-                            <p><small>Available Cash</small></p>
+                            <p><small>Available To Trade</small></p>
+                        </div>
+                        <div>
+                            <h3
+                                class="cursor-context"
+                                :title="
+                                    getAccountSummary.globalAvailableToWithdraw
+                                        | kobo
+                                        | currency('USD', true)
+                                "
+                            >
+                                {{
+                                    getAccountSummary.globalAvailableToWithdraw
+                                        | kobo
+                                        | currency("USD")
+                                }}
+                            </h3>
+                            <p><small>Available To Withdraw</small></p>
                         </div>
                         <div>
                             <h3
@@ -126,24 +151,24 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <KYCButton
+                    <kyc-button
                         ref="fundBtn"
                         type="button"
                         :classes="['btn-block', 'btn--lg', 'btn__primary']"
                         action="fund"
                         @step="handleStep"
-                        >Fund</KYCButton
+                        >Fund</kyc-button
                     >
-                    <KYCButton
+                    <kyc-button
                         ref="exchangeBtn"
                         type="button"
                         :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
                         action="global"
                         @step="handleStep"
-                        >Exchange</KYCButton
+                        >Exchange</kyc-button
                     >
                     <button
-                        @click="showWithdraw = true"
+                        @click="showWithdraw"
                         class="btn btn-block btn--lg btn__primary--outline"
                     >
                         Withdraw
@@ -151,35 +176,19 @@
                 </div>
             </div>
         </section>
-        <fund-modal :showModal="showFund" @close="closeFundBtn" v-if="showFund" />
-        <exchange-modal :showModal="showExchange" @close="closeExchangeBtn" v-if="showExchange" />
-        <withdraw-modal :showModal="showWithdraw" @close="closeWithdrawBtn" v-if="showWithdraw" />
-        <wallet-success @close="showSuccess = false" v-if="showSuccess" />
 
-        <modal @close="showKYC = false" v-if="showKYC">
-            <template slot="header">{{ selectedField.title }}</template>
-            <ModalKYC :requiredFields="selectedField.fields" @updated="handleUpdate" />
-        </modal>
+        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import KYCButton from "../../../components/form/KYCButton";
-import ModalKYC from "../../../components/kyc/ModalKYC";
-import KYCTitles from "../../../services/kyc/kycTitles";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+import KYCTitles from '../../../services/kyc/kycTitles';
+
 export default {
-    name: "accounts-wallet",
-    components: {
-        KYCButton,
-        ModalKYC
-    },
+    name: 'accounts-wallet',
     data() {
         return {
-            showFund: false,
-            showWithdraw: false,
-            showExchange: false,
-            showSuccess: false,
             showKYC: false,
             selectedField: {},
             step: null,
@@ -187,52 +196,37 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getAccountSummary", "getNextKYC"]),
+        ...mapGetters(['getAccountSummary', 'getNextKYC']),
         pageAvailable() {
             return Object.keys(this.getAccountSummary).length > 0;
         }
     },
     methods: {
-        ...mapActions(["GET_ACCOUNT_SUMMARY"]),
+        ...mapActions(['GET_ACCOUNT_SUMMARY']),
+        ...mapMutations(['SET_FUND_MODAL', 'SET_WITHDRAW_MODAL', 'SET_EXCHANGE_MODAL']),
         handleStep(step) {
-            this.step = step.type;
+            this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
-                        if (el === this.getNextKYC.nextKYC[0]) {
-                            this.selectedField = element;
-                            this.selectedField.fields = this.getNextKYC.nextKYC;
-                        }
-                    });
-                });
                 return true;
-            } else if (step.type === "fund") {
-                this.showFund = true;
-            } else if (step.type === "global") {
-                this.showExchange = true;
+            }
+            this.showFund();
+        },
+        handleUpdate(value) {
+            if (value) {
+                this.showFund();
             }
         },
-        handleUpdate() {
+        showFund() {
             this.showKYC = false;
-            if (this.step === "fund") {
-                this.$refs.fundBtn.$el.click();
-                return true;
-            } else if (this.step === "global") {
-                this.$refs.exchangeBtn.$el.click();
+            if (this.step.type === 'fund') {
+                this.SET_FUND_MODAL(true);
+            } else if (this.step.type === 'global') {
+                this.SET_EXCHANGE_MODAL(true);
             }
         },
-        closeFundBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showFund = false;
-        },
-        closeWithdrawBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showWithdraw = false;
-        },
-        closeExchangeBtn(e) {
-            if (e) this.showSuccess = true;
-            this.showExchange = false;
+        showWithdraw() {
+            this.SET_WITHDRAW_MODAL(true);
         }
     },
     async mounted() {

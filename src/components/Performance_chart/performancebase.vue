@@ -33,12 +33,12 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import { Fragment } from "vue-fragment";
-import Performancegraph from "./performancechart";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { Fragment } from 'vue-fragment';
+import Performancegraph from './performancechart';
 
 export default {
-    name: "performancebase",
+    name: 'performancebase',
     components: {
         Fragment,
         Performancegraph
@@ -49,7 +49,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getPositionBarperformancepercentage", "getPositionBarperformancesymbol"]),
+        ...mapGetters(['getPositionBarperformancepercentage', 'getPositionBarperformancesymbol']),
         isGraphValid() {
             if (this.getPositionBarperformancepercentage.length <= 0) {
                 return 1;
@@ -64,7 +64,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA"]),
+        ...mapActions(['GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA']),
         async reload() {
             this.loading = true;
             await this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();

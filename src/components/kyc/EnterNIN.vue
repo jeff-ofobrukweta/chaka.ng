@@ -1,29 +1,30 @@
 <template>
     <modal @close="$emit('close')">
         <template slot="header">{{ ninField.title }}</template>
-        <ModalKYC :requiredFields="ninField.fields" @updated="handleUpdate" nin />
+        <modal-kyc :requiredFields="ninField.fields" @updated="handleUpdate" nin />
     </modal>
 </template>
 
 <script>
-import ModalKYC from "./ModalKYC";
+import { mapMutations } from 'vuex';
+import EventBus from '../../event-bus';
+
 export default {
-    name: "enter-nin",
-    components: {
-        ModalKYC
-    },
+    name: 'enter-nin',
     data() {
         return {
             ninField: {
-                title: "National Identity Number",
-                subtitle: "Enter your NIN details",
-                fields: ["nin"]
+                title: 'National Identity Number',
+                subtitle: 'Enter your NIN details',
+                fields: ['nin']
             }
         };
     },
     methods: {
         handleUpdate() {
-            this.$emit("updated");
+            EventBus.$emit('navbar-trigger');
+            EventBus.$emit('modal-trigger');
+            this.$emit('updated');
         }
     }
 };

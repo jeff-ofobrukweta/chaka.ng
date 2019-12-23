@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import StatementsCard from "../../../components/accounts/StatementsCard";
-import Stampscomponent from "../../../components/stamps_and_certificates/stamps";
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+import StatementsCard from '../../../components/accounts/StatementsCard';
+import Stampscomponent from '../../../components/stamps_and_certificates/stamps';
 
 export default {
-    name: "accounts-stamps",
+    name: 'accounts-stamps',
     components: {
         StatementsCard,
         Stampscomponent,
@@ -26,70 +26,70 @@ export default {
             activeButton: 1,
             statementButtons: [
                 {
-                    name: "Statement",
+                    name: 'Statement',
                     value: 1
                 },
                 {
-                    name: "Confirmations",
+                    name: 'Confirmations',
                     value: 2
                 },
                 {
-                    name: "Tax",
+                    name: 'Tax',
                     value: 3
                 }
             ],
             statements: [
                 {
-                    description: "Description",
-                    detail: "2018 Tax Year 1099-B",
-                    link: ""
+                    description: 'Description',
+                    detail: '2018 Tax Year 1099-B',
+                    link: ''
                 },
                 {
-                    description: "Description",
-                    detail: "2018 Tax Year 1099-B",
-                    link: ""
+                    description: 'Description',
+                    detail: '2018 Tax Year 1099-B',
+                    link: ''
                 },
                 {
-                    description: "Description",
-                    detail: "2018 Tax Year 1099-B",
-                    link: ""
+                    description: 'Description',
+                    detail: '2018 Tax Year 1099-B',
+                    link: ''
                 },
                 {
-                    description: "Description",
-                    detail: "2018 Tax Year 1099-B",
-                    link: ""
+                    description: 'Description',
+                    detail: '2018 Tax Year 1099-B',
+                    link: ''
                 },
                 {
-                    description: "Description",
-                    detail: "2018 Tax Year 1099-B",
-                    link: ""
+                    description: 'Description',
+                    detail: '2018 Tax Year 1099-B',
+                    link: ''
                 },
                 {
-                    description: "Description",
-                    detail: "2018 Tax Year 1099-B",
-                    link: ""
+                    description: 'Description',
+                    detail: '2018 Tax Year 1099-B',
+                    link: ''
                 },
                 {
-                    description: "Description",
-                    detail: "2018 Tax Year 1099-B",
-                    link: ""
+                    description: 'Description',
+                    detail: '2018 Tax Year 1099-B',
+                    link: ''
                 }
             ]
         };
     },
     computed: {
         ...mapGetters([
-            "getPositions"
-        ]),
+            'getPositions'
+        ])
     },
-    methods:{
+    methods: {
         //  ...mapMutations(["SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS", "SET_INSTRUMENT_BY_TAGS"]),
-        ...mapActions(["FETCH_POSITIONS_INSTRUMENTS"]),
+        ...mapActions(['FETCH_POSITIONS_INSTRUMENTS'])
     },
-    mounted(){
-        console.log('this is the mounted point KKKKKKKKKKKKKKKKKKKKK')
-        this.FETCH_POSITIONS_INSTRUMENTS().then(()=>{
-            console.log('FFFFFFFFFFFFFFFFFFFFgetPositions',this.getPositions)
+    mounted() {
+        console.log('this is the mounted point KKKKKKKKKKKKKKKKKKKKK');
+        this.FETCH_POSITIONS_INSTRUMENTS().then(() => {
+            console.log('FFFFFFFFFFFFFFFFFFFFgetPositions', this.getPositions);
         });
     }
 };

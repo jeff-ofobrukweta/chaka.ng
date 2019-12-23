@@ -2,9 +2,7 @@
     <section class="flickity-wrapper">
         <h1 class="title-news">Certificates</h1>
         <flickity ref="flickity" :options="flickityOptions">
-            <section 
-                class="carousel-cell" 
-                v-for="(cert, index) in stamplists" :key="index">
+            <section class="carousel-cell" v-for="(cert, index) in stamplists" :key="index">
                 <div class="stamps-container">
                     <img
                         :src="cert.logoUrl"
@@ -14,13 +12,13 @@
                     <!-- <p
                         :class="{ silver: computeCert(cert) === 1,gold: computeCert(cert) === 2,dark: computeCert(cert) === 3 }"
                     >{{ cert.symbol }}</p> -->
-                    <p class="symbol-text">{{cert.symbol}}</p>
+                    <p class="symbol-text">{{ cert.symbol }}</p>
                     <img
                         v-if="true || computeCert(cert) === 1"
                         class="cert"
                         src="../../assets/img/certs/silver.svg"
                         alt
-                        />
+                    />
                 </div>
                 <!-- <img
                     v-else-if="computeCert(cert) === 2"
@@ -34,15 +32,15 @@
                     src="../../assets/img/certs/black.svg"
                     alt
                 /> -->
-             </section>
+            </section>
         </flickity>
     </section>
 </template>
 <script>
-import Flickity from "vue-flickity";
+import Flickity from 'vue-flickity';
 
 export default {
-    name: "slider",
+    name: 'slider',
     components: {
         Flickity
     },
@@ -54,42 +52,41 @@ export default {
                 pageDots: false,
                 resize: true,
                 wrapAround: true,
-                cellAlign: "left",
+                cellAlign: 'left',
                 contain: true
             }
         };
     },
-    props:{
-        stamplists:{
-        type:Array,
-        required:true
+    props: {
+        stamplists: {
+            type: Object,
+            required: true
         }
     },
-    mounted(){
-        console.log('GGGGGGGGGGGGGGGGGGGGGGGG',this.stamplists)
+    mounted() {
+        console.log('GGGGGGGGGGGGGGGGGGGGGGGG', this.stamplists);
     },
     methods: {
         next() {
-            console.log(">>>>>> next");
             this.$refs.flickity.next();
         },
         previous() {
             this.$refs.flickity.previous();
         },
         computeCert(cert) {
-			const val = cert.currentValue;
-			switch (cert.currency) {
-				case 'USD':
-					if (val < 500000) return 1;
-					if (val >= 500000 && val < 3000000) return 2;
-					return 3;
+            const val = cert.currentValue;
+            switch (cert.currency) {
+            case 'USD':
+                if (val < 500000) return 1;
+                if (val >= 500000 && val < 3000000) return 2;
+                return 3;
 
-				default:
-					if (val < 100000000) return 1;
-					if (val >= 100000000 && val < 1000000000) return 2;
-					return 3;
-			}
-		}
+            default:
+                if (val < 100000000) return 1;
+                if (val >= 100000000 && val < 1000000000) return 2;
+                return 3;
+            }
+        }
     }
 };
 </script>
