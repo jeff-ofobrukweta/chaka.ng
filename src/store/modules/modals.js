@@ -1,4 +1,5 @@
-import api from '../../services/apiService/api';
+import api from "../../services/apiService/api";
+import errorFn from "../../services/apiService/error";
 
 const state = {
     buyModal: {},
@@ -21,15 +22,15 @@ const getters = {
     getKycModal: state => state.kycModal,
     getSaleSuccess: state => state.saleSuccess,
     getWalletSuccess: state => state.walletSuccess,
-    getMostPopular: (state) => {
+    getMostPopular: state => {
         const push = [];
-        state.mostPopular.filter((el) => {
-            if (el.currency === 'USD' && push.length === 0) {
+        state.mostPopular.filter(el => {
+            if (el.currency === "USD" && push.length === 0) {
                 push.push(el);
             }
         });
-        state.mostPopular.filter((el) => {
-            if (el.currency === 'NGN' && push.length === 1) {
+        state.mostPopular.filter(el => {
+            if (el.currency === "NGN" && push.length === 1) {
                 push.push(el);
             }
         });
@@ -78,21 +79,24 @@ const mutations = {
 };
 
 const actions = {
-    GET_MOST_POPULAR: ({ commit, rootState }) => new Promise((resolve, reject) => api.get('/tags/slug/most-popular/instruments/').then(
-        (resp) => {
-            if (resp.status >= 200 && resp.status < 400) {
-                commit('SET_MOST_POPULAR', resp.data.data.tag.Instruments);
-                resolve(true);
-                return true;
-            }
-            errorFn(resp, 'most-popular');
-            resolve(false);
-        },
-        (error) => {
-            errorFn(error.response, 'most-popular');
-            resolve(false);
-        }
-    ))
+    GET_MOST_POPULAR: ({ commit, rootState }) =>
+        new Promise((resolve, reject) =>
+            api.get("/tags/slug/most-popular/instruments/").then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit("SET_MOST_POPULAR", resp.data.data.tag.Instruments);
+                        resolve(true);
+                        return true;
+                    }
+                    errorFn(resp, "most-popular");
+                    resolve(false);
+                },
+                error => {
+                    errorFn(error.response, "most-popular");
+                    resolve(false);
+                }
+            )
+        )
 };
 
 export default {
