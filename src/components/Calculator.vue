@@ -1,5 +1,5 @@
 <template>
-    <div class="app-body">
+    <div>
         <section class="calculator">
             <div class="calculator-text">
                 <div>

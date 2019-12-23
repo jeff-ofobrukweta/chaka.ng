@@ -1,194 +1,218 @@
-import { clearSession, requireAuth } from '../services/auth';
+import { clearSession, requireAuth } from "../services/auth";
 
-const Home = () => import(/* webpackChunkName: "home" */ '../views/Home');
-const VerificationSent = () => import(/* webpackChunkName: "verification-sent" */ '../views/VerificationSent');
-const ForgotPassword = () => import(/* webpackChunkName: "forgot-password" */ '../views/auth/ForgotPassword');
-const ResetPassword = () => import(/* webpackChunkName: "reset-password" */ '../views/auth/ResetPassword');
-const ConfirmEmail = () => import(/* webpackChunkName: "confirm-email" */ '../views/auth/ConfirmEmail');
-const Login = () => import(/* webpackChunkName: "login" */ '../views/auth/Login');
-const Policies = () => import(/* webpackChunkName: "policies" */ '../views/Policies');
-const Developers = () => import(/* webpackChunkName: "developers" */ '../views/Developers');
-const Privacy = () => import(/* webpackChunkName: "privacy" */ '../views/Privacy');
-const Calculator = () => import(/* webpackChunkName: "calculator" */ '../views/Calculator');
-const Terms = () => import(/* webpackChunkName: "terms" */ '../views/Terms');
-const About = () => import(/* webpackChunkName: "about" */ '../views/About');
-const Faq = () => import(/* webpackChunkName: "faq" */ '../views/Faq');
-const Logout = () => import(/* webpackChunkName: "logout" */ '../views/auth/Logout');
-const Register = () => import(/* webpackChunkName: "register" */ '../views/auth/Register');
-const Disclosures = () => import(/* webpackChunkName: "disclosures" */ '../views/Disclosure');
-const DashboardLayout = () => import(/* webpackChunkName: "dashboard" */ '../layouts/DashboardLayout');
-const Portfolio = () => import(/* webpackChunkName: "portfolio" */ '../views/dashboard/Portfolio');
-const PortfolioDetails = () => import(/* webpackChunkName: "portfolio-details" */ '../views/dashboard/PortfolioDetails');
-const Explore = () => import(/* webpackChunkName: "explore" */ '../views/dashboard/Explore');
-const ExploreCollection = () => import(/* webpackChunkName: "explore-collection" */ '../views/dashboard/SingleCollection');
-const Components = () => import(/* webpackChunkName: "components" */ '../views/dashboard/Components');
-const Categories = () => import(/* webpackChunkName: "categories" */ '../views/dashboard/Categories');
-const AccountsIndex = () => import(/* webpackChunkName: "accounts-index" */ '../views/dashboard/accounts/Index');
-const AccountsOverview = () => import(/* webpackChunkName: "accounts-overview" */ '../views/dashboard/accounts/Overview');
-const AccountsWallet = () => import(/* webpackChunkName: "accounts-wallet" */ '../views/dashboard/accounts/Wallet');
-const AccountsStatements = () => import(/* webpackChunkName: "accounts-statements" */ '../views/dashboard/accounts/Statements');
-const AccountsHistory = () => import(/* webpackChunkName: "accounts-history" */ '../views/dashboard/accounts/History');
-const AccountsSettings = () => import(/* webpackChunkName: "accounts-settings" */ '../views/dashboard/accounts/Settings');
-const AccountStamps = () => import(/* webpackChunkName: "accounts-stamps" */ '../views/dashboard/accounts/Stamps');
-const Singlestock = () => import(/* webpackChunkName: "accounts-stamps" */ '../views/dashboard/Singlestock');
+const Home = () => import(/* webpackChunkName: "home" */ "../views/Home");
+const VerificationSent = () =>
+    import(/* webpackChunkName: "verification-sent" */ "../views/VerificationSent");
+const ForgotPassword = () =>
+    import(/* webpackChunkName: "forgot-password" */ "../views/auth/ForgotPassword");
+const ResetPassword = () =>
+    import(/* webpackChunkName: "reset-password" */ "../views/auth/ResetPassword");
+const ConfirmEmail = () =>
+    import(/* webpackChunkName: "confirm-email" */ "../views/auth/ConfirmEmail");
+const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
+const Policies = () => import(/* webpackChunkName: "policies" */ "../views/Policies");
+const Developers = () => import(/* webpackChunkName: "developers" */ "../views/Developers");
+const Privacy = () => import(/* webpackChunkName: "privacy" */ "../views/Privacy");
+const Calculator = () => import(/* webpackChunkName: "calculator" */ "../views/Calculator");
+const Terms = () => import(/* webpackChunkName: "terms" */ "../views/Terms");
+const About = () => import(/* webpackChunkName: "about" */ "../views/About");
+const Faq = () => import(/* webpackChunkName: "faq" */ "../views/Faq");
+const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
+const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
+const Disclosures = () => import(/* webpackChunkName: "disclosures" */ "../views/Disclosure");
+const DashboardLayout = () =>
+    import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
+const Portfolio = () => import(/* webpackChunkName: "portfolio" */ "../views/dashboard/Portfolio");
+const PortfolioDetails = () =>
+    import(/* webpackChunkName: "portfolio-details" */ "../views/dashboard/PortfolioDetails");
+const Explore = () => import(/* webpackChunkName: "explore" */ "../views/dashboard/Explore");
+const ExploreCollection = () =>
+    import(/* webpackChunkName: "explore-collection" */ "../views/dashboard/SingleCollection");
+const Components = () =>
+    import(/* webpackChunkName: "components" */ "../views/dashboard/Components");
+const Categories = () =>
+    import(/* webpackChunkName: "categories" */ "../views/dashboard/Categories");
+const DashboardCalculator = () =>
+    import(/* webpackChunkName: "dashboard-calculator" */ "../views/dashboard/Calculator");
+const AccountsIndex = () =>
+    import(/* webpackChunkName: "accounts-index" */ "../views/dashboard/accounts/Index");
+const AccountsOverview = () =>
+    import(/* webpackChunkName: "accounts-overview" */ "../views/dashboard/accounts/Overview");
+const AccountsWallet = () =>
+    import(/* webpackChunkName: "accounts-wallet" */ "../views/dashboard/accounts/Wallet");
+const AccountsStatements = () =>
+    import(/* webpackChunkName: "accounts-statements" */ "../views/dashboard/accounts/Statements");
+const AccountsHistory = () =>
+    import(/* webpackChunkName: "accounts-history" */ "../views/dashboard/accounts/History");
+const AccountsSettings = () =>
+    import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
+const AccountStamps = () =>
+    import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/accounts/Stamps");
+const Singlestock = () =>
+    import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/Singlestock");
 
 const routes = [
     {
-        path: '/',
-        name: 'home',
+        path: "/",
+        name: "home",
         component: Home
     },
     {
-        path: '/about',
-        name: 'about',
+        path: "/about",
+        name: "about",
         component: About
     },
     {
-        path: '/calculator',
-        name: 'calculator',
+        path: "/calculator",
+        name: "calculator",
         component: Calculator
     },
     {
-        path: '/auth/reset-password/:chakaID/:token',
-        name: 'reset-password',
+        path: "/auth/reset-password/:chakaID/:token",
+        name: "reset-password",
         component: ResetPassword
     },
     {
-        path: '/auth/confirm-email-token/:chakaID/:token',
-        name: 'confirm-email',
+        path: "/auth/confirm-email-token/:chakaID/:token",
+        name: "confirm-email",
         component: ConfirmEmail
     },
     {
-        path: '/policies',
-        name: 'policies',
+        path: "/policies",
+        name: "policies",
         component: Policies
     },
     {
-        path: '/developers',
-        name: 'developers',
+        path: "/developers",
+        name: "developers",
         component: Developers
     },
     {
-        path: '/privacy',
-        name: 'privacy',
+        path: "/privacy",
+        name: "privacy",
         component: Privacy
     },
     {
-        path: '/faq',
-        name: 'faq',
+        path: "/faq",
+        name: "faq",
         component: Faq
     },
     {
-        path: '/terms',
-        name: 'terms',
+        path: "/terms",
+        name: "terms",
         component: Terms
     },
     {
-        path: '/verification-sent',
-        name: 'verification-sent',
+        path: "/verification-sent",
+        name: "verification-sent",
         component: VerificationSent
     },
     {
-        path: '/disclosures',
-        name: 'disclosures',
+        path: "/disclosures",
+        name: "disclosures",
         component: Disclosures
     },
     {
-        path: '/forgot-password',
-        name: 'forgot-password',
+        path: "/forgot-password",
+        name: "forgot-password",
         component: ForgotPassword
     },
     {
-        path: '/login',
-        name: 'login',
+        path: "/login",
+        name: "login",
         component: Login
     },
     {
-        path: '/logout',
-        name: 'logout',
+        path: "/logout",
+        name: "logout",
         component: Logout,
         beforeEnter: clearSession
     },
     {
-        path: '/register',
-        name: 'register',
+        path: "/register",
+        name: "register",
         component: Register
     },
     {
-        path: '/dashboard',
-        name: 'dashboard',
+        path: "/dashboard",
+        name: "dashboard",
         component: DashboardLayout,
-        redirect: '/dashboard/portfolio',
+        redirect: "/dashboard/portfolio",
         beforeEnter: requireAuth,
         children: [
             {
-                path: 'portfolio',
-                name: 'portfolio',
+                path: "portfolio",
+                name: "portfolio",
                 component: Portfolio
             },
             {
-                path: 'portfolio/details/:type',
-                name: 'portfolio-details',
+                path: "portfolio/details/:type",
+                name: "portfolio-details",
                 component: PortfolioDetails
             },
             {
-                path: 'explore',
-                name: 'explore',
+                path: "explore",
+                name: "explore",
                 component: Explore
             },
             {
-                path: 'collection/:name',
-                name: 'explore-collection',
+                path: "collection/:name",
+                name: "explore-collection",
                 component: ExploreCollection
             },
             {
-                path: 'components',
-                name: 'components',
+                path: "components",
+                name: "components",
                 component: Components
             },
             {
-                path: 'categories/:category',
-                name: 'categories',
+                path: "calculator",
+                name: "dashboard-calculator",
+                component: DashboardCalculator
+            },
+            {
+                path: "categories/:category",
+                name: "categories",
                 component: Categories
             },
             {
-                path: 'singlestock/:symbol',
-                name: 'singlestock',
+                path: "singlestock/:symbol",
+                name: "singlestock",
                 component: Singlestock
             },
             {
-                path: 'accounts',
+                path: "accounts",
                 component: AccountsIndex,
-                redirect: '/dashboard/accounts/overview',
+                redirect: "/dashboard/accounts/overview",
                 children: [
                     {
-                        path: 'overview',
-                        name: 'accounts-overview',
+                        path: "overview",
+                        name: "accounts-overview",
                         component: AccountsOverview
                     },
                     {
-                        path: 'wallet',
-                        name: 'accounts-wallet',
+                        path: "wallet",
+                        name: "accounts-wallet",
                         component: AccountsWallet
                     },
                     {
-                        path: 'statements',
-                        name: 'accounts-statements',
+                        path: "statements",
+                        name: "accounts-statements",
                         component: AccountsStatements
                     },
                     {
-                        path: 'history',
-                        name: 'accounts-history',
+                        path: "history",
+                        name: "accounts-history",
                         component: AccountsHistory
                     },
                     {
-                        path: 'settings',
-                        name: 'accounts-settings',
+                        path: "settings",
+                        name: "accounts-settings",
                         component: AccountsSettings
                     },
                     {
-                        path: 'ownerships',
-                        name: 'accounts-stamps',
+                        path: "ownerships",
+                        name: "accounts-stamps",
                         component: AccountStamps
                     }
                 ]
@@ -196,8 +220,8 @@ const routes = [
         ]
     },
     {
-        path: '*',
-        redirect: '/dashboard'
+        path: "*",
+        redirect: "/dashboard"
     }
 ];
 export default routes;

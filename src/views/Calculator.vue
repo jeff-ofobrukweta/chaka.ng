@@ -1,17 +1,19 @@
 <template>
     <main class="main" role="main">
-        <Calculator />
+        <div class="app-body">
+            <Calculator />
+        </div>
     </main>
 </template>
 
 <script>
 export default {
-    name: 'AppCalculator',
+    name: "AppCalculator",
     components: {
-        Calculator: () => import('../components/Calculator')
+        Calculator: () => import("../components/Calculator")
     },
     mounted() {
-        document.title = 'Chaka - Calculator';
+        document.title = "Chaka - Calculator";
     }
 };
 </script>
