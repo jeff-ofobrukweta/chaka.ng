@@ -22,7 +22,6 @@
                                 next-action="sell"
                                 >Sell</kyc-button
                             >
-                            <!-- <button class="selling">Sell</button> -->
                         </section>
                         <section v-if="trdingViewStatechange"></section>
                         <section v-else class="toogle-section">
@@ -112,11 +111,25 @@
                     :class="tooglegraph ? 'display' : 'nodisplay'"
                     :price="getOpenPrice"
                     :date="getDates"
-                    :currency="
-                        getSinglestockglobalCurrencyforGraph || getSingleinstrument[0].currency
-                    "
+                    :currency="getSinglestockglobalCurrencyforGraph || getSingleinstrument[0].currency"
                 />
             </template>
+            <section class="buy-container-action">
+                <kyc-button
+                    ref="buyBtn"
+                    :classes="['buying']"
+                    :action="instrument.currency === 'NGN' ? 'local' : 'global'"
+                    @step="handleStep"
+                    next-action="buy"
+                    >Buy</kyc-button>
+                <kyc-button
+                    ref="sellBtn"
+                    v-if="getSingleinstrument[0] && checkPositions(getSingleinstrument[0].symbol,getSingleinstrument[0].currency)"
+                    :classes="['selling']"
+                    :action="instrument.currency === 'NGN' ? 'local' : 'global'"
+                    @step="handleStep"
+                    next-action="sell">Sell</kyc-button>
+            </section>
             <!-- end here -->
         </div>
         <div v-else class="graphholder">
