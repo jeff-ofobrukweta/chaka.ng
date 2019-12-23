@@ -72,10 +72,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-    name: "watchlist-portfolio",
+    name: 'watchlist-portfolio',
     props: {
         instrument: {
             type: Object,
@@ -93,19 +93,19 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getNextKYC"]),
+        ...mapGetters(['getNextKYC']),
         color() {
-            if (this.instrument.derivedPrice > 3) return "dark-green";
-            if (this.instrument.derivedPrice > 2) return "green";
-            if (this.instrument.derivedPrice >= 0) return "light-green";
-            if (this.instrument.derivedPrice >= -1) return "light-red";
-            if (this.instrument.derivedPrice >= -2) return "red";
-            return "dark-red";
+            if (this.instrument.derivedPrice > 3) return 'dark-green';
+            if (this.instrument.derivedPrice > 2) return 'green';
+            if (this.instrument.derivedPrice >= 0) return 'light-green';
+            if (this.instrument.derivedPrice >= -1) return 'light-red';
+            if (this.instrument.derivedPrice >= -2) return 'red';
+            return 'dark-red';
         }
     },
     methods: {
-        ...mapActions(["REMOVE_FROM_WATCHLIST"]),
-        ...mapMutations(["SET_BUY_MODAL"]),
+        ...mapActions(['REMOVE_FROM_WATCHLIST']),
+        ...mapMutations(['SET_BUY_MODAL']),
         handleStep(step) {
             this.step = step;
             if (step.kyc) {

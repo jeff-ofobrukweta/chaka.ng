@@ -4,7 +4,7 @@
         @close="closeModal"
         v-else-if="isBuyValid !== 3"
         :is-buy-valid="isBuyValid"
-        :currency="instrument.currency"
+        :instrument="instrument"
         @step="handleStep"
     />
     <modal v-else :close-on-click="false" @close="closeModal" class="modal__buy">
@@ -297,12 +297,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
-import KYCTitles from "../../services/kyc/kycTitles";
-import CurrencyInput from "../form/CurrencyInput";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import KYCTitles from '../../services/kyc/kycTitles';
+import CurrencyInput from '../form/CurrencyInput';
 
 export default {
-    name: "buy-modal",
+    name: 'buy-modal',
     props: {
         currency: {
             type: String,
@@ -318,14 +318,14 @@ export default {
     },
     components: {
         CurrencyInput,
-        PendingKYC: () => import("./PendingKYC")
+        PendingKYC: () => import('./PendingKYC')
     },
     data() {
         return {
             itemData: {},
             loading: false,
             showTerms: false,
-            orderType: "MARKET",
+            orderType: 'MARKET',
             showResponse: false,
             isQuantity: true,
             errors: {},
@@ -336,26 +336,25 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "getAccountSummary",
-            "getSingleinstrument",
-            "getMarketData",
-            "getPreOrder",
-            "getLoggedUser",
-            "getNextKYC"
+            'getAccountSummary',
+            'getSingleinstrument',
+            'getMarketData',
+            'getPreOrder',
+            'getLoggedUser',
+            'getNextKYC'
         ]),
         isBuyValid() {
             if (
-                this.getLoggedUser.localKycStatus === "PENDING" &&
-                this.getLoggedUser.globalKycStatus === "PENDING"
-            )
-                return "PENDING";
-            if (this.instrument.currency === "NGN") {
-                if (this.getLoggedUser.localKycStatus === "NONE") return 1;
-                if (this.getLoggedUser.localKycStatus === "PENDING") return 2;
+                this.getLoggedUser.localKycStatus === 'PENDING'
+                && this.getLoggedUser.globalKycStatus === 'PENDING'
+            ) return 'PENDING';
+            if (this.instrument.currency === 'NGN') {
+                if (this.getLoggedUser.localKycStatus === 'NONE') return 1;
+                if (this.getLoggedUser.localKycStatus === 'PENDING') return 2;
                 return 3;
             }
-            if (this.getLoggedUser.globalKycStatus === "NONE") return 1;
-            if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
+            if (this.getLoggedUser.globalKycStatus === 'NONE') return 1;
+            if (this.getLoggedUser.globalKycStatus === 'PENDING') return 2;
             return 3;
         },
         isFormValid() {
@@ -367,23 +366,23 @@ export default {
     },
     methods: {
         ...mapActions([
-            "GET_ACCOUNT_SUMMARY",
-            "BUY_INSTRUMENT",
-            "GET_MARKET_DATA",
-            "GET_PRE_ORDER",
-            "GET_SINGLESTOCK_INSTRUMENT"
+            'GET_ACCOUNT_SUMMARY',
+            'BUY_INSTRUMENT',
+            'GET_MARKET_DATA',
+            'GET_PRE_ORDER',
+            'GET_SINGLESTOCK_INSTRUMENT'
         ]),
         ...mapMutations([
-            "SET_MARKET_DATA",
-            "SET_SELL_ORDER",
-            "SET_BUY_ORDER",
-            "RESET_REQ",
-            "SET_SINGLE_INSTRUMENT",
-            "SET_FUND_MODAL"
+            'SET_MARKET_DATA',
+            'SET_SELL_ORDER',
+            'SET_BUY_ORDER',
+            'RESET_REQ',
+            'SET_SINGLE_INSTRUMENT',
+            'SET_FUND_MODAL'
         ]),
         closeModal(action) {
             if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
-            this.$emit("close", action);
+            this.$emit('close', action);
         },
         switchOrder(value) {
             this.orderType = value;
@@ -391,21 +390,21 @@ export default {
         },
         validateBuy() {
             this.RESET_REQ();
-            if (this.orderType === "MARKET") {
+            if (this.orderType === 'MARKET') {
                 if (!this.itemData.amountCash) {
-                    this.$set(this.errors, "amountCash", "Amount is required");
+                    this.$set(this.errors, 'amountCash', 'Amount is required');
                 } else if (Number.isNaN(+this.itemData.amountCash)) {
-                    this.$set(this.errors, "quantity", "Invalid quantity");
+                    this.$set(this.errors, 'quantity', 'Invalid quantity');
                 }
             } else if (!this.itemData.price) {
-                this.$set(this.errors, "price", "Limit price is required");
+                this.$set(this.errors, 'price', 'Limit price is required');
             } else if (Number.isNaN(+this.itemData.price)) {
-                this.$set(this.errors, "quantity", "Invalid quantity");
+                this.$set(this.errors, 'quantity', 'Invalid quantity');
             }
             if (!this.itemData.quantity) {
-                this.$set(this.errors, "quantity", "Quantity is required");
+                this.$set(this.errors, 'quantity', 'Quantity is required');
             } else if (Number.isNaN(+this.itemData.quantity)) {
-                this.$set(this.errors, "quantity", "Invalid quantity");
+                this.$set(this.errors, 'quantity', 'Invalid quantity');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
@@ -414,17 +413,17 @@ export default {
             const payload = {
                 currency: this.currency,
                 instrumentSymbol: this.symbol,
-                orderSide: "BUY",
+                orderSide: 'BUY',
                 orderType: this.orderType
             };
-            if (this.orderType === "LIMIT") {
+            if (this.orderType === 'LIMIT') {
                 payload.price = +this.itemData.price * 100;
                 payload.quantity = +this.itemData.quantity;
             } else {
                 payload.amountCash = +this.itemData.amountCash * 100;
             }
             this.loading = true;
-            this.GET_PRE_ORDER(payload).then(resp => {
+            this.GET_PRE_ORDER(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.itemData.instrumentSymbol = this.symbol;
@@ -439,7 +438,7 @@ export default {
         },
         buyInstrument() {
             let value = {};
-            if (this.orderType === "MARKET") {
+            if (this.orderType === 'MARKET') {
                 if (this.isQuantity) {
                     const { price, amountCash, ...newTemp } = this.itemData;
                     newTemp.quantity = +newTemp.quantity;
@@ -456,7 +455,7 @@ export default {
                 value = newTemp;
             }
             this.loading = true;
-            this.BUY_INSTRUMENT(value).then(resp => {
+            this.BUY_INSTRUMENT(value).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     /**
@@ -464,7 +463,7 @@ export default {
                      * show success modal
                      */
                     if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
-                    this.$emit("close", true);
+                    this.$emit('close', true);
                 }
             });
         },
@@ -473,7 +472,7 @@ export default {
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = true;
                 if (e) {
-                    if (this.currency === "NGN" && this.orderType === "MARKET") {
+                    if (this.currency === 'NGN' && this.orderType === 'MARKET') {
                         this.itemData.amountCash = e * this.getMarketData.dayMax;
                     } else {
                         this.itemData.amountCash = e * this.getMarketData.ask;
@@ -485,7 +484,7 @@ export default {
             this.itemData.amountCash = e;
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = false;
-                if (this.currency === "NGN" && this.orderType === "MARKET") {
+                if (this.currency === 'NGN' && this.orderType === 'MARKET') {
                     this.itemData.quantity = +e / +this.getMarketData.dayMax;
                 } else {
                     this.itemData.quantity = +e / +this.getMarketData.ask;
@@ -512,7 +511,7 @@ export default {
         },
         showFund() {
             this.SET_FUND_MODAL(true);
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     async mounted() {

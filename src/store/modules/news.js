@@ -1,12 +1,12 @@
-import api from "../../services/apiService/api";
-import errorFn from "../../services/apiService/error";
+import api from '../../services/apiService/api';
+import errorFn from '../../services/apiService/error';
 
 const state = {
-    articles: [],
+    articles: []
 };
 
 const getters = {
-    getNews: state => state.articles,
+    getNews: state => state.articles
 };
 
 const mutations = {
@@ -16,28 +16,25 @@ const mutations = {
 };
 
 const actions = {
-    GET_ARTICULE_NEWS: ({ commit }, payload) => {
+    GET_ARTICULE_NEWS: ({ commit }, payload) =>
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) => {
-            return api.get(`/news`, { ...payload }).then(
-                resp => {
-                    if (resp.status >= 200 && resp.status < 400) {
-                        commit("SET_NEWS", resp.data.data.articles);
-                        resolve(true);
-                        return true;
-                    } else {
-                        errorFn(resp, "news");
-                        resolve(false);
-                    }
-                },
-                error => {
-                    errorFn(error.response, "explore");
-                    resolve(false);
+        new Promise((resolve, reject) => api.get('/news', { ...payload }).then(
+            (resp) => {
+                if (resp.status >= 200 && resp.status < 400) {
+                    commit('SET_NEWS', resp.data.data.articles);
+                    resolve(true);
+                    return true;
                 }
-            );
-        });
-    }
+                errorFn(resp, 'news');
+                resolve(false);
+            },
+            (error) => {
+                errorFn(error.response, 'explore');
+                resolve(false);
+            }
+        ))
+
 };
 
 export default {

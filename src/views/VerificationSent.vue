@@ -37,6 +37,6 @@
 
 <script>
 export default {
-    name: "VerificationSent"
+    name: 'VerificationSent'
 };
 </script>
