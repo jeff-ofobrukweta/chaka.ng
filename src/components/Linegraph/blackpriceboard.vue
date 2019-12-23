@@ -23,7 +23,7 @@
             />
             <section class="section-price">
                 <h1 v-if="instrument.currency" class="price">
-                    {{ instrument.currency == "USD" ? "$" : "₦" }}{{ instrument.askPrice }}
+                    {{ instrument.currency == "USD" ? "$" : "₦" }}{{ checkforUndefined(instrument.askPrice) }}
                 </h1>
                 <h1 v-else></h1>
                 <section
@@ -31,11 +31,11 @@
                     class="info-details"
                 >
                     <span class="increase">
-                        <span :class="[instrument.derivedPrice < 0 ? 'red' : 'green']">
-                            {{ instrument.derivedPrice }} </span
+                        <span :class="[checkforUndefined(instrument.derivedPrice) < 0 ? 'red' : 'green']">
+                            {{ checkforUndefined(instrument.derivedPrice) }} </span
                         ><Fragment>
-                            <span :class="[instrument.derivedPricePercentage < 0 ? 'red' : 'green']"
-                                >({{ instrument.derivedPricePercentage }}%)</span
+                            <span :class="[checkforUndefined(instrument.derivedPricePercentage) < 0 ? 'red' : 'green']"
+                                >({{ checkforUndefined(instrument.derivedPricePercentage) }}%)</span
                             ></Fragment
                         >
                     </span>
@@ -88,6 +88,11 @@ export default {
                 this.timingStatement = 'Last Five Years';
                 return this.timingStatement;
             }
+        },
+        checkforUndefined(payload){
+            const response = parseFloat(payload)
+            if(response === undefined || Number.isNaN(response) || response == ""){ return 0.00;}
+            else{return response;}
         }
     },
     props: {

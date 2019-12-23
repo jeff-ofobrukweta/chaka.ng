@@ -76,6 +76,8 @@ export default {
                                 fontColor: '#8A939A',
                                 padding: 0,
                                 fontSize: 10,
+                                suggestedMin: this.min,
+                                suggestedMax: this.max,
                                 max: this.max,
                                 min: this.min,
                                 // stepSize: 5,

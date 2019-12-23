@@ -53,7 +53,7 @@ const actions = {
             }));
     },
     async GET_INSTRUMENT_BY_TAGS({ commit }, params) {
-        return new Promise((resolve, reject) => API_CONTEXT.get(`/tags/slug/${params.slug}/instruments/`)
+        return new Promise((resolve, reject) => API_CONTEXT.get(`/tags/slug/${params.slug}/instruments/?page=${params.page}&perPage=${params.perPage}`)
             .then((response) => {
                 if (response.status >= 200 && response.status < 400) {
                     const { Instruments } = response.data.data.tag;

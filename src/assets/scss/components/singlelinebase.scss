@@ -97,7 +97,9 @@
                 }
             }
         }
-
+        .buy-container-action{
+            display: none;
+        }
         .btn-parent-container {
             font-family: SF Pro Text;
             font-style: normal;
@@ -146,6 +148,7 @@
                 transition: all 0.35s;
             }
         }
+        
 
         // $primary-green
         .buy-sell-action {
@@ -251,6 +254,9 @@
         max-width: 100 // margin-bottom: 1em;
 
     }
+    .buy-container-action{
+        display: none;
+    }
 }
 
 @include mobile {
@@ -266,6 +272,45 @@
 
         .buy-sell-action {
             display: none !important;
+        }
+
+    }
+    .buy-container-action{
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        margin: 0 auto;
+
+        .selling {
+            font-family: "SF Pro";
+            font-style: normal;
+            font-weight: bolder;
+            padding: 10px 2em;
+            border: 1px solid#e6e6e6;
+            background: $orange;
+            outline: none;
+            border: none;
+            color: #fff;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 15.4204px;
+            margin: 5px;
+        }
+
+        .buying {
+            font-family: "SF Pro";
+            font-style: normal;
+            font-weight: bolder;
+            padding: 10px 2em;
+            border: 1px solid#e6e6e6;
+            background: $primary;
+            outline: none;
+            border: none;
+            color: #fff;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 15.4204px;
+            margin: 5px;
         }
 
     }
