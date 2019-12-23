@@ -3,30 +3,30 @@ module.exports = {
     env: {
         node: true
     },
-    extends: ["plugin:vue/essential", "@vue/airbnb"],
+    extends: ['plugin:vue/essential', '@vue/airbnb'],
     rules: {
-        "import/extensions": [
-            "error",
-            "always",
+        'import/extensions': [
+            'error',
+            'always',
             {
-                js: "never",
-                jsx: "never",
-                ts: "never",
-                vue: "never"
+                js: 'never',
+                jsx: 'never',
+                ts: 'never',
+                vue: 'never'
             }
         ],
-        "comma-dangle": ["error", "never"],
-        "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
-        "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-        "max-len": "off",
-        indent: ["error", 4]
+        'comma-dangle': ['error', 'never'],
+        'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+        'max-len': 'off',
+        indent: ['error', 4]
     },
     parserOptions: {
-        parser: "babel-eslint"
+        parser: 'babel-eslint'
     },
     overrides: [
         {
-            files: ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
+            files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
             env: {
                 jest: true
             }

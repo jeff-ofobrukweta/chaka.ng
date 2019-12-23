@@ -112,54 +112,54 @@
     </section>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-    name: "Categories",
+    name: 'Categories',
     data() {
         return {
             loading: false,
             loadingTags: false,
-            selectedTag: "ALL",
-            currentTag: { filter: "ALL" },
+            selectedTag: 'ALL',
+            currentTag: { filter: 'ALL' },
             tagCategories: [
                 {
-                    name: "All",
-                    value: "ALL"
+                    name: 'All',
+                    value: 'ALL'
                 },
                 {
-                    name: "Featured",
-                    value: "FEATURED"
+                    name: 'Featured',
+                    value: 'FEATURED'
                 },
                 {
-                    name: "Industries",
-                    value: "INDUSTRIES"
+                    name: 'Industries',
+                    value: 'INDUSTRIES'
                 },
                 {
-                    name: "Countries",
-                    value: "COUNTRIES"
+                    name: 'Countries',
+                    value: 'COUNTRIES'
                 }
             ]
         };
     },
     components: {
-        InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
-        Tag: () => import("../../components/SingleTag")
+        InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
+        InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
+        Tag: () => import('../../components/SingleTag')
     },
     computed: {
         ...mapGetters([
-            "gettagslistsArray",
-            "getInstrumentsListArray",
-            "getWindowWidth",
-            "getInstrumentsPayload",
-            "getErrorLog",
-            "getpagination",
-            "getMostPopular"
+            'gettagslistsArray',
+            'getInstrumentsListArray',
+            'getWindowWidth',
+            'getInstrumentsPayload',
+            'getErrorLog',
+            'getpagination',
+            'getMostPopular'
         ]),
         instrumentLength() {
             if (Object.keys(this.getpagination).length > 0) {
-                if (this.getpagination === "") {
+                if (this.getpagination === '') {
                     return 0;
                 }
                 const length = this.getpagination.total;
@@ -170,17 +170,17 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
-            "SET_INSTRUMENT_BY_TAGS",
-            "SET_TAGS_LISTS",
-            "SET_SLUG_FOR_INSTRUMENT"
+            'SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS',
+            'SET_INSTRUMENT_BY_TAGS',
+            'SET_TAGS_LISTS',
+            'SET_SLUG_FOR_INSTRUMENT'
         ]),
-        ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS", "GET_MOST_POPULAR"]),
+        ...mapActions(['GET_TAGS_CATEGORIES', 'GET_INSTRUMENT_BY_TAGS', 'GET_MOST_POPULAR']),
         handleSelect(response) {
             this.loading = true;
             const payload = { slug: response.slug };
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response);
-            if (payload.slug === "") {
+            if (payload.slug === '') {
                 this.loading = false;
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 return true;

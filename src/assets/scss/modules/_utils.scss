@@ -26,8 +26,17 @@
 
 #app {
   min-height: 100vh;
-  &.overflow{
+
+  &.overflow {
     overflow: hidden;
+  }
+}
+
+.app {
+  &-body {
+    @extend .container;
+    margin-top: 2.5rem;
+    padding-bottom: 2rem;
   }
 }
 

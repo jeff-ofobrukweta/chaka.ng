@@ -186,7 +186,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getWindowWidth','getInstrumentsPayload']),
+        ...mapGetters(['getWindowWidth', 'getInstrumentsPayload']),
         isAccountActive() {
             return this.$route.name.startsWith('accounts');
         }

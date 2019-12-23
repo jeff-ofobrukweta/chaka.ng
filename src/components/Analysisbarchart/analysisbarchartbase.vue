@@ -19,22 +19,22 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import Analysisbarchart from "./analysisbarchart";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import Analysisbarchart from './analysisbarchart';
 
 export default {
-    name: "performancebase",
+    name: 'performancebase',
     components: {
         Fragment,
         Analysisbarchart
     },
     computed: {
-        ...mapGetters(["getActionperformance", "getValueperformance"])
+        ...mapGetters(['getActionperformance', 'getValueperformance'])
     },
     methods: {
         // GET_BARCHART_PERFORMANCERATING_GRAPH_DATA
-        ...mapActions(["GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA"]),
+        ...mapActions(['GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA']),
         mountedActions() {
             const payload = {
                 symbol: this.$route.params.symbol

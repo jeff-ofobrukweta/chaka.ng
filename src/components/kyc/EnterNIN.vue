@@ -6,25 +6,25 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
-import EventBus from "../../event-bus";
+import { mapMutations } from 'vuex';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "enter-nin",
+    name: 'enter-nin',
     data() {
         return {
             ninField: {
-                title: "National Identity Number",
-                subtitle: "Enter your NIN details",
-                fields: ["nin"]
+                title: 'National Identity Number',
+                subtitle: 'Enter your NIN details',
+                fields: ['nin']
             }
         };
     },
     methods: {
         handleUpdate() {
-            EventBus.$emit("navbar-trigger");
-            EventBus.$emit("modal-trigger");
-            this.$emit("updated");
+            EventBus.$emit('navbar-trigger');
+            EventBus.$emit('modal-trigger');
+            this.$emit('updated');
         }
     }
 };

@@ -175,21 +175,21 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import { mapActions, mapMutations, mapGetters } from "vuex";
-import Field from "./KYCField";
-import AllKYCFields from "../../services/kyc/index";
-import Types from "../../services/kyc/employmentTypes";
-import Positions from "../../services/kyc/employmentPosition";
-import Banks from "../../services/kyc/banks";
-import lg from "../../services/kyc/lgNames";
-import KYCTitles from "../../services/kyc/kycTitles";
-import EventBus from "../../event-bus";
+import { Fragment } from 'vue-fragment';
+import { mapActions, mapMutations, mapGetters } from 'vuex';
+import Field from './KYCField';
+import AllKYCFields from '../../services/kyc/index';
+import Types from '../../services/kyc/employmentTypes';
+import Positions from '../../services/kyc/employmentPosition';
+import Banks from '../../services/kyc/banks';
+import lg from '../../services/kyc/lgNames';
+import KYCTitles from '../../services/kyc/kycTitles';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "kyc-modal",
+    name: 'kyc-modal',
     components: {
-        PhoneOTP: () => import("./PhoneOTP"),
+        PhoneOTP: () => import('./PhoneOTP'),
         Field,
         Fragment
     },
@@ -224,19 +224,19 @@ export default {
             subtitle: null,
             showModal: false,
             ninField: {
-                name: "NIN",
-                value: "nin",
-                type: "number"
+                name: 'NIN',
+                value: 'nin',
+                type: 'number'
             }
         };
     },
     computed: {
-        ...mapGetters(["getErrorLog", "getNextKYC", "getNavbarNextKYC", "getKycModalAction"]),
+        ...mapGetters(['getErrorLog', 'getNextKYC', 'getNavbarNextKYC', 'getKycModalAction']),
         isFileImage() {
             if (Object.keys(this.selectedField).length > 0) {
                 const test = this.selectedField.fields[0];
                 const stripped = test.substr(test.length - 3);
-                return stripped.toLowerCase() === "url";
+                return stripped.toLowerCase() === 'url';
             }
         },
         currentKYC() {
@@ -244,104 +244,100 @@ export default {
             return this.getNextKYC;
         },
         title() {
-            if (this.currentKYC.cardContext === "LOCAL") return "Complete Your Local Verification";
-            if (this.currentKYC.cardContext === "GLOBAL")
-                return "Complete Your Global Verification";
-            if (this.currentKYC.cardContext === "FUND") return "Complete Your Funding Verification";
-            return "Complete Your Verification";
+            if (this.currentKYC.cardContext === 'LOCAL') return 'Complete Your Local Verification';
+            if (this.currentKYC.cardContext === 'GLOBAL') return 'Complete Your Global Verification';
+            if (this.currentKYC.cardContext === 'FUND') return 'Complete Your Funding Verification';
+            return 'Complete Your Verification';
         }
     },
     methods: {
         ...mapActions([
-            "RESOLVE_BVN",
-            "UPDATE_KYC_BANK",
-            "UPDATE_KYC_NIN",
-            "UPDATE_KYC",
-            "UPLOAD_KYC_FILE",
-            "GET_NEXT_KYC",
-            "GET_NAVBAR_NEXT_KYC"
+            'RESOLVE_BVN',
+            'UPDATE_KYC_BANK',
+            'UPDATE_KYC_NIN',
+            'UPDATE_KYC',
+            'UPLOAD_KYC_FILE',
+            'GET_NEXT_KYC',
+            'GET_NAVBAR_NEXT_KYC'
         ]),
-        ...mapMutations(["RESET_REQ", "SET_FUND_MODAL"]),
+        ...mapMutations(['RESET_REQ', 'SET_FUND_MODAL']),
         handleInput(e) {
             this.itemData[e.name] = e.value;
             this.errors = {};
-            if (e.name === "employmentStatus") {
-                if (e.value !== "UNEMPLOYED") {
+            if (e.name === 'employmentStatus') {
+                if (e.value !== 'UNEMPLOYED') {
                     this.showEmployment = true;
                 } else {
                     this.showEmployment = false;
                 }
             }
-            if (e.name === "pepStatus") {
+            if (e.name === 'pepStatus') {
                 if (e.value === true) {
                     this.showPepStatus = true;
                 } else {
                     this.showPepStatus = false;
                 }
             }
-            if (e.name === "directorOfPublicCo") {
+            if (e.name === 'directorOfPublicCo') {
                 if (e.value === true) {
                     this.showDirector = true;
                 } else {
                     this.showDirector = false;
                 }
             }
-            this.formComplete =
-                Object.keys(this.itemData).length >= this.selectedField.fields.length;
+            this.formComplete = Object.keys(this.itemData).length >= this.selectedField.fields.length;
         },
         OTPSuccess() {
             this.nextStep();
         },
         updateKYC() {
-            Object.keys(this.itemData).forEach(el => {
-                if (el === "bvn") this.state = "bvn";
-                else if (el === "nin" || this.nin) this.state = "nin";
-                else if (el === "bankCode" || el === "bankAcctNo") this.state = "bank";
+            Object.keys(this.itemData).forEach((el) => {
+                if (el === 'bvn') this.state = 'bvn';
+                else if (el === 'nin' || this.nin) this.state = 'nin';
+                else if (el === 'bankCode' || el === 'bankAcctNo') this.state = 'bank';
                 else if (
-                    el === "employmentStatus" ||
-                    el === "directorOfPublicCo" ||
-                    el === "pepStatus"
-                )
-                    this.state = "employment";
-                else if (el === "addressProofUrl" || el === "idPhotoUrl" || el === "passportUrl")
-                    this.state = "file";
-                else this.state = "default";
+                    el === 'employmentStatus'
+                    || el === 'directorOfPublicCo'
+                    || el === 'pepStatus'
+                ) this.state = 'employment';
+                else if (el === 'addressProofUrl' || el === 'idPhotoUrl' || el === 'passportUrl') this.state = 'file';
+                else this.state = 'default';
             });
             this.loading = true;
             const payload = { ...this.itemData };
-            payload.source = "modal";
-            if (this.state === "bvn") {
+            payload.source = 'modal';
+            if (this.state === 'bvn') {
                 if (Number.isNaN(+this.itemData.bvn)) {
-                    this.$set(this.errors, "bvn", "BVN should be a number");
+                    this.$set(this.errors, 'bvn', 'BVN should be a number');
                     this.loading = false;
                     return false;
                 }
                 if (this.itemData.bvn.length !== 11) {
-                    this.$set(this.errors, "bvn", "BVN should be 11 digits");
+                    this.$set(this.errors, 'bvn', 'BVN should be 11 digits');
                 }
                 if (Object.keys(this.errors).length > 0) {
                     this.loading = false;
                     return false;
                 }
-                this.RESOLVE_BVN(payload).then(resp => {
+                this.RESOLVE_BVN(payload).then((resp) => {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
                     }
                 });
-            } else if (this.state === "nin") {
-                this.UPDATE_KYC_NIN(payload).then(resp => {
+            } else if (this.state === 'nin') {
+                this.UPDATE_KYC_NIN(payload).then((resp) => {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
                     }
                 });
-            } else if (this.state === "bank") {
+            } else if (this.state === 'bank') {
                 if (!this.itemData.bankAcctNo) {
-                    this.$set(this.errors, "bankAcctNo", "Account number is required");
+                    this.$set(this.errors, 'bankAcctNo', 'Account number is required');
                 }
                 if (!this.itemData.bankCode) {
-                    this.$set(this.errors, "bankCode", "Bank name is required");
+                    this.$set(this.errors, 'bankCode', 'Bank name is required');
                 }
                 if (Object.keys(this.errors).length > 0) {
                     this.loading = false;
@@ -350,46 +346,46 @@ export default {
                 if (Number.isNaN(+this.itemData.bankAcctNo)) {
                     this.$set(
                         this.errors,
-                        "bankAcctNo",
-                        "Account number should be a 10 digit number"
+                        'bankAcctNo',
+                        'Account number should be a 10 digit number'
                     );
                     this.loading = false;
                     return false;
                 }
                 if (this.itemData.bankAcctNo.length !== 10) {
-                    this.$set(this.errors, "bankAcctNo", "Account number should be 10 digits");
+                    this.$set(this.errors, 'bankAcctNo', 'Account number should be 10 digits');
                 }
                 if (Object.keys(this.errors).length > 0) {
                     this.loading = false;
                     return false;
                 }
-                this.UPDATE_KYC_BANK(payload).then(resp => {
+                this.UPDATE_KYC_BANK(payload).then((resp) => {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
                     }
                 });
-            } else if (this.state === "employment") {
+            } else if (this.state === 'employment') {
                 if (this.showEmployment) {
                     if (!this.employment.employmentType) {
-                        this.$set(this.errors, "employmentType", "Company type is required");
+                        this.$set(this.errors, 'employmentType', 'Company type is required');
                     }
                     if (!this.employment.employmentCompany) {
-                        this.$set(this.errors, "employmentCompany", "Company name is required");
+                        this.$set(this.errors, 'employmentCompany', 'Company name is required');
                     }
                     if (!this.employment.employmentPosition) {
                         this.$set(
                             this.errors,
-                            "employmentPosition",
-                            "Employment position is required"
+                            'employmentPosition',
+                            'Employment position is required'
                         );
                     }
                 }
                 if (this.showDirector && !this.director.name) {
-                    this.$set(this.errors, "directorName", "Company ticker symbol is required");
+                    this.$set(this.errors, 'directorName', 'Company ticker symbol is required');
                 }
                 if (this.showPepStatus && !this.pepNames.pepNames) {
-                    this.$set(this.errors, "pepNames", "Name is required");
+                    this.$set(this.errors, 'pepNames', 'Name is required');
                 }
 
                 if (Object.keys(this.errors).length > 0) {
@@ -407,16 +403,16 @@ export default {
                 if (this.showDirector) {
                     payload.directorOfPublicCo = this.director.name;
                 } else {
-                    payload.directorOfPublicCo = "";
+                    payload.directorOfPublicCo = '';
                 }
-                this.UPDATE_KYC(payload).then(resp => {
+                this.UPDATE_KYC(payload).then((resp) => {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
                     }
                 });
-            } else if (this.state === "file") {
-                this.UPLOAD_KYC_FILE(payload).then(resp => {
+            } else if (this.state === 'file') {
+                this.UPLOAD_KYC_FILE(payload).then((resp) => {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
@@ -427,7 +423,7 @@ export default {
                     this.loading = false;
                     return true;
                 }
-                this.UPDATE_KYC(payload).then(resp => {
+                this.UPDATE_KYC(payload).then((resp) => {
                     this.loading = false;
                     if (resp) {
                         this.nextStep();
@@ -436,23 +432,23 @@ export default {
             }
         },
         checkOptions(type) {
-            if (type.value === "employmentType") {
+            if (type.value === 'employmentType') {
                 return this.types;
             }
-            if (type.value === "employmentPosition") {
+            if (type.value === 'employmentPosition') {
                 return this.positions;
             }
-            if (type.value === "bankCode") {
+            if (type.value === 'bankCode') {
                 return this.banks;
             }
-            if (type.value === "lg") {
+            if (type.value === 'lg') {
                 return this.lg;
             }
             return [];
         },
         skipNIN() {
             this.loading = true;
-            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
+            this.UPDATE_KYC_NIN({ nin: 'skip' }).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.nextStep();
@@ -460,13 +456,13 @@ export default {
             });
         },
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         async nextStep() {
             // EventBus.$emit("navbar-trigger");
             // EventBus.$emit("modal-trigger");
             this.showModal = false;
-            this.$emit("updated");
+            this.$emit('updated');
             if (this.navbar) {
                 await this.GET_NAVBAR_NEXT_KYC();
             } else {
@@ -476,7 +472,7 @@ export default {
         },
         showFund() {
             this.SET_FUND_MODAL(true);
-            this.$emit("close");
+            this.$emit('close');
         },
         mount() {
             this.allFields = [];
@@ -488,16 +484,16 @@ export default {
              * Refactor code for child to determine actionType and act on it instead of being passed as a prop
              */
 
-            this.allNextKYC.forEach(element => {
-                element.fields.forEach(el => {
+            this.allNextKYC.forEach((element) => {
+                element.fields.forEach((el) => {
                     if (el === this.currentKYC.nextKYC[0]) {
                         this.subtitle = element.subtitle;
                     }
                 });
             });
             this.selectedField.fields = this.currentKYC.nextKYC;
-            this.currentKYC.nextKYC.map(required => {
-                const all = AllKYCFields.filter(el => {
+            this.currentKYC.nextKYC.map((required) => {
+                const all = AllKYCFields.filter((el) => {
                     if (required === el.value) {
                         this.allFields.push(el);
                         return el;
@@ -505,17 +501,17 @@ export default {
                 });
             });
             this.showModal = true;
-            if (this.currentKYC.status === "COMPLETE") {
-                this.$emit("updated", true);
+            if (this.currentKYC.status === 'COMPLETE') {
+                this.$emit('updated', true);
             }
         }
     },
     mounted() {
         this.mount();
-        EventBus.$on("modal-trigger", () => {
+        EventBus.$on('modal-trigger', () => {
             this.mount();
         });
-        EventBus.$on("navbar-trigger", () => {
+        EventBus.$on('navbar-trigger', () => {
             this.mount();
         });
     }

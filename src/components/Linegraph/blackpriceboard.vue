@@ -49,15 +49,15 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import EventBus from "../../event-bus";
+import { Fragment } from 'vue-fragment';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "Blackcard",
+    name: 'Blackcard',
     data() {
         return {
             timingStatement: null,
-            valueTiming: ""
+            valueTiming: ''
         };
     },
     components: {
@@ -66,27 +66,27 @@ export default {
     methods: {
         checkTimevariantForPriceCardonToogle(value) {
             switch (value) {
-                case "1D":
-                    this.timingStatement = "Last 24 Hours";
-                    return this.timingStatement;
-                case "1W":
-                    this.timingStatement = "Last One Week";
-                    return this.timingStatement;
-                case "1M":
-                    this.timingStatement = "Last One Month";
-                    return this.timingStatement;
-                case "3M":
-                    this.timingStatement = "Last Three Months";
-                    return this.timingStatement;
-                case "1Y":
-                    this.timingStatement = "Last One Year";
-                    return this.timingStatement;
-                case "5Y":
-                    this.timingStatement = "Last Five Years";
-                    return this.timingStatement;
-                default:
-                    this.timingStatement = "Last Five Years";
-                    return this.timingStatement;
+            case '1D':
+                this.timingStatement = 'Last 24 Hours';
+                return this.timingStatement;
+            case '1W':
+                this.timingStatement = 'Last One Week';
+                return this.timingStatement;
+            case '1M':
+                this.timingStatement = 'Last One Month';
+                return this.timingStatement;
+            case '3M':
+                this.timingStatement = 'Last Three Months';
+                return this.timingStatement;
+            case '1Y':
+                this.timingStatement = 'Last One Year';
+                return this.timingStatement;
+            case '5Y':
+                this.timingStatement = 'Last Five Years';
+                return this.timingStatement;
+            default:
+                this.timingStatement = 'Last Five Years';
+                return this.timingStatement;
             }
         }
     },
@@ -97,7 +97,7 @@ export default {
         }
     },
     mounted() {
-        EventBus.$on("GET_DAYS", payLoad => {
+        EventBus.$on('GET_DAYS', (payLoad) => {
             this.valueTiming = payLoad;
             this.checkTimevariantForPriceCardonToogle(this.valueTiming);
         });
