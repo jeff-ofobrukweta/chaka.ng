@@ -13,6 +13,7 @@
             :minlength="minlength"
             :maxlength="maxlength"
             :disabled="disabled"
+            :min="min"
             :step="type === 'number' ? 'any' : ''"
         />
         <p class="form-error" :class="{ navbar: navbar }" v-if="errorMessage">
@@ -25,10 +26,10 @@
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
+import { Fragment } from "vue-fragment";
 
 export default {
-    name: 'form-input',
+    name: "form-input",
     components: {
         Fragment
     },
@@ -60,6 +61,9 @@ export default {
         maxlength: {
             type: String
         },
+        min: {
+            type: [String, Number]
+        },
         errorMessage: {
             type: String
         },
@@ -77,10 +81,10 @@ export default {
     },
     methods: {
         handleInput() {
-            this.$emit('input', this.content);
+            this.$emit("input", this.content);
         },
         resetError() {
-            this.$emit('reset');
+            this.$emit("reset");
         }
     },
     watch: {

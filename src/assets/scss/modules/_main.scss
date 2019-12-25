@@ -18,4 +18,21 @@
             margin-top: .325rem;
         }
     }
+
+    &__back {
+        padding: .5rem 0 1rem;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        &--btn {
+            display: inline-flex;
+            margin-right: 1rem;
+
+        svg {
+            width: 24px;
+            height: 24px;
+        }
+        }
+    }
 }

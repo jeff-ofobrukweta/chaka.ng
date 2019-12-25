@@ -258,7 +258,7 @@
                         placeholder="Enter Amount"
                         v-model="itemData.amount"
                         :error-message="errors.amount"
-                            @reset="handleReset"
+                        @reset="errors = {}"
                 /></label>
             </div>
             <error-block type="exchange" />
@@ -329,18 +329,18 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
-import KYCTitles from '../../services/kyc/kycTitles';
-import CurrencyInput from '../form/CurrencyInput';
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import KYCTitles from "../../services/kyc/kycTitles";
+import CurrencyInput from "../form/CurrencyInput";
 
 export default {
-    name: 'exchange-modal',
+    name: "exchange-modal",
     components: {
         CurrencyInput
     },
     data() {
         return {
-            itemData: { currency: 'NGN', fromWallet: 'local', toWallet: 'global' },
+            itemData: { currency: "NGN", fromWallet: "local", toWallet: "global" },
             loading: false,
             selectedCurrency: null,
             errors: {},
@@ -350,7 +350,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getExchangeRate', 'getAccountSummary', 'getLoggedUser', 'getNextKYC']),
+        ...mapGetters(["getExchangeRate", "getAccountSummary", "getLoggedUser", "getNextKYC"]),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.itemData.amount > 2500) {
@@ -360,23 +360,24 @@ export default {
         },
         exchangeStatus() {
             if (
-                this.getLoggedUser.localKycStatus === 'PENDING'
-                && this.getLoggedUser.globalKycStatus === 'PENDING'
-            ) return 'PENDING';
-            return this.getLoggedUser.globalKycStatus === 'COMPLETE';
+                this.getLoggedUser.localKycStatus === "PENDING" &&
+                this.getLoggedUser.globalKycStatus === "PENDING"
+            )
+                return "PENDING";
+            return this.getLoggedUser.globalKycStatus === "COMPLETE";
         }
     },
     methods: {
-        ...mapActions(['GET_EXCHANGE_RATE', 'GET_ACCOUNT_SUMMARY', 'EXCHANGE_WALLET']),
-        ...mapMutations(['SET_FUND_MODAL']),
+        ...mapActions(["GET_EXCHANGE_RATE", "GET_ACCOUNT_SUMMARY", "EXCHANGE_WALLET"]),
+        ...mapMutations(["SET_FUND_MODAL"]),
         closeModal() {
-            this.$emit('close');
+            this.$emit("close");
         },
         exchangeWallet() {
             if (!this.itemData.amount) {
-                this.$set(this.errors, 'amount', 'Amount is required');
+                this.$set(this.errors, "amount", "Amount is required");
             } else if (Number.isNaN(+this.itemData.amount)) {
-                this.$set(this.errors, 'quantity', 'Invalid amount');
+                this.$set(this.errors, "quantity", "Invalid amount");
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
@@ -384,10 +385,10 @@ export default {
             this.loading = true;
             const payload = { ...this.itemData };
             payload.amount *= 100;
-            this.EXCHANGE_WALLET(payload).then((resp) => {
+            this.EXCHANGE_WALLET(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.$emit('close', true);
+                    this.$emit("close", true);
                 }
             });
         },
@@ -408,28 +409,28 @@ export default {
         },
         showFund() {
             this.SET_FUND_MODAL(true);
-            this.$emit('close');
+            this.$emit("close");
         }
     },
     async mounted() {
         this.GET_EXCHANGE_RATE();
         setTimeout(() => {
-            this.itemData.currency = 'NGN';
-            this.itemData.fromWallet = 'local';
-            this.itemData.toWallet = 'global';
+            this.itemData.currency = "NGN";
+            this.itemData.fromWallet = "local";
+            this.itemData.toWallet = "global";
         }, 500);
         await this.GET_ACCOUNT_SUMMARY();
     },
     watch: {
-        'itemData.fromWallet': function (val) {
-            if (val === 'local') {
-                this.selectedCurrency = 'NGN';
+        "itemData.fromWallet": function(val) {
+            if (val === "local") {
+                this.selectedCurrency = "NGN";
                 this.itemData.currency = this.selectedCurrency;
-                this.itemData.toWallet = 'global';
+                this.itemData.toWallet = "global";
             } else {
-                this.selectedCurrency = 'USD';
+                this.selectedCurrency = "USD";
                 this.itemData.currency = this.selectedCurrency;
-                this.itemData.toWallet = 'local';
+                this.itemData.toWallet = "local";
             }
         }
     }
