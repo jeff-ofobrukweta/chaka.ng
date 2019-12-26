@@ -241,6 +241,14 @@
                     </h4>
                     <p>Make unlimited trades with industry-low fees on global and local stocks.</p>
                     <br />
+                    <div class="text-center mb-2">
+                        <router-link
+                            :to="{ name: 'register' }"
+                            tag="button"
+                            class="btn btn__primary"
+                            >Create Account</router-link
+                        >
+                    </div>
                     <p>
                         <router-link class="section__link flex" href :to="{ name: 'calculator' }">
                             Use Calculator
@@ -575,6 +583,84 @@
                             class="v2-landing__news--img"
                             src="../assets/img/news/yahoo.png"
                             alt="Yahoo Finance"
+                        />
+                    </a>
+                    <a
+                        href="https://businessday.ng/interview/article/our-goal-is-to-provide-borderless-trading-investment-opportunities/"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/business-day.png"
+                            alt="Business Day"
+                        />
+                    </a>
+                    <a
+                        href="https://www.marketwatch.com/press-release/drivewealth-partners-with-chaka-new-global-trading-platform-in-nigeria-to-increase-access-to-us-stock-market-2019-10-16"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/market-watch.svg"
+                            alt="Market Watch"
+                        />
+                    </a>
+                    <a
+                        href="https://guardian.ng/business-services/hedging-against-local-risks-through-global-markets/"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/the-guardian.png"
+                            alt="The Guardian"
+                        />
+                    </a>
+                    <a
+                        href="https://www.youtube.com/watch?v=qngEAo-D_dk"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/arise-news.png"
+                            alt="Arise News"
+                        />
+                    </a>
+                    <a
+                        href="https://www.thisdaylive.com/index.php/2019/10/18/chaka-global-trading-platform-launched-in-nigeria/"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/thisday.png"
+                            alt="This Day"
+                        />
+                    </a>
+                    <a
+                        href="https://www.financemagnates.com/forex/products/chaka-teams-up-with-drivewealth-to-offer-us-equities-in-nigeria/"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/finance-magnates.svg"
+                            alt="Finance Magnates"
                         />
                     </a>
                 </div>

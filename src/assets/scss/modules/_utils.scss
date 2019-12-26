@@ -107,12 +107,13 @@ main {
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(347px, 1fr));
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
     overflow-x: auto;
     grid-gap: 3rem;
 
-    @media #{$mobile} {
-      padding: 3rem 0;
+    @include mobile {
+      grid-gap: 1rem;
+      grid-template-columns: repeat(3, minmax(85%, 1fr));
     }
   }
 
@@ -122,18 +123,18 @@ main {
     @include tablet {
       padding: 3rem 0;
     }
-
-    @include desktop {
-      padding: 3rem 0;
-    }
   }
 
   &__card {
     color: $text-dark;
-    margin: 3rem 0;
+    margin: 2rem 0;
     background: $white;
     padding: 3rem 1.5rem;
     box-shadow: none;
+
+    @include mobile {
+      padding: 2rem 1rem;
+    }
 
     &:first-child {
       background-color: #fbebee;
@@ -145,10 +146,6 @@ main {
 
     &:nth-child(3) {
       background-color: #e7f3ff;
-    }
-
-    @media #{$mobile} {
-      margin: 0;
     }
 
     h4 {
