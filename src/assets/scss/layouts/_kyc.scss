@@ -34,8 +34,8 @@
                 text-align: left;
             }
 
-            &--stretch{
-                @include tablet{
+            &--stretch {
+                @include tablet {
                     flex: 0 0 65%;
                     max-width: 65%;
                 }
@@ -253,6 +253,13 @@
                 margin-top: .5rem;
                 width: 20px;
                 height: 20px;
+            }
+        }
+
+        &__single {
+            &>div {
+                margin: auto;
+                cursor: pointer;
             }
         }
 

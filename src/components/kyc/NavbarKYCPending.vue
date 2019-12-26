@@ -23,11 +23,12 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations } from 'vuex';
+
 export default {
-    name: "kyc-pending",
+    name: 'kyc-pending',
     methods: {
-        ...mapMutations(["SET_FUND_MODAL"]),
+        ...mapMutations(['SET_FUND_MODAL']),
         showFund() {
             this.SET_FUND_MODAL(true);
         }

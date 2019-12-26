@@ -40,11 +40,11 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
-import EventBus from "../../event-bus";
+import { mapMutations } from 'vuex';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "modal",
+    name: 'modal',
     props: {
         closeOnClick: {
             type: Boolean,
@@ -60,16 +60,16 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(["RESET_REQ", "MODAL_OPENED"]),
+        ...mapMutations(['RESET_REQ', 'MODAL_OPENED']),
         closeModal() {
             if (this.closeOnClick) {
                 this.emitClose();
             }
         },
         emitClose() {
-            EventBus.$emit("MODAL_CLOSED");
+            EventBus.$emit('MODAL_CLOSED');
             this.MODAL_OPENED(false);
-            this.$emit("close");
+            this.$emit('close');
             this.RESET_REQ();
         }
     },

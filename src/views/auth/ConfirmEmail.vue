@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-import auth from "../../services/validations/auth";
+import { mapActions, mapMutations } from 'vuex';
+import auth from '../../services/validations/auth';
 
 export default {
-    name: "ConfirmEmail",
+    name: 'ConfirmEmail',
     data() {
         return {
             loading: false,
@@ -66,8 +66,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["LOGIN", "CONFIRM_EMAIL"]),
-        ...mapMutations(["RESET_REQ", "LOGOUT", "SET_LOGGED_USER", "RESET_ALL"])
+        ...mapActions(['LOGIN', 'CONFIRM_EMAIL']),
+        ...mapMutations(['RESET_REQ', 'LOGOUT', 'SET_LOGGED_USER', 'RESET_ALL'])
     },
     mounted() {
         this.loading = true;
@@ -76,12 +76,12 @@ export default {
             chakaID: this.chakaID,
             token: this.token
         };
-        this.CONFIRM_EMAIL(payload).then(resp => {
+        this.CONFIRM_EMAIL(payload).then((resp) => {
             this.loading = false;
             if (resp) {
                 this.success = true;
                 setTimeout(() => {
-                    this.$router.push({ name: "login" });
+                    this.$router.push({ name: 'login' });
                 }, 5000);
                 return true;
             }

@@ -25,7 +25,7 @@
                         {{
                             getSingleinstrument[0].InstrumentDynamic.askPrice
                                 | kobo
-                                | currency(getSingleinstrument[0].currency)
+                                | currency(getSingleinstrument[0].currency | units(2, true))
                         }}
                     </h1>
                     <h1 class="percentage">
@@ -380,9 +380,9 @@ export default {
                 // this.watchdisable = false;
                 this.statusOfWatchlist = !this.statusOfWatchlist;
                 this.GET_WATCHLIST().then(() => {
-                    this.checkIfStockInWatchlist = [...this.getWatchlist].filter(status => {
-                        return status.symbol == this.$route.params.symbol;
-                    });
+                    this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
+                        status => status.symbol == this.$route.params.symbol
+                    );
                     // filter the arr at this point to get if the current stock is in the watchlist
                 });
             }, 200);
@@ -394,9 +394,9 @@ export default {
             //  this.watchdisable = false;
             this.statusOfWatchlist = !this.statusOfWatchlist;
             this.GET_WATCHLIST().then(() => {
-                this.checkIfStockInWatchlist = [...this.getWatchlist].filter(status => {
-                    return status.symbol == this.$route.params.symbol;
-                });
+                this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
+                    status => status.symbol == this.$route.params.symbol
+                );
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
         },
@@ -405,7 +405,7 @@ export default {
                 this.showBuy();
             }
         },
-        setTagPayload(valuePayload){
+        setTagPayload(valuePayload) {
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
             this.$router.push({
                 name: "categories",
@@ -419,9 +419,9 @@ export default {
         const newsSinglestockpayload = { symbol: this.$route.params.symbol };
         this.similarLoading = true;
         this.GET_WATCHLIST().then(() => {
-            this.checkIfStockInWatchlist = [...this.getWatchlist].filter(number => {
-                return number.symbol == this.$route.params.symbol;
-            });
+            this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
+                number => number.symbol == this.$route.params.symbol
+            );
             // filter the arr at this point to get if the current stock is in the watchlist
         });
         await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {

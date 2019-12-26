@@ -15,7 +15,13 @@
                             >
                             <kyc-button
                                 ref="sellBtn"
-                                v-if="getSingleinstrument[0] && checkPositions(getSingleinstrument[0].symbol,getSingleinstrument[0].currency)"
+                                v-if="
+                                    getSingleinstrument[0] &&
+                                        checkPositions(
+                                            getSingleinstrument[0].symbol,
+                                            getSingleinstrument[0].currency
+                                        )
+                                "
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
@@ -111,7 +117,9 @@
                     :class="tooglegraph ? 'display' : 'nodisplay'"
                     :price="getOpenPrice"
                     :date="getDates"
-                    :currency="getSinglestockglobalCurrencyforGraph || getSingleinstrument[0].currency"
+                    :currency="
+                        getSinglestockglobalCurrencyforGraph || getSingleinstrument[0].currency
+                    "
                 />
             </template>
             <section class="buy-container-action">
@@ -121,14 +129,23 @@
                     :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                     @step="handleStep"
                     next-action="buy"
-                    >Buy</kyc-button>
+                    >Buy</kyc-button
+                >
                 <kyc-button
                     ref="sellBtn"
-                    v-if="getSingleinstrument[0] && checkPositions(getSingleinstrument[0].symbol,getSingleinstrument[0].currency)"
+                    v-if="
+                        getSingleinstrument[0] &&
+                            checkPositions(
+                                getSingleinstrument[0].symbol,
+                                getSingleinstrument[0].currency
+                            )
+                    "
                     :classes="['selling']"
                     :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                     @step="handleStep"
-                    next-action="sell">Sell</kyc-button>
+                    next-action="sell"
+                    >Sell</kyc-button
+                >
             </section>
             <!-- end here -->
         </div>
@@ -220,7 +237,7 @@ export default {
             type: null,
             cancelStatus: {},
             trdingViewStatechange: false,
-            maximumQuantity: null,
+            maximumQuantity: null
         };
     },
     components: {
@@ -291,11 +308,11 @@ export default {
             if (check.length > 0) {
                 const { quantity } = check[0];
                 this.maximumQuantity = +quantity;
-                console.log('THIS IS TO RETURN TRUE', this.maximumQuantity)
+                console.log("THIS IS TO RETURN TRUE", this.maximumQuantity);
                 return true;
             }
             this.maximumQuantity = 0;
-             console.log('THIS IS TO RETURN FALSE', this.maximumQuantity)
+            console.log("THIS IS TO RETURN FALSE", this.maximumQuantity);
             return false;
         },
         OntooglePositions(response) {
@@ -304,14 +321,22 @@ export default {
             if (response == 1) {
                 this.trdingViewStatechange = true;
                 return this.trdingViewStatechange;
-            } else {
-                this.trdingViewStatechange = false;
-                return this.trdingViewStatechange;
             }
+            this.trdingViewStatechange = false;
+            return this.trdingViewStatechange;
         },
         mountAction() {
-             this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency);
-             console.log('CHECK FOR THE STATE HERE ',this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency));
+            this.checkPositions(
+                this.getSingleinstrument[0].symbol,
+                this.getSingleinstrument[0].currency
+            );
+            console.log(
+                "CHECK FOR THE STATE HERE ",
+                this.checkPositions(
+                    this.getSingleinstrument[0].symbol,
+                    this.getSingleinstrument[0].currency
+                )
+            );
             //set the currency as the component mount to the global state
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
             if (this.getSinglestockglobalCurrencyforGraph == "USD") {
@@ -397,12 +422,15 @@ export default {
         this.SET_LINE_SINGLESTOCK_CHART_DATE([]);
         this.SET_LINE_SINGLESTOCK_CHARTDATA([]);
         this.mountAction();
-        this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency)
+        this.checkPositions(
+            this.getSingleinstrument[0].symbol,
+            this.getSingleinstrument[0].currency
+        );
         next();
     },
-    watch:{
-        checkStockPosition(newValue,oldValue){
-                console.log('WATCHING PROCESSING HERE',newValue,oldValue)
+    watch: {
+        checkStockPosition(newValue, oldValue) {
+            console.log("WATCHING PROCESSING HERE", newValue, oldValue);
             //  this.checkStockPosition = this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency)
         }
     }

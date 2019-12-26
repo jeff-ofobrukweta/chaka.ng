@@ -171,12 +171,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
-import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
+import { mapGetters, mapActions } from 'vuex';
+import ExploreWatchlist from '../../components/watchlist/ExploreWatchlist';
+import MobileWatchlist from '../../components/watchlist/MobileWatchlist';
 
 export default {
-    name: "explore",
+    name: 'explore',
     components: {
         ExploreWatchlist,
         MobileWatchlist
@@ -194,26 +194,26 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "getPortfolioSummary",
-            "getWindowWidth",
-            "getExploreNews",
-            "getExploreCollections",
-            "getExploreLearn",
-            "getWatchlist",
-            "getErrorLog"
+            'getPortfolioSummary',
+            'getWindowWidth',
+            'getExploreNews',
+            'getExploreCollections',
+            'getExploreLearn',
+            'getWatchlist',
+            'getErrorLog'
         ])
     },
     methods: {
         ...mapActions([
-            "GET_EXPLORE_NEWS",
-            "GET_EXPLORE_COLLECTIONS",
-            "GET_EXPLORE_LEARN",
-            "GET_WATCHLIST"
+            'GET_EXPLORE_NEWS',
+            'GET_EXPLORE_COLLECTIONS',
+            'GET_EXPLORE_LEARN',
+            'GET_WATCHLIST'
         ]),
         async shuffleNews() {
             this.loadNews = true;
             await this.GET_EXPLORE_NEWS({ shuffle: true });
-            this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
+            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
             this.loadNews = null;
         },
         async shuffleCollections() {
@@ -222,7 +222,7 @@ export default {
             this.loadCollections = null;
         },
         async shuffleLearn() {
-            this.loadLearn = "learn";
+            this.loadLearn = 'learn';
             await this.GET_EXPLORE_LEARN({ shuffle: true });
             this.loadLearn = null;
         },
@@ -235,8 +235,8 @@ export default {
                 this.GET_EXPLORE_LEARN();
             }
             await this.GET_EXPLORE_NEWS();
-            this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
-            this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
+            this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
+            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
             this.loading = false;
         }
     },
@@ -244,12 +244,12 @@ export default {
         this.loading = true;
         if (this.getExploreNews.length > 0) {
             this.loading = false;
-            this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
-            this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
+            this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
+            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
         }
         await this.GET_EXPLORE_NEWS();
-        this.featured = this.getExploreNews.filter(el => el.type === "Featured")[0];
-        this.allNews = this.getExploreNews.filter(el => el.type !== "Featured");
+        this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
+        this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
         this.loading = false;
         this.watchlistLoading = true;
         if (this.getWatchlist.length > 0) {

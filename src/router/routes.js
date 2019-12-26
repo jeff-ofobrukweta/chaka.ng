@@ -32,6 +32,8 @@ const Components = () =>
     import(/* webpackChunkName: "components" */ "../views/dashboard/Components");
 const Categories = () =>
     import(/* webpackChunkName: "categories" */ "../views/dashboard/Categories");
+const DashboardCalculator = () =>
+    import(/* webpackChunkName: "dashboard-calculator" */ "../views/dashboard/Calculator");
 const AccountsIndex = () =>
     import(/* webpackChunkName: "accounts-index" */ "../views/dashboard/accounts/Index");
 const AccountsOverview = () =>
@@ -162,6 +164,11 @@ const routes = [
                 path: "components",
                 name: "components",
                 component: Components
+            },
+            {
+                path: "calculator",
+                name: "dashboard-calculator",
+                component: DashboardCalculator
             },
             {
                 path: "categories/:category",

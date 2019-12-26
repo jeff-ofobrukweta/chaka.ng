@@ -1,6 +1,6 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import VuexPersistence from "vuex-persist";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import VuexPersistence from 'vuex-persist';
 
 import auth from "./modules/auth";
 import accounts from "./modules/accounts";
@@ -24,13 +24,13 @@ const persist = new VuexPersistence({
 });
 
 let interval = null;
-const debug = process.env.VUE_APP_NODE_ENV !== "production";
+const debug = process.env.VUE_APP_NODE_ENV !== 'production';
 
 const initialState = {
-    status: "",
+    status: '',
     errorLog: {},
     progressbar: 0,
-    windowWidth: "",
+    windowWidth: '',
     modalOpened: false,
     auth: { ...auth.state },
     explore: { ...explore.state },
@@ -50,10 +50,10 @@ const initialState = {
 
 export default new Vuex.Store({
     state: {
-        status: "",
+        status: '',
         errorLog: {},
         progressbar: 0,
-        windowWidth: "",
+        windowWidth: '',
         modalOpened: false
     },
     getters: {
@@ -64,11 +64,11 @@ export default new Vuex.Store({
         isModalOpened: state => state.modalOpened
     },
     mutations: {
-        LOGOUT: state => {
-            localStorage.removeItem("AUTH_TOKEN");
+        LOGOUT: (state) => {
+            localStorage.removeItem('AUTH_TOKEN');
             state.loggedUser = {};
         },
-        BEGIN_LOADER: state => {
+        BEGIN_LOADER: (state) => {
             if (state.progressbar === 0) state.progressbar = 30;
             state.progressbar += 5;
         },
@@ -78,14 +78,14 @@ export default new Vuex.Store({
         SET_WINDOW_WIDTH: (state, width) => {
             state.windowWidth = width;
         },
-        REQ_INIT: state => {
-            state.status = "loading";
+        REQ_INIT: (state) => {
+            state.status = 'loading';
         },
-        REQ_SUCCESS: state => {
-            state.status = "success";
+        REQ_SUCCESS: (state) => {
+            state.status = 'success';
         },
-        REQ_ERROR: state => {
-            state.status = "error";
+        REQ_ERROR: (state) => {
+            state.status = 'error';
         },
         LOG_ERROR: (state, error) => {
             state.errorLog = error;
@@ -93,12 +93,12 @@ export default new Vuex.Store({
         MODAL_OPENED: (state, payload) => {
             state.modalOpened = payload;
         },
-        RESET_REQ: state => {
-            state.status = "";
+        RESET_REQ: (state) => {
+            state.status = '';
             state.errorLog = {};
         },
-        RESET_ALL: state => {
-            Object.keys(state).forEach(key => {
+        RESET_ALL: (state) => {
+            Object.keys(state).forEach((key) => {
                 try {
                     Object.assign(state[key], initialState[key]);
                 } catch (error) {}
@@ -109,17 +109,17 @@ export default new Vuex.Store({
         START_LOADER: ({ state, commit }) => {
             interval = setInterval(() => {
                 if (state.progressbar < 80) {
-                    commit("BEGIN_LOADER");
+                    commit('BEGIN_LOADER');
                 }
             }, 500);
         },
         STOP_LOADER: ({ commit }) => {
             clearInterval(interval);
             setTimeout(() => {
-                commit("END_LOADER", 100);
+                commit('END_LOADER', 100);
             }, 200);
             setTimeout(() => {
-                commit("END_LOADER", 0);
+                commit('END_LOADER', 0);
             }, 1000);
         }
     },

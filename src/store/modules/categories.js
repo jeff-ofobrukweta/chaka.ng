@@ -5,11 +5,11 @@ const state = {
     tags: [],
     instrumentslists: [],
     instrumentpayload: {
-        name:"Most Popular",
-        slug:"most-popular"
+        name: 'Most Popular',
+        slug: 'most-popular'
     },
     singlestockpricedata: [],
-    pagination:{},
+    pagination: {}
 };
 
 const getters = {
@@ -27,7 +27,7 @@ const mutations = {
         state.instrumentslists = instruments;
     },
     SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(state, payload) {
-        console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM",payload)
+        console.log('MMMMMMMMMMMMMMMMMMMMMMMMMMM', payload);
         state.instrumentpayload = payload;
     },
     SET_INSTRUMENT_PAGENATION(state, paginate) {
@@ -59,7 +59,7 @@ const actions = {
                     const { Instruments } = response.data.data.tag;
                     const { pagination } = response.data;
                     commit('SET_INSTRUMENT_BY_TAGS', Instruments);
-                    commit('SET_INSTRUMENT_PAGENATION',pagination)
+                    commit('SET_INSTRUMENT_PAGENATION', pagination);
                     resolve(true);
                     return true;
                 }

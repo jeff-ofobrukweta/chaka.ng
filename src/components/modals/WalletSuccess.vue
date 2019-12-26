@@ -54,23 +54,23 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "wallet-success",
+    name: 'wallet-success',
     computed: {
-        ...mapGetters(["getWalletTx"]),
+        ...mapGetters(['getWalletTx']),
         source() {
-            if (this.getWalletTx.source === "WALLET") return "Exchange";
-            if (this.getWalletTx.actionType === "CREDIT") return "Deposit";
-            return "Withdrawal";
+            if (this.getWalletTx.source === 'WALLET') return 'Exchange';
+            if (this.getWalletTx.actionType === 'CREDIT') return 'Deposit';
+            return 'Withdrawal';
         }
     },
     methods: {
-        ...mapMutations(["SET_WALLET_TX", "MODAL_OPENED"]),
+        ...mapMutations(['SET_WALLET_TX', 'MODAL_OPENED']),
         closeModal() {
             this.MODAL_OPENED(false);
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     beforeDestroy() {

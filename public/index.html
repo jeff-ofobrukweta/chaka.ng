@@ -1,33 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+        <title>Chaka</title>
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <meta property="og:type" content="website" />
+        <meta
+            property="og:image"
+            content="https://chaka.ng/img/icons/favicon-32x32.png"
+        />
+        <meta
+            property="og:title"
+            content="Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets"
+        />
+        <meta
+            property="og:description"
+            content="Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock"
+        />
+        <meta property="og:site_name" content="Chaka.ng" />
+        <meta property="robots" content="index, follow" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title>Chaka</title>
-  <meta name="description" content="" />
-  <meta name="keywords" content="" />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://chaka.ng/img/icons/favicon-32x32.png" />
-  <meta property="og:title"
-    content="Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets" />
-  <meta property="og:description"
-    content="Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock" />
-  <meta property="og:site_name" content="Chaka.ng" />
-  <meta property="robots" content="index, follow" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-</head>
+    <body>
+        <noscript>
+            <strong>
+                We're sorry but chaka doesn't work properly without JavaScript
+                enabled. Please enable it to continue.
+            </strong>
+        </noscript>
+        <div id="app"></div>
+        <!-- built files will be auto injected -->
+    </body>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script type="text/javascript">
+        (function(w, d) {
+            w.HelpCrunch = function() {
+                w.HelpCrunch.q.push(arguments);
+            };
+            w.HelpCrunch.q = [];
+            function r() {
+                var s = document.createElement('script');
+                s.async = 1;
+                s.type = 'text/javascript';
+                s.src = 'https://widget.helpcrunch.com/';
+                (d.body || d.head).appendChild(s);
+            }
+            if (w.attachEvent) {
+                w.attachEvent('onload', r);
+            } else {
+                w.addEventListener('load', r, false);
+            }
+        })(window, document);
+    </script>
 
-<body>
-  <noscript>
-    <strong>We're sorry but chaka doesn't work properly without JavaScript enabled. Please enable it to
-      continue.</strong>
-  </noscript>
-  <div id="app"></div>
-  <!-- built files will be auto injected -->
-</body>
-<script src="https://js.paystack.co/v1/inline.js"></script>
+    <script type="text/javascript">
+        HelpCrunch('init', 'chaka', {
+            applicationId: 1,
+            applicationSecret:
+                'IadSrnnj7iTONOh3zxXAf7Zm0x+AcbHjPBaWLF+sDztlxy5UY9XpW6uzKx+J5yNNj6RtVyqOXlYulS3zFsAdhw=='
+        });
 
+        HelpCrunch('showChatWidget');
+    </script>
 </html>

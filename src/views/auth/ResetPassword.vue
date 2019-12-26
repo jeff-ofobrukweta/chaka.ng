@@ -73,11 +73,11 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-import auth from "../../services/validations/auth";
+import { mapActions, mapMutations } from 'vuex';
+import auth from '../../services/validations/auth';
 
 export default {
-    name: "ResetPassword",
+    name: 'ResetPassword',
     data() {
         return {
             itemData: {},
@@ -100,17 +100,17 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["RESET_PASSWORD"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapActions(['RESET_PASSWORD']),
+        ...mapMutations(['RESET_REQ']),
         reset() {
             this.RESET_REQ();
             if (!this.itemData.newPassword) {
-                this.$set(this.errors, "password", "Field is required");
+                this.$set(this.errors, 'password', 'Field is required');
             }
             if (!this.confirmPassword) {
-                this.$set(this.errors, "confirmPassword", "Field is required");
+                this.$set(this.errors, 'confirmPassword', 'Field is required');
             } else if (this.confirmPassword !== this.itemData.newPassword) {
-                this.$set(this.errors, "confirmPassword", "Password should match initial password");
+                this.$set(this.errors, 'confirmPassword', 'Password should match initial password');
                 return false;
             }
             if (Object.keys(this.errors).length > 0) {
@@ -119,7 +119,7 @@ export default {
             this.loading = true;
             this.itemData.chakaID = this.chakaID;
             this.itemData.token = this.token;
-            this.RESET_PASSWORD(this.itemData).then(resp => {
+            this.RESET_PASSWORD(this.itemData).then((resp) => {
                 this.loading = false;
                 this.success = resp;
             });

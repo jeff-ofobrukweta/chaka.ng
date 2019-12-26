@@ -10,24 +10,24 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import HorizontalGrapgh from "./horizontalgraph";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import HorizontalGrapgh from './horizontalgraph';
 
 export default {
-    name: "hbase",
+    name: 'hbase',
     components: {
         Fragment,
         HorizontalGrapgh
     },
     computed: {
-        ...mapGetters(["getActionanalysis", "getValueanalysis"])
+        ...mapGetters(['getActionanalysis', 'getValueanalysis'])
     },
     methods: {
-        ...mapActions(["GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA"]),
+        ...mapActions(['GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA']),
         ...mapMutations([
-            "SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE",
-            "SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION"
+            'SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE',
+            'SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION'
         ]),
         mountedActions() {
             const payload = {

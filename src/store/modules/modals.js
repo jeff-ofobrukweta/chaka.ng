@@ -1,4 +1,5 @@
 import api from "../../services/apiService/api";
+import errorFn from "../../services/apiService/error";
 
 const state = {
     buyModal: {},
@@ -22,7 +23,7 @@ const getters = {
     getSaleSuccess: state => state.saleSuccess,
     getWalletSuccess: state => state.walletSuccess,
     getMostPopular: state => {
-        let push = [];
+        const push = [];
         state.mostPopular.filter(el => {
             if (el.currency === "USD" && push.length === 0) {
                 push.push(el);
@@ -80,7 +81,7 @@ const mutations = {
 const actions = {
     GET_MOST_POPULAR: ({ commit, rootState }) =>
         new Promise((resolve, reject) =>
-            api.get(`/tags/slug/most-popular/instruments/`).then(
+            api.get("/tags/slug/most-popular/instruments/").then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("SET_MOST_POPULAR", resp.data.data.tag.Instruments);
