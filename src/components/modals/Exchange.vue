@@ -172,7 +172,7 @@
     </modal>
     <modal :close-on-click="false" @close="closeModal" v-else>
         <template slot="header">Funds Exchange</template>
-        <div class="modal__exchange">
+        <!-- <div class="modal__exchange">
             <div class="modal__exchange--currency">
                 <h4>Local</h4>
                 <hr />
@@ -249,7 +249,35 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <section class="modal__exchange--dropdown">
+            <div class="modal__exchange--hero">
+                <label>From</label>
+                <select class="form__select" v-model="itemData.fromWallet">
+                    <option value="local">Nigerian Naira (NGN)</option>
+                    <option value="global">US Dollars (USD)</option>
+                </select>
+            </div>
+            <div class="modal__exchange--hero">
+                <label>To</label>
+                <select class="form__select" disabled v-model="itemData.toWallet">
+                    <option value="global">US Dollars (USD)</option>
+                    <option value="local">Nigerian Naira (NGN)</option>
+                </select>
+            </div>
+        </section>
+        <section class="text-center">
+            <br />
+            <p>
+                <small class="grey-dark"
+                    >EXCHANGE RATE:&nbsp;
+                    <span v-if="itemData.currency === 'NGN'"
+                        >₦{{ getExchangeRate.sell }} - $1.00</span
+                    >
+                    <span v-else>$1.00 - ₦{{ getExchangeRate.buy }}</span></small
+                >
+            </p>
+        </section>
         <form class="modal-form" @submit.prevent="exchangeWallet">
             <div class="modal-form__group">
                 <label class="form__label"
@@ -260,25 +288,14 @@
                         :error-message="errors.amount"
                         @reset="errors = {}"
                 /></label>
-            </div>
-            <error-block type="exchange" />
-            <br />
-
-            <section>
-                <p class="grey-cool">
+                <p class="form-info">
                     If you exchange before 2.00pm, your exchange will be processed today. After
                     2.00pm, it will be processed in up to 1 business day.
                 </p>
-                <br />
-                <p>
-                    <small class="grey-dark"
-                        >EXCHANGE RATE:&nbsp;
-                        <span v-if="itemData.currency === 'NGN'"
-                            >₦{{ getExchangeRate.sell }} - $1.00</span
-                        >
-                        <span v-else>$1.00 - ₦{{ getExchangeRate.buy }}</span></small
-                    >
-                </p>
+            </div>
+            <error-block type="exchange" />
+
+            <section>
                 <p v-if="itemData.amount">
                     You're now requesting a
                     <template v-if="itemData.currency === 'NGN'">
@@ -299,22 +316,6 @@
                 <br />
             </section>
 
-            <section class="modal__exchange--dropdown">
-                <div class="modal__exchange--hero">
-                    <label>From</label>
-                    <select class="form__select" v-model="itemData.fromWallet">
-                        <option value="local">Nigerian Naira (NGN)</option>
-                        <option value="global">US Dollars (USD)</option>
-                    </select>
-                </div>
-                <div class="modal__exchange--hero">
-                    <label>To</label>
-                    <select class="form__select" disabled v-model="itemData.toWallet">
-                        <option value="global">US Dollars (USD)</option>
-                        <option value="local">Nigerian Naira (NGN)</option>
-                    </select>
-                </div>
-            </section>
             <div class="modal-form__buttons">
                 <action-button
                     type="submit"
