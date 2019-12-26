@@ -25,7 +25,7 @@
                         {{
                             getSingleinstrument[0].InstrumentDynamic.askPrice
                                 | kobo
-                                | currency(getSingleinstrument[0].currency | units(2, true))
+                                | currency(getSingleinstrument[0].currency)
                         }}
                     </h1>
                     <h1 class="percentage">
