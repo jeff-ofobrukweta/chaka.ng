@@ -107,6 +107,18 @@
                 next-action="buy"
                 >Buy</kyc-button
             >
+
+            <!-- boom -->
+            <button @click="authenticate('github')">auth Github</button>
+            <button @click="authenticate('facebook')">auth Facebook</button>
+            <button @click="authenticate('google')">auth Google</button>
+            <button @click="authenticate('twitter')">auth Twitter</button>
+            <button @click="authenticate('linkedin')">auth linkedin</button>
+            <h2>Result</h2>
+            <textarea v-model="token" cols="50" rows="5" />
+            <textarea v-model="profile" cols="50" rows="5" />
+            <!-- end boom -->
+
             <section class="sumary">
                 <div
                     v-if="getSingleinstrument[0].description"
@@ -159,6 +171,8 @@
                         fill="#293D4A"
                     />
                 </svg>
+                    <!-- <button @click="handleOauth('linkedin')">linkedin</button>
+                    <div v-html="getSocials"></div> -->
                 <div
                     v-for="(tag, index) in getSingleinstrument[0].Tags"
                     :key="index"
@@ -173,7 +187,7 @@
                 <div class="graph-container">
                     <Linegraph :instrument="getSingleinstrument[0]" :max-quantity="maxQuantity" />
                 </div>
-                <Cardblue :instrument="getSingleinstrument[0]" />
+                <Cardblue :instrument="getPricedetailsonblackcard || {}" />
             </section>
             <section class="container-instrument">
                 <StockTable :instrument="getSingleinstrument[0] || []" />
@@ -223,8 +237,14 @@
             <section class="news-container">
                 <h1 class="title">News</h1>
                 <section class="sub-title">lorem ipsun blabala here</section>
-                <section class="news-container-main">
-                    <news-card :news="item" v-for="(item, index) in getNews" :key="index" />
+                <section  class="news-container-main">
+                    <div class="news-container-main" v-if="getNews && getNews.length <= 0">No current news availiable for this current stock</div>
+                    <div class="news-container-main" v-else>
+                        <news-card
+                        :news="item" 
+                        v-for="(item, index) in getNews" 
+                        :key="index" />
+                    </div>
                 </section>
             </section>
         </section>
@@ -264,7 +284,8 @@ export default {
             "getNextKYC",
             "getWatchlist",
             "getNews",
-            "getInstrumentsPayload"
+            "getInstrumentsPayload",
+            "getSocials"
         ])
     },
     methods: {
@@ -274,7 +295,8 @@ export default {
             "GET_SINGLESTOCK_INSTRUMENT",
             "GET_ARTICULE_NEWS",
             "ADD_TO_WATCHLIST",
-            "REMOVE_FROM_WATCHLIST"
+            "REMOVE_FROM_WATCHLIST",
+            "GET_SOCIAL_OAUTH_FACEBOOK"
         ]),
         ...mapMutations([
             "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
@@ -283,6 +305,42 @@ export default {
             "SET_BUY_MODAL",
             "SET_SELL_MODAL"
         ]),
+        authenticate(provider) {
+            const this_ = this
+            this.$auth.authenticate(provider).then( (caller)=> {
+                let token = this_.$auth.getToken()
+                // getLoginStatus
+                console.log('JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJauthenticateauthenticateJJ',token)
+                this_.token = token;
+                alert(`login success with token ${token}`)
+                if (provider === 'facebook') {
+                console.log('it entered the block ')
+                    this_.$http.get('https://graph.facebook.com/v3.0/me?fields=id,name,email', {
+                        params: { access_token: token }
+                    }).then((response)=> {
+                        console.log('JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ',response)
+                        this_.profile = JSON.stringify(response)
+                    })
+                }
+                if (provider === 'google') {
+                    console.log('it entered the block ')
+                    this_.$http.get('https://www.googleapis.com/oauth2/v1/userinfo', {
+                        params: { access_token: token }
+                    }).then((response)=> {
+                        console.log('GGGGGGGGGGGGGGGGGGGGGGGGGGGG',response);
+                        this_.profile = JSON.stringify(response)
+                    })
+                }
+                 if (provider === 'linkedin') {
+                    this_.$http.get('https://api.linkedin.com/v2/me', {
+                        params: { access_token: token }
+                    }).then((response)=> {
+                        console.log('GGGGGGGGGGGGGGGGGGGGGGGGGGGG',response);
+                        this_.profile = JSON.stringify(response)
+                    })
+                }
+            })
+        },
         handleStep(step) {
             // this.step = step.type;
             this.step = step;
@@ -291,6 +349,9 @@ export default {
                 return true;
             }
             this.showBuy();
+        },
+        handleOauth(type){
+            this.GET_SOCIAL_OAUTH_FACEBOOK(type)
         },
         showBuy() {
             this.showKYC = false;
@@ -353,6 +414,7 @@ export default {
         }
     },
     async mounted() {
+
         const singlestockpayload = { symbols: this.$route.params.symbol };
         const newsSinglestockpayload = { symbol: this.$route.params.symbol };
         this.similarLoading = true;
@@ -396,6 +458,8 @@ export default {
             description: true,
             watchdisable: true,
             checkIfStockInWatchlist: [],
+            token: '',
+            profile: '',
 
             news: [
                 {

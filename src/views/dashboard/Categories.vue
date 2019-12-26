@@ -231,7 +231,7 @@ export default {
         handleSelect(response) {
             this.loading = true;
             const payload = { slug: response.slug, page :0 ,perPage: 20};
-            this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response);
+            this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response || {});
             if (payload.slug === '') {
                 this.loading = false;
                 this.SET_INSTRUMENT_BY_TAGS([]);
@@ -317,26 +317,7 @@ export default {
 		next();
     },
     watch:{
-        // selectedTag(newValue,oldValue){
-           
-        //      this.loading = true;
-        //     // if (this.gettagslistsArray.length > 0) {
-        //     //     this.loadingTags = false;
-        //     // }
-        //     if (this.gettagslistsArray.length > 0) {
-        //         this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
-                 
-        //         //  const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
-
-        //         //  this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
-        //         //     console.log('GGGGGGGGGGGGGGGGGGG',this.getInstrumentsListArray)
-        //         // });
-
-        //         // this.handlescrollinfinitly();
-        //     }
-        //     this.loading = false;
-        //     // console.log('getInstrumentsPayload >>>>AAAAAAAAAAAAAAAADDDDDDDDDDDDD>>>>>>>>',this.getInstrumentsPayload);
-        // }
+       
     }
 };
 </script>

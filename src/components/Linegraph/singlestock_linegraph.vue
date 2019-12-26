@@ -246,6 +246,7 @@ export default {
             "getOpenPrice",
             "getDates",
             "getSingleinstrument",
+            "getPricedetailsonblackcard",
             "getSinglestockglobalTimeforGraph",
             "getSinglestockglobalCurrencyforGraph",
             "getSinglestockIntervalposition",
@@ -340,6 +341,7 @@ export default {
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 this.loading = false;
+                console.log('the new derived % derived percentage object',this.getPricedetailsonblackcard)
             });
         },
         async toogleCurrency(currency, id) {

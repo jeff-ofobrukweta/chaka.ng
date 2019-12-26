@@ -228,6 +228,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA']),
         handlescaling() {
             if (this.getOpenPrice) {
                 this.min = this.percentage.sort()[0];
@@ -253,6 +254,10 @@ export default {
         this.percentage = [];
         this.symbol = [];
         next();
+    },
+    beforeRouteUpdate (to, from, next) {
+        this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();
+        next()
     }
 };
 </script>
