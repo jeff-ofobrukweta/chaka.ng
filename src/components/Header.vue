@@ -26,7 +26,7 @@
                         <li class="nav__item">
                             <router-link
                                 class="nav__link"
-                                to="/calculators"
+                                to="/calculator"
                                 exact-active-class="active"
                                 >Calculator</router-link
                             >
@@ -274,14 +274,9 @@
                                 }}</span
                             ></router-link
                         >
-                        <kyc-button
-                            ref="fundBtn"
-                            type="button"
-                            :classes="['btn__icon', 'btn__icon--md', 'btn__primary']"
-                            action="fund"
-                            @step="handleStep"
-                            >+</kyc-button
-                        >
+                        <button class="btn btn__icon btn__icon--md btn__primary" @click="showFund">
+                            +
+                        </button>
                     </p>
                     <p v-else>
                         <router-link
@@ -293,29 +288,22 @@
                             <span>&nbsp;|&nbsp;</span>
                             <span>$-</span></router-link
                         >
-                        <kyc-button
-                            ref="fundBtn"
-                            type="button"
-                            :classes="['btn__icon', 'btn__icon--md', 'btn__primary']"
-                            action="fund"
-                            @step="handleStep"
-                            >+</kyc-button
-                        >
+                        <button class="btn btn__icon btn__icon--md btn__primary" @click="showFund">
+                            +
+                        </button>
                     </p>
                 </ul>
             </template>
-
-            <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
         </nav>
     </header>
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex';
-import EventBus from '../event-bus';
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import EventBus from "../event-bus";
 
 export default {
-    name: 'app-header',
+    name: "app-header",
     data() {
         return {
             isSidebarOpen: false,
@@ -327,11 +315,11 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'isLoggedIn',
-            'getLoggedUser',
-            'getAccountSummary',
-            'getNextKYC',
-            'getSearchInstruments'
+            "isLoggedIn",
+            "getLoggedUser",
+            "getAccountSummary",
+            "getNextKYC",
+            "getSearchInstruments"
         ]),
         filteredSearch() {
             const splice = [...this.getSearchInstruments].splice(0, 4);
@@ -339,31 +327,18 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['SEARCH_INSTRUMENTS']),
-        ...mapMutations(['SET_KYC_MODAL', 'SET_FUND_MODAL', 'SET_SEARCH_INSTRUMENTS']),
+        ...mapActions(["SEARCH_INSTRUMENTS"]),
+        ...mapMutations(["SET_KYC_MODAL", "SET_FUND_MODAL", "SET_SEARCH_INSTRUMENTS"]),
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
         },
         toggleDropdown() {
-            this.$refs.trigger.classList.toggle('is-active');
-            this.$refs.trigger.nextElementSibling.classList.toggle('show');
-            document.body.classList.toggle('no-scroll');
+            this.$refs.trigger.classList.toggle("is-active");
+            this.$refs.trigger.nextElementSibling.classList.toggle("show");
+            document.body.classList.toggle("no-scroll");
             this.toggleSidebar();
         },
-        handleStep(step) {
-            if (step.kyc) {
-                this.showKYC = true;
-                return true;
-            }
-            this.showFund();
-        },
-        handleUpdate(value) {
-            if (value) {
-                this.showFund();
-            }
-        },
         showFund() {
-            this.showKYC = false;
             this.SET_FUND_MODAL(true);
         },
         async startSearch() {
@@ -371,7 +346,7 @@ export default {
             let payload = {};
             if (!this.search) {
                 payload = {
-                    query: 'a'
+                    query: "a"
                 };
             } else payload = { query: this.search };
             this.searchLoading = true;
@@ -385,16 +360,16 @@ export default {
         }
     },
     mounted() {
-        EventBus.$on('HIDE_HEADER', (payload) => {
+        EventBus.$on("HIDE_HEADER", payload => {
             if (payload && this.$refs.search) this.$refs.search.blur();
         });
     },
     watch: {
         isSidebarOpen(val) {
             if (!val) {
-                this.$refs.trigger.classList.remove('is-active');
-                this.$refs.trigger.nextElementSibling.classList.remove('show');
-                document.body.classList.remove('no-scroll');
+                this.$refs.trigger.classList.remove("is-active");
+                this.$refs.trigger.nextElementSibling.classList.remove("show");
+                document.body.classList.remove("no-scroll");
             }
         }
     }

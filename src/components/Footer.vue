@@ -114,7 +114,7 @@
             </div>
         </template>
         <template v-else>
-            <div class="container">
+            <div class="container" v-if="getWindowWidth !== 'mobile'">
                 <p class="footer-logged">
                     Powered by &nbsp;
                     <svg
@@ -142,12 +142,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-    name: 'app-footer',
+    name: "app-footer",
     computed: {
-        ...mapGetters(['isLoggedIn'])
+        ...mapGetters(["isLoggedIn", "getWindowWidth"])
     }
 };
 </script>

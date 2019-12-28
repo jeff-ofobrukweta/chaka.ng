@@ -31,6 +31,12 @@
             background: linear-gradient(to bottom, rgba($color: $black, $alpha: 0.2), rgba($color: $black, $alpha: 0.85));
         }
 
+        &.loader {
+            &::before {
+                background: none;
+            }
+        }
+
         @include tablet {
             min-height: 200px;
         }
@@ -226,7 +232,7 @@
         max-width: 280px;
         margin: auto;
         margin-bottom: 2rem;
-        transition: all 300ms linear;
+        transition: all 200ms linear;
 
         &:hover {
             transform: scale(1.03);

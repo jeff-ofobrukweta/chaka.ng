@@ -1,28 +1,28 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import store from '../store/index';
-import routes from './routes';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import store from "../store/index";
+import routes from "./routes";
 
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: "history",
     scrollBehavior() {
         return { x: 0, y: 0 };
     },
     base: process.env.BASE_URL,
-    linkExactActiveClass: 'active',
+    linkExactActiveClass: "active",
     routes
 });
 
 router.beforeEach((to, from, next) => {
-    store.commit('RESET_REQ');
-    // store.commit("RESET_MODALS");
+    store.commit("RESET_REQ");
+    store.commit("RESET_MODALS");
     next();
 });
 
 router.afterEach((to, from) => {
-    store.commit('SET_SHOW_NAVBAR_KYC', true);
+    store.commit("SET_SHOW_NAVBAR_KYC", true);
 });
 
 export default router;
