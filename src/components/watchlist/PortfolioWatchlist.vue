@@ -27,8 +27,9 @@
                         instrument.derivedPricePercentage | units(2)
                     }}%)</small
                 >
-            </p>
-            <p>
+                <br />
+                <!-- </p>
+            <p> -->
                 <strong
                     class="cursor-context"
                     :title="

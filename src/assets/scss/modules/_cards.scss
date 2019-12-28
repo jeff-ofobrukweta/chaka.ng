@@ -31,6 +31,12 @@
             background: linear-gradient(to bottom, rgba($color: $black, $alpha: 0.2), rgba($color: $black, $alpha: 0.85));
         }
 
+        &.loader {
+            &::before {
+                background: none;
+            }
+        }
+
         @include tablet {
             min-height: 200px;
         }
