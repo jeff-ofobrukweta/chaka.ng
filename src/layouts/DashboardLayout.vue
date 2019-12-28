@@ -1,7 +1,10 @@
 <template>
     <Fragment>
         <Navbar />
-        <main role="main">
+        <main class="dashboard-loader" v-if="loading">
+            <img :src="require('../assets/img/loader.gif')" alt="Loader" />
+        </main>
+        <main role="main" v-else>
             <transition name="kyc-navbar" v-if="showPending">
                 <KYCPending />
             </transition>
@@ -48,6 +51,11 @@ export default {
         ExchangeModal: () => import("../components/modals/Exchange"),
         WithdrawModal: () => import("../components/modals/Withdraw"),
         Fragment
+    },
+    data() {
+        return {
+            loading: true
+        };
     },
     computed: {
         ...mapGetters([
@@ -124,12 +132,13 @@ export default {
             this.SET_WALLET_SUCCESS(false);
         }
     },
-    mounted() {
+    async mounted() {
         document.title = "Chaka - Dashboard";
         this.RESET_MODALS();
-        this.GET_LOGGED_USER().then(async () => {
-            Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
-        });
+        this.loading = true;
+        await this.GET_LOGGED_USER();
+        this.loading = false;
+        Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
     }
 };
 </script>

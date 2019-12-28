@@ -29,10 +29,21 @@
             display: inline-flex;
             margin-right: 1rem;
 
-        svg {
-            width: 24px;
-            height: 24px;
+            svg {
+                width: 24px;
+                height: 24px;
+            }
         }
+    }
+
+    &-loader {
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 40px;
         }
     }
 }

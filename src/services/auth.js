@@ -7,6 +7,7 @@ function resetState() {
     // store.commit("LOGOUT");
     // store.commit("SET_LOGGED_USER", {});
     store.commit("RESET_ALL");
+    store.commit("SET_LOGGED_IN", false);
     localStorage.clear();
     return true;
 }
@@ -33,7 +34,7 @@ export function isLoggedIn() {
  * @param next - callback to transfer control to the next middleware
  */
 export function noAuthOnly(to, from, next) {
-    if (isLoggedIn() && Object.keys(getSession()).length > 0) {
+    if (isLoggedIn()) {
         next("/dashboard");
     } else {
         resetState();
@@ -48,7 +49,7 @@ export function noAuthOnly(to, from, next) {
  * @param next - callback to transfer control to the next middleware
  */
 export function requireAuth(to, from, next) {
-    if (isLoggedIn() && Object.keys(getSession()).length > 0) {
+    if (isLoggedIn()) {
         next();
     } else {
         resetState();
