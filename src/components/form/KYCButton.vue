@@ -56,25 +56,24 @@ export default {
             this.clicked = true;
             this.SET_KYC_MODAL_ACTION(this.action.toUpperCase());
 
-            // TO-DO :: Change type to withdraw
-            if (this.action === "fund") {
+            if (this.action === "withdraw") {
                 if (
                     this.getKYC.bvnFetchStatus &&
                     this.getKYC.bankAcctName &&
                     this.getKYC.bankAcctNo
                 ) {
-                    this.$emit("step", { type: "fund", kyc: false });
+                    this.$emit("step", { type: "withdraw", kyc: false });
                     this.clicked = false;
                     return true;
                 }
-                this.GET_NEXT_KYC({ context: "FUND" }).then(() => {
+                this.GET_NEXT_KYC({ context: "WITHDRAW" }).then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
-                        this.$emit("step", { type: "fund", kyc: true });
+                        this.$emit("step", { type: "withdraw", kyc: true });
                         this.clicked = false;
                         return true;
                     }
                     if (this.getNextKYC.status === "COMPLETE") {
-                        this.$emit("step", { type: "fund", kyc: false });
+                        this.$emit("step", { type: "withdraw", kyc: false });
                         this.clicked = false;
                         return true;
                     }

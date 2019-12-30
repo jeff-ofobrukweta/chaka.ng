@@ -35,8 +35,13 @@
 .app {
   &-body {
     @extend .container;
-    margin-top: 4.5rem;
+    margin-top: 3.5rem;
     padding-bottom: 2rem;
+
+    &__title {
+      font-weight: normal;
+      margin-bottom: 1.5rem;
+    }
   }
 }
 

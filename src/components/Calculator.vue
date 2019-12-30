@@ -727,8 +727,9 @@ export default {
                         this.localSellList[4].value;
                 }
 
-                this.localProfitList[0].value =
-                    this.localSellList[0].value - this.localBuyList[0].value;
+                // this.localProfitList[0].value =
+                //     this.localSellList[0].value - this.localBuyList[0].value;
+                this.localProfitList[0].value = this.localBuyList[0].value;
                 this.localProfitList[1].value =
                     this.localBuyList[1].value + this.localSellList[1].value;
                 this.localProfitList[2].value =

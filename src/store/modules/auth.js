@@ -28,7 +28,7 @@ const actions = {
     REGISTER: ({ commit }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post("/auth/signup", payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -49,7 +49,7 @@ const actions = {
     FORGOT_PASSWORD: ({ commit }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post("/auth/reset-password/", payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -70,7 +70,7 @@ const actions = {
     RESET_PASSWORD: ({ commit }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post("/auth/reset-password/confirm/", payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -91,7 +91,7 @@ const actions = {
     CONFIRM_EMAIL: ({ commit }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post("/auth/confirm-email-token/", payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -112,7 +112,7 @@ const actions = {
     LOGIN: ({ commit }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post("/auth/login", payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -137,7 +137,7 @@ const actions = {
         const token = jwtDecode(localStorage.getItem("AUTH_TOKEN"));
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.get(`/users/${token.user.chakaID}`).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {

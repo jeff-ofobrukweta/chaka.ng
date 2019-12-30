@@ -8,6 +8,7 @@
                         class="btn"
                         @click="switchCurrency('NGN')"
                         :class="{ active: currency === 'NGN' }"
+                        :disabled="loading"
                     >
                         ₦
                     </button>
@@ -15,6 +16,7 @@
                         class="btn"
                         @click="switchCurrency('USD')"
                         :class="{ active: currency === 'USD' }"
+                        :disabled="loading"
                     >
                         $
                     </button>
@@ -166,13 +168,11 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import KYCTitles from "../../services/kyc/kycTitles";
-import CurrencyInput from "../form/CurrencyInput";
 
 export default {
     name: "fund-modal",
     components: {
-        CurrencyInput
+        CurrencyInput: () => import("../form/CurrencyInput")
     },
     data() {
         return {
@@ -180,10 +180,7 @@ export default {
             loading: false,
             message: null,
             issues: {},
-            currency: "NGN",
-            showKYC: false,
-            selectedField: {},
-            allNextKYC: KYCTitles.titles
+            currency: "NGN"
         };
     },
     computed: {
@@ -266,37 +263,6 @@ export default {
             this.RESET_REQ();
             return true;
         },
-        /**
-         * TO-DO: Put back if dollar funding is blocked for incomplete KYCs
-         */
-
-        // handleStep(step) {
-        //     this.step = step
-        //     if (step.kyc) {
-        //         this.showKYC = true;
-        //         this.allNextKYC.forEach(element => {
-        //             element.fields.forEach(el => {
-        //                 if (el === this.getNextKYC.nextKYC[0]) {
-        //                     this.selectedField = element;
-        //                     this.selectedField.fields = this.getNextKYC.nextKYC;
-        //                 }
-        //             });
-        //         });
-        //         return true;
-        //     }
-        //     if (step.type === "global") {
-        //         // this.showGlobal = true;
-        //     }
-        // },
-        // handleUpdate() {
-        //     // this.showKYC = false;
-        //     this.GET_LOGGED_USER().then(() => {
-        //         if (this.canFundGlobal === 1) {
-        //             this.$refs.globalBtn.$el.click();
-        //         }
-        //     });
-        //     return true;
-        // },
         switchCurrency(currency) {
             this.currency = currency;
             this.handleReset();

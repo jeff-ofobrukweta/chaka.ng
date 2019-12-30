@@ -44,7 +44,7 @@ const mutations = {
 
 const actions = {
     GET_KYC: ({ commit, rootState }) =>
-        new Promise((resolve, reject) =>
+        new Promise(resolve =>
             api.get(`/users/${rootState.auth.loggedUser.chakaID}/kyc`).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -71,7 +71,7 @@ const actions = {
         } else {
             params = { ...payload };
         }
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api
                 .get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`, { ...params })
                 .then(
@@ -93,10 +93,7 @@ const actions = {
         );
     },
     GET_NAVBAR_NEXT_KYC: ({ commit, rootState }) =>
-        /**
-         * @params {context}
-         */
-        new Promise((resolve, reject) =>
+        new Promise(resolve =>
             api.get(`/users/${rootState.auth.loggedUser.chakaID}/fetch-next-kyc`).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -119,7 +116,7 @@ const actions = {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         const { source, ...params } = payload;
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.patch(`/users/${rootState.auth.loggedUser.chakaID}/kyc`, params).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -148,7 +145,7 @@ const actions = {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         const { source, ...params } = payload;
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-nin`, params).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -177,7 +174,7 @@ const actions = {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         const { source, ...params } = payload;
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api
                 .patch(
                     `/users/${rootState.auth.loggedUser.chakaID}/kyc/update-bank-details`,
@@ -208,7 +205,7 @@ const actions = {
     UPLOAD_KYC_FILE: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/upload-file`, payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -234,7 +231,7 @@ const actions = {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         const { source, ...params } = payload;
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-bvn`, params).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -261,7 +258,7 @@ const actions = {
     USE_BVN_PHONE: ({ commit, dispatch, rootState }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/update-phone`, payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
@@ -286,7 +283,7 @@ const actions = {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
         const { source, ...params } = payload;
-        return new Promise((resolve, reject) =>
+        return new Promise(resolve =>
             api.post(`/users/${rootState.auth.loggedUser.chakaID}/kyc/resolve-otp`, params).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {

@@ -1,41 +1,91 @@
 <template>
     <main class="main" role="main">
-        <div class="auth-box">
-            <div class="text-center">
-                <div class="form__header">
-                    <div class="form__image">
-                        <svg
-                            width="83"
-                            class="stock-vdr__svg"
-                            height="83"
-                            viewBox="0 0 83 83"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M41.029 0C18.3668 0 0.00195312 18.3697 0.00195312 41.027C0.00195312 63.6868 18.3691 82.054 41.029 82.054C63.6862 82.054 82.0534 63.6868 82.0534 41.027C82.0534 18.3723 63.6862 0 41.029 0ZM41.029 74.3613C22.6182 74.3613 7.69464 59.4378 7.69464 41.027C7.69464 22.6162 22.6208 7.69269 41.029 7.69269C59.4371 7.69269 74.3607 22.6162 74.3607 41.027C74.3607 59.4378 59.4374 74.3613 41.029 74.3613ZM57.1527 23.5752C55.4089 22.5342 53.1807 23.1521 52.1782 24.9598L38.4212 49.6709L30.7595 40.3449C29.3723 38.7474 27.5287 37.9193 25.7876 38.9603C24.0438 40.0038 23.3233 42.5143 24.4517 44.1247L35.1136 57.1019C35.911 58.1378 36.8212 58.7585 37.7727 58.9355L37.7804 58.951L37.8779 58.9561C38.0934 58.9894 41.3141 59.5843 42.7013 57.1022L58.4917 28.7399C59.4936 26.929 58.8964 24.6187 57.1527 23.5752Z"
-                                fill="#3DB39E"
-                            />
-                        </svg>
-                    </div>
-                    <h4 class="form__title--green">Confirmation Email Sent</h4>
-                    <p class="form__caption mt-2">
-                        We have sent you an email with a link to verify your registered email
-                        address.
-                    </p>
-                </div>
-                <div class="mt-3">
-                    <router-link class="btn btn__primary" :to="{ name: 'login' }"
-                        >Continue to site</router-link
-                    >
-                </div>
-            </div>
+        <div class="app-body">
+            <h2 class="app-body__title">Disclosures</h2>
+            <p>
+                Chaka.ng is a property of Chaka Technologies Limited, a company duly registered with
+                the Corporate Affairs Commission, Nigeria. Chaka.ng is the platform implemented by
+                Chaka Technologies Limited to provide marketing, customer service, operations and
+                technology services to brokers on behalf of their customers. Chaka.ng, Chaka.io and
+                Chaka Technologies Limited are legal entities in Nigeria.
+            </p>
+            <p>
+                To ensure regulatory compliance, proper market behaviour and security of investors,
+                all brokerage investments are facilitated by Citi investment Capital Limited, a
+                licensed Nigerian stockbroking firm registered with the Security and Exchange
+                Commission (SEC). All fund offerings are facilitated by Citi Asset Management
+                Limited, an asset management firm registered with SEC. Customers registered with
+                Chaka will perform Verification before being able to participate in the securities
+                markets or make investments.
+            </p>
+            <p>
+                All international investing services is facilitated by Citi Investment Capital Ltd
+                and Citi Asset Management Ltd. These services are provided by Citi Investment
+                Capital Ltd and Citi Asset Management Ltd. in conjunction with a licensed American
+                brokerage, who is a member of the Financial Industry Regulatory Authority (FINRA)
+                and the Securities Investor Protection Corporation (SIPC), which protects securities
+                customers of its members up to $500,000 (including $250,000 for claims for cash).
+                Explanatory brochure available upon request or at www.sipc.org.
+            </p>
+            <p>
+                Investors should consider the investment objectives and unique risk profile of
+                Exchange Traded Funds (ETFs) carefully before investing. ETFs are subject to risks
+                similar to those of other diversified portfolios. Leveraged and Inverse ETFs may not
+                be suitable for all investors and may increase exposure to volatility through the
+                use of leverage, short sales of securities, derivatives and other complex investment
+                strategies. Although ETFs are designed to provide investment results that generally
+                correspond to the performance of their respective underlying indices, they may not
+                be able to exactly replicate the performance of the indices because of expenses and
+                other factors.
+            </p>
+
+            <p>
+                Carefully consider your investment objectives, the risks, charges and expenses
+                involved in investing in the Nigerian and International stock markets. It’s
+                important to note that the same way profits can be made in the markets, losses can
+                also be made as well. In the light of the risks involved, you should undertake
+                transactions only if you understand the nature of the relationship into which you
+                are entering and the extent of your exposure to risk. You must know and appreciate
+                that trading in Equity shares or other instruments traded on the Stock Exchanges,
+                which have varying element of risk, is generally not an appropriate avenue for
+                someone of limited resources/limited investment and/or trading experience and low
+                risk tolerance. You should therefore carefully consider whether such trading is
+                suitable for you in the light of your financial condition.
+            </p>
+            <p>
+                All investments involve risk and the past performance of a security, or financial
+                product does not guarantee future results or returns. Keep in mind that while
+                diversification may help spread risk it does not assure a profit, or protect against
+                loss, in a down market. There is always the potential of losing money when you
+                invest in securities, or other financial products. Investors should consider their
+                investment objectives and risks carefully before investing. Investors should be
+                aware that system response, execution price, speed, liquidity, market data, and
+                account access times are affected by many factors, including market volatility, size
+                and type of order, market conditions, system performance, and other factors. As a
+                business we don't give stock tips, recommendations or provide any advisory services.
+                We have not authorized anyone to trade on behalf of others. If you find anyone
+                claiming to be part of Chaka and offering such services, please inform us here -
+                compliance@chaka.ng
+            </p>
+            <p>
+                Third party information provided for product features, communications, and
+                communications emanating from social media communities, market prices, data and
+                other information available through Chaka.com, Chaka.io or Chaka Technologies Ltd
+                are meant for informational purposes only and are not intended as an offer or
+                solicitation for the purchase or sale of any financial instrument or as an official
+                confirmation of any transaction. The information provided is not warranted as to
+                completeness or accuracy and is subject to change without notice.
+            </p>
+            <p>
+                &copy;
+                <span>2019</span> Chaka Technologies Ltd. All rights reserved.
+            </p>
         </div>
     </main>
 </template>
 
 <script>
 export default {
-    name: 'Disclosures'
+    name: "Disclosures"
 };
 </script>
