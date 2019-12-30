@@ -9,7 +9,6 @@ const state = {
     withdrawModal: false,
     saleSuccess: false,
     walletSuccess: false,
-    kycModal: {},
     mostPopular: []
 };
 
@@ -19,7 +18,6 @@ const getters = {
     getExchangeModal: state => state.exchangeModal,
     getFundModal: state => state.fundModal,
     getWithdrawModal: state => state.withdrawModal,
-    getKycModal: state => state.kycModal,
     getSaleSuccess: state => state.saleSuccess,
     getWalletSuccess: state => state.walletSuccess,
     getMostPopular: state => {
@@ -54,9 +52,6 @@ const mutations = {
     SET_WITHDRAW_MODAL(state, payload) {
         state.withdrawModal = payload;
     },
-    SET_KYC_MODAL(state, payload) {
-        state.kycModal = payload;
-    },
     SET_SALE_SUCCESS(state, payload) {
         state.saleSuccess = payload;
     },
@@ -69,12 +64,11 @@ const mutations = {
     RESET_MODALS(state) {
         state.buyModal = {};
         state.sellModal = {};
-        state.exchangeModal = {};
-        state.fundModal = {};
-        state.withdrawModal = {};
-        state.saleSuccess = {};
-        state.walletSuccess = {};
-        state.kycModal = {};
+        state.exchangeModal = false;
+        state.fundModal = false;
+        state.withdrawModal = false;
+        state.saleSuccess = false;
+        state.walletSuccess = false;
     }
 };
 

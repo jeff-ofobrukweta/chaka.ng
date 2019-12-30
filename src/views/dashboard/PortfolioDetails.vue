@@ -1,5 +1,23 @@
 <template>
     <section class="dashboard__main">
+        <div class="dashboard__back">
+            <router-link :to="{ name: 'portfolio' }" replace class="dashboard__back--btn">
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M16 7H3.8L9.4 1.4L8 0L0 8L8 16L9.4 14.6L3.8 9H16V7Z"
+                        fill="#293D4A"
+                    /></svg
+            ></router-link>
+            <h3>Portfolio Details</h3>
+        </div>
         <div class="portfolio-tabs">
             <div
                 class="portfolio-tab"
@@ -36,11 +54,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
-import PortfolioTable from '../../components/portfolio/PortfolioTable';
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import PortfolioTable from "../../components/portfolio/PortfolioTable";
 
 export default {
-    name: 'portfolio-details',
+    name: "portfolio-details",
     components: {
         PortfolioTable
     },
@@ -52,22 +70,22 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getglobalstocksowned', 'getlocalstocksowned', 'getopenstocks']),
+        ...mapGetters(["getglobalstocksowned", "getlocalstocksowned", "getopenstocks"]),
         type() {
             return this.$route.params.type;
         }
     },
     methods: {
-        ...mapActions(['GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS']),
+        ...mapActions(["GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS"]),
         changeType(type) {
             if (this.type !== type) {
-                this.$router.replace({ name: 'portfolio-details', params: { type } });
+                this.$router.replace({ name: "portfolio-details", params: { type } });
             }
         },
         mountAction(type) {
-            if (type == 'local') {
+            if (type == "local") {
                 this.stocks = this.getlocalstocksowned;
-            } else if (type == 'global') {
+            } else if (type == "global") {
                 this.stocks = this.getglobalstocksowned;
             } else {
                 this.stocks = this.getopenstocks;

@@ -228,56 +228,74 @@
             </div>
         </section>
 
-        <section class="section v2-pricing container">
-            <div class="v2-pricing__row">
-                <h5 class="grey-dark text-center">PRICING</h5>
-                <div class="v2-pricing__money" v-if="getWindowWidth === 'desktop'">
-                    <h2 class="dollar">$2<span class="super-text">$5</span></h2>
-                    <h2 class="naira">&#8358;100</h2>
+        <section class="section v2-pricing">
+            <div class="container">
+                <div class="v2-pricing__row">
+                    <h5 class="grey-dark text-center">PRICING</h5>
+                    <div class="v2-pricing__money" v-if="getWindowWidth === 'desktop'">
+                        <h2 class="dollar">$2<span class="super-text">$5</span></h2>
+                        <h2 class="naira">&#8358;100</h2>
+                    </div>
+                    <h4 v-else class="v2-pricing__mobile">
+                        <span class="stroke">$5</span> $2 and N100
+                    </h4>
+                    <p>Make unlimited trades with industry-low fees on global and local stocks.</p>
+                    <br />
+                    <div class="text-center mb-2">
+                        <router-link
+                            :to="{ name: 'register' }"
+                            tag="button"
+                            class="btn btn__primary"
+                            >Create Account</router-link
+                        >
+                    </div>
+                    <p>
+                        <router-link class="section__link flex" href :to="{ name: 'calculator' }">
+                            Use Calculator
+                            <svg
+                                width="24"
+                                height="24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
+                                    fill="#000"
+                                />
+                            </svg>
+                        </router-link>
+                    </p>
                 </div>
-                <h4 v-else class="v2-pricing__mobile">
-                    <span class="stroke">$5</span> $2 and N100
-                </h4>
-                <p>Make unlimited trades with industry-low fees on global and local stocks.</p>
-                <br />
-                <p>
-                    <router-link class="section__link flex" href :to="{ name: 'calculator' }">
-                        Use Calculator
-                        <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
-                                fill="#000"
-                            />
-                        </svg>
-                    </router-link>
-                </p>
             </div>
         </section>
 
-        <section class="v2-invest container">
-            <div class="row v2-invest__row">
-                <div class="v2-invest__image" data-aos="fade-left" data-aos-duration="700">
-                    <img
-                        :src="require('../assets/img/invest.png')"
-                        alt="Invest"
-                        v-if="investNumber === 0"
-                    />
-                    <img
-                        :src="require('../assets/img/invest.png')"
-                        alt="Invest"
-                        v-else-if="investNumber === 1"
-                    />
-                    <img
-                        :src="require('../assets/img/invest.png')"
-                        alt="Invest"
-                        v-else-if="investNumber === 2"
-                    />
-                </div>
-                <div class="v2-invest__text">
-                    <h2 class="hero__title v2-section__title">{{ invest[investNumber].title }}</h2>
-                    <div class="v2-invest__height">
-                        <p class="section__text">{{ invest[investNumber].text }}</p>
-                        <!-- <div
+        <section class="v2-invest">
+            <div class="container">
+                <div class="row v2-invest__row">
+                    <div class="v2-invest__image" data-aos="fade-left" data-aos-duration="700">
+                        <img
+                            :src="require('../assets/img/invest.png')"
+                            alt="Invest"
+                            v-if="investNumber === 0"
+                        />
+                        <img
+                            :src="require('../assets/img/invest.png')"
+                            alt="Invest"
+                            v-else-if="investNumber === 1"
+                        />
+                        <img
+                            :src="require('../assets/img/invest.png')"
+                            alt="Invest"
+                            v-else-if="investNumber === 2"
+                        />
+                    </div>
+                    <div class="v2-invest__text">
+                        <h2 class="hero__title v2-section__title">
+                            {{ invest[investNumber].title }}
+                        </h2>
+                        <div class="v2-invest__height">
+                            <p class="section__text">{{ invest[investNumber].text }}</p>
+                            <!-- <div
                             class="pb-0 v2-layer__signup"
                             data-aos="fade-left"
                             data-aos-delay="0"
@@ -300,36 +318,37 @@
                                 </svg>
                             </router-link>
                         </div> -->
-                    </div>
-                    <div class="v2-invest__pick">
-                        <div class="v2-invest__bar">
+                        </div>
+                        <div class="v2-invest__pick">
+                            <div class="v2-invest__bar">
+                                <div
+                                    class="v2-invest__bar--ticker"
+                                    :style="{ transform: slider }"
+                                ></div>
+                            </div>
+                            <div class="v2-invest__selector">
+                                <h6 @click="investNumber = 0">Invest</h6>
+                                <h6 @click="investNumber = 1">Grow</h6>
+                                <h6 @click="investNumber = 2">Share Ownership</h6>
+                            </div>
+                        </div>
+                        <div class="v2-invest__mobile">
                             <div
-                                class="v2-invest__bar--ticker"
-                                :style="{ transform: slider }"
+                                class="v2-invest__mobile--bar"
+                                @click="investNumber = 0"
+                                :class="{ active: investNumber === 0 }"
+                            ></div>
+                            <div
+                                class="v2-invest__mobile--bar"
+                                @click="investNumber = 1"
+                                :class="{ active: investNumber === 1 }"
+                            ></div>
+                            <div
+                                class="v2-invest__mobile--bar"
+                                @click="investNumber = 2"
+                                :class="{ active: investNumber === 2 }"
                             ></div>
                         </div>
-                        <div class="v2-invest__selector">
-                            <h6 @click="investNumber = 0">Invest</h6>
-                            <h6 @click="investNumber = 1">Grow</h6>
-                            <h6 @click="investNumber = 2">Share Ownership</h6>
-                        </div>
-                    </div>
-                    <div class="v2-invest__mobile">
-                        <div
-                            class="v2-invest__mobile--bar"
-                            @click="investNumber = 0"
-                            :class="{ active: investNumber === 0 }"
-                        ></div>
-                        <div
-                            class="v2-invest__mobile--bar"
-                            @click="investNumber = 1"
-                            :class="{ active: investNumber === 1 }"
-                        ></div>
-                        <div
-                            class="v2-invest__mobile--bar"
-                            @click="investNumber = 2"
-                            :class="{ active: investNumber === 2 }"
-                        ></div>
                     </div>
                 </div>
             </div>
@@ -566,51 +585,135 @@
                             alt="Yahoo Finance"
                         />
                     </a>
+                    <a
+                        href="https://businessday.ng/interview/article/our-goal-is-to-provide-borderless-trading-investment-opportunities/"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/business-day.png"
+                            alt="Business Day"
+                        />
+                    </a>
+                    <a
+                        href="https://www.marketwatch.com/press-release/drivewealth-partners-with-chaka-new-global-trading-platform-in-nigeria-to-increase-access-to-us-stock-market-2019-10-16"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/market-watch.svg"
+                            alt="Market Watch"
+                        />
+                    </a>
+                    <a
+                        href="https://guardian.ng/business-services/hedging-against-local-risks-through-global-markets/"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/the-guardian.png"
+                            alt="The Guardian"
+                        />
+                    </a>
+                    <a
+                        href="https://www.youtube.com/watch?v=qngEAo-D_dk"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/arise-news.png"
+                            alt="Arise News"
+                        />
+                    </a>
+                    <a
+                        href="https://www.thisdaylive.com/index.php/2019/10/18/chaka-global-trading-platform-launched-in-nigeria/"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/thisday.png"
+                            alt="This Day"
+                        />
+                    </a>
+                    <a
+                        href="https://www.financemagnates.com/forex/products/chaka-teams-up-with-drivewealth-to-offer-us-equities-in-nigeria/"
+                        target="_blank"
+                        class="v2-landing__news--link"
+                        data-aos="fade-up"
+                        data-aos-delay="250"
+                    >
+                        <img
+                            class="v2-landing__news--img"
+                            src="../assets/img/news/finance-magnates.svg"
+                            alt="Finance Magnates"
+                        />
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section class="section v2-mobile container">
-            <div class="row v2-mobile__row">
-                <div class="v2-mobile__image" data-aos="zoom-in-up">
-                    <img
-                        data-sizes="auto"
-                        :data-src="require('../assets/img/chaka-mobile.png')"
-                        :data-srcset="require('../assets/img/chaka-mobile.png')"
-                        class="lazyload"
-                        alt="Chaka Mobile App"
-                    />
-                </div>
-                <div class="v2-mobile__text">
-                    <h2 class="hero__title" data-aos="fade-left">
-                        Get the
-                        <span class="primary">app</span> soon
-                    </h2>
-                    <p
-                        class="hero__text v2-mobilie__text"
-                        data-aos="fade-left"
-                        data-aos-delay="200"
-                    >
-                        Keep your opportunities closer
-                    </p>
-                    <div class="v2-mobile__store--logo" data-aos="fade-left" data-aos-delay="250">
-                        <img src="../assets/img/chaka-logo.svg" alt="Chaka" />
+        <section class="section v2-mobile">
+            <div class="container">
+                <div class="row v2-mobile__row">
+                    <div class="v2-mobile__image" data-aos="zoom-in-up">
+                        <img
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/chaka-mobile.png')"
+                            :data-srcset="require('../assets/img/chaka-mobile.png')"
+                            class="lazyload"
+                            alt="Chaka Mobile App"
+                        />
                     </div>
-                    <div
-                        class="d-none d-md-block v2-mobile__store v2-mobile__store--light"
-                        data-aos="fade-left"
-                        data-aos-delay="200"
-                    >
-                        <img src="../assets/img/appstore.svg" alt="App Store" />
-                        <img src="../assets/img/playstore.svg" alt="Play Store" />
-                    </div>
-                    <div
-                        class="d-md-none v2-mobile__store v2-mobile__store--dark"
-                        data-aos="fade-left"
-                        data-aos-delay="200"
-                    >
-                        <img src="../assets/img/appstore-dark.svg" alt="App Store" />
-                        <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
+                    <div class="v2-mobile__text">
+                        <h2 class="hero__title" data-aos="fade-left">
+                            Get the
+                            <span class="primary">app</span> soon
+                        </h2>
+                        <p
+                            class="hero__text v2-mobilie__text"
+                            data-aos="fade-left"
+                            data-aos-delay="200"
+                        >
+                            Keep your opportunities closer
+                        </p>
+                        <div
+                            class="v2-mobile__store--logo"
+                            data-aos="fade-left"
+                            data-aos-delay="250"
+                        >
+                            <img src="../assets/img/chaka-logo.svg" alt="Chaka" />
+                        </div>
+                        <div
+                            class="d-none d-md-block v2-mobile__store v2-mobile__store--light"
+                            data-aos="fade-left"
+                            data-aos-delay="200"
+                        >
+                            <img src="../assets/img/appstore.svg" alt="App Store" />
+                            <img src="../assets/img/playstore.svg" alt="Play Store" />
+                        </div>
+                        <div
+                            class="d-md-none v2-mobile__store v2-mobile__store--dark"
+                            data-aos="fade-left"
+                            data-aos-delay="200"
+                        >
+                            <img src="../assets/img/appstore-dark.svg" alt="App Store" />
+                            <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
+                        </div>
                     </div>
                 </div>
             </div>

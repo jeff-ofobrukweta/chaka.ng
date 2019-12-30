@@ -295,19 +295,24 @@
 
         &__news {
             display: flex;
-            // justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
             margin-top: 0.5em;
-            flex-flow: row wrap;
-            max-width: 400px;
+            flex-wrap: wrap;
+
+            @include tablet {
+                justify-content: flex-start;
+            }
+
+            // max-width: 400px;
 
             &--link {
                 margin-right: 1.5rem;
-                margin-bottom: 1rem;
-                max-width: 70px;
+                margin-bottom: 1.5rem;
+                // max-width: 70px;
 
                 @include tablet {
-                    margin-right: 2.5rem;
+                    // margin-right: 2.5rem;
                 }
 
                 &:last-child {
@@ -317,12 +322,13 @@
 
             &--img {
                 height: 36px;
+                width: 100px;
                 object-fit: contain;
                 transition: all 300ms ease-in-out !important;
 
                 @include tablet {
-                    height: 50px;
                     filter: saturate(0);
+                    max-width: unset;
                 }
 
                 &:hover {
@@ -728,6 +734,7 @@
                 max-width: 50%;
                 font-size: 7.5rem;
                 line-height: 1;
+                text-align: center;
 
                 .super-text {
                     font-size: 2.125rem;
@@ -739,10 +746,6 @@
                         position: absolute;
                         left: -0.825rem;
                     }
-                }
-
-                &.naira {
-                    text-align: right;
                 }
             }
         }
