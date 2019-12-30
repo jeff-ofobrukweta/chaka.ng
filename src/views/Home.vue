@@ -274,17 +274,17 @@
                 <div class="row v2-invest__row">
                     <div class="v2-invest__image" data-aos="fade-left" data-aos-duration="700">
                         <img
-                            :src="require('../assets/img/invest.png')"
+                            :src="require('../assets/img/fractional/fractional.png')"
                             alt="Invest"
                             v-if="investNumber === 0"
                         />
                         <img
-                            :src="require('../assets/img/invest.png')"
+                            :src="require('../assets/img/fractional/low-minimums.png')"
                             alt="Invest"
                             v-else-if="investNumber === 1"
                         />
                         <img
-                            :src="require('../assets/img/invest.png')"
+                            :src="require('../assets/img/fractional/grow.png')"
                             alt="Invest"
                             v-else-if="investNumber === 2"
                         />
@@ -327,9 +327,9 @@
                                 ></div>
                             </div>
                             <div class="v2-invest__selector">
-                                <h6 @click="investNumber = 0">Invest</h6>
-                                <h6 @click="investNumber = 1">Grow</h6>
-                                <h6 @click="investNumber = 2">Share Ownership</h6>
+                                <h6 @click="investNumber = 0">Fractional Shares</h6>
+                                <h6 @click="investNumber = 1">Low Minimums</h6>
+                                <h6 @click="investNumber = 2">Grow</h6>
                             </div>
                         </div>
                         <div class="v2-invest__mobile">
