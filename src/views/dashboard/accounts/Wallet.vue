@@ -162,12 +162,11 @@
                         @step="handleStep"
                         >Exchange</kyc-button
                     >
-                    <!-- // TO-DO :: Change type to withdraw -->
                     <kyc-button
-                        ref="fundBtn"
+                        ref="withdrawBtn"
                         type="button"
                         :classes="['btn-block', 'btn--lg', 'btn__primary--outline']"
-                        action="fund"
+                        action="withdraw"
                         @step="handleStep"
                         >Withdraw</kyc-button
                     >
@@ -217,8 +216,7 @@ export default {
         },
         showWithdraw() {
             this.showKYC = false;
-            // TO-DO :: Change type to withdraw
-            if (this.step.type === "fund") {
+            if (this.step.type === "withdraw") {
                 this.SET_WITHDRAW_MODAL(true);
             } else if (this.step.type === "global") {
                 this.SET_EXCHANGE_MODAL(true);
