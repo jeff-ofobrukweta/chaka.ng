@@ -1,6 +1,7 @@
 <template>
     <Fragment>
         <Navbar />
+        <div v-if="isSearchOpened" class="search-overlay" @click="SEARCH_OPENED(false)"></div>
         <main class="dashboard-loader" v-if="loading">
             <img :src="require('../assets/img/loader.gif')" alt="Loader" />
         </main>
@@ -68,7 +69,8 @@ export default {
             "getWithdrawModal",
             "getExchangeModal",
             "getWalletSuccess",
-            "getSaleSuccess"
+            "getSaleSuccess",
+            "isSearchOpened"
         ]),
         showPending() {
             if (
@@ -91,7 +93,8 @@ export default {
             "SET_KYC_MODAL",
             "SET_SALE_SUCCESS",
             "SET_WALLET_SUCCESS",
-            "RESET_MODALS"
+            "RESET_MODALS",
+            "SEARCH_OPENED"
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});

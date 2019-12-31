@@ -124,9 +124,10 @@ const actions = {
                         commit("SET_KYC", resp.data.data.kyc);
                         dispatch("GET_LOGGED_USER", null, { root: true });
                         return dispatch("GET_NEXT_KYC").then(() => {
-                            Vue.toasted.show(`Verification update successful`, {
-                                type: "success"
-                            });
+                            if (Object.keys(payload)[0] !== "idType")
+                                Vue.toasted.show(`Verification update successful`, {
+                                    type: "success"
+                                });
                             resolve(true);
                             return true;
                         });
@@ -217,11 +218,11 @@ const actions = {
                             return true;
                         });
                     }
-                    errorFn(resp, "kyc", source);
+                    errorFn(resp, "kyc");
                     resolve(false);
                 },
                 error => {
-                    errorFn(error.response, "kyc", source);
+                    errorFn(error.response, "kyc");
                     resolve(false);
                 }
             )

@@ -77,6 +77,8 @@ export default {
                         this.clicked = false;
                         return true;
                     }
+                    this.clicked = false;
+                    return true;
                 });
             } else if (this.action === "local") {
                 if (this.getLoggedUser.localKycStatus !== "NONE") {
@@ -103,6 +105,8 @@ export default {
                         this.clicked = false;
                         return true;
                     }
+                    this.clicked = false;
+                    return true;
                 });
             } else if (this.action === "global") {
                 if (this.getLoggedUser.globalKycStatus !== "NONE") {
@@ -129,6 +133,8 @@ export default {
                         this.clicked = false;
                         return true;
                     }
+                    this.clicked = false;
+                    return true;
                 });
             } else {
                 this.GET_NEXT_KYC().then(() => {

@@ -154,14 +154,9 @@
                     <button @click="showFund" class="btn btn-block btn--lg btn__primary">
                         Fund
                     </button>
-                    <kyc-button
-                        ref="exchangeBtn"
-                        type="button"
-                        :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
-                        action="global"
-                        @step="handleStep"
-                        >Exchange</kyc-button
-                    >
+                    <button @click="showExchange" class="btn btn-block btn--lg btn__primary--dark">
+                        Exchange
+                    </button>
                     <kyc-button
                         ref="withdrawBtn"
                         type="button"
@@ -216,14 +211,13 @@ export default {
         },
         showWithdraw() {
             this.showKYC = false;
-            if (this.step.type === "withdraw") {
-                this.SET_WITHDRAW_MODAL(true);
-            } else if (this.step.type === "global") {
-                this.SET_EXCHANGE_MODAL(true);
-            }
+            this.SET_WITHDRAW_MODAL(true);
         },
         showFund() {
             this.SET_FUND_MODAL(true);
+        },
+        showExchange() {
+            this.SET_EXCHANGE_MODAL(true);
         }
     },
     async mounted() {

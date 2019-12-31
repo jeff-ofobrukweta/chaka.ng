@@ -6,14 +6,46 @@
                 <template v-if="allFields[0].value === 'phone'">
                     <PhoneOTP @close="OTPSuccess" />
                 </template>
+                <template v-else-if="isFileImage">
+                    <div class="kyc-modal kyc-modal__uploads">
+                        <div class="text-center mb-1">
+                            <p>
+                                <small class="grey-cool">{{ subtitle }}</small>
+                            </p>
+                        </div>
+                        <section class="w-100">
+                            <label class="form__label"
+                                >Select ID Type
+                                <select class="form__input form__select" v-model="idType">
+                                    <option
+                                        v-for="(type, i) in idTypes"
+                                        :key="i"
+                                        :value="type.value"
+                                        >{{ type.name }}</option
+                                    >
+                                </select>
+                            </label>
+                            <br />
+                            <br />
+                        </section>
+                        <Fragment v-if="idType">
+                            <template v-if="idType !== 'OTHER'">
+                                <Uploads
+                                    form-name="idPhotoUrl"
+                                    :selected-name="idTypeName"
+                                    :id-type="idType"
+                                />
+                            </template>
+                            <template v-else v-for="(field, i) in allFields">
+                                <Uploads :form-name="field.value" idType="OTHER" :key="i" />
+                            </template>
+                        </Fragment>
+
+                        <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
+                    </div>
+                </template>
                 <template v-else>
-                    <form
-                        class="kyc-modal"
-                        @submit.prevent="updateKYC"
-                        :class="{
-                            'kyc-modal__uploads': allFields[0].value.endsWith('Url') && !nin
-                        }"
-                    >
+                    <form class="kyc-modal" @submit.prevent="updateKYC">
                         <div class="text-center mb-1">
                             <p>
                                 <small class="grey-cool">{{
@@ -190,6 +222,7 @@ export default {
     name: "kyc-modal",
     components: {
         PhoneOTP: () => import("./PhoneOTP"),
+        Uploads: () => import("../FileUpload"),
         Field,
         Fragment
     },
@@ -227,7 +260,30 @@ export default {
                 name: "NIN",
                 value: "nin",
                 type: "number"
-            }
+            },
+            idType: null,
+            idTypes: [
+                {
+                    name: "International Passport",
+                    value: "PASSPORT"
+                },
+                {
+                    name: "National ID/NIN slip",
+                    value: "NID"
+                },
+                {
+                    name: "Driver's License",
+                    value: "DL"
+                },
+                {
+                    name: "Voter's Card",
+                    value: "VC"
+                },
+                {
+                    name: "Other",
+                    value: "OTHER"
+                }
+            ]
         };
     },
     computed: {
@@ -247,8 +303,16 @@ export default {
             if (this.currentKYC.cardContext === "LOCAL") return "Complete Your Local Verification";
             if (this.currentKYC.cardContext === "GLOBAL")
                 return "Complete Your Global Verification";
-            if (this.currentKYC.cardContext === "FUND") return "Complete Your Funding Verification";
+            if (this.currentKYC.cardContext === "WITHDRAW")
+                return "Complete Your Withdrawal Verification";
             return "Complete Your Verification";
+        },
+        idTypeName() {
+            if (this.idType) {
+                const filter = this.idTypes.filter(el => el.value === this.idType);
+                return filter[0].name;
+            }
+            return "";
         }
     },
     methods: {
@@ -464,8 +528,6 @@ export default {
             this.$emit("close");
         },
         async nextStep() {
-            // EventBus.$emit("navbar-trigger");
-            // EventBus.$emit("modal-trigger");
             this.showModal = false;
             this.$emit("updated");
             if (this.navbar) {
@@ -485,9 +547,6 @@ export default {
             this.itemData = {};
             this.state = null;
             this.RESET_REQ();
-            /**
-             * Refactor code for child to determine actionType and act on it instead of being passed as a prop
-             */
 
             this.allNextKYC.forEach(element => {
                 element.fields.forEach(el => {
@@ -505,7 +564,9 @@ export default {
                     }
                 });
             });
-            this.showModal = true;
+            setTimeout(() => {
+                this.showModal = true;
+            }, 50);
             if (this.currentKYC.status === "COMPLETE") {
                 this.$emit("updated", true);
             }

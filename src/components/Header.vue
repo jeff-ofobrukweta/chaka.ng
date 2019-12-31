@@ -1,5 +1,5 @@
 <template>
-    <header id="header">
+    <header id="header" :class="{ 'header-search': isSearchOpened }">
         <nav class="nav" role="navigation" :class="{ nav__dashboard: isLoggedIn }">
             <template v-if="!isLoggedIn">
                 <div class="nav-left">
@@ -157,9 +157,10 @@
                 </div>
             </template>
             <template v-else>
-                <div class="nav__dashboard--left">
+                <div class="nav__dashboard--left" :class="{ 'nav__search--left': isSearchOpened }">
                     <router-link
                         class="nav__logo"
+                        :class="{ 'nav__search--logo': isSearchOpened }"
                         :to="{ name: 'home' }"
                         exact-active-class="active"
                     >
@@ -177,7 +178,7 @@
                             />
                         </svg>
                     </router-link>
-                    <form class="nav-left__form">
+                    <form class="nav-left__form" v-if="getWindowWidth !== 'mobile'">
                         <input
                             type="text"
                             name="search"
@@ -235,12 +236,86 @@
                             </div>
                         </transition>
                     </form>
-                    <div class="nav-left__icon">
-                        <img src="../assets/img/search.svg" alt="Search" width="18px" />
+                    <div class="nav-left__icon" v-else>
+                        <form class="nav-left__form" :class="{ show: isSearchOpened }">
+                            <template v-if="isSearchOpened">
+                                <input
+                                    type="text"
+                                    name="search"
+                                    v-model="search"
+                                    placeholder="Search stocks by name, symbol, tag.."
+                                    class="nav-left__input"
+                                    @focus="startSearch"
+                                    @blur="stopSearch"
+                                    @input="startSearch"
+                                    autocomplete="off"
+                                    ref="mobileInput"
+                                />
+                                <transition name="kyc-navbar">
+                                    <div
+                                        class="nav-left__dropdown"
+                                        @click="closeSearch"
+                                        v-if="showSearch"
+                                    >
+                                        <div v-if="searchLoading && search">
+                                            <div class=" loader" v-for="i in 3" :key="i">
+                                                <div class="loader-div" />
+                                            </div>
+                                        </div>
+                                        <div v-else-if="searchLoading"></div>
+                                        <ul v-else-if="getSearchInstruments.length > 0">
+                                            <li v-for="(stock, i) in filteredSearch" :key="i">
+                                                <router-link
+                                                    :to="{
+                                                        name: 'singlestock',
+                                                        params: { symbol: stock.symbol }
+                                                    }"
+                                                >
+                                                    <img
+                                                        :src="stock.logoUrl"
+                                                        :alt="stock.symbol"
+                                                        class="nav-left__dropdown--logo"
+                                                    />
+                                                    <div>
+                                                        <p>
+                                                            <small>{{
+                                                                stock.name | truncate(15)
+                                                            }}</small>
+                                                        </p>
+                                                        <p class="grey-cool">{{ stock.symbol }}</p>
+                                                    </div>
+
+                                                    <img
+                                                        :src="
+                                                            require('../assets/img/flags/us-flag.svg')
+                                                        "
+                                                        :alt="stock.symbol"
+                                                        class="nav-left__dropdown--country"
+                                                    />
+                                                </router-link>
+                                            </li>
+                                        </ul>
+                                        <div class=" nav-left__dropdown--loader" v-else>
+                                            <p>
+                                                There are no instruments related to
+                                                <strong>{{ search }}</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </transition>
+                            </template>
+                            <img
+                                @click="SEARCH_OPENED(true)"
+                                class="nav-left__form--icon"
+                                src="../assets/img/search.svg"
+                                alt="Search"
+                                width="18px"
+                            />
+                        </form>
                     </div>
                 </div>
 
-                <ul class="nav__dashboard--menu">
+                <ul class="nav__dashboard--menu" :class="{ 'nav__search--right': isSearchOpened }">
                     <p v-if="Object.keys(getAccountSummary).length > 0">
                         <router-link
                             class="nav__dashboard--mobile"
@@ -319,7 +394,9 @@ export default {
             "getLoggedUser",
             "getAccountSummary",
             "getNextKYC",
-            "getSearchInstruments"
+            "getSearchInstruments",
+            "getWindowWidth",
+            "isSearchOpened"
         ]),
         filteredSearch() {
             const splice = [...this.getSearchInstruments].splice(0, 4);
@@ -328,7 +405,12 @@ export default {
     },
     methods: {
         ...mapActions(["SEARCH_INSTRUMENTS"]),
-        ...mapMutations(["SET_KYC_MODAL", "SET_FUND_MODAL", "SET_SEARCH_INSTRUMENTS"]),
+        ...mapMutations([
+            "SET_KYC_MODAL",
+            "SET_FUND_MODAL",
+            "SET_SEARCH_INSTRUMENTS",
+            "SEARCH_OPENED"
+        ]),
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
         },
@@ -357,6 +439,9 @@ export default {
             this.showSearch = false;
             this.search = null;
             this.SET_SEARCH_INSTRUMENTS([]);
+        },
+        closeSearch() {
+            this.SEARCH_OPENED(false);
         }
     },
     mounted() {
@@ -370,6 +455,13 @@ export default {
                 this.$refs.trigger.classList.remove("is-active");
                 this.$refs.trigger.nextElementSibling.classList.remove("show");
                 document.body.classList.remove("no-scroll");
+            }
+        },
+        isSearchOpened(val) {
+            if (val) {
+                setTimeout(() => {
+                    this.$refs.mobileInput.focus();
+                }, 100);
             }
         }
     }
