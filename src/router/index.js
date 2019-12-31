@@ -18,6 +18,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     store.commit("RESET_REQ");
     store.commit("RESET_MODALS");
+    store.commit("SEARCH_OPENED", false);
     next();
 });
 

@@ -138,6 +138,7 @@ export default {
     async mounted() {
         document.title = "Chaka - Dashboard";
         this.RESET_MODALS();
+        this.SEARCH_OPENED(false)
         this.loading = true;
         await this.GET_LOGGED_USER();
         this.loading = false;
