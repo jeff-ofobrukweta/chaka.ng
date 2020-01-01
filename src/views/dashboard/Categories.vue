@@ -52,18 +52,29 @@
         </template>
         <template v-if="gettagslistsArray.length > 0 && !loadingTags">
             <hr class="division-logger" />
-            <section class="dashboard__title" v-if="Object.keys(getInstrumentsPayload).length > 0">
-                <h3>{{ getInstrumentsPayload.name }}</h3>
-                <p class="dashboard__title--sub" v-if="instrumentLength !== false">
-                    {{ instrumentLength }} Stock{{ instrumentLength === 1 ? "" : "s" }}
-                </p>
+            <section class="dashboard__title flex_container_title" v-if="Object.keys(getInstrumentsPayload).length > 0">
+                <section>
+                    <h3>{{ getInstrumentsPayload.name }}</h3>
+                    <p class="dashboard__title--sub" v-if="instrumentLength !== false">
+                        {{ instrumentLength }} Stock{{ instrumentLength === 1 ? "" : "s" }}
+                    </p>
+                </section>
+                <section>
+                    <button class="btn-container-main">
+                         <button 
+                         v-for="(page,index) in paginate"
+                         :key="index"
+                         @click="handlescrollinfinitly(page.uid)" 
+                         class="buttton">{{page.sign}} </button>
+                    </button>
+                </section>
             </section>
             <section v-if="getWindowWidth === 'desktop'">
                 <div class="instrument-base">
                     <template v-if="loading">
                         <InstrumentCard dummy v-for="i in 10" :key="i" :instrument="{}" />
                     </template>
-                    <template v-else-if="getInstrumentsListArray.length > 0">
+                    <template v-else-if="getInstrumentsListArray && getInstrumentsListArray.length > 0">
                         <InstrumentCard
                             v-for="(instrument, index) in getInstrumentsListArray"
                             :key="index"
@@ -78,14 +89,6 @@
                         />
                         <p>There are no stocks in this collection</p>
                     </section>
-                </div>
-                <div ref="infinitesscrolltrigger" id="scroll-trigger">
-                    <img
-                        class="middle-loader"
-                        v-if="infiniteLoader" 
-                        :src="require('../../assets/img/loader.gif')"
-                        alt="spin"
-                    />
                 </div>
             </section>
             <section v-else>
@@ -115,24 +118,19 @@
                     <img width="50px" :src="require('../../assets/img/papers.svg')" alt="Papers" />
                     <p>There are no stocks in this collection</p>
                 </section>
-                <div ref="infinitesscrolltrigger" id="scroll-trigger">
-                    <img
+            </section>
+             <div ref="infinitesscrolltrigger" id="scroll-trigger">
+                <img
                         class="middle-loader"
                         v-if="infiniteLoader" 
                         :src="require('../../assets/img/loader.gif')"
                         alt="spin"
-                    />
-                </div>
-            </section>
+                />
+            </div>
         </template>
     </section>
 </template>
 <script>
-const options = {
-	root: null /* uses the page as root */,
-	rootMargin: '400px',
-	threshold: 0
-};
 
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 
@@ -142,9 +140,21 @@ export default {
         return {
             newInstrument: [],
             page: 0,
-            perPage:6,
+            perPage:20,
             infiniteLoader: false,
             loaderState:false,
+            paginate:[
+                {
+                name:"Previous",
+                uid:"regression",
+                sign:"❮ "
+                },
+                {
+                name:"Next",
+                uid:"progression",
+                sign:"❯ "
+                }
+            ],
 
             // 
             loading: false,
@@ -205,31 +215,31 @@ export default {
             'SET_SLUG_FOR_INSTRUMENT'
         ]),
         ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS", "GET_MOST_POPULAR"]),
-        handlescrollinfinitly(from, to) {
-			this.observer = new IntersectionObserver((entries, observer) => {
-				entries.forEach((entry) => {
-					if (entry && entry.isIntersecting) {
+        handlescrollinfinitly(signType) {
+					if (true) {
+                        this.getInstrumentsListArray = [];
                         console.log('>>>>>>>>>>>isIntersecting>>>>>>>booooooom>')
-						const pagenation = {
-							page: ++this.page,
-							perPage: ++this.perPage
-						};
-						if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
+                            const pagenation = {
+                                page: signType == "regression" ? --this.page :++this.page,
+                                perPage:this.perPage,
+                                slug:this.getInstrumentsPayload.slug
+						    };
+						// if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
 							this.infiniteLoader = true;
 							this.loaderState = true;
 							this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
 								this.infiniteLoader = false;
 								this.loaderState = false;
-                                this.newInstrument.push(...this.getInstrumentsListArray);
+                                // this.newInstrument.push(...this.getInstrumentsListArray);
                                 console.log('handlescrollinfinitly?????????????',this.newInstrument)
 							});
-						}
-					}
-				});
-            }, options);   
+						// }
+					}   
         },
         handleSelect(response) {
             this.loading = true;
+            this.infiniteLoader = true;
+            this.page = 0; //this is to set the page back to the default when tags are clicked.
             const payload = { slug: response.slug, page :0 ,perPage: 20};
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response || {});
             if (payload.slug === '') {
@@ -239,6 +249,7 @@ export default {
             }
             this.GET_INSTRUMENT_BY_TAGS(payload).then(() => {
                 this.loading = false;
+                this.infiniteLoader = false;
             });
             
         },
@@ -253,24 +264,24 @@ export default {
         async mount() {
             this.GET_MOST_POPULAR();
             this.loading = true;
+            this.infiniteLoader = false;
+            this.page = 0; //this is to set the page back to the default when tags are clicked.
             this.loadingTags = true;
             await this.GET_TAGS_CATEGORIES(this.currentTag);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
                 this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
                  const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
-
-                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
-                   
+                    await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
+                        this.infiniteLoader = false;
                 });
-
-                // this.handlescrollinfinitly();
             }
             this.loading = false;
         },
         async OnclickhandleTaToogle(){
             this.loading = true;
             this.loadingTags = true;
+            this.page = 0; //this is to set the page back to the default when tags are clicked.
             await this.GET_TAGS_CATEGORIES(this.currentTag);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
@@ -293,27 +304,7 @@ export default {
         next();
     },
     beforeRouteUpdate(to, from, next) {
-		if (this.observer) {
-			this.observer.unobserve(this.$refs.infinitesscrolltrigger);
-		}
-		this.page = 0;
-		this.loaderState = true;
-		this.SET_INSTRUMENT_BY_TAGS([]);
-		const pagenation = {
-			page: this.page,
-            perPage: this.perPage,
-            slug: this.getInstrumentsPayload.slug
-		};
-		this.newInstrument = [];
-		this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(pagenation).then(() => {
-			if (this.getInstrumentsListArray.length === 0) {
-				this.newInstrument = ['No Instruments for this collection'];
-			} else {
-				this.newInstrument = [...this.getInstrumentsListArray];
-				this.observer.observe(this.$refs.infinitesscrolltrigger);
-			}
-			this.loaderState = false;
-		});
+        this.page = 0; //this is to set the page back to the default when tags are clicked.
 		next();
     },
     watch:{

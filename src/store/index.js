@@ -15,7 +15,6 @@ import graphs from "./modules/graphs";
 import singlestock from "./modules/singlestock";
 import news from "./modules/news";
 import modals from "./modules/modals";
-import socials from "./modules/social";
 
 Vue.use(Vuex);
 
@@ -44,8 +43,7 @@ const initialState = {
     singlestock: { ...graphs.state },
     accounts: { ...accounts.state },
     news: { ...news.state },
-    modals: { ...modals.state },
-    socials:{...socials.state}
+    modals: { ...modals.state }
 };
 
 export default new Vuex.Store({
@@ -136,8 +134,7 @@ export default new Vuex.Store({
         graphs,
         singlestock,
         news,
-        modals,
-        socials
+        modals
     },
     strict: debug,
     plugins: [persist.plugin]

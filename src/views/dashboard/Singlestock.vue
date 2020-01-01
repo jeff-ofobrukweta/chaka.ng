@@ -185,7 +185,9 @@
             </section>
             <section class="container-graph">
                 <div class="graph-container">
-                    <Linegraph :instrument="getSingleinstrument[0]" :max-quantity="maxQuantity" />
+                    <Linegraph 
+                    :instrument="getSingleinstrument[0]" 
+                    :max-quantity="maxQuantity" />
                 </div>
                 <Cardblue :instrument="getPricedetailsonblackcard || {}" />
             </section>
@@ -405,6 +407,24 @@ export default {
                 this.showBuy();
             }
         },
+        async mountedAction(){
+            const singlestockpayload = { symbols: this.$route.params.symbol };
+            const newsSinglestockpayload = { symbol: this.$route.params.symbol };
+            this.similarLoading = true;
+            this.GET_WATCHLIST().then(() => {
+                this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
+                    number => number.symbol == this.$route.params.symbol
+                );
+                // filter the arr at this point to get if the current stock is in the watchlist
+            });
+            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
+                this.similarLoading = false;
+                this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
+                this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
+                    //    loader here maybe
+                });
+            });
+        },
         setTagPayload(valuePayload) {
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
             this.$router.push({
@@ -414,32 +434,27 @@ export default {
         }
     },
     async mounted() {
-
-        const singlestockpayload = { symbols: this.$route.params.symbol };
-        const newsSinglestockpayload = { symbol: this.$route.params.symbol };
-        this.similarLoading = true;
-        this.GET_WATCHLIST().then(() => {
-            this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
-                number => number.symbol == this.$route.params.symbol
-            );
-            // filter the arr at this point to get if the current stock is in the watchlist
-        });
-        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-            this.similarLoading = false;
-            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
-            this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
-                //    loader here maybe
-            });
-        });
+        this.mountedAction();
     },
-    beforeRouteUpdate(to, from, next) {
-        const singlestockpayload = {
-            symbols: to.params.symbol
-        };
-        this.similarLoading = true;
-        this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-            this.similarLoading = false;
-        });
+    async beforeRouteUpdate(to, from, next) {
+        this.mountedAction();
+        // const singlestockpayload = { symbols: this.$route.params.symbol };
+        // const newsSinglestockpayload = { symbol: this.$route.params.symbol };
+        // console.log('This is the point >>>>>>>>>>',singlestockpayload,newsSinglestockpayload)
+        // this.similarLoading = true;
+        // this.GET_WATCHLIST().then(() => {
+        //     this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
+        //         number => number.symbol == this.$route.params.symbol
+        //     );
+        //     // filter the arr at this point to get if the current stock is in the watchlist
+        // });
+        // await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
+        //     this.similarLoading = false;
+        //     this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
+        //     this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
+        //         //    loader here maybe
+        //     });
+        // });
         next();
     },
     beforeDestroy() {

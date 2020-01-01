@@ -15,6 +15,7 @@
 <script>
 import numeral from 'numeral';
 import Doughnut from './horizontalbar_config';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
     name: 'doughnutgraph',
@@ -164,7 +165,9 @@ export default {
             }
         };
     },
-
+    computed: {
+        ...mapGetters(['getActionanalysis', 'getValueanalysis'])
+    },
     mounted() {
         this.fillData();
     },
@@ -181,7 +184,7 @@ export default {
     methods: {
         fillData() {
             this.datacollection = {
-                labels: this.actions,
+                labels: this.getActionanalysis,
                 datasets: [
                     {
                         label: 'Stocks',
@@ -198,7 +201,7 @@ export default {
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
-                        data: this.values
+                        data: this.getValueanalysis
                     }
                 ]
             };
