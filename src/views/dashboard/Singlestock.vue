@@ -109,14 +109,14 @@
             >
 
             <!-- boom -->
-            <button @click="authenticate('github')">auth Github</button>
+            <!-- <button @click="authenticate('github')">auth Github</button>
             <button @click="authenticate('facebook')">auth Facebook</button>
             <button @click="authenticate('google')">auth Google</button>
             <button @click="authenticate('twitter')">auth Twitter</button>
             <button @click="authenticate('linkedin')">auth linkedin</button>
             <h2>Result</h2>
             <textarea v-model="token" cols="50" rows="5" />
-            <textarea v-model="profile" cols="50" rows="5" />
+            <textarea v-model="profile" cols="50" rows="5" /> -->
             <!-- end boom -->
 
             <section class="sumary">
@@ -436,25 +436,25 @@ export default {
     async mounted() {
         this.mountedAction();
     },
-    async beforeRouteUpdate(to, from, next) {
-        this.mountedAction();
-        // const singlestockpayload = { symbols: this.$route.params.symbol };
-        // const newsSinglestockpayload = { symbol: this.$route.params.symbol };
-        // console.log('This is the point >>>>>>>>>>',singlestockpayload,newsSinglestockpayload)
-        // this.similarLoading = true;
-        // this.GET_WATCHLIST().then(() => {
-        //     this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
-        //         number => number.symbol == this.$route.params.symbol
-        //     );
-        //     // filter the arr at this point to get if the current stock is in the watchlist
-        // });
-        // await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-        //     this.similarLoading = false;
-        //     this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
-        //     this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
-        //         //    loader here maybe
-        //     });
-        // });
+    beforeRouteUpdate(to, from, next) {
+        const singlestockpayload = { symbols: this.$route.params.symbol };
+        const newsSinglestockpayload = { symbol: this.$route.params.symbol };
+        console.log('This is the point >>>>>>>>>>',singlestockpayload,newsSinglestockpayload)
+        this.similarLoading = true;
+        this.GET_WATCHLIST().then(() => {
+            this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
+                number => number.symbol == this.$route.params.symbol
+            );
+            // filter the arr at this point to get if the current stock is in the watchlist
+        });
+        this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
+            this.similarLoading = false;
+            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
+            this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
+                //    loader here maybe
+            });
+        });
+        console.log('This is the point after >>>>>>>>>>',this.$route.params.symbol)
         next();
     },
     beforeDestroy() {
