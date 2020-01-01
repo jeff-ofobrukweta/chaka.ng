@@ -1,4 +1,62 @@
 .kyc {
+
+    &-modal {
+        color: $text-color;
+
+        &__uploads {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+
+            &>div {
+                width: auto
+            }
+        }
+
+        &__small {
+            font-size: 0.825rem;
+            color: $grey-cool
+        }
+
+        &__popular {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+            max-width: 300px;
+            width: 100%;
+            margin: 1.5rem auto;
+
+            &--div {
+                max-width: 100px;
+                width: 49%
+            }
+
+            &--logo {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+            }
+
+            &--flag {
+                margin-top: .5rem;
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        &__single {
+            &>div {
+                margin: auto;
+                cursor: pointer;
+            }
+        }
+
+        &__dummy {
+            min-height: 200px;
+            width: 100%
+        }
+    }
+
     &-nav {
         color: $white;
         display: flex;
@@ -64,8 +122,6 @@
         }
 
         &__fund {
-            margin-top: .5rem;
-
             padding: 0.25rem 0.825rem
         }
 
@@ -179,6 +235,34 @@
                 margin-top: 1rem;
             }
         }
+
+        &__popular {
+            @extend .kyc-modal__popular;
+            max-width: 200px;
+            margin: 0.5rem auto;
+
+            &--div {
+                max-width: 95px;
+                width: 48%;
+                cursor: pointer;
+
+                h6 {
+                    color: $white;
+                    font-size: 10px;
+                }
+            }
+
+            &--logo {
+                width: 30px;
+                object-fit: contain;
+                height: 30px;
+                background: $white;
+            }
+
+            &--flag {
+                width: 12px;
+            }
+        }
     }
 
     &-form {
@@ -210,62 +294,6 @@
                 margin: auto
             }
 
-        }
-    }
-
-    &-modal {
-        color: $text-color;
-
-        &__uploads {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-
-            &>div {
-                width: auto
-            }
-        }
-
-        &__small {
-            font-size: 0.825rem;
-            color: $grey-cool
-        }
-
-        &__popular {
-            display: flex;
-            flex-flow: row wrap;
-            justify-content: space-between;
-            max-width: 300px;
-            margin: 1.5rem auto;
-
-            &--div {
-                max-width: 100px;
-                width: 49%
-            }
-
-            &--logo {
-                width: 80px;
-                height: 80px;
-                object-fit: contain;
-            }
-
-            &--flag {
-                margin-top: .5rem;
-                width: 20px;
-                height: 20px;
-            }
-        }
-
-        &__single {
-            &>div {
-                margin: auto;
-                cursor: pointer;
-            }
-        }
-
-        &__dummy {
-            min-height: 200px;
-            width: 100%
         }
     }
 

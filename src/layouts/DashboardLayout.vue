@@ -1,6 +1,7 @@
 <template>
     <Fragment>
         <Navbar />
+        <div v-if="isSearchOpened" class="search-overlay" @click="SEARCH_OPENED(false)"></div>
         <main class="dashboard-loader" v-if="loading">
             <img :src="require('../assets/img/loader.gif')" alt="Loader" />
         </main>
@@ -68,7 +69,8 @@ export default {
             "getWithdrawModal",
             "getExchangeModal",
             "getWalletSuccess",
-            "getSaleSuccess"
+            "getSaleSuccess",
+            "isSearchOpened"
         ]),
         showPending() {
             if (
@@ -81,7 +83,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "GET_NEXT_KYC", "GET_ACCOUNT_SUMMARY"]),
+        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY"]),
         ...mapMutations([
             "SET_BUY_MODAL",
             "SET_SELL_MODAL",
@@ -91,7 +93,8 @@ export default {
             "SET_KYC_MODAL",
             "SET_SALE_SUCCESS",
             "SET_WALLET_SUCCESS",
-            "RESET_MODALS"
+            "RESET_MODALS",
+            "SEARCH_OPENED"
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});
@@ -135,10 +138,11 @@ export default {
     async mounted() {
         document.title = "Chaka - Dashboard";
         this.RESET_MODALS();
+        this.SEARCH_OPENED(false);
         this.loading = true;
         await this.GET_LOGGED_USER();
         this.loading = false;
-        Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
+        Promise.all([this.GET_ACCOUNT_SUMMARY()]);
     }
 };
 </script>

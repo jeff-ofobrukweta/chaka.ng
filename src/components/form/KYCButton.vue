@@ -42,7 +42,13 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getNextKYC", "getLoggedUser", "getKYC", "getKycModalAction"])
+        ...mapGetters([
+            "getNextKYC",
+            "getNavbarNextKYC",
+            "getLoggedUser",
+            "getKYC",
+            "getKycModalAction"
+        ])
     },
     data() {
         return {
@@ -50,7 +56,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions(["GET_NEXT_KYC"]),
+        ...mapActions(["GET_NEXT_KYC", "GET_NEXT_NAVABR_KYC"]),
         ...mapMutations(["SET_KYC_MODAL_ACTION"]),
         handleClick(e) {
             this.clicked = true;
@@ -77,6 +83,8 @@ export default {
                         this.clicked = false;
                         return true;
                     }
+                    this.clicked = false;
+                    return true;
                 });
             } else if (this.action === "local") {
                 if (this.getLoggedUser.localKycStatus !== "NONE") {
@@ -103,6 +111,8 @@ export default {
                         this.clicked = false;
                         return true;
                     }
+                    this.clicked = false;
+                    return true;
                 });
             } else if (this.action === "global") {
                 if (this.getLoggedUser.globalKycStatus !== "NONE") {
@@ -129,6 +139,8 @@ export default {
                         this.clicked = false;
                         return true;
                     }
+                    this.clicked = false;
+                    return true;
                 });
             } else {
                 this.GET_NEXT_KYC().then(() => {
