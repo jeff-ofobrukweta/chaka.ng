@@ -311,7 +311,6 @@ export default {
                 return true;
             }
             this.maximumQuantity = 0;
-            console.log("THIS IS TO RETURN FALSE", this.maximumQuantity);
             return false;
         },
         OntooglePositions(response) {
@@ -328,13 +327,6 @@ export default {
             this.checkPositions(
                 this.getSingleinstrument[0].symbol,
                 this.getSingleinstrument[0].currency
-            );
-            console.log(
-                "CHECK FOR THE STATE HERE ",
-                this.checkPositions(
-                    this.getSingleinstrument[0].symbol,
-                    this.getSingleinstrument[0].currency
-                )
             );
             //set the currency as the component mount to the global state
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
@@ -365,7 +357,10 @@ export default {
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 this.loading = false;
-                console.log('the new derived % derived percentage object',this.getPricedetailsonblackcard)
+                console.log(
+                    "the new derived % derived percentage object",
+                    this.getPricedetailsonblackcard
+                );
             });
         },
         async toogleCurrency(currency, id) {
@@ -423,15 +418,19 @@ export default {
         this.mountAction();
         // const emitData = {getOpenPrice:this.getOpenPrice,getDates:this.getDates}
         // EventBus.$emit('fillData',emitData);
-            if(this.getSingleinstrument[0] && this.getSingleinstrument[0].symbol && this.getSingleinstrument[0].currency){
-                this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency);
-            }
-            else return;
+        if (
+            this.getSingleinstrument[0] &&
+            this.getSingleinstrument[0].symbol &&
+            this.getSingleinstrument[0].currency
+        ) {
+            this.checkPositions(
+                this.getSingleinstrument[0].symbol,
+                this.getSingleinstrument[0].currency
+            );
+        } else return;
         next();
     },
-    watch: {
-        
-    }
+    watch: {}
 };
 </script>
 <style src="../../assets/scss/components/singlelinebase.scss" lang="scss" scoped />

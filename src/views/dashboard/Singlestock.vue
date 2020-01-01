@@ -1,13 +1,6 @@
 <template>
     <Fragment>
-        <section
-            class="issues-with-pageloading"
-            v-if="
-                getSingleinstrument[0] == undefined ||
-                    !getSingleinstrument ||
-                    getSingleinstrument[0] == null
-            "
-        >
+        <section class="issues-with-pageloading" v-if="loading">
             <div>
                 <aside class="center-fix-messg">
                     <img
@@ -171,7 +164,7 @@
                         fill="#293D4A"
                     />
                 </svg>
-                    <!-- <button @click="handleOauth('linkedin')">linkedin</button>
+                <!-- <button @click="handleOauth('linkedin')">linkedin</button>
                     <div v-html="getSocials"></div> -->
                 <div
                     v-for="(tag, index) in getSingleinstrument[0].Tags"
@@ -185,9 +178,7 @@
             </section>
             <section class="container-graph">
                 <div class="graph-container">
-                    <Linegraph 
-                    :instrument="getSingleinstrument[0]" 
-                    :max-quantity="maxQuantity" />
+                    <Linegraph :instrument="getSingleinstrument[0]" :max-quantity="maxQuantity" />
                 </div>
                 <Cardblue :instrument="getPricedetailsonblackcard || {}" />
             </section>
@@ -197,6 +188,10 @@
             <section class="container-stocks">
                 <Horizontalchart />
                 <Analysisbarchart />
+            </section>
+            <section class="dashboard__title">
+                <h3>Similar Stocks</h3>
+                <!-- <p class="dashboard__title--sub">Discover new stocks</p> -->
             </section>
             <section v-if="getWindowWidth === 'desktop'">
                 <div class="instrument-base">
@@ -237,15 +232,16 @@
                 </template>
             </section>
             <section class="news-container">
-                <h1 class="title">News</h1>
-                <section class="sub-title">lorem ipsun blabala here</section>
-                <section  class="news-container-main">
-                    <div class="news-container-main" v-if="getNews && getNews.length <= 0">No current news availiable for this current stock</div>
+                <section class="dashboard__title">
+                    <h3>News</h3>
+                    <!-- <p class="dashboard__title--sub">Discover new stocks</p> -->
+                </section>
+                <section class="news-container-main">
+                    <div class="news-container-main" v-if="getNews && getNews.length <= 0">
+                        No current news availiable for this current stock
+                    </div>
                     <div class="news-container-main" v-else>
-                        <news-card
-                        :news="item" 
-                        v-for="(item, index) in getNews" 
-                        :key="index" />
+                        <news-card :news="item" v-for="(item, index) in getNews" :key="index" />
                     </div>
                 </section>
             </section>
@@ -308,40 +304,40 @@ export default {
             "SET_SELL_MODAL"
         ]),
         authenticate(provider) {
-            const this_ = this
-            this.$auth.authenticate(provider).then( (caller)=> {
-                let token = this_.$auth.getToken()
+            const this_ = this;
+            this.$auth.authenticate(provider).then(caller => {
+                let token = this_.$auth.getToken();
                 // getLoginStatus
-                console.log('JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJauthenticateauthenticateJJ',token)
                 this_.token = token;
-                alert(`login success with token ${token}`)
-                if (provider === 'facebook') {
-                console.log('it entered the block ')
-                    this_.$http.get('https://graph.facebook.com/v3.0/me?fields=id,name,email', {
-                        params: { access_token: token }
-                    }).then((response)=> {
-                        console.log('JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ',response)
-                        this_.profile = JSON.stringify(response)
-                    })
+                alert(`login success with token ${token}`);
+                if (provider === "facebook") {
+                    this_.$http
+                        .get("https://graph.facebook.com/v3.0/me?fields=id,name,email", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                        });
                 }
-                if (provider === 'google') {
-                    console.log('it entered the block ')
-                    this_.$http.get('https://www.googleapis.com/oauth2/v1/userinfo', {
-                        params: { access_token: token }
-                    }).then((response)=> {
-                        console.log('GGGGGGGGGGGGGGGGGGGGGGGGGGGG',response);
-                        this_.profile = JSON.stringify(response)
-                    })
+                if (provider === "google") {
+                    this_.$http
+                        .get("https://www.googleapis.com/oauth2/v1/userinfo", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                        });
                 }
-                 if (provider === 'linkedin') {
-                    this_.$http.get('https://api.linkedin.com/v2/me', {
-                        params: { access_token: token }
-                    }).then((response)=> {
-                        console.log('GGGGGGGGGGGGGGGGGGGGGGGGGGGG',response);
-                        this_.profile = JSON.stringify(response)
-                    })
+                if (provider === "linkedin") {
+                    this_.$http
+                        .get("https://api.linkedin.com/v2/me", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                        });
                 }
-            })
+            });
         },
         handleStep(step) {
             // this.step = step.type;
@@ -352,8 +348,8 @@ export default {
             }
             this.showBuy();
         },
-        handleOauth(type){
-            this.GET_SOCIAL_OAUTH_FACEBOOK(type)
+        handleOauth(type) {
+            this.GET_SOCIAL_OAUTH_FACEBOOK(type);
         },
         showBuy() {
             this.showKYC = false;
@@ -407,23 +403,22 @@ export default {
                 this.showBuy();
             }
         },
-        async mountedAction(){
-            const singlestockpayload = { symbols: this.$route.params.symbol };
-            const newsSinglestockpayload = { symbol: this.$route.params.symbol };
+        async mountedAction(symbol) {
+            this.loading = true;
+            const singlestockpayload = { symbols: symbol };
+            const newsSinglestockpayload = { symbol };
             this.similarLoading = true;
             this.GET_WATCHLIST().then(() => {
                 this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
-                    number => number.symbol == this.$route.params.symbol
+                    number => number.symbol == symbol
                 );
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
-            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-                this.similarLoading = false;
-                this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
-                this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
-                    //    loader here maybe
-                });
-            });
+            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload);
+            this.loading = false;
+            this.similarLoading = false;
+            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
+            this.GET_ARTICULE_NEWS(newsSinglestockpayload);
         },
         setTagPayload(valuePayload) {
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
@@ -434,27 +429,10 @@ export default {
         }
     },
     async mounted() {
-        this.mountedAction();
+        this.mountedAction(this.$route.params.symbol);
     },
     beforeRouteUpdate(to, from, next) {
-        const singlestockpayload = { symbols: this.$route.params.symbol };
-        const newsSinglestockpayload = { symbol: this.$route.params.symbol };
-        console.log('This is the point >>>>>>>>>>',singlestockpayload,newsSinglestockpayload)
-        this.similarLoading = true;
-        this.GET_WATCHLIST().then(() => {
-            this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
-                number => number.symbol == this.$route.params.symbol
-            );
-            // filter the arr at this point to get if the current stock is in the watchlist
-        });
-        this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-            this.similarLoading = false;
-            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
-            this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
-                //    loader here maybe
-            });
-        });
-        console.log('This is the point after >>>>>>>>>>',this.$route.params.symbol)
+        this.mountedAction(to.params.symbol);
         next();
     },
     beforeDestroy() {
@@ -473,8 +451,8 @@ export default {
             description: true,
             watchdisable: true,
             checkIfStockInWatchlist: [],
-            token: '',
-            profile: '',
+            token: "",
+            profile: "",
 
             news: [
                 {
