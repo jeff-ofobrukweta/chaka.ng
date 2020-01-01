@@ -83,7 +83,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "GET_NEXT_KYC", "GET_ACCOUNT_SUMMARY"]),
+        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY"]),
         ...mapMutations([
             "SET_BUY_MODAL",
             "SET_SELL_MODAL",
@@ -138,11 +138,11 @@ export default {
     async mounted() {
         document.title = "Chaka - Dashboard";
         this.RESET_MODALS();
-        this.SEARCH_OPENED(false)
+        this.SEARCH_OPENED(false);
         this.loading = true;
         await this.GET_LOGGED_USER();
         this.loading = false;
-        Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
+        Promise.all([this.GET_ACCOUNT_SUMMARY()]);
     }
 };
 </script>

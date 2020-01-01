@@ -42,7 +42,13 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getNextKYC", "getLoggedUser", "getKYC", "getKycModalAction"])
+        ...mapGetters([
+            "getNextKYC",
+            "getNavbarNextKYC",
+            "getLoggedUser",
+            "getKYC",
+            "getKycModalAction"
+        ])
     },
     data() {
         return {
@@ -50,7 +56,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions(["GET_NEXT_KYC"]),
+        ...mapActions(["GET_NEXT_KYC", "GET_NEXT_NAVABR_KYC"]),
         ...mapMutations(["SET_KYC_MODAL_ACTION"]),
         handleClick(e) {
             this.clicked = true;

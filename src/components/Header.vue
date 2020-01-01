@@ -324,26 +324,24 @@
                             <strong>Avail</strong>
                             <span
                                 :title="
-                                    getAccountSummary.localWallet.availableBalance
+                                    getAccountSummary.localAvailableToTrade
                                         | kobo
                                         | currency('NGN', true)
                                 "
                                 >:
                                 {{
-                                    getAccountSummary.localWallet
-                                        ? getAccountSummary.localWallet.availableBalance
-                                        : "-" | kobo | currency("NGN")
+                                    getAccountSummary.localAvailableToTrade | kobo | currency("NGN")
                                 }}</span
                             >
                             <span>&nbsp;|&nbsp;</span>
                             <span
                                 :title="
-                                    getAccountSummary.globalWallet.availableBalance
+                                    getAccountSummary.globalAvailableToTrade
                                         | kobo
                                         | currency('USD', true)
                                 "
                                 >{{
-                                    getAccountSummary.globalWallet.availableBalance
+                                    getAccountSummary.globalAvailableToTrade
                                         | kobo
                                         | currency("USD")
                                 }}</span
