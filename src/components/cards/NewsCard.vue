@@ -17,7 +17,7 @@
             :alt="news.title"
         />
         <div class="card-news__title">
-            <h5>{{ news.name || "" | truncate(48) }}</h5>
+            <h5>{{ news.name || news.title | truncate(48) }}</h5>
         </div>
     </a>
     <a class="card-news" :class="{ flex: !news.imageUrl }" @click="setCollectionStocks" v-else>
@@ -29,7 +29,7 @@
             :alt="news.title"
         />
         <div class="card-news__title">
-            <h5>{{ news.name || "" | truncate(48) }}</h5>
+            <h5>{{ news.name || news.title | truncate(48) }}</h5>
         </div>
     </a>
 </template>

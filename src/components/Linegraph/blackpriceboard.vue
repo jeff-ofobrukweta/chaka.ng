@@ -2,14 +2,14 @@
     <Fragment>
         <section class="board-container-price">
             <img
-                v-if="instrument && instrument.derivedPricePercentage < 0"
+                v-if="getPricedetailsonblackcard && getPricedetailsonblackcard.derivedPricePercentage < 0"
                 class="direct"
                 id="direct"
                 :src="require(`../../assets/Instrument_assets/redarrow.svg`)"
                 alt="decline"
             />
             <img
-                v-else-if="!instrument || Number.isNaN(instrument.derivedPricePercentage)"
+                v-else-if="!getPricedetailsonblackcard || Number.isNaN(getPricedetailsonblackcard.derivedPricePercentage)"
                 class="middle-loader"
                 :src="require('../../assets/img/loader.gif')"
                 alt="spin"
@@ -22,20 +22,20 @@
                 alt="growth"
             />
             <section class="section-price">
-                <h1 v-if="instrument.currency" class="price">
-                    {{ instrument.currency == "USD" ? "$" : "₦" }}{{ checkforUndefined(instrument.askPrice) }}
+                <h1 v-if="getPricedetailsonblackcard.currency" class="price">
+                    {{ getPricedetailsonblackcard.currency == "USD" ? "$" : "₦" }}{{ checkforUndefined(getPricedetailsonblackcard.askPrice) }}
                 </h1>
                 <h1 v-else></h1>
                 <section
-                    v-if="instrument.derivedPrice && instrument.derivedPricePercentage"
+                    v-if="getPricedetailsonblackcard.derivedPrice && getPricedetailsonblackcard.derivedPricePercentage"
                     class="info-details"
                 >
                     <span class="increase">
-                        <span :class="[checkforUndefined(instrument.derivedPrice) < 0 ? 'red' : 'green']">
-                            {{ checkforUndefined(instrument.derivedPrice) }} </span
+                        <span :class="[checkforUndefined(getPricedetailsonblackcard.derivedPrice) < 0 ? 'red' : 'green']">
+                            {{ checkforUndefined(getPricedetailsonblackcard.derivedPrice) }} </span
                         ><Fragment>
-                            <span :class="[checkforUndefined(instrument.derivedPricePercentage) < 0 ? 'red' : 'green']"
-                                >({{ checkforUndefined(instrument.derivedPricePercentage) }}%)</span
+                            <span :class="[checkforUndefined(getPricedetailsonblackcard.derivedPricePercentage) < 0 ? 'red' : 'green']"
+                                >({{ checkforUndefined(getPricedetailsonblackcard.derivedPricePercentage) }}%)</span
                             ></Fragment
                         >
                     </span>
@@ -50,6 +50,7 @@
 
 <script>
 import { Fragment } from 'vue-fragment';
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import EventBus from '../../event-bus';
 
 export default {
@@ -62,6 +63,11 @@ export default {
     },
     components: {
         Fragment
+    },
+    computed: {
+        ...mapGetters([
+            "getPricedetailsonblackcard"
+        ])
     },
     methods: {
         checkTimevariantForPriceCardonToogle(value) {
