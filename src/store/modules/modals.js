@@ -73,8 +73,8 @@ const mutations = {
 };
 
 const actions = {
-    GET_MOST_POPULAR: ({ commit, rootState }) =>
-        new Promise((resolve, reject) =>
+    GET_MOST_POPULAR: ({ commit }) =>
+        new Promise(resolve =>
             api.get("/tags/slug/most-popular/instruments/").then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {

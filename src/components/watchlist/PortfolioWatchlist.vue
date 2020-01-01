@@ -88,7 +88,6 @@ export default {
     },
     data() {
         return {
-            step: null,
             showKYC: false,
             loading: false
         };
@@ -108,7 +107,6 @@ export default {
         ...mapActions(["REMOVE_FROM_WATCHLIST"]),
         ...mapMutations(["SET_BUY_MODAL"]),
         handleStep(step) {
-            this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
                 return true;
