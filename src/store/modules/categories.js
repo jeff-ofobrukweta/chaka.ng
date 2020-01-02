@@ -27,7 +27,6 @@ const mutations = {
         state.instrumentslists = instruments;
     },
     SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(state, payload) {
-        console.log("MMMMMMMMMMMMMMMMMMMMMMMMMMM", payload);
         state.instrumentpayload = payload;
     },
     SET_INSTRUMENT_PAGENATION(state, paginate) {
