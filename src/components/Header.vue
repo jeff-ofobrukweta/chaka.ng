@@ -220,7 +220,14 @@
                                             </div>
 
                                             <img
-                                                :src="require('../assets/img/flags/us-flag.svg')"
+                                                :src="
+                                                    require(`../assets/img/flags/${
+                                                        stock.countryCode
+                                                            ? stock.countryCode.toLowerCase()
+                                                            : 'zz'
+                                                    }-flag.svg`)
+                                                "
+                                                width="16px"
                                                 :alt="stock.symbol"
                                                 class="nav-left__dropdown--country"
                                             />
@@ -287,8 +294,13 @@
 
                                                     <img
                                                         :src="
-                                                            require('../assets/img/flags/us-flag.svg')
+                                                            require(`../assets/img/flags/${
+                                                                stock.countryCode
+                                                                    ? stock.countryCode.toLowerCase()
+                                                                    : 'zz'
+                                                            }-flag.svg`)
                                                         "
+                                                        width="16px"
                                                         :alt="stock.symbol"
                                                         class="nav-left__dropdown--country"
                                                     />

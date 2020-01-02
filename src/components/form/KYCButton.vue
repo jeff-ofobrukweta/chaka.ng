@@ -42,13 +42,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters([
-            "getNextKYC",
-            "getNavbarNextKYC",
-            "getLoggedUser",
-            "getKYC",
-            "getKycModalAction"
-        ])
+        ...mapGetters(["getNextKYC", "getNavbarNextKYC", "getLoggedUser", "getKYC"])
     },
     data() {
         return {

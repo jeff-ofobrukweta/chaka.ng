@@ -165,12 +165,12 @@ export default {
             this.file = e.target.files[0];
             const extensions = e.target.value.split(".");
             this.fileExtension = extensions[extensions.length - 1].toLowerCase();
-            if (this.file.size > 3 * 1024 * 1024 && this.fileExtension !== "pdf") {
-                this.errorMessage = "Image size is too large. Should not be more than 5MB";
+            if (this.file.size > 10 * 1024 * 1024 && this.fileExtension !== "pdf") {
+                this.errorMessage = "Image size is too large. Should not be more than 10MB";
                 this.handleError();
                 return false;
             }
-            if (this.file.size > 0.5 * 1024 * 1024 && this.fileExtension === "pdf") {
+            if (this.file.size > 3 * 1024 * 1024 && this.fileExtension === "pdf") {
                 this.errorMessage = "File size cannot exceed 3MB";
                 this.handleError();
                 return false;
@@ -196,11 +196,13 @@ export default {
         handleSuccess() {
             this.$emit("success");
         },
-        uploadImage() {
+        async uploadImage() {
             const formData = new FormData();
             formData.append(this.formName, this.file);
             this.loading = true;
-            if (this.idType) this.UPDATE_KYC({ idType: this.idType });
+            if (this.idType) {
+                await this.UPDATE_KYC({ idType: this.idType });
+            }
             this.UPLOAD_KYC_FILE(formData).then(resp => {
                 this.loading = false;
                 if (resp) {

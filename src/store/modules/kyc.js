@@ -78,7 +78,13 @@ const actions = {
                     resp => {
                         if (resp.status >= 200 && resp.status < 400) {
                             commit("SET_NEXT_KYC", resp.data.data);
-                            dispatch("GET_NAVBAR_NEXT_KYC");
+                            if (state.kycModalAction !== "DEFAULT") {
+                                dispatch("GET_NAVBAR_NEXT_KYC");
+                            } else {
+                                commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
+                                EventBus.$emit("navbar-trigger");
+                                EventBus.$emit("modal-trigger");
+                            }
                             resolve(true);
                             return true;
                         }
@@ -152,11 +158,7 @@ const actions = {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_KYC", resp.data.data.kyc);
-                        dispatch("GET_KYC");
                         return dispatch("GET_NEXT_KYC").then(() => {
-                            Vue.toasted.show(`Verification update successful`, {
-                                type: "success"
-                            });
                             resolve(true);
                             return true;
                         });
@@ -289,6 +291,7 @@ const actions = {
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
+                        dispatch("GET_KYC");
                         return dispatch("GET_NEXT_KYC").then(() => {
                             Vue.toasted.show(`Phone confirmation successful`, {
                                 type: "success"
