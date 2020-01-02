@@ -320,11 +320,12 @@ export default {
     computed: {
         ...mapGetters(["getErrorLog", "getNextKYC", "getNavbarNextKYC"]),
         isFileImage() {
-            if (Object.keys(this.selectedField).length > 0) {
-                const test = this.selectedField.fields[0];
-                const stripped = test.substr(test.length - 3);
-                return stripped.toLowerCase() === "url";
-            }
+            return true;
+            // if (Object.keys(this.selectedField).length > 0) {
+            //     const test = this.selectedField.fields[0];
+            //     const stripped = test.substr(test.length - 3);
+            //     return stripped.toLowerCase() === "url";
+            // }
         },
         currentKYC() {
             if (this.navbar) return this.getNavbarNextKYC;
@@ -425,8 +426,6 @@ export default {
                     el === "pepStatus"
                 )
                     this.state = "employment";
-                else if (el === "addressProofUrl" || el === "idPhotoUrl" || el === "passportUrl")
-                    this.state = "file";
                 else this.state = "default";
             });
             this.loading = true;
@@ -537,13 +536,6 @@ export default {
                         this.nextStep();
                     }
                 });
-            } else if (this.state === "file") {
-                this.UPLOAD_KYC_FILE(payload).then(resp => {
-                    this.loading = false;
-                    if (resp) {
-                        this.nextStep();
-                    }
-                });
             } else {
                 if (Object.keys(this.itemData).length <= 0) {
                     this.loading = false;
@@ -609,6 +601,8 @@ export default {
             this.state = null;
             this.RESET_REQ();
 
+            // let all = [];
+
             this.allNextKYC.forEach(element => {
                 element.fields.forEach(el => {
                     if (el === this.currentKYC.nextKYC[0]) {
@@ -617,14 +611,18 @@ export default {
                 });
             });
             this.selectedField.fields = this.currentKYC.nextKYC;
+            // this.currentKYC.nextKYC.map(required => {
+            //     this.allFields = AllKYCFields.filter(el => required === el.value);
+            // });
             this.currentKYC.nextKYC.map(required => {
-                const all = AllKYCFields.filter(el => {
-                    if (required === el.value) {
+                AllKYCFields.filter(el => {
+                    if (required == el.value) {
                         this.allFields.push(el);
                         return el;
                     }
                 });
             });
+
             if (
                 this.allFields.length === this.currentKYC.nextKYC.length &&
                 this.currentKYC.status === "INCOMPLETE"
