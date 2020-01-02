@@ -3,7 +3,7 @@
 	<section class="section" :class="{'section--centered': isCentered}">
 		<div class="container">
 			<h6 class="section__caption">Questions frequently asked by our visitors</h6>
-			<h2 class="section__title">FAQ</h2>
+			 
 		</div>
 
 		<div v-if="entries.length > 0">
