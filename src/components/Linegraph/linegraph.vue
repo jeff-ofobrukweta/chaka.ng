@@ -15,6 +15,7 @@
 import { mapGetters, mapMutations } from 'vuex';
 import numeral from 'numeral';
 import LineChart from './linegraph_config';
+import EventBus from "../../event-bus";
 
 export default {
     name: 'linechartgraph',
@@ -161,8 +162,10 @@ export default {
         };
     },
     async mounted() {
-        await this.fillData();
-        this.handlescaling();
+        // EventBus.$on('fillData', (data) => {
+            this.fillData();
+            this.handlescaling();
+        // });
     },
 
     props: {
@@ -243,9 +246,11 @@ export default {
         //     console.log("From date ", checkNaN, newvalue);
         // }
     },
-    beforeRouteLeave(to, from, next) {
+    beforeRouteUpdate(to, from, next) {
+        console.log('is it entering this block by jANE')
         this.price = [];
         this.date = [];
+        this.fillData()
         next();
     }
 };

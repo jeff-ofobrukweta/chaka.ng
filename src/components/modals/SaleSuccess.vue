@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="text-center">
-                <button type="button" class="btn btn__primary--outline" @click="closeModal()">
+                <button type="button" class="btn btn__primary--outline" @click="closeModal">
                     Close
                 </button>
             </div>
@@ -75,30 +75,22 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: 'sale-success',
+    name: "sale-success",
     computed: {
-        ...mapGetters(['getBuyOrder', 'getSellOrder'])
-    },
-    data() {
-        return {
-            value: {}
-        };
-    },
-    methods: {
-        ...mapMutations(['SET_BUY_ORDER', 'SET_SELL_ORDER', 'MODAL_OPENED']),
-        closeModal() {
-            this.MODAL_OPENED(false);
-            this.$emit('close');
+        ...mapGetters(["getBuyOrder", "getSellOrder"]),
+        value() {
+            if (Object.keys(this.getSellOrder).length > 0) return this.getSellOrder;
+            return this.getBuyOrder;
         }
     },
-    mounted() {
-        if (Object.keys(this.getSellOrder).length > 0) {
-            this.value = this.getSellOrder;
-        } else {
-            this.value = this.getBuyOrder;
+    methods: {
+        ...mapMutations(["SET_BUY_ORDER", "SET_SELL_ORDER", "MODAL_OPENED"]),
+        closeModal() {
+            this.MODAL_OPENED(false);
+            this.$emit("close");
         }
     },
     beforeDestroy() {

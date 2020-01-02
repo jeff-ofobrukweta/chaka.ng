@@ -147,15 +147,15 @@
                 <template v-if="watchlistLoading">
                     <ExploreWatchlist v-for="i in 3" :key="i" :instrument="{}" dummy />
                 </template>
-                <template v-else-if="getWatchlist.length > 0">
-                    <transition-group name="kyc-navbar">
+                <transition-group name="kyc-navbar" v-else-if="getWatchlist.length > 0">
+                    <template>
                         <ExploreWatchlist
                             v-for="(instrument, index) in getWatchlist"
                             :key="index"
                             :instrument="instrument"
                         />
-                    </transition-group>
-                </template>
+                    </template>
+                </transition-group>
                 <template v-else
                     ><p class="text-center">You have no items in your watchlist</p>
                 </template>

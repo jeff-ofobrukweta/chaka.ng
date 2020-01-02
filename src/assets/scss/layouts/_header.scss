@@ -53,6 +53,14 @@
   &.hide {
     top: -100px;
   }
+
+  &.header {
+    &-search {
+      background: $white;
+      transition: all 100ms ease-in;
+      top: 0;
+    }
+  }
 }
 
 .nav {
@@ -73,15 +81,34 @@
     align-items: center;
 
     &__form {
-      display: none;
-      margin-left: 1rem;
-      border-left: 1px solid $grey-light;
-      padding: 0rem 1rem;
       width: 100%;
-      position: relative;
+
+      @include mobile {
+
+        &.show {
+          display: flex;
+        }
+
+        input {
+          border: none !important;
+
+          &:focus {
+            outline: none !important;
+          }
+        }
+
+      }
 
       @include tablet {
         display: block;
+        padding: 0rem 1rem;
+        margin-left: 1rem;
+        position: relative;
+        border-left: 1px solid $grey-light;
+      }
+
+      &--icon {
+        float: right;
       }
     }
 
@@ -101,6 +128,13 @@
       padding-left: .925rem;
       padding-right: .925rem;
       width: 100%;
+
+      @include mobile {
+        width: 100vw;
+        padding: 0;
+        left: -0.5rem;
+        top: 3rem;
+      }
 
       ul {
         background: rgba($color: $white, $alpha: 0.95);
@@ -156,8 +190,7 @@
     }
 
     &__icon {
-      display: inline-flex;
-      margin-left: 2rem;
+      width: 100%;
 
       @include tablet {
         display: none;
@@ -365,6 +398,7 @@
     &--menu {
       display: flex;
       align-items: center;
+      transition: all 300ms ease-in;
 
       button {
         margin-left: 0.5rem;
@@ -382,9 +416,11 @@
     }
 
     &--left {
+      transition: all 150ms ease-in;
+
       @include mobile {
-        flex: 1 1 70%;
-        max-width: 70%;
+        flex: 1 1 75%;
+        max-width: 75%;
         justify-content: space-between;
       }
 
@@ -403,6 +439,29 @@
       @extend .nav-left;
       justify-content: flex-start;
       width: 100%;
+    }
+  }
+
+  &__search {
+    &--left {
+      flex: 0 0 100%;
+      max-width: 100%;
+      transition: all 200ms ease-in;
+      padding-bottom: .5rem;
+    }
+
+    &--logo {
+      // transform: translateX(-200px);
+      // transition: all 300ms ease-in;
+      display: none;
+    }
+
+    &--right {
+      display: none;
+      // flex: 0 0 0%;
+      // max-width: 0%;
+      // margin-right: -50px;
+      // transition: all 300ms ease-in;
     }
   }
 }

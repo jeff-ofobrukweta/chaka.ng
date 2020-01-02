@@ -468,43 +468,43 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
-import Field from './KYCField';
-import KYCTitles from '../../services/kyc/kycTitles';
-import EventBus from '../../event-bus';
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import Field from "./KYCField";
+import KYCTitles from "../../services/kyc/kycTitles";
+import EventBus from "../../event-bus";
 
 export default {
-    name: 'kyc-navbar',
+    name: "kyc-navbar",
     components: {
         Field,
-        EnterNIN: () => import('./EnterNIN')
+        EnterNIN: () => import("./EnterNIN")
     },
     data() {
         return {
             disclosureField: {
-                name: 'Disclosure Name',
-                type: 'text',
-                value: 'disclosureName'
+                name: "Disclosure Name",
+                type: "text",
+                value: "disclosureName"
             },
             bvnField: {
-                name: 'BVN',
-                value: 'bvn',
-                type: 'number'
+                name: "BVN",
+                value: "bvn",
+                type: "number"
             },
             OTPField: {
-                name: 'OTP',
-                value: 'otp',
-                type: 'number'
+                name: "OTP",
+                value: "otp",
+                type: "number"
             },
             ninField: {
-                name: 'NIN',
-                value: 'nin',
-                type: 'number'
+                name: "NIN",
+                value: "nin",
+                type: "number"
             },
             ninFields: {
-                title: 'National Identity Number',
-                subtitle: 'Enter your NIN details',
-                fields: ['nin']
+                title: "National Identity Number",
+                subtitle: "Enter your NIN details",
+                fields: ["nin"]
             },
             selectedField: {},
             showNextModal: false,
@@ -523,12 +523,12 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getWindowWidth',
-            'getKYC',
-            'getNavbarNextKYC',
-            'getCountryCodes',
-            'getErrorLog',
-            'getKYC'
+            "getWindowWidth",
+            "getKYC",
+            "getNavbarNextKYC",
+            "getCountryCodes",
+            "getErrorLog",
+            "getKYC"
         ])
         // checkError(){
         //     if(this.itemData.bvn){
@@ -542,24 +542,24 @@ export default {
     },
     methods: {
         ...mapActions([
-            'GET_KYC',
-            'GET_NEXT_KYC',
-            'UPDATE_KYC',
-            'UPDATE_KYC_NIN',
-            'RESOLVE_BVN',
-            'RESOLVE_OTP',
-            'GET_COUNTRY_CODES',
-            'USE_BVN_PHONE'
+            "GET_KYC",
+            "GET_NAVBAR_NEXT_KYC",
+            "UPDATE_KYC",
+            "UPDATE_KYC_NIN",
+            "RESOLVE_BVN",
+            "RESOLVE_OTP",
+            "GET_COUNTRY_CODES",
+            "USE_BVN_PHONE"
         ]),
-        ...mapMutations(['SET_SHOW_NAVBAR_KYC']),
+        ...mapMutations(["SET_SHOW_NAVBAR_KYC"]),
         handleInput(e) {
             this.$set(this.itemData, e.name, e.value);
         },
         submitDisclosure() {
             const payload = { ...this.itemData };
-            payload.source = 'navbar';
+            payload.source = "navbar";
             this.loading = true;
-            this.UPDATE_KYC(payload).then((resp) => {
+            this.UPDATE_KYC(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.checkNextKYC();
@@ -570,13 +570,13 @@ export default {
         submitBVN() {
             if (Number.isNaN(+this.itemData.bvn)) {
                 this.issues = {
-                    bvn: 'BVN should be a number'
+                    bvn: "BVN should be a number"
                 };
                 return false;
             }
             if (this.itemData.bvn.length < 11) {
                 this.issues = {
-                    bvn: 'BVN should be 11 digits'
+                    bvn: "BVN should be 11 digits"
                 };
                 return false;
             }
@@ -584,9 +584,9 @@ export default {
                 return false;
             }
             const payload = { ...this.itemData };
-            payload.source = 'navbar';
+            payload.source = "navbar";
             this.loading = true;
-            this.RESOLVE_BVN(payload).then((resp) => {
+            this.RESOLVE_BVN(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.confirmPhone();
@@ -597,9 +597,9 @@ export default {
         },
         submitNIN() {
             const payload = { ...this.itemData };
-            payload.source = 'navbar';
+            payload.source = "navbar";
             this.loading = true;
-            this.UPDATE_KYC_NIN(payload).then((resp) => {
+            this.UPDATE_KYC_NIN(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.checkNextKYC();
@@ -612,7 +612,7 @@ export default {
             const payload = {
                 smsSender: this.smsSender
             };
-            this.USE_BVN_PHONE(payload).then((resp) => {
+            this.USE_BVN_PHONE(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.showOTP = true;
@@ -641,7 +641,7 @@ export default {
             //     return false;
             // }
             this.loading = true;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -651,7 +651,7 @@ export default {
         },
         submitOTP() {
             this.loading = true;
-            this.RESOLVE_OTP(this.otpData).then((resp) => {
+            this.RESOLVE_OTP(this.otpData).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.showNextModalBtn();
@@ -671,7 +671,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 if (resp) {
                     this.showOTP = false;
                     this.OTPResend = false;
@@ -690,7 +690,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 if (resp) {
                     this.showOTP = false;
                     this.OTPResend = false;
@@ -712,9 +712,10 @@ export default {
                     return true;
                 }
                 const hours = Math.floor(counting / 60);
-                const minutes = Math.floor(counting % 60) < 10
-                    ? `0${Math.floor(counting % 60)}`
-                    : Math.floor(counting % 60);
+                const minutes =
+                    Math.floor(counting % 60) < 10
+                        ? `0${Math.floor(counting % 60)}`
+                        : Math.floor(counting % 60);
                 this.countdown = `${hours}:${minutes}`;
             }, 1000);
         },
@@ -735,22 +736,22 @@ export default {
             this.resendOTPWhatsapp();
         },
         showNextModalBtn(nin) {
-            if (nin === 'nin') {
+            if (nin === "nin") {
                 this.enterNIN = true;
             } else {
                 this.closeNIN();
             }
             this.checkNextKYC();
-            EventBus.$emit('modal-trigger');
-            EventBus.$emit('navbar-trigger');
+            EventBus.$emit("modal-trigger");
+            EventBus.$emit("navbar-trigger");
             this.showNextModal = true;
         },
         checkNextKYC() {
             this.resetFields();
             if (Object.keys(this.getNavbarNextKYC).length > 0) {
                 this.selectedField = {};
-                this.allNextKYC.forEach((element) => {
-                    element.fields.forEach((el) => {
+                this.allNextKYC.forEach(element => {
+                    element.fields.forEach(el => {
                         if (el === this.getNavbarNextKYC.nextKYC[0]) {
                             this.selectedField = element;
                             this.selectedField.fields = this.getNavbarNextKYC.nextKYC;
@@ -761,7 +762,7 @@ export default {
         },
         skipNIN() {
             this.loading = true;
-            this.UPDATE_KYC_NIN({ nin: 'skip' }).then((resp) => {
+            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.itemData = {};
@@ -770,8 +771,8 @@ export default {
             });
         },
         closeNIN() {
-            EventBus.$emit('navbar-trigger');
-            EventBus.$emit('modal-trigger');
+            EventBus.$emit("navbar-trigger");
+            EventBus.$emit("modal-trigger");
             this.enterNIN = false;
         },
         hideKYCBtn() {
@@ -789,25 +790,25 @@ export default {
         }
     },
     async mounted() {
-        await this.GET_NEXT_KYC();
+        await this.GET_NAVBAR_NEXT_KYC();
         if (Object.keys(this.getNavbarNextKYC).length > 0) {
             this.checkNextKYC();
         }
         await this.GET_COUNTRY_CODES();
         await this.GET_KYC();
-        EventBus.$on('navbar-trigger', () => {
+        EventBus.$on("navbar-trigger", () => {
             this.checkNextKYC();
         });
-        EventBus.$on('modal-trigger', () => {
+        EventBus.$on("modal-trigger", () => {
             this.checkNextKYC();
         });
     },
     watch: {
-        'itemData.bvn': function (newVal) {
+        "itemData.bvn": function(newVal) {
             if (newVal) {
                 if (newVal.length > 11) {
                     this.issues = {
-                        bvn: 'BVN should be 11 digits'
+                        bvn: "BVN should be 11 digits"
                     };
                 } else {
                     this.issues = {};

@@ -263,6 +263,7 @@ export default {
             "getOpenPrice",
             "getDates",
             "getSingleinstrument",
+            "getPricedetailsonblackcard",
             "getSinglestockglobalTimeforGraph",
             "getSinglestockglobalCurrencyforGraph",
             "getSinglestockIntervalposition",
@@ -287,7 +288,6 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "SET_LINE_SINGLESTOCK_CHARTDATA",
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH",
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH",
             "SET_SINGLESTOCK_POSITIONS_FOR_SELECT",
@@ -311,7 +311,6 @@ export default {
                 return true;
             }
             this.maximumQuantity = 0;
-            console.log("THIS IS TO RETURN FALSE", this.maximumQuantity);
             return false;
         },
         OntooglePositions(response) {
@@ -324,17 +323,10 @@ export default {
             this.trdingViewStatechange = false;
             return this.trdingViewStatechange;
         },
-        mountAction() {
+        async mountAction() {
             this.checkPositions(
                 this.getSingleinstrument[0].symbol,
                 this.getSingleinstrument[0].currency
-            );
-            console.log(
-                "CHECK FOR THE STATE HERE ",
-                this.checkPositions(
-                    this.getSingleinstrument[0].symbol,
-                    this.getSingleinstrument[0].currency
-                )
             );
             //set the currency as the component mount to the global state
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
@@ -349,7 +341,7 @@ export default {
                 currency: this.getSinglestockglobalCurrencyforGraph,
                 symbol: this.$route.params.symbol
             };
-            this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
+            await this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 //  call back state like loader state here
                 this.loading = false;
             });
@@ -365,6 +357,10 @@ export default {
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 this.loading = false;
+                console.log(
+                    "the new derived % derived percentage object",
+                    this.getPricedetailsonblackcard
+                );
             });
         },
         async toogleCurrency(currency, id) {
@@ -420,18 +416,21 @@ export default {
         this.SET_LINE_SINGLESTOCK_CHART_DATE([]);
         this.SET_LINE_SINGLESTOCK_CHARTDATA([]);
         this.mountAction();
-        this.checkPositions(
-            this.getSingleinstrument[0].symbol,
+        // const emitData = {getOpenPrice:this.getOpenPrice,getDates:this.getDates}
+        // EventBus.$emit('fillData',emitData);
+        if (
+            this.getSingleinstrument[0] &&
+            this.getSingleinstrument[0].symbol &&
             this.getSingleinstrument[0].currency
-        );
+        ) {
+            this.checkPositions(
+                this.getSingleinstrument[0].symbol,
+                this.getSingleinstrument[0].currency
+            );
+        } else return;
         next();
     },
-    watch: {
-        checkStockPosition(newValue, oldValue) {
-            console.log("WATCHING PROCESSING HERE", newValue, oldValue);
-            //  this.checkStockPosition = this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency)
-        }
-    }
+    watch: {}
 };
 </script>
 <style src="../../assets/scss/components/singlelinebase.scss" lang="scss" scoped />

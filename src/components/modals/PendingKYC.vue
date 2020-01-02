@@ -1,6 +1,5 @@
 <template>
-    <modal @close="closeModal" v-if="isBuyValid === 'PENDING'">
-        <template slot="header">Final Step</template>
+    <Fragment v-if="isBuyValid === 'PENDING'">
         <div>
             <div class="kyc-modal">
                 <div class="text-center mb-3">
@@ -45,10 +44,9 @@
                 </div>
             </div>
         </div>
-    </modal>
-    <modal @close="closeModal" v-else-if="isBuyValid === 2">
-        <template v-if="instrument.currency === 'NGN'">
-            <template slot="header">Processing Local Verification</template>
+    </Fragment>
+    <Fragment v-else-if="isBuyValid === 2">
+        <template v-if="type === 'local' || instrument.currency === 'NGN'">
             <div>
                 <div class="kyc-modal">
                     <div class="text-center mb-3">
@@ -57,7 +55,7 @@
                             Naira or Dollar wallet.
                         </p>
                         <br />
-                        <div class="kyc-modal__single">
+                        <div class="kyc-modal__single" v-if="instrument">
                             <div @click="closeModal" class="kyc-modal__popular--div">
                                 <div>
                                     <img
@@ -84,7 +82,12 @@
                             <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                         </div>
                         <div class="mt-2" v-if="getLoggedUser.globalKycStatus === 'NONE'">
-                            <small>
+                            <small v-if="modal">
+                                <a class="underline" @click="handleStep('global')"
+                                    >Continue Local Verification</a
+                                ></small
+                            >
+                            <small v-else>
                                 <kyc-button
                                     ref="buyBtn"
                                     type="button"
@@ -101,7 +104,6 @@
             </div>
         </template>
         <template v-else>
-            <template slot="header">Processing Global Verification</template>
             <div>
                 <div class="kyc-modal">
                     <div class="text-center mb-3">
@@ -109,7 +111,7 @@
                             Your profile is being verified for global trading. You can now fund your
                             Naira or Dollar wallet.
                         </p>
-                        <div class="kyc-modal__single">
+                        <div class="kyc-modal__single" v-if="instrument">
                             <div @click="closeModal" class="kyc-modal__popular--div">
                                 <div>
                                     <img
@@ -137,7 +139,12 @@
                             <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                         </div>
                         <div class="mt-2" v-if="getLoggedUser.localKycStatus === 'NONE'">
-                            <small>
+                            <small v-if="modal">
+                                <a class="underline" @click="handleStep('local')"
+                                    >Continue Local Verification</a
+                                ></small
+                            >
+                            <small v-else>
                                 <kyc-button
                                     ref="buyBtn"
                                     type="button"
@@ -153,44 +160,54 @@
                 </div>
             </div>
         </template>
-    </modal>
+    </Fragment>
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import { Fragment } from "vue-fragment";
 
 export default {
-    name: 'PendingKYC',
+    name: "PendingKYC",
+    components: {
+        Fragment
+    },
     props: {
         instrument: {
             type: Object
         },
         isBuyValid: {
             type: [String, Number]
+        },
+        modal: {
+            type: Boolean
+        },
+        type: {
+            type: String
         }
     },
     computed: {
-        ...mapGetters(['getLoggedUser', 'getMostPopular'])
+        ...mapGetters(["getLoggedUser", "getMostPopular"])
     },
     methods: {
-        ...mapActions(['GET_MOST_POPULAR']),
-        ...mapMutations(['SET_FUND_MODAL']),
+        ...mapActions(["GET_MOST_POPULAR"]),
+        ...mapMutations(["SET_FUND_MODAL"]),
         country(code) {
-            return code ? code.toLowerCase() : 'zz';
+            return code ? code.toLowerCase() : "zz";
         },
         showFund() {
             this.SET_FUND_MODAL(true);
-            this.$emit('close');
+            this.$emit("close");
         },
         closeModal() {
-            this.$emit('close');
+            this.$emit("close");
         },
         handleStep(step) {
-            this.$emit('step', step);
+            this.$emit("step", step);
         }
     },
     mounted() {
-        this.GET_MOST_POPULAR();
+        if (this.isBuyValid === "PENDING") this.GET_MOST_POPULAR();
     }
 };
 </script>

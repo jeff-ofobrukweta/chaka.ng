@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
-import CurrencyInput from '../form/CurrencyInput';
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import CurrencyInput from "../form/CurrencyInput";
 
 export default {
-    name: 'withdraw-modal',
+    name: "withdraw-modal",
     components: {
         CurrencyInput
     },
@@ -62,38 +62,38 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getKYC'])
+        ...mapGetters(["getKYC"])
     },
     methods: {
-        ...mapActions(['WITHDRAW_WALLET']),
-        ...mapMutations(['RESET_REQ']),
+        ...mapActions(["WITHDRAW_WALLET"]),
+        ...mapMutations(["RESET_REQ"]),
         closeModal() {
-            this.$emit('close');
+            this.$emit("close");
         },
         withdraw() {
             if (!this.itemData.amount) {
-                this.$set(this.errors, 'amount', 'Amount is required');
+                this.$set(this.errors, "amount", "Amount is required");
                 return false;
             }
-            if (typeof +this.itemData.amount !== 'number') {
-                this.$set(this.errors, 'amount', 'Invalid number input');
+            if (typeof +this.itemData.amount !== "number") {
+                this.$set(this.errors, "amount", "Invalid number input");
                 return false;
             }
             if (+this.itemData.amount < 1000) {
-                this.$set(this.errors, 'amount', 'Minimum withdrawal amount is ₦1000');
+                this.$set(this.errors, "amount", "Minimum withdrawal amount is ₦1000");
                 return false;
             }
             this.loading = true;
             const payload = { ...this.itemData };
             payload.amount *= 100;
-            this.WITHDRAW_WALLET(payload).then((resp) => {
+            this.WITHDRAW_WALLET(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     /**
                      * close buy modal
                      * show success modal
                      */
-                    this.$emit('close', true);
+                    this.$emit("close", true);
                 }
             });
         }
