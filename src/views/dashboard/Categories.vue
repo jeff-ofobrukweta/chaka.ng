@@ -84,7 +84,7 @@
                         v-else-if="getInstrumentsListArray && getInstrumentsListArray.length > 0"
                     >
                         <InstrumentCard
-                            v-for="(instrument, index) in getInstrumentsListArray"
+                            v-for="(instrument, index) in InstrumentsListArray"
                             :key="index"
                             :instrument="instrument"
                         />
@@ -107,13 +107,13 @@
                     class="caution__big"
                     v-else-if="
                         getErrorLog.type === 'tag-instruments' &&
-                            getInstrumentsListArray.length <= 0
+                            InstrumentsListArray.length <= 0
                     "
                 >
                     <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
                     <a class="caution__reload" @click="mount">Reload</a>
                 </div>
-                <template v-else-if="getInstrumentsListArray.length > 0">
+                <template v-else-if="InstrumentsListArray.length > 0">
                     <transition-group name="kyc-navbar">
                         <section key="1">
                             <InstrumentMobile
@@ -151,8 +151,9 @@ export default {
             page: 0,
             perPage: 20,
             infiniteLoader: false,
-            loaderState: false,
-            paginate: [
+            loaderState:false,
+            InstrumentsListArray:[],
+            paginate:[
                 {
                     name: "Previous",
                     uid: "regression",
@@ -225,23 +226,26 @@ export default {
         ]),
         ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS", "GET_MOST_POPULAR"]),
         handlescrollinfinitly(signType) {
-            if (true) {
-                this.getInstrumentsListArray = [];
-                const pagenation = {
-                    page: signType == "regression" ? --this.page : ++this.page,
-                    perPage: this.perPage,
-                    slug: this.getInstrumentsPayload.slug
-                };
-                // if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
-                this.infiniteLoader = true;
-                this.loaderState = true;
-                this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-                    this.infiniteLoader = false;
-                    this.loaderState = false;
-                    // this.newInstrument.push(...this.getInstrumentsListArray);
-                });
-                // }
-            }
+					if (true) {
+                        console.log('>>>>>>>>>>>isIntersecting>>>>>>>booooooom>')
+                            const pagenation = {
+                                page: signType == "regression" ? --this.page :++this.page,
+                                perPage:this.perPage,
+                                slug:this.getInstrumentsPayload.slug
+						    };
+						// if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
+							this.infiniteLoader = true;
+                            this.loaderState = true;
+                            this.InstrumentsListArray = [];
+							this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+								this.infiniteLoader = false;
+                                this.loaderState = false;
+                                this.InstrumentsListArray = [...this.gettagslistsArray];
+                                // this.newInstrument.push(...this.getInstrumentsListArray);
+                                console.log('handlescrollinfinitly?????????????',this.newInstrument)
+							});
+						// }
+					}   
         },
         handleSelect(response) {
             this.loading = true;
@@ -276,16 +280,11 @@ export default {
             await this.GET_TAGS_CATEGORIES(this.currentTag);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
-                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
-                    this.getInstrumentsPayload ? this.getInstrumentsPayload : {}
-                );
-                const payloadGetInstrument = {
-                    slug: this.getInstrumentsPayload.slug,
-                    page: 0,
-                    perPage: 20
-                };
-                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(() => {
-                    this.infiniteLoader = false;
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
+                 const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
+                    await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
+                        this.infiniteLoader = false;
+                        this.InstrumentsListArray = [...this.getInstrumentsListArray];
                 });
             }
             this.loading = false;
