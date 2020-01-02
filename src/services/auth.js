@@ -5,7 +5,7 @@ import store from "../store/index";
  */
 function resetState() {
     // store.commit("LOGOUT");
-    // store.commit("SET_LOGGED_USER", {});
+    store.commit("SET_LOGGED_USER", {});
     store.commit("RESET_ALL");
     store.commit("SET_LOGGED_IN", false);
     localStorage.clear();

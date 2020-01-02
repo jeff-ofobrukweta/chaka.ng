@@ -1,16 +1,17 @@
 <template>
     <modal @close="closeModal">
         <template slot="header">{{ showPendingStatus ? modalTitle : title }}</template>
-        <transition name="kyc-navbar">
-            <PendingKYC
-                v-if="showPendingStatus"
-                :modal="true"
-                type="local"
-                :is-buy-valid="2"
-                @step="handleStep"
-                @close="closeModal"
-            />
-            <div v-else-if="showModal">
+        <PendingKYC
+            v-if="showPendingStatus"
+            modal
+            :type="pendingType"
+            :is-buy-valid="2"
+            :instrument="{}"
+            @step="handleStep"
+            @close="closeModal"
+        />
+        <transition name="kyc-navbar" v-else-if="showModal">
+            <div>
                 <template v-if="allFields[0].value === 'phone'">
                     <PhoneOTP @close="OTPSuccess" />
                 </template>
@@ -41,7 +42,7 @@
                                 >Submit</action-button
                             >
                         </div>
-                        <div class="text-center mt-2" v-if="allFields[0].value === 'nin' || nin">
+                        <div class="text-center mt-2" v-if="!loading">
                             <a @click="skipNIN" class="unerline primary">Skip</a>
                         </div>
                     </form>
@@ -228,7 +229,9 @@
                     </form>
                 </template>
             </div>
-            <div v-else class="kyc-modal__dummy"></div>
+        </transition>
+        <transition v-else name="kyc-navbar">
+            <div class="kyc-modal__dummy"></div>
         </transition>
     </modal>
 </template>
@@ -315,7 +318,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getErrorLog", "getNextKYC", "getNavbarNextKYC", "getKycModalAction"]),
+        ...mapGetters(["getErrorLog", "getNextKYC", "getNavbarNextKYC"]),
         isFileImage() {
             if (Object.keys(this.selectedField).length > 0) {
                 const test = this.selectedField.fields[0];
@@ -348,11 +351,18 @@ export default {
             return "";
         },
         showPendingStatus() {
-            return this.currentKYC.completedContexts.length > 0;
+            return this.getNavbarNextKYC.completedContexts.length > 0;
+        },
+        pendingType() {
+            if (this.getNavbarNextKYC.completedContexts.length > 1) return "PENDING";
+            return this.getNavbarNextKYC.completedContexts[0];
         },
         modalTitle() {
-            if (this.currentKYC.completedContexts[0] === "WITHDRAW") return "Final Step";
-            if (this.currentKYC.completedContexts[0] === "LOCAL")
+            if (this.getNavbarNextKYC.completedContexts.length > 1)
+                return "Processing Verification";
+            if (this.getNavbarNextKYC.completedContexts[0] === "WITHDRAW")
+                return "Processing Withdrawal Verification";
+            if (this.getNavbarNextKYC.completedContexts[0] === "LOCAL")
                 return "Processing Local Verification";
             return "Processing Global Verification";
         }
@@ -367,8 +377,10 @@ export default {
             "GET_NEXT_KYC",
             "GET_NAVBAR_NEXT_KYC"
         ]),
-        ...mapMutations(["RESET_REQ", "SET_FUND_MODAL"]),
-        async handleStep() {
+        ...mapMutations(["RESET_REQ", "SET_FUND_MODAL", "SET_KYC_MODAL_ACTION"]),
+        async handleStep(step) {
+            this.SET_KYC_MODAL_ACTION(step.toUpperCase());
+            await this.GET_NEXT_KYC();
             this.mount();
         },
         handleInput(e) {
@@ -565,6 +577,7 @@ export default {
             this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
                 this.loading = false;
                 if (resp) {
+                    this.$emit("skipnin");
                     this.nextStep();
                 }
             });
@@ -574,12 +587,15 @@ export default {
         },
         async nextStep() {
             this.showModal = false;
-            this.$emit("updated");
-            if (this.navbar) {
-                await this.GET_NAVBAR_NEXT_KYC();
-            } else {
-                await this.GET_NEXT_KYC({ context: this.getKycModalAction });
-            }
+            // this.$emit("updated");
+            /**
+             * TO-DO:: Temporary check
+             */
+            // if (this.navbar) {
+            //     await this.GET_NAVBAR_NEXT_KYC();
+            // } else {
+            //     await this.GET_NEXT_KYC({ context: this.getKycModalAction });
+            // }
             this.mount();
         },
         showFund() {
@@ -609,12 +625,18 @@ export default {
                     }
                 });
             });
-            if (this.allFields.length > 0) {
+            if (
+                this.allFields.length === this.currentKYC.nextKYC.length &&
+                this.currentKYC.status === "INCOMPLETE"
+            ) {
                 setTimeout(() => {
                     this.showModal = true;
-                }, 100);
+                }, 500);
             }
-            if (this.currentKYC.status === "COMPLETE") {
+            if (
+                this.currentKYC.status === "COMPLETE" &&
+                this.getNavbarNextKYC.completedContexts.length === 0
+            ) {
                 this.$emit("updated", true);
             }
         }
@@ -624,9 +646,9 @@ export default {
         EventBus.$on("modal-trigger", () => {
             this.mount();
         });
-        EventBus.$on("navbar-trigger", () => {
-            this.mount();
-        });
+        // EventBus.$on("navbar-trigger", () => {
+        //     this.mount();
+        // });
     }
 };
 </script>

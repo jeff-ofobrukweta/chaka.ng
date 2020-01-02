@@ -76,10 +76,6 @@ const actions = {
     GET_SIMILAR_STOCKS({ commit }, params) {
         return new Promise(resolve =>
             API_CONTEXT.get(`/instruments/?symbols=${params.join(",")}`).then(response => {
-                console.log(
-                    "GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS GET_SIMILAR_STOCKS symbols inner",
-                    response
-                );
                 if (response.status === 200) {
                     const { instruments } = response.data.data;
                     commit("SET_SIMILAR_STOCKS", instruments);

@@ -1,5 +1,5 @@
 <template>
-    <Fragment v-if="isBuyValid === 'PENDING'">
+    <Fragment v-if="type === 'PENDING'">
         <div>
             <div class="kyc-modal">
                 <div class="text-center mb-3">
@@ -45,117 +45,135 @@
             </div>
         </div>
     </Fragment>
+    <Fragment v-else-if="type === 'WITHDRAW'">
+        <div class="kyc-modal">
+            <div class="text-center mb-3">
+                <p class="kyc-modal__small">
+                    Your profile is being verified for global trading. You can now fund your Naira
+                    or Dollar wallet.
+                </p>
+                <br />
+                <div>
+                    <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
+                </div>
+                <div class="mt-2">
+                    <small>
+                        <a class="underline" @click="handleStep('default')"
+                            >Continue Verification</a
+                        ></small
+                    >
+                </div>
+            </div>
+        </div>
+    </Fragment>
     <Fragment v-else-if="isBuyValid === 2">
-        <template v-if="type === 'local' || instrument.currency === 'NGN'">
-            <div>
-                <div class="kyc-modal">
-                    <div class="text-center mb-3">
-                        <p class="kyc-modal__small">
-                            Your profile is being verified for local trading. You can now fund your
-                            Naira or Dollar wallet.
-                        </p>
-                        <br />
-                        <div class="kyc-modal__single" v-if="instrument">
-                            <div @click="closeModal" class="kyc-modal__popular--div">
-                                <div>
-                                    <img
-                                        :src="instrument.logoUrl"
-                                        class="kyc-modal__popular--logo"
-                                        :alt="instrument.symbol"
-                                    />
-                                </div>
-                                <h6>{{ instrument.name | truncate(15) }}</h6>
-                                <div>
-                                    <img
-                                        :src="
-                                            require(`../../assets/img/flags/${country(
-                                                instrument.countryCode
-                                            )}-flag.svg`)
-                                        "
-                                        class="kyc-modal__popular--flag"
-                                        :alt="instrument.countryCode"
-                                    />
-                                </div>
+        <template v-if="type === 'LOCAL' || instrument.currency === 'NGN'">
+            <div class="kyc-modal">
+                <div class="text-center mb-3">
+                    <p class="kyc-modal__small">
+                        Your profile is being verified for local trading. You can now fund your
+                        Naira or Dollar wallet.
+                    </p>
+                    <br />
+                    <div class="kyc-modal__single" v-if="Object.keys(instrument).length > 0">
+                        <div @click="closeModal" class="kyc-modal__popular--div">
+                            <div>
+                                <img
+                                    :src="instrument.logoUrl"
+                                    class="kyc-modal__popular--logo"
+                                    :alt="instrument.symbol"
+                                />
+                            </div>
+                            <h6>{{ instrument.name | truncate(15) }}</h6>
+                            <div>
+                                <img
+                                    :src="
+                                        require(`../../assets/img/flags/${country(
+                                            instrument.countryCode
+                                        )}-flag.svg`)
+                                    "
+                                    class="kyc-modal__popular--flag"
+                                    :alt="instrument.countryCode"
+                                />
                             </div>
                         </div>
-                        <div>
-                            <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
-                        </div>
-                        <div class="mt-2" v-if="getLoggedUser.globalKycStatus === 'NONE'">
-                            <small v-if="modal">
-                                <a class="underline" @click="handleStep('global')"
-                                    >Continue Local Verification</a
-                                ></small
-                            >
-                            <small v-else>
-                                <kyc-button
-                                    ref="buyBtn"
-                                    type="button"
-                                    :classes="['underline']"
-                                    tag="a"
-                                    action="global"
-                                    @step="handleStep"
-                                    >Continue Global Verification</kyc-button
-                                ></small
-                            >
-                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
+                    </div>
+                    <div class="mt-2" v-if="getLoggedUser.globalKycStatus === 'NONE'">
+                        <small v-if="modal">
+                            <a class="underline" @click="handleStep('global')"
+                                >Continue Local Verification</a
+                            ></small
+                        >
+                        <small v-else>
+                            <kyc-button
+                                ref="buyBtn"
+                                type="button"
+                                :classes="['underline']"
+                                tag="a"
+                                action="global"
+                                @step="handleStep"
+                                >Continue Global Verification</kyc-button
+                            ></small
+                        >
                     </div>
                 </div>
             </div>
         </template>
         <template v-else>
-            <div>
-                <div class="kyc-modal">
-                    <div class="text-center mb-3">
-                        <p class="kyc-modal__small">
-                            Your profile is being verified for global trading. You can now fund your
-                            Naira or Dollar wallet.
-                        </p>
-                        <div class="kyc-modal__single" v-if="instrument">
-                            <div @click="closeModal" class="kyc-modal__popular--div">
-                                <div>
-                                    <img
-                                        :src="instrument.logoUrl"
-                                        class="kyc-modal__popular--logo"
-                                        :alt="instrument.symbol"
-                                    />
-                                </div>
-                                <h6>{{ instrument.name | truncate(15) }}</h6>
-                                <div>
-                                    <img
-                                        :src="
-                                            require(`../../assets/img/flags/${country(
-                                                instrument.countryCode
-                                            )}-flag.svg`)
-                                        "
-                                        class="kyc-modal__popular--flag"
-                                        :alt="instrument.countryCode"
-                                    />
-                                </div>
+            <div class="kyc-modal">
+                <div class="text-center mb-3">
+                    <p class="kyc-modal__small">
+                        Your profile is being verified for global trading. You can now fund your
+                        Naira or Dollar wallet.
+                    </p>
+                    <br />
+                    <div class="kyc-modal__single" v-if="Object.keys(instrument).length > 0">
+                        <div @click="closeModal" class="kyc-modal__popular--div">
+                            <div>
+                                <img
+                                    :src="instrument.logoUrl"
+                                    class="kyc-modal__popular--logo"
+                                    :alt="instrument.symbol"
+                                />
+                            </div>
+                            <h6>{{ instrument.name | truncate(15) }}</h6>
+                            <div>
+                                <img
+                                    :src="
+                                        require(`../../assets/img/flags/${country(
+                                            instrument.countryCode
+                                        )}-flag.svg`)
+                                    "
+                                    class="kyc-modal__popular--flag"
+                                    :alt="instrument.countryCode"
+                                />
                             </div>
                         </div>
-                        <br />
-                        <div>
-                            <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
-                        </div>
-                        <div class="mt-2" v-if="getLoggedUser.localKycStatus === 'NONE'">
-                            <small v-if="modal">
-                                <a class="underline" @click="handleStep('local')"
-                                    >Continue Local Verification</a
-                                ></small
-                            >
-                            <small v-else>
-                                <kyc-button
-                                    ref="buyBtn"
-                                    type="button"
-                                    :classes="['underline']"
-                                    tag="a"
-                                    action="local"
-                                    @step="handleStep"
-                                    >Continue Local Verification</kyc-button
-                                ></small
-                            >
-                        </div>
+                    </div>
+                    <br />
+                    <div>
+                        <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
+                    </div>
+                    <div class="mt-2" v-if="getLoggedUser.localKycStatus === 'NONE'">
+                        <small v-if="modal">
+                            <a class="underline" @click="handleStep('local')"
+                                >Continue Local Verification</a
+                            ></small
+                        >
+                        <small v-else>
+                            <kyc-button
+                                ref="buyBtn"
+                                type="button"
+                                :classes="['underline']"
+                                tag="a"
+                                action="local"
+                                @step="handleStep"
+                                >Continue Local Verification</kyc-button
+                            ></small
+                        >
                     </div>
                 </div>
             </div>
@@ -207,7 +225,7 @@ export default {
         }
     },
     mounted() {
-        if (this.isBuyValid === "PENDING") this.GET_MOST_POPULAR();
+        if (this.type === "PENDING") this.GET_MOST_POPULAR();
     }
 };
 </script>

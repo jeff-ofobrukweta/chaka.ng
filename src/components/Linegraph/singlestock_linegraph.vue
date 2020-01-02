@@ -1,6 +1,7 @@
 <template>
     <Fragment>
-        <div v-if="getOpenPrice.length >= 1 && getDates.length >= 1" class="graphholder">
+        <!-- <div v-if="getOpenPrice.length >= 1 && getDates.length >= 1" class="graphholder"> -->
+        <div class="graphholder">
             <div class="header-container">
                 <div class="right-menue-item">
                     <div class="parent-container-main">
@@ -149,12 +150,12 @@
             </section>
             <!-- end here -->
         </div>
-        <div v-else class="graphholder">
+        <!-- <div v-else class="graphholder">
             <div class="portfolio-graph__placeholder caution__big">
                 <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
                 <a class="caution__reload">Reload</a>
             </div>
-        </div>
+        </div> -->
 
         <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </Fragment>

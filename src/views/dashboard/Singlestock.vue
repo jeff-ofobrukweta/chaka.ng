@@ -216,15 +216,15 @@
                 <template v-if="similarLoading">
                     <InstrumentMobile v-for="i in 3" :key="i" :instrument="{}" dummy
                 /></template>
-                <template v-else-if="getSimilarStocks.length > 0">
-                    <transition-group name="kyc-navbar">
+                <transition-group name="kyc-navbar" v-else-if="getSimilarStocks.length > 0">
+                    <section key="1">
                         <InstrumentMobile
                             v-for="(instrument, index) in getSimilarStocks"
                             :key="index"
                             :instrument="instrument"
                         />
-                    </transition-group>
-                </template>
+                    </section>
+                </transition-group>
                 <template v-else>
                     <p class="text-center">
                         There are no similar stocks for {{ getSingleinstrument[0].name }}
