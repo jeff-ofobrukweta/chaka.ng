@@ -182,6 +182,11 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA']),
+        ...mapMutations([
+            'SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE',
+            'SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION'
+        ]),
         fillData() {
             this.datacollection = {
                 labels: this.getActionanalysis,
@@ -214,6 +219,18 @@ export default {
         actions(newaction, oldaction) {
             this.fillData();
         }
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE([]);
+        this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION([]);
+        const payload = {symbol: to.params.symbol};
+        this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then((res)=>{
+            console.log('THIS IS THE RESPONSES HERE',res);
+            if(!res){
+                this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION({})
+            }
+        });
+        next();
     },
     beforeRouteLeave(to, from, next) {
         this.values = [];

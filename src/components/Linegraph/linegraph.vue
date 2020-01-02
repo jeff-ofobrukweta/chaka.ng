@@ -247,7 +247,6 @@ export default {
         // }
     },
     beforeRouteUpdate(to, from, next) {
-        console.log('is it entering this block by jANE')
         this.price = [];
         this.date = [];
         this.fillData()

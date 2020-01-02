@@ -18,17 +18,14 @@
                         0.0 | kobo | currency(instrument.currency, true)
                 "
             >
-                {{
-                    checkforUndefined(instrument.currentValue) ||
-                        0.0 | kobo | currency(instrument.currency)
-                }}
-                <template v-if="instrument.currentValue">
-                    <img
-                        v-if="instrument.currentValue >= 0"
-                        :src="require('../../assets/img/chevron-up.svg')"
-                        alt="growth"/>
-                    <img v-else :src="require('../../assets/img/chevron-down.svg')" alt="growth"
-                /></template>
+                {{ checkforUndefined(instrument.currentValue) || 0.00 | kobo | currency(instrument.currency) }}
+                <img
+                    v-if=" instrument.currentValue && instrument.currentValue >= 0"
+                    :src="require('../../assets/img/chevron-up.svg')"
+                    alt="growth"
+                />
+                <section :title="'No current value'" v-else-if="!instrument.currentValue"></section>
+                <img v-else :src="require('../../assets/img/chevron-down.svg')" alt="growth" />
             </p>
         </div>
         <div class="stock-table__flex">

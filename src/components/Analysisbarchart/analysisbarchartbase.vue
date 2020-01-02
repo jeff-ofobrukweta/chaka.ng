@@ -1,7 +1,7 @@
 <template>
     <Fragment>
         <div
-            v-if="getActionperformance.length > 1 && getValueperformance.length > 1"
+            v-if="VerticalaseCardloader"
             class="container-packet"
         >
             <h1 class="title-name">Performance Rating</h1>
@@ -25,6 +25,11 @@ import Analysisbarchart from './analysisbarchart';
 
 export default {
     name: 'performancebase',
+    data(){
+        return{
+            VerticalaseCardloader:false
+        }
+    },
     components: {
         Fragment,
         Analysisbarchart
@@ -35,15 +40,32 @@ export default {
     methods: {
         // GET_BARCHART_PERFORMANCERATING_GRAPH_DATA
         ...mapActions(['GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA']),
-        mountedActions() {
-            const payload = {
-                symbol: this.$route.params.symbol
-            };
-            this.GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA(payload).then(() => {});
+        ...mapMutations(['SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION','SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE']),
+        mountedActions(params) {
+            const payload = {symbol: params};
+            this.GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA(payload).then((res) => {
+                if(!res){
+                    this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE([]);
+                    this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION([])
+                    this.VerticalaseCardloader = false;
+                }
+                else{this.VerticalaseCardloader = true}
+            });
         }
     },
     mounted() {
-        this.mountedActions();
+        this.mountedActions(this.$route.params.symbol);
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE([]);
+        this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION([])
+        this.mountedActions(to.params.symbol);
+        next();
+    },
+    beforeRouteLeave(to, from, next) {
+        this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE([]);
+        this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION([])
+        next();
     }
 };
 </script>
