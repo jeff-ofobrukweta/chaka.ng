@@ -19,7 +19,7 @@
                     :src="require('../../assets/img/chevron-up.svg')"
                     alt="growth"
                 />
-                <section v-else-if="!instrument.currentValue">?</section>
+                <section :title="'No current value'" v-else-if="!instrument.currentValue"></section>
                 <img v-else :src="require('../../assets/img/chevron-down.svg')" alt="growth" />
             </p>
         </div>

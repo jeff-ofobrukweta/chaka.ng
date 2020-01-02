@@ -294,7 +294,8 @@ export default {
             "SET_BUY_MODAL",
             "SET_SELL_MODAL",
             "SET_LINE_SINGLESTOCK_CHARTDATA",
-            "SET_LINE_SINGLESTOCK_CHART_DATE"
+            "SET_LINE_SINGLESTOCK_CHART_DATE",
+            "SET_PRICE_INFO_ON_BLACKCARD"
         ]),
         ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
         checkPositions(symbol, currency) {
@@ -415,6 +416,7 @@ export default {
     beforeRouteUpdate(to, from, next) {
         this.SET_LINE_SINGLESTOCK_CHART_DATE([]);
         this.SET_LINE_SINGLESTOCK_CHARTDATA([]);
+        this.SET_PRICE_INFO_ON_BLACKCARD({});
         this.mountAction();
         // const emitData = {getOpenPrice:this.getOpenPrice,getDates:this.getDates}
         // EventBus.$emit('fillData',emitData);

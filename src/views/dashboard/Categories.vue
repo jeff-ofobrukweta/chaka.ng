@@ -74,9 +74,9 @@
                     <template v-if="loading">
                         <InstrumentCard dummy v-for="i in 10" :key="i" :instrument="{}" />
                     </template>
-                    <template v-else-if="getInstrumentsListArray && getInstrumentsListArray.length > 0">
+                    <template v-else-if="InstrumentsListArray && InstrumentsListArray.length > 0">
                         <InstrumentCard
-                            v-for="(instrument, index) in getInstrumentsListArray"
+                            v-for="(instrument, index) in InstrumentsListArray"
                             :key="index"
                             :instrument="instrument"
                         />
@@ -99,16 +99,16 @@
                     class="caution__big"
                     v-else-if="
                         getErrorLog.type === 'tag-instruments' &&
-                            getInstrumentsListArray.length <= 0
+                            InstrumentsListArray.length <= 0
                     "
                 >
                     <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
                     <a class="caution__reload" @click="mount">Reload</a>
                 </div>
-                <template v-else-if="getInstrumentsListArray.length > 0">
+                <template v-else-if="InstrumentsListArray.length > 0">
                     <transition-group name="kyc-navbar">
                         <InstrumentMobile
-                            v-for="(instrument, index) in getInstrumentsListArray"
+                            v-for="(instrument, index) in InstrumentsListArray"
                             :key="index"
                             :instrument="instrument"
                         />
@@ -143,6 +143,7 @@ export default {
             perPage:20,
             infiniteLoader: false,
             loaderState:false,
+            InstrumentsListArray:[],
             paginate:[
                 {
                 name:"Previous",
@@ -217,7 +218,6 @@ export default {
         ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS", "GET_MOST_POPULAR"]),
         handlescrollinfinitly(signType) {
 					if (true) {
-                        this.getInstrumentsListArray = [];
                         console.log('>>>>>>>>>>>isIntersecting>>>>>>>booooooom>')
                             const pagenation = {
                                 page: signType == "regression" ? --this.page :++this.page,
@@ -226,10 +226,12 @@ export default {
 						    };
 						// if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
 							this.infiniteLoader = true;
-							this.loaderState = true;
+                            this.loaderState = true;
+                            this.InstrumentsListArray = [];
 							this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
 								this.infiniteLoader = false;
-								this.loaderState = false;
+                                this.loaderState = false;
+                                this.InstrumentsListArray = [...this.gettagslistsArray];
                                 // this.newInstrument.push(...this.getInstrumentsListArray);
                                 console.log('handlescrollinfinitly?????????????',this.newInstrument)
 							});
@@ -274,6 +276,7 @@ export default {
                  const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
                     await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
                         this.infiniteLoader = false;
+                        this.InstrumentsListArray = [...this.getInstrumentsListArray];
                 });
             }
             this.loading = false;

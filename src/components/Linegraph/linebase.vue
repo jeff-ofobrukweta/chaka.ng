@@ -181,8 +181,9 @@ export default {
                     interval: this.getPorfolioglobalTimeforGraph,
                     currency: this.getPorfolioglobalCurrencyforGraph
                 };
-                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then(() => {
-                    this.loading = false;
+                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then((res) => {
+                    if(res.data.emptyValues){this.loading = true; }
+                    else{this.loading = false;}
                 });
             });
         },
@@ -196,8 +197,9 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(() => {
-                this.loading = false;
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then((res) => {
+                if(res.data.emptyValues){this.loading = true; }
+                else{this.loading = false;}
             });
         },
         async mountedActions() {
@@ -206,8 +208,10 @@ export default {
                 currency: "NGN" || this.getPorfolioglobalCurrencyforGraph
             };
             this.loading = true;
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
-            this.loading = false;
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then((res)=>{
+               if(res.data.emptyValues){this.loading = true; }
+               else{this.loading = false;}
+            });
         }
     },
     async mounted() {
