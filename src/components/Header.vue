@@ -227,6 +227,7 @@
                                                             : 'zz'
                                                     }-flag.svg`)
                                                 "
+                                                width="16px"
                                                 :alt="stock.symbol"
                                                 class="nav-left__dropdown--country"
                                             />
@@ -299,6 +300,7 @@
                                                                     : 'zz'
                                                             }-flag.svg`)
                                                         "
+                                                        width="16px"
                                                         :alt="stock.symbol"
                                                         class="nav-left__dropdown--country"
                                                     />
