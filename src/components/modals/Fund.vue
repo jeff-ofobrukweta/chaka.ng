@@ -150,8 +150,8 @@
                     fees), make a transfer to:
                 </p>
                 <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
-                <p><span class="grey-dark">Bank Name:&nbsp;</span>GTBank</p>
-                <p><span class="grey-dark">Account Number:&nbsp;</span>0467937290</p>
+                <p><span class="grey-dark">Bank Name:&nbsp;</span>Guaranty Trust Bank</p>
+                <p><span class="grey-dark">Account Number:&nbsp;</span>0536097685</p>
                 <br />
                 <p>
                     <small class="grey-dark">
