@@ -49,8 +49,8 @@
             <p v-if="instrument.InstrumentDynamic">
                 <strong
                     class=" cursor-context"
-                    :title="instrument.askPrice | kobo | currency(instrument.currency, true)"
-                    >{{ instrument.askPrice | kobo | currency(instrument.currency) }}</strong
+                    :title="instrument.askPrice | currency(instrument.currency, true)"
+                    >{{ instrument.askPrice | currency(instrument.currency) }}</strong
                 >
             </p>
         </div>
@@ -110,12 +110,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: 'explore-watchlist',
+    name: "explore-watchlist",
     components: {
-        LineChart: () => import('../Linegraph/linegraph_config')
+        LineChart: () => import("../Linegraph/linegraph_config")
     },
     props: {
         instrument: {
@@ -124,7 +124,7 @@ export default {
         },
         color: {
             type: String,
-            default: 'green'
+            default: "green"
         },
         dummy: {
             type: Boolean
@@ -141,7 +141,7 @@ export default {
                 },
                 elements: {
                     line: {
-                        borderColor: '#000000',
+                        borderColor: "#000000",
                         borderWidth: 1
                     },
                     point: {
@@ -171,28 +171,28 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getNextKYC'])
+        ...mapGetters(["getNextKYC"])
     },
     methods: {
-        ...mapActions(['GET_WATCHLIST_CHART', 'REMOVE_FROM_WATCHLIST']),
-        ...mapMutations(['SET_BUY_MODAL']),
+        ...mapActions(["GET_WATCHLIST_CHART", "REMOVE_FROM_WATCHLIST"]),
+        ...mapMutations(["SET_BUY_MODAL"]),
         fillData() {
             this.datacollection = {
                 labels: this.labelsArray,
                 datasets: [
                     {
-                        label: 'Stocks',
+                        label: "Stocks",
                         lineTension: 0.4,
                         fill: false,
                         borderColor: this.color,
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: 'miter',
-                        pointBackgroundColor: '#484848',
+                        borderJoinStyle: "miter",
+                        pointBackgroundColor: "#484848",
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#2DA5EC',
-                        pointHoverBorderColor: 'rgba(220,220,220,1)',
+                        pointHoverBackgroundColor: "#2DA5EC",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
@@ -236,11 +236,11 @@ export default {
             await Promise.all([
                 this.GET_WATCHLIST_CHART({
                     symbol: this.instrument.symbol,
-                    interval: '1W'
-                }).then((resp) => {
+                    interval: "1D"
+                }).then(resp => {
                     this.chartData = resp;
                     if (this.chartData) {
-                        this.chartData.chart.map((el) => {
+                        this.chartData.chart.map(el => {
                             this.labelsArray.push(el.date);
                             this.chartArray.push(el.price);
                         });

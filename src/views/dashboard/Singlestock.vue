@@ -16,20 +16,19 @@
                 <section class="right-header">
                     <h1 class="price">
                         {{
-                            getSingleinstrument[0].InstrumentDynamic.askPrice || 0.00
-                                | kobo
-                                | currency(getSingleinstrument[0].currency)
+                            getSingleinstrument[0].InstrumentDynamic.askPrice ||
+                                0.0 | kobo | currency(getSingleinstrument[0].currency)
                         }}
                     </h1>
                     <h1
-                    :class="[getPricedetailsonblackcard.derivedPrice  >= 0 ? 'green' : 'red','percentage']">
-                        <span
-                            class="price"
-                            >{{ getPricedetailsonblackcard.derivedPrice }}</span
-                        >
-                        <span
-                            class="price"
-                            >({{ getPricedetailsonblackcard.derivedPricePercentage || 0.00 }}%)</span
+                        :class="[
+                            getPricedetailsonblackcard.derivedPrice >= 0 ? 'green' : 'red',
+                            'percentage'
+                        ]"
+                    >
+                        <span class="price">{{ getPricedetailsonblackcard.derivedPrice }}</span>
+                        <span class="price"
+                            >({{ getPricedetailsonblackcard.derivedPricePercentage || 0.0 }}%)</span
                         >
                     </h1>
                 </section>
@@ -41,7 +40,10 @@
                             alt="logo"
                         />
                         <aside class="item-name-country">
-                            <section :title="getSingleinstrument[0].name || 'no name availiable'" class="stockname">
+                            <section
+                                :title="getSingleinstrument[0].name || 'no name availiable'"
+                                class="stockname"
+                            >
                                 {{ getSingleinstrument[0].name || "" | truncate(30) }}
                             </section>
                             <img

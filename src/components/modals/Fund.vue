@@ -149,9 +149,12 @@
                     To fund your account through a domiciliary account transfer (without PAYSTACK
                     fees), make a transfer to:
                 </p>
-                <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
-                <p><span class="grey-dark">Bank Name:&nbsp;</span>GTBank</p>
-                <p><span class="grey-dark">Account Number:&nbsp;</span>0467937290</p>
+                <p>
+                    <span class="grey-dark">Account Holder:&nbsp;</span>CITI INV CAP LTD/114 DOLLAR
+                    AC
+                </p>
+                <p><span class="grey-dark">Bank Name:&nbsp;</span>Guaranty Trust Bank</p>
+                <p><span class="grey-dark">Account Number:&nbsp;</span>0536097685</p>
                 <br />
                 <p>
                     <small class="grey-dark">
@@ -180,15 +183,21 @@ export default {
             loading: false,
             message: null,
             issues: {},
-            currency: "NGN"
+            currency: "NGN",
+            flag: "START"
         };
     },
     computed: {
-        ...mapGetters(["getLoggedUser", "getExchangeRate", "getNextKYC"]),
+        ...mapGetters(["getLoggedUser", "getExchangeRate", "getNextKYC", "getWalletTx"]),
         paystackValue() {
             if (!this.itemData.amount) return 0;
             if (this.actualValue > 2500) {
-                return (+this.actualValue + 100) / (1 - 0.015);
+                const total = (+this.actualValue + 100) / (1 - 0.015);
+                const fees = total - this.actualValue;
+                if (fees >= 2000) {
+                    return this.actualValue + 2000;
+                }
+                return total;
             }
             return +this.actualValue / (1 - 0.015);
         },
@@ -201,6 +210,23 @@ export default {
             if (this.getLoggedUser.globalKycStatus === "NONE") return 1;
             if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
             return 3;
+        },
+        fundPayload() {
+            if (this.flag === "START") {
+                return {
+                    amount: +this.actualValue * 100,
+                    currency: this.currency,
+                    source: "PAYSTACK",
+                    flag: this.flag
+                };
+            }
+            return {
+                amount: +this.actualValue * 100,
+                reference: this.getWalletTx.reference,
+                currency: this.currency,
+                source: "PAYSTACK",
+                flag: this.flag
+            };
         }
     },
     methods: {
@@ -227,41 +253,50 @@ export default {
                 return false;
             }
             this.loading = true;
+            this.flag = "START";
+            this.FUND_WALLET(this.fundPayload).then(resp => {
+                this.makeTransaction();
+            });
+            return true;
+        },
+        makeTransaction() {
             const handler = PaystackPop.setup({
                 key: process.env.VUE_APP_PAYSTACK_KEY,
                 email: this.getLoggedUser.email,
                 amount: Math.ceil(this.paystackValue) * 100,
                 firstname: this.getLoggedUser.UserKYC.firstname,
                 lastname: this.getLoggedUser.UserKYC.lastname,
+                ref: this.getWalletTx.reference,
                 metadata: {
                     service_charge: (Math.ceil(this.paystackValue) - this.itemData.amount) * 100
                 },
-                onClose: () => {
+                onClose: resp => {
                     this.loading = false;
+                    this.flag = "CANCEL";
+                    this.FUND_WALLET(this.fundPayload);
                 },
                 callback: response => {
-                    const data = {
-                        amount: this.actualValue * 100,
-                        source: "PAYSTACK",
-                        reference: response.reference,
-                        currency: this.currency
-                    };
-                    this.FUND_WALLET(data).then(resp => {
-                        this.loading = false;
-                        if (resp) {
-                            /**
-                             * close fund modal
-                             * show success modal
-                             */
-                            this.$emit("close", true);
-                        }
-                        return false;
-                    });
+                    if (response.status === "success") {
+                        this.flag = "SUCCESS";
+                        this.FUND_WALLET(this.fundPayload).then(resp => {
+                            this.loading = false;
+                            if (resp) {
+                                this.$emit("close", true);
+                                return true;
+                            }
+                            return false;
+                        });
+                    } else {
+                        this.flag = "FAIL";
+                        this.FUND_WALLET(this.fundPayload).then(resp => {
+                            this.loading = false;
+                            return false;
+                        });
+                    }
                 }
             });
             handler.openIframe();
             this.RESET_REQ();
-            return true;
         },
         switchCurrency(currency) {
             this.currency = currency;

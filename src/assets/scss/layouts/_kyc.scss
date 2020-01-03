@@ -52,7 +52,7 @@
         }
 
         &__dummy {
-            min-height: 200px;
+            min-height: 170px;
             width: 100%
         }
     }
@@ -238,25 +238,30 @@
 
         &__popular {
             @extend .kyc-modal__popular;
-            max-width: 200px;
+            max-width: 220px;
             margin: 0.5rem auto;
 
             &--div {
-                max-width: 95px;
                 width: 48%;
                 cursor: pointer;
+                background-color: rgba($color: $white, $alpha: 0.9);
+                padding: 0.1rem;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
 
                 h6 {
-                    color: $white;
                     font-size: 10px;
                 }
             }
 
             &--logo {
+                min-width: 30px;
                 width: 30px;
-                object-fit: contain;
                 height: 30px;
-                background: $white;
+                object-fit: contain;
+                vertical-align: middle;
+                margin-right: 2px;
             }
 
             &--flag {

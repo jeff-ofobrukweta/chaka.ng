@@ -10,8 +10,11 @@
             @step="handleStep"
             @close="closeModal"
         />
-        <transition name="kyc-navbar" v-else-if="showModal">
-            <div>
+        <transition v-else-if="!showModal" name="kyc-navbar">
+            <div class="kyc-modal__dummy" key="1"></div>
+        </transition>
+        <transition name="kyc-navbar" v-else>
+            <div key="1">
                 <template v-if="allFields[0].value === 'phone'">
                     <PhoneOTP @close="OTPSuccess" />
                 </template>
@@ -230,9 +233,6 @@
                 </template>
             </div>
         </transition>
-        <transition v-else name="kyc-navbar">
-            <div class="kyc-modal__dummy"></div>
-        </transition>
     </modal>
 </template>
 
@@ -425,8 +425,6 @@ export default {
                     el === "pepStatus"
                 )
                     this.state = "employment";
-                else if (el === "addressProofUrl" || el === "idPhotoUrl" || el === "passportUrl")
-                    this.state = "file";
                 else this.state = "default";
             });
             this.loading = true;
@@ -537,13 +535,6 @@ export default {
                         this.nextStep();
                     }
                 });
-            } else if (this.state === "file") {
-                this.UPLOAD_KYC_FILE(payload).then(resp => {
-                    this.loading = false;
-                    if (resp) {
-                        this.nextStep();
-                    }
-                });
             } else {
                 if (Object.keys(this.itemData).length <= 0) {
                     this.loading = false;
@@ -617,27 +608,31 @@ export default {
                 });
             });
             this.selectedField.fields = this.currentKYC.nextKYC;
+            // this.currentKYC.nextKYC.map(required => {
+            //     this.allFields = AllKYCFields.filter(el => required === el.value);
+            // });
             this.currentKYC.nextKYC.map(required => {
-                const all = AllKYCFields.filter(el => {
-                    if (required === el.value) {
+                AllKYCFields.map(el => {
+                    if (required == el.value) {
                         this.allFields.push(el);
                         return el;
                     }
                 });
             });
-            if (
-                this.allFields.length === this.currentKYC.nextKYC.length &&
-                this.currentKYC.status === "INCOMPLETE"
-            ) {
-                setTimeout(() => {
+
+            if (this.currentKYC.status === "INCOMPLETE") {
+                if (this.isFileImage || this.allFields.length === this.currentKYC.nextKYC.length) {
+                    setTimeout(() => {
+                        this.showModal = true;
+                    }, 100);
+                }
+            } else {
+                if (this.getNavbarNextKYC.completedContexts.length === 0) {
+                    EventBus.$emit("MODAL_CLOSED");
+                    this.$emit("updated", true);
+                } else {
                     this.showModal = true;
-                }, 500);
-            }
-            if (
-                this.currentKYC.status === "COMPLETE" &&
-                this.getNavbarNextKYC.completedContexts.length === 0
-            ) {
-                this.$emit("updated", true);
+                }
             }
         }
     },
