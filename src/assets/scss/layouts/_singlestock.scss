@@ -60,17 +60,15 @@
         font-style: normal;
         font-weight: bold;
         font-size: 16.986px;
-        color: #293D4A;
     }
 
     .percentage {
         font-style: normal;
         font-weight: bold;
         font-size: 1em;
-        color: #00C48C;
 
         .red {
-            color: rgb(196, 0, 0);
+            color: rgba(255, 162, 107, 0.85);
         }
 
         .green {
@@ -228,6 +226,12 @@
     .container-stocks {
         flex-wrap: wrap;
         flex-direction: column-reverse;
+    }
+    .left-header{
+        width: 129px;
+    }
+    .stockname{
+        width: 270px;
     }
 
     .small-size {
