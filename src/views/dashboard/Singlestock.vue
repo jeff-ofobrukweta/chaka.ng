@@ -18,7 +18,7 @@
                         {{
                             getSingleinstrument[0].InstrumentDynamic.askPrice || 0.00
                                 | kobo
-                                | currency(getSingleinstrument[0].currency)
+                                | currency(getSingleinstrument[0].currency,true)
                         }}
                     </h1>
                     <h1
@@ -406,11 +406,13 @@ export default {
                 );
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
-            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload);
-            this.loading = false;
-            this.similarLoading = false;
-            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
-            this.GET_ARTICULE_NEWS(newsSinglestockpayload);
+            this.SET_SINGLE_INSTRUMENT([]);
+            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
+                this.loading = false;
+                this.similarLoading = false;
+                this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
+                this.GET_ARTICULE_NEWS(newsSinglestockpayload);
+            });
         },
         setTagPayload(valuePayload) {
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
@@ -424,6 +426,7 @@ export default {
         this.mountedAction(this.$route.params.symbol);
     },
     beforeRouteUpdate(to, from, next) {
+        this.SET_SINGLE_INSTRUMENT([]);
         this.mountedAction(to.params.symbol);
         next();
     },

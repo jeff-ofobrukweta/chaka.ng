@@ -112,7 +112,11 @@
                     <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
                     <a class="caution__reload" @click="mount">Reload</a>
                 </div>
-                <template v-else-if="getInstrumentsListArray.length > 0">
+                <section class="empty-center" v-else-if="getInstrumentsListArray.length == 0">
+                    <img width="50px" :src="require('../../assets/img/papers.svg')" alt="Papers" />
+                    <p>There are no stocks in this collection</p>
+                </section>
+                <template v-else>
                     <transition-group name="kyc-navbar">
                         <section key="1">
                             <InstrumentMobile
@@ -123,10 +127,7 @@
                         </section>
                     </transition-group>
                 </template>
-                <section class="empty-center" v-else>
-                    <img width="50px" :src="require('../../assets/img/papers.svg')" alt="Papers" />
-                    <p>There are no stocks in this collection</p>
-                </section>
+                
             </section>
             <div ref="infinitesscrolltrigger" id="scroll-trigger">
                 <img
@@ -225,8 +226,7 @@ export default {
         ]),
         ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS", "GET_MOST_POPULAR"]),
         handlescrollinfinitly(signType) {
-					if (true) {
-                        console.log('>>>>>>>>>>>isIntersecting>>>>>>>booooooom>')
+					if (signType) {
                         if(signType == "regression"){
                             if(this.page == 0){
                                 const pageCount = 0;
@@ -243,7 +243,6 @@ export default {
                                     this.loaderState = false;
                                     this.loading = false;
                                     this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
-                                    console.log('This is thee Instruments ????????', this.getInstrumentsListArray);
                                 });
                             }else{
                                 const pagenation = {
@@ -258,7 +257,6 @@ export default {
                                     this.infiniteLoader = false;
                                     this.loaderState = false;
                                     this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
-                                    console.log('This is thee Instruments ????????', this.getInstrumentsListArray);
                                 });
                             }
                         }
