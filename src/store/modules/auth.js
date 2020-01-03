@@ -121,6 +121,7 @@ const actions = {
                         commit("SET_LOGGED_IN", true);
                         commit("REQ_SUCCESS", null, { root: true });
                         resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "login");
                         resolve(false);

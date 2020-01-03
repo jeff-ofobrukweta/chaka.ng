@@ -16,28 +16,20 @@
                 <section class="right-header">
                     <h1 class="price">
                         {{
-                            getSingleinstrument[0].InstrumentDynamic.askPrice
+                            getSingleinstrument[0].InstrumentDynamic.askPrice || 0.00
                                 | kobo
                                 | currency(getSingleinstrument[0].currency)
                         }}
                     </h1>
-                    <h1 class="percentage">
+                    <h1
+                    :class="[getPricedetailsonblackcard.derivedPrice  >= 0 ? 'green' : 'red','percentage']">
                         <span
-                            :class="[
-                                getPricedetailsonblackcard.derivedPrice < 0 ? 'red' : 'green',
-                                'price'
-                            ]"
+                            class="price"
                             >{{ getPricedetailsonblackcard.derivedPrice }}</span
                         >
                         <span
-                            :class="[
-                                getPricedetailsonblackcard.derivedPricePercentage < 0
-                                    ? 'red'
-                                    : 'green',
-                                'price'
-                            ]"
-                            class="delta"
-                            >({{ getPricedetailsonblackcard.derivedPricePercentage }}%)</span
+                            class="price"
+                            >({{ getPricedetailsonblackcard.derivedPricePercentage || 0.00 }}%)</span
                         >
                     </h1>
                 </section>
@@ -49,8 +41,8 @@
                             alt="logo"
                         />
                         <aside class="item-name-country">
-                            <section :title="getSingleinstrument[0].name" class="stockname">
-                                {{ getSingleinstrument[0].name || "" | truncate(10) }}
+                            <section :title="getSingleinstrument[0].name || 'no name availiable'" class="stockname">
+                                {{ getSingleinstrument[0].name || "" | truncate(30) }}
                             </section>
                             <img
                                 class="state"
@@ -216,15 +208,15 @@
                 <template v-if="similarLoading">
                     <InstrumentMobile v-for="i in 3" :key="i" :instrument="{}" dummy
                 /></template>
-                <template v-else-if="getSimilarStocks.length > 0">
-                    <transition-group name="kyc-navbar">
+                <transition-group name="kyc-navbar" v-else-if="getSimilarStocks.length > 0">
+                    <section key="1">
                         <InstrumentMobile
                             v-for="(instrument, index) in getSimilarStocks"
                             :key="index"
                             :instrument="instrument"
                         />
-                    </transition-group>
-                </template>
+                    </section>
+                </transition-group>
                 <template v-else>
                     <p class="text-center">
                         There are no similar stocks for {{ getSingleinstrument[0].name }}

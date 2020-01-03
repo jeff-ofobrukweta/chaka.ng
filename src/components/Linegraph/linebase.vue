@@ -87,6 +87,7 @@ export default {
         return {
             showKYC: false,
             loading: true,
+            emptyData:false,
             currencyOption: [
                 {
                     symbol: "₦",
@@ -181,8 +182,13 @@ export default {
                     interval: this.getPorfolioglobalTimeforGraph,
                     currency: this.getPorfolioglobalCurrencyforGraph
                 };
-                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then(() => {
+                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then((res) => {
                     this.loading = false;
+                    if(res.data.emptyValues){
+                        this.emptyData = res.data.emptyValues;
+                        this.loading = true;
+                     }
+                    
                 });
             });
         },
@@ -196,7 +202,11 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(() => {
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then((res) => {
+                if(res.data.emptyValues){
+                   this.emptyData = res.data.emptyValues;
+                   this.loading = true;
+                }
                 this.loading = false;
             });
         },
@@ -206,8 +216,14 @@ export default {
                 currency: "NGN" || this.getPorfolioglobalCurrencyforGraph
             };
             this.loading = true;
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
-            this.loading = false;
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then((res)=>{
+                this.loading = false;
+               if(res.data.emptyValues){
+                   this.emptyData = res.data.emptyValues;
+                   this.loading = true;
+
+                }
+            });
         }
     },
     async mounted() {

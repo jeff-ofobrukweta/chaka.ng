@@ -263,10 +263,20 @@ export default {
             this.fillData();
         }
     },
-    beforeRouteUpdate (to, from, next) {
+    beforeRouteUpdate(to, from, next) {
         this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE([]);
-        this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION([])
-        this.GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA();
+        this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION([]);
+        const payload = {symbol: to.params.symbol};
+        this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then((res)=>{
+            if(!res){
+                this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION({})
+            }
+        });
+        next();
+    },
+    beforeRouteLeave(to, from, next) {
+        this.values = [];
+        this.actions = [];
         next();
     }
 };

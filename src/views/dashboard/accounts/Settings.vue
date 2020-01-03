@@ -800,7 +800,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getErrorLog", "getNavbarTrigger"])
+        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getErrorLog"])
     },
     methods: {
         ...mapActions([
@@ -921,8 +921,8 @@ export default {
         },
         OTPSuccess(value) {
             if (value) {
-                EventBus.$emit("navbar-trigger");
-                EventBus.$emit("modal-trigger");
+                // EventBus.$emit("navbar-trigger");
+                // EventBus.$emit("modal-trigger");
                 this.$emit("updated");
             }
             this.showOTP = false;

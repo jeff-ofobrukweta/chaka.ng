@@ -447,23 +447,14 @@
             </form>
         </modal>
 
-        <!-- <modal-kyc
-            :requiredFields="ninFields.fields"
-            :title="ninFields.title"
-            @updated="closeNIN"
-            @close="enterNIN = false"
-            v-if="enterNIN"
-            nin
-        /> -->
         <modal-kyc
             @updated="handleUpdate"
+            @skipnin="enterNIN = false"
             @close="showNextModal = false"
             v-if="showNextModal"
             navbar
             :nin="enterNIN"
         />
-
-        <!-- <EnterNIN v-if="enterNIN" @updated="closeNIN" @close="closeNIN" /> -->
     </section>
 </template>
 
@@ -476,8 +467,7 @@ import EventBus from "../../event-bus";
 export default {
     name: "kyc-navbar",
     components: {
-        Field,
-        EnterNIN: () => import("./EnterNIN")
+        Field
     },
     data() {
         return {
@@ -742,8 +732,8 @@ export default {
                 this.closeNIN();
             }
             this.checkNextKYC();
-            EventBus.$emit("modal-trigger");
-            EventBus.$emit("navbar-trigger");
+            // EventBus.$emit("modal-trigger");
+            // EventBus.$emit("navbar-trigger");
             this.showNextModal = true;
         },
         checkNextKYC() {
@@ -771,8 +761,8 @@ export default {
             });
         },
         closeNIN() {
-            EventBus.$emit("navbar-trigger");
-            EventBus.$emit("modal-trigger");
+            // EventBus.$emit("navbar-trigger");
+            // EventBus.$emit("modal-trigger");
             this.enterNIN = false;
         },
         hideKYCBtn() {
@@ -799,9 +789,9 @@ export default {
         EventBus.$on("navbar-trigger", () => {
             this.checkNextKYC();
         });
-        EventBus.$on("modal-trigger", () => {
-            this.checkNextKYC();
-        });
+        // EventBus.$on("modal-trigger", () => {
+        //     this.checkNextKYC();
+        // });
     },
     watch: {
         "itemData.bvn": function(newVal) {

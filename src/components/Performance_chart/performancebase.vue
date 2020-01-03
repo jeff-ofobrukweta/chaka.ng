@@ -57,9 +57,7 @@ export default {
             const checkForNull = this.getPositionBarperformancepercentage.filter(
                 el => el === null || el === undefined
             );
-            if (checkForNull.length > 0) {
-                return 2;
-            }
+            if (checkForNull.length > 0) {return 2;}
             return 3;
         }
     },
@@ -73,7 +71,7 @@ export default {
     },
     async mounted() {
         await this.reload();
-    }
+    },
 };
 </script>
 

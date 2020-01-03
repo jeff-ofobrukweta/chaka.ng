@@ -347,11 +347,6 @@ export default {
             "getNextKYC"
         ]),
         isBuyValid() {
-            if (
-                this.getLoggedUser.localKycStatus === "PENDING" &&
-                this.getLoggedUser.globalKycStatus === "PENDING"
-            )
-                return "PENDING";
             if (this.instrument.currency === "NGN") {
                 if (this.getLoggedUser.localKycStatus === "NONE") return 1;
                 if (this.getLoggedUser.localKycStatus === "PENDING") return 2;
@@ -368,7 +363,6 @@ export default {
             return this.instrument.symbol;
         },
         modalTitle() {
-            if (this.isBuyValid === "PENDING") return "Final Step";
             if (this.currency === "NGN") return "Processing Local Verification";
             return "Processing Global Verification";
         }

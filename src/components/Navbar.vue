@@ -168,10 +168,13 @@ export default {
                     name: "Statements",
                     link: "accounts-statements"
                 },
-                {
-                    name: "Ownership",
-                    link: "accounts-stamps"
-                },
+                /**
+                 * TO-DO :: Put back when stamps page is ready
+                 */
+                // {
+                //     name: "Ownership",
+                //     link: "accounts-stamps"
+                // },
                 {
                     name: "Settings",
                     link: "accounts-settings"

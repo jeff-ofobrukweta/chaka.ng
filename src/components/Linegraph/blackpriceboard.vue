@@ -23,7 +23,8 @@
             />
             <section class="section-price">
                 <h1 v-if="getPricedetailsonblackcard.currency" class="price">
-                    {{ getPricedetailsonblackcard.currency == "USD" ? "$" : "₦" }}{{ checkforUndefined(getPricedetailsonblackcard.askPrice) }}
+                    <!-- {{ getPricedetailsonblackcard.currency == "USD" ? "$" : "₦" }} -->
+                    {{ getPricedetailsonblackcard.askPrice  | currency(getPricedetailsonblackcard.currency) }}
                 </h1>
                 <h1 v-else></h1>
                 <section
@@ -106,6 +107,10 @@ export default {
             type: Object,
             required: true
         }
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.SET_PRICE_INFO_ON_BLACKCARD({});
+        next();
     },
     mounted() {
         EventBus.$on('GET_DAYS', (payLoad) => {
