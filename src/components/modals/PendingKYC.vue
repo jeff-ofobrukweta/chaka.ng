@@ -49,8 +49,8 @@
         <div class="kyc-modal">
             <div class="text-center mb-3">
                 <p class="kyc-modal__small">
-                    Your profile is being verified for global trading. You can now fund your Naira
-                    or Dollar wallet.
+                    Your profile is being verified for withdrawals. You can now fund your Naira or
+                    Dollar wallet.
                 </p>
                 <br />
                 <div>
@@ -90,7 +90,8 @@
                                     :alt="instrument.symbol"
                                 />
                             </div>
-                            <h6>{{ instrument.name | truncate(15) }}</h6>
+                            <h6>{{ instrument.symbol | truncate(10) }}</h6>
+                            <p>{{ instrument.name }}</p>
                             <div>
                                 <img
                                     :src="
@@ -145,7 +146,8 @@
                                     :alt="instrument.symbol"
                                 />
                             </div>
-                            <h6>{{ instrument.name | truncate(15) }}</h6>
+                            <h6>{{ instrument.symbol | truncate(10) }}</h6>
+                            <p>{{ instrument.name }}</p>
                             <div>
                                 <img
                                     :src="

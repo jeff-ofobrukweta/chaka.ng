@@ -6,7 +6,7 @@
         class="card-news"
         :class="{ flex: !news.imageUrl }"
         target="_blank"
-        :href="news.url"
+        :href="news.url || news.pageUrl"
         v-else-if="!collection"
     >
         <img v-if="news.imageUrl" class="card-news__img" :src="news.imageUrl" :alt="news.title" />

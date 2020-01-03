@@ -79,12 +79,14 @@ const actions = {
                         if (resp.status >= 200 && resp.status < 400) {
                             commit("SET_NEXT_KYC", resp.data.data);
                             if (state.kycModalAction !== "DEFAULT") {
-                                dispatch("GET_NAVBAR_NEXT_KYC");
-                            } else {
-                                commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
-                                EventBus.$emit("navbar-trigger");
-                                EventBus.$emit("modal-trigger");
+                                return dispatch("GET_NAVBAR_NEXT_KYC").then(() => {
+                                    resolve(true);
+                                    return true;
+                                });
                             }
+                            commit("SET_NAVBAR_NEXT_KYC", resp.data.data);
+                            EventBus.$emit("navbar-trigger");
+                            EventBus.$emit("modal-trigger");
                             resolve(true);
                             return true;
                         }

@@ -197,6 +197,7 @@
                             v-for="(instrument, index) in getSimilarStocks"
                             :key="index"
                             :instrument="instrument"
+                            stock-page
                         />
                     </template>
                     <template v-else>
@@ -216,6 +217,7 @@
                             v-for="(instrument, index) in getSimilarStocks"
                             :key="index"
                             :instrument="instrument"
+                            stock-page
                         />
                     </section>
                 </transition-group>
