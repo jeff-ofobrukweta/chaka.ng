@@ -80,11 +80,10 @@
                     <template v-if="loading">
                         <InstrumentCard dummy v-for="i in 10" :key="i" :instrument="{}" />
                     </template>
-                    <template
-                        v-else-if="getInstrumentsListArray && getInstrumentsListArray.length > 0"
-                    >
+                    <template 
+                      v-else-if="getInstrumentsListArray && getInstrumentsListArray.length > 0">
                         <InstrumentCard
-                            v-for="(instrument, index) in InstrumentsListArray"
+                            v-for="(instrument, index) in getInstrumentsListArray"
                             :key="index"
                             :instrument="instrument"
                         />
@@ -107,13 +106,13 @@
                     class="caution__big"
                     v-else-if="
                         getErrorLog.type === 'tag-instruments' &&
-                            InstrumentsListArray.length <= 0
+                            getInstrumentsListArray.length <= 0
                     "
                 >
                     <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
                     <a class="caution__reload" @click="mount">Reload</a>
                 </div>
-                <template v-else-if="InstrumentsListArray.length > 0">
+                <template v-else-if="getInstrumentsListArray.length > 0">
                     <transition-group name="kyc-navbar">
                         <section key="1">
                             <InstrumentMobile
@@ -228,22 +227,58 @@ export default {
         handlescrollinfinitly(signType) {
 					if (true) {
                         console.log('>>>>>>>>>>>isIntersecting>>>>>>>booooooom>')
-                            const pagenation = {
-                                page: signType == "regression" ? --this.page :++this.page,
+                        if(signType == "regression"){
+                            if(this.page == 0){
+                                const pageCount = 0;
+                                const pagenation = {
+                                page:pageCount,
                                 perPage:this.perPage,
                                 slug:this.getInstrumentsPayload.slug
-						    };
-						// if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
-							this.infiniteLoader = true;
+                                };
+                                this.infiniteLoader = true;
+                                this.loaderState = true;
+                                this.SET_INSTRUMENT_BY_TAGS([])
+                                this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+                                    this.infiniteLoader = false;
+                                    this.loaderState = false;
+                                    this.loading = false;
+                                    this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
+                                    console.log('This is thee Instruments ????????', this.getInstrumentsListArray);
+                                });
+                            }else{
+                                const pagenation = {
+                                page: --this.page,
+                                perPage:this.perPage,
+                                slug:this.getInstrumentsPayload.slug
+                                };
+                                this.infiniteLoader = true;
+                                this.loaderState = true;
+                                this.SET_INSTRUMENT_BY_TAGS([])
+                                this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+                                    this.infiniteLoader = false;
+                                    this.loaderState = false;
+                                    this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
+                                    console.log('This is thee Instruments ????????', this.getInstrumentsListArray);
+                                });
+                            }
+                        }
+                        else{
+                            const pagenation = {
+                                page: ++this.page,
+                                perPage:this.perPage,
+                                slug:this.getInstrumentsPayload.slug
+                            };
+                            this.infiniteLoader = true;
                             this.loaderState = true;
-                            this.InstrumentsListArray = [];
+                            this.SET_INSTRUMENT_BY_TAGS([])
 							this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
 								this.infiniteLoader = false;
                                 this.loaderState = false;
-                                this.InstrumentsListArray = [...this.gettagslistsArray];
-                                // this.newInstrument.push(...this.getInstrumentsListArray);
-                                console.log('handlescrollinfinitly?????????????',this.newInstrument)
+                                this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
 							});
+                        }
+						// if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
+							
 						// }
 					}   
         },
@@ -258,9 +293,11 @@ export default {
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 return true;
             }
+          
             this.GET_INSTRUMENT_BY_TAGS(payload).then(() => {
                 this.loading = false;
                 this.infiniteLoader = false;
+                this.loading = false;
             });
         },
         getNewTags() {
@@ -274,7 +311,7 @@ export default {
         async mount() {
             this.GET_MOST_POPULAR();
             this.loading = true;
-            this.infiniteLoader = false;
+            this.infiniteLoader = true;
             this.page = 0; //this is to set the page back to the default when tags are clicked.
             this.loadingTags = true;
             await this.GET_TAGS_CATEGORIES(this.currentTag);
@@ -282,9 +319,11 @@ export default {
             if (this.gettagslistsArray.length > 0) {
                 this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
                  const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
+                 this.SET_INSTRUMENT_BY_TAGS([])
                     await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
                         this.infiniteLoader = false;
-                        this.InstrumentsListArray = [...this.getInstrumentsListArray];
+                        this.loading = false;
+                        this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
                 });
             }
             this.loading = false;

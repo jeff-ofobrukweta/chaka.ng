@@ -20,24 +20,14 @@
                                 0.0 | kobo | currency(getSingleinstrument[0].currency)
                         }}
                     </h1>
-                    <h1 class="percentage">
-                        <span
-                            :class="[
-                                getPricedetailsonblackcard.derivedPrice || 0.0 < 0
-                                    ? 'red'
-                                    : 'green',
-                                'price'
-                            ]"
-                            >{{ getPricedetailsonblackcard.derivedPrice }}</span
-                        >
-                        <span
-                            :class="[
-                                getPricedetailsonblackcard.derivedPricePercentage || 0.0 < 0
-                                    ? 'red'
-                                    : 'green',
-                                'price'
-                            ]"
-                            class="delta"
+                    <h1
+                        :class="[
+                            getPricedetailsonblackcard.derivedPrice >= 0 ? 'green' : 'red',
+                            'percentage'
+                        ]"
+                    >
+                        <span class="price">{{ getPricedetailsonblackcard.derivedPrice }}</span>
+                        <span class="price"
                             >({{ getPricedetailsonblackcard.derivedPricePercentage || 0.0 }}%)</span
                         >
                     </h1>
@@ -54,7 +44,7 @@
                                 :title="getSingleinstrument[0].name || 'no name availiable'"
                                 class="stockname"
                             >
-                                {{ getSingleinstrument[0].name || "" | truncate(10) }}
+                                {{ getSingleinstrument[0].name || "" | truncate(30) }}
                             </section>
                             <img
                                 class="state"

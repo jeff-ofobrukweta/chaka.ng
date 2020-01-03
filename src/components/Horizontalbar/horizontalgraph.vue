@@ -97,7 +97,7 @@ export default {
                             barPercentage: 0.7,
                             position: 'left',
                             ticks: {
-                                beginAtZero: false,
+                                beginAtZero: true,
                                 fontColor: '#8A939A',
                                 padding: 0,
                                 fontSize: 10,
