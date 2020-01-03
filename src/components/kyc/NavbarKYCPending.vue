@@ -10,7 +10,7 @@
                     >
                 </p>
                 <div>
-                    <p><small>Most Popular Today</small></p>
+                    <p><small>Most Popular</small></p>
                 </div>
                 <div class="kyc-nav__popular">
                     <router-link
@@ -27,17 +27,19 @@
                                 :alt="stock.symbol"
                             />
                         </div>
-                        <h6>{{ stock.name | truncate(10) }}</h6>
-                        <div>
-                            <img
-                                :src="
-                                    require(`../../assets/img/flags/${country(
-                                        stock.countryCode
-                                    )}-flag.svg`)
-                                "
-                                class="kyc-nav__popular--flag"
-                                :alt="stock.countryCode"
-                            />
+                        <div class="text-left">
+                            <h6>{{ stock.symbol | truncate(7) }}</h6>
+                            <div>
+                                <img
+                                    :src="
+                                        require(`../../assets/img/flags/${country(
+                                            stock.countryCode
+                                        )}-flag.svg`)
+                                    "
+                                    class="kyc-nav__popular--flag"
+                                    :alt="stock.countryCode"
+                                />
+                            </div>
                         </div>
                     </router-link>
                 </div>

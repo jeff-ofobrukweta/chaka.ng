@@ -66,7 +66,7 @@ export default {
                     this.clicked = false;
                     return true;
                 }
-                this.GET_NEXT_KYC({ context: "WITHDRAW" }).then(() => {
+                this.GET_NEXT_KYC().then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
                         this.$emit("step", { type: "withdraw", kyc: true });
                         this.clicked = false;
@@ -90,7 +90,7 @@ export default {
                     this.clicked = false;
                     return true;
                 }
-                this.GET_NEXT_KYC({ context: "LOCAL" }).then(() => {
+                this.GET_NEXT_KYC().then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
                         this.$emit("step", { type: "local", kyc: true });
                         this.clicked = false;
@@ -118,7 +118,7 @@ export default {
                     this.clicked = false;
                     return true;
                 }
-                this.GET_NEXT_KYC({ context: "GLOBAL" }).then(() => {
+                this.GET_NEXT_KYC().then(() => {
                     if (this.getNextKYC.status === "INCOMPLETE") {
                         this.$emit("step", { type: "global", kyc: true });
                         this.clicked = false;

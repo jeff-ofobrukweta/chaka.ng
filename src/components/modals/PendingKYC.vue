@@ -8,7 +8,7 @@
                         can now fund your wallet.
                     </p>
                     <br />
-                    <h5 class="grey-cool">Most Popular Today</h5>
+                    <h5 class="grey-cool">Most Popular</h5>
                     <div class="kyc-modal__popular">
                         <router-link
                             tag="div"
@@ -24,7 +24,7 @@
                                     :alt="stock.symbol"
                                 />
                             </div>
-                            <h6>{{ stock.name | truncate(15) }}</h6>
+                            <h6>{{ stock.symbol | truncate(15) }}</h6>
                             <div>
                                 <img
                                     :src="
@@ -56,10 +56,16 @@
                 <div>
                     <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                 </div>
-                <div class="mt-2">
+                <div
+                    class="mt-2"
+                    v-if="
+                        getLoggedUser.globalKycStatus === 'NONE' ||
+                            getLoggedUser.localKycStatus === 'NONE'
+                    "
+                >
                     <small>
                         <a class="underline" @click="handleStep('default')"
-                            >Continue Verification</a
+                            >Continue {{ subtext }} Verification</a
                         ></small
                     >
                 </div>
@@ -205,7 +211,11 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(["getLoggedUser", "getMostPopular"])
+        ...mapGetters(["getLoggedUser", "getMostPopular", "getKycModalAction"]),
+        subtext() {
+            if (this.getKycModalAction === "GLOBAL") return "Global";
+            if (this.getKycModalAction === "LOCAL") return "Local";
+        }
     },
     methods: {
         ...mapActions(["GET_MOST_POPULAR"]),
