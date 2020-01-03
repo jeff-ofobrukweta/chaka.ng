@@ -17,7 +17,8 @@
             </div>
             <h5 class="stock-vdr__center">Your Transaction was successful</h5>
             <div class="stock-vdr__modal">
-                <div class="stock-vdr__flex">
+                <p class="text-center">You have successfully {{ txText }}</p>
+                <!-- <div class="stock-vdr__flex">
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>{{ source === "Exchange" ? "Estimated " : " " }}Amount</label>
                         <p class="stock-vdr__text stock-vdr__center">
@@ -30,8 +31,8 @@
                             {{ source }}
                         </p>
                     </div>
-                </div>
-                <div class="stock-vdr__flex">
+                </div> -->
+                <!-- <div class="stock-vdr__flex">
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Date</label>
                         <p class="stock-vdr__text stock-vdr__center">
@@ -42,9 +43,10 @@
                         <label>Reference No.</label>
                         <p class="stock-vdr__text stock-vdr__center">{{ getWalletTx.reference }}</p>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="text-center">
+                <br />
                 <button type="button" class="btn btn__primary--outline" @click="closeModal()">
                     Close
                 </button>
@@ -59,11 +61,32 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
     name: "wallet-success",
     computed: {
-        ...mapGetters(["getWalletTx"]),
+        ...mapGetters(["getWalletTx", "getKYC"]),
         source() {
             if (this.getWalletTx.source === "WALLET") return "Exchange";
             if (this.getWalletTx.actionType === "CREDIT") return "Deposit";
             return "Withdrawal";
+        },
+        txText() {
+            if (this.getWalletTx.source === "WALLET")
+                return `exchanged ${this.$options.filters.currency(
+                    this.getWalletTx.txAmount / 100,
+                    this.getWalletTx.currency,
+                    true
+                )} into your ${this.getWalletTx.currency === "USD" ? "dollar" : "naira"} account`;
+            if (this.getWalletTx.actionType === "CREDIT")
+                return `funded ${this.$options.filters.currency(
+                    this.getWalletTx.txAmount / 100,
+                    this.getWalletTx.currency,
+                    true
+                )} into your ${this.getWalletTx.currency === "USD" ? "dollar" : "naira"} account`;
+            return `withdrawn ${this.$options.filters.currency(
+                this.getWalletTx.txAmount / 100,
+                this.getWalletTx.currency,
+                true
+            )} into your ${this.getWalletTx.bankAcctName}, Account Number ${
+                this.getWalletTx.bankAcctNo
+            }`;
         }
     },
     methods: {
