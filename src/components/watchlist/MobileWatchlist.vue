@@ -160,6 +160,9 @@ export default {
         },
         dummy: {
             type: Boolean
+        },
+        stockPage: {
+            type: Boolean
         }
     },
     data() {
@@ -200,7 +203,7 @@ export default {
             this.SET_BUY_MODAL({
                 instrument: this.instrument,
                 currency: this.instrument.currency,
-                stockPage: false,
+                stockPage: this.stockPage,
                 show: true
             });
         },

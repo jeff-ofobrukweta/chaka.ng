@@ -15,10 +15,8 @@
         </transition>
         <transition name="kyc-navbar" v-else>
             <div key="1">
-                <template v-if="allFields[0].value === 'phone'">
-                    <PhoneOTP @close="OTPSuccess" />
-                </template>
-                <template v-else-if="allFields[0].value === 'nin' || nin">
+                <PhoneOTP @close="OTPSuccess" v-if="sectionToShow === 'phone'" />
+                <div v-else-if="sectionToShow === 'nin'">
                     <form class="kyc-modal" @submit.prevent="updateKYC">
                         <div class="text-center mb-1">
                             <p>
@@ -49,8 +47,8 @@
                             <a @click="skipNIN" class="unerline primary">Skip</a>
                         </div>
                     </form>
-                </template>
-                <template v-else-if="isFileImage">
+                </div>
+                <div v-else-if="sectionToShow === 'file'">
                     <div class="kyc-modal kyc-modal__uploads">
                         <div class="text-center mb-1">
                             <p>
@@ -91,8 +89,8 @@
 
                         <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
                     </div>
-                </template>
-                <template v-else>
+                </div>
+                <div v-else>
                     <form class="kyc-modal" @submit.prevent="updateKYC">
                         <div class="text-center mb-1">
                             <p>
@@ -230,7 +228,7 @@
                             >
                         </div>
                     </form>
-                </template>
+                </div>
             </div>
         </transition>
     </modal>
@@ -349,6 +347,12 @@ export default {
                 return this.idTypes[this.idIndex - 1].name;
             }
             return "";
+        },
+        sectionToShow() {
+            if (this.allFields[0].value === "phone") return "phone";
+            if (this.allFields[0].value === "nin" || this.nin) return "nin";
+            if (this.isFileImage) return "file";
+            return "default";
         },
         showPendingStatus() {
             return this.getNavbarNextKYC.completedContexts.length > 0;
@@ -624,14 +628,16 @@ export default {
                 if (this.isFileImage || this.allFields.length === this.currentKYC.nextKYC.length) {
                     setTimeout(() => {
                         this.showModal = true;
-                    }, 100);
+                    }, 200);
                 }
             } else {
                 if (this.getNavbarNextKYC.completedContexts.length === 0) {
                     EventBus.$emit("MODAL_CLOSED");
                     this.$emit("updated", true);
                 } else {
-                    this.showModal = true;
+                    setTimeout(() => {
+                        this.showModal = true;
+                    }, 500);
                 }
             }
         }
@@ -641,9 +647,9 @@ export default {
         EventBus.$on("modal-trigger", () => {
             this.mount();
         });
-        // EventBus.$on("navbar-trigger", () => {
-        //     this.mount();
-        // });
+    },
+    beforeDestroy() {
+        this.closeModal();
     }
 };
 </script>
