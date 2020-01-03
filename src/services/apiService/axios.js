@@ -16,7 +16,8 @@ const instance = axios.create({
             toString() {
                 return `Bearer ${localStorage.getItem("AUTH_TOKEN")}`;
             }
-        }
+        },
+        "Access-Control-Allow-Origin": "*"
     }
     /**
      * TO-DO::Waiting for API to give a timeout
