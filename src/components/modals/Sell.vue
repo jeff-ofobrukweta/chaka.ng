@@ -32,26 +32,28 @@
             <template v-if="!showTerms">
                 <div class="modal__buy--current">
                     <p><small>CURRENT STOCK PRICE:</small></p>
-                    <p v-if="getSingleinstrument.length <= 0">-</p>
+                    <p v-if="Object.keys(instrument).length <= 0">-</p>
                     <p v-else>
                         <span
                             class="cursor-context modal__buy--price"
-                            :title="getMarketData.ask || '-' | currency(instrument.currency, true)"
-                            >{{ getMarketData.ask || "-" | currency(instrument.currency) }}</span
+                            :title="
+                                getMarketData.ask || instrument.askPrice | currency(currency, true)
+                            "
+                            >{{
+                                getMarketData.ask || instrument.askPrice | currency(currency)
+                            }}</span
                         >&nbsp;&nbsp;
                         <img
-                            v-if="getSingleinstrument[0].derivedPrice >= 0"
+                            v-if="instrument.derivedPrice >= 0"
                             :src="require('../../assets/img/green-arrow.svg')"
                             alt="Growth"
                         />
                         <img v-else :src="require('../../assets/img/red-arrow.svg')" alt="Growth" />
-                        <span
-                            :class="[+getSingleinstrument[0].derivedPrice >= 0 ? 'green' : 'red']"
-                        >
+                        <span :class="[+instrument.derivedPrice >= 0 ? 'green' : 'red']">
                             <small
-                                >{{ +getSingleinstrument[0].derivedPrice >= 0 ? "+" : ""
-                                }}{{ +getSingleinstrument[0].derivedPrice | units(2) }} ({{
-                                    +getSingleinstrument[0].derivedPricePercentage | units(2)
+                                >{{ +instrument.derivedPrice >= 0 ? "+" : ""
+                                }}{{ +instrument.derivedPrice | units(2) }} ({{
+                                    +instrument.derivedPricePercentage | units(2)
                                 }}%)</small
                             ></span
                         >
@@ -280,23 +282,6 @@ export default {
         CurrencyInput,
         PendingKYC: () => import("./PendingKYC")
     },
-    props: {
-        currency: {
-            type: String,
-            required: true
-        },
-        instrument: {
-            type: Object,
-            required: true
-        },
-        maxQuantity: {
-            type: Number,
-            required: true
-        },
-        stockPage: {
-            type: Boolean
-        }
-    },
     data() {
         return {
             itemData: {},
@@ -318,9 +303,7 @@ export default {
             "getPreOrder",
             "getLoggedUser",
             "getNextKYC",
-            "getSingleinstrument",
-            "getglobalstocksowned",
-            "getlocalstocksowned"
+            "getSellModal"
         ]),
         isSellValid() {
             if (this.instrument.currency === "NGN") {
@@ -338,6 +321,18 @@ export default {
         symbol() {
             return this.instrument.symbol;
         },
+        currency() {
+            return this.getSellModal.currency || this.instrument.currency;
+        },
+        instrument() {
+            return this.getSellModal.instrument;
+        },
+        maxQuantity() {
+            return this.getSellModal.maxQuantity;
+        },
+        stockPage() {
+            return this.getSellModal.stockPage;
+        },
         modalTitle() {
             if (this.currency === "NGN") return "Processing Local Verification";
             return "Processing Global Verification";
@@ -347,7 +342,6 @@ export default {
         ...mapActions([
             "GET_ACCOUNT_SUMMARY",
             "SELL_INSTRUMENT",
-            "GET_SINGLESTOCK_INSTRUMENT",
             "GET_MARKET_DATA",
             "GET_PRE_ORDER"
         ]),
@@ -356,11 +350,9 @@ export default {
             "SET_SELL_ORDER",
             "SET_BUY_ORDER",
             "RESET_REQ",
-            "SET_SINGLE_INSTRUMENT",
             "SET_FUND_MODAL"
         ]),
         closeModal() {
-            if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
             this.$emit("close");
         },
         switchOrder(value) {
@@ -441,7 +433,6 @@ export default {
                      * close buy modal
                      * show success modal
                      */
-                    if (!this.stockPage) this.SET_SINGLE_INSTRUMENT([]);
                     this.$emit("close", true);
                 }
             });
@@ -497,9 +488,8 @@ export default {
         this.RESET_REQ();
         this.SET_BUY_ORDER({});
         this.SET_SELL_ORDER({});
-        if (this.isSellValid) {
+        if (this.isSellValid === 3) {
             this.GET_MARKET_DATA(this.symbol);
-            this.GET_SINGLESTOCK_INSTRUMENT({ symbols: this.symbol });
             await this.GET_ACCOUNT_SUMMARY();
         }
     },

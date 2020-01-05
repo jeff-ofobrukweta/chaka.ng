@@ -2,7 +2,7 @@
     <Fragment v-if="type === 'PENDING'">
         <div>
             <div class="kyc-modal">
-                <div class="text-center mb-3">
+                <div class="text-center">
                     <p class="kyc-modal__small">
                         You have completed your submissions and your verification is processing. You
                         can now fund your wallet.
@@ -47,7 +47,7 @@
     </Fragment>
     <Fragment v-else-if="type === 'WITHDRAW'">
         <div class="kyc-modal">
-            <div class="text-center mb-3">
+            <div class="text-center">
                 <p class="kyc-modal__small">
                     Your profile is being verified for withdrawals. You can now fund your Naira or
                     Dollar wallet.
@@ -75,7 +75,7 @@
     <Fragment v-else-if="isBuyValid === 2">
         <template v-if="type === 'LOCAL' || instrument.currency === 'NGN'">
             <div class="kyc-modal">
-                <div class="text-center mb-3">
+                <div class="text-center">
                     <p class="kyc-modal__small">
                         Your profile is being verified for local trading. You can now fund your
                         Naira or Dollar wallet.
@@ -131,7 +131,7 @@
         </template>
         <template v-else>
             <div class="kyc-modal">
-                <div class="text-center mb-3">
+                <div class="text-center">
                     <p class="kyc-modal__small">
                         Your profile is being verified for global trading. You can now fund your
                         Naira or Dollar wallet.
@@ -215,8 +215,8 @@ export default {
     computed: {
         ...mapGetters(["getLoggedUser", "getMostPopular", "getKycModalAction"]),
         subtext() {
-            if (this.getKycModalAction === "GLOBAL") return "Global";
             if (this.getKycModalAction === "LOCAL") return "Local";
+            return "Global";
         }
     },
     methods: {

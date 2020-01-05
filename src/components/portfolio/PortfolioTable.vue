@@ -222,12 +222,16 @@ export default {
             if (value >= 0) return true;
             return false;
         },
-        checkPositions(symbol, currency) {
+        checkPositions() {
             let check = [];
-            if (currency === "NGN") {
-                check = this.getlocalstocksowned.filter(element => element.symbol === symbol);
+            if (this.selectedInstrument.currency === "NGN") {
+                check = this.getlocalstocksowned.filter(
+                    element => element.symbol === this.selectedInstrument.symbol
+                );
             } else {
-                check = this.getglobalstocksowned.filter(element => element.symbol === symbol);
+                check = this.getglobalstocksowned.filter(
+                    element => element.symbol === this.selectedInstrument.symbol
+                );
             }
             if (check.length > 0) {
                 const { quantity } = check[0];
@@ -240,7 +244,7 @@ export default {
         selectInstrument(instrument, type) {
             this.type = type;
             this.selectedInstrument = instrument;
-            this.checkPositions(instrument.symbol, instrument.currency);
+            this.checkPositions();
         },
         cancelOrder(item) {
             this.cancelStatus = {};
@@ -293,6 +297,7 @@ export default {
                 }, 50);
                 return true;
             }
+            this.checkPositions();
             setTimeout(() => {
                 this.SET_SELL_MODAL({
                     instrument: this.selectedInstrument,

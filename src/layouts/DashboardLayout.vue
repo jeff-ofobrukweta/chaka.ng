@@ -16,21 +16,8 @@
                 <router-view />
             </section>
         </main>
-        <buy-modal
-            @close="closeBuy"
-            :currency="getBuyModal.instrument.currency"
-            :instrument="getBuyModal.instrument"
-            :stock-page="getBuyModal.stockPage"
-            v-if="getBuyModal.show"
-        />
-        <sell-modal
-            @close="closeSell"
-            :currency="getSellModal.instrument.currency"
-            :instrument="getSellModal.instrument"
-            :max-quantity="getSellModal.maxQuantity"
-            :stock-page="getSellModal.stockPage"
-            v-if="getSellModal.show"
-        />
+        <buy-modal @close="closeBuy" v-if="getBuyModal.show" />
+        <sell-modal @close="closeSell" v-if="getSellModal.show" />
         <sale-success @close="closeSale" v-if="getSaleSuccess" />
         <fund-modal @close="closeFund" v-if="getFundModal" />
         <ExchangeModal @close="closeExchange" v-if="getExchangeModal" />

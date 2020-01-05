@@ -19,6 +19,7 @@ router.beforeEach((to, from, next) => {
     store.commit("RESET_REQ");
     store.commit("RESET_MODALS");
     store.commit("SEARCH_OPENED", false);
+    store.dispatch("GET_MOST_POPULAR");
     next();
 });
 
