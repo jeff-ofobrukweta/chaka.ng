@@ -16,7 +16,7 @@
                             >
                             <kyc-button
                                 ref="sellBtn"
-                                v-if="getSingleinstrument[0] && checkPositions()"
+                                v-if="getSingleinstrument && checkPositions()"
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
@@ -69,7 +69,7 @@
                     </div>
                     <section class="btn-parent-container">
                         <section
-                            :class="[getSingleinstrument[0].currency == 'USD' ? '' : 'display']"
+                            :class="[getSingleinstrument.currency == 'USD' ? '' : 'display']"
                             class="btn-container"
                         >
                             <button
@@ -104,17 +104,15 @@
             <template v-else>
                 <technical-chart
                     v-if="tooglegraph"
-                    :symbol="getSingleinstrument[0].symbol"
-                    :exchangeID="getSingleinstrument[0].exchangeID"
+                    :symbol="getSingleinstrument.symbol"
+                    :exchangeID="getSingleinstrument.exchangeID"
                 />
                 <Graph
                     v-else
                     :class="tooglegraph ? 'display' : 'nodisplay'"
                     :price="getOpenPrice"
                     :date="getDates"
-                    :currency="
-                        getSinglestockglobalCurrencyforGraph || getSingleinstrument[0].currency
-                    "
+                    :currency="getSinglestockglobalCurrencyforGraph || getSingleinstrument.currency"
                 />
             </template>
             <section class="buy-container-action">
@@ -129,11 +127,8 @@
                 <kyc-button
                     ref="sellBtn"
                     v-if="
-                        getSingleinstrument[0] &&
-                            checkPositions(
-                                getSingleinstrument[0].symbol,
-                                getSingleinstrument[0].currency
-                            )
+                        getSingleinstrument &&
+                            checkPositions(getSingleinstrument.symbol, getSingleinstrument.currency)
                     "
                     :classes="['selling']"
                     :action="instrument.currency === 'NGN' ? 'local' : 'global'"
@@ -292,13 +287,13 @@ export default {
         ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
         checkPositions() {
             let check = [];
-            if (this.getSingleinstrument[0].currency === "NGN") {
+            if (this.getSingleinstrument.currency === "NGN") {
                 check = this.getlocalstocksowned.filter(
-                    element => element.symbol === this.getSingleinstrument[0].symbol
+                    element => element.symbol === this.getSingleinstrument.symbol
                 );
             } else {
                 check = this.getglobalstocksowned.filter(
-                    element => element.symbol === this.getSingleinstrument[0].symbol
+                    element => element.symbol === this.getSingleinstrument.symbol
                 );
             }
             if (check.length > 0) {
@@ -350,10 +345,6 @@ export default {
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 this.loading = false;
-                console.log(
-                    "the new derived % derived percentage object",
-                    this.getPricedetailsonblackcard
-                );
             });
         },
         async toogleCurrency(currency, id) {
@@ -414,13 +405,13 @@ export default {
         // const emitData = {getOpenPrice:this.getOpenPrice,getDates:this.getDates}
         // EventBus.$emit('fillData',emitData);
         // if (
-        //     this.getSingleinstrument[0] &&
-        //     this.getSingleinstrument[0].symbol &&
-        //     this.getSingleinstrument[0].currency
+        //     this.getSingleinstrument &&
+        //     this.getSingleinstrument.symbol &&
+        //     this.getSingleinstrument.currency
         // ) {
         //     this.checkPositions(
-        //         this.getSingleinstrument[0].symbol,
-        //         this.getSingleinstrument[0].currency
+        //         this.getSingleinstrument.symbol,
+        //         this.getSingleinstrument.currency
         //     );
         // } else return;
         next();
