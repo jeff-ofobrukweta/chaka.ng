@@ -789,9 +789,6 @@ export default {
         EventBus.$on("navbar-trigger", () => {
             this.checkNextKYC();
         });
-        // EventBus.$on("modal-trigger", () => {
-        //     this.checkNextKYC();
-        // });
     },
     watch: {
         "itemData.bvn": function(newVal) {

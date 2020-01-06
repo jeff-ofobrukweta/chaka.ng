@@ -13,57 +13,57 @@
 </template>
 
 <script>
-import numeral from 'numeral';
-import Doughnut from './horizontalbar_config';
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import numeral from "numeral";
+import Doughnut from "./horizontalbar_config";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
-    name: 'doughnutgraph',
+    name: "doughnutgraph",
     components: {
         Doughnut
     },
     data() {
         return {
-            min: '',
-            max: '',
+            min: "",
+            max: "",
             graphstyle: {
-                width: '90%',
-                margin: '0 auto'
+                width: "90%",
+                margin: "0 auto"
             },
             interval: 10,
             datacollection: {},
             loaderGraph: true,
-            day: '',
+            day: "",
             showError: false,
             buttonoption: [
                 {
-                    name: 'TAB1',
-                    time: '1D',
+                    name: "TAB1",
+                    time: "1D",
                     id: 1
                 },
                 {
-                    name: 'TAB2',
-                    time: '1W',
+                    name: "TAB2",
+                    time: "1W",
                     id: 2
                 },
                 {
-                    name: 'TAB3',
-                    time: '1M',
+                    name: "TAB3",
+                    time: "1M",
                     id: 3
                 },
                 {
-                    name: 'TAB4',
-                    time: '3M',
+                    name: "TAB4",
+                    time: "3M",
                     id: 4
                 },
                 {
-                    name: 'TAB5',
-                    time: '1Y',
+                    name: "TAB5",
+                    time: "1Y",
                     id: 5
                 },
                 {
-                    name: 'TAB6',
-                    time: '5Y',
+                    name: "TAB6",
+                    time: "5Y",
                     id: 6
                 }
             ],
@@ -82,7 +82,7 @@ export default {
                             // 		},
                             gridLines: {
                                 display: false,
-                                labelString: 'Date',
+                                labelString: "Date",
                                 drawBorder: false
                             }
                         }
@@ -95,10 +95,10 @@ export default {
                                 // labelString: 'Price'
                             },
                             barPercentage: 0.7,
-                            position: 'left',
+                            position: "left",
                             ticks: {
                                 beginAtZero: true,
-                                fontColor: '#8A939A',
+                                fontColor: "#8A939A",
                                 padding: 0,
                                 fontSize: 10,
                                 max: this.max,
@@ -133,9 +133,9 @@ export default {
                     }
                 },
                 tooltips: {
-                    mode: 'index',
+                    mode: "index",
                     intersect: false,
-                    backgroundColor: '#293D4A',
+                    backgroundColor: "#293D4A",
                     titleFontSize: 12, // default font-size
                     title(tooltipItem, data) {
                         return data.labels[tooltipItem[0].index];
@@ -151,7 +151,7 @@ export default {
                         }
                     },
                     hover: {
-                        mode: 'index',
+                        mode: "index",
                         intersect: false
                     }
                 },
@@ -166,7 +166,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getActionanalysis', 'getValueanalysis'])
+        ...mapGetters(["getActionanalysis", "getValueanalysis"])
     },
     mounted() {
         this.fillData();
@@ -182,27 +182,27 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA']),
+        ...mapActions(["GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA"]),
         ...mapMutations([
-            'SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE',
-            'SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION'
+            "SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE",
+            "SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION"
         ]),
         fillData() {
             this.datacollection = {
                 labels: this.getActionanalysis,
                 datasets: [
                     {
-                        label: 'Stocks',
+                        label: "Stocks",
                         fill: true,
-                        backgroundColor: ['#57D11F', '#FFBF00', '#D80027'],
+                        backgroundColor: ["#57D11F", "#FFBF00", "#D80027"],
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: 'miter',
-                        pointBackgroundColor: '#484848',
+                        borderJoinStyle: "miter",
+                        pointBackgroundColor: "#484848",
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#2DA5EC',
-                        pointHoverBorderColor: 'rgba(220,220,220,1)',
+                        pointHoverBackgroundColor: "#2DA5EC",
+                        pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,
@@ -223,11 +223,10 @@ export default {
     beforeRouteUpdate(to, from, next) {
         this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE([]);
         this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION([]);
-        const payload = {symbol: to.params.symbol};
-        this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then((res)=>{
-            console.log('THIS IS THE RESPONSES HERE',res);
-            if(!res){
-                this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION({})
+        const payload = { symbol: to.params.symbol };
+        this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then(res => {
+            if (!res) {
+                this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION({});
             }
         });
         next();

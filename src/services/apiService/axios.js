@@ -4,9 +4,9 @@ import jwtDecode from "jwt-decode";
 import router from "../../router";
 import store from "../../store/index";
 
-const baseURL = "https://test-api.chaka.io";
+// const baseURL = "https://test-api.chaka.io";
+const baseURL = process.env.VUE_APP_API_URL;
 const instance = axios.create({
-    // baseURL: `https://c89940da-8733-4b38-9260-058a90e8895f.mock.pstmn.io`,
     baseURL,
     crossdomain: true,
     headers: {

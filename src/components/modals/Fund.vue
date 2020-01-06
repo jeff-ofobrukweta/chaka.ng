@@ -24,7 +24,7 @@
             </div>
         </template>
 
-        <!-- TO-DO: Put back if dollar funding is blocked for incomplete KYCs -->
+        <!-- TO-DO :: Put back if dollar funding is blocked for incomplete KYCs -->
 
         <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
             <div class="modal-form" v-if="canFundGlobal === 1">
