@@ -61,7 +61,7 @@ const actions = {
                         commit("SET_SINGLE_INSTRUMENT", instruments);
                         if (instruments.similar)
                             dispatch("GET_SIMILAR_STOCKS", instruments[0].similar.join(","));
-                        resolve(instruments[0]);
+                            resolve(instruments[0]);
                     }
                 })
                 .catch(error => {

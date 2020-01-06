@@ -47,6 +47,12 @@
         }
     }
 }
+.stockname {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    color: #293D4A;
+}
 .center-fix-messg{text-align: center;line-height: 5.5;}
 .sumary{margin: 10px 0px;}
 
@@ -80,43 +86,55 @@
 .wraper-main {
     margin: 4em 0px;
 }
+.logo-company {
+    object-fit: contain;
+    margin-right: .5em;
+    width: 5em;
+    height: 5em;
+    border-radius: 4px;
+    border: 1px solid #b8b8b8;
+}
+.state {
+    object-fit: contain;
+    width: 20px;
+    height: 20px;
+}
+.btn-wrapper{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    section{
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+.item-name-country{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
 
 .left-header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
+    flex: 1 1 100%;
 
     .name-country {
         display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-
-        .logo-company {
-            object-fit: contain;
-            margin-right: .5em;
-            width: 5em;
-            height: 5em;
-            border-radius: 4px;
-            border: 1px solid #b8b8b8;
-        }
-
-        .item-name-country {
+        align-items: center;
+        .child-name-country{
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-
-            .stockname {
-                font-style: normal;
-                font-weight: bold;
-                font-size: 20px;
-                color: #293D4A;
-            }
-
-            .state {
-                object-fit: contain;
-                width: 20px;
-                height: 20px;
+            flex-direction: row;
+            justify-content: flex-start;
+            
+    
+            .item-name-country {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                
             }
         }
     }
@@ -231,7 +249,7 @@
         width: 129px;
     }
     .stockname{
-        width: 270px;
+        width:100%;
     }
 
     .small-size {

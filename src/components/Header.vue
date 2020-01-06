@@ -362,6 +362,9 @@
                                 }}</span
                             ></router-link
                         >
+                        <router-link class="wallet-icon" :to="{ name: 'accounts-wallet' }">
+                            <img src="../assets/img/portfolio1-dark.svg" alt="Wallet" class="wallet-icon" />
+                        </router-link>
                         <button class="btn btn__icon btn__icon--md btn__primary" @click="showFund">
                             +
                         </button>
