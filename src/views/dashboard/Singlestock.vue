@@ -16,35 +16,36 @@
                 <section class="left-header">
                     <section class="name-country">
                         <template class="child-name-country">
-                        <img
-                            class="logo-company"
-                            :src="getSingleinstrument[0].logoUrl"
-                            alt="logo"
-                        />
-                        <aside class="item-name-country">
-                            <section
-                                :title="getSingleinstrument[0].name || 'no name availiable'"
-                                class="stockname"
-                            >
-                                {{ getSingleinstrument[0].name || "" | truncate(30) }}
-                            </section>
                             <img
-                                class="state"
-                                :src="
-                                    require(`../../assets/img/icons/flags/${getSingleinstrument[0].countryCode.toLowerCase()}-flag.svg`)
-                                "
-                                alt="state"
+                                class="logo-company"
+                                :src="getSingleinstrument.logoUrl"
+                                alt="logo"
                             />
-                        </aside>
+                            <aside class="item-name-country">
+                                <section
+                                    :title="getSingleinstrument.name || 'no name availiable'"
+                                    class="stockname"
+                                >
+                                    {{ getSingleinstrument.name || "" | truncate(30) }}
+                                </section>
+                                <img
+                                    class="state"
+                                    :src="
+                                        require(`../../assets/img/icons/flags/${countryCode}-flag.svg`)
+                                    "
+                                    alt="state"
+                                />
+                            </aside>
                         </template>
-                        
                     </section>
                     <section class="btn-wrapper">
-                        <section >
+                        <section>
                             <kyc-button
                                 ref="buyBtn"
                                 :classes="['buy-btn']"
-                                :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
+                                :action="
+                                    getSingleinstrument.currency === 'NGN' ? 'local' : 'global'
+                                "
                                 @step="handleStep"
                                 next-action="buy"
                                 >Buy</kyc-button
@@ -69,23 +70,31 @@
                             </button>
                         </section>
                         <section>
-                                <section class="right-header">
+                            <section class="right-header">
                                 <h1 class="price">
                                     {{
-                                        getSingleinstrument[0].InstrumentDynamic.askPrice || 0.00
-                                            | kobo
-                                            | currency(getSingleinstrument[0].currency,true)
+                                        getSingleinstrument.InstrumentDynamic.askPrice ||
+                                            0.0
+                                                | kobo
+                                                | currency(getSingleinstrument.currency, true)
                                     }}
                                 </h1>
                                 <h1
                                     :class="[
-                                        getPricedetailsonblackcard.derivedPrice >= 0 ? 'green' : 'red',
+                                        getPricedetailsonblackcard.derivedPrice >= 0
+                                            ? 'green'
+                                            : 'red',
                                         'percentage'
                                     ]"
                                 >
-                                    <span class="price">{{ getPricedetailsonblackcard.derivedPrice }}</span>
+                                    <span class="price">{{
+                                        getPricedetailsonblackcard.derivedPrice
+                                    }}</span>
                                     <span class="price"
-                                        >({{ getPricedetailsonblackcard.derivedPricePercentage || 0.0 }}%)</span
+                                        >({{
+                                            getPricedetailsonblackcard.derivedPricePercentage ||
+                                                0.0
+                                        }}%)</span
                                     >
                                 </h1>
                             </section>
@@ -97,7 +106,7 @@
                 ref="buyBtn"
                 v-if="getWindowWidth === 'mobile'"
                 :classes="['small-size']"
-                :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
+                :action="getSingleinstrument.currency === 'NGN' ? 'local' : 'global'"
                 @step="handleStep"
                 next-action="buy"
                 >Buy</kyc-button
@@ -116,13 +125,13 @@
 
             <section class="sumary">
                 <div
-                    v-if="getSingleinstrument[0].description"
-                    :title="getSingleinstrument[0].description"
+                    v-if="getSingleinstrument.description"
+                    :title="getSingleinstrument.description"
                     class="summary-cover"
                 >
-                    <div v-if="getSingleinstrument[0].description.length >= 300">
+                    <div v-if="getSingleinstrument.description.length >= 300">
                         <section v-if="description">
-                            {{ getSingleinstrument[0].description || "" | truncate(300)
+                            {{ getSingleinstrument.description || "" | truncate(300)
                             }}<span
                                 ><a class="expand" @click="description = !description"
                                     >see&nbsp;more</a
@@ -130,7 +139,7 @@
                             >
                         </section>
                         <section v-else>
-                            {{ getSingleinstrument[0].description || ""
+                            {{ getSingleinstrument.description || ""
                             }}<span
                                 ><a class="expand" @click="description = !description"
                                     >see&nbsp;less</a
@@ -140,7 +149,7 @@
                     </div>
                     <div v-else>
                         <section>
-                            {{ getSingleinstrument[0].description || "" }}
+                            {{ getSingleinstrument.description || "" }}
                         </section>
                     </div>
                 </div>
@@ -169,7 +178,7 @@
                 <!-- <button @click="handleOauth('linkedin')">linkedin</button>
                     <div v-html="getSocials"></div> -->
                 <div
-                    v-for="(tag, index) in getSingleinstrument[0].Tags"
+                    v-for="(tag, index) in getSingleinstrument.Tags"
                     :key="index"
                     class="stocktag-container"
                 >
@@ -180,12 +189,12 @@
             </section>
             <section class="container-graph">
                 <div class="graph-container">
-                    <Linegraph :instrument="getSingleinstrument[0]" />
+                    <Linegraph :instrument="getSingleinstrument" />
                 </div>
                 <Cardblue :instrument="getPricedetailsonblackcard || {}" />
             </section>
             <section class="container-instrument">
-                <StockTable :instrument="getSingleinstrument[0] || {}" />
+                <StockTable :instrument="getSingleinstrument || {}" />
             </section>
             <section class="container-stocks">
                 <Horizontalchart />
@@ -210,7 +219,7 @@
                     </template>
                     <template v-else>
                         <p class="text-center">
-                            There are no similar stocks for {{ getSingleinstrument[0].name }}
+                            There are no similar stocks for {{ getSingleinstrument.name }}
                         </p>
                     </template>
                 </div>
@@ -231,7 +240,7 @@
                 </transition-group>
                 <template v-else>
                     <p class="text-center">
-                        There are no similar stocks for {{ getSingleinstrument[0].name }}
+                        There are no similar stocks for {{ getSingleinstrument.name }}
                     </p>
                 </template>
             </section>
@@ -281,8 +290,13 @@ export default {
             "getNextKYC",
             "getWatchlist",
             "getNews",
-            "getInstrumentsPayload",
-        ])
+            "getInstrumentsPayload"
+        ]),
+        countryCode() {
+            if (this.getSingleinstrument.countryCode)
+                return this.getSingleinstrument.countryCode.toLowerCase();
+            return;
+        }
     },
     methods: {
         ...mapActions([
@@ -351,8 +365,8 @@ export default {
         showBuy() {
             this.showKYC = false;
             this.SET_BUY_MODAL({
-                instrument: this.getSingleinstrument[0],
-                currency: this.getSingleinstrument[0].currency,
+                instrument: this.getSingleinstrument,
+                currency: this.getSingleinstrument.currency,
                 stockPage: true,
                 show: true
             });
@@ -360,7 +374,7 @@ export default {
         },
         async OnhandleaddToWatchlist() {
             // this.watchdisable = true;
-            const payload = { symbols: String(this.getSingleinstrument[0].symbol) };
+            const payload = { symbols: String(this.getSingleinstrument.symbol) };
             await this.ADD_TO_WATCHLIST(payload);
             setTimeout(() => {
                 // this.watchdisable = false;
@@ -375,7 +389,7 @@ export default {
         },
         async OnhandleremoveFromWatchlist() {
             // this.watchdisable = true;
-            const payload = { symbols: String(this.getSingleinstrument[0].symbol) };
+            const payload = { symbols: String(this.getSingleinstrument.symbol) };
             await this.REMOVE_FROM_WATCHLIST(payload);
             //  this.watchdisable = false;
             this.statusOfWatchlist = !this.statusOfWatchlist;
@@ -393,6 +407,8 @@ export default {
         },
         async mountedAction(symbol) {
             this.loading = true;
+            this.SET_SINGLE_INSTRUMENT({});
+            this.SET_NEWS([]);
             const singlestockpayload = { symbols: symbol };
             const newsSinglestockpayload = { symbol };
             this.similarLoading = true;
@@ -402,14 +418,11 @@ export default {
                 );
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
-            this.SET_SINGLE_INSTRUMENT([]);
-            this.SET_NEWS([]);
-            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
-                this.loading = false;
-                this.similarLoading = false;
-                this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
-                this.GET_ARTICULE_NEWS(newsSinglestockpayload);
-            });
+            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload);
+            this.loading = false;
+            this.similarLoading = false;
+            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument.similar] || []);
+            this.GET_ARTICULE_NEWS(newsSinglestockpayload);
         },
         setTagPayload(valuePayload) {
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
@@ -423,14 +436,12 @@ export default {
         this.mountedAction(this.$route.params.symbol);
     },
     beforeRouteUpdate(to, from, next) {
-        this.SET_SINGLE_INSTRUMENT([]);
-        this.SET_NEWS([]);
         this.mountedAction(to.params.symbol);
         next();
     },
     beforeDestroy() {
         this.SET_NEWS([]);
-        this.SET_SINGLE_INSTRUMENT([]);
+        this.SET_SINGLE_INSTRUMENT({});
     },
     data() {
         return {

@@ -37,10 +37,10 @@
     </section>
 </template>
 <script>
-import Flickity from 'vue-flickity';
+import Flickity from "vue-flickity";
 
 export default {
-    name: 'slider',
+    name: "slider",
     components: {
         Flickity
     },
@@ -52,7 +52,7 @@ export default {
                 pageDots: false,
                 resize: true,
                 wrapAround: true,
-                cellAlign: 'left',
+                cellAlign: "left",
                 contain: true
             }
         };
@@ -62,9 +62,6 @@ export default {
             type: Object,
             required: true
         }
-    },
-    mounted() {
-        console.log('GGGGGGGGGGGGGGGGGGGGGGGG', this.stamplists);
     },
     methods: {
         next() {
@@ -76,15 +73,15 @@ export default {
         computeCert(cert) {
             const val = cert.currentValue;
             switch (cert.currency) {
-            case 'USD':
-                if (val < 500000) return 1;
-                if (val >= 500000 && val < 3000000) return 2;
-                return 3;
+                case "USD":
+                    if (val < 500000) return 1;
+                    if (val >= 500000 && val < 3000000) return 2;
+                    return 3;
 
-            default:
-                if (val < 100000000) return 1;
-                if (val >= 100000000 && val < 1000000000) return 2;
-                return 3;
+                default:
+                    if (val < 100000000) return 1;
+                    if (val >= 100000000 && val < 1000000000) return 2;
+                    return 3;
             }
         }
     }

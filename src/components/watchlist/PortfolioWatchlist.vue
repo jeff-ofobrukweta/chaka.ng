@@ -119,7 +119,6 @@ export default {
             }
         },
         showBuy() {
-            console.log("I got to open buy");
             this.showKYC = false;
             this.SET_BUY_MODAL({
                 instrument: this.instrument,
