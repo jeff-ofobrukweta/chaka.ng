@@ -185,7 +185,7 @@
                 <Cardblue :instrument="getPricedetailsonblackcard || {}" />
             </section>
             <section class="container-instrument">
-                <StockTable :instrument="getSingleinstrument[0] || []" />
+                <StockTable :instrument="getSingleinstrument[0] || {}" />
             </section>
             <section class="container-stocks">
                 <Horizontalchart />
@@ -403,6 +403,7 @@ export default {
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
             this.SET_SINGLE_INSTRUMENT([]);
+            this.SET_NEWS([]);
             await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
                 this.loading = false;
                 this.similarLoading = false;
@@ -423,10 +424,12 @@ export default {
     },
     beforeRouteUpdate(to, from, next) {
         this.SET_SINGLE_INSTRUMENT([]);
+        this.SET_NEWS([]);
         this.mountedAction(to.params.symbol);
         next();
     },
     beforeDestroy() {
+        this.SET_NEWS([]);
         this.SET_SINGLE_INSTRUMENT([]);
     },
     data() {
