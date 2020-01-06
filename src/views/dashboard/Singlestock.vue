@@ -13,28 +13,9 @@
         </section>
         <section v-else class="dashboard__main">
             <div class="header-container dashboard__title">
-                <section class="right-header">
-                    <h1 class="price">
-                        {{
-                            getSingleinstrument[0].InstrumentDynamic.askPrice || 0.00
-                                | kobo
-                                | currency(getSingleinstrument[0].currency,true)
-                        }}
-                    </h1>
-                    <h1
-                        :class="[
-                            getPricedetailsonblackcard.derivedPrice >= 0 ? 'green' : 'red',
-                            'percentage'
-                        ]"
-                    >
-                        <span class="price">{{ getPricedetailsonblackcard.derivedPrice }}</span>
-                        <span class="price"
-                            >({{ getPricedetailsonblackcard.derivedPricePercentage || 0.0 }}%)</span
-                        >
-                    </h1>
-                </section>
                 <section class="left-header">
                     <section class="name-country">
+                        <template class="child-name-country">
                         <img
                             class="logo-company"
                             :src="getSingleinstrument[0].logoUrl"
@@ -55,34 +36,60 @@
                                 alt="state"
                             />
                         </aside>
+                        </template>
+                        
                     </section>
                     <section class="btn-wrapper">
-                        <kyc-button
-                            ref="buyBtn"
-                            :classes="['buy-btn']"
-                            :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
-                            @step="handleStep"
-                            next-action="buy"
-                            >Buy</kyc-button
-                        >
-                        <button
-                            v-if="checkIfStockInWatchlist.length > 0"
-                            @click="OnhandleremoveFromWatchlist"
-                            class="watch"
-                        >
-                            <img
-                                class="middle-loader"
-                                :src="require('../../assets/img/watch-close.svg')"
-                                alt="spin"
-                            />
-                        </button>
-                        <button v-else @click="OnhandleaddToWatchlist" class="unwatch">
-                            <img
-                                class="middle-loader"
-                                :src="require('../../assets/Instrument_assets/watch.png')"
-                                alt="spin"
-                            />
-                        </button>
+                        <section >
+                            <kyc-button
+                                ref="buyBtn"
+                                :classes="['buy-btn']"
+                                :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
+                                @step="handleStep"
+                                next-action="buy"
+                                >Buy</kyc-button
+                            >
+                            <button
+                                v-if="checkIfStockInWatchlist.length > 0"
+                                @click="OnhandleremoveFromWatchlist"
+                                class="watch"
+                            >
+                                <img
+                                    class="middle-loader"
+                                    :src="require('../../assets/img/watch-close.svg')"
+                                    alt="spin"
+                                />
+                            </button>
+                            <button v-else @click="OnhandleaddToWatchlist" class="unwatch">
+                                <img
+                                    class="middle-loader"
+                                    :src="require('../../assets/Instrument_assets/watch.png')"
+                                    alt="spin"
+                                />
+                            </button>
+                        </section>
+                        <section>
+                                <section class="right-header">
+                                <h1 class="price">
+                                    {{
+                                        getSingleinstrument[0].InstrumentDynamic.askPrice || 0.00
+                                            | kobo
+                                            | currency(getSingleinstrument[0].currency,true)
+                                    }}
+                                </h1>
+                                <h1
+                                    :class="[
+                                        getPricedetailsonblackcard.derivedPrice >= 0 ? 'green' : 'red',
+                                        'percentage'
+                                    ]"
+                                >
+                                    <span class="price">{{ getPricedetailsonblackcard.derivedPrice }}</span>
+                                    <span class="price"
+                                        >({{ getPricedetailsonblackcard.derivedPricePercentage || 0.0 }}%)</span
+                                    >
+                                </h1>
+                            </section>
+                        </section>
                     </section>
                 </section>
             </div>
@@ -278,7 +285,6 @@ export default {
             "getWatchlist",
             "getNews",
             "getInstrumentsPayload",
-            "getSocials"
         ])
     },
     methods: {
