@@ -134,16 +134,19 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
-    name: 'instrument-card',
+    name: "instrument-card",
     props: {
         instrument: {
             type: Object,
             required: true
         },
         dummy: {
+            type: Boolean
+        },
+        stockPage: {
             type: Boolean
         }
     },
@@ -155,7 +158,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getNextKYC', 'getWatchlist']),
+        ...mapGetters(["getNextKYC", "getWatchlist"]),
         watched() {
             const filter = this.getWatchlist.filter(el => el.symbol === this.instrument.symbol);
             if (filter.length <= 0) {
@@ -165,12 +168,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['ADD_TO_WATCHLIST', 'REMOVE_FROM_WATCHLIST']),
-        ...mapMutations(['SET_BUY_MODAL']),
-        checkChange(value) {
-            if (+value >= 0) return true;
-            return false;
-        },
+        ...mapActions(["ADD_TO_WATCHLIST", "REMOVE_FROM_WATCHLIST"]),
+        ...mapMutations(["SET_BUY_MODAL"]),
         handleStep(step) {
             if (step.kyc) {
                 this.showKYC = true;
@@ -189,7 +188,7 @@ export default {
             this.SET_BUY_MODAL({
                 instrument: this.instrument,
                 currency: this.instrument.currency,
-                stockPage: false,
+                stockPage: this.stockPage,
                 show: true
             });
         },

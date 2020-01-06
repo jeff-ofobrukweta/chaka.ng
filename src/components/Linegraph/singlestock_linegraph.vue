@@ -16,13 +16,7 @@
                             >
                             <kyc-button
                                 ref="sellBtn"
-                                v-if="
-                                    getSingleinstrument[0] &&
-                                        checkPositions(
-                                            getSingleinstrument[0].symbol,
-                                            getSingleinstrument[0].currency
-                                        )
-                                "
+                                v-if="getSingleinstrument[0] && checkPositions()"
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
@@ -254,9 +248,6 @@ export default {
         currency: {
             type: String,
             required: false
-        },
-        maxQuantity: {
-            type: Number
         }
     },
     computed: {
@@ -299,17 +290,20 @@ export default {
             "SET_PRICE_INFO_ON_BLACKCARD"
         ]),
         ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
-        checkPositions(symbol, currency) {
+        checkPositions() {
             let check = [];
-            if (currency === "NGN") {
-                check = this.getlocalstocksowned.filter(element => element.symbol === symbol);
+            if (this.getSingleinstrument[0].currency === "NGN") {
+                check = this.getlocalstocksowned.filter(
+                    element => element.symbol === this.getSingleinstrument[0].symbol
+                );
             } else {
-                check = this.getglobalstocksowned.filter(element => element.symbol === symbol);
+                check = this.getglobalstocksowned.filter(
+                    element => element.symbol === this.getSingleinstrument[0].symbol
+                );
             }
             if (check.length > 0) {
                 const { quantity } = check[0];
                 this.maximumQuantity = +quantity;
-                console.log("THIS IS TO RETURN TRUE", this.maximumQuantity);
                 return true;
             }
             this.maximumQuantity = 0;
@@ -326,10 +320,7 @@ export default {
             return this.trdingViewStatechange;
         },
         async mountAction() {
-            this.checkPositions(
-                this.getSingleinstrument[0].symbol,
-                this.getSingleinstrument[0].currency
-            );
+            this.checkPositions();
             //set the currency as the component mount to the global state
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
             if (this.getSinglestockglobalCurrencyforGraph == "USD") {
@@ -402,12 +393,13 @@ export default {
                 });
                 return true;
             }
+            this.checkPositions();
             this.SET_SELL_MODAL({
                 instrument: this.instrument,
                 currency: this.instrument.currency,
                 stockPage: true,
                 show: true,
-                maxQuantity: this.maxQuantity
+                maxQuantity: this.maximumQuantity
             });
         }
     },
@@ -421,16 +413,16 @@ export default {
         this.mountAction();
         // const emitData = {getOpenPrice:this.getOpenPrice,getDates:this.getDates}
         // EventBus.$emit('fillData',emitData);
-        if (
-            this.getSingleinstrument[0] &&
-            this.getSingleinstrument[0].symbol &&
-            this.getSingleinstrument[0].currency
-        ) {
-            this.checkPositions(
-                this.getSingleinstrument[0].symbol,
-                this.getSingleinstrument[0].currency
-            );
-        } else return;
+        // if (
+        //     this.getSingleinstrument[0] &&
+        //     this.getSingleinstrument[0].symbol &&
+        //     this.getSingleinstrument[0].currency
+        // ) {
+        //     this.checkPositions(
+        //         this.getSingleinstrument[0].symbol,
+        //         this.getSingleinstrument[0].currency
+        //     );
+        // } else return;
         next();
     },
     watch: {}

@@ -180,7 +180,7 @@
             </section>
             <section class="container-graph">
                 <div class="graph-container">
-                    <Linegraph :instrument="getSingleinstrument[0]" :max-quantity="maxQuantity" />
+                    <Linegraph :instrument="getSingleinstrument[0]" />
                 </div>
                 <Cardblue :instrument="getPricedetailsonblackcard || {}" />
             </section>
@@ -205,6 +205,7 @@
                             v-for="(instrument, index) in getSimilarStocks"
                             :key="index"
                             :instrument="instrument"
+                            stock-page
                         />
                     </template>
                     <template v-else>
@@ -224,6 +225,7 @@
                             v-for="(instrument, index) in getSimilarStocks"
                             :key="index"
                             :instrument="instrument"
+                            stock-page
                         />
                     </section>
                 </transition-group>
@@ -255,21 +257,16 @@
 <script>
 import { Fragment } from "vue-fragment";
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import Linegraph from "../../components/Linegraph/singlestock_linegraph";
-import Cardblue from "../../components/Linegraph/blackpriceboard";
-import StockTable from "../../components/singlestock/StockTable";
-import Horizontalchart from "../../components/Horizontalbar/hbase";
-import Analysisbarchart from "../../components/Analysisbarchart/analysisbarchartbase";
 
 export default {
     name: "Singlestock",
     components: {
         Fragment,
-        Linegraph,
-        Cardblue,
-        StockTable,
-        Horizontalchart,
-        Analysisbarchart,
+        Linegraph: () => import("../../components/Linegraph/singlestock_linegraph"),
+        Cardblue: () => import("../../components/Linegraph/blackpriceboard"),
+        StockTable: () => import("../../components/singlestock/StockTable"),
+        Horizontalchart: () => import("../../components/Horizontalbar/hbase"),
+        Analysisbarchart: () => import("../../components/Analysisbarchart/analysisbarchartbase"),
         InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
         InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist")
     },
@@ -301,8 +298,7 @@ export default {
             "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
             "SET_NEWS",
             "SET_SINGLE_INSTRUMENT",
-            "SET_BUY_MODAL",
-            "SET_SELL_MODAL"
+            "SET_BUY_MODAL"
         ]),
         authenticate(provider) {
             const this_ = this;
@@ -354,22 +350,13 @@ export default {
         },
         showBuy() {
             this.showKYC = false;
-            if (this.step.nextAction === "buy") {
-                this.SET_BUY_MODAL({
-                    instrument: this.getSingleinstrument[0],
-                    currency: this.getSingleinstrument[0].currency,
-                    stockPage: true,
-                    show: true
-                });
-                return true;
-            }
-            this.SET_SELL_MODAL({
+            this.SET_BUY_MODAL({
                 instrument: this.getSingleinstrument[0],
                 currency: this.getSingleinstrument[0].currency,
                 stockPage: true,
-                show: true,
-                maxQuantity: this.maxQuantity
+                show: true
             });
+            return true;
         },
         async OnhandleaddToWatchlist() {
             // this.watchdisable = true;

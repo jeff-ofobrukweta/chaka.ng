@@ -255,7 +255,11 @@ export default {
             this.loading = true;
             this.flag = "START";
             this.FUND_WALLET(this.fundPayload).then(resp => {
-                this.makeTransaction();
+                if (resp) {
+                    this.makeTransaction();
+                } else {
+                    this.loading = false;
+                }
             });
             return true;
         },

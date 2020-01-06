@@ -17,33 +17,7 @@
             </div>
             <h5 class="stock-vdr__center">Your Transaction was successful</h5>
             <div class="stock-vdr__modal">
-                <p class="text-center">You have successfully {{ txText }}</p>
-                <!-- <div class="stock-vdr__flex">
-                    <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>{{ source === "Exchange" ? "Estimated " : " " }}Amount</label>
-                        <p class="stock-vdr__text stock-vdr__center">
-                            {{ getWalletTx.txAmount | kobo | currency(getWalletTx.currency) }}
-                        </p>
-                    </div>
-                    <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>Action</label>
-                        <p class="stock-vdr__text stock-vdr__center">
-                            {{ source }}
-                        </p>
-                    </div>
-                </div> -->
-                <!-- <div class="stock-vdr__flex">
-                    <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>Date</label>
-                        <p class="stock-vdr__text stock-vdr__center">
-                            {{ getWalletTx.createdAt || "-" | date }}
-                        </p>
-                    </div>
-                    <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>Reference No.</label>
-                        <p class="stock-vdr__text stock-vdr__center">{{ getWalletTx.reference }}</p>
-                    </div>
-                </div> -->
+                <p class="text-center grey-cool">You have successfully {{ txText }}</p>
             </div>
             <div class="text-center">
                 <br />
