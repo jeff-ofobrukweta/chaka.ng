@@ -62,6 +62,7 @@ export default {
         showPending() {
             if (
                 this.getNavbarNextKYC.status === "COMPLETE" &&
+                this.getNavbarNextKYC.completedContexts.length === 0 &&
                 (this.getLoggedUser.localKycStatus !== "COMPLETE" ||
                     this.getLoggedUser.globalKycStatus !== "COMPLETE")
             )
@@ -81,7 +82,8 @@ export default {
             "SET_SALE_SUCCESS",
             "SET_WALLET_SUCCESS",
             "RESET_MODALS",
-            "SEARCH_OPENED"
+            "SEARCH_OPENED",
+            "MODAL_OPENED"
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});
@@ -126,10 +128,18 @@ export default {
         document.title = "Chaka - Dashboard";
         this.RESET_MODALS();
         this.SEARCH_OPENED(false);
+        this.MODAL_OPENED(false);
         this.loading = true;
         await this.GET_LOGGED_USER();
         this.loading = false;
         Promise.all([this.GET_ACCOUNT_SUMMARY()]);
+    },
+    watch: {
+        showPending(val) {
+            if (val) {
+                this.MODAL_OPENED(false);
+            }
+        }
     }
 };
 </script>

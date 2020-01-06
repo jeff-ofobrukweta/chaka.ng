@@ -79,6 +79,7 @@ export default {
         ...mapActions(["GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS"]),
         changeType(type) {
             if (this.type !== type) {
+                this.GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS();
                 this.$router.replace({ name: "portfolio-details", params: { type } });
             }
         },

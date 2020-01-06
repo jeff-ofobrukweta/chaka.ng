@@ -91,35 +91,35 @@
                             <small class="grey-cool">{{ subtitle }}</small>
                         </p>
                     </div>
-                    <Fragment v-for="(field, i) in allFields" :key="i">
-                        <template v-if="field.value === 'bvn'">
-                            <Field
-                                :field="field"
-                                @input="handleInput"
-                                @click.native="errors = {}"
-                                :error-message="errors.bvn"
-                        /></template>
-                        <template v-else-if="field.value === 'bankAcctNo'">
-                            <Field
-                                :field="field"
-                                @input="handleInput"
-                                @click.native="errors = {}"
-                                :error-message="errors.bankAcctNo"
-                        /></template>
-                        <template v-else-if="field.value === 'bankCode'">
-                            <Field
-                                :field="field"
-                                @input="handleInput"
-                                @click.native="errors = {}"
-                                :error-message="errors.bankCode"
-                                :options="checkOptions(field)"
-                        /></template>
-                        <template v-else>
-                            <Field
-                                :field="field"
-                                @input="handleInput"
-                                :options="checkOptions(field)"
-                        /></template>
+                    <div v-for="(field, i) in allFields" :key="i">
+                        <Field
+                            :field="field"
+                            @input="handleInput"
+                            @click.native="errors = {}"
+                            :error-message="errors.bvn"
+                            v-if="field.value === 'bvn'"
+                        />
+                        <Field
+                            v-else-if="field.value === 'bankAcctNo'"
+                            :field="field"
+                            @input="handleInput"
+                            @click.native="errors = {}"
+                            :error-message="errors.bankAcctNo"
+                        />
+                        <Field
+                            v-else-if="field.value === 'bankCode'"
+                            :field="field"
+                            @input="handleInput"
+                            @click.native="errors = {}"
+                            :error-message="errors.bankCode"
+                            :options="checkOptions(field)"
+                        />
+                        <Field
+                            v-else
+                            :field="field"
+                            @input="handleInput"
+                            :options="checkOptions(field)"
+                        />
 
                         <div v-if="field.value === 'pepStatus' && showPepStatus">
                             <div class="kyc-field__group">
@@ -209,7 +209,7 @@
                                 >
                             </div>
                         </div>
-                    </Fragment>
+                    </div>
 
                     <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
                     <div class="text-center">
@@ -277,7 +277,6 @@ export default {
             selectedField: {},
             errors: {},
             subtitle: null,
-            showModal: false,
             ninField: {
                 name: "NIN",
                 value: "nin",
@@ -362,6 +361,9 @@ export default {
             if (this.getNavbarNextKYC.completedContexts[0] === "LOCAL")
                 return "Processing Local Verification";
             return "Processing Global Verification";
+        },
+        showModal() {
+            return this.allFields.length > 0;
         }
     },
     methods: {
@@ -408,7 +410,7 @@ export default {
                 Object.keys(this.itemData).length >= this.selectedField.fields.length;
         },
         OTPSuccess() {
-            this.nextStep();
+            this.mount();
         },
         updateKYC() {
             Object.keys(this.itemData).forEach(el => {
@@ -443,14 +445,14 @@ export default {
                 this.RESOLVE_BVN(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             } else if (this.state === "nin") {
                 this.UPDATE_KYC_NIN(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             } else if (this.state === "bank") {
@@ -483,7 +485,7 @@ export default {
                 this.UPDATE_KYC_BANK(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             } else if (this.state === "employment") {
@@ -529,7 +531,7 @@ export default {
                 this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             } else {
@@ -540,7 +542,7 @@ export default {
                 this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             }
@@ -566,25 +568,12 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.$emit("skipnin");
-                    this.nextStep();
+                    this.mount();
                 }
             });
         },
         closeModal() {
             this.$emit("close");
-        },
-        async nextStep() {
-            this.showModal = false;
-            // this.$emit("updated");
-            /**
-             * TO-DO:: Temporary check
-             */
-            // if (this.navbar) {
-            //     await this.GET_NAVBAR_NEXT_KYC();
-            // } else {
-            //     await this.GET_NEXT_KYC({ context: this.getKycModalAction });
-            // }
-            this.mount();
         },
         showFund() {
             this.SET_FUND_MODAL(true);
@@ -605,9 +594,6 @@ export default {
                 });
             });
             this.selectedField.fields = this.currentKYC.nextKYC;
-            // this.currentKYC.nextKYC.map(required => {
-            //     this.allFields = AllKYCFields.filter(el => required === el.value);
-            // });
             this.currentKYC.nextKYC.map(required => {
                 AllKYCFields.map(el => {
                     if (required == el.value) {
@@ -617,22 +603,26 @@ export default {
                 });
             });
 
-            if (this.currentKYC.status === "INCOMPLETE") {
-                if (this.isFileImage || this.allFields.length === this.currentKYC.nextKYC.length) {
-                    setTimeout(() => {
-                        this.showModal = true;
-                    }, 200);
-                }
-            } else {
-                if (this.getNavbarNextKYC.completedContexts.length === 0) {
-                    EventBus.$emit("MODAL_CLOSED");
-                    this.$emit("updated", true);
-                } else {
-                    setTimeout(() => {
-                        this.showModal = true;
-                    }, 500);
-                }
+            // if (this.currentKYC.status === "INCOMPLETE") {
+            //     if (this.isFileImage || this.allFields.length === this.currentKYC.nextKYC.length) {
+            //         setTimeout(() => {
+            //             this.showModal = true;
+            //         }, 200);
+            //     }
+            // } else {
+            if (
+                this.currentKYC.status === "COMPLETE" &&
+                this.getNavbarNextKYC.completedContexts.length === 0
+            ) {
+                EventBus.$emit("MODAL_CLOSED");
+                this.$emit("updated", true);
             }
+            //      else {
+            //         setTimeout(() => {
+            //             this.showModal = true;
+            //         }, 500);
+            //     }
+            // }
         }
     },
     mounted() {
