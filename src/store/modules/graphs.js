@@ -1,5 +1,6 @@
 import API_CONTEXT from "../../services/apiService/api";
 import filters from "../../filters";
+import errorFn from "../../services/apiService/error";
 
 const state = {
     singlestockpricedata: [],
@@ -220,7 +221,9 @@ const actions = {
                 commit('SET_PRICE_INFO_ON_BLACKCARD', response.data.data);
                 
             })
-            .catch(error => {});
+            .catch(error => {
+                errorFn(error, "singlestockgraph-err");
+            });
     },
     async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit, rootState }, params) {
         return  API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`, params)
@@ -239,6 +242,7 @@ const actions = {
             })
             .catch((error) => {
                 console.log(`::::::chaka::::<<<<<>>>>>::::::::::${error}`);
+                errorFn(error, "portfoliograph-err");
                 return false;
             });
     },
@@ -248,7 +252,7 @@ const actions = {
                 commit("SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATE", response.data.data.chart);
                 commit("SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA_PRICE", response.data.data.chart);
             })
-            .catch(error => {});
+            .catch(error => {errorFn(error, "doughnutgraph-err");});
     },
     async GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA({ commit, rootState }) {
         await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-performance/`)
@@ -262,7 +266,7 @@ const actions = {
                     response.data.data.chart
                 );
             })
-            .catch(error => {});
+            .catch(error => {errorFn(error, "thinbarchartflipmultiaxis-err");});
     },
 
     async GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA({ commit }, params) {
@@ -275,6 +279,7 @@ const actions = {
             })
             .catch((error) => {
                 console.log(`::::::::::::::::::::${error}`);
+                errorFn(error, "verticalbarchartperformance-err");
                 return false
             });
     },
@@ -287,6 +292,7 @@ const actions = {
                 return recommendations;
             })
             .catch(error => {
+                errorFn(error, "horizontalanalystchart-err");
                 return false;
             });
     }
