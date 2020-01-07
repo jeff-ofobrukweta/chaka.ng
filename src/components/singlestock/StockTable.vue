@@ -99,7 +99,7 @@
             >
                 {{
                     checkforUndefined(instrument.InstrumentDynamic.high52) ||
-                        0.0 | kobo | currency("USD")
+                        0.0 | kobo | currency(instrument.currency,true)
                 }}
             </p>
         </div>
@@ -114,7 +114,7 @@
             >
                 {{
                     checkforUndefined(instrument.InstrumentDynamic.low52) ||
-                        0.0 | kobo | currency("USD")
+                        0.0 | kobo | currency(instrument.currency,true)
                 }}
             </p>
         </div>
