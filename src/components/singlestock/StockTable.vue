@@ -15,8 +15,7 @@
                 class="stock-table__body stock-table__img cursor-context"
                 :title="
                     checkforUndefined(instrument.currentValue) ||
-                        0.0 | kobo | currency(instrument.currency, true)
-                "
+                    0.0 | kobo | currency(instrument.currency, true)"
             >
                 {{ checkforUndefined(instrument.currentValue) || 0.00 | kobo | currency(instrument.currency) }}
                 <img
@@ -135,9 +134,7 @@ export default {
     },
     methods: {
         checkforUndefined(payload) {
-            if (payload === undefined || Number.isNaN(payload) || payload == "") {
-                return "-";
-            }
+            if (payload === undefined || Number.isNaN(payload) || payload == "" || payload == null) {return "-";}
             return payload;
         }
     }
