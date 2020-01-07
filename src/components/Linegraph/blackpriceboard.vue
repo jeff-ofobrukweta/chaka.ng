@@ -70,6 +70,7 @@ export default {
         ])
     },
     methods: {
+        ...mapMutations(["SET_PRICE_INFO_ON_BLACKCARD"]),
         checkTimevariantForPriceCardonToogle(value) {
             switch (value) {
             case '1D':
@@ -112,6 +113,7 @@ export default {
         next();
     },
     mounted() {
+        this.SET_PRICE_INFO_ON_BLACKCARD({});
         EventBus.$on('GET_DAYS', (payLoad) => {
             this.valueTiming = payLoad;
             this.checkTimevariantForPriceCardonToogle(this.valueTiming);

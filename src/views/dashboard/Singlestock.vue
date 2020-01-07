@@ -72,12 +72,7 @@
                         <section>
                             <section class="right-header">
                                 <h1 class="price">
-                                    {{
-                                        getSingleinstrument.InstrumentDynamic.askPrice ||
-                                            0.0
-                                                | kobo
-                                                | currency(getSingleinstrument.currency, true)
-                                    }}
+                                    {{ getSingleinstrument.askPrice || 0.0 | currency(getSingleinstrument.currency, true)}}
                                 </h1>
                                 <h1
                                     :class="[
