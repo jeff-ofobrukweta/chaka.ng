@@ -40,14 +40,9 @@
                     <p><small>CURRENT STOCK PRICE:</small></p>
                     <p v-if="Object.keys(instrument).length <= 0">-</p>
                     <p v-else>
-                        <span
-                            class="cursor-context modal__buy--price"
-                            :title="
-                                getMarketData.ask || instrument.askPrice | currency(currency, true)
-                            "
-                            >{{
-                                getMarketData.ask || instrument.askPrice | currency(currency)
-                            }}</span
+                        <span class="cursor-context modal__buy--price">{{
+                            getMarketData.ask | currency(currency, true)
+                        }}</span
                         >&nbsp;&nbsp;
                         <img
                             v-if="instrument.derivedPrice >= 0"
