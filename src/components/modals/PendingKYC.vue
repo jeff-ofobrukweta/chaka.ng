@@ -9,7 +9,7 @@
                     </p>
                     <br />
                     <h5 class="grey-cool">Most Popular</h5>
-                    <div class="kyc-modal__popular">
+                    <div class="kyc-modal__popular" v-if="!loading">
                         <router-link
                             tag="div"
                             :to="{ name: 'singlestock', params: { symbol: stock.symbol } }"
@@ -105,6 +105,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="kyc-modal__single" v-else-if="!loading">
+                        <div @click="closeModal" class="kyc-modal__popular--div">
+                            <div>
+                                <img
+                                    :src="getMostPopular[1].logoUrl"
+                                    class="kyc-modal__popular--logo"
+                                    :alt="getMostPopular[1].symbol"
+                                />
+                            </div>
+                            <h6>{{ getMostPopular[1].symbol | truncate(10) }}</h6>
+                            <p>{{ getMostPopular[1].name }}</p>
+                            <div>
+                                <img
+                                    :src="
+                                        require(`../../assets/img/flags/${country(
+                                            getMostPopular[1].countryCode
+                                        )}-flag.svg`)
+                                    "
+                                    class="kyc-modal__popular--flag"
+                                    :alt="getMostPopular[1].countryCode"
+                                />
+                            </div>
+                        </div>
+                    </div>
                     <div>
                         <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                     </div>
@@ -161,6 +185,30 @@
                             </div>
                         </div>
                     </div>
+                    <div class="kyc-modal__single" v-else-if="!loading">
+                        <div @click="closeModal" class="kyc-modal__popular--div">
+                            <div>
+                                <img
+                                    :src="getMostPopular[0].logoUrl"
+                                    class="kyc-modal__popular--logo"
+                                    :alt="getMostPopular[0].symbol"
+                                />
+                            </div>
+                            <h6>{{ getMostPopular[0].symbol | truncate(10) }}</h6>
+                            <p>{{ getMostPopular[0].name }}</p>
+                            <div>
+                                <img
+                                    :src="
+                                        require(`../../assets/img/flags/${country(
+                                            getMostPopular[0].countryCode
+                                        )}-flag.svg`)
+                                    "
+                                    class="kyc-modal__popular--flag"
+                                    :alt="getMostPopular[0].countryCode"
+                                />
+                            </div>
+                        </div>
+                    </div>
                     <br />
                     <div>
                         <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
@@ -212,6 +260,11 @@ export default {
             type: String
         }
     },
+    data() {
+        return {
+            loading: false
+        };
+    },
     computed: {
         ...mapGetters(["getLoggedUser", "getMostPopular", "getKycModalAction"]),
         subtext() {
@@ -236,8 +289,12 @@ export default {
             this.$emit("step", step);
         }
     },
-    mounted() {
-        if (this.type === "PENDING") this.GET_MOST_POPULAR();
+    async mounted() {
+        if (Object.keys(this.instrument).length <= 0) {
+            this.loading = true;
+            await this.GET_MOST_POPULAR();
+            this.loading = false;
+        }
     }
 };
 </script>

@@ -36,11 +36,8 @@
                     <p v-else>
                         <span
                             class="cursor-context modal__buy--price"
-                            :title="
-                                getMarketData.ask || instrument.askPrice | currency(currency, true)
-                            "
                             >{{
-                                getMarketData.ask || instrument.askPrice | currency(currency)
+                                getMarketData.ask || instrument.askPrice | currency(currency, true)
                             }}</span
                         >&nbsp;&nbsp;
                         <img

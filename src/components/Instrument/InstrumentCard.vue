@@ -83,11 +83,7 @@
         <router-link :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }">
             <section class="section2">
                 <div class="price">
-                    {{
-                        instrument.InstrumentDynamic
-                            ? instrument.InstrumentDynamic.askPrice
-                            : "-" | kobo | currency(instrument.currency)
-                    }}
+                    {{ instrument.askPrice | currency(instrument.currency) }}
                 </div>
                 <div class="level">
                     <img

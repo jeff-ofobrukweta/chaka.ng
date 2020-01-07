@@ -203,8 +203,7 @@ export default {
             "getWindowWidth",
             "getInstrumentsPayload",
             "getErrorLog",
-            "getpagination",
-            "getMostPopular"
+            "getpagination"
         ]),
         instrumentLength() {
             if (Object.keys(this.getpagination).length > 0) {
