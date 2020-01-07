@@ -329,21 +329,25 @@ export default {
                 currency: this.getSinglestockglobalCurrencyforGraph,
                 symbol: this.$route.params.symbol
             };
+            this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
+            this.SET_PRICE_INFO_ON_BLACKCARD({});
             await this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 //  call back state like loader state here
+                EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
                 this.loading = false;
             });
         },
         handletimeframe(e) {
             this.loading = true;
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
-            EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
+            this.SET_PRICE_INFO_ON_BLACKCARD({});
             const payloadsinglestock = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
                 symbol: this.$route.params.symbol
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
+                EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
                 this.loading = false;
             });
         },
@@ -352,6 +356,7 @@ export default {
             this.currentId = id;
             this.SET_SINGLESTOCK_POSITIONS_FOR_SELECT(id);
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(currency);
+            this.SET_PRICE_INFO_ON_BLACKCARD({});
             const defaulttime = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
