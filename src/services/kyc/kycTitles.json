@@ -23,7 +23,7 @@
         {
             "title": "Postal Address",
             "subtitle": "Confirm a few details about yourself",
-            "fields": ["gender", "address", "lg"]
+            "fields": ["gender", "address", "postalCode", "lg"]
         },
         {
             "title": "Employment Details",

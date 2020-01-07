@@ -72,7 +72,10 @@
                         <section>
                             <section class="right-header">
                                 <h1 class="price">
-                                    {{ getSingleinstrument.askPrice || 0.0 | currency(getSingleinstrument.currency, true)}}
+                                    {{
+                                        getSingleinstrument.askPrice ||
+                                            0.0 | currency(getSingleinstrument.currency, true)
+                                    }}
                                 </h1>
                                 <h1
                                     :class="[
@@ -290,7 +293,7 @@ export default {
         countryCode() {
             if (this.getSingleinstrument.countryCode)
                 return this.getSingleinstrument.countryCode.toLowerCase();
-            return;
+            return "zz";
         }
     },
     methods: {

@@ -95,8 +95,7 @@ const routes = [
     {
         path: "/privacy",
         name: "privacy",
-        component: Privacy,
-        beforeEnter: noAuthOnly
+        component: Privacy
     },
     {
         path: "/faq",
