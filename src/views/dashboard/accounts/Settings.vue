@@ -287,6 +287,20 @@
                         >
                     </div>
                     <div class="accounts-settings__group">
+                        <label class="form__label"
+                            >Postal Code<form-input
+                                type="number"
+                                v-if="edit === 'postal'"
+                                name="postalCode"
+                                v-model="itemData.postalCode"
+                                placeholder="Postal Code"
+                            />
+                            <p v-else class="capitalize accounts-settings__data">
+                                {{ getKYC.postalCode || "-" }}
+                            </p></label
+                        >
+                    </div>
+                    <div class="accounts-settings__group">
                         <!-- <label class="form__label">LGA</label>
                         <select
                             class="form__input"
