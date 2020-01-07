@@ -23,8 +23,7 @@
             />
             <section class="section-price">
                 <h1 v-if="getPricedetailsonblackcard.currency" class="price">
-                    <!-- {{ getPricedetailsonblackcard.currency == "USD" ? "$" : "₦" }} -->
-                    {{ getPricedetailsonblackcard.askPrice  | currency(getPricedetailsonblackcard.currency) }}
+                    {{ getPricedetailsonblackcard.askPrice  | currency(getPricedetailsonblackcard.currency,true) }}
                 </h1>
                 <h1 v-else></h1>
                 <section
@@ -71,6 +70,7 @@ export default {
         ])
     },
     methods: {
+        ...mapMutations(["SET_PRICE_INFO_ON_BLACKCARD"]),
         checkTimevariantForPriceCardonToogle(value) {
             switch (value) {
             case '1D':
@@ -113,6 +113,7 @@ export default {
         next();
     },
     mounted() {
+        this.SET_PRICE_INFO_ON_BLACKCARD({});
         EventBus.$on('GET_DAYS', (payLoad) => {
             this.valueTiming = payLoad;
             this.checkTimevariantForPriceCardonToogle(this.valueTiming);

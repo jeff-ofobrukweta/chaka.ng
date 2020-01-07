@@ -2,7 +2,7 @@ import API_CONTEXT from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
 
 const state = {
-    instrument: [],
+    instrument: {},
     // singlestockpositions: [],
     similarStocks: [],
     preOrder: {},
@@ -58,7 +58,7 @@ const actions = {
                 .then(response => {
                     if (response.status === 200) {
                         const { instruments } = response.data.data;
-                        commit("SET_SINGLE_INSTRUMENT", instruments);
+                        commit("SET_SINGLE_INSTRUMENT", instruments[0]);
                         if (instruments.similar)
                             dispatch("GET_SIMILAR_STOCKS", instruments[0].similar.join(","));
                         resolve(instruments[0]);

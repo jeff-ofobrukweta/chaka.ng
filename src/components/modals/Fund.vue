@@ -24,7 +24,7 @@
             </div>
         </template>
 
-        <!-- TO-DO: Put back if dollar funding is blocked for incomplete KYCs -->
+        <!-- TO-DO :: Put back if dollar funding is blocked for incomplete KYCs -->
 
         <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
             <div class="modal-form" v-if="canFundGlobal === 1">
@@ -255,7 +255,11 @@ export default {
             this.loading = true;
             this.flag = "START";
             this.FUND_WALLET(this.fundPayload).then(resp => {
-                this.makeTransaction();
+                if (resp) {
+                    this.makeTransaction();
+                } else {
+                    this.loading = false;
+                }
             });
             return true;
         },

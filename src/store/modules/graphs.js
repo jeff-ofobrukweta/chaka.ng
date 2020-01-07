@@ -1,5 +1,6 @@
 import API_CONTEXT from "../../services/apiService/api";
 import filters from "../../filters";
+import errorFn from "../../services/apiService/error";
 
 const state = {
     singlestockpricedata: [],
@@ -217,14 +218,18 @@ const actions = {
                 commit("SET_LINE_SINGLESTOCK_CHARTDATA", chart);
                 commit("SET_LINE_SINGLESTOCK_CHART_DATE", chart);
                 // derived prices high lows etc are gotton here
-                commit('SET_PRICE_INFO_ON_BLACKCARD', response.data.data);
-                
+                commit("SET_PRICE_INFO_ON_BLACKCARD", response.data.data);
             })
-            .catch(error => {});
+            .catch(error => {
+                errorFn(error, "singlestockgraph-err");
+            });
     },
     async GET_LINECHART_PORTFOLIO_GRAPH_DATA({ commit, rootState }, params) {
-        return  API_CONTEXT.get(`users/${rootState.auth.loggedUser.chakaID}/positions-chart/`, params)
-            .then((response) => {
+        return API_CONTEXT.get(
+            `users/${rootState.auth.loggedUser.chakaID}/positions-chart/`,
+            params
+        )
+            .then(response => {
                 const {
                     positions,
                     derivedNetWorth,
@@ -233,12 +238,12 @@ const actions = {
                 commit("SET_PORTFOLIO_DERIVED_PRICE", derivedNetWorth);
                 commit("SET_PORTFOLIO_DERIVED_CHANGE", derivedNetWorthPercentage);
 
-                commit('SET_LINE_PORTFOLIO_CHART_PRICE', positions);
-                commit('SET_LINE_PORTFOLIO_CHART_DATE', positions);
+                commit("SET_LINE_PORTFOLIO_CHART_PRICE", positions);
+                commit("SET_LINE_PORTFOLIO_CHART_DATE", positions);
                 return response.data;
             })
-            .catch((error) => {
-                console.log(`::::::chaka::::<<<<<>>>>>::::::::::${error}`);
+            .catch(error => {
+                errorFn(error, "portfoliograph-err");
                 return false;
             });
     },
@@ -248,7 +253,9 @@ const actions = {
                 commit("SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATE", response.data.data.chart);
                 commit("SET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA_PRICE", response.data.data.chart);
             })
-            .catch(error => {});
+            .catch(error => {
+                errorFn(error, "doughnutgraph-err");
+            });
     },
     async GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA({ commit, rootState }) {
         await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions-performance/`)
@@ -262,31 +269,34 @@ const actions = {
                     response.data.data.chart
                 );
             })
-            .catch(error => {});
+            .catch(error => {
+                errorFn(error, "thinbarchartflipmultiaxis-err");
+            });
     },
 
     async GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA({ commit }, params) {
         return API_CONTEXT.get(`/instruments/performance?symbol=${params.symbol}`)
-            .then((response) => {
+            .then(response => {
                 const { performance } = response.data.data;
-                commit('SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION', performance);
-                commit('SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE', performance);
+                commit("SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION", performance);
+                commit("SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE", performance);
                 return performance;
             })
-            .catch((error) => {
-                console.log(`::::::::::::::::::::${error}`);
-                return false
+            .catch(error => {
+                errorFn(error, "verticalbarchartperformance-err");
+                return false;
             });
     },
     async GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA({ commit }, params) {
-        return  API_CONTEXT.get(`/instruments/analyst-recommendations?symbol=${params.symbol}`)
-            .then((response) => {
+        return API_CONTEXT.get(`/instruments/analyst-recommendations?symbol=${params.symbol}`)
+            .then(response => {
                 const { recommendations } = response.data.data;
-                commit('SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION', recommendations);
-                commit('SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE', recommendations);
+                commit("SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION", recommendations);
+                commit("SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE", recommendations);
                 return recommendations;
             })
             .catch(error => {
+                errorFn(error, "horizontalanalystchart-err");
                 return false;
             });
     }

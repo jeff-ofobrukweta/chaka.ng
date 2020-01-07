@@ -16,21 +16,8 @@
                 <router-view />
             </section>
         </main>
-        <buy-modal
-            @close="closeBuy"
-            :currency="getBuyModal.instrument.currency"
-            :instrument="getBuyModal.instrument"
-            :stock-page="getBuyModal.stockPage"
-            v-if="getBuyModal.show"
-        />
-        <sell-modal
-            @close="closeSell"
-            :currency="getSellModal.instrument.currency"
-            :instrument="getSellModal.instrument"
-            :max-quantity="getSellModal.maxQuantity"
-            :stock-page="getSellModal.stockPage"
-            v-if="getSellModal.show"
-        />
+        <buy-modal @close="closeBuy" v-if="getBuyModal.show" />
+        <sell-modal @close="closeSell" v-if="getSellModal.show" />
         <sale-success @close="closeSale" v-if="getSaleSuccess" />
         <fund-modal @close="closeFund" v-if="getFundModal" />
         <ExchangeModal @close="closeExchange" v-if="getExchangeModal" />
@@ -75,6 +62,7 @@ export default {
         showPending() {
             if (
                 this.getNavbarNextKYC.status === "COMPLETE" &&
+                this.getNavbarNextKYC.completedContexts.length === 0 &&
                 (this.getLoggedUser.localKycStatus !== "COMPLETE" ||
                     this.getLoggedUser.globalKycStatus !== "COMPLETE")
             )
@@ -94,7 +82,8 @@ export default {
             "SET_SALE_SUCCESS",
             "SET_WALLET_SUCCESS",
             "RESET_MODALS",
-            "SEARCH_OPENED"
+            "SEARCH_OPENED",
+            "MODAL_OPENED"
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});
@@ -139,10 +128,18 @@ export default {
         document.title = "Chaka - Dashboard";
         this.RESET_MODALS();
         this.SEARCH_OPENED(false);
+        this.MODAL_OPENED(false);
         this.loading = true;
         await this.GET_LOGGED_USER();
         this.loading = false;
         Promise.all([this.GET_ACCOUNT_SUMMARY()]);
+    },
+    watch: {
+        showPending(val) {
+            if (val) {
+                this.MODAL_OPENED(false);
+            }
+        }
     }
 };
 </script>

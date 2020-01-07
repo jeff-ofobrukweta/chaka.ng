@@ -552,7 +552,7 @@ export default {
             this.UPDATE_KYC(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.checkNextKYC();
+                    this.showNextModalBtn();
                     this.itemData = {};
                 }
             });
@@ -789,9 +789,6 @@ export default {
         EventBus.$on("navbar-trigger", () => {
             this.checkNextKYC();
         });
-        // EventBus.$on("modal-trigger", () => {
-        //     this.checkNextKYC();
-        // });
     },
     watch: {
         "itemData.bvn": function(newVal) {

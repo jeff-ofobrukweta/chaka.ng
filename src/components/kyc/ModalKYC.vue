@@ -10,229 +10,220 @@
             @step="handleStep"
             @close="closeModal"
         />
-        <transition v-else-if="!showModal" name="kyc-navbar">
-            <div class="kyc-modal__dummy" key="1"></div>
-        </transition>
-        <transition name="kyc-navbar" v-else>
-            <div key="1">
-                <template v-if="allFields[0].value === 'phone'">
-                    <PhoneOTP @close="OTPSuccess" />
-                </template>
-                <template v-else-if="allFields[0].value === 'nin' || nin">
-                    <form class="kyc-modal" @submit.prevent="updateKYC">
-                        <div class="text-center mb-1">
-                            <p>
-                                <small class="grey-cool"
-                                    >Not sure about your NIN number? Dial *346# if you're on
-                                    MTN/Airtel https://www.nimc.gov.ng/sms-service/</small
-                                >
-                            </p>
-                        </div>
+        <div class="kyc-modal__dummy" v-else-if="!showModal"></div>
+        <div v-else>
+            <PhoneOTP @close="OTPSuccess" v-if="sectionToShow === 'phone'" />
+            <div v-else-if="sectionToShow === 'nin'">
+                <form class="kyc-modal" @submit.prevent="updateKYC">
+                    <div class="text-center mb-1">
+                        <p>
+                            <small class="grey-cool"
+                                >Not sure about your NIN number? Dial *346# if you're on MTN/Airtel
+                                https://www.nimc.gov.ng/sms-service/</small
+                            >
+                        </p>
+                    </div>
+                    <Field
+                        :field="ninField"
+                        @input="handleInput"
+                        @click.native="errors = {}"
+                        :error-message="errors.nin"
+                    />
+
+                    <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
+                    <div class="text-center">
+                        <action-button
+                            type="submit"
+                            :disabled="Object.keys(errors).length > 0 || !formComplete"
+                            :pending="loading"
+                            :classes="['btn__primary']"
+                            >Submit</action-button
+                        >
+                    </div>
+                    <div class="text-center mt-2" v-if="!loading">
+                        <a @click="skipNIN" class="unerline primary">Skip</a>
+                    </div>
+                </form>
+            </div>
+            <div v-else-if="sectionToShow === 'file'">
+                <div class="kyc-modal kyc-modal__uploads">
+                    <div class="text-center mb-1">
+                        <p>
+                            <small class="grey-cool">{{ subtitle }}</small>
+                        </p>
+                    </div>
+                    <section class="w-100">
+                        <label class="form__label"
+                            >Select ID Type
+                            <select class="form__input form__select" v-model="idIndex">
+                                <option v-for="(type, i) in idTypes" :key="i" :value="type.index">{{
+                                    type.name
+                                }}</option>
+                            </select>
+                        </label>
+                        <br />
+                        <br />
+                    </section>
+                    <Fragment v-if="idType">
+                        <template v-if="idType !== 'ID_WITH_NO_ADDRESS'">
+                            <Uploads
+                                form-name="idPhotoUrl"
+                                :selected-name="idTypeName"
+                                :id-type="idType"
+                            />
+                        </template>
+                        <template v-else v-for="(field, i) in allFields">
+                            <Uploads
+                                :form-name="field.value"
+                                idType="ID_WITH_NO_ADDRESS"
+                                :key="i"
+                            />
+                        </template>
+                    </Fragment>
+
+                    <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
+                </div>
+            </div>
+            <div v-else>
+                <form class="kyc-modal" @submit.prevent="updateKYC">
+                    <div class="text-center mb-1">
+                        <p>
+                            <small class="grey-cool">{{ subtitle }}</small>
+                        </p>
+                    </div>
+                    <div v-for="(field, i) in allFields" :key="i">
                         <Field
-                            :field="ninField"
+                            :field="field"
                             @input="handleInput"
                             @click.native="errors = {}"
-                            :error-message="errors.nin"
+                            :error-message="errors.bvn"
+                            v-if="field.value === 'bvn'"
+                        />
+                        <Field
+                            v-else-if="field.value === 'bankAcctNo'"
+                            :field="field"
+                            @input="handleInput"
+                            @click.native="errors = {}"
+                            :error-message="errors.bankAcctNo"
+                        />
+                        <Field
+                            v-else-if="field.value === 'bankCode'"
+                            :field="field"
+                            @input="handleInput"
+                            @click.native="errors = {}"
+                            :error-message="errors.bankCode"
+                            :options="checkOptions(field)"
+                        />
+                        <Field
+                            v-else
+                            :field="field"
+                            @input="handleInput"
+                            :options="checkOptions(field)"
                         />
 
-                        <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
-                        <div class="text-center">
-                            <action-button
-                                type="submit"
-                                :disabled="Object.keys(errors).length > 0 || !formComplete"
-                                :pending="loading"
-                                :classes="['btn__primary']"
-                                >Submit</action-button
-                            >
+                        <div v-if="field.value === 'pepStatus' && showPepStatus">
+                            <div class="kyc-field__group">
+                                <label class="form__label"
+                                    >Name of Politically Exposed Person
+                                    <form-input
+                                        type="text"
+                                        @reset="errors = {}"
+                                        name="pepNames"
+                                        v-model="pepNames.pepNames"
+                                        placeholder="Name of Politically Exposed Person"
+                                        :error-message="errors.pepNames"
+                                /></label>
+                            </div>
                         </div>
-                        <div class="text-center mt-2" v-if="!loading">
-                            <a @click="skipNIN" class="unerline primary">Skip</a>
-                        </div>
-                    </form>
-                </template>
-                <template v-else-if="isFileImage">
-                    <div class="kyc-modal kyc-modal__uploads">
-                        <div class="text-center mb-1">
-                            <p>
-                                <small class="grey-cool">{{ subtitle }}</small>
-                            </p>
-                        </div>
-                        <section class="w-100">
-                            <label class="form__label"
-                                >Select ID Type
-                                <select class="form__input form__select" v-model="idIndex">
-                                    <option
-                                        v-for="(type, i) in idTypes"
-                                        :key="i"
-                                        :value="type.index"
-                                        >{{ type.name }}</option
-                                    >
-                                </select>
-                            </label>
-                            <br />
-                            <br />
-                        </section>
-                        <Fragment v-if="idType">
-                            <template v-if="idType !== 'ID_WITH_NO_ADDRESS'">
-                                <Uploads
-                                    form-name="idPhotoUrl"
-                                    :selected-name="idTypeName"
-                                    :id-type="idType"
-                                />
-                            </template>
-                            <template v-else v-for="(field, i) in allFields">
-                                <Uploads
-                                    :form-name="field.value"
-                                    idType="ID_WITH_NO_ADDRESS"
-                                    :key="i"
-                                />
-                            </template>
-                        </Fragment>
 
-                        <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
+                        <div v-if="field.value === 'directorOfPublicCo' && showDirector">
+                            <div class="kyc-field__group">
+                                <label class="form__label"
+                                    >Company Ticker Symbol
+                                    <form-input
+                                        type="text"
+                                        @reset="errors = {}"
+                                        name="directorName"
+                                        v-model="director.name"
+                                        placeholder="Company Ticker Symbol"
+                                        :error-message="errors.directorName"
+                                /></label>
+                            </div>
+                        </div>
+
+                        <div v-if="field.value === 'employmentStatus' && showEmployment">
+                            <div class="kyc-field__group">
+                                <label class="form__label"
+                                    >Employment Company
+                                    <form-input
+                                        type="text"
+                                        name="employmentCompany"
+                                        @reset="errors = {}"
+                                        v-model="employment.employmentCompany"
+                                        placeholder="Employment Details"
+                                        :error-message="errors.employmentCompany"
+                                /></label>
+                            </div>
+                            <div class="kyc-field__group">
+                                <label class="form__label"
+                                    >Employment Type
+                                    <select
+                                        class="form__input"
+                                        name="employmentType"
+                                        v-model="employment.employmentType"
+                                        @focus="errors = {}"
+                                        :error-message="errors.employmentType"
+                                    >
+                                        <option
+                                            v-for="(option, i) in types"
+                                            :key="i"
+                                            :value="option.value"
+                                            >{{ option.text }}</option
+                                        >
+                                    </select>
+                                    <p class="form-error" v-if="errors.employmentType">
+                                        <small>{{ errors.employmentType }}</small>
+                                    </p></label
+                                >
+                            </div>
+                            <div class="kyc-field__group">
+                                <label class="form__label"
+                                    >Employment Position
+                                    <select
+                                        class="form__input"
+                                        name="employmentPosition"
+                                        @focus="errors = {}"
+                                        v-model="employment.employmentPosition"
+                                        :error-message="errors.employmentPosition"
+                                    >
+                                        <option
+                                            v-for="(option, i) in positions"
+                                            :key="i"
+                                            :value="option.value"
+                                            >{{ option.text }}</option
+                                        >
+                                    </select>
+                                    <p class="form-error" v-if="errors.employmentPosition">
+                                        <small>{{ errors.employmentPosition }}</small>
+                                    </p></label
+                                >
+                            </div>
+                        </div>
                     </div>
-                </template>
-                <template v-else>
-                    <form class="kyc-modal" @submit.prevent="updateKYC">
-                        <div class="text-center mb-1">
-                            <p>
-                                <small class="grey-cool">{{ subtitle }}</small>
-                            </p>
-                        </div>
-                        <Fragment v-for="(field, i) in allFields" :key="i">
-                            <template v-if="field.value === 'bvn'">
-                                <Field
-                                    :field="field"
-                                    @input="handleInput"
-                                    @click.native="errors = {}"
-                                    :error-message="errors.bvn"
-                            /></template>
-                            <template v-else-if="field.value === 'bankAcctNo'">
-                                <Field
-                                    :field="field"
-                                    @input="handleInput"
-                                    @click.native="errors = {}"
-                                    :error-message="errors.bankAcctNo"
-                            /></template>
-                            <template v-else-if="field.value === 'bankCode'">
-                                <Field
-                                    :field="field"
-                                    @input="handleInput"
-                                    @click.native="errors = {}"
-                                    :error-message="errors.bankCode"
-                                    :options="checkOptions(field)"
-                            /></template>
-                            <template v-else>
-                                <Field
-                                    :field="field"
-                                    @input="handleInput"
-                                    :options="checkOptions(field)"
-                            /></template>
 
-                            <div v-if="field.value === 'pepStatus' && showPepStatus">
-                                <div class="kyc-field__group">
-                                    <label class="form__label"
-                                        >Name of Politically Exposed Person
-                                        <form-input
-                                            type="text"
-                                            @reset="errors = {}"
-                                            name="pepNames"
-                                            v-model="pepNames.pepNames"
-                                            placeholder="Name of Politically Exposed Person"
-                                            :error-message="errors.pepNames"
-                                    /></label>
-                                </div>
-                            </div>
-
-                            <div v-if="field.value === 'directorOfPublicCo' && showDirector">
-                                <div class="kyc-field__group">
-                                    <label class="form__label"
-                                        >Company Ticker Symbol
-                                        <form-input
-                                            type="text"
-                                            @reset="errors = {}"
-                                            name="directorName"
-                                            v-model="director.name"
-                                            placeholder="Company Ticker Symbol"
-                                            :error-message="errors.directorName"
-                                    /></label>
-                                </div>
-                            </div>
-
-                            <div v-if="field.value === 'employmentStatus' && showEmployment">
-                                <div class="kyc-field__group">
-                                    <label class="form__label"
-                                        >Employment Company
-                                        <form-input
-                                            type="text"
-                                            name="employmentCompany"
-                                            @reset="errors = {}"
-                                            v-model="employment.employmentCompany"
-                                            placeholder="Employment Details"
-                                            :error-message="errors.employmentCompany"
-                                    /></label>
-                                </div>
-                                <div class="kyc-field__group">
-                                    <label class="form__label"
-                                        >Employment Type
-                                        <select
-                                            class="form__input"
-                                            name="employmentType"
-                                            v-model="employment.employmentType"
-                                            @focus="errors = {}"
-                                            :error-message="errors.employmentType"
-                                        >
-                                            <option
-                                                v-for="(option, i) in types"
-                                                :key="i"
-                                                :value="option.value"
-                                                >{{ option.text }}</option
-                                            >
-                                        </select>
-                                        <p class="form-error" v-if="errors.employmentType">
-                                            <small>{{ errors.employmentType }}</small>
-                                        </p></label
-                                    >
-                                </div>
-                                <div class="kyc-field__group">
-                                    <label class="form__label"
-                                        >Employment Position
-                                        <select
-                                            class="form__input"
-                                            name="employmentPosition"
-                                            @focus="errors = {}"
-                                            v-model="employment.employmentPosition"
-                                            :error-message="errors.employmentPosition"
-                                        >
-                                            <option
-                                                v-for="(option, i) in positions"
-                                                :key="i"
-                                                :value="option.value"
-                                                >{{ option.text }}</option
-                                            >
-                                        </select>
-                                        <p class="form-error" v-if="errors.employmentPosition">
-                                            <small>{{ errors.employmentPosition }}</small>
-                                        </p></label
-                                    >
-                                </div>
-                            </div>
-                        </Fragment>
-
-                        <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
-                        <div class="text-center">
-                            <action-button
-                                type="submit"
-                                :disabled="Object.keys(errors).length > 0 || !formComplete"
-                                :pending="loading"
-                                :classes="['btn__primary']"
-                                >Submit</action-button
-                            >
-                        </div>
-                    </form>
-                </template>
+                    <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
+                    <div class="text-center">
+                        <action-button
+                            type="submit"
+                            :disabled="Object.keys(errors).length > 0 || !formComplete"
+                            :pending="loading"
+                            :classes="['btn__primary']"
+                            >Submit</action-button
+                        >
+                    </div>
+                </form>
             </div>
-        </transition>
+        </div>
     </modal>
 </template>
 
@@ -286,7 +277,6 @@ export default {
             selectedField: {},
             errors: {},
             subtitle: null,
-            showModal: false,
             ninField: {
                 name: "NIN",
                 value: "nin",
@@ -350,6 +340,12 @@ export default {
             }
             return "";
         },
+        sectionToShow() {
+            if (this.allFields[0].value === "phone") return "phone";
+            if (this.allFields[0].value === "nin" || this.nin) return "nin";
+            if (this.isFileImage) return "file";
+            return "default";
+        },
         showPendingStatus() {
             return this.getNavbarNextKYC.completedContexts.length > 0;
         },
@@ -365,6 +361,9 @@ export default {
             if (this.getNavbarNextKYC.completedContexts[0] === "LOCAL")
                 return "Processing Local Verification";
             return "Processing Global Verification";
+        },
+        showModal() {
+            return this.allFields.length > 0;
         }
     },
     methods: {
@@ -411,7 +410,7 @@ export default {
                 Object.keys(this.itemData).length >= this.selectedField.fields.length;
         },
         OTPSuccess() {
-            this.nextStep();
+            this.mount();
         },
         updateKYC() {
             Object.keys(this.itemData).forEach(el => {
@@ -446,14 +445,14 @@ export default {
                 this.RESOLVE_BVN(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             } else if (this.state === "nin") {
                 this.UPDATE_KYC_NIN(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             } else if (this.state === "bank") {
@@ -486,7 +485,7 @@ export default {
                 this.UPDATE_KYC_BANK(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             } else if (this.state === "employment") {
@@ -532,7 +531,7 @@ export default {
                 this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             } else {
@@ -543,7 +542,7 @@ export default {
                 this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this.nextStep();
+                        this.mount();
                     }
                 });
             }
@@ -569,25 +568,12 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.$emit("skipnin");
-                    this.nextStep();
+                    this.mount();
                 }
             });
         },
         closeModal() {
             this.$emit("close");
-        },
-        async nextStep() {
-            this.showModal = false;
-            // this.$emit("updated");
-            /**
-             * TO-DO:: Temporary check
-             */
-            // if (this.navbar) {
-            //     await this.GET_NAVBAR_NEXT_KYC();
-            // } else {
-            //     await this.GET_NEXT_KYC({ context: this.getKycModalAction });
-            // }
-            this.mount();
         },
         showFund() {
             this.SET_FUND_MODAL(true);
@@ -608,9 +594,6 @@ export default {
                 });
             });
             this.selectedField.fields = this.currentKYC.nextKYC;
-            // this.currentKYC.nextKYC.map(required => {
-            //     this.allFields = AllKYCFields.filter(el => required === el.value);
-            // });
             this.currentKYC.nextKYC.map(required => {
                 AllKYCFields.map(el => {
                     if (required == el.value) {
@@ -620,20 +603,26 @@ export default {
                 });
             });
 
-            if (this.currentKYC.status === "INCOMPLETE") {
-                if (this.isFileImage || this.allFields.length === this.currentKYC.nextKYC.length) {
-                    setTimeout(() => {
-                        this.showModal = true;
-                    }, 100);
-                }
-            } else {
-                if (this.getNavbarNextKYC.completedContexts.length === 0) {
-                    EventBus.$emit("MODAL_CLOSED");
-                    this.$emit("updated", true);
-                } else {
-                    this.showModal = true;
-                }
+            // if (this.currentKYC.status === "INCOMPLETE") {
+            //     if (this.isFileImage || this.allFields.length === this.currentKYC.nextKYC.length) {
+            //         setTimeout(() => {
+            //             this.showModal = true;
+            //         }, 200);
+            //     }
+            // } else {
+            if (
+                this.currentKYC.status === "COMPLETE" &&
+                this.getNavbarNextKYC.completedContexts.length === 0
+            ) {
+                EventBus.$emit("MODAL_CLOSED");
+                this.$emit("updated", true);
             }
+            //      else {
+            //         setTimeout(() => {
+            //             this.showModal = true;
+            //         }, 500);
+            //     }
+            // }
         }
     },
     mounted() {
@@ -641,9 +630,9 @@ export default {
         EventBus.$on("modal-trigger", () => {
             this.mount();
         });
-        // EventBus.$on("navbar-trigger", () => {
-        //     this.mount();
-        // });
+    },
+    beforeDestroy() {
+        this.closeModal();
     }
 };
 </script>
