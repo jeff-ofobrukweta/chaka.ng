@@ -159,7 +159,7 @@ export default {
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
-            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null) {
+            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null && !this.emptyData ) {
                 return 3;
             }
             return 2;

@@ -22,7 +22,7 @@
                             | currency(getAccountSummary.currency, true)
                     "
                     >{{
-                        getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency)
+                        getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency,true)
                     }}</span
                 >
                 <span v-else>{{ getPorfolioglobalCurrencyforGraph === "NGN" ? "₦" : "$" }}-</span
