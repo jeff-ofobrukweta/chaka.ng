@@ -62,7 +62,6 @@ export default {
         showPending() {
             if (
                 this.getNavbarNextKYC.status === "COMPLETE" &&
-                this.getNavbarNextKYC.completedContexts.length === 0 &&
                 (this.getLoggedUser.localKycStatus !== "COMPLETE" ||
                     this.getLoggedUser.globalKycStatus !== "COMPLETE")
             )
