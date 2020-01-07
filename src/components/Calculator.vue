@@ -311,7 +311,7 @@
                             <p>FX Fees</p>
                         </div>
                         <div class="card-pricing__section">
-                            <h4>&#8358;0</h4>
+                            <h4>&#8358;1000</h4>
                             <p>Minimum Deposit</p>
                         </div>
                     </div>
@@ -338,7 +338,7 @@
                             <p>FX Fees</p>
                         </div>
                         <div class="card-pricing__section">
-                            <h4>$0</h4>
+                            <h4>$10</h4>
                             <p>Minimum Deposit</p>
                         </div>
                     </div>
