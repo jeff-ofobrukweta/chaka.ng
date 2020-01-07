@@ -116,7 +116,9 @@ export default {
         this.SET_PRICE_INFO_ON_BLACKCARD({});
         EventBus.$on('GET_DAYS', (payLoad) => {
             this.valueTiming = payLoad;
-            this.checkTimevariantForPriceCardonToogle(this.valueTiming);
+            if(this.getPricedetailsonblackcard){
+                this.checkTimevariantForPriceCardonToogle(this.valueTiming);
+            }
         });
     }
 };

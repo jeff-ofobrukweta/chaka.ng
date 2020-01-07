@@ -184,10 +184,7 @@ export default {
                 };
                 this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then((res) => {
                     this.loading = false;
-                    if(res.data.emptyValues){
-                        this.emptyData = res.data.emptyValues;
-                        this.loading = true;
-                     }
+                     this.emptyData = res.data.emptyValues;
                     
                 });
             });
@@ -203,11 +200,8 @@ export default {
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then((res) => {
-                if(res.data.emptyValues){
                    this.emptyData = res.data.emptyValues;
-                   this.loading = true;
-                }
-                this.loading = false;
+                  this.loading = false;
             });
         },
         async mountedActions() {
@@ -218,11 +212,7 @@ export default {
             this.loading = true;
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then((res)=>{
                 this.loading = false;
-               if(res.data.emptyValues){
-                   this.emptyData = res.data.emptyValues;
-                   this.loading = true;
-
-                }
+                this.emptyData = res.data.emptyValues;
             });
         }
     },
