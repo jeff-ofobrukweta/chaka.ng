@@ -132,14 +132,20 @@ export default {
                     },
                     callbacks: {
                         label(tooltipItem, data) {
-                            const currency = this.currency == 'USD'
-                                ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format(
-                                    '0.00a'
-                                )}`
-                                : `N${numeral(data.datasets[0].data[tooltipItem.index]).format(
-                                    '0.00a'
-                                )}`;
-                            return `Price: ${currency}`;
+                            // const currency = this.getCurrency == 'USD'
+                            //     ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format(
+                            //         '0.00a'
+                            //     )}`
+                            //     : `N${numeral(data.datasets[0].data[tooltipItem.index]).format(
+                            //         '0.00a'
+                            //     )}`;
+                                if( this.currency == "USD"){
+                                    return `$ ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`
+                                }
+                                else{
+                                    return`N ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`
+                                }
+                            // return `Price: ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
                             const dataset = data.datasets[0];
@@ -165,6 +171,7 @@ export default {
         // EventBus.$on('fillData', (data) => {
             this.fillData();
             this.handlescaling();
+            console.log('this is the currency', this.currency)
         // });
     },
 
@@ -180,6 +187,11 @@ export default {
         date: {
             type: Array,
             required: false
+        }
+    },
+    computed:{
+        getCurrency(){
+            return this.currency;
         }
     },
     methods: {
