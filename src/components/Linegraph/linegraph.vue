@@ -131,7 +131,7 @@ export default {
                         return data.labels[tooltipItem[0].index];
                     },
                     callbacks: {
-                        label(tooltipItem, data) {
+                        label: (tooltipItem, data) => {
                             // const currency = this.getCurrency == 'USD'
                             //     ? `$${numeral(data.datasets[0].data[tooltipItem.index]).format(
                             //         '0.00a'
@@ -139,6 +139,7 @@ export default {
                             //     : `N${numeral(data.datasets[0].data[tooltipItem.index]).format(
                             //         '0.00a'
                             //     )}`;
+                                console.log('inside life mofo', this,this.currency)
                                 if( this.currency == "USD"){
                                     return `$ ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`
                                 }
@@ -169,6 +170,7 @@ export default {
     },
     async mounted() {
         // EventBus.$on('fillData', (data) => {
+             console.log('this is the currency before life', this.currency)
             this.fillData();
             this.handlescaling();
             console.log('this is the currency', this.currency)
