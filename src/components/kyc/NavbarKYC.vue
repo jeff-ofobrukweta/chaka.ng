@@ -539,7 +539,8 @@ export default {
             "RESOLVE_BVN",
             "RESOLVE_OTP",
             "GET_COUNTRY_CODES",
-            "USE_BVN_PHONE"
+            "USE_BVN_PHONE",
+            "GET_MOST_POPULAR"
         ]),
         ...mapMutations(["SET_SHOW_NAVBAR_KYC"]),
         handleInput(e) {
@@ -789,6 +790,7 @@ export default {
         EventBus.$on("navbar-trigger", () => {
             this.checkNextKYC();
         });
+        await this.GET_MOST_POPULAR();
     },
     watch: {
         "itemData.bvn": function(newVal) {

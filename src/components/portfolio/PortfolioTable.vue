@@ -39,10 +39,10 @@
                     <td
                         class="cursor-context"
                         :title="
-                            item.InstrumentDynamic.askPrice | kobo | currency(item.currency, true)
+                            item.askPrice | currency(item.currency, true)
                         "
                     >
-                        {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
+                        {{ item.askPrice | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}
@@ -117,10 +117,10 @@
                     <td
                         class="cursor-context"
                         :title="
-                            item.InstrumentDynamic.askPrice | kobo | currency(item.currency, true)
+                            item.askPrice | kobo | currency(item.currency, true)
                         "
                     >
-                        {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
+                        {{ item.askPrice | kobo | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}

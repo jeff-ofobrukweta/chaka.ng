@@ -31,7 +31,8 @@
                                 >Calculator</router-link
                             >
                         </li>
-                        <li class="nav__item">
+                        <!-- TO-DO :: Put back when pages are ready -->
+                        <!-- <li class="nav__item">
                             <router-link class="nav__link" to="/developers" active-class="active"
                                 >Developers</router-link
                             >
@@ -63,7 +64,7 @@
                                     >
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
 
@@ -119,7 +120,8 @@
                                         >Calculator</router-link
                                     >
                                 </li>
-                                <li class="nav__item">
+                                <!-- TO-DO :: Put back when pages are ready -->
+                                <!-- <li class="nav__item">
                                     <router-link class="nav__link" :to="{ name: 'developers' }"
                                         >Developers</router-link
                                     >
@@ -133,7 +135,7 @@
                                     <router-link class="nav__link" :to="{ name: 'about' }"
                                         >About us</router-link
                                     >
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                         <ul class="nav__meta">
@@ -363,7 +365,11 @@
                             ></router-link
                         >
                         <router-link class="wallet-icon" :to="{ name: 'accounts-wallet' }">
-                            <img src="../assets/img/portfolio1-dark.svg" alt="Wallet" class="wallet-icon" />
+                            <img
+                                src="../assets/img/portfolio1-dark.svg"
+                                alt="Wallet"
+                                class="wallet-icon"
+                            />
                         </router-link>
                         <button class="btn btn__icon btn__icon--md btn__primary" @click="showFund">
                             +
