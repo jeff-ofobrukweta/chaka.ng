@@ -36,13 +36,8 @@
             </section>
             <router-link :to="{ name: 'singlestock', params: { symbol: item.symbol } }">
                 <section class="section2">
-                    <div
-                        :title="
-                            item.InstrumentDynamic.askPrice | kobo | currency(item.currency, true)
-                        "
-                        class="price"
-                    >
-                        {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
+                    <div :title="item.askPrice | currency(item.currency, true)" class="price">
+                        {{ item.askPrice | currency(item.currency) }}
                     </div>
                     <div class="level">
                         <!-- <img class="direct"
@@ -79,16 +74,16 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from 'vue-fragment';
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { Fragment } from "vue-fragment";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
-    name: 'Instrumentdesk',
+    name: "Instrumentdesk",
     components: {
         Fragment
     },
     computed: {
-        ...mapGetters(['gettagslistsArray'])
+        ...mapGetters(["gettagslistsArray"])
     },
     methods: {
         //    ...mapActions(['GET_INSTRUMENT_BY_TAGS']),

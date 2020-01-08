@@ -126,18 +126,9 @@
                             width="24px"
                         /><span>|</span>
                         <strong
-                            v-if="instrument.InstrumentDynamic"
                             class="cursor-context"
-                            :title="
-                                instrument.InstrumentDynamic.askPrice
-                                    | kobo
-                                    | currency(instrument.currency, true)
-                            "
-                            >{{
-                                instrument.InstrumentDynamic.askPrice
-                                    | kobo
-                                    | currency(instrument.currency)
-                            }}</strong
+                            :title="instrument.askPrice | currency(instrument.currency, true)"
+                            >{{ instrument.askPrice | currency(instrument.currency) }}</strong
                         >
                     </p>
                 </div>

@@ -273,21 +273,7 @@
             <div class="container">
                 <div class="row v2-invest__row">
                     <div class="v2-invest__image" data-aos="fade-left" data-aos-duration="700">
-                        <img
-                            :src="require('../assets/img/fractional/fractional.png')"
-                            alt="Invest"
-                            v-if="investNumber === 0"
-                        />
-                        <img
-                            :src="require('../assets/img/fractional/low-minimums.png')"
-                            alt="Invest"
-                            v-else-if="investNumber === 1"
-                        />
-                        <img
-                            :src="require('../assets/img/fractional/grow.png')"
-                            alt="Invest"
-                            v-else-if="investNumber === 2"
-                        />
+                        <img :src="invest[investNumber].image" alt="Invest" />
                     </div>
                     <div class="v2-invest__text">
                         <h2 class="hero__title v2-section__title">
@@ -295,29 +281,6 @@
                         </h2>
                         <div class="v2-invest__height">
                             <p class="section__text">{{ invest[investNumber].text }}</p>
-                            <!-- <div
-                            class="pb-0 v2-layer__signup"
-                            data-aos="fade-left"
-                            data-aos-delay="0"
-                            data-aos-duration="200"
-                            v-if="investNumber === 0"
-                        >
-                            <router-link :to="{ name: 'register' }" class="v2-btn v2-btn__white">
-                                Sign Up Now
-                                <svg
-                                    width="12"
-                                    height="6"
-                                    viewBox="0 0 12 6"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M6.8009 5.51985V4.05865L0.342752 4.05865C0.162356 4.05865 0 3.91433 0 3.71589V2.14646C0 1.96606 0.144317 1.8037 0.342752 1.8037L6.8009 1.8037V0.342503C6.8009 0.0719098 7.10757 -0.0904461 7.34209 0.0538701L9.14604 1.2986L11.0763 2.63352C11.2747 2.77784 11.2747 3.06647 11.0763 3.19275L9.14604 4.56375L7.34209 5.80848C7.10757 5.9528 6.8009 5.79044 6.8009 5.51985Z"
-                                        fill="white"
-                                    />
-                                </svg>
-                            </router-link>
-                        </div> -->
                         </div>
                         <div class="v2-invest__pick">
                             <div class="v2-invest__bar">
@@ -726,6 +689,9 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import auth from "../services/validations/auth";
+import fractional from "../assets/img/fractional/fractional.png";
+import minimums from "../assets/img/fractional/low-minimums.png";
+import grow from "../assets/img/fractional/grow.png";
 
 export default {
     name: "Home",
@@ -738,15 +704,18 @@ export default {
             invest: [
                 {
                     title: "Fractional Shares",
-                    text: `Invest in any global stock with any amount of money, no matter the price per share.`
+                    text: `Invest in any global stock with any amount of money, no matter the price per share.`,
+                    image: fractional
                 },
                 {
                     title: "Low Minimums",
-                    text: `Start trading with as low as $10 or N1, 000.`
+                    text: `Start trading with as low as $10 or N1, 000.`,
+                    image: minimums
                 },
                 {
                     title: "Grow",
-                    text: `Learn more about investing with access to content from our in-house team.`
+                    text: `Learn more about investing with access to content from our in-house team.`,
+                    image: grow
                 }
             ],
             itemData: {},

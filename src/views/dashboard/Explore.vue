@@ -155,6 +155,7 @@
                             v-for="(instrument, index) in getWatchlist"
                             :key="index"
                             :instrument="instrument"
+                            :color="instrument.derivedPrice >= 0 ? 'green' : 'red'"
                         />
                     </template>
                 </transition-group>

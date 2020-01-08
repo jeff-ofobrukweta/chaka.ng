@@ -11,12 +11,12 @@
         @include tablet {
             position: sticky;
             bottom: unset;
-            top: 75px
+            // top: 75px
         }
 
         &.scroll {
             @include tablet {
-                top: 65px
+                // top: 64px
             }
 
             .side-nav__link {

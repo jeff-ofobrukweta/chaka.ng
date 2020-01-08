@@ -83,12 +83,14 @@
                     <router-link :to="{ name: 'register' }">Open an account</router-link>
                     <router-link :to="{ name: 'calculator' }">List of charges</router-link>
                     <router-link :to="{ name: 'register' }">Fund Transfer</router-link>
-                    <router-link :to="{ name: 'about' }">Careers</router-link>
+                    <!-- TO-DO :: Put back when page is ready -->
+                    <!-- <router-link :to="{ name: 'about' }">Careers</router-link> -->
                     <router-link :to="{ name: 'login' }">Media &amp; Press</router-link>
                 </div>
                 <div class="footer-top__company">
                     <h5 class="footer-top__account--title">COMPANY</h5>
-                    <router-link :to="{ name: 'about' }">About</router-link>
+                    <!-- TO-DO :: Put back when page is ready -->
+                    <!-- <router-link :to="{ name: 'about' }">About</router-link> -->
                     <router-link :to="{ name: 'login' }">Products</router-link>
                     <router-link :to="{ name: 'calculator' }">Pricing</router-link>
                 </div>

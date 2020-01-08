@@ -29,17 +29,6 @@
                         </div>
                         <div class="text-left">
                             <h6>{{ stock.symbol | truncate(7) }}</h6>
-                            <div>
-                                <img
-                                    :src="
-                                        require(`../../assets/img/flags/${country(
-                                            stock.countryCode
-                                        )}-flag.svg`)
-                                    "
-                                    class="kyc-nav__popular--flag"
-                                    :alt="stock.countryCode"
-                                />
-                            </div>
                         </div>
                     </router-link>
                 </div>
@@ -61,9 +50,6 @@ export default {
     methods: {
         ...mapMutations(["SET_FUND_MODAL"]),
         ...mapActions(["GET_MOST_POPULAR"]),
-        country(code) {
-            return code ? code.toLowerCase() : "zz";
-        },
         showFund() {
             this.SET_FUND_MODAL(true);
         }
