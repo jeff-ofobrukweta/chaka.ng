@@ -1,10 +1,10 @@
 <template>
-	<div>Logging out...</div>
+    <div>Logging out...</div>
 </template>
 
 <script>
 export default {
-    name: 'Logout',
+    name: "Logout",
     created() {}
 };
 </script>

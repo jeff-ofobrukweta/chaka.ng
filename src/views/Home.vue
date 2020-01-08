@@ -23,7 +23,7 @@
                                     Trade Global &amp; Local Stock Markets
                                 </h1>
 
-                                <p class="hero__text">
+                                <p class="section__text">
                                     Your Investment Passport. Own US, Nigerian, Chinese and global
                                     companies like Apple, Google, Dangote, Alibaba and more from any
                                     device.

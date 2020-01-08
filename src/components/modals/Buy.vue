@@ -84,6 +84,28 @@
             </template>
         </section>
         <form class="modal-form" @submit.prevent="validateBuy" v-if="!showTerms">
+            <template v-if="orderType === 'MARKET'">
+                <div class="modal__buy-round" v-if="currency === 'USD'">
+                    <a
+                        class="modal__buy-round--button"
+                        :class="{ active: amount === itemData.amountCash }"
+                        @click="switchValue(amount)"
+                        v-for="amount in dollarButtons"
+                        :key="amount"
+                        >${{ amount }}</a
+                    >
+                </div>
+                <div class="modal__buy-round" v-else>
+                    <a
+                        class="modal__buy-round--button"
+                        :class="{ active: amount === itemData.amountCash }"
+                        @click="switchValue(amount)"
+                        v-for="amount in nairaButtons"
+                        :key="amount"
+                        >&#8358;{{ amount }}</a
+                    >
+                </div>
+            </template>
             <div class="modal-form__group">
                 <label class="form__label" v-if="orderType === 'MARKET'"
                     >Amount
@@ -306,7 +328,9 @@ export default {
             errors: {},
             showKYC: false,
             selectedField: {},
-            allNextKYC: KYCTitles.titles
+            allNextKYC: KYCTitles.titles,
+            dollarButtons: [10, 20, 30, 50, 100],
+            nairaButtons: [1000, 2000, 5000, 10000, 50000]
         };
     },
     computed: {
@@ -448,7 +472,7 @@ export default {
             });
         },
         onTypeQuantity(e) {
-            this.itemData.quantity = e;
+            this.itemData.quantity = +e;
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = true;
                 if (e) {
@@ -461,7 +485,7 @@ export default {
             }
         },
         onTypeAmount(e) {
-            this.itemData.amountCash = e;
+            this.$set(this.itemData, "amountCash", +e);
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = false;
                 if (this.currency === "NGN" && this.orderType === "MARKET") {
@@ -470,6 +494,9 @@ export default {
                     this.itemData.quantity = +e / +this.getMarketData.ask;
                 }
             }
+        },
+        switchValue(amount) {
+            this.onTypeAmount(amount);
         },
         clearErrors() {
             this.errors = {};
