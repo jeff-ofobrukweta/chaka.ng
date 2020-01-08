@@ -154,8 +154,8 @@
             @include desktop {
                 padding-top: 2.5rem;
                 padding-right: 45px;
-                flex: 0 0 30%;
-                max-width: 30%;
+                flex: 0 0 40%;
+                max-width: 40%;
             }
         }
 
@@ -170,15 +170,15 @@
             @include desktop {
                 padding-top: 2.5rem;
                 padding-right: 45px;
-                flex: 0 0 65%;
-                max-width: 65%;
+                flex: 0 0 60%;
+                max-width: 60%;
             }
         }
 
         &__phone {
             width: 45%;
             min-width: 165px;
-            max-width: 185px;
+            max-width: 170px;
             transform: scale(0.85);
             z-index: 1;
             align-self: center;
@@ -226,16 +226,13 @@
                     width: 125%;
                 }
 
-                @include tablet {
-                    right: -13%;
-                }
-
                 @include desktop {
                     display: block;
+                    right: -9%;
                 }
 
-                @include desktop {
-                    right: -10%;
+                @include desktop-lg {
+                    right: 0%;
                     display: block;
                 }
             }

@@ -1,17 +1,17 @@
 <template>
     <Fragment>
         <Navbar />
+        <transition name="kyc-navbar" v-if="showPending">
+            <KYCPending />
+        </transition>
+        <transition name="kyc-navbar" v-else>
+            <KYC v-if="showNavbarKYC" />
+        </transition>
         <div v-if="isSearchOpened" class="search-overlay" @click="SEARCH_OPENED(false)"></div>
         <main class="dashboard-loader" v-if="loading">
             <img :src="require('../assets/img/loader.gif')" alt="Loader" />
         </main>
         <main role="main" v-else>
-            <transition name="kyc-navbar" v-if="showPending">
-                <KYCPending />
-            </transition>
-            <transition name="kyc-navbar" v-else>
-                <KYC v-if="showNavbarKYC" />
-            </transition>
             <section class="container">
                 <router-view />
             </section>
