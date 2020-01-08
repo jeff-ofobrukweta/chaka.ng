@@ -1,13 +1,6 @@
 <template>
     <Fragment>
-        <section
-            class="issues-with-pageloading"
-            v-if="
-                getSingleinstrument[0] == undefined ||
-                    !getSingleinstrument ||
-                    getSingleinstrument[0] == null
-            "
-        >
+        <section class="issues-with-pageloading" v-if="loading">
             <div>
                 <aside class="center-fix-messg">
                     <img
@@ -20,81 +13,90 @@
         </section>
         <section v-else class="dashboard__main">
             <div class="header-container dashboard__title">
-                <section class="right-header">
-                    <h1 class="price">
-                        {{
-                            getSingleinstrument[0].InstrumentDynamic.askPrice
-                                | kobo
-                                | currency(getSingleinstrument[0].currency)
-                        }}
-                    </h1>
-                    <h1 class="percentage">
-                        <span
-                            :class="[
-                                getPricedetailsonblackcard.derivedPrice < 0 ? 'red' : 'green',
-                                'price'
-                            ]"
-                            >{{ getPricedetailsonblackcard.derivedPrice }}</span
-                        >
-                        <span
-                            :class="[
-                                getPricedetailsonblackcard.derivedPricePercentage < 0
-                                    ? 'red'
-                                    : 'green',
-                                'price'
-                            ]"
-                            class="delta"
-                            >({{ getPricedetailsonblackcard.derivedPricePercentage }}%)</span
-                        >
-                    </h1>
-                </section>
                 <section class="left-header">
                     <section class="name-country">
-                        <img
-                            class="logo-company"
-                            :src="getSingleinstrument[0].logoUrl"
-                            alt="logo"
-                        />
-                        <aside class="item-name-country">
-                            <section :title="getSingleinstrument[0].name" class="stockname">
-                                {{ getSingleinstrument[0].name || "" | truncate(10) }}
-                            </section>
+                        <template class="child-name-country">
                             <img
-                                class="state"
-                                :src="
-                                    require(`../../assets/img/icons/flags/${getSingleinstrument[0].countryCode.toLowerCase()}-flag.svg`)
-                                "
-                                alt="state"
+                                class="logo-company"
+                                :src="getSingleinstrument.logoUrl"
+                                alt="logo"
                             />
-                        </aside>
+                            <aside class="item-name-country">
+                                <section
+                                    :title="getSingleinstrument.name || 'no name availiable'"
+                                    class="stockname"
+                                >
+                                    {{ getSingleinstrument.name || "" | truncate(30) }}
+                                </section>
+                                <img
+                                    class="state"
+                                    :src="
+                                        require(`../../assets/img/icons/flags/${countryCode}-flag.svg`)
+                                    "
+                                    alt="state"
+                                />
+                            </aside>
+                        </template>
                     </section>
                     <section class="btn-wrapper">
-                        <kyc-button
-                            ref="buyBtn"
-                            :classes="['buy-btn']"
-                            :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
-                            @step="handleStep"
-                            next-action="buy"
-                            >Buy</kyc-button
-                        >
-                        <button
-                            v-if="checkIfStockInWatchlist.length > 0"
-                            @click="OnhandleremoveFromWatchlist"
-                            class="watch"
-                        >
-                            <img
-                                class="middle-loader"
-                                :src="require('../../assets/img/watch-close.svg')"
-                                alt="spin"
-                            />
-                        </button>
-                        <button v-else @click="OnhandleaddToWatchlist" class="unwatch">
-                            <img
-                                class="middle-loader"
-                                :src="require('../../assets/Instrument_assets/watch.png')"
-                                alt="spin"
-                            />
-                        </button>
+                        <section>
+                            <kyc-button
+                                ref="buyBtn"
+                                :classes="['buy-btn']"
+                                :action="
+                                    getSingleinstrument.currency === 'NGN' ? 'local' : 'global'
+                                "
+                                @step="handleStep"
+                                next-action="buy"
+                                >Buy</kyc-button
+                            >
+                            <button
+                                v-if="checkIfStockInWatchlist.length > 0"
+                                @click="OnhandleremoveFromWatchlist"
+                                class="watch"
+                            >
+                                <img
+                                    class="middle-loader"
+                                    :src="require('../../assets/img/watch-close.svg')"
+                                    alt="spin"
+                                />
+                            </button>
+                            <button v-else @click="OnhandleaddToWatchlist" class="unwatch">
+                                <img
+                                    class="middle-loader"
+                                    :src="require('../../assets/Instrument_assets/watch.png')"
+                                    alt="spin"
+                                />
+                            </button>
+                        </section>
+                        <section>
+                            <section class="right-header">
+                                <h1 class="price">
+                                    {{
+                                        getSingleinstrument.askPrice ||
+                                            0.0 | currency(getSingleinstrument.currency, true)
+                                    }}
+                                </h1>
+                                <h1
+                                    :class="[
+                                        getPricedetailsonblackcard.derivedPrice >= 0
+                                            ? 'green'
+                                            : 'red',
+                                        'percentage'
+                                    ]"
+                                >
+                                    <span class="price">{{
+                                        getPricedetailsonblackcard.derivedPrice
+                                    }}</span>
+                                    <span class="price"
+                                        >({{
+                                            getPricedetailsonblackcard.derivedPricePercentage ||
+                                                0.0
+                                        }}%)</span
+                                    >
+                                </h1>
+                            </section>
+                        </section>
                     </section>
                 </section>
             </div>
@@ -102,20 +104,32 @@
                 ref="buyBtn"
                 v-if="getWindowWidth === 'mobile'"
                 :classes="['small-size']"
-                :action="getSingleinstrument[0].currency === 'NGN' ? 'local' : 'global'"
+                :action="getSingleinstrument.currency === 'NGN' ? 'local' : 'global'"
                 @step="handleStep"
                 next-action="buy"
                 >Buy</kyc-button
             >
+
+            <!-- boom -->
+            <!-- <button @click="authenticate('github')">auth Github</button>
+            <button @click="authenticate('facebook')">auth Facebook</button>
+            <button @click="authenticate('google')">auth Google</button>
+            <button @click="authenticate('twitter')">auth Twitter</button>
+            <button @click="authenticate('linkedin')">auth linkedin</button>
+            <h2>Result</h2>
+            <textarea v-model="token" cols="50" rows="5" />
+            <textarea v-model="profile" cols="50" rows="5" /> -->
+            <!-- end boom -->
+
             <section class="sumary">
                 <div
-                    v-if="getSingleinstrument[0].description"
-                    :title="getSingleinstrument[0].description"
+                    v-if="getSingleinstrument.description"
+                    :title="getSingleinstrument.description"
                     class="summary-cover"
                 >
-                    <div v-if="getSingleinstrument[0].description.length >= 300">
+                    <div v-if="getSingleinstrument.description.length >= 300">
                         <section v-if="description">
-                            {{ getSingleinstrument[0].description || "" | truncate(300)
+                            {{ getSingleinstrument.description || "" | truncate(300)
                             }}<span
                                 ><a class="expand" @click="description = !description"
                                     >see&nbsp;more</a
@@ -123,7 +137,7 @@
                             >
                         </section>
                         <section v-else>
-                            {{ getSingleinstrument[0].description || ""
+                            {{ getSingleinstrument.description || ""
                             }}<span
                                 ><a class="expand" @click="description = !description"
                                     >see&nbsp;less</a
@@ -133,7 +147,7 @@
                     </div>
                     <div v-else>
                         <section>
-                            {{ getSingleinstrument[0].description || "" }}
+                            {{ getSingleinstrument.description || "" }}
                         </section>
                     </div>
                 </div>
@@ -159,8 +173,10 @@
                         fill="#293D4A"
                     />
                 </svg>
+                <!-- <button @click="handleOauth('linkedin')">linkedin</button>
+                    <div v-html="getSocials"></div> -->
                 <div
-                    v-for="(tag, index) in getSingleinstrument[0].Tags"
+                    v-for="(tag, index) in getSingleinstrument.Tags"
                     :key="index"
                     class="stocktag-container"
                 >
@@ -171,16 +187,20 @@
             </section>
             <section class="container-graph">
                 <div class="graph-container">
-                    <Linegraph :instrument="getSingleinstrument[0]" :max-quantity="maxQuantity" />
+                    <Linegraph :instrument="getSingleinstrument" />
                 </div>
-                <Cardblue :instrument="getSingleinstrument[0]" />
+                <Cardblue :instrument="getPricedetailsonblackcard || {}" />
             </section>
             <section class="container-instrument">
-                <StockTable :instrument="getSingleinstrument[0] || []" />
+                <StockTable :instrument="getSingleinstrument || {}" />
             </section>
             <section class="container-stocks">
                 <Horizontalchart />
                 <Analysisbarchart />
+            </section>
+            <section class="dashboard__title">
+                <h3>Similar Stocks</h3>
+                <!-- <p class="dashboard__title--sub">Discover new stocks</p> -->
             </section>
             <section v-if="getWindowWidth === 'desktop'">
                 <div class="instrument-base">
@@ -192,11 +212,12 @@
                             v-for="(instrument, index) in getSimilarStocks"
                             :key="index"
                             :instrument="instrument"
+                            stock-page
                         />
                     </template>
                     <template v-else>
                         <p class="text-center">
-                            There are no similar stocks for {{ getSingleinstrument[0].name }}
+                            There are no similar stocks for {{ getSingleinstrument.name }}
                         </p>
                     </template>
                 </div>
@@ -205,26 +226,34 @@
                 <template v-if="similarLoading">
                     <InstrumentMobile v-for="i in 3" :key="i" :instrument="{}" dummy
                 /></template>
-                <template v-else-if="getSimilarStocks.length > 0">
-                    <transition-group name="kyc-navbar">
+                <transition-group name="kyc-navbar" v-else-if="getSimilarStocks.length > 0">
+                    <section key="1">
                         <InstrumentMobile
                             v-for="(instrument, index) in getSimilarStocks"
                             :key="index"
                             :instrument="instrument"
+                            stock-page
                         />
-                    </transition-group>
-                </template>
+                    </section>
+                </transition-group>
                 <template v-else>
                     <p class="text-center">
-                        There are no similar stocks for {{ getSingleinstrument[0].name }}
+                        There are no similar stocks for {{ getSingleinstrument.name }}
                     </p>
                 </template>
             </section>
             <section class="news-container">
-                <h1 class="title">News</h1>
-                <section class="sub-title">lorem ipsun blabala here</section>
+                <section class="dashboard__title">
+                    <h3>News</h3>
+                    <!-- <p class="dashboard__title--sub">Discover new stocks</p> -->
+                </section>
                 <section class="news-container-main">
-                    <news-card :news="item" v-for="(item, index) in getNews" :key="index" />
+                    <div class="news-container-main" v-if="getNews && getNews.length <= 0">
+                        No current news availiable for this current stock
+                    </div>
+                    <div class="news-container-main" v-else>
+                        <news-card :news="item" v-for="(item, index) in getNews" :key="index" />
+                    </div>
                 </section>
             </section>
         </section>
@@ -235,21 +264,16 @@
 <script>
 import { Fragment } from "vue-fragment";
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import Linegraph from "../../components/Linegraph/singlestock_linegraph";
-import Cardblue from "../../components/Linegraph/blackpriceboard";
-import StockTable from "../../components/singlestock/StockTable";
-import Horizontalchart from "../../components/Horizontalbar/hbase";
-import Analysisbarchart from "../../components/Analysisbarchart/analysisbarchartbase";
 
 export default {
     name: "Singlestock",
     components: {
         Fragment,
-        Linegraph,
-        Cardblue,
-        StockTable,
-        Horizontalchart,
-        Analysisbarchart,
+        Linegraph: () => import("../../components/Linegraph/singlestock_linegraph"),
+        Cardblue: () => import("../../components/Linegraph/blackpriceboard"),
+        StockTable: () => import("../../components/singlestock/StockTable"),
+        Horizontalchart: () => import("../../components/Horizontalbar/hbase"),
+        Analysisbarchart: () => import("../../components/Analysisbarchart/analysisbarchartbase"),
         InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
         InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist")
     },
@@ -265,7 +289,12 @@ export default {
             "getWatchlist",
             "getNews",
             "getInstrumentsPayload"
-        ])
+        ]),
+        countryCode() {
+            if (this.getSingleinstrument.countryCode)
+                return this.getSingleinstrument.countryCode.toLowerCase();
+            return "zz";
+        }
     },
     methods: {
         ...mapActions([
@@ -274,15 +303,51 @@ export default {
             "GET_SINGLESTOCK_INSTRUMENT",
             "GET_ARTICULE_NEWS",
             "ADD_TO_WATCHLIST",
-            "REMOVE_FROM_WATCHLIST"
+            "REMOVE_FROM_WATCHLIST",
+            "GET_SOCIAL_OAUTH_FACEBOOK"
         ]),
         ...mapMutations([
             "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
             "SET_NEWS",
             "SET_SINGLE_INSTRUMENT",
-            "SET_BUY_MODAL",
-            "SET_SELL_MODAL"
+            "SET_BUY_MODAL"
         ]),
+        authenticate(provider) {
+            const this_ = this;
+            this.$auth.authenticate(provider).then(caller => {
+                let token = this_.$auth.getToken();
+                // getLoginStatus
+                this_.token = token;
+                alert(`login success with token ${token}`);
+                if (provider === "facebook") {
+                    this_.$http
+                        .get("https://graph.facebook.com/v3.0/me?fields=id,name,email", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                        });
+                }
+                if (provider === "google") {
+                    this_.$http
+                        .get("https://www.googleapis.com/oauth2/v1/userinfo", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                        });
+                }
+                if (provider === "linkedin") {
+                    this_.$http
+                        .get("https://api.linkedin.com/v2/me", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                        });
+                }
+            });
+        },
         handleStep(step) {
             // this.step = step.type;
             this.step = step;
@@ -292,28 +357,22 @@ export default {
             }
             this.showBuy();
         },
+        handleOauth(type) {
+            this.GET_SOCIAL_OAUTH_FACEBOOK(type);
+        },
         showBuy() {
             this.showKYC = false;
-            if (this.step.nextAction === "buy") {
-                this.SET_BUY_MODAL({
-                    instrument: this.getSingleinstrument[0],
-                    currency: this.getSingleinstrument[0].currency,
-                    stockPage: true,
-                    show: true
-                });
-                return true;
-            }
-            this.SET_SELL_MODAL({
-                instrument: this.getSingleinstrument[0],
-                currency: this.getSingleinstrument[0].currency,
+            this.SET_BUY_MODAL({
+                instrument: this.getSingleinstrument,
+                currency: this.getSingleinstrument.currency,
                 stockPage: true,
-                show: true,
-                maxQuantity: this.maxQuantity
+                show: true
             });
+            return true;
         },
         async OnhandleaddToWatchlist() {
             // this.watchdisable = true;
-            const payload = { symbols: String(this.getSingleinstrument[0].symbol) };
+            const payload = { symbols: String(this.getSingleinstrument.symbol) };
             await this.ADD_TO_WATCHLIST(payload);
             setTimeout(() => {
                 // this.watchdisable = false;
@@ -328,7 +387,7 @@ export default {
         },
         async OnhandleremoveFromWatchlist() {
             // this.watchdisable = true;
-            const payload = { symbols: String(this.getSingleinstrument[0].symbol) };
+            const payload = { symbols: String(this.getSingleinstrument.symbol) };
             await this.REMOVE_FROM_WATCHLIST(payload);
             //  this.watchdisable = false;
             this.statusOfWatchlist = !this.statusOfWatchlist;
@@ -344,6 +403,25 @@ export default {
                 this.showBuy();
             }
         },
+        async mountedAction(symbol) {
+            this.loading = true;
+            this.SET_SINGLE_INSTRUMENT({});
+            this.SET_NEWS([]);
+            const singlestockpayload = { symbols: symbol };
+            const newsSinglestockpayload = { symbol };
+            this.similarLoading = true;
+            this.GET_WATCHLIST().then(() => {
+                this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
+                    number => number.symbol == symbol
+                );
+                // filter the arr at this point to get if the current stock is in the watchlist
+            });
+            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload);
+            this.loading = false;
+            this.similarLoading = false;
+            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument.similar] || []);
+            this.GET_ARTICULE_NEWS(newsSinglestockpayload);
+        },
         setTagPayload(valuePayload) {
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
             this.$router.push({
@@ -353,35 +431,15 @@ export default {
         }
     },
     async mounted() {
-        const singlestockpayload = { symbols: this.$route.params.symbol };
-        const newsSinglestockpayload = { symbol: this.$route.params.symbol };
-        this.similarLoading = true;
-        this.GET_WATCHLIST().then(() => {
-            this.checkIfStockInWatchlist = [...this.getWatchlist].filter(
-                number => number.symbol == this.$route.params.symbol
-            );
-            // filter the arr at this point to get if the current stock is in the watchlist
-        });
-        await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-            this.similarLoading = false;
-            this.GET_SIMILAR_STOCKS([...this.getSingleinstrument[0].similar] || []);
-            this.GET_ARTICULE_NEWS(newsSinglestockpayload).then(() => {
-                //    loader here maybe
-            });
-        });
+        this.mountedAction(this.$route.params.symbol);
     },
     beforeRouteUpdate(to, from, next) {
-        const singlestockpayload = {
-            symbols: to.params.symbol
-        };
-        this.similarLoading = true;
-        this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
-            this.similarLoading = false;
-        });
+        this.mountedAction(to.params.symbol);
         next();
     },
     beforeDestroy() {
-        this.SET_SINGLE_INSTRUMENT([]);
+        this.SET_NEWS([]);
+        this.SET_SINGLE_INSTRUMENT({});
     },
     data() {
         return {
@@ -396,6 +454,8 @@ export default {
             description: true,
             watchdisable: true,
             checkIfStockInWatchlist: [],
+            token: "",
+            profile: "",
 
             news: [
                 {

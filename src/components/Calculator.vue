@@ -67,6 +67,7 @@
                                         placeholder="0"
                                         v-model="quantity"
                                         @input="changeQty"
+                                        :min="0"
                                 /></label>
                             </div>
                         </div>
@@ -294,7 +295,7 @@
                     <h4 class="card-pricing__title">Local</h4>
                     <div class="card-pricing__body">
                         <div class="card-pricing__section">
-                            <h4>&#8358;100 or 0.3%</h4>
+                            <h4>&#8358;100 or 0.5%</h4>
                             <p>Broker Commissions</p>
                         </div>
                         <div class="card-pricing__section">
@@ -310,7 +311,7 @@
                             <p>FX Fees</p>
                         </div>
                         <div class="card-pricing__section">
-                            <h4>&#8358;0</h4>
+                            <h4>&#8358;1000</h4>
                             <p>Minimum Deposit</p>
                         </div>
                     </div>
@@ -319,7 +320,9 @@
                     <h4 class="card-pricing__title">Global</h4>
                     <div class="card-pricing__body card-pricing__global">
                         <div class="card-pricing__section">
-                            <h4>0.9% or $4.99</h4>
+                            <h4 class="v2-pricing__mobile">
+                                <span class="stroke">$5</span> $2 or 1%
+                            </h4>
                             <p>Broker Commissions</p>
                         </div>
                         <div class="card-pricing__section">
@@ -335,7 +338,7 @@
                             <p>FX Fees</p>
                         </div>
                         <div class="card-pricing__section">
-                            <h4>$0</h4>
+                            <h4>$10</h4>
                             <p>Minimum Deposit</p>
                         </div>
                     </div>
@@ -346,22 +349,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-    name: 'calculator',
+    name: "calculator",
     props: {
         dashboard: {
             type: Boolean
         }
     },
     components: {
-        CurrencyInput: () => import('./form/CurrencyInput')
+        CurrencyInput: () => import("./form/CurrencyInput")
     },
     data() {
         return {
-            selectOption: 'buy',
-            selectZone: 'local',
+            selectOption: "buy",
+            selectZone: "local",
             buy: null,
             sell: null,
             quantity: null,
@@ -402,82 +405,82 @@ export default {
             ],
             localBuyList: [
                 {
-                    name: 'Investment',
+                    name: "Investment",
                     value: 0
                 },
                 {
-                    name: 'SEC Fees',
+                    name: "SEC Fees",
                     value: 0
                 },
                 {
-                    name: 'CSCS Fees',
+                    name: "CSCS Fees",
                     value: 0
                 },
                 {
-                    name: 'Stamp Duties',
+                    name: "Stamp Duties",
                     value: 0
                 },
                 {
-                    name: 'Brokerage Fees (VAT Inclusive)',
+                    name: "Brokerage Fees (VAT Inclusive)",
                     value: 0
                 }
             ],
             localSellList: [
                 {
-                    name: 'Investment',
+                    name: "Investment",
                     value: 0
                 },
                 {
-                    name: 'NSE Fees',
+                    name: "NSE Fees",
                     value: 0
                 },
                 {
-                    name: 'CSCS Fees',
+                    name: "CSCS Fees",
                     value: 0
                 },
                 {
-                    name: 'Stamp Duties',
+                    name: "Stamp Duties",
                     value: 0
                 },
                 {
-                    name: 'Brokerage Fees (VAT Inclusive)',
+                    name: "Brokerage Fees (VAT Inclusive)",
                     value: 0
                 }
             ],
             localProfitList: [
                 {
-                    name: 'Investment',
+                    name: "Investment",
                     value: 0
                 },
                 {
-                    name: 'NSE/SEC Fees',
+                    name: "NSE/SEC Fees",
                     value: 0
                 },
                 {
-                    name: 'CSCS Fees',
+                    name: "CSCS Fees",
                     value: 0
                 },
                 {
-                    name: 'Stamp Duties',
+                    name: "Stamp Duties",
                     value: 0
                 },
                 {
-                    name: 'Brokerage Fees (VAT Inclusive)',
+                    name: "Brokerage Fees (VAT Inclusive)",
                     value: 0
                 }
             ],
             globalList: [
                 {
-                    name: 'Investment',
+                    name: "Investment",
                     value: 0
                 },
                 {
-                    name: 'Broker & Regulatory Fee (VAT Inclusive)',
+                    name: "Broker & Regulatory Fee (VAT Inclusive)",
                     value: 0
                 }
             ],
             total: {
-                name: 'Total',
+                name: "Total",
                 value: 0
             },
             totalValue: 0,
@@ -486,7 +489,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getWindowWidth'])
+        ...mapGetters(["getWindowWidth"])
     },
     methods: {
         changeOption() {
@@ -496,8 +499,8 @@ export default {
             this.clearFields();
         },
         changeBuy() {
-            const localZone = this.selectZone === 'local';
-            if (this.selectOption !== 'profit') {
+            const localZone = this.selectZone === "local";
+            if (this.selectOption !== "profit") {
                 if (!this.buy && this.quantity) {
                     this.totalValue = 0;
                     this.total.value = 0;
@@ -514,7 +517,7 @@ export default {
                 } else {
                     this.totalValue = this.buy * this.quantity;
                 }
-                this.calculateBuy(localZone ? 'local' : 'global');
+                this.calculateBuy(localZone ? "local" : "global");
             } else {
                 if (!this.buy) {
                     this.totalBuy = 0;
@@ -537,12 +540,12 @@ export default {
                     this.totalBuy = this.buy * this.quantity;
                     this.totalSell = this.sell * this.quantity;
                 }
-                this.calculateProfit(localZone ? 'local' : 'global');
+                this.calculateProfit(localZone ? "local" : "global");
             }
         },
         changeSell() {
-            const localZone = this.selectZone === 'local';
-            if (this.selectOption !== 'profit') {
+            const localZone = this.selectZone === "local";
+            if (this.selectOption !== "profit") {
                 if (!this.sell && this.quantity) {
                     this.totalValue = 0;
                     this.total.value = 0;
@@ -559,7 +562,7 @@ export default {
                 } else {
                     this.totalValue = this.sell * this.quantity;
                 }
-                this.calculateSell(localZone ? 'local' : 'global');
+                this.calculateSell(localZone ? "local" : "global");
             } else {
                 if (!this.buy) {
                     this.totalBuy = 0;
@@ -582,12 +585,12 @@ export default {
                     this.totalBuy = this.buy * this.quantity;
                     this.totalSell = this.sell * this.quantity;
                 }
-                this.calculateProfit(localZone ? 'local' : 'global');
+                this.calculateProfit(localZone ? "local" : "global");
             }
         },
         changeQty() {
-            const localZone = this.selectZone === 'local';
-            if (this.selectOption === 'buy') {
+            const localZone = this.selectZone === "local";
+            if (this.selectOption === "buy") {
                 if (!this.quantity) {
                     this.totalValue = this.buy || 0;
                 } else if (!this.totalValue) {
@@ -595,8 +598,8 @@ export default {
                 } else {
                     this.totalValue = this.buy * this.quantity;
                 }
-                this.calculateBuy(localZone ? 'local' : 'global');
-            } else if (this.selectOption === 'sell') {
+                this.calculateBuy(localZone ? "local" : "global");
+            } else if (this.selectOption === "sell") {
                 if (!this.quantity) {
                     this.totalValue = this.sell || 0;
                 } else if (!this.totalValue) {
@@ -604,7 +607,7 @@ export default {
                 } else {
                     this.totalValue = this.sell * this.quantity;
                 }
-                this.calculateSell(localZone ? 'local' : 'global');
+                this.calculateSell(localZone ? "local" : "global");
             } else {
                 if (!this.buy) {
                     this.totalBuy = 0;
@@ -627,31 +630,32 @@ export default {
                     this.totalBuy = this.buy * this.quantity;
                     this.totalSell = this.sell * this.quantity;
                 }
-                this.calculateProfit(localZone ? 'local' : 'global');
+                this.calculateProfit(localZone ? "local" : "global");
             }
         },
         calculateBuy(zone) {
             let temp = 0;
             let tempBroker = 0;
-            if (zone === 'local') {
+            if (zone === "local") {
                 this.localBuyList[0].value = +this.totalValue;
                 this.localBuyList[1].value = (this.totalValue * 0.3) / 100;
                 this.localBuyList[2].value = (this.totalValue * 0.063) / 100;
                 this.localBuyList[3].value = (this.totalValue * 0.075) / 100;
                 this.totalValue = parseFloat(this.totalValue);
-                temp = (this.totalValue * 0.3) / 100;
+                temp = (this.totalValue * 0.5) / 100;
                 tempBroker = temp <= 100 ? 100 : temp;
                 this.localBuyList[4].value = (5 / 100) * tempBroker + tempBroker;
-                this.total.value = this.totalValue
-                    + this.localBuyList[1].value
-                    + this.localBuyList[2].value
-                    + this.localBuyList[3].value
-                    + this.localBuyList[4].value;
-            } else if (zone === 'global') {
+                this.total.value =
+                    this.totalValue +
+                    this.localBuyList[1].value +
+                    this.localBuyList[2].value +
+                    this.localBuyList[3].value +
+                    this.localBuyList[4].value;
+            } else if (zone === "global") {
                 this.totalValue = +this.totalValue;
                 this.globalList[0].value = this.totalValue;
-                temp = (this.totalValue * 0.9) / 100;
-                tempBroker = temp <= 5 ? 4.99 : temp;
+                temp = this.totalValue / 100;
+                tempBroker = temp <= 2 ? 2 : temp;
                 this.globalList[1].value = (5 / 100) * tempBroker + tempBroker;
                 this.total.value = this.totalValue + this.globalList[1].value;
             }
@@ -660,23 +664,24 @@ export default {
             let temp = 0;
             let tempBroker = 0;
             this.totalValue = parseFloat(this.totalValue);
-            if (zone === 'local') {
+            if (zone === "local") {
                 this.localSellList[0].value = +this.totalValue;
                 this.localSellList[1].value = (this.totalValue * 0.3) / 100;
                 this.localSellList[2].value = (this.totalValue * 0.378) / 100;
                 this.localSellList[3].value = (this.totalValue * 0.075) / 100;
-                temp = (this.totalValue * 0.3) / 100;
+                temp = (this.totalValue * 0.5) / 100;
                 tempBroker = temp <= 100 ? 100 : temp;
-                this.localBuyList[4].value = (5 / 100) * tempBroker + tempBroker;
-                this.total.value = this.totalValue
-                    - this.localSellList[1].value
-                    - this.localSellList[2].value
-                    - this.localSellList[3].value
-                    - this.localSellList[4].value;
-            } else if (zone === 'global') {
+                this.localSellList[4].value = (5 / 100) * tempBroker + tempBroker;
+                this.total.value =
+                    this.totalValue -
+                    this.localSellList[1].value -
+                    this.localSellList[2].value -
+                    this.localSellList[3].value -
+                    this.localSellList[4].value;
+            } else if (zone === "global") {
                 this.globalList[0].value = +this.totalValue;
-                temp = (this.totalValue * 0.9) / 100;
-                tempBroker = temp <= 5 ? 4.99 : temp;
+                temp = this.totalValue / 100;
+                tempBroker = temp <= 2 ? 2 : temp;
                 this.globalList[1].value = (5 / 100) * tempBroker + tempBroker;
                 this.total.value = +this.totalValue - this.globalList[1].value;
             }
@@ -689,51 +694,59 @@ export default {
             let tempBrokerSell = 0;
             this.totalBuy = parseFloat(this.totalBuy);
             this.totalSell = parseFloat(this.totalSell);
-            if (zone === 'local') {
+            if (zone === "local") {
                 this.localBuyList[0].value = this.totalBuy;
                 this.localBuyList[1].value = (this.totalBuy * 0.3) / 100;
                 this.localBuyList[2].value = (this.totalBuy * 0.063) / 100;
                 this.localBuyList[3].value = (this.totalBuy * 0.075) / 100;
-                temp = (this.totalBuy * 0.3) / 100;
+                temp = (this.totalBuy * 0.5) / 100;
                 tempBrokerBuy = temp <= 100 ? 100 : temp;
                 this.localBuyList[4].value = (5 / 100) * tempBrokerBuy + tempBrokerBuy;
                 if (this.totalBuy) {
-                    tempBuy = this.totalBuy
-                        + this.localBuyList[1].value
-                        + this.localBuyList[2].value
-                        + this.localBuyList[3].value
-                        + this.localBuyList[4].value;
+                    tempBuy =
+                        this.totalBuy +
+                        this.localBuyList[1].value +
+                        this.localBuyList[2].value +
+                        this.localBuyList[3].value +
+                        this.localBuyList[4].value;
                 }
 
                 this.localSellList[0].value = this.totalSell;
                 this.localSellList[1].value = (this.totalSell * 0.3) / 100;
                 this.localSellList[2].value = (this.totalSell * 0.378) / 100;
                 this.localSellList[3].value = (this.totalSell * 0.075) / 100;
-                temp = (this.totalSell * 0.3) / 100;
+                temp = (this.totalSell * 0.5) / 100;
                 tempBrokerSell = temp <= 100 ? 100 : temp;
                 this.localBuyList[4].value = (5 / 100) * tempBrokerSell + tempBrokerSell;
                 if (this.totalSell) {
-                    tempSell = this.totalSell
-                        - this.localSellList[1].value
-                        - this.localSellList[2].value
-                        - this.localSellList[3].value
-                        - this.localSellList[4].value;
+                    tempSell =
+                        this.totalSell -
+                        this.localSellList[1].value -
+                        this.localSellList[2].value -
+                        this.localSellList[3].value -
+                        this.localSellList[4].value;
                 }
 
-                this.localProfitList[0].value = this.localSellList[0].value - this.localBuyList[0].value;
-                this.localProfitList[1].value = this.localBuyList[1].value + this.localSellList[1].value;
-                this.localProfitList[2].value = this.localBuyList[2].value + this.localSellList[2].value;
-                this.localProfitList[3].value = this.localBuyList[3].value + this.localSellList[3].value;
-                this.localProfitList[4].value = this.localBuyList[4].value + (this.totalSell ? this.localSellList[4].value : 0);
+                // this.localProfitList[0].value =
+                //     this.localSellList[0].value - this.localBuyList[0].value;
+                this.localProfitList[0].value = this.localBuyList[0].value;
+                this.localProfitList[1].value =
+                    this.localBuyList[1].value + this.localSellList[1].value;
+                this.localProfitList[2].value =
+                    this.localBuyList[2].value + this.localSellList[2].value;
+                this.localProfitList[3].value =
+                    this.localBuyList[3].value + this.localSellList[3].value;
+                this.localProfitList[4].value =
+                    this.localBuyList[4].value + (this.totalSell ? this.localSellList[4].value : 0);
                 this.total.value = tempSell - tempBuy;
-            } else if (zone === 'global') {
-                const sellCharge = (this.totalSell * 0.9) / 100;
-                const buyCharge = (this.totalBuy * 0.9) / 100;
+            } else if (zone === "global") {
+                const sellCharge = this.totalSell / 100;
+                const buyCharge = this.totalBuy / 100;
                 let tempSellCharge = 0;
                 let tempBuyCharge = 0;
 
-                if (this.totalBuy) tempBuyCharge = buyCharge <= 4.99 ? 4.99 : buyCharge;
-                if (this.totalSell) tempSellCharge = sellCharge <= 4.99 ? 4.99 : sellCharge;
+                if (this.totalBuy) tempBuyCharge = buyCharge <= 2 ? 2 : buyCharge;
+                if (this.totalSell) tempSellCharge = sellCharge <= 2 ? 2 : sellCharge;
 
                 tempBuy = this.totalBuy + tempBuyCharge;
                 tempSell = this.totalSell - tempSellCharge;

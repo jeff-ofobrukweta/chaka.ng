@@ -35,8 +35,13 @@
 .app {
   &-body {
     @extend .container;
-    margin-top: 2.5rem;
+    margin-top: 3.5rem;
     padding-bottom: 2rem;
+
+    &__title {
+      font-weight: normal;
+      margin-bottom: 1.5rem;
+    }
   }
 }
 
@@ -66,6 +71,10 @@ main {
       font-size: 3.4rem;
       line-height: 1.2;
     }
+  }
+
+  &__text {
+    line-height: 2rem
   }
 }
 
@@ -107,12 +116,13 @@ main {
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(347px, 1fr));
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
     overflow-x: auto;
     grid-gap: 3rem;
 
-    @media #{$mobile} {
-      padding: 3rem 0;
+    @include mobile {
+      grid-gap: 1rem;
+      grid-template-columns: repeat(3, minmax(85%, 1fr));
     }
   }
 
@@ -122,18 +132,18 @@ main {
     @include tablet {
       padding: 3rem 0;
     }
-
-    @include desktop {
-      padding: 3rem 0;
-    }
   }
 
   &__card {
     color: $text-dark;
-    margin: 3rem 0;
+    margin: 2rem 0;
     background: $white;
     padding: 3rem 1.5rem;
     box-shadow: none;
+
+    @include mobile {
+      padding: 2rem 1rem;
+    }
 
     &:first-child {
       background-color: #fbebee;
@@ -145,10 +155,6 @@ main {
 
     &:nth-child(3) {
       background-color: #e7f3ff;
-    }
-
-    @media #{$mobile} {
-      margin: 0;
     }
 
     h4 {
@@ -388,6 +394,10 @@ main {
   margin-bottom: 0;
 }
 
+.mr-3 {
+  margin-right: 1.5rem;
+}
+
 .flex {
   display: flex;
 }
@@ -497,6 +507,18 @@ main {
         width: 36px;
       }
     }
+  }
+}
+
+.search {
+  &-overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 101;
+    background: rgba($color: $primary-dark, $alpha: 0.75);
   }
 }
 

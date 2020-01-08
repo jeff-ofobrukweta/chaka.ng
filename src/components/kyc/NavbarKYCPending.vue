@@ -9,8 +9,28 @@
                         shortly.</small
                     >
                 </p>
+                <div>
+                    <p><small>Most Popular</small></p>
+                </div>
                 <div class="kyc-nav__popular">
-                    <p><small>Most Popular Today</small></p>
+                    <router-link
+                        tag="div"
+                        :to="{ name: 'singlestock', params: { symbol: stock.symbol } }"
+                        class="kyc-nav__popular--div"
+                        v-for="(stock, i) in getMostPopular"
+                        :key="i"
+                    >
+                        <div>
+                            <img
+                                :src="stock.logoUrl"
+                                class="kyc-nav__popular--logo"
+                                :alt="stock.symbol"
+                            />
+                        </div>
+                        <div class="text-left">
+                            <h6>{{ stock.symbol | truncate(7) }}</h6>
+                        </div>
+                    </router-link>
                 </div>
                 <div>
                     <button class="btn btn__white btn-block kyc-nav__fund" @click="showFund">
@@ -23,15 +43,22 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
-    name: 'kyc-pending',
+    name: "kyc-pending",
     methods: {
-        ...mapMutations(['SET_FUND_MODAL']),
+        ...mapMutations(["SET_FUND_MODAL"]),
+        ...mapActions(["GET_MOST_POPULAR"]),
         showFund() {
             this.SET_FUND_MODAL(true);
         }
+    },
+    computed: {
+        ...mapGetters(["getMostPopular"])
+    },
+    mounted() {
+        this.GET_MOST_POPULAR();
     }
 };
 </script>

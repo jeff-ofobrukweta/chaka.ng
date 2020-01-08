@@ -1,13 +1,15 @@
-import store from '../store/index';
+import store from "../store/index";
 
 /**
  * Resets state and calls logout mutation
  */
 function resetState() {
     // store.commit("LOGOUT");
-    // store.commit("SET_LOGGED_USER", {});
-    store.commit('RESET_ALL');
-    localStorage.clear();
+    store.commit("SET_LOGGED_USER", {});
+    // store.commit("RESET_ALL");
+    store.commit("SET_LOGGED_IN", false);
+    localStorage.removeItem("AUTH_TOKEN");
+    localStorage.removeItem("REFRESH_TOKEN");
     return true;
 }
 
@@ -27,17 +29,33 @@ export function isLoggedIn() {
 }
 
 /**
+ * Auth guard that allows non-auhtenticated users only.
+ * @param to - next route
+ * @param from - previous route
+ * @param next - callback to transfer control to the next middleware
+ */
+export function noAuthOnly(to, from, next) {
+    if (to.name === "login" && from.path.startsWith("/dashboard")) {
+        resetState();
+        next();
+    } else if (isLoggedIn()) {
+        next("/dashboard");
+    } else {
+        next();
+    }
+}
+
+/**
  * Auth guard allows authenticated users only.
  * @param to - next route
  * @param from - previous route
  * @param next - callback to transfer control to the next middleware
  */
 export function requireAuth(to, from, next) {
-    if (isLoggedIn() && Object.keys(getSession()).length > 0) {
+    if (isLoggedIn()) {
         next();
     } else {
-        resetState();
-        next({ name: 'login' });
+        next({ name: "login" });
     }
 }
 
@@ -45,6 +63,5 @@ export function requireAuth(to, from, next) {
  * clears the current session
  */
 export function clearSession(to, from, next) {
-    resetState();
-    next({ name: 'login' });
+    next({ name: "login" });
 }

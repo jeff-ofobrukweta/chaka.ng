@@ -87,7 +87,7 @@
                     />
                     <div>
                         <p class="watchlist-mobile__name capitalize">
-                            {{ instrument.name | truncate(50) }}
+                            {{ instrument.name | truncate(20) }}
                         </p>
                         <!-- <p class="watchlist-mobile__shares">2 Shares</p> -->
                     </div>
@@ -126,18 +126,9 @@
                             width="24px"
                         /><span>|</span>
                         <strong
-                            v-if="instrument.InstrumentDynamic"
                             class="cursor-context"
-                            :title="
-                                instrument.InstrumentDynamic.askPrice
-                                    | kobo
-                                    | currency(instrument.currency, true)
-                            "
-                            >{{
-                                instrument.InstrumentDynamic.askPrice
-                                    | kobo
-                                    | currency(instrument.currency)
-                            }}</strong
+                            :title="instrument.askPrice | currency(instrument.currency, true)"
+                            >{{ instrument.askPrice | currency(instrument.currency) }}</strong
                         >
                     </p>
                 </div>
@@ -149,16 +140,19 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: 'watchlist-card',
+    name: "watchlist-card",
     props: {
         instrument: {
             type: Object,
             required: true
         },
         dummy: {
+            type: Boolean
+        },
+        stockPage: {
             type: Boolean
         }
     },
@@ -170,7 +164,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getNextKYC', 'getWatchlist']),
+        ...mapGetters(["getNextKYC", "getWatchlist"]),
         watched() {
             const filter = this.getWatchlist.filter(el => el.symbol === this.instrument.symbol);
             if (filter.length <= 0) {
@@ -180,8 +174,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['GET_SINGLESTOCK_INSTRUMENT', 'REMOVE_FROM_WATCHLIST', 'ADD_TO_WATCHLIST']),
-        ...mapMutations(['SET_BUY_MODAL']),
+        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "REMOVE_FROM_WATCHLIST", "ADD_TO_WATCHLIST"]),
+        ...mapMutations(["SET_BUY_MODAL"]),
         handleStep(step) {
             this.step = step;
             if (step.kyc) {
@@ -200,7 +194,7 @@ export default {
             this.SET_BUY_MODAL({
                 instrument: this.instrument,
                 currency: this.instrument.currency,
-                stockPage: false,
+                stockPage: this.stockPage,
                 show: true
             });
         },

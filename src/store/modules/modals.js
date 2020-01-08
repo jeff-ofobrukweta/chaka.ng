@@ -1,5 +1,6 @@
 import api from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
+import { getRandomInteger } from "../../services/helpers";
 
 const state = {
     buyModal: {},
@@ -9,7 +10,6 @@ const state = {
     withdrawModal: false,
     saleSuccess: false,
     walletSuccess: false,
-    kycModal: {},
     mostPopular: []
 };
 
@@ -19,22 +19,22 @@ const getters = {
     getExchangeModal: state => state.exchangeModal,
     getFundModal: state => state.fundModal,
     getWithdrawModal: state => state.withdrawModal,
-    getKycModal: state => state.kycModal,
     getSaleSuccess: state => state.saleSuccess,
     getWalletSuccess: state => state.walletSuccess,
     getMostPopular: state => {
-        const push = [];
-        state.mostPopular.filter(el => {
-            if (el.currency === "USD" && push.length === 0) {
-                push.push(el);
-            }
-        });
-        state.mostPopular.filter(el => {
-            if (el.currency === "NGN" && push.length === 1) {
-                push.push(el);
-            }
-        });
-        return push;
+        // const push = [];
+        // state.mostPopular.filter(el => {
+        //     if (el.currency === "USD" && push.length === 0) {
+        //         push.push(el);
+        //     }
+        // });
+        // state.mostPopular.filter(el => {
+        //     if (el.currency === "NGN" && push.length === 1) {
+        //         push.push(el);
+        //     }
+        // });
+        // return push;
+        return state.mostPopular;
     }
 };
 
@@ -54,9 +54,6 @@ const mutations = {
     SET_WITHDRAW_MODAL(state, payload) {
         state.withdrawModal = payload;
     },
-    SET_KYC_MODAL(state, payload) {
-        state.kycModal = payload;
-    },
     SET_SALE_SUCCESS(state, payload) {
         state.saleSuccess = payload;
     },
@@ -69,22 +66,24 @@ const mutations = {
     RESET_MODALS(state) {
         state.buyModal = {};
         state.sellModal = {};
-        state.exchangeModal = {};
-        state.fundModal = {};
-        state.withdrawModal = {};
-        state.saleSuccess = {};
-        state.walletSuccess = {};
-        state.kycModal = {};
+        state.exchangeModal = false;
+        state.fundModal = false;
+        state.withdrawModal = false;
+        state.saleSuccess = false;
+        state.walletSuccess = false;
     }
 };
 
 const actions = {
-    GET_MOST_POPULAR: ({ commit, rootState }) =>
-        new Promise((resolve, reject) =>
-            api.get("/tags/slug/most-popular/instruments/").then(
+    GET_MOST_POPULAR: ({ commit }) => {
+        const globals = ["AAPL", "AMZN", "NFLX", "TSLA"];
+        const locals = ["GUARANTY", "ZENITHBANK", "MTNN", "AIRTELAFRI"];
+        const payload = [globals[getRandomInteger(3)], locals[getRandomInteger(3)]];
+        new Promise(resolve =>
+            api.get(`/instruments/?symbols=${payload.join(",")}`).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
-                        commit("SET_MOST_POPULAR", resp.data.data.tag.Instruments);
+                        commit("SET_MOST_POPULAR", resp.data.data.instruments);
                         resolve(true);
                         return true;
                     }
@@ -96,7 +95,8 @@ const actions = {
                     resolve(false);
                 }
             )
-        )
+        );
+    }
 };
 
 export default {

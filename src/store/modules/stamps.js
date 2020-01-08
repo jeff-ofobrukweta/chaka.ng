@@ -1,4 +1,4 @@
-import API_CONTEXT from '../../services/apiService/api';
+import API_CONTEXT from "../../services/apiService/api";
 
 const state = {
     positionsObject: []
@@ -19,12 +19,10 @@ const mutations = {
 const actions = {
     async FETCH_POSITIONS_INSTRUMENTS({ commit, rootState }) {
         await API_CONTEXT.get(`/users/${rootState.auth.loggedUser.chakaID}/positions/`)
-            .then((response) => {
-                console.log('THIS IS THE CERTIFICATE AAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRR', response);
+            .then(response => {
                 if (true) {
                     const collection = response.data;
-                    commit('SET_FETCH_POSITIONS_INSTRUMENTS', collection);
-                    console.log('THIS IS THE CERTIFICATE AAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRR', response);
+                    commit("SET_FETCH_POSITIONS_INSTRUMENTS", collection);
                     return true;
                 }
                 return false;

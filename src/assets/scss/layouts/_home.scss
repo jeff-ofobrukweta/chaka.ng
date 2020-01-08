@@ -154,8 +154,8 @@
             @include desktop {
                 padding-top: 2.5rem;
                 padding-right: 45px;
-                flex: 0 0 30%;
-                max-width: 30%;
+                flex: 0 0 40%;
+                max-width: 40%;
             }
         }
 
@@ -170,15 +170,15 @@
             @include desktop {
                 padding-top: 2.5rem;
                 padding-right: 45px;
-                flex: 0 0 65%;
-                max-width: 65%;
+                flex: 0 0 60%;
+                max-width: 60%;
             }
         }
 
         &__phone {
             width: 45%;
             min-width: 165px;
-            max-width: 185px;
+            max-width: 170px;
             transform: scale(0.85);
             z-index: 1;
             align-self: center;
@@ -226,16 +226,13 @@
                     width: 125%;
                 }
 
-                @include tablet {
-                    right: -13%;
-                }
-
                 @include desktop {
                     display: block;
+                    right: -9%;
                 }
 
-                @include desktop {
-                    right: -10%;
+                @include desktop-lg {
+                    right: 0%;
                     display: block;
                 }
             }
@@ -295,19 +292,24 @@
 
         &__news {
             display: flex;
-            // justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
             margin-top: 0.5em;
-            flex-flow: row wrap;
-            max-width: 400px;
+            flex-wrap: wrap;
+
+            @include tablet {
+                justify-content: flex-start;
+            }
+
+            // max-width: 400px;
 
             &--link {
                 margin-right: 1.5rem;
-                margin-bottom: 1rem;
-                max-width: 70px;
+                margin-bottom: 1.5rem;
+                // max-width: 70px;
 
                 @include tablet {
-                    margin-right: 2.5rem;
+                    // margin-right: 2.5rem;
                 }
 
                 &:last-child {
@@ -317,12 +319,13 @@
 
             &--img {
                 height: 36px;
+                width: 100px;
                 object-fit: contain;
                 transition: all 300ms ease-in-out !important;
 
                 @include tablet {
-                    height: 50px;
                     filter: saturate(0);
+                    max-width: unset;
                 }
 
                 &:hover {
@@ -728,6 +731,7 @@
                 max-width: 50%;
                 font-size: 7.5rem;
                 line-height: 1;
+                text-align: center;
 
                 .super-text {
                     font-size: 2.125rem;
@@ -739,10 +743,6 @@
                         position: absolute;
                         left: -0.825rem;
                     }
-                }
-
-                &.naira {
-                    text-align: right;
                 }
             }
         }

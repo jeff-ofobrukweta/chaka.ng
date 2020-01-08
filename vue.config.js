@@ -1,12 +1,12 @@
-const CompressionPlugin = require('compression-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
     configureWebpack: {
         plugins: [
             new CompressionPlugin({
-                algorithm: 'gzip'
+                algorithm: "gzip"
             })
             // new BundleAnalyzerPlugin()
         ],
@@ -14,7 +14,7 @@ module.exports = {
             minimize: true,
             minimizer: [
                 new TerserPlugin({
-                    parallel: 4,
+                    parallel: true,
                     terserOptions: {
                         output: {
                             comments: false
@@ -24,7 +24,7 @@ module.exports = {
                 })
             ],
             splitChunks: {
-                chunks: 'all',
+                chunks: "all",
                 maxInitialRequests: Infinity,
                 minSize: 0,
                 cacheGroups: {
@@ -38,14 +38,14 @@ module.exports = {
                             )[1];
 
                             // npm package names are URL-safe, but some servers don't like @ symbols
-                            return `npm.${packageName.replace('@', '')}`;
+                            return `npm.${packageName.replace("@", "")}`;
                         }
                     }
                 }
             }
         }
     },
-    lintOnSave: process.env.NODE_ENV !== 'production',
+    lintOnSave: process.env.NODE_ENV !== "production",
     css: {
         loaderOptions: {
             sass: {
@@ -56,5 +56,5 @@ module.exports = {
             }
         }
     },
-    transpileDependencies: ['vuex-persist']
+    transpileDependencies: ["vuex-persist"]
 };

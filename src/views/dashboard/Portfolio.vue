@@ -6,14 +6,9 @@
                 <p class="dashboard__title--sub">Portfolio</p>
             </div>
             <section class="portfolio-title__fund">
-                <kyc-button
-                    ref="fundBtn"
-                    type="button"
-                    :classes="['btn-block', 'btn__primary']"
-                    action="fund"
-                    @step="handleStep"
-                    >Fund</kyc-button
-                >
+                <button class="btn btn-block btn__primary" type="button" @click="showFund">
+                    Fund
+                </button>
             </section>
         </section>
         <section class="portfolio-networth">
@@ -27,7 +22,7 @@
                             | currency(getAccountSummary.currency, true)
                     "
                     >{{
-                        getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency)
+                        getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency,true)
                     }}</span
                 >
                 <span v-else>{{ getPorfolioglobalCurrencyforGraph === "NGN" ? "₦" : "$" }}-</span
@@ -97,89 +92,71 @@
                 >
             </section>
         </section>
-
-        <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </section>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
-    name: 'portfolio',
+    name: "portfolio",
     components: {
-        WatchlistCard: () => import('../../components/watchlist/PortfolioWatchlist'),
-        PortfolioCardLocal: () => import('../../components/portfolio/PortfolioCardLocal'),
-        PortfolioCardGlobal: () => import('../../components/portfolio/PortfolioCardGlobal'),
-        PortfolioCardOpenorders: () => import('../../components/portfolio/PortfolioCardOpenorders'),
-        Linegraph: () => import('../../components/Linegraph/linebase'),
-        Doughnut: () => import('../../components/Doughnut/dbase'),
-        Performancebarchart: () => import('../../components/Performance_chart/performancebase')
+        WatchlistCard: () => import("../../components/watchlist/PortfolioWatchlist"),
+        PortfolioCardLocal: () => import("../../components/portfolio/PortfolioCardLocal"),
+        PortfolioCardGlobal: () => import("../../components/portfolio/PortfolioCardGlobal"),
+        PortfolioCardOpenorders: () => import("../../components/portfolio/PortfolioCardOpenorders"),
+        Linegraph: () => import("../../components/Linegraph/linebase"),
+        Doughnut: () => import("../../components/Doughnut/dbase"),
+        Performancebarchart: () => import("../../components/Performance_chart/performancebase")
     },
     data() {
         return {
             interval: [
                 {
-                    name: '1 DAY',
-                    value: '1D',
+                    name: "1 DAY",
+                    value: "1D",
                     id: 0,
-                    description: ''
+                    description: ""
                 },
                 {
-                    name: '1 MONTH',
-                    value: '1M',
+                    name: "1 MONTH",
+                    value: "1M",
                     id: 1,
-                    description: ''
+                    description: ""
                 },
                 {
-                    name: '3 MONTHS',
-                    value: '3M',
+                    name: "3 MONTHS",
+                    value: "3M",
                     id: 2,
-                    description: ''
+                    description: ""
                 },
                 {
-                    name: '1 YEAR',
-                    value: '1Y',
+                    name: "1 YEAR",
+                    value: "1Y",
                     id: 3,
-                    description: ''
+                    description: ""
                 },
                 {
-                    name: '5 YEARS',
-                    value: '5Y',
+                    name: "5 YEARS",
+                    value: "5Y",
                     id: 4,
-                    description: ''
+                    description: ""
                 }
             ],
-            watchlistInterval: '1D',
-            cacheWatchlistInterval: '1D',
+            watchlistInterval: "1D",
+            cacheWatchlistInterval: "1D",
             watchlistLoading: true,
-            portfolioCardsLoading: false,
-            showKYC: false,
-            step: null
+            portfolioCardsLoading: false
         };
     },
     methods: {
         ...mapActions([
-            'GET_ACCOUNT_SUMMARY',
-            'GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS',
-            'GET_WATCHLIST'
+            "GET_ACCOUNT_SUMMARY",
+            "GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS",
+            "GET_WATCHLIST"
         ]),
-        ...mapMutations(['SET_WATCHLIST', 'SET_FUND_MODAL']),
-        handleStep(step) {
-            this.step = step;
-            if (step.kyc) {
-                this.showKYC = true;
-                return true;
-            }
-            this.showFund();
-        },
-        handleUpdate(value) {
-            if (value) {
-                this.showFund();
-            }
-        },
+        ...mapMutations(["SET_WATCHLIST", "SET_FUND_MODAL"]),
         showFund() {
-            this.showKYC = false;
             this.SET_FUND_MODAL(true);
         },
         handlewatchlistintervalToogle(e) {
@@ -196,7 +173,7 @@ export default {
         }
     },
     async mounted() {
-        const payload = { interval: '1D' };
+        const payload = { interval: "1D" };
         const currency = { currency: this.getPorfolioglobalCurrencyforGraph };
         this.watchlistLoading = true;
         this.portfolioCardsLoading = true;
@@ -208,15 +185,15 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getWatchlist',
-            'getPortfolioSummary',
-            'getPorfolioglobalCurrencyforGraph',
-            'getAccountSummary',
-            'getPortfoliopositionsCarddetails',
-            'getPortfolioDerivedPrice',
-            'getPortfolioDerivedChange',
-            'getNextKYC',
-            'getErrorLog'
+            "getWatchlist",
+            "getPortfolioSummary",
+            "getPorfolioglobalCurrencyforGraph",
+            "getAccountSummary",
+            "getPortfoliopositionsCarddetails",
+            "getPortfolioDerivedPrice",
+            "getPortfolioDerivedChange",
+            "getNextKYC",
+            "getErrorLog"
         ])
     }
 };

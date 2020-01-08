@@ -17,34 +17,10 @@
             </div>
             <h5 class="stock-vdr__center">Your Transaction was successful</h5>
             <div class="stock-vdr__modal">
-                <div class="stock-vdr__flex">
-                    <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>{{ source === "Exchange" ? "Estimated " : " " }}Amount</label>
-                        <p class="stock-vdr__text stock-vdr__center">
-                            {{ getWalletTx.txAmount | kobo | currency(getWalletTx.currency) }}
-                        </p>
-                    </div>
-                    <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>Action</label>
-                        <p class="stock-vdr__text stock-vdr__center">
-                            {{ source }}
-                        </p>
-                    </div>
-                </div>
-                <div class="stock-vdr__flex">
-                    <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>Date</label>
-                        <p class="stock-vdr__text stock-vdr__center">
-                            {{ getWalletTx.createdAt || "-" | date }}
-                        </p>
-                    </div>
-                    <div class="form-group stock-vdr__box stock-vdr__center">
-                        <label>Reference No.</label>
-                        <p class="stock-vdr__text stock-vdr__center">{{ getWalletTx.reference }}</p>
-                    </div>
-                </div>
+                <p class="text-center grey-cool">You have successfully {{ txText }}</p>
             </div>
             <div class="text-center">
+                <br />
                 <button type="button" class="btn btn__primary--outline" @click="closeModal()">
                     Close
                 </button>
@@ -54,23 +30,44 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: 'wallet-success',
+    name: "wallet-success",
     computed: {
-        ...mapGetters(['getWalletTx']),
+        ...mapGetters(["getWalletTx", "getKYC"]),
         source() {
-            if (this.getWalletTx.source === 'WALLET') return 'Exchange';
-            if (this.getWalletTx.actionType === 'CREDIT') return 'Deposit';
-            return 'Withdrawal';
+            if (this.getWalletTx.source === "WALLET") return "Exchange";
+            if (this.getWalletTx.actionType === "CREDIT") return "Deposit";
+            return "Withdrawal";
+        },
+        txText() {
+            if (this.getWalletTx.source === "WALLET")
+                return `exchanged ${this.$options.filters.currency(
+                    this.getWalletTx.txAmount / 100,
+                    this.getWalletTx.currency,
+                    true
+                )} into your ${this.getWalletTx.currency === "USD" ? "dollar" : "naira"} account`;
+            if (this.getWalletTx.actionType === "CREDIT")
+                return `funded ${this.$options.filters.currency(
+                    this.getWalletTx.txAmount / 100,
+                    this.getWalletTx.currency,
+                    true
+                )} into your ${this.getWalletTx.currency === "USD" ? "dollar" : "naira"} account`;
+            return `withdrawn ${this.$options.filters.currency(
+                this.getWalletTx.txAmount / 100,
+                this.getWalletTx.currency,
+                true
+            )} into your ${this.getWalletTx.bankAcctName}, Account Number ${
+                this.getWalletTx.bankAcctNo
+            }`;
         }
     },
     methods: {
-        ...mapMutations(['SET_WALLET_TX', 'MODAL_OPENED']),
+        ...mapMutations(["SET_WALLET_TX", "MODAL_OPENED"]),
         closeModal() {
             this.MODAL_OPENED(false);
-            this.$emit('close');
+            this.$emit("close");
         }
     },
     beforeDestroy() {

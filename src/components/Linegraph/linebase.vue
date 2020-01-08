@@ -77,28 +77,29 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from 'vue-fragment';
-import { mapGetters, mapMutations, mapActions } from 'vuex';
-import Graph from './linegraph';
+import { Fragment } from "vue-fragment";
+import { mapGetters, mapMutations, mapActions } from "vuex";
+import Graph from "./linegraph";
 
 export default {
-    name: 'Linechartgraphchild',
+    name: "Linechartgraphchild",
     data() {
         return {
             showKYC: false,
             loading: true,
+            emptyData:false,
             currencyOption: [
                 {
-                    symbol: '₦',
-                    currency: 'NGN',
+                    symbol: "₦",
+                    currency: "NGN",
                     id: 0,
-                    description: 'convert to Naira value'
+                    description: "convert to Naira value"
                 },
                 {
-                    symbol: '$',
-                    currency: 'USD',
+                    symbol: "$",
+                    currency: "USD",
                     id: 1,
-                    description: 'convert to Dollar value'
+                    description: "convert to Dollar value"
                 }
             ],
             buttonoption: [
@@ -108,28 +109,28 @@ export default {
                 //     id: 1
                 // },
                 {
-                    name: '1 WEEK',
-                    time: '1W',
+                    name: "1 WEEK",
+                    time: "1W",
                     id: 2
                 },
                 {
-                    name: '1 MONTH',
-                    time: '1M',
+                    name: "1 MONTH",
+                    time: "1M",
                     id: 3
                 },
                 {
-                    name: '3 MONTHS',
-                    time: '3M',
+                    name: "3 MONTHS",
+                    time: "3M",
                     id: 4
                 },
                 {
-                    name: '1 YEAR',
-                    time: '1Y',
+                    name: "1 YEAR",
+                    time: "1Y",
                     id: 5
                 },
                 {
-                    name: '5 YEARS',
-                    time: '5Y',
+                    name: "5 YEARS",
+                    time: "5Y",
                     id: 6
                 }
             ],
@@ -142,13 +143,13 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'gethistoryportfolioprice',
-            'gethistoryportfoliodate',
-            'getPorfolioglobalCurrencyforGraph',
-            'getPorfolioglobalTimeforGraph',
-            'getAccountSummary',
-            'getPortfolioDerivedPrice',
-            'getPortfolioDerivedChange'
+            "gethistoryportfolioprice",
+            "gethistoryportfoliodate",
+            "getPorfolioglobalCurrencyforGraph",
+            "getPorfolioglobalTimeforGraph",
+            "getAccountSummary",
+            "getPortfolioDerivedPrice",
+            "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
             if (this.gethistoryportfolioprice.length === 1) {
@@ -158,35 +159,35 @@ export default {
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
-            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null) {
+            if (checkForNull.length > 0 && this.gethistoryportfoliodate[0] == null && this.emptyData && this.emptyData == undefined  ) {
+                return 2;
+            }
+            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null && !this.emptyData && this.emptyData != undefined ) {
                 return 3;
             }
-            return 2;
         }
     },
     methods: {
         ...mapMutations([
-            'SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH',
-            'SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH'
+            "SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH",
+            "SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH"
         ]),
-        ...mapActions(['GET_LINECHART_PORTFOLIO_GRAPH_DATA', 'GET_ACCOUNT_SUMMARY']),
+        ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA", "GET_ACCOUNT_SUMMARY"]),
         async toogleCurrency(currency, id) {
             if (currency === this.getPorfolioglobalCurrencyforGraph) {
                 return true;
             }
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
-            console.log(
-                'TOOGLE CURRENCY XXXXXXXXXXXXXXXXXXXXXX >>>>>>',
-                this.getPorfolioglobalCurrencyforGraph
-            );
             this.loading = true;
             await this.GET_ACCOUNT_SUMMARY({ currency }).then(() => {
                 const defaulttime = {
                     interval: this.getPorfolioglobalTimeforGraph,
                     currency: this.getPorfolioglobalCurrencyforGraph
                 };
-                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then(() => {
+                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then((res) => {
                     this.loading = false;
+                     this.emptyData = res.data.emptyValues;
+                    
                 });
             });
         },
@@ -200,19 +201,21 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(() => {
-                this.loading = false;
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then((res) => {
+                   this.emptyData = res.data.emptyValues;
+                  this.loading = false;
             });
         },
         async mountedActions() {
             const payload = {
                 interval: this.getPorfolioglobalTimeforGraph,
-                currency: 'NGN' || this.getPorfolioglobalCurrencyforGraph
+                currency: "NGN" || this.getPorfolioglobalCurrencyforGraph
             };
             this.loading = true;
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload);
-            console.log;
-            this.loading = false;
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then((res)=>{
+                this.loading = false;
+                this.emptyData = res.data.emptyValues;
+            });
         }
     },
     async mounted() {

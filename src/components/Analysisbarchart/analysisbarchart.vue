@@ -216,6 +216,11 @@ export default {
         this.handlescaling();
     },
     methods: {
+        ...mapActions(["GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA"]),
+        ...mapMutations([
+            "SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE",
+            "SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION"
+        ]),
         handlescaling() {
             if (this.getOpenPrice) {
                 this.min = this.values.sort()[0];
@@ -257,6 +262,22 @@ export default {
         actions(newaction, oldaction) {
             this.fillData();
         }
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE([]);
+        this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION([]);
+        const payload = {symbol: to.params.symbol};
+        this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then((res)=>{
+            if(!res){
+                this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION({})
+            }
+        });
+        next();
+    },
+    beforeRouteLeave(to, from, next) {
+        this.values = [];
+        this.actions = [];
+        next();
     }
 };
 </script>

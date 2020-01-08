@@ -180,11 +180,15 @@
 
             &__fund {
                 margin-top: 1rem;
+                width: 100%;
+
+                button {
+                    width: 100%;
+                }
             }
         }
 
         &__fund {
-            // text-align: right;
 
             button {
                 min-width: 150px;

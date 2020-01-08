@@ -46,66 +46,16 @@
             icon
             :pending="loading"
             :classes="['btn__primary', 'btn-block']"
-            ><svg
-                version="1.1"
-                id="Layer_1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px"
-                y="0px"
-                viewBox="0 0 330 330"
-                style="enable-background:new 0 0 330 330;"
-                xml:space="preserve"
-            >
-                <g id="XMLID_10_">
-                    <path
-                        id="XMLID_11_"
-                        d="M105.604,105.605L150,61.212v183.786c0,8.284,6.716,15,15,15s15-6.716,15-15V61.213l44.392,44.392
-		c2.929,2.929,6.768,4.394,10.606,4.394c3.839,0,7.678-1.464,10.607-4.394c5.858-5.858,5.858-15.355,0-21.213l-69.995-69.996
-		c-0.352-0.351-0.721-0.683-1.104-0.998c-0.166-0.136-0.341-0.254-0.51-0.381c-0.222-0.167-0.439-0.337-0.67-0.492
-		c-0.207-0.139-0.422-0.259-0.635-0.386c-0.207-0.125-0.41-0.254-0.624-0.369c-0.217-0.116-0.439-0.213-0.661-0.318
-		c-0.223-0.105-0.441-0.216-0.67-0.311c-0.214-0.088-0.432-0.16-0.649-0.238c-0.244-0.088-0.485-0.182-0.736-0.258
-		c-0.216-0.065-0.435-0.112-0.652-0.167c-0.256-0.065-0.51-0.137-0.77-0.189c-0.25-0.049-0.503-0.078-0.755-0.115
-		c-0.231-0.034-0.46-0.077-0.695-0.1c-0.462-0.045-0.925-0.067-1.389-0.07c-0.03,0-0.059-0.004-0.089-0.004
-		c-0.029,0-0.059,0.004-0.088,0.004c-0.464,0.002-0.928,0.025-1.391,0.07c-0.229,0.023-0.453,0.065-0.68,0.098
-		c-0.258,0.037-0.516,0.067-0.771,0.118c-0.254,0.05-0.5,0.12-0.749,0.183c-0.226,0.057-0.452,0.107-0.676,0.174
-		c-0.241,0.073-0.476,0.164-0.712,0.249c-0.225,0.081-0.452,0.155-0.674,0.247c-0.22,0.091-0.43,0.198-0.644,0.299
-		c-0.23,0.108-0.462,0.211-0.688,0.331c-0.204,0.109-0.396,0.233-0.595,0.351c-0.223,0.132-0.447,0.258-0.664,0.403
-		c-0.217,0.145-0.42,0.307-0.629,0.462c-0.184,0.137-0.371,0.264-0.549,0.411c-0.365,0.299-0.714,0.616-1.049,0.947
-		c-0.016,0.016-0.033,0.029-0.05,0.045L84.392,84.391c-5.857,5.858-5.858,15.355,0,21.213
-		C90.249,111.463,99.747,111.461,105.604,105.605z"
-                    />
-                    <path
-                        id="XMLID_12_"
-                        d="M315,160c-8.284,0-15,6.716-15,15v115H30V175c0-8.284-6.716-15-15-15s-15,6.716-15,15v130
-		c0,8.284,6.716,15,15,15h300c8.284,0,15-6.716,15-15V175C330,166.716,323.284,160,315,160z"
-                    />
-                </g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-                <g></g>
-            </svg>
+            >Upload
         </action-button>
     </form>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
-    name: 'uploads',
+    name: "uploads",
     props: {
         image: {
             type: String
@@ -113,6 +63,12 @@ export default {
         formName: {
             type: String,
             required: true
+        },
+        selectedName: {
+            type: String
+        },
+        idType: {
+            type: String
         }
     },
     data() {
@@ -126,38 +82,46 @@ export default {
     },
     computed: {
         formDetails() {
-            if (this.formName === 'passportUrl') return { name: 'Profile Picture', description: 'Set Profile Picture' };
-            if (this.formName === 'idPhotoUrl') {
+            if (this.selectedName) {
                 return {
-                    name: 'Passport/National ID',
+                    name: this.selectedName,
+                    description: `Upload your ${this.selectedName}`
+                };
+            }
+            if (this.formName === "passportUrl")
+                return { name: "Profile Picture", description: "Set Profile Picture" };
+            if (this.formName === "idPhotoUrl") {
+                return {
+                    name: "Passport/National ID",
                     description: "Upload your National ID, Voter's Card or International Passport"
                 };
             }
             return {
-                name: 'Address Proof',
-                description: 'Upload your Utility bill or Bank Statement'
+                name: "Address Proof",
+                description: "Upload your Utility bill or Bank Statement"
             };
         },
         isImagePDF() {
             if (this.image) {
                 const stripped = this.image.substr(this.image.length - 3);
-                return stripped.toLowerCase() === 'pdf';
+                return stripped.toLowerCase() === "pdf";
             }
         }
     },
     methods: {
-        ...mapActions(['UPLOAD_KYC_FILE']),
+        ...mapActions(["UPLOAD_KYC_FILE", "UPDATE_KYC"]),
         async handleInput(e) {
             this.handleReset();
             this.file = e.target.files[0];
-            const extensions = e.target.value.split('.');
+            const extensions = e.target.value.split(".");
             this.fileExtension = extensions[extensions.length - 1].toLowerCase();
-            if (this.file.size > 3 * 1024 * 1024 && this.fileExtension !== 'pdf') {
-                this.errorMessage = 'Image size is too large. Should not be more than 5MB';
+            if (this.file.size > 10 * 1024 * 1024 && this.fileExtension !== "pdf") {
+                this.errorMessage = "Image size is too large. Should not be more than 10MB";
                 this.handleError();
                 return false;
-            } if (this.file.size > 0.5 * 1024 * 1024 && this.fileExtension === 'pdf') {
-                this.errorMessage = 'File size cannot exceed 3MB';
+            }
+            if (this.file.size > 3 * 1024 * 1024 && this.fileExtension === "pdf") {
+                this.errorMessage = "File size cannot exceed 3MB";
                 this.handleError();
                 return false;
             }
@@ -169,28 +133,28 @@ export default {
             reader.onload = () => {
                 this.uploadedImage = reader.result;
             };
-            reader.onerror = (error) => {
-                console.log('Error: ', error);
-            };
         },
         handleError() {
-            this.$emit('error', this.errorMessage);
+            this.$emit("error", this.errorMessage);
         },
         handleReset() {
-            this.$emit('reset');
+            this.$emit("reset");
         },
         handleSuccess() {
-            this.$emit('success');
+            this.$emit("success");
         },
-        uploadImage() {
+        async uploadImage() {
             const formData = new FormData();
             formData.append(this.formName, this.file);
             this.loading = true;
-            this.UPLOAD_KYC_FILE(formData).then((resp) => {
+            if (this.idType) {
+                await this.UPDATE_KYC({ idType: this.idType });
+            }
+            this.UPLOAD_KYC_FILE(formData).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.$toasted.show(`${this.formDetails.name} uploaded successful`, {
-                        type: 'success'
+                        type: "success"
                     });
                     this.uploadedImage = null;
                     this.fileExtension = null;
@@ -201,6 +165,11 @@ export default {
                 }
                 this.handleError();
             });
+        }
+    },
+    watch: {
+        idType() {
+            this.uploadedImage = null;
         }
     }
 };

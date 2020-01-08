@@ -1,10 +1,13 @@
 <template>
+    <div v-if="dummy" class="card-news loader">
+        <div class="loader-div" />
+    </div>
     <a
         class="card-news"
-        :class="{ flex: !news.imageUrl}"
+        :class="{ flex: !news.imageUrl }"
         target="_blank"
-        :href="news.url"
-        v-if="!collection"
+        :href="news.url || news.pageUrl"
+        v-else-if="!collection"
     >
         <img v-if="news.imageUrl" class="card-news__img" :src="news.imageUrl" :alt="news.title" />
         <img
@@ -14,7 +17,7 @@
             :alt="news.title"
         />
         <div class="card-news__title">
-            <h5>{{ news.name || "" | truncate(48) }}</h5>
+            <h5>{{ news.name || news.title | truncate(48) }}</h5>
         </div>
     </a>
     <a class="card-news" :class="{ flex: !news.imageUrl }" @click="setCollectionStocks" v-else>
@@ -26,16 +29,16 @@
             :alt="news.title"
         />
         <div class="card-news__title">
-            <h5>{{ news.name || "" | truncate(48) }}</h5>
+            <h5>{{ news.name || news.title | truncate(48) }}</h5>
         </div>
     </a>
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations } from "vuex";
 
 export default {
-    name: 'news-card',
+    name: "news-card",
     props: {
         news: {
             type: Object,
@@ -50,11 +53,11 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['SET_COLLECTION_STOCKS', 'SET_SELECTED_COLLECTION']),
+        ...mapMutations(["SET_COLLECTION_STOCKS", "SET_SELECTED_COLLECTION"]),
         setCollectionStocks() {
             this.SET_SELECTED_COLLECTION(this.news);
             this.SET_COLLECTION_STOCKS(this.news.stocks);
-            this.$router.push({ name: 'explore-collection', params: { name: this.news.name } });
+            this.$router.push({ name: "explore-collection", params: { name: this.news.name } });
         }
     }
 };

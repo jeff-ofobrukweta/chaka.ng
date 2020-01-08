@@ -1,6 +1,7 @@
 <template>
     <Fragment>
-        <div v-if="getOpenPrice.length >= 1 && getDates.length >= 1" class="graphholder">
+        <!-- <div v-if="getOpenPrice.length >= 1 && getDates.length >= 1" class="graphholder"> -->
+        <div class="graphholder">
             <div class="header-container">
                 <div class="right-menue-item">
                     <div class="parent-container-main">
@@ -15,13 +16,7 @@
                             >
                             <kyc-button
                                 ref="sellBtn"
-                                v-if="
-                                    getSingleinstrument[0] &&
-                                        checkPositions(
-                                            getSingleinstrument[0].symbol,
-                                            getSingleinstrument[0].currency
-                                        )
-                                "
+                                v-if="getSingleinstrument && checkPositions()"
                                 :classes="['selling']"
                                 :action="instrument.currency === 'NGN' ? 'local' : 'global'"
                                 @step="handleStep"
@@ -74,7 +69,7 @@
                     </div>
                     <section class="btn-parent-container">
                         <section
-                            :class="[getSingleinstrument[0].currency == 'USD' ? '' : 'display']"
+                            :class="[getSingleinstrument.currency == 'USD' ? '' : 'display']"
                             class="btn-container"
                         >
                             <button
@@ -109,17 +104,15 @@
             <template v-else>
                 <technical-chart
                     v-if="tooglegraph"
-                    :symbol="getSingleinstrument[0].symbol"
-                    :exchangeID="getSingleinstrument[0].exchangeID"
+                    :symbol="getSingleinstrument.symbol"
+                    :exchangeID="getSingleinstrument.exchangeID"
                 />
                 <Graph
                     v-else
                     :class="tooglegraph ? 'display' : 'nodisplay'"
                     :price="getOpenPrice"
                     :date="getDates"
-                    :currency="
-                        getSinglestockglobalCurrencyforGraph || getSingleinstrument[0].currency
-                    "
+                    :currency="getSinglestockglobalCurrencyforGraph"
                 />
             </template>
             <section class="buy-container-action">
@@ -134,11 +127,8 @@
                 <kyc-button
                     ref="sellBtn"
                     v-if="
-                        getSingleinstrument[0] &&
-                            checkPositions(
-                                getSingleinstrument[0].symbol,
-                                getSingleinstrument[0].currency
-                            )
+                        getSingleinstrument &&
+                            checkPositions(getSingleinstrument.symbol, getSingleinstrument.currency)
                     "
                     :classes="['selling']"
                     :action="instrument.currency === 'NGN' ? 'local' : 'global'"
@@ -149,12 +139,12 @@
             </section>
             <!-- end here -->
         </div>
-        <div v-else class="graphholder">
+        <!-- <div v-else class="graphholder">
             <div class="portfolio-graph__placeholder caution__big">
                 <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
                 <a class="caution__reload">Reload</a>
             </div>
-        </div>
+        </div> -->
 
         <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </Fragment>
@@ -253,9 +243,6 @@ export default {
         currency: {
             type: String,
             required: false
-        },
-        maxQuantity: {
-            type: Number
         }
     },
     computed: {
@@ -263,6 +250,7 @@ export default {
             "getOpenPrice",
             "getDates",
             "getSingleinstrument",
+            "getPricedetailsonblackcard",
             "getSinglestockglobalTimeforGraph",
             "getSinglestockglobalCurrencyforGraph",
             "getSinglestockIntervalposition",
@@ -287,31 +275,33 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "SET_LINE_SINGLESTOCK_CHARTDATA",
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH",
             "SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH",
             "SET_SINGLESTOCK_POSITIONS_FOR_SELECT",
             "SET_BUY_MODAL",
             "SET_SELL_MODAL",
             "SET_LINE_SINGLESTOCK_CHARTDATA",
-            "SET_LINE_SINGLESTOCK_CHART_DATE"
+            "SET_LINE_SINGLESTOCK_CHART_DATE",
+            "SET_PRICE_INFO_ON_BLACKCARD"
         ]),
         ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
-        checkPositions(symbol, currency) {
+        checkPositions() {
             let check = [];
-            if (currency === "NGN") {
-                check = this.getlocalstocksowned.filter(element => element.symbol === symbol);
+            if (this.getSingleinstrument.currency === "NGN") {
+                check = this.getlocalstocksowned.filter(
+                    element => element.symbol === this.getSingleinstrument.symbol
+                );
             } else {
-                check = this.getglobalstocksowned.filter(element => element.symbol === symbol);
+                check = this.getglobalstocksowned.filter(
+                    element => element.symbol === this.getSingleinstrument.symbol
+                );
             }
             if (check.length > 0) {
                 const { quantity } = check[0];
                 this.maximumQuantity = +quantity;
-                console.log("THIS IS TO RETURN TRUE", this.maximumQuantity);
                 return true;
             }
             this.maximumQuantity = 0;
-            console.log("THIS IS TO RETURN FALSE", this.maximumQuantity);
             return false;
         },
         OntooglePositions(response) {
@@ -324,18 +314,8 @@ export default {
             this.trdingViewStatechange = false;
             return this.trdingViewStatechange;
         },
-        mountAction() {
-            this.checkPositions(
-                this.getSingleinstrument[0].symbol,
-                this.getSingleinstrument[0].currency
-            );
-            console.log(
-                "CHECK FOR THE STATE HERE ",
-                this.checkPositions(
-                    this.getSingleinstrument[0].symbol,
-                    this.getSingleinstrument[0].currency
-                )
-            );
+        async mountAction() {
+            this.checkPositions();
             //set the currency as the component mount to the global state
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
             if (this.getSinglestockglobalCurrencyforGraph == "USD") {
@@ -349,21 +329,25 @@ export default {
                 currency: this.getSinglestockglobalCurrencyforGraph,
                 symbol: this.$route.params.symbol
             };
-            this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
+            this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
+            this.SET_PRICE_INFO_ON_BLACKCARD({});
+            await this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 //  call back state like loader state here
+                EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
                 this.loading = false;
             });
         },
         handletimeframe(e) {
             this.loading = true;
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH(this.Interval);
-            EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
+            this.SET_PRICE_INFO_ON_BLACKCARD({});
             const payloadsinglestock = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
                 symbol: this.$route.params.symbol
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
+                EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
                 this.loading = false;
             });
         },
@@ -372,6 +356,7 @@ export default {
             this.currentId = id;
             this.SET_SINGLESTOCK_POSITIONS_FOR_SELECT(id);
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(currency);
+            this.SET_PRICE_INFO_ON_BLACKCARD({});
             const defaulttime = {
                 interval: this.getSinglestockglobalTimeforGraph,
                 currency: this.getSinglestockglobalCurrencyforGraph,
@@ -404,12 +389,13 @@ export default {
                 });
                 return true;
             }
+            this.checkPositions();
             this.SET_SELL_MODAL({
                 instrument: this.instrument,
                 currency: this.instrument.currency,
                 stockPage: true,
                 show: true,
-                maxQuantity: this.maxQuantity
+                maxQuantity: this.maximumQuantity
             });
         }
     },
@@ -419,19 +405,23 @@ export default {
     beforeRouteUpdate(to, from, next) {
         this.SET_LINE_SINGLESTOCK_CHART_DATE([]);
         this.SET_LINE_SINGLESTOCK_CHARTDATA([]);
+        this.SET_PRICE_INFO_ON_BLACKCARD({});
         this.mountAction();
-        this.checkPositions(
-            this.getSingleinstrument[0].symbol,
-            this.getSingleinstrument[0].currency
-        );
+        // const emitData = {getOpenPrice:this.getOpenPrice,getDates:this.getDates}
+        // EventBus.$emit('fillData',emitData);
+        // if (
+        //     this.getSingleinstrument &&
+        //     this.getSingleinstrument.symbol &&
+        //     this.getSingleinstrument.currency
+        // ) {
+        //     this.checkPositions(
+        //         this.getSingleinstrument.symbol,
+        //         this.getSingleinstrument.currency
+        //     );
+        // } else return;
         next();
     },
-    watch: {
-        checkStockPosition(newValue, oldValue) {
-            console.log("WATCHING PROCESSING HERE", newValue, oldValue);
-            //  this.checkStockPosition = this.checkPositions(this.getSingleinstrument[0].symbol,this.getSingleinstrument[0].currency)
-        }
-    }
+    watch: {}
 };
 </script>
 <style src="../../assets/scss/components/singlelinebase.scss" lang="scss" scoped />

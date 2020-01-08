@@ -6,3 +6,33 @@
 .tags-container{
     scrollbar-width: none;
 }
+.flex_container_title{
+    display: flex;
+}
+.btn-container-main{
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0;
+    margin: 8px 0;
+    .buttton{
+        color:black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+}
+.middle-loader{
+    margin: 0 50%;
+    width: 48px;
+}
+
+::-webkit-scrollbar{
+    height: 4px;
+    width: 4px;
+    background: gray;
+}
+::-webkit-scrollbar-thumb:horizontal{
+    background: #000;
+    border-radius: 10px;
+}

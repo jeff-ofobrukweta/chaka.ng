@@ -26,16 +26,16 @@
                 </td>
                 <td
                     class="portfolio-card__tr--right cursor-context"
-                    :title="stock.quantityBought | units(4, true)"
+                    :title="stock.quantity | units(4, true)"
                 >
-                    {{ stock.quantityBought | units(2) }}
+                    {{ stock.quantity | units(2) }}
                 </td>
                 &nbsp;
                 <td
                     class="portfolio-card__tr--right cursor-context"
-                    :title="stock.netPurchaseCost | kobo | currency(stock.currency, true)"
+                    :title="stock.netCost | kobo | currency(stock.currency, true)"
                 >
-                    {{ stock.netPurchaseCost | kobo | currency(stock.currency) }}
+                    {{ stock.netCost | kobo | currency(stock.currency) }}
                 </td>
             </tr>
         </table>
@@ -43,16 +43,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-    name: 'portfolio-card',
+    name: "portfolio-card",
     computed: {
-        ...mapGetters(['getPortfoliopositionsCarddetails'])
+        ...mapGetters(["getPortfoliopositionsCarddetails"])
     },
     methods: {
         toDetailsPage(type) {
-            this.$router.push({ name: 'portfolio-details', params: { type } });
+            this.$router.push({ name: "portfolio-details", params: { type } });
         }
     }
 };

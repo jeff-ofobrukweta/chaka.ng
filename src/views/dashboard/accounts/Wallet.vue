@@ -151,28 +151,20 @@
                     </div>
                 </div>
                 <div class="accounts-wallet__buttons">
-                    <kyc-button
-                        ref="fundBtn"
-                        type="button"
-                        :classes="['btn-block', 'btn--lg', 'btn__primary']"
-                        action="fund"
-                        @step="handleStep"
-                        >Fund</kyc-button
-                    >
-                    <kyc-button
-                        ref="exchangeBtn"
-                        type="button"
-                        :classes="['btn-block', 'btn--lg', 'btn__primary--dark']"
-                        action="global"
-                        @step="handleStep"
-                        >Exchange</kyc-button
-                    >
-                    <button
-                        @click="showWithdraw"
-                        class="btn btn-block btn--lg btn__primary--outline"
-                    >
-                        Withdraw
+                    <button @click="showFund" class="btn btn-block btn--lg btn__primary">
+                        Fund
                     </button>
+                    <button @click="showExchange" class="btn btn-block btn--lg btn__primary--dark">
+                        Exchange
+                    </button>
+                    <kyc-button
+                        ref="withdrawBtn"
+                        type="button"
+                        :classes="['btn-block', 'btn--lg', 'btn__primary--outline']"
+                        action="withdraw"
+                        @step="handleStep"
+                        >Withdraw</kyc-button
+                    >
                 </div>
             </div>
         </section>
@@ -182,11 +174,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
-import KYCTitles from '../../../services/kyc/kycTitles';
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import KYCTitles from "../../../services/kyc/kycTitles";
 
 export default {
-    name: 'accounts-wallet',
+    name: "accounts-wallet",
     data() {
         return {
             showKYC: false,
@@ -196,37 +188,36 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getAccountSummary', 'getNextKYC']),
+        ...mapGetters(["getAccountSummary", "getNextKYC"]),
         pageAvailable() {
             return Object.keys(this.getAccountSummary).length > 0;
         }
     },
     methods: {
-        ...mapActions(['GET_ACCOUNT_SUMMARY']),
-        ...mapMutations(['SET_FUND_MODAL', 'SET_WITHDRAW_MODAL', 'SET_EXCHANGE_MODAL']),
+        ...mapActions(["GET_ACCOUNT_SUMMARY"]),
+        ...mapMutations(["SET_FUND_MODAL", "SET_WITHDRAW_MODAL", "SET_EXCHANGE_MODAL"]),
         handleStep(step) {
             this.step = step;
             if (step.kyc) {
                 this.showKYC = true;
                 return true;
             }
-            this.showFund();
+            this.showWithdraw();
         },
         handleUpdate(value) {
             if (value) {
-                this.showFund();
-            }
-        },
-        showFund() {
-            this.showKYC = false;
-            if (this.step.type === 'fund') {
-                this.SET_FUND_MODAL(true);
-            } else if (this.step.type === 'global') {
-                this.SET_EXCHANGE_MODAL(true);
+                this.showWithdraw();
             }
         },
         showWithdraw() {
+            this.showKYC = false;
             this.SET_WITHDRAW_MODAL(true);
+        },
+        showFund() {
+            this.SET_FUND_MODAL(true);
+        },
+        showExchange() {
+            this.SET_EXCHANGE_MODAL(true);
         }
     },
     async mounted() {

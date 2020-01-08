@@ -1,32 +1,23 @@
 <template>
     <Fragment>
         <Navbar />
-        <main role="main">
+        <template v-if="!loading">
             <transition name="kyc-navbar" v-if="showPending">
                 <KYCPending />
             </transition>
-            <transition name="kyc-navbar" v-else>
-                <KYC v-if="showNavbarKYC" />
-            </transition>
+            <transition name="kyc-navbar" v-else> <KYC v-if="showNavbarKYC" /> </transition
+        ></template>
+        <div v-if="isSearchOpened" class="search-overlay" @click="SEARCH_OPENED(false)"></div>
+        <main class="dashboard-loader" v-if="loading">
+            <img :src="require('../assets/img/loader.gif')" alt="Loader" />
+        </main>
+        <main role="main" v-else>
             <section class="container">
                 <router-view />
             </section>
         </main>
-        <buy-modal
-            @close="closeBuy"
-            :currency="getBuyModal.instrument.currency"
-            :instrument="getBuyModal.instrument"
-            :stock-page="getBuyModal.stockPage"
-            v-if="getBuyModal.show"
-        />
-        <sell-modal
-            @close="closeSell"
-            :currency="getSellModal.instrument.currency"
-            :instrument="getSellModal.instrument"
-            :max-quantity="getSellModal.maxQuantity"
-            :stock-page="getSellModal.stockPage"
-            v-if="getSellModal.show"
-        />
+        <buy-modal @close="closeBuy" v-if="getBuyModal.show" />
+        <sell-modal @close="closeSell" v-if="getSellModal.show" />
         <sale-success @close="closeSale" v-if="getSaleSuccess" />
         <fund-modal @close="closeFund" v-if="getFundModal" />
         <ExchangeModal @close="closeExchange" v-if="getExchangeModal" />
@@ -36,54 +27,62 @@
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { Fragment } from "vue-fragment";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: 'dashboard-layout',
+    name: "dashboard-layout",
     components: {
-        Navbar: () => import('../components/Navbar'),
-        KYC: () => import('../components/kyc/NavbarKYC'),
-        KYCPending: () => import('../components/kyc/NavbarKYCPending'),
-        ExchangeModal: () => import('../components/modals/Exchange'),
-        WithdrawModal: () => import('../components/modals/Withdraw'),
+        Navbar: () => import("../components/Navbar"),
+        KYC: () => import("../components/kyc/NavbarKYC"),
+        KYCPending: () => import("../components/kyc/NavbarKYCPending"),
+        ExchangeModal: () => import("../components/modals/Exchange"),
+        WithdrawModal: () => import("../components/modals/Withdraw"),
         Fragment
+    },
+    data() {
+        return {
+            loading: true
+        };
     },
     computed: {
         ...mapGetters([
-            'showNavbarKYC',
-            'getLoggedUser',
-            'getNavbarNextKYC',
-            'getBuyModal',
-            'getSellModal',
-            'getKycModal',
-            'getFundModal',
-            'getWithdrawModal',
-            'getExchangeModal',
-            'getWalletSuccess',
-            'getSaleSuccess'
+            "showNavbarKYC",
+            "getLoggedUser",
+            "getNavbarNextKYC",
+            "getBuyModal",
+            "getSellModal",
+            "getFundModal",
+            "getWithdrawModal",
+            "getExchangeModal",
+            "getWalletSuccess",
+            "getSaleSuccess",
+            "isSearchOpened"
         ]),
         showPending() {
             if (
-                this.getNavbarNextKYC.status === 'COMPLETE'
-                && (this.getLoggedUser.localKycStatus !== 'COMPLETE'
-                    || this.getLoggedUser.globalKycStatus !== 'COMPLETE')
-            ) return true;
+                this.getNavbarNextKYC.status === "COMPLETE" &&
+                (this.getLoggedUser.localKycStatus !== "COMPLETE" ||
+                    this.getLoggedUser.globalKycStatus !== "COMPLETE")
+            )
+                return true;
             return false;
         }
     },
     methods: {
-        ...mapActions(['GET_LOGGED_USER', 'GET_NEXT_KYC', 'GET_ACCOUNT_SUMMARY']),
+        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY"]),
         ...mapMutations([
-            'SET_BUY_MODAL',
-            'SET_SELL_MODAL',
-            'SET_FUND_MODAL',
-            'SET_EXCHANGE_MODAL',
-            'SET_WITHDRAW_MODAL',
-            'SET_KYC_MODAL',
-            'SET_SALE_SUCCESS',
-            'SET_WALLET_SUCCESS',
-            'RESET_MODALS'
+            "SET_BUY_MODAL",
+            "SET_SELL_MODAL",
+            "SET_FUND_MODAL",
+            "SET_EXCHANGE_MODAL",
+            "SET_WITHDRAW_MODAL",
+            "SET_KYC_MODAL",
+            "SET_SALE_SUCCESS",
+            "SET_WALLET_SUCCESS",
+            "RESET_MODALS",
+            "SEARCH_OPENED",
+            "MODAL_OPENED"
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});
@@ -124,12 +123,22 @@ export default {
             this.SET_WALLET_SUCCESS(false);
         }
     },
-    mounted() {
-        document.title = 'Chaka - Dashboard';
-        // this.RESET_MODALS();
-        this.GET_LOGGED_USER().then(async () => {
-            Promise.all([this.GET_ACCOUNT_SUMMARY(), this.GET_NEXT_KYC()]);
-        });
+    async mounted() {
+        document.title = "Chaka - Dashboard";
+        this.RESET_MODALS();
+        this.SEARCH_OPENED(false);
+        this.MODAL_OPENED(false);
+        this.loading = true;
+        await this.GET_LOGGED_USER();
+        this.loading = false;
+        Promise.all([this.GET_ACCOUNT_SUMMARY()]);
+    },
+    watch: {
+        showPending(val) {
+            if (val) {
+                this.MODAL_OPENED(false);
+            }
+        }
     }
 };
 </script>

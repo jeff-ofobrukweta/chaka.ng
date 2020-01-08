@@ -31,18 +31,18 @@
                         >{{ item.symbol }}</router-link
                     >
                     <td class="cursor-context capitalize">
-                        {{ item.orderSide }}
+                        {{ item.orderSide || "-" }}
                     </td>
                     <td class="cursor-context">
-                        {{ item.orderType || "-" }}
+                        {{ item.marketType || "-" }}
                     </td>
                     <td
                         class="cursor-context"
                         :title="
-                            item.InstrumentDynamic.askPrice | kobo | currency(item.currency, true)
+                            item.askPrice | currency(item.currency, true)
                         "
                     >
-                        {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
+                        {{ item.askPrice | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}
@@ -117,10 +117,10 @@
                     <td
                         class="cursor-context"
                         :title="
-                            item.InstrumentDynamic.askPrice | kobo | currency(item.currency, true)
+                            item.askPrice | kobo | currency(item.currency, true)
                         "
                     >
-                        {{ item.InstrumentDynamic.askPrice | kobo | currency(item.currency) }}
+                        {{ item.askPrice | kobo | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}
@@ -185,10 +185,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
-    name: 'portfolio-table',
+    name: "portfolio-table",
     props: {
         storedata: {
             type: Array,
@@ -213,21 +213,25 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getNextKYC', 'getlocalstocksowned', 'getglobalstocksowned', 'getErrorLog'])
+        ...mapGetters(["getNextKYC", "getlocalstocksowned", "getglobalstocksowned", "getErrorLog"])
     },
     methods: {
-        ...mapActions(['CANCEL_ORDER']),
-        ...mapMutations(['SET_BUY_MODAL', 'SET_SELL_MODAL']),
+        ...mapActions(["CANCEL_ORDER"]),
+        ...mapMutations(["SET_BUY_MODAL", "SET_SELL_MODAL"]),
         checkChange(value) {
             if (value >= 0) return true;
             return false;
         },
-        checkPositions(symbol, currency) {
+        checkPositions() {
             let check = [];
-            if (currency === 'NGN') {
-                check = this.getlocalstocksowned.filter(element => element.symbol === symbol);
+            if (this.selectedInstrument.currency === "NGN") {
+                check = this.getlocalstocksowned.filter(
+                    element => element.symbol === this.selectedInstrument.symbol
+                );
             } else {
-                check = this.getglobalstocksowned.filter(element => element.symbol === symbol);
+                check = this.getglobalstocksowned.filter(
+                    element => element.symbol === this.selectedInstrument.symbol
+                );
             }
             if (check.length > 0) {
                 const { quantity } = check[0];
@@ -240,7 +244,7 @@ export default {
         selectInstrument(instrument, type) {
             this.type = type;
             this.selectedInstrument = instrument;
-            this.checkPositions(instrument.symbol, instrument.currency);
+            this.checkPositions();
         },
         cancelOrder(item) {
             this.cancelStatus = {};
@@ -252,17 +256,17 @@ export default {
                     symbol: item.symbol
                 }
             };
-            this.CANCEL_ORDER(details).then((resp) => {
+            this.CANCEL_ORDER(details).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.cancelStatus.message = 'Order cancellation successful';
-                    this.cancelStatus.status = 'success';
-                    this.$toasted.show('Order cancellation successful', {
-                        type: 'success'
+                    this.cancelStatus.message = "Order cancellation successful";
+                    this.cancelStatus.status = "success";
+                    this.$toasted.show("Order cancellation successful", {
+                        type: "success"
                     });
                 } else {
                     this.$toasted.show(this.getErrorLog.message, {
-                        type: 'error'
+                        type: "error"
                     });
                 }
             });
@@ -282,7 +286,7 @@ export default {
         },
         showSale() {
             this.showKYC = false;
-            if (this.step.nextAction === 'buy') {
+            if (this.step.nextAction === "buy") {
                 setTimeout(() => {
                     this.SET_BUY_MODAL({
                         instrument: this.selectedInstrument,
@@ -293,6 +297,7 @@ export default {
                 }, 50);
                 return true;
             }
+            this.checkPositions();
             setTimeout(() => {
                 this.SET_SELL_MODAL({
                     instrument: this.selectedInstrument,

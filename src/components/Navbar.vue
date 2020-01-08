@@ -42,7 +42,10 @@
                 </router-link>
             </li>
             <li class="side-nav__item">
-                <router-link class="side-nav__link"  :to="{ name: 'categories', params: { category: getInstrumentsPayload.slug } }">
+                <router-link
+                    class="side-nav__link"
+                    :to="{ name: 'categories', params: { category: getInstrumentsPayload.slug } }"
+                >
                     <span class="side-nav__text">
                         <svg
                             width="20"
@@ -131,21 +134,16 @@
             </li>
         </ul>
 
-        <AccountsMenu
-            :showModal="showMenu"
-            @close="showMenu = false"
-            v-if="showMenu"
-            :routes="routes"
-        />
+        <AccountsMenu :showModal="showMenu" @close="closeMenu" v-if="showMenu" :routes="routes" />
     </nav>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import AccountsMenu from './modals/AccountsMenu';
+import { mapGetters, mapMutations } from "vuex";
+import AccountsMenu from "./modals/AccountsMenu";
 
 export default {
-    name: 'navbar',
+    name: "navbar",
     components: {
         AccountsMenu
     },
@@ -155,46 +153,54 @@ export default {
             showMenu: false,
             routes: [
                 {
-                    name: 'Overview',
-                    link: 'accounts-overview'
+                    name: "Overview",
+                    link: "accounts-overview"
                 },
                 {
-                    name: 'Wallet',
-                    link: 'accounts-wallet'
+                    name: "Wallet",
+                    link: "accounts-wallet"
                 },
                 {
-                    name: 'History',
-                    link: 'accounts-history'
+                    name: "History",
+                    link: "accounts-history"
                 },
                 {
-                    name: 'Statements',
-                    link: 'accounts-statements'
+                    name: "Statements",
+                    link: "accounts-statements"
+                },
+                /**
+                 * TO-DO :: Put back when stamps page is ready
+                 */
+                // {
+                //     name: "Ownership",
+                //     link: "accounts-stamps"
+                // },
+                {
+                    name: "Settings",
+                    link: "accounts-settings"
                 },
                 {
-                    name: 'Ownership',
-                    link: 'accounts-stamps'
-                },
-                {
-                    name: 'Settings',
-                    link: 'accounts-settings'
-                },
-                {
-                    name: 'Logout',
-                    link: 'logout'
+                    name: "Logout",
+                    link: "logout"
                 }
             ]
         };
     },
     computed: {
-        ...mapGetters(['getWindowWidth', 'getInstrumentsPayload']),
+        ...mapGetters(["getWindowWidth", "getInstrumentsPayload"]),
         isAccountActive() {
-            return this.$route.name.startsWith('accounts');
+            return this.$route.name.startsWith("accounts");
         }
     },
     methods: {
+        ...mapMutations(["MODAL_OPENED"]),
         linkClick(route) {
             if (this.$route.name !== route) this.$router.push({ name: route });
             this.$refs.accounts.blur();
+        },
+        closeMenu() {
+            this.MODAL_OPENED(false);
+            this.showMenu = false;
         }
     }
 };

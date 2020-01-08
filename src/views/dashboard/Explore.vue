@@ -20,21 +20,26 @@
         <section class="explore-section" v-else-if="getExploreNews.length > 0">
             <div class="explore-featured">
                 <div class="explore-featured__image">
-                    <a :href="featured.pageUrl" target="_blank">
-                        <img :src="featured.imageUrl" :alt="featured.name"
+                    <a :href="getExploreNews[0].pageUrl" target="_blank">
+                        <img :src="getExploreNews[0].imageUrl" :alt="getExploreNews[0].name"
                     /></a>
                 </div>
                 <div class="explore-featured__text">
                     <h4 class="explore-featured__text--title">
-                        <a :href="featured.pageUrl" target="_blank"> {{ featured.name }}</a>
+                        <a :href="getExploreNews[0].pageUrl" target="_blank">
+                            {{ getExploreNews[0].name }}</a
+                        >
                     </h4>
                     <p>
-                        {{ featured.description || "" | truncate(380) }}
+                        {{ getExploreNews[0].description || "" | truncate(380) }}
                     </p>
                 </div>
             </div>
-            <div class="card-news__box explore__news">
-                <news-card :news="item" v-for="(item, index) in allNews" :key="index" />
+            <div class="card-news__box explore__news" v-if="loadNews">
+                <news-card :news="{}" dummy v-for="i in 5" :key="i" />
+            </div>
+            <div class="card-news__box explore__news" v-else>
+                <news-card :news="item" v-for="(item, index) in otherNews" :key="index" />
             </div>
             <div class="explore-actions__bottom">
                 <!-- <a class="explore-actions">See All</a> -->
@@ -72,7 +77,10 @@
                     <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
                 </div>
             </section>
-            <div class="card-news__box explore__news">
+            <div class="card-news__box explore__news" v-if="loadCollections">
+                <news-card :news="{}" dummy v-for="i in 5" :key="i" />
+            </div>
+            <div class="card-news__box explore__news" v-else>
                 <news-card
                     :news="item"
                     v-for="(item, index) in getExploreCollections"
@@ -111,7 +119,10 @@
                     <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
                 </div>
             </section>
-            <div class="card-news__box explore__news">
+            <div class="card-news__box explore__news" v-if="loadLearn">
+                <news-card :news="{}" dummy v-for="i in 5" :key="i" />
+            </div>
+            <div class="card-news__box explore__news" v-else>
                 <news-card :news="item" v-for="(item, index) in getExploreLearn" :key="index" />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
@@ -138,15 +149,16 @@
                 <template v-if="watchlistLoading">
                     <ExploreWatchlist v-for="i in 3" :key="i" :instrument="{}" dummy />
                 </template>
-                <template v-else-if="getWatchlist.length > 0">
-                    <transition-group name="kyc-navbar">
+                <transition-group name="kyc-navbar" v-else-if="getWatchlist.length > 0">
+                    <template>
                         <ExploreWatchlist
                             v-for="(instrument, index) in getWatchlist"
                             :key="index"
                             :instrument="instrument"
+                            :color="instrument.derivedPrice >= 0 ? 'green' : 'red'"
                         />
-                    </transition-group>
-                </template>
+                    </template>
+                </transition-group>
                 <template v-else
                     ><p class="text-center">You have no items in your watchlist</p>
                 </template>
@@ -171,12 +183,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import ExploreWatchlist from '../../components/watchlist/ExploreWatchlist';
-import MobileWatchlist from '../../components/watchlist/MobileWatchlist';
+import { mapGetters, mapActions } from "vuex";
+import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
+import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
 
 export default {
-    name: 'explore',
+    name: "explore",
     components: {
         ExploreWatchlist,
         MobileWatchlist
@@ -184,8 +196,6 @@ export default {
     data() {
         return {
             loading: false,
-            featured: {},
-            allNews: [],
             loadNews: null,
             loadCollections: null,
             loadLearn: null,
@@ -194,26 +204,28 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'getPortfolioSummary',
-            'getWindowWidth',
-            'getExploreNews',
-            'getExploreCollections',
-            'getExploreLearn',
-            'getWatchlist',
-            'getErrorLog'
-        ])
+            "getPortfolioSummary",
+            "getWindowWidth",
+            "getExploreNews",
+            "getExploreCollections",
+            "getExploreLearn",
+            "getWatchlist",
+            "getErrorLog"
+        ]),
+        otherNews() {
+            return [...this.getExploreNews].splice(1);
+        }
     },
     methods: {
         ...mapActions([
-            'GET_EXPLORE_NEWS',
-            'GET_EXPLORE_COLLECTIONS',
-            'GET_EXPLORE_LEARN',
-            'GET_WATCHLIST'
+            "GET_EXPLORE_NEWS",
+            "GET_EXPLORE_COLLECTIONS",
+            "GET_EXPLORE_LEARN",
+            "GET_WATCHLIST"
         ]),
         async shuffleNews() {
             this.loadNews = true;
             await this.GET_EXPLORE_NEWS({ shuffle: true });
-            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
             this.loadNews = null;
         },
         async shuffleCollections() {
@@ -222,7 +234,7 @@ export default {
             this.loadCollections = null;
         },
         async shuffleLearn() {
-            this.loadLearn = 'learn';
+            this.loadLearn = "learn";
             await this.GET_EXPLORE_LEARN({ shuffle: true });
             this.loadLearn = null;
         },
@@ -235,8 +247,6 @@ export default {
                 this.GET_EXPLORE_LEARN();
             }
             await this.GET_EXPLORE_NEWS();
-            this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
-            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
             this.loading = false;
         }
     },
@@ -244,12 +254,8 @@ export default {
         this.loading = true;
         if (this.getExploreNews.length > 0) {
             this.loading = false;
-            this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
-            this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
         }
         await this.GET_EXPLORE_NEWS();
-        this.featured = this.getExploreNews.filter(el => el.type === 'Featured')[0];
-        this.allNews = this.getExploreNews.filter(el => el.type !== 'Featured');
         this.loading = false;
         this.watchlistLoading = true;
         if (this.getWatchlist.length > 0) {

@@ -1,4 +1,4 @@
-import { clearSession, requireAuth } from "../services/auth";
+import { clearSession, requireAuth, noAuthOnly } from "../services/auth";
 
 const Home = () => import(/* webpackChunkName: "home" */ "../views/Home");
 const VerificationSent = () =>
@@ -55,17 +55,21 @@ const routes = [
     {
         path: "/",
         name: "home",
-        component: Home
+        component: Home,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/about",
         name: "about",
-        component: About
+        component: About,
+        redirect: "/",
+        beforeEnter: noAuthOnly
     },
     {
         path: "/calculator",
         name: "calculator",
-        component: Calculator
+        component: Calculator,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/auth/reset-password/:chakaID/:token",
@@ -80,12 +84,14 @@ const routes = [
     {
         path: "/policies",
         name: "policies",
-        component: Policies
+        component: Policies,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/developers",
         name: "developers",
-        component: Developers
+        component: Developers,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/privacy",
@@ -95,32 +101,39 @@ const routes = [
     {
         path: "/faq",
         name: "faq",
-        component: Faq
+        redirect: "/",
+        component: Faq,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/terms",
         name: "terms",
-        component: Terms
+        component: Terms,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/verification-sent",
         name: "verification-sent",
-        component: VerificationSent
+        component: VerificationSent,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/disclosures",
         name: "disclosures",
-        component: Disclosures
+        component: Disclosures,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/forgot-password",
         name: "forgot-password",
-        component: ForgotPassword
+        component: ForgotPassword,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/login",
         name: "login",
-        component: Login
+        component: Login,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/logout",
@@ -131,7 +144,8 @@ const routes = [
     {
         path: "/register",
         name: "register",
-        component: Register
+        component: Register,
+        beforeEnter: noAuthOnly
     },
     {
         path: "/dashboard",
