@@ -373,8 +373,7 @@ export default {
             "UPDATE_KYC_NIN",
             "UPDATE_KYC",
             "UPLOAD_KYC_FILE",
-            "GET_NEXT_KYC",
-            "GET_NAVBAR_NEXT_KYC"
+            "GET_NEXT_KYC"
         ]),
         ...mapMutations(["RESET_REQ", "SET_FUND_MODAL", "SET_KYC_MODAL_ACTION"]),
         async handleStep(step) {
