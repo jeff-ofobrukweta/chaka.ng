@@ -26,6 +26,7 @@ router.afterEach((to, from) => {
     store.commit("SET_SHOW_NAVBAR_KYC", true);
 });
 router.onError(error => {
+    console.log("Router Error:::", error);
     if (/loading chunk \d* failed./i.test(error.message)) {
         window.location.reload();
     }
