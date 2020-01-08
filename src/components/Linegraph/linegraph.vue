@@ -140,15 +140,12 @@ export default {
                             //     : `N${numeral(data.datasets[0].data[tooltipItem.index]).format(
                             //         '0.00a'
                             //     )}`;
-                            if (this.currency == "USD") {
-                                return `$ ${numeral(
-                                    data.datasets[0].data[tooltipItem.index]
-                                ).format("0.00a")}`;
-                            } else {
-                                return `N ${numeral(
-                                    data.datasets[0].data[tooltipItem.index]
-                                ).format("0.00a")}`;
-                            }
+                                if( this.currency == "USD"){
+                                    return `$ ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`
+                                }
+                                else{
+                                    return`N ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`
+                                }
                             // return `Price: ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
@@ -173,8 +170,8 @@ export default {
     },
     async mounted() {
         // EventBus.$on('fillData', (data) => {
-        this.fillData();
-        this.handlescaling();
+            this.fillData();
+            this.handlescaling();
         // });
     },
 
