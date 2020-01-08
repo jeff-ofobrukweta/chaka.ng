@@ -159,10 +159,12 @@ export default {
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
-            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null && !this.emptyData ) {
+            if (checkForNull.length > 0 && this.gethistoryportfoliodate[0] == null && this.emptyData && this.emptyData == undefined  ) {
+                return 2;
+            }
+            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null && !this.emptyData && this.emptyData != undefined ) {
                 return 3;
             }
-            return 2;
         }
     },
     methods: {

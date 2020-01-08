@@ -814,12 +814,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getLoggedUser", "getNextKYC", "getErrorLog"])
+        ...mapGetters(["getKYC", "getLoggedUser", "getErrorLog"])
     },
     methods: {
         ...mapActions([
             "GET_KYC",
-            "GET_NEXT_KYC",
             "UPDATE_KYC",
             "UPDATE_KYC_BANK",
             "RESOLVE_BVN",
@@ -953,7 +952,7 @@ export default {
         this.types = await Types().then(({ company }) => company);
         this.positions = await Positions().then(({ position }) => position);
         this.lgNames = await LG().then(({ lgNames }) => lgNames);
-        await Promise.all([this.GET_KYC(), this.GET_NEXT_KYC()]);
+        await Promise.all([this.GET_KYC()]);
     },
     watch: {
         "bvnData.bvn": function(newVal) {

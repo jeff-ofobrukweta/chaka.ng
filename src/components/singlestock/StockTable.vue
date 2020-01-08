@@ -33,11 +33,11 @@
                 class="stock-table__body cursor-context"
                 :title="
                     checkforUndefined(instrument.netEarnings) ||
-                        0.0 | currency(instrument.currency, true)
+                        0.0 |kobo| currency(instrument.currency, true)
                 "
             >
                 {{
-                    checkforUndefined(instrument.netEarnings) || 0.0 | currency(instrument.currency)
+                    checkforUndefined(instrument.netEarnings) || 0.0 | kobo |currency(instrument.currency)
                 }}
             </p>
         </div>

@@ -30,7 +30,7 @@ export default {
                 width: "90%",
                 margin: "0 auto"
             },
-            interval: 10,
+            // interval: 10,
             datacollection: {},
             loaderGraph: true,
             day: "",
@@ -84,7 +84,23 @@ export default {
                                 display: false,
                                 labelString: "Date",
                                 drawBorder: false
-                            }
+                            },
+                             ticks: {
+                                beginAtZero: true,
+                                scaleBeginAtZero : true,
+                                fontColor: "#8A939A",
+                                padding: 0,
+                                fontSize: 10,
+                                max: this.max,
+                                min: this.min,
+                                // stepSize: this.interval
+                                // callback:{
+                                //       label(tooltipItem, data){
+                                //         const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
+                                //         return currency;
+                                //     }
+                                //   }
+                            },
                         }
                     ],
 
@@ -98,12 +114,13 @@ export default {
                             position: "left",
                             ticks: {
                                 beginAtZero: true,
+                                scaleBeginAtZero : true,
                                 fontColor: "#8A939A",
                                 padding: 0,
                                 fontSize: 10,
                                 max: this.max,
-                                min: this.min,
-                                stepSize: this.interval
+                                min: 0,
+                                // stepSize: this.interval
                                 // callback:{
                                 //       label(tooltipItem, data){
                                 //         const currency = numeral(data.datasets[0].data[tooltipItem.index]).format("0.00a");
@@ -118,6 +135,7 @@ export default {
                         }
                     ]
                 },
+                
                 layout: {
                     padding: {
                         left: 10,
