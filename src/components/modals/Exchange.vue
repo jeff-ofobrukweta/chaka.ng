@@ -119,7 +119,7 @@
                 /></label>
                 <p class="form-info">
                     If you exchange before 2.00pm, your exchange will be processed today. After
-                    2.00pm, it will be processed in up to 1 business day.
+                    2.00pm, it will be processed within 1 business day.
                 </p>
             </div>
             <error-block type="exchange" />

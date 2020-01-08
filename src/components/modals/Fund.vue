@@ -91,13 +91,14 @@
                 <p>
                     You're now requesting a funds transfer
                     <span v-if="itemData.amount"
-                        >of <span class="green">{{ actualValue | currency("NGN") }}</span></span
+                        >of
+                        <span class="green">{{ actualValue | currency("NGN", true) }}</span></span
                     >
                     into your wallet
                 </p>
                 <p>
                     Total amount to be debited (including PAYSTACK fees)
-                    <span class="green">{{ paystackValue | currency("NGN") }}</span>
+                    <span class="green">{{ paystackValue | currency("NGN", true) }}</span>
                 </p>
                 <br />
                 <p>To fund your account manually (without PAYSTACK fees), make a transfer to:</p>
@@ -125,20 +126,20 @@
                 <p>
                     Your
                     <span v-if="itemData.amount" class="green">{{
-                        itemData.amount | currency("USD")
+                        itemData.amount | currency("USD", true)
                     }}</span>
                     card transaction would be processed as an international charge<template
                         v-if="itemData.amount"
                     >
-                        for <span class="green">{{ actualValue | currency("NGN") }}</span> and
+                        for <span class="green">{{ actualValue | currency("NGN", true) }}</span> and
                         converted to
 
-                        <span class="green">{{ itemData.amount | currency("USD") }}</span>
+                        <span class="green">{{ itemData.amount | currency("USD", true) }}</span>
                     </template>
                 </p>
                 <p>
                     Total amount to be debited (including PAYSTACK fees)
-                    <span class="green">{{ paystackValue | currency("NGN") }}</span>
+                    <span class="green">{{ paystackValue | currency("NGN", true) }}</span>
                 </p>
                 <p class="form-info">
                     Please note that if you use an international card, your transaction may incur

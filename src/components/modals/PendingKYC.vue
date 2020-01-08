@@ -109,22 +109,22 @@
                         <div @click="closeModal" class="kyc-modal__popular--div">
                             <div>
                                 <img
-                                    :src="getMostPopular[1].logoUrl"
+                                    :src="specificStock.logoUrl"
                                     class="kyc-modal__popular--logo"
-                                    :alt="getMostPopular[1].symbol"
+                                    :alt="specificStock.symbol"
                                 />
                             </div>
-                            <h6>{{ getMostPopular[1].symbol | truncate(10) }}</h6>
-                            <p>{{ getMostPopular[1].name }}</p>
+                            <h6>{{ specificStock.symbol | truncate(10) }}</h6>
+                            <p>{{ specificStock.name }}</p>
                             <div>
                                 <img
                                     :src="
                                         require(`../../assets/img/flags/${country(
-                                            getMostPopular[1].countryCode
+                                            specificStock.countryCode
                                         )}-flag.svg`)
                                     "
                                     class="kyc-modal__popular--flag"
-                                    :alt="getMostPopular[1].countryCode"
+                                    :alt="specificStock.countryCode"
                                 />
                             </div>
                         </div>
@@ -189,22 +189,22 @@
                         <div @click="closeModal" class="kyc-modal__popular--div">
                             <div>
                                 <img
-                                    :src="getMostPopular[0].logoUrl"
+                                    :src="specificStock.logoUrl"
                                     class="kyc-modal__popular--logo"
-                                    :alt="getMostPopular[0].symbol"
+                                    :alt="specificStock.symbol"
                                 />
                             </div>
-                            <h6>{{ getMostPopular[0].symbol | truncate(10) }}</h6>
-                            <p>{{ getMostPopular[0].name }}</p>
+                            <h6>{{ specificStock.symbol | truncate(10) }}</h6>
+                            <p>{{ specificStock.name }}</p>
                             <div>
                                 <img
                                     :src="
                                         require(`../../assets/img/flags/${country(
-                                            getMostPopular[0].countryCode
+                                            specificStock.countryCode
                                         )}-flag.svg`)
                                     "
                                     class="kyc-modal__popular--flag"
-                                    :alt="getMostPopular[0].countryCode"
+                                    :alt="specific.countryCode"
                                 />
                             </div>
                         </div>
@@ -267,6 +267,10 @@ export default {
     },
     computed: {
         ...mapGetters(["getLoggedUser", "getMostPopular", "getKycModalAction"]),
+        specificStock() {
+            const stock = this.getMostPopular.filter(el => el.type === this.type);
+            return stock;
+        },
         subtext() {
             if (this.getKycModalAction === "LOCAL") return "Local";
             return "Global";
