@@ -133,9 +133,6 @@ export default {
             reader.onload = () => {
                 this.uploadedImage = reader.result;
             };
-            reader.onerror = error => {
-                console.log("Error: ", error);
-            };
         },
         handleError() {
             this.$emit("error", this.errorMessage);
