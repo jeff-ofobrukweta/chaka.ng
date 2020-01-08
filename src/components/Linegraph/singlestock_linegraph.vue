@@ -112,7 +112,7 @@
                     :class="tooglegraph ? 'display' : 'nodisplay'"
                     :price="getOpenPrice"
                     :date="getDates"
-                    :currency="getSinglestockglobalCurrencyforGraph || getSingleinstrument.currency"
+                    :currency="getSinglestockglobalCurrencyforGraph"
                 />
             </template>
             <section class="buy-container-action">
