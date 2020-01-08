@@ -244,8 +244,8 @@ export default {
                 this.$set(this.issues, "amount", "Invalid number input");
                 return false;
             }
-            if (+this.itemData.amount < 500 && this.currency === "NGN") {
-                this.$set(this.issues, "amount", "Minimum funding amount is ₦500");
+            if (+this.itemData.amount < 1000 && this.currency === "NGN") {
+                this.$set(this.issues, "amount", "Minimum funding amount is ₦1000");
                 return false;
             }
             if (+this.itemData.amount < 10 && this.currency === "USD") {
