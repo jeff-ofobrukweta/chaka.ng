@@ -33,7 +33,10 @@
                 <small>
                     You're now requesting a withdrawal
                     <span v-if="itemData.amount"
-                        >of <span class="green">{{ itemData.amount | currency("NGN") }}</span></span
+                        >of
+                        <span class="green">{{
+                            itemData.amount | currency("NGN", true)
+                        }}</span></span
                     >&nbsp;into your {{ getKYC.bankAcctNo || "" }}
                     {{
                         getKYC.bankAcctName ? `account with ${getKYC.bankAcctName}` : "bank"
