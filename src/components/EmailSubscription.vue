@@ -18,6 +18,7 @@
                     name="mc-embedded-subscribe-form"
                     class="validate subscribe__form"
                     target="_blank"
+                    rel="noreferrer noopener"
                     ref="subscribe"
                     novalidate
                 >

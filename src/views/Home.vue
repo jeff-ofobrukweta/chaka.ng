@@ -202,13 +202,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="v2-layer__image-box">
+                <div class="v2-layer__image-box" v-if="getWindowWidth === 'desktop'">
                     <img
                         data-sizes="auto"
                         :data-src="require('../assets/img/layer-phone1.png')"
                         :data-srcset="require('../assets/img/layer-phone1.png')"
                         data-aos="fade-up-right"
                         class="lazyload v2-layer__phone v2-layer__phone1"
+                        alt="Mobile Phone"
                     />
                     <img
                         data-sizes="auto"
@@ -216,6 +217,7 @@
                         :data-srcset="require('../assets/img/layer-phone2.png')"
                         data-aos="fade-up-left"
                         class="lazyload v2-layer__phone v2-layer__phone2"
+                        alt="Mobile Phone"
                     />
                     <img
                         data-sizes="auto"
@@ -223,6 +225,7 @@
                         :data-srcset="require('../assets/img/layer-desktop.png')"
                         data-aos="fade-down-left"
                         class="lazyload v2-layer__desktop"
+                        alt="Chaka Desktop"
                     />
                 </div>
             </div>
@@ -499,7 +502,7 @@
                 <div class="v2-landing__news">
                     <a
                         href="https://www.cnbcafrica.com/news/west-africa/2019/11/19/this-nigeria-based-tech-start-up-seeks-to-reduce-barriers-in-cross-border-investing/"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="200"
@@ -512,7 +515,7 @@
                     </a>
                     <a
                         href="https://techcrunch.com/2019/11/12/chaka-opens-up-global-investing-to-africas-most-populous-nation/"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -525,7 +528,7 @@
                     </a>
                     <a
                         href="https://www.youtube.com/watch?v=ctLC7hWFtBM"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                     >
@@ -537,7 +540,7 @@
                     </a>
                     <a
                         href="https://finance.yahoo.com/news/drivewealth-partners-chaka-global-trading-110000678.html"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -550,7 +553,7 @@
                     </a>
                     <a
                         href="https://businessday.ng/interview/article/our-goal-is-to-provide-borderless-trading-investment-opportunities/"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -563,7 +566,7 @@
                     </a>
                     <a
                         href="https://www.marketwatch.com/press-release/drivewealth-partners-with-chaka-new-global-trading-platform-in-nigeria-to-increase-access-to-us-stock-market-2019-10-16"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -576,7 +579,7 @@
                     </a>
                     <a
                         href="https://guardian.ng/business-services/hedging-against-local-risks-through-global-markets/"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -589,7 +592,7 @@
                     </a>
                     <a
                         href="https://www.youtube.com/watch?v=qngEAo-D_dk"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -602,7 +605,7 @@
                     </a>
                     <a
                         href="https://www.thisdaylive.com/index.php/2019/10/18/chaka-global-trading-platform-launched-in-nigeria/"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -615,7 +618,7 @@
                     </a>
                     <a
                         href="https://www.financemagnates.com/forex/products/chaka-teams-up-with-drivewealth-to-offer-us-equities-in-nigeria/"
-                        target="_blank"
+                        target="_blank" rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -633,7 +636,11 @@
         <section class="section v2-mobile">
             <div class="container">
                 <div class="row v2-mobile__row">
-                    <div class="v2-mobile__image" data-aos="zoom-in-up">
+                    <div
+                        class="v2-mobile__image"
+                        data-aos="zoom-in-up"
+                        v-if="getWindowWidth === 'desktop'"
+                    >
                         <img
                             data-sizes="auto"
                             :data-src="require('../assets/img/chaka-mobile.png')"
@@ -654,22 +661,24 @@
                         >
                             Keep your opportunities closer
                         </p>
+                        <template v-if="getWindowWidth !== 'mobile'">
+                            <div
+                                class="v2-mobile__store--logo"
+                                data-aos="fade-left"
+                                data-aos-delay="250"
+                            >
+                                <img src="../assets/img/chaka-logo.svg" alt="Chaka" />
+                            </div>
+                            <div
+                                class="d-none d-md-block v2-mobile__store v2-mobile__store--light"
+                                data-aos="fade-left"
+                                data-aos-delay="200"
+                            >
+                                <img src="../assets/img/appstore.svg" alt="App Store" />
+                                <img src="../assets/img/playstore.svg" alt="Play Store" /></div
+                        ></template>
                         <div
-                            class="v2-mobile__store--logo"
-                            data-aos="fade-left"
-                            data-aos-delay="250"
-                        >
-                            <img src="../assets/img/chaka-logo.svg" alt="Chaka" />
-                        </div>
-                        <div
-                            class="d-none d-md-block v2-mobile__store v2-mobile__store--light"
-                            data-aos="fade-left"
-                            data-aos-delay="200"
-                        >
-                            <img src="../assets/img/appstore.svg" alt="App Store" />
-                            <img src="../assets/img/playstore.svg" alt="Play Store" />
-                        </div>
-                        <div
+                            v-else
                             class="d-md-none v2-mobile__store v2-mobile__store--dark"
                             data-aos="fade-left"
                             data-aos-delay="200"

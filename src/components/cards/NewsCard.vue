@@ -6,6 +6,7 @@
         class="card-news"
         :class="{ flex: !news.imageUrl }"
         target="_blank"
+        rel="noreferrer noopener"
         :href="news.url || news.pageUrl"
         v-else-if="!collection"
     >
