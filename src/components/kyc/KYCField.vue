@@ -10,7 +10,7 @@
                 :type="field.type"
                 :name="field.name"
                 v-model="value"
-                :placeholder="field.name"
+                :placeholder="field.placeholder || field.name"
                 @input="handleInput"
                 :navbar="navbar"
                 :error-message="errorMessage"
@@ -106,6 +106,7 @@
 <script>
 import Types from "../../services/kyc/employmentTypes";
 import Positions from "../../services/kyc/employmentPosition";
+import Uploads from "../FileUpload";
 
 export default {
     name: "kyc-field",
@@ -139,7 +140,7 @@ export default {
     },
     components: {
         vSelect: () => import("vue-select"),
-        Uploads: () => import("../FileUpload")
+        Uploads
     },
     data() {
         return {

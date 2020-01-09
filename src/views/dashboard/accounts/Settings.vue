@@ -61,23 +61,17 @@
         <form class="accounts-settings__form" @submit.prevent="updateKYC">
             <div class="accounts-settings__title">
                 <h5>Disclosure Name</h5>
-                <!-- <a
-                    class="accounts-settings__edit"
-                    v-if="!edit && getKYC.disclosureName"
-                    @click="editBtn('disclosure')"
-                    >edit</a
-                > -->
             </div>
             <section class="accounts-settings__hero">
                 <div class="accounts-settings__group">
                     <label class="form__label"
-                        >Name
+                        >First &amp; Last Name
                         <form-input
                             v-if="!getKYC.disclosureName || edit === 'disclosure'"
                             type="text"
                             name="disclosureName"
                             v-model="itemData.disclosureName"
-                            placeholder="First & Last Name"
+                            placeholder="Enter your first and last name"
                         />
                         <p v-else class="accounts-settings__data">
                             {{ getKYC.disclosureName || "-" }}
@@ -116,7 +110,7 @@
                             type="number"
                             name="bvn"
                             v-model="bvnData.bvn"
-                            placeholder="BVN"
+                            placeholder="Enter your BVN number"
                             @click.native="issues = {}"
                             :error-message="issues.bvn"
                             v-if="edit === 'bvn'"
@@ -286,7 +280,7 @@
                             </p></label
                         >
                     </div>
-                    <div class="accounts-settings__group">
+                    <!-- <div class="accounts-settings__group">
                         <label class="form__label"
                             >Postal Code<form-input
                                 type="number"
@@ -299,7 +293,7 @@
                                 {{ getKYC.postalCode || "-" }}
                             </p></label
                         >
-                    </div>
+                    </div> -->
                     <div class="accounts-settings__group">
                         <!-- <label class="form__label">LGA</label>
                         <select
@@ -539,7 +533,7 @@
                     </div>
                     <div class="accounts-settings__group">
                         <label class="form__label"
-                            >Net Worth Liquid
+                            >Net Worth (Cash)
                             <select
                                 class="form__input form__select"
                                 v-model="itemData.networthLiquid"
@@ -556,7 +550,7 @@
                     </div>
                     <div class="accounts-settings__group">
                         <label class="form__label"
-                            >Net Worth Total
+                            >Net Worth (All Assets)
                             <select
                                 class="form__input form__select"
                                 v-model="itemData.networthTotal"
@@ -817,13 +811,7 @@ export default {
         ...mapGetters(["getKYC", "getLoggedUser", "getErrorLog"])
     },
     methods: {
-        ...mapActions([
-            "GET_KYC",
-            "UPDATE_KYC",
-            "UPDATE_KYC_BANK",
-            "RESOLVE_BVN",
-            "RESET_REQ"
-        ]),
+        ...mapActions(["GET_KYC", "UPDATE_KYC", "UPDATE_KYC_BANK", "RESOLVE_BVN", "RESET_REQ"]),
         ...mapMutations(["RESET_REQ"]),
         editBtn(name) {
             this.edit = name;

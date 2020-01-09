@@ -1,12 +1,12 @@
 <template>
     <Fragment>
         <Navbar />
-        <template v-if="!loading">
+        <template v-if="!loading && showKYC">
             <transition name="kyc-navbar" v-if="showPending">
                 <KYCPending />
             </transition>
-            <transition name="kyc-navbar" v-else> <KYC v-if="showNavbarKYC" /> </transition
-        ></template>
+            <transition name="kyc-navbar" v-else> <KYC v-if="showNavbarKYC" /> </transition>
+        </template>
         <div v-if="isSearchOpened" class="search-overlay" @click="SEARCH_OPENED(false)"></div>
         <main class="dashboard-loader" v-if="loading">
             <img :src="require('../assets/img/loader.gif')" alt="Loader" />
@@ -67,6 +67,12 @@ export default {
             )
                 return true;
             return false;
+        },
+        showKYC() {
+            return (
+                this.getLoggedUser.localKycStatus !== "COMPLETE" &&
+                this.getLoggedUser.globalKycStatus !== "COMPLETE"
+            );
         }
     },
     methods: {
@@ -131,7 +137,7 @@ export default {
         this.loading = true;
         await this.GET_LOGGED_USER();
         this.loading = false;
-        Promise.all([this.GET_ACCOUNT_SUMMARY()]);
+        await this.GET_ACCOUNT_SUMMARY();
     },
     watch: {
         showPending(val) {

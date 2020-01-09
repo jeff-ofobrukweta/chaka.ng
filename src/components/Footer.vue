@@ -116,7 +116,7 @@
             </div>
         </template>
         <template v-else>
-            <div class="container" v-if="getWindowWidth !== 'mobile'">
+            <div class="container">
                 <p class="footer-logged">
                     Powered by &nbsp;
                     <svg

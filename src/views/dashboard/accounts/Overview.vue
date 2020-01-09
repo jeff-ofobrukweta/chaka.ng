@@ -18,11 +18,8 @@
             </div>
             <div class="accounts-overview__text">
                 <p>Total Value</p>
-                <h4
-                    class="cursor-context"
-                    :title="getAccountSummary.netWorth | kobo | currency('NGN', true)"
-                >
-                    {{ getAccountSummary.netWorth | kobo | currency("NGN") }}
+                <h4 class="cursor-context">
+                    {{ getAccountSummary.netWorth | kobo | currency("NGN", true) }}
                 </h4>
             </div>
             <div class="accounts-overview__text">

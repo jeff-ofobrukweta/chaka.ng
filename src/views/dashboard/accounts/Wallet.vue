@@ -23,60 +23,42 @@
                     <hr />
                     <div class="accounts-wallet__money">
                         <div>
-                            <h3
-                                class="cursor-context"
-                                :title="
+                            <h3 class="cursor-context">
+                                {{
                                     getAccountSummary.localAvailableToTrade
                                         | kobo
-                                        | currency('NGN', true)
-                                "
-                            >
-                                {{
-                                    getAccountSummary.localAvailableToTrade | kobo | currency("NGN")
+                                        | currency("NGN", true)
                                 }}
                             </h3>
                             <p><small>Available To Trade</small></p>
                         </div>
                         <div>
-                            <h3
-                                class="cursor-context"
-                                :title="
-                                    getAccountSummary.localAvailableToWithdraw
-                                        | kobo
-                                        | currency('NGN', true)
-                                "
-                            >
+                            <h3 class="cursor-context">
                                 {{
                                     getAccountSummary.localAvailableToWithdraw
                                         | kobo
-                                        | currency("NGN")
+                                        | currency("NGN", true)
                                 }}
                             </h3>
                             <p><small>Available To Withdraw</small></p>
                         </div>
                         <div>
-                            <h3
-                                class="cursor-context"
-                                :title="
+                            <h3 class="cursor-context">
+                                {{
                                     getAccountSummary.localPendingBalance
                                         | kobo
-                                        | currency('NGN', true)
-                                "
-                            >
-                                {{ getAccountSummary.localPendingBalance | kobo | currency("NGN") }}
+                                        | currency("NGN", true)
+                                }}
                             </h3>
                             <p><small>Pending Cash</small></p>
                         </div>
                         <div>
-                            <h3
-                                class="cursor-context"
-                                :title="
+                            <h3 class="cursor-context">
+                                {{
                                     getAccountSummary.localStocksValue
                                         | kobo
-                                        | currency('NGN', true)
-                                "
-                            >
-                                {{ getAccountSummary.localStocksValue | kobo | currency("NGN") }}
+                                        | currency("NGN", true)
+                                }}
                             </h3>
                             <p><small>Stock Value</small></p>
                         </div>
@@ -87,64 +69,42 @@
                     <hr />
                     <div class="accounts-wallet__money">
                         <div>
-                            <h3
-                                class="cursor-context"
-                                :title="
-                                    getAccountSummary.globalAvailableToTrade
-                                        | kobo
-                                        | currency('USD', true)
-                                "
-                            >
+                            <h3 class="cursor-context">
                                 {{
                                     getAccountSummary.globalAvailableToTrade
                                         | kobo
-                                        | currency("USD")
+                                        | currency("USD", true)
                                 }}
                             </h3>
                             <p><small>Available To Trade</small></p>
                         </div>
                         <div>
-                            <h3
-                                class="cursor-context"
-                                :title="
-                                    getAccountSummary.globalAvailableToWithdraw
-                                        | kobo
-                                        | currency('USD', true)
-                                "
-                            >
+                            <h3 class="cursor-context">
                                 {{
                                     getAccountSummary.globalAvailableToWithdraw
                                         | kobo
-                                        | currency("USD")
+                                        | currency("USD", true)
                                 }}
                             </h3>
                             <p><small>Available To Withdraw</small></p>
                         </div>
                         <div>
-                            <h3
-                                class="cursor-context"
-                                :title="
+                            <h3 class="cursor-context">
+                                {{
                                     getAccountSummary.globalPendingBalance
                                         | kobo
-                                        | currency('USD', true)
-                                "
-                            >
-                                {{
-                                    getAccountSummary.globalPendingBalance | kobo | currency("USD")
+                                        | currency("USD", true)
                                 }}
                             </h3>
                             <p><small>Pending Cash</small></p>
                         </div>
                         <div>
-                            <h3
-                                class="cursor-context"
-                                :title="
+                            <h3 class="cursor-context">
+                                {{
                                     getAccountSummary.globalStocksValue
                                         | kobo
-                                        | currency('USD', true)
-                                "
-                            >
-                                {{ getAccountSummary.globalStocksValue | kobo | currency("USD") }}
+                                        | currency("USD", true)
+                                }}
                             </h3>
                             <p><small>Stock Value</small></p>
                         </div>

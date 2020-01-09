@@ -42,8 +42,14 @@ numeral.register("locale", "us", {
 
 const numberFormat = (value, currency, decimalPlaces, showFull) => {
     if (!currency) {
-        if (decimalPlaces === 2) return numeral(value).format("0,0.00a");
-        if (decimalPlaces === 4) return numeral(value).format("0,0.0000a");
+        if (decimalPlaces === 2) {
+            if (showFull) return numeral(value).format("0,0.00");
+            return numeral(value).format("0,0.00a");
+        }
+        if (decimalPlaces === 4) {
+            if (showFull) return numeral(value).format("0,0.0000");
+            return numeral(value).format("0,0.0000a");
+        }
     }
     const locale = currency.substring(0, 2).toLowerCase();
     numeral.locale(locale);
@@ -146,11 +152,10 @@ export default {
         return value;
     },
 
-    truncate(text, length, suffix) {
+    truncate(text, length, suffix = "...") {
         if (text) {
             if (text.length > length) {
-                if (suffix) return text.substring(0, length) + suffix;
-                return `${text.substring(0, length)}...`;
+                return text.substring(0, length) + suffix;
             }
         }
         return text;
