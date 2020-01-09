@@ -145,9 +145,14 @@
             }
 
             @include tablet {
+                flex: 0 0 220px;
+                max-width: 220px;
+                margin-bottom: 0;
+            }
+
+            @include desktop {
                 flex: 0 0 320px;
                 max-width: 320px;
-                margin-bottom: 0;
             }
         }
 
@@ -175,6 +180,14 @@
             h3 {
                 color: $primary-dark;
                 margin-bottom: .25rem;
+
+                @include tablet {
+                    font-size: 1rem;
+                }
+
+                @include desktop {
+                    font-size: x-large;
+                }
             }
 
             p {

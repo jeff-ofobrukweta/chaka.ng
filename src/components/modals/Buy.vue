@@ -252,7 +252,7 @@
                             <p>Quantity</p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
-                            <h5>{{ getPreOrder.quantity | units }}</h5>
+                            <h5>{{ getPreOrder.quantity | units(2, true) }}</h5>
                         </div>
                     </div>
                     <div class="stock-vdr__flex">
@@ -260,7 +260,7 @@
                             <p>Investment</p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
-                            <h5>{{ getPreOrder.investment | kobo | currency(currency) }}</h5>
+                            <h5>{{ getPreOrder.investment | kobo | currency(currency, true) }}</h5>
                         </div>
                     </div>
                     <div class="stock-vdr__flex">
@@ -278,7 +278,7 @@
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <h5>
-                                {{ getPreOrder.estimatedTotal | kobo | currency(currency) }}
+                                {{ getPreOrder.estimatedTotal | kobo | currency(currency, true) }}
                             </h5>
                         </div>
                     </div>

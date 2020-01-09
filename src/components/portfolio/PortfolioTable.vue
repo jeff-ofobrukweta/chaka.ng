@@ -38,9 +38,7 @@
                     </td>
                     <td
                         class="cursor-context"
-                        :title="
-                            item.askPrice | currency(item.currency, true)
-                        "
+                        :title="item.askPrice | currency(item.currency, true)"
                     >
                         {{ item.askPrice | currency(item.currency) }}
                     </td>
@@ -49,9 +47,9 @@
                     </td>
                     <td
                         class="cursor-context"
-                        :title="item.netCost | kobo | currency(item.currency, true)"
+                        :title="item.netCost | currency(item.currency, true)"
                     >
-                        {{ item.netCost | kobo | currency(item.currency) }}
+                        {{ item.netCost | currency(item.currency) }}
                     </td>
                     <td>
                         <action-button
@@ -116,9 +114,7 @@
                     >
                     <td
                         class="cursor-context"
-                        :title="
-                            item.askPrice | kobo | currency(item.currency, true)
-                        "
+                        :title="item.askPrice | kobo | currency(item.currency, true)"
                     >
                         {{ item.askPrice | kobo | currency(item.currency) }}
                     </td>
