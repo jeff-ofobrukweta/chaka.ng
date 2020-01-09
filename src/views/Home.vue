@@ -692,6 +692,8 @@ import auth from "../services/validations/auth";
 import fractional from "../assets/img/fractional/fractional.png";
 import minimums from "../assets/img/fractional/low-minimums.png";
 import grow from "../assets/img/fractional/grow.png";
+import "aos/dist/aos.css";
+import AOS from "aos";
 
 export default {
     name: "Home",
@@ -761,6 +763,18 @@ export default {
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+    },
+    created() {
+        AOS.init({
+            duration: 400,
+            delay: 100,
+            easing: "ease-in-out",
+            mirror: false,
+            startEvent: "DOMContentLoaded",
+            anchorPlacement: "top-center",
+            // once: true,
+            offset: 50
+        });
     }
 };
 </script>

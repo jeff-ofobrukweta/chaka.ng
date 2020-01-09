@@ -28,8 +28,6 @@ const PortfolioDetails = () =>
 const Explore = () => import(/* webpackChunkName: "explore" */ "../views/dashboard/Explore");
 const ExploreCollection = () =>
     import(/* webpackChunkName: "explore-collection" */ "../views/dashboard/SingleCollection");
-const Components = () =>
-    import(/* webpackChunkName: "components" */ "../views/dashboard/Components");
 const Categories = () =>
     import(/* webpackChunkName: "categories" */ "../views/dashboard/Categories");
 const DashboardCalculator = () =>
@@ -173,11 +171,6 @@ const routes = [
                 path: "collection/:name",
                 name: "explore-collection",
                 component: ExploreCollection
-            },
-            {
-                path: "components",
-                name: "components",
-                component: Components
             },
             {
                 path: "calculator",

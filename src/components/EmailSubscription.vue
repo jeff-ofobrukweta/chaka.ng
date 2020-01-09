@@ -58,6 +58,8 @@
 
 <script>
 import auth from "../services/validations/auth";
+import "aos/dist/aos.css";
+import AOS from "aos";
 
 export default {
     name: "email-subscription",
@@ -81,6 +83,18 @@ export default {
             this.$refs.subscribe.submit();
             this.subscribed = true;
         }
+    },
+    created() {
+        AOS.init({
+            duration: 400,
+            delay: 100,
+            easing: "ease-in-out",
+            mirror: false,
+            startEvent: "DOMContentLoaded",
+            anchorPlacement: "top-center",
+            // once: true,
+            offset: 50
+        });
     }
 };
 </script>
