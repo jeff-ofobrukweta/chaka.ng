@@ -38,20 +38,18 @@
                     </td>
                     <td
                         class="cursor-context"
-                        :title="
-                            item.askPrice | currency(item.currency, true)
-                        "
+                        :title="item.netCost | currency(item.currency, true)"
                     >
-                        {{ item.askPrice | currency(item.currency) }}
+                        {{ item.netCost | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}
                     </td>
                     <td
                         class="cursor-context"
-                        :title="item.netCost | kobo | currency(item.currency, true)"
+                        :title="item.currentValue | currency(item.currency, true)"
                     >
-                        {{ item.netCost | kobo | currency(item.currency) }}
+                        {{ item.currentValue | currency(item.currency) }}
                     </td>
                     <td>
                         <action-button
@@ -116,11 +114,9 @@
                     >
                     <td
                         class="cursor-context"
-                        :title="
-                            item.askPrice | kobo | currency(item.currency, true)
-                        "
+                        :title="item.netCost | kobo | currency(item.currency, true)"
                     >
-                        {{ item.askPrice | kobo | currency(item.currency) }}
+                        {{ item.netCost | kobo | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}
@@ -145,9 +141,9 @@
                         />
                         <img src="../../assets/img/red-arrow.svg" v-else alt="Loss" />
                         <small
-                            >{{ checkChange(item.netEarningsPercentage) ? "+" : ""
+                            >{{ checkChange(item.netEarningsPct) ? "+" : ""
                             }}{{ item.netEarnings | kobo | units(2) }} ({{
-                                item.netEarningsPercentage | units(2)
+                                item.netEarningsPct | units(2)
                             }}%)</small
                         >
                     </td>

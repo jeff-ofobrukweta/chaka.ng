@@ -11,8 +11,13 @@
     &.logged {
         background: $primary;
         padding-top: .25rem;
-        padding-bottom: .25rem;position: absolute;
-bottom: 0;
+        padding-bottom: .25rem;
+        position: absolute;
+        bottom: 0;
+
+        @include mobile {
+            bottom: 5rem;
+        }
     }
 
     &-top {

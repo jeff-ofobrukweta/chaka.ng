@@ -22,7 +22,7 @@
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Investment</label>
                         <p class="stock-vdr__text stock-vdr__center">
-                            {{ value.amountCash | kobo | currency(value.currency) }}
+                            {{ value.amountCash | kobo | currency(value.currency, true) }}
                         </p>
                     </div>
                     <div class="form-group stock-vdr__box stock-vdr__center">
@@ -31,7 +31,7 @@
                             {{
                                 (value.amountCash + value.chargeCash)
                                     | kobo
-                                    | currency(value.currency)
+                                    | currency(value.currency, true)
                             }}
                         </p>
                     </div>
@@ -40,7 +40,7 @@
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Quantity</label>
                         <p class="stock-vdr__text stock-vdr__center">
-                            {{ +value.quantity | units }}
+                            {{ +value.quantity | units(2, true) }}
                         </p>
                     </div>
                     <div class="form-group stock-vdr__box stock-vdr__center">

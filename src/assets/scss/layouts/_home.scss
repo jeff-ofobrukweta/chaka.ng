@@ -976,10 +976,6 @@
                 max-width: 640px;
             }
 
-            @include tablet {
-                display: none;
-            }
-
             @include desktop {
                 margin-top: 3%;
                 display: block;

@@ -34,11 +34,9 @@
                     <p><small>CURRENT STOCK PRICE:</small></p>
                     <p v-if="Object.keys(instrument).length <= 0">-</p>
                     <p v-else>
-                        <span
-                            class="cursor-context modal__buy--price"
-                            >{{
-                                getMarketData.ask || instrument.askPrice | currency(currency, true)
-                            }}</span
+                        <span class="cursor-context modal__buy--price">{{
+                            getMarketData.ask || instrument.askPrice | currency(currency, true)
+                        }}</span
                         >&nbsp;&nbsp;
                         <img
                             v-if="instrument.derivedPrice >= 0"
@@ -240,7 +238,7 @@
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <h5>
-                                {{ getPreOrder.estimatedTotal | kobo | currency(currency) }}
+                                {{ getPreOrder.estimatedTotal | kobo | currency(currency, true) }}
                             </h5>
                         </div>
                     </div>

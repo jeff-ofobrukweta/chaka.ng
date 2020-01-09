@@ -1,7 +1,8 @@
 const kycFields = [
     {
-        name: "Disclosure Name",
+        name: "First & Last Name",
         value: "disclosureName",
+        placeholder: "Enter your first and last name",
         type: "text"
     },
     {
@@ -46,12 +47,14 @@ const kycFields = [
     {
         name: "BVN",
         value: "bvn",
-        type: "number"
+        type: "number",
+        placeholder: "Enter your BVN number"
     },
     {
         name: "NIN",
         value: "nin",
-        type: "number"
+        type: "number",
+        placeholder: "Enter your NIN number"
     },
     {
         name: "Country",
@@ -195,13 +198,8 @@ const kycFields = [
         value: "lg",
         type: "select"
     },
-    // {
-    //     name: "Maiden Name",
-    //     value: "maidenName",
-    //     type: "text"
-    // },
     {
-        name: "Net Worth Liquid",
+        name: "Net Worth (Cash)",
         value: "networthLiquid",
         type: "button",
         options: [
@@ -220,7 +218,7 @@ const kycFields = [
         ]
     },
     {
-        name: "Net Worth Total",
+        name: "Net Worth (All Assets)",
         value: "networthTotal",
         type: "button",
         options: [
@@ -238,11 +236,6 @@ const kycFields = [
             }
         ]
     },
-    // {
-    //     name: "Next of Kin Phone",
-    //     value: "nextOfKinPhone",
-    //     type: "text"
-    // },
     {
         name: "Passport Image",
         value: "passportUrl",

@@ -20,13 +20,17 @@
         <section class="explore-section" v-else-if="getExploreNews.length > 0">
             <div class="explore-featured">
                 <div class="explore-featured__image">
-                    <a :href="getExploreNews[0].pageUrl" target="_blank">
+                    <a :href="getExploreNews[0].pageUrl" target="_blank" rel="noreferrer noopener">
                         <img :src="getExploreNews[0].imageUrl" :alt="getExploreNews[0].name"
                     /></a>
                 </div>
                 <div class="explore-featured__text">
                     <h4 class="explore-featured__text--title">
-                        <a :href="getExploreNews[0].pageUrl" target="_blank">
+                        <a
+                            :href="getExploreNews[0].pageUrl"
+                            target="_blank"
+                            rel="noreferrer noopener"
+                        >
                             {{ getExploreNews[0].name }}</a
                         >
                     </h4>

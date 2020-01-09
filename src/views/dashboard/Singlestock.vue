@@ -431,7 +431,7 @@ export default {
         }
     },
     async mounted() {
-        this.mountedAction(this.$route.params.symbol);
+        await this.mountedAction(this.$route.params.symbol);
     },
     beforeRouteUpdate(to, from, next) {
         this.mountedAction(to.params.symbol);

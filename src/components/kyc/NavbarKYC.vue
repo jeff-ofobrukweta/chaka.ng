@@ -13,12 +13,14 @@
                                     class="underline"
                                     href="https://apps.drivewealth.com/disclosures?sweepType=bank"
                                     target="_blank"
+                                    rel="noreferrer noopener"
                                     >Drivewealth Disclosures</a
                                 >,
                                 <a
                                     class="underline"
                                     href="https://drivewealth.com/customer-account-agreement?lang=en_US"
                                     target="_blank"
+                                    rel="noreferrer noopener"
                                     >DriveWealth Account Agreement</a
                                 >
                                 and
@@ -26,6 +28,7 @@
                                     class="underline"
                                     href="https://apps.drivewealth.io/disclosures/?citizenship=NG&showOnlyTaxDoc=true"
                                     target="_blank"
+                                    rel="noreferrer noopener"
                                     >W8-BEN Agreement Disclosure</a
                                 ></small
                             >
