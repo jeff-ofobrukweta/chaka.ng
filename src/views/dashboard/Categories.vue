@@ -223,7 +223,7 @@ export default {
             "SET_TAGS_LISTS",
             "SET_SLUG_FOR_INSTRUMENT"
         ]),
-        ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS", "GET_MOST_POPULAR"]),
+        ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS"]),
         handlescrollinfinitly(signType) {
 					if (signType) {
                         if(signType == "regression"){
@@ -306,7 +306,6 @@ export default {
             }
         },
         async mount() {
-            this.GET_MOST_POPULAR();
             this.loading = true;
             this.infiniteLoader = true;
             this.page = 0; //this is to set the page back to the default when tags are clicked.

@@ -9,9 +9,6 @@
                         shortly.</small
                     >
                 </p>
-                <div>
-                    <p><small>Most Popular</small></p>
-                </div>
                 <div class="kyc-nav__popular">
                     <router-link
                         tag="div"
