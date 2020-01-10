@@ -160,8 +160,7 @@ export default {
             } else {
                 const payload = {
                     fromDate: this.payload.fromDate,
-                    toDate: this.payload.toDate,
-                    statusType: "open"
+                    toDate: this.payload.toDate
                 };
                 if (this.selectedOrderCurrency) {
                     payload.currency = this.selectedWallet;
