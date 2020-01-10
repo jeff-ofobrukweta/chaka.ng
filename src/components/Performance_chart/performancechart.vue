@@ -114,7 +114,8 @@ export default {
                             },
                             position: 'left',
                             ticks: {
-                                beginAtZero: false,
+                                beginAtZero: true,
+                                scaleBeginAtZero : true,
                                 fontColor: '#8A939A',
                                 padding: 0,
                                 fontSize: 10,
