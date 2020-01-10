@@ -116,39 +116,44 @@
                         <h5 class="section__caption">Invest in 4000+ Stocks Including</h5>
                         <div class="v2-layer__invest">
                             <img
-                                class="v2-layer__invest--img"
-                                src="../assets/img/icons/APPLE.svg"
-                                alt="Alibaba"
+                                data-sizes="auto"
+                                :data-src="require('../assets/img/icons/APPLE.svg')"
+                                :data-srcset="require('../assets/img/icons/APPLE.svg')"
                                 data-aos="zoom-in-up"
-                                data-aos-delay="100"
+                                class="lazyload v2-layer__invest--img"
+                                alt="Apple"
                             />
                             <img
-                                class="v2-layer__invest--img"
-                                src="../assets/img/icons/GTB.svg"
+                                data-sizes="auto"
+                                :data-src="require('../assets/img/icons/GTB.svg')"
+                                :data-srcset="require('../assets/img/icons/GTB.svg')"
+                                data-aos="zoom-in-up"
+                                class="lazyload v2-layer__invest--img"
                                 alt="GTBank"
-                                data-aos="zoom-in-up"
-                                data-aos-delay="150"
                             />
                             <img
-                                class="v2-layer__invest--img"
-                                src="../assets/img/icons/manu.png"
-                                alt="Alibaba"
+                                data-sizes="auto"
+                                :data-src="require('../assets/img/icons/manu.png')"
+                                :data-srcset="require('../assets/img/icons/manu.png')"
                                 data-aos="zoom-in-up"
-                                data-aos-delay="170"
+                                class="lazyload v2-layer__invest--img"
+                                alt="Man United"
                             />
                             <img
-                                class="v2-layer__invest--img"
-                                src="../assets/img/icons/GOOGLE.png"
-                                alt="Alibaba"
+                                data-sizes="auto"
+                                :data-src="require('../assets/img/icons/GOOGLE.svg')"
+                                :data-srcset="require('../assets/img/icons/GOOGLE.svg')"
                                 data-aos="zoom-in-up"
-                                data-aos-delay="200"
+                                class="lazyload v2-layer__invest--img"
+                                alt="Google"
                             />
                             <img
-                                class="v2-layer__invest--img"
-                                src="../assets/img/icons/DANGOTE.png"
+                                data-sizes="auto"
+                                :data-src="require('../assets/img/icons/DANGOTE.png')"
+                                :data-srcset="require('../assets/img/icons/DANGOTE.png')"
+                                data-aos="zoom-in-up"
+                                class="lazyload v2-layer__invest--img"
                                 alt="Dangote"
-                                data-aos="zoom-in-up"
-                                data-aos-delay="210"
                             />
                         </div>
                     </div>
@@ -157,22 +162,31 @@
                         <div class="v2-layer__logos">
                             <div data-aos="fade-up">
                                 <img
-                                    class="v2-layer__logos--img"
-                                    src="../assets/img/etfs/blackrock.png"
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/etfs/blackrock.png')"
+                                    :data-srcset="require('../assets/img/etfs/blackrock.png')"
+                                    data-aos="zoom-in-up"
+                                    class="lazyload v2-layer__logos--img"
                                     alt="Black Rock"
                                 />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="50">
                                 <img
-                                    class="v2-layer__logos--img"
-                                    src="../assets/img/etfs/vanguard.png"
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/etfs/vanguard.png')"
+                                    :data-srcset="require('../assets/img/etfs/vanguard.png')"
+                                    data-aos="zoom-in-up"
+                                    class="lazyload v2-layer__logos--img"
                                     alt="Vanguard"
                                 />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="150">
                                 <img
-                                    class="v2-layer__logos--img"
-                                    src="../assets/img/etfs/fidelity.png"
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/etfs/fidelity.png')"
+                                    :data-srcset="require('../assets/img/etfs/fidelity.png')"
+                                    data-aos="zoom-in-up"
+                                    class="lazyload v2-layer__logos--img"
                                     alt="Fidelity"
                                 />
                             </div>
@@ -180,23 +194,32 @@
                         <div class="v2-layer__logos">
                             <div data-aos="fade-up">
                                 <img
-                                    class="v2-layer__logos--img"
-                                    src="../assets/img/etfs/msci.png"
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/etfs/msci.png')"
+                                    :data-srcset="require('../assets/img/etfs/msci.png')"
+                                    data-aos="zoom-in-up"
+                                    class="lazyload v2-layer__logos--img"
                                     alt="MSCI"
                                 />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="150">
                                 <img
-                                    class="v2-layer__logos--img"
-                                    src="../assets/img/etfs/invesco.png"
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/etfs/invesco.png')"
+                                    :data-srcset="require('../assets/img/etfs/invesco.png')"
+                                    data-aos="zoom-in-up"
+                                    class="lazyload v2-layer__logos--img"
                                     alt="Invesco"
                                 />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="200">
                                 <img
-                                    class="v2-layer__logos--img"
-                                    src="../assets/img/etfs/schwab.png"
-                                    alt="Charles Schwab"
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/etfs/schwab.png')"
+                                    :data-srcset="require('../assets/img/etfs/schwab.png')"
+                                    data-aos="zoom-in-up"
+                                    class="lazyload v2-layer__logos--img"
+                                    alt="Schwab"
                                 />
                             </div>
                         </div>
@@ -502,7 +525,8 @@
                 <div class="v2-landing__news">
                     <a
                         href="https://www.cnbcafrica.com/news/west-africa/2019/11/19/this-nigeria-based-tech-start-up-seeks-to-reduce-barriers-in-cross-border-investing/"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="200"
@@ -515,7 +539,8 @@
                     </a>
                     <a
                         href="https://techcrunch.com/2019/11/12/chaka-opens-up-global-investing-to-africas-most-populous-nation/"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -528,7 +553,8 @@
                     </a>
                     <a
                         href="https://www.youtube.com/watch?v=ctLC7hWFtBM"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                     >
@@ -540,7 +566,8 @@
                     </a>
                     <a
                         href="https://finance.yahoo.com/news/drivewealth-partners-chaka-global-trading-110000678.html"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -553,7 +580,8 @@
                     </a>
                     <a
                         href="https://businessday.ng/interview/article/our-goal-is-to-provide-borderless-trading-investment-opportunities/"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -566,7 +594,8 @@
                     </a>
                     <a
                         href="https://www.marketwatch.com/press-release/drivewealth-partners-with-chaka-new-global-trading-platform-in-nigeria-to-increase-access-to-us-stock-market-2019-10-16"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -579,7 +608,8 @@
                     </a>
                     <a
                         href="https://guardian.ng/business-services/hedging-against-local-risks-through-global-markets/"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -592,7 +622,8 @@
                     </a>
                     <a
                         href="https://www.youtube.com/watch?v=qngEAo-D_dk"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -605,7 +636,8 @@
                     </a>
                     <a
                         href="https://www.thisdaylive.com/index.php/2019/10/18/chaka-global-trading-platform-launched-in-nigeria/"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"
@@ -618,7 +650,8 @@
                     </a>
                     <a
                         href="https://www.financemagnates.com/forex/products/chaka-teams-up-with-drivewealth-to-offer-us-equities-in-nigeria/"
-                        target="_blank" rel="noreferrer noopener"
+                        target="_blank"
+                        rel="noreferrer noopener"
                         class="v2-landing__news--link"
                         data-aos="fade-up"
                         data-aos-delay="250"

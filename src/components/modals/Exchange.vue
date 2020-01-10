@@ -110,7 +110,7 @@
         <form class="modal-form" @submit.prevent="exchangeWallet">
             <div class="modal-form__group">
                 <label class="form__label"
-                    >Amount<currency-input
+                    >Amount({{ itemData.fromWallet === "local" ? "&#8358;" : "$" }})<currency-input
                         :currency="itemData.currency"
                         placeholder="Enter Amount"
                         v-model="itemData.amount"
