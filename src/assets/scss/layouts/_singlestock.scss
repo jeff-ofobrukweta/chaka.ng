@@ -4,6 +4,7 @@
     justify-content: space-between;
     flex: 0 0 100%;
 }
+
 .expand{
     color:#22a4ef;
     margin-left: 10px;
@@ -211,10 +212,13 @@
     flex-direction: column;
     justify-content: flex-start;
     align-content: center;
+    overflow-x: auto;
+    
 
     .news-container-main {
         display: flex;
     }
+    
 
     .title {
         font-style: normal;
@@ -231,6 +235,15 @@
         line-height: 43px;
         color: #8A939A;
     }
+}
+::-webkit-scrollbar{
+    height: 4px;
+    width: 4px;
+    background: gray;
+}
+::-webkit-scrollbar-thumb:horizontal{
+    background: rgb(136, 136, 136);
+    border-radius: 10px;
 }
 
 @include tablet {
