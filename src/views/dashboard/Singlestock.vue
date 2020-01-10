@@ -30,9 +30,7 @@
                                 </section>
                                 <img
                                     class="state"
-                                    :src="
-                                        require(`../../assets/img/icons/flags/${countryCode}-flag.svg`)
-                                    "
+                                    :src="require(`../../assets/img/flags/${countryCode}-flag.svg`)"
                                     alt="state"
                                 />
                             </aside>

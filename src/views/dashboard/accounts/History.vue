@@ -160,11 +160,10 @@ export default {
             } else {
                 const payload = {
                     fromDate: this.payload.fromDate,
-                    toDate: this.payload.toDate,
-                    statusType: "open"
+                    toDate: this.payload.toDate
                 };
                 if (this.selectedOrderCurrency) {
-                    payload.currency = this.selectedWallet;
+                    payload.currency = this.selectedOrderCurrency;
                 }
                 this.GET_ORDERS_HISTORY(payload).then(() => {
                     this.loading = false;
