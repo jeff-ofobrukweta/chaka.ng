@@ -24,7 +24,7 @@ module.exports = {
                 })
             ],
             splitChunks: {
-                // chunks: "all",
+                chunks: "async",
                 // maxInitialRequests: Infinity,
                 // minSize: 0,
                 cacheGroups: {
