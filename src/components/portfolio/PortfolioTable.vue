@@ -38,18 +38,18 @@
                     </td>
                     <td
                         class="cursor-context"
-                        :title="item.netCost | currency(item.currency, true)"
+                        :title="item.netCost | kobo | currency(item.currency, true)"
                     >
-                        {{ item.netCost | currency(item.currency) }}
+                        {{ item.netCost | kobo | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
                         {{ item.quantity | units }}
                     </td>
                     <td
                         class="cursor-context"
-                        :title="item.currentValue | currency(item.currency, true)"
+                        :title="item.currentValue | kobo | currency(item.currency, true)"
                     >
-                        {{ item.currentValue | currency(item.currency) }}
+                        {{ item.currentValue | kobo | currency(item.currency) }}
                     </td>
                     <td>
                         <action-button
@@ -141,9 +141,9 @@
                         />
                         <img src="../../assets/img/red-arrow.svg" v-else alt="Loss" />
                         <small
-                            >{{ checkChange(item.netEarningsPct) ? "+" : ""
+                            >{{ checkChange(item.netEarningsPercentage) ? "+" : ""
                             }}{{ item.netEarnings | kobo | units(2) }} ({{
-                                item.netEarningsPct | units(2)
+                                item.netEarningsPercentage | units(2)
                             }}%)</small
                         >
                     </td>
