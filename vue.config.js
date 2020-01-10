@@ -1,4 +1,5 @@
 const CompressionPlugin = require("compression-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
@@ -21,10 +22,14 @@ module.exports = {
                         }
                     },
                     extractComments: false
+                }),
+                new UglifyJsPlugin({
+                    parallel: true,
+                    cache: true
                 })
             ],
             splitChunks: {
-                chunks: "async",
+                // chunks: "async",
                 // maxInitialRequests: Infinity,
                 // minSize: 0,
                 cacheGroups: {
@@ -47,7 +52,7 @@ module.exports = {
                     }, // common chunk
                     common: {
                         name: "common-chunks",
-                        minChunks: 5,
+                        maxSize: 1024,
                         chunks: "async",
                         priority: 10,
                         reuseExistingChunk: true,

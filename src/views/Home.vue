@@ -117,16 +117,16 @@
                         <div class="v2-layer__invest">
                             <img
                                 data-sizes="auto"
-                                :data-src="require('../assets/img/icons/APPLE.svg')"
-                                :data-srcset="require('../assets/img/icons/APPLE.svg')"
+                                :data-src="require('../assets/img/icons/APPLE.png')"
+                                :data-srcset="require('../assets/img/icons/APPLE.png')"
                                 data-aos="zoom-in-up"
                                 class="lazyload v2-layer__invest--img"
                                 alt="Apple"
                             />
                             <img
                                 data-sizes="auto"
-                                :data-src="require('../assets/img/icons/GTB.svg')"
-                                :data-srcset="require('../assets/img/icons/GTB.svg')"
+                                :data-src="require('../assets/img/icons/GTB.png')"
+                                :data-srcset="require('../assets/img/icons/GTB.png')"
                                 data-aos="zoom-in-up"
                                 class="lazyload v2-layer__invest--img"
                                 alt="GTBank"
@@ -141,8 +141,8 @@
                             />
                             <img
                                 data-sizes="auto"
-                                :data-src="require('../assets/img/icons/GOOGLE.svg')"
-                                :data-srcset="require('../assets/img/icons/GOOGLE.svg')"
+                                :data-src="require('../assets/img/icons/GOOGLE.png')"
+                                :data-srcset="require('../assets/img/icons/GOOGLE.png')"
                                 data-aos="zoom-in-up"
                                 class="lazyload v2-layer__invest--img"
                                 alt="Google"
@@ -349,60 +349,147 @@
                     <div class="row">
                         <div class="v2-countries__logos">
                             <div data-aos="fade-up">
-                                <img src="../assets/img/countries/nigeria.svg" alt="Nigeria" />
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/nigeria.svg')"
+                                    :data-srcset="require('../assets/img/countries/nigeria.svg')"
+                                    class="lazyload"
+                                    alt="Nigeria"
+                                />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="340">
-                                <img src="../assets/img/countries/usa.svg" alt="USA" />
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/usa.svg')"
+                                    :data-srcset="require('../assets/img/countries/usa.svg')"
+                                    class="lazyload"
+                                    alt="USA"
+                                />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="380">
-                                <img src="../assets/img/countries/china.svg" alt="China" />
-                            </div>
-                        </div>
-                        <div class="v2-countries__logos">
-                            <div data-aos="fade-up">
-                                <img src="../assets/img/countries/uk.svg" alt="United Kingdom" />
-                            </div>
-                            <div data-aos="fade-up" data-aos-delay="340">
-                                <img src="../assets/img/countries/france.svg" alt="France" />
-                            </div>
-                            <div data-aos="fade-up" data-aos-delay="380">
-                                <img src="../assets/img/countries/sa.svg" alt="South Africa" />
-                            </div>
-                        </div>
-                        <div class="v2-countries__logos">
-                            <div data-aos="fade-up" data-aos-delay="340">
-                                <img src="../assets/img/countries/japan.svg" alt="Japan" />
-                            </div>
-                            <div data-aos="fade-up" data-aos-delay="380">
-                                <img src="../assets/img/countries/indonesia.svg" alt="Indonesia" />
-                            </div>
-                            <div data-aos="fade-up" data-aos-delay="400">
-                                <img src="../assets/img/countries/brazil.svg" alt="Brazil" />
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/china.svg')"
+                                    :data-srcset="require('../assets/img/countries/china.svg')"
+                                    class="lazyload"
+                                    alt="China"
+                                />
                             </div>
                         </div>
                         <div class="v2-countries__logos">
                             <div data-aos="fade-up">
                                 <img
-                                    src="../assets/img/countries/europian.svg"
-                                    alt="Europian Union"
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/uk.svg')"
+                                    :data-srcset="require('../assets/img/countries/uk.svg')"
+                                    class="lazyload"
+                                    alt="UK"
                                 />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="340">
-                                <img src="../assets/img/countries/russia.svg" alt="Russia" />
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/france.svg')"
+                                    :data-srcset="require('../assets/img/countries/france.svg')"
+                                    class="lazyload"
+                                    alt="France"
+                                />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="380">
-                                <img src="../assets/img/countries/turkey.svg" alt="Turkey" />
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/sa.svg')"
+                                    :data-srcset="require('../assets/img/countries/sa.svg')"
+                                    class="lazyload"
+                                    alt="South Africa"
+                                />
+                            </div>
+                        </div>
+                        <div class="v2-countries__logos">
+                            <div data-aos="fade-up" data-aos-delay="340">
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/japan.svg')"
+                                    :data-srcset="require('../assets/img/countries/japan.svg')"
+                                    class="lazyload"
+                                    alt="Japan"
+                                />
+                            </div>
+                            <div data-aos="fade-up" data-aos-delay="380">
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/indonesia.svg')"
+                                    :data-srcset="require('../assets/img/countries/indonesia.svg')"
+                                    class="lazyload"
+                                    alt="Indonesia"
+                                />
+                            </div>
+                            <div data-aos="fade-up" data-aos-delay="400">
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/brazil.svg')"
+                                    :data-srcset="require('../assets/img/countries/brazil.svg')"
+                                    class="lazyload"
+                                    alt="Brazil"
+                                />
                             </div>
                         </div>
                         <div class="v2-countries__logos">
                             <div data-aos="fade-up">
-                                <img src="../assets/img/countries/canada.svg" alt="Canada" />
-                            </div>
-                            <div data-aos="fade-up" data-aos-delay="320">
-                                <img src="../assets/img/countries/australia.svg" alt="Australia" />
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/europian.svg')"
+                                    :data-srcset="require('../assets/img/countries/europian.svg')"
+                                    class="lazyload"
+                                    alt="European Union"
+                                />
                             </div>
                             <div data-aos="fade-up" data-aos-delay="340">
-                                <img src="../assets/img/countries/belgium.svg" alt="Belgium" />
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/russia.svg')"
+                                    :data-srcset="require('../assets/img/countries/russia.svg')"
+                                    class="lazyload"
+                                    alt="Russia"
+                                />
+                            </div>
+                            <div data-aos="fade-up" data-aos-delay="380">
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/turkey.svg')"
+                                    :data-srcset="require('../assets/img/countries/turkey.svg')"
+                                    class="lazyload"
+                                    alt="Turkey"
+                                />
+                            </div>
+                        </div>
+                        <div class="v2-countries__logos">
+                            <div data-aos="fade-up">
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/canada.svg')"
+                                    :data-srcset="require('../assets/img/countries/canada.svg')"
+                                    class="lazyload"
+                                    alt="Canada"
+                                />
+                            </div>
+                            <div data-aos="fade-up" data-aos-delay="320">
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/australia.svg')"
+                                    :data-srcset="require('../assets/img/countries/australia.svg')"
+                                    class="lazyload"
+                                    alt="Australia"
+                                />
+                            </div>
+                            <div data-aos="fade-up" data-aos-delay="340">
+                                <img
+                                    data-sizes="auto"
+                                    :data-src="require('../assets/img/countries/belgium.svg')"
+                                    :data-srcset="require('../assets/img/countries/belgium.svg')"
+                                    class="lazyload"
+                                    alt="Belgium"
+                                />
                             </div>
                         </div>
                     </div>
@@ -532,9 +619,11 @@
                         data-aos-delay="200"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/cnbc.png"
-                            alt="Maket-Watch"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/cnbc.png')"
+                            :data-srcset="require('../assets/img/news/cnbc.png')"
+                            class="lazyload v2-landing__news--img"
+                            alt="CNBC"
                         />
                     </a>
                     <a
@@ -546,9 +635,11 @@
                         data-aos-delay="250"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/techcrunch.png"
-                            alt="Business Day"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/techcrunch.png')"
+                            :data-srcset="require('../assets/img/news/techcrunch.png')"
+                            class="lazyload v2-landing__news--img"
+                            alt="techcrunch"
                         />
                     </a>
                     <a
@@ -559,9 +650,11 @@
                         data-aos="fade-up"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/channels.png"
-                            alt="Channels"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/channels.png')"
+                            :data-srcset="require('../assets/img/news/channels.png')"
+                            class="lazyload v2-landing__news--img"
+                            alt="Channels TV"
                         />
                     </a>
                     <a
@@ -573,9 +666,11 @@
                         data-aos-delay="250"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/yahoo.png"
-                            alt="Yahoo Finance"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/yahoo.png')"
+                            :data-srcset="require('../assets/img/news/yahoo.png')"
+                            class="lazyload v2-landing__news--img"
+                            alt="Yahoo!"
                         />
                     </a>
                     <a
@@ -587,8 +682,10 @@
                         data-aos-delay="250"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/business-day.png"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/business-day.png')"
+                            :data-srcset="require('../assets/img/news/business-day.png')"
+                            class="lazyload v2-landing__news--img"
                             alt="Business Day"
                         />
                     </a>
@@ -601,8 +698,10 @@
                         data-aos-delay="250"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/market-watch.svg"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/market-watch.svg')"
+                            :data-srcset="require('../assets/img/news/market-watch.svg')"
+                            class="lazyload v2-landing__news--img"
                             alt="Market Watch"
                         />
                     </a>
@@ -615,9 +714,11 @@
                         data-aos-delay="250"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/the-guardian.png"
-                            alt="The Guardian"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/the-guardian.png')"
+                            :data-srcset="require('../assets/img/news/the-guardian.png')"
+                            class="lazyload v2-landing__news--img"
+                            alt="Guardian"
                         />
                     </a>
                     <a
@@ -629,8 +730,10 @@
                         data-aos-delay="250"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/arise-news.png"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/arise-news.png')"
+                            :data-srcset="require('../assets/img/news/arise-news.png')"
+                            class="lazyload v2-landing__news--img"
                             alt="Arise News"
                         />
                     </a>
@@ -643,8 +746,10 @@
                         data-aos-delay="250"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/thisday.png"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/thisday.png')"
+                            :data-srcset="require('../assets/img/news/thisday.png')"
+                            class="lazyload v2-landing__news--img"
                             alt="This Day"
                         />
                     </a>
@@ -657,8 +762,10 @@
                         data-aos-delay="250"
                     >
                         <img
-                            class="v2-landing__news--img"
-                            src="../assets/img/news/finance-magnates.svg"
+                            data-sizes="auto"
+                            :data-src="require('../assets/img/news/finance-magnates.svg')"
+                            :data-srcset="require('../assets/img/news/finance-magnates.svg')"
+                            class="lazyload v2-landing__news--img"
                             alt="Finance Magnates"
                         />
                     </a>
