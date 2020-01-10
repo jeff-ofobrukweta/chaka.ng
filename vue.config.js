@@ -1,6 +1,6 @@
 const CompressionPlugin = require("compression-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
     configureWebpack: {
@@ -24,12 +24,16 @@ module.exports = {
                 })
             ],
             splitChunks: {
-                chunks: "all",
-                maxInitialRequests: Infinity,
-                minSize: 0,
+                chunks: "async",
+                // maxInitialRequests: Infinity,
+                // minSize: 0,
                 cacheGroups: {
+                    defaultVendors: {
+                        reuseExistingChunk: true
+                    },
                     vendor: {
                         test: /[\\/]node_modules[\\/]/,
+                        chunks: "all",
                         name(module) {
                             // get the name. E.g. node_modules/packageName/not/this/part.js
                             // or node_modules/packageName
@@ -38,8 +42,16 @@ module.exports = {
                             )[1];
 
                             // npm package names are URL-safe, but some servers don't like @ symbols
-                            return `npm.${packageName.replace("@", "")}`;
+                            return `npm.vendor-${packageName.replace("@", "")}`;
                         }
+                    }, // common chunk
+                    common: {
+                        name: "common-chunks",
+                        minChunks: 5,
+                        chunks: "async",
+                        priority: 10,
+                        reuseExistingChunk: true,
+                        enforce: true
                     }
                 }
             }
