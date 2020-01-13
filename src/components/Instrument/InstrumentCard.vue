@@ -108,9 +108,9 @@
                     class="country"
                     id="country"
                     :src="
-                        require(`../../assets/img/flags/${
+                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${
                             instrument.countryCode ? instrument.countryCode.toLowerCase() : 'zz'
-                        }-flag.svg`)
+                        }-flag.svg`
                     "
                     alt="states"
                 />

@@ -19,9 +19,6 @@
         <p class="form-error" :class="{ navbar: navbar }" v-if="errorMessage">
             <small>{{ errorMessage }}</small>
         </p>
-        <!-- <p class="form-error" v-if="errorMessage">
-            <small>{{ errorMessage }}</small>
-        </p> -->
     </Fragment>
 </template>
 

@@ -280,7 +280,8 @@ export default {
             ninField: {
                 name: "NIN",
                 value: "nin",
-                type: "number"
+                type: "number",
+                placeholder: "Enter your NIN number"
             },
             idIndex: null,
             idTypes: [

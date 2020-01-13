@@ -168,6 +168,10 @@ export default {
                     name: "Statements",
                     link: "accounts-statements"
                 },
+                {
+                    name: "Calculator",
+                    link: "dashboard-calculator"
+                },
                 /**
                  * TO-DO :: Put back when stamps page is ready
                  */

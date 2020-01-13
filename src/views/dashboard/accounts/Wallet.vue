@@ -135,16 +135,13 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import KYCTitles from "../../../services/kyc/kycTitles";
 
 export default {
     name: "accounts-wallet",
     data() {
         return {
             showKYC: false,
-            selectedField: {},
-            step: null,
-            allNextKYC: KYCTitles.titles
+            step: null
         };
     },
     computed: {
