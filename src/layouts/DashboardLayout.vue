@@ -23,7 +23,7 @@
             </transition>
         </template>
         <div v-if="isSearchOpened" class="search-overlay" @click="SEARCH_OPENED(false)"></div>
-        <main class="dashboard-loader" v-if="isComponentLoader">
+        <main class="dashboard-loader" v-if="loading || isComponentLoader">
             <img :src="require('../assets/img/loader.gif')" alt="Loader" />
         </main>
         <main role="main" v-else>
