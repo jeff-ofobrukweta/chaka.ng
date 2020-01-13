@@ -30,7 +30,9 @@
                                 </section>
                                 <img
                                     class="state"
-                                    :src="require(`../../assets/img/flags/${countryCode}-flag.svg`)"
+                                    :src="
+                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode}-flag.svg`
+                                    "
                                     alt="state"
                                 />
                             </aside>
@@ -250,7 +252,7 @@
                         No current news availiable for this current stock
                     </div>
                     <div class="news-container-main" v-else>
-                        <NewCard :news="item" v-for="(item, index) in getNews" :key="index" />
+                        <NewsCard :news="item" v-for="(item, index) in getNews" :key="index" />
                     </div>
                 </section>
             </section>
@@ -274,7 +276,7 @@ export default {
         Analysisbarchart: () => import("../../components/Analysisbarchart/analysisbarchartbase"),
         InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
         InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
-        NewsCard: () => import('../../components/cards/NewsCard')
+        NewsCard: () => import("../../components/cards/NewsCard")
     },
     computed: {
         ...mapGetters([
