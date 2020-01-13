@@ -40,10 +40,10 @@
                 </div>
             </div>
             <div class="card-news__box explore__news" v-if="loadNews">
-                <news-card :news="{}" dummy v-for="i in 5" :key="i" />
+                <NewsCard :news="{}" dummy v-for="i in 5" :key="i" />
             </div>
             <div class="card-news__box explore__news" v-else>
-                <news-card :news="item" v-for="(item, index) in otherNews" :key="index" />
+                <NewsCard :news="item" v-for="(item, index) in otherNews" :key="index" />
             </div>
             <div class="explore-actions__bottom">
                 <!-- <a class="explore-actions">See All</a> -->
@@ -82,10 +82,10 @@
                 </div>
             </section>
             <div class="card-news__box explore__news" v-if="loadCollections">
-                <news-card :news="{}" dummy v-for="i in 5" :key="i" />
+                <NewsCard :news="{}" dummy v-for="i in 5" :key="i" />
             </div>
             <div class="card-news__box explore__news" v-else>
-                <news-card
+                <NewsCard
                     :news="item"
                     v-for="(item, index) in getExploreCollections"
                     :key="index"
@@ -124,10 +124,10 @@
                 </div>
             </section>
             <div class="card-news__box explore__news" v-if="loadLearn">
-                <news-card :news="{}" dummy v-for="i in 5" :key="i" />
+                <NewsCard :news="{}" dummy v-for="i in 5" :key="i" />
             </div>
             <div class="card-news__box explore__news" v-else>
-                <news-card :news="item" v-for="(item, index) in getExploreLearn" :key="index" />
+                <NewsCard :news="item" v-for="(item, index) in getExploreLearn" :key="index" />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
                 <!-- <a class="explore-actions">See All</a> -->
@@ -188,14 +188,13 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import ExploreWatchlist from "../../components/watchlist/ExploreWatchlist";
-import MobileWatchlist from "../../components/watchlist/MobileWatchlist";
 
 export default {
     name: "explore",
     components: {
-        ExploreWatchlist,
-        MobileWatchlist
+        ExploreWatchlist: () => import("../../components/watchlist/ExploreWatchlist"),
+        MobileWatchlist: () => import("../../components/watchlist/MobileWatchlist"),
+        NewsCard: () => import("../../components/cards/NewsCard")
     },
     data() {
         return {

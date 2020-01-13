@@ -250,7 +250,7 @@
                         No current news availiable for this current stock
                     </div>
                     <div class="news-container-main" v-else>
-                        <news-card :news="item" v-for="(item, index) in getNews" :key="index" />
+                        <NewCard :news="item" v-for="(item, index) in getNews" :key="index" />
                     </div>
                 </section>
             </section>
@@ -273,7 +273,8 @@ export default {
         Horizontalchart: () => import("../../components/Horizontalbar/hbase"),
         Analysisbarchart: () => import("../../components/Analysisbarchart/analysisbarchartbase"),
         InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist")
+        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
+        NewsCard: () => import('../../components/cards/NewsCard')
     },
     computed: {
         ...mapGetters([

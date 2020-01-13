@@ -52,7 +52,7 @@ module.exports = {
                     }, // common chunk
                     common: {
                         name: "common-chunks",
-                        maxSize: 1024,
+                        maxSize: 512,
                         chunks: "async",
                         priority: 10,
                         reuseExistingChunk: true,

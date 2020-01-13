@@ -50,12 +50,11 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import CurrencyInput from "../form/CurrencyInput";
 
 export default {
     name: "withdraw-modal",
     components: {
-        CurrencyInput
+        CurrencyInput: () => import("../form/CurrencyInput")
     },
     data() {
         return {
