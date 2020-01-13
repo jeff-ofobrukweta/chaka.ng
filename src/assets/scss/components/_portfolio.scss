@@ -11,7 +11,9 @@
         transition: all 200ms;
         box-shadow: 6.8535px 15.4204px 17.1338px rgba(164, 164, 164, 0.3);
 
-
+        .table-section{
+            height: 80px;
+        }
         .btn-viewmore{
             display: flex;
             justify-content: flex-end;
@@ -71,7 +73,6 @@
             width: 90%;
             margin: 1rem auto;
             max-width: 300px;
-            height: 72px;
 
         }
 

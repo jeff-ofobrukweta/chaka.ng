@@ -22,10 +22,11 @@
             }}
         </h2>
         <p class="portfolio-card__title">{{ "Total Value on Global Stocks" }}</p>
+        <section class="table-section">
         <table
-            v-if="getPortfoliopositionsCarddetails.positions.filled.global.length > 0"
-            class="portfolio-card__table"
-        >
+                    v-if="getPortfoliopositionsCarddetails.positions.filled.global.length > 0"
+                    class="portfolio-card__table"
+                >
             <tr
                 v-for="(stock,
                 index) in getPortfoliopositionsCarddetails.positions.filled.global.slice(0, 3)"
@@ -57,6 +58,7 @@
                 </td>
             </tr>
         </table>
+        </section>
         <div class="btn-viewmore" >
                         <section
                             :title="'click to view details'"
