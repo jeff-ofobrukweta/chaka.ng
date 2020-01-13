@@ -1,85 +1,82 @@
 <template>
-    <Fragment>
-        <div class="graphholder">
-            <div class="header-container">
-                <div class="left-menue-item"></div>
-                <div class="right-menue-item">
-                    <section class="toogle-section">
-                        <section v-if="isGraphValid == 1 || isGraphValid == 2"></section>
-                        <section v-else class="option-container">
-                            <button
-                                v-for="(item, index) in currencyOption"
-                                :key="index"
-                                :disabled="loading"
-                                @click="toogleCurrency(item.currency, item.id)"
-                                :title="item.description"
-                                :class="[
-                                    item.currency == getPorfolioglobalCurrencyforGraph
-                                        ? 'btn-one-active'
-                                        : '',
-                                    'btn-one'
-                                ]"
-                            >
-                                {{ item.symbol }}
-                            </button>
-                            <button>
-                                <div id="select" class="dropdown">
-                                    <select
-                                        class="drop-down"
-                                        @change="handletimeframe($event)"
-                                        :disabled="loading"
+    <div class="graphholder">
+        <div class="header-container">
+            <div class="left-menue-item"></div>
+            <div class="right-menue-item">
+                <section class="toogle-section">
+                    <section v-if="isGraphValid == 1 || isGraphValid == 2"></section>
+                    <section v-else class="option-container">
+                        <button
+                            v-for="(item, index) in currencyOption"
+                            :key="index"
+                            :disabled="loading"
+                            @click="toogleCurrency(item.currency, item.id)"
+                            :title="item.description"
+                            :class="[
+                                item.currency == getPorfolioglobalCurrencyforGraph
+                                    ? 'btn-one-active'
+                                    : '',
+                                'btn-one'
+                            ]"
+                        >
+                            {{ item.symbol }}
+                        </button>
+                        <button>
+                            <div id="select" class="dropdown">
+                                <select
+                                    class="drop-down"
+                                    @change="handletimeframe($event)"
+                                    :disabled="loading"
+                                >
+                                    <option
+                                        v-for="(item, index) in buttonoption"
+                                        :key="index"
+                                        class="option"
+                                        :value="item.time"
+                                        >{{ item.name }}</option
                                     >
-                                        <option
-                                            v-for="(item, index) in buttonoption"
-                                            :key="index"
-                                            class="option"
-                                            :value="item.time"
-                                            >{{ item.name }}</option
-                                        >
-                                    </select>
-                                </div>
-                            </button>
-                        </section>
+                                </select>
+                            </div>
+                        </button>
                     </section>
-                </div>
+                </section>
             </div>
-            <template v-if="loading">
-                <div class="portfolio-graph__placeholder loader-gif__big">
-                    <img
-                        class="middle-loader"
-                        :src="require('../../assets/img/loader.gif')"
-                        alt="spin"
-                    />
-                </div>
-            </template>
-            <template v-else-if="isGraphValid === 1">
-                <div class="portfolio-graph__placeholder">
-                    <img
-                        :src="require('../../assets/img/gifs/portfolio.gif')"
-                        alt="Portfolio Chart demo"
-                    />
-                </div>
-            </template>
-            <template v-else-if="isGraphValid === 2">
-                <div class="portfolio-graph__placeholder caution__big">
-                    <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
-                    <a class="caution__reload" @click="mountedActions">Reload</a>
-                </div>
-            </template>
-            <template v-else>
-                <Graph
-                    :price="gethistoryportfolioprice"
-                    :currency="getPorfolioglobalCurrencyforGraph"
-                    :date="gethistoryportfoliodate"
-                />
-            </template>
         </div>
-    </Fragment>
+        <template v-if="loading">
+            <div class="portfolio-graph__placeholder loader-gif__big">
+                <img
+                    class="middle-loader"
+                    :src="require('../../assets/img/loader.gif')"
+                    alt="spin"
+                />
+            </div>
+        </template>
+        <template v-else-if="isGraphValid === 1">
+            <div class="portfolio-graph__placeholder">
+                <img
+                    :src="require('../../assets/img/gifs/portfolio.gif')"
+                    alt="Portfolio Chart demo"
+                />
+            </div>
+        </template>
+        <template v-else-if="isGraphValid === 2">
+            <div class="portfolio-graph__placeholder caution__big">
+                <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
+                <a class="caution__reload" @click="mountedActions">Reload</a>
+            </div>
+        </template>
+        <template v-else>
+            <Graph
+                :price="gethistoryportfolioprice"
+                :currency="getPorfolioglobalCurrencyforGraph"
+                :date="gethistoryportfoliodate"
+            />
+        </template>
+    </div>
 </template>
 <script>
 import { Fragment } from "vue-fragment";
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import Graph from "./linegraph";
 
 export default {
     name: "Linechartgraphchild",
@@ -87,7 +84,7 @@ export default {
         return {
             showKYC: false,
             loading: true,
-            emptyData:false,
+            emptyData: false,
             currencyOption: [
                 {
                     symbol: "₦",
@@ -138,8 +135,7 @@ export default {
         };
     },
     components: {
-        Graph,
-        Fragment
+        Graph: () => import("./linegraph")
     },
     computed: {
         ...mapGetters([
@@ -159,10 +155,20 @@ export default {
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
-            if (checkForNull.length > 0 && this.gethistoryportfoliodate[0] == null && this.emptyData && this.emptyData == undefined  ) {
+            if (
+                checkForNull.length > 0 &&
+                this.gethistoryportfoliodate[0] == null &&
+                this.emptyData &&
+                this.emptyData == undefined
+            ) {
                 return 2;
             }
-            if (checkForNull.length <= 0 && this.gethistoryportfoliodate[0] !== null && !this.emptyData && this.emptyData != undefined ) {
+            if (
+                checkForNull.length <= 0 &&
+                this.gethistoryportfoliodate[0] !== null &&
+                !this.emptyData &&
+                this.emptyData != undefined
+            ) {
                 return 3;
             }
         }
@@ -184,10 +190,9 @@ export default {
                     interval: this.getPorfolioglobalTimeforGraph,
                     currency: this.getPorfolioglobalCurrencyforGraph
                 };
-                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then((res) => {
+                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then(res => {
                     this.loading = false;
-                     this.emptyData = res.data.emptyValues || true;
-                    
+                    this.emptyData = res.data.emptyValues || true;
                 });
             });
         },
@@ -201,9 +206,9 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then((res) => {
-                   this.emptyData = res.data.emptyValues || true;
-                  this.loading = false;
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(res => {
+                this.emptyData = res.data.emptyValues || true;
+                this.loading = false;
             });
         },
         async mountedActions() {
@@ -212,7 +217,7 @@ export default {
                 currency: "NGN" || this.getPorfolioglobalCurrencyforGraph
             };
             this.loading = true;
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then((res)=>{
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then(res => {
                 this.loading = false;
                 this.emptyData = res.data.emptyValues || true;
             });

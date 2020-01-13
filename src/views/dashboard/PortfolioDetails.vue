@@ -55,12 +55,11 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
-import PortfolioTable from "../../components/portfolio/PortfolioTable";
 
 export default {
     name: "portfolio-details",
     components: {
-        PortfolioTable
+        PortfolioTable: () => import("../../components/portfolio/PortfolioTable")
     },
     data() {
         return {

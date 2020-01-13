@@ -4,7 +4,7 @@
             <form @submit.prevent="submitDisclosure">
                 <div class="kyc-nav container">
                     <div class="kyc-nav__text">
-                        <h5>Verification by Financial Regulators</h5>
+                        <h5>Complete Your Verification</h5>
                         <p>
                             <small>
                                 By typing to sign my name below I acknowledge that I have read and
@@ -36,7 +36,13 @@
                     </div>
 
                     <div class="kyc-nav__field">
-                        <Field :field="disclosureField" @input="handleInput" no-label inline />
+                        <Field
+                            :field="disclosureField"
+                            placeholder="Enter your full name"
+                            @input="handleInput"
+                            no-label
+                            inline
+                        />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a @click="hideKYCBtn">Hide</a>
@@ -477,12 +483,14 @@ export default {
             disclosureField: {
                 name: "Disclosure Name",
                 type: "text",
-                value: "disclosureName"
+                value: "disclosureName",
+                placeholder: "Enter your full name"
             },
             bvnField: {
                 name: "BVN",
                 value: "bvn",
-                type: "number"
+                type: "number",
+                placeholder: "Enter your BVN number"
             },
             OTPField: {
                 name: "OTP",
@@ -492,7 +500,8 @@ export default {
             ninField: {
                 name: "NIN",
                 value: "nin",
-                type: "number"
+                type: "number",
+                placeholder: "Enter your NIN number"
             },
             ninFields: {
                 title: "National Identity Number",

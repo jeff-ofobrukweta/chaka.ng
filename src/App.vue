@@ -32,17 +32,14 @@
 
 <script>
 import { mapMutations, mapGetters, mapActions } from "vuex";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Progressbar from "./components/Progressbar";
 import EventBus from "./event-bus";
 
 export default {
     name: "app",
     components: {
-        Header,
-        Footer,
-        Progressbar
+        Header: () => import("./components/Header"),
+        Footer: () => import("./components/Footer"),
+        Progressbar: () => import("./components/Progressbar")
     },
     data() {
         return {
