@@ -43,7 +43,9 @@ const initialState = {
     singlestock: { ...graphs.state },
     accounts: { ...accounts.state },
     news: { ...news.state },
-    modals: { ...modals.state }
+    modals: { ...modals.state },
+    componentLoader: false,
+    mobileSearch:false
 };
 
 export default new Vuex.Store({
@@ -53,7 +55,8 @@ export default new Vuex.Store({
         progressbar: 0,
         windowWidth: "",
         modalOpened: false,
-        mobileSearch: false
+        mobileSearch: false,
+        componentLoader:false
     },
     getters: {
         getStatus: state => state.status,
@@ -61,7 +64,8 @@ export default new Vuex.Store({
         getWindowWidth: state => state.windowWidth,
         getErrorLog: state => state.errorLog,
         isModalOpened: state => state.modalOpened,
-        isSearchOpened: state => state.mobileSearch
+        isSearchOpened: state => state.mobileSearch,
+        isComponentLoader: state => state.componentLoader
     },
     mutations: {
         LOGOUT: state => {
@@ -106,7 +110,11 @@ export default new Vuex.Store({
                     Object.assign(state[key], initialState[key]);
                 } catch (error) {}
             });
-        }
+        },
+        RESET_COMPONENT_LOADER: (state,payload) => {
+            state.componentLoader = payload;
+        },
+        
     },
     actions: {
         START_LOADER: ({ state, commit }) => {
