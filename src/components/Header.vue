@@ -225,13 +225,7 @@
                                             </div>
 
                                             <img
-                                                :src="
-                                                    require(`../assets/img/flags/${
-                                                        stock.countryCode
-                                                            ? stock.countryCode.toLowerCase()
-                                                            : 'zz'
-                                                    }-flag.svg`)
-                                                "
+                                                :src="stockCountry(stock.countryCode)"
                                                 width="16px"
                                                 :alt="stock.symbol"
                                                 class="nav-left__dropdown--country"
@@ -298,13 +292,7 @@
                                                     </div>
 
                                                     <img
-                                                        :src="
-                                                            require(`../assets/img/flags/${
-                                                                stock.countryCode
-                                                                    ? stock.countryCode.toLowerCase()
-                                                                    : 'zz'
-                                                            }-flag.svg`)
-                                                        "
+                                                        :src="stockCountry(stock.countryCode)"
                                                         width="16px"
                                                         :alt="stock.symbol"
                                                         class="nav-left__dropdown--country"
@@ -476,6 +464,11 @@ export default {
         },
         showFund() {
             this.SET_FUND_MODAL(true);
+        },
+        stockCountry(countryCode) {
+            if (countryCode)
+                return `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode.toLowerCase()}-flag.svg`;
+            return "zz";
         },
         async startSearch() {
             this.showSearch = true;

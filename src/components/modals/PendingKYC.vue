@@ -28,9 +28,9 @@
                             <div>
                                 <img
                                     :src="
-                                        require(`../../assets/img/flags/${country(
+                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
                                             stock.countryCode
-                                        )}-flag.svg`)
+                                        )}-flag.svg`
                                     "
                                     class="kyc-modal__popular--flag"
                                     :alt="stock.countryCode"
@@ -95,9 +95,9 @@
                             <div>
                                 <img
                                     :src="
-                                        require(`../../assets/img/flags/${country(
+                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
                                             instrument.countryCode
-                                        )}-flag.svg`)
+                                        )}-flag.svg`
                                     "
                                     class="kyc-modal__popular--flag"
                                     :alt="instrument.countryCode"
@@ -119,9 +119,9 @@
                             <div>
                                 <img
                                     :src="
-                                        require(`../../assets/img/flags/${country(
+                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
                                             specificStock.countryCode
-                                        )}-flag.svg`)
+                                        )}-flag.svg`
                                     "
                                     class="kyc-modal__popular--flag"
                                     :alt="specificStock.countryCode"
@@ -175,9 +175,9 @@
                             <div>
                                 <img
                                     :src="
-                                        require(`../../assets/img/flags/${country(
+                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
                                             instrument.countryCode
-                                        )}-flag.svg`)
+                                        )}-flag.svg`
                                     "
                                     class="kyc-modal__popular--flag"
                                     :alt="instrument.countryCode"
@@ -199,9 +199,9 @@
                             <div>
                                 <img
                                     :src="
-                                        require(`../../assets/img/flags/${country(
+                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
                                             specificStock.countryCode
-                                        )}-flag.svg`)
+                                        )}-flag.svg`
                                     "
                                     class="kyc-modal__popular--flag"
                                     :alt="specific.countryCode"
