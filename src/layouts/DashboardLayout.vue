@@ -8,7 +8,7 @@
             <transition name="kyc-navbar" v-else> <KYC v-if="showNavbarKYC" /> </transition>
         </template>
         <div v-if="isSearchOpened" class="search-overlay" @click="SEARCH_OPENED(false)"></div>
-        <main class="dashboard-loader" v-if="loading">
+        <main class="dashboard-loader" v-if="isComponentLoader">
             <img :src="require('../assets/img/loader.gif')" alt="Loader" />
         </main>
         <main role="main" v-else>
@@ -57,7 +57,8 @@ export default {
             "getExchangeModal",
             "getWalletSuccess",
             "getSaleSuccess",
-            "isSearchOpened"
+            "isSearchOpened",
+            "isComponentLoader"
         ]),
         showPending() {
             if (
