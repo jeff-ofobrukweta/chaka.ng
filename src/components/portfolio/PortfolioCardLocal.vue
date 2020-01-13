@@ -22,6 +22,7 @@
             }}
         </h2>
         <p class="portfolio-card__title">Total Value on Local Stocks</p>
+        <section class="table-section">
         <table
             v-if="
                 getPortfoliopositionsCarddetails.positions.filled.local.length > 0 &&
@@ -60,6 +61,7 @@
                 </td>
             </tr>
         </table>
+        </section>
         <div class="btn-viewmore" >
                         <section
                             :title="'click to view details'"
