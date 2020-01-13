@@ -11,10 +11,36 @@
     background: #FFFFFF;
     border: 1px solid #EEEEEE;
     box-sizing: border-box;
-    box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
+    // box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
     border-radius: 11.4872px;
     margin: 1em 0px;
     transition: all 0.3s;
+}
+.btn-viewmore{
+    display: flex;
+    justify-content: flex-end;
+    section:hover{
+        background:#2da5ec;
+        cursor: pointer;
+        height: 40px;
+        border-radius: 2px;
+        box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
+        transform: all 0.35;
+    }
+    section{
+        // background:#2da5ec;
+        cursor: pointer;
+        padding: 5px 29px;
+        height: 40px;
+        border-radius: 2px;
+        position: relative;
+        #Capa_1{
+            padding: 5px 0px;
+            position: absolute;
+            right: 8px;
+            top: 0px;
+        }
+    }
 }
 
 .container-packet {
