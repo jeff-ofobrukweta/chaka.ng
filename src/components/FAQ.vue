@@ -29,8 +29,6 @@ import  axios from 'axios';
 
 export default {
   name: 'FAQ',
-  components: { 
-  },
   props: {
     topic: String
   },

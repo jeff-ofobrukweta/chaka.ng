@@ -123,12 +123,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import Card from "../../../layouts/AccountsCard";
 
 export default {
     name: "accounts-overview",
     components: {
-        Card
+        Card: () => import("../../../layouts/AccountsCard")
     },
     computed: {
         ...mapGetters(["getLoggedUser", "getAccountSummary"]),

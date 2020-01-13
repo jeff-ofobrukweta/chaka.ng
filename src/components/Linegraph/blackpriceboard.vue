@@ -1,5 +1,4 @@
 <template>
-    <Fragment>
         <section class="board-container-price">
             <img
                 v-if="getPricedetailsonblackcard && getPricedetailsonblackcard.derivedPricePercentage < 0"
@@ -45,11 +44,9 @@
                 <section v-else></section>
             </section>
         </section>
-    </Fragment>
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import EventBus from '../../event-bus';
 
@@ -60,9 +57,6 @@ export default {
             timingStatement: null,
             valueTiming: ''
         };
-    },
-    components: {
-        Fragment
     },
     computed: {
         ...mapGetters([
