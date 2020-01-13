@@ -76,7 +76,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY"]),
+        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY", "GET_KYC"]),
         ...mapMutations([
             "SET_BUY_MODAL",
             "SET_SELL_MODAL",
@@ -136,6 +136,7 @@ export default {
         this.MODAL_OPENED(false);
         this.loading = true;
         await this.GET_LOGGED_USER();
+        this.GET_KYC();
         this.loading = false;
         await this.GET_ACCOUNT_SUMMARY();
     },

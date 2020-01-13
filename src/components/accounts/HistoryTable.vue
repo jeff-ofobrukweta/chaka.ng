@@ -24,8 +24,8 @@
                             <span
                                 :class="{
                                     orange: item.status === 'PENDING' || item.status === 'QUEUED',
-                                    green: item.status === 'SUCCESS',
-                                    red: item.status === 'CANCELLED'
+                                    green: item.status === 'SUCCESS' || item.status === 'FILLED',
+                                    red: item.status === 'CANCELLED' || item.status === 'REJECTED'
                                 }"
                                 >{{ item.status }}</span
                             >
@@ -52,16 +52,16 @@
                             <span
                                 :class="{
                                     orange: item.status === 'PENDING' || item.status === 'QUEUED',
-                                    green: item.status === 'SUCCESS',
-                                    red: item.status === 'CANCELLED'
+                                    green: item.status === 'SUCCESS' || item.status === 'FILLED',
+                                    red: item.status === 'CANCELLED' || item.status === 'REJECTED'
                                 }"
                                 >{{ item.status }}</span
                             >
                         </td>
                         <td>{{ item.createdAt | date }}</td>
                         <td>{{ item.time }}</td>
-                    </tr></template
-                >
+                    </tr>
+                </template>
             </tbody>
         </table>
     </section>
@@ -69,7 +69,7 @@
 
 <script>
 export default {
-    name: 'table-accounts',
+    name: "table-accounts",
     props: {
         history: {
             type: Array,
