@@ -2,7 +2,7 @@ const kycFields = [
     {
         name: "First & Last Name",
         value: "disclosureName",
-        placeholder: "Enter your first and last name",
+        placeholder: "Enter your full name",
         type: "text"
     },
     {

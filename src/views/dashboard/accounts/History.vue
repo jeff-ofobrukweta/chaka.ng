@@ -62,12 +62,11 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import HistoryTable from "../../../components/accounts/HistoryTable";
 
 export default {
     name: "accounts-history",
     components: {
-        HistoryTable
+        HistoryTable: () => import("../../../components/accounts/HistoryTable")
     },
     data() {
         return {

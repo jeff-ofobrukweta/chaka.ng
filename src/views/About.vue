@@ -44,12 +44,11 @@
 </template>
 
 <script>
-import EmailSubscribe from '../components/EmailSubscription';
 
 export default {
 	name: 'About',
 	components: {
-		EmailSubscribe
+		EmailSubscribe: () => import('../components/EmailSubscription')
 	},
 	mounted() {
 		document.title = 'Chaka - About Us';

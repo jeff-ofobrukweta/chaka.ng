@@ -152,7 +152,6 @@
 <script>
 import { Fragment } from "vue-fragment";
 import { mapGetters, mapMutations, mapActions } from "vuex";
-import Graph from "./linegraph";
 import EventBus from "../../event-bus";
 
 export default {
@@ -231,8 +230,8 @@ export default {
         };
     },
     components: {
-        Graph,
         Fragment,
+        Graph: () => import("./linegraph"),
         TechnicalChart: () => import("../Technicalgraph")
     },
     props: {

@@ -78,6 +78,15 @@
             color: $white
         }
 
+        &__continue {
+            color: $white;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
         &__section {
             background-color: $primary-dark;
         }

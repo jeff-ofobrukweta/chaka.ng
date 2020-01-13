@@ -5,7 +5,22 @@
             <transition name="kyc-navbar" v-if="showPending">
                 <KYCPending />
             </transition>
-            <transition name="kyc-navbar" v-else> <KYC v-if="showNavbarKYC" /> </transition>
+            <transition name="kyc-navbar" v-else-if="showNavbarKYC">
+                <KYC />
+            </transition>
+            <transition name="kyc-navbar" v-else>
+                <section class="kyc-nav__section" @click="SET_SHOW_NAVBAR_KYC(true)">
+                    <p class="kyc-nav__continue">
+                        Continue Verification
+                        <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
+                                fill="#fff"
+                            />
+                        </svg>
+                    </p>
+                </section>
+            </transition>
         </template>
         <div v-if="isSearchOpened" class="search-overlay" @click="SEARCH_OPENED(false)"></div>
         <main class="dashboard-loader" v-if="loading">
@@ -16,13 +31,13 @@
                 <router-view />
             </section>
         </main>
-        <buy-modal @close="closeBuy" v-if="getBuyModal.show" />
-        <sell-modal @close="closeSell" v-if="getSellModal.show" />
-        <sale-success @close="closeSale" v-if="getSaleSuccess" />
-        <fund-modal @close="closeFund" v-if="getFundModal" />
+        <BuyModal @close="closeBuy" v-if="getBuyModal.show" />
+        <SellModal @close="closeSell" v-if="getSellModal.show" />
+        <SaleSuccess @close="closeSale" v-if="getSaleSuccess" />
+        <FundModal @close="closeFund" v-if="getFundModal" />
         <ExchangeModal @close="closeExchange" v-if="getExchangeModal" />
         <WithdrawModal @close="closeWithdraw" v-if="getWithdrawModal" />
-        <wallet-success @close="closeWallet" v-if="getWalletSuccess" />
+        <WalletSuccess @close="closeWallet" v-if="getWalletSuccess" />
     </Fragment>
 </template>
 
@@ -38,6 +53,11 @@ export default {
         KYCPending: () => import("../components/kyc/NavbarKYCPending"),
         ExchangeModal: () => import("../components/modals/Exchange"),
         WithdrawModal: () => import("../components/modals/Withdraw"),
+        BuyModal: () => import("../components/modals/Buy"),
+        SellModal: () => import("../components/modals/Sell"),
+        SaleSuccess: () => import("../components/modals/SaleSuccess"),
+        FundModal: () => import("../components/modals/Fund"),
+        WalletSuccess: () => import("../components/modals/WalletSuccess"),
         Fragment
     },
     data() {
@@ -76,7 +96,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY"]),
+        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY", "GET_KYC"]),
         ...mapMutations([
             "SET_BUY_MODAL",
             "SET_SELL_MODAL",
@@ -88,7 +108,8 @@ export default {
             "SET_WALLET_SUCCESS",
             "RESET_MODALS",
             "SEARCH_OPENED",
-            "MODAL_OPENED"
+            "MODAL_OPENED",
+            "SET_SHOW_NAVBAR_KYC"
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});
@@ -136,6 +157,7 @@ export default {
         this.MODAL_OPENED(false);
         this.loading = true;
         await this.GET_LOGGED_USER();
+        this.GET_KYC();
         this.loading = false;
         await this.GET_ACCOUNT_SUMMARY();
     },
