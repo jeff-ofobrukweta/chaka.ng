@@ -16,11 +16,11 @@
                     <p>
                         <img
                             :src="
-                                (`https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${
+                                `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${
                                     instrument.countryCode
                                         ? instrument.countryCode.toLowerCase()
                                         : 'zz'
-                                }-flag.svg`)
+                                }-flag.svg`
                             "
                             class="watchlist-explore__symbol"
                             alt="US"
@@ -58,9 +58,9 @@
                     <p><small>AVAILABLE QUANTITY:</small></p>
                     <p
                         class="cursor-context modal__buy--price"
-                        :title="maxQuantity | units(2, true)"
+                        :title="maxQuantity | units(4, true)"
                     >
-                        {{ maxQuantity | units }} Units
+                        {{ maxQuantity | units(4) }} Units
                     </p>
                 </div>
             </template>

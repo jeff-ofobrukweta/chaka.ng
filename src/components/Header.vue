@@ -180,7 +180,11 @@
                             />
                         </svg>
                     </router-link>
-                    <form class="nav-left__form" v-if="getWindowWidth !== 'mobile'">
+                    <form
+                        class="nav-left__form"
+                        v-if="getWindowWidth !== 'mobile'"
+                        @submit.prevent="startSearch"
+                    >
                         <input
                             type="text"
                             name="search"
@@ -243,7 +247,11 @@
                         </transition>
                     </form>
                     <div class="nav-left__icon" v-else>
-                        <form class="nav-left__form" :class="{ show: isSearchOpened }">
+                        <form
+                            class="nav-left__form"
+                            :class="{ show: isSearchOpened }"
+                            @submit.prevent="startSearch"
+                        >
                             <template v-if="isSearchOpened">
                                 <input
                                     type="text"
