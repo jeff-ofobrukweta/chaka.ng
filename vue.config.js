@@ -11,13 +11,13 @@ module.exports = {
         plugins: [
             new CompressionPlugin({
                 algorithm: "gzip"
-            }),
-            new ServiceWorkerWebpackPlugin({
-                entry: path.join(__dirname, "sw.js")
-            }),
-            new WorkboxPlugin.InjectManifest({
-                swSrc: "sw.js"
             })
+            // new ServiceWorkerWebpackPlugin({
+            //     entry: path.join(__dirname, "sw.js")
+            // }),
+            // new WorkboxPlugin.InjectManifest({
+            //     swSrc: "sw.js"
+            // })
             // new BundleAnalyzerPlugin()
         ],
         optimization: {
