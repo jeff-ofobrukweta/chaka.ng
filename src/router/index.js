@@ -18,11 +18,13 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     store.commit("RESET_REQ");
     store.commit("RESET_MODALS");
+    store.commit("RESET_COMPONENT_LOADER",true);
     store.commit("SEARCH_OPENED", false);
     next();
 });
 
 router.afterEach((to, from) => {
+    store.commit("RESET_COMPONENT_LOADER",false);
     store.commit("SET_SHOW_NAVBAR_KYC", true);
 });
 router.onError(error => {

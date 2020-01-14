@@ -17,7 +17,7 @@
                 /></div
         ></template>
         <template v-else-if="isGraphValid === 2">
-            <div class="graphholder container-packet__placeholder caution__big">
+            <div :title="'click the reload option to try again '" class="graphholder container-packet__placeholder caution__big">
                 <img :src="'../../assets/img/caution.svg'" alt="Caution" />
                 <a class="caution__reload" @click="reload">Reload</a>
             </div>
@@ -99,7 +99,7 @@ export default {
     name: "performancebase",
     components: {
         Fragment,
-        Performancegraph: "./performancechart"
+        Performancegraph: () => import("./performancechart")
     },
     data() {
         return {
