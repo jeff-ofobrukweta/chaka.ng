@@ -58,9 +58,7 @@ export default {
                 this.getWalletTx.txAmount / 100,
                 this.getWalletTx.currency,
                 true
-            )} into your ${this.getWalletTx.bankAcctName}, Account Number ${
-                this.getWalletTx.bankAcctNo
-            }`;
+            )} into your ${this.getKYC.bankAcctName}, Account Number ${this.getKYC.bankAcctNo}`;
         }
     },
     methods: {
