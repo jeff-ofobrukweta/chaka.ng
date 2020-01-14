@@ -5,7 +5,7 @@ if (workbox) {
 
     workbox.routing.registerRoute(
         /\.css$/,
-        new workbox.strategies.StaleWhileRevalidate({
+        new workbox.strategies.CacheFirst({
             cacheName: "css-files",
             plugins: [
                 new workbox.expiration.Plugin({
