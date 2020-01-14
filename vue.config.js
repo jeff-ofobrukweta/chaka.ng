@@ -82,5 +82,20 @@ module.exports = {
             }
         }
     },
-    transpileDependencies: ["vuex-persist"]
+    transpileDependencies: ["vuex-persist"],
+    pwa: {
+        name: "Chaka",
+        themeColor: "#2da5ec",
+        msTileColor: "#293d4a",
+        appleMobileWebAppCapable: "yes",
+        appleMobileWebAppStatusBarStyle: "black",
+
+        // configure the workbox plugin
+        workboxPluginMode: "InjectManifest",
+        workboxOptions: {
+            // swSrc is required in InjectManifest mode.
+            swSrc: "sw.js"
+            // ...other Workbox options...
+        }
+    }
 };
