@@ -48,6 +48,9 @@ const numberFormat = (value, currency, decimalPlaces, showFull) => {
         }
         if (decimalPlaces === 4) {
             if (showFull) return numeral(value).format("0,0.0000");
+            if (value >= 10000) {
+                return numeral(value).format("0,0.00a");
+            }
             return numeral(value).format("0,0.0000a");
         }
     }

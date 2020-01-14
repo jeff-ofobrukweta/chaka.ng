@@ -28,11 +28,7 @@
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Estimated Total</label>
                         <p class="stock-vdr__text stock-vdr__center">
-                            {{
-                                (value.amountCash + value.chargeCash)
-                                    | kobo
-                                    | currency(value.currency, true)
-                            }}
+                            {{ cash | kobo | currency(value.currency, true) }}
                         </p>
                     </div>
                 </div>
@@ -84,6 +80,11 @@ export default {
         value() {
             if (Object.keys(this.getSellOrder).length > 0) return this.getSellOrder;
             return this.getBuyOrder;
+        },
+        cash() {
+            if (Object.keys(this.getSellOrder).length > 0)
+                return this.value.amountCash - this.value.chargeCash;
+            return this.value.amountCash + this.value.chargeCash;
         }
     },
     methods: {
