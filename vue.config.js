@@ -58,15 +58,15 @@ module.exports = {
                             // npm package names are URL-safe, but some servers don't like @ symbols
                             return `npm.vendor-${packageName.replace("@", "")}`;
                         }
-                    }, // common chunk
-                    common: {
-                        name: "common-chunks",
-                        maxSize: 512,
-                        chunks: "async",
-                        priority: 10,
-                        reuseExistingChunk: true,
-                        enforce: true
-                    }
+                    } // common chunk
+                    // common: {
+                    //     name: "common-chunks",
+                    //     maxSize: 512,
+                    //     chunks: "async",
+                    //     priority: 10,
+                    //     reuseExistingChunk: true,
+                    //     enforce: true
+                    // }
                 }
             }
         }
