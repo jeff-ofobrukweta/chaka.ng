@@ -6,7 +6,12 @@ if (workbox) {
     workbox.routing.registerRoute(
         /\.css$/,
         new workbox.strategies.StaleWhileRevalidate({
-            cacheName: "css-files"
+            cacheName: "css-files",
+            plugins: [
+                new workbox.expiration.Plugin({
+                    maxAgeSeconds: 5 * 24 * 60 * 60
+                })
+            ]
         })
     );
 
@@ -24,7 +29,17 @@ if (workbox) {
         })
     );
 
-    workbox.routing.registerRoute(/\.js$/, new workbox.strategies.NetworkFirst());
+    workbox.routing.registerRoute(
+        /\.js$/,
+        new workbox.strategies.StaleWhileRevalidate({
+            cacheName: "js-files",
+            plugins: [
+                new workbox.expiration.Plugin({
+                    maxAgeSeconds: 5 * 24 * 60 * 60
+                })
+            ]
+        })
+    );
 } else {
     console.log(`Boo! Workbox didn't load 😬`);
 }
