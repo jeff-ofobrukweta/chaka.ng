@@ -1,0 +1,99 @@
+.about {
+    &-title {
+        margin-top: 1rem;
+        line-height: 13rem;
+        font-weight: bold;
+    }
+
+    &-started {
+        background-color: $primary;
+        padding-top: 2rem;
+        padding-bottom: 3.5rem;
+
+        &>.container {
+            color: $white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        &__title {
+            flex: 0 0 100%;
+            text-align: center;
+
+            @include mobile{
+                margin-bottom: 2rem;
+            }
+
+            @include tablet {
+                flex: 0 0 20%;
+                text-align: left;
+            }
+
+            h4 {
+                color: $white;
+            }
+        }
+
+        &__text {
+            flex: 0 0 100%;
+            text-align: center;
+
+            @include tablet {
+                flex: 0 0 75%;
+                text-align: left;
+            }
+
+            p {
+                line-height: 2.25;
+            }
+        }
+    }
+
+    &-careers{
+        background-image: url('assets/img/careers.png');
+        background-size: cover;
+        background-position: center;
+        padding-top: 7rem;
+        padding-bottom: 4rem;
+
+        &>.container {
+            color: $white;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        &__title {
+            flex: 0 0 100%;
+            text-align: center;
+
+            @include mobile{
+                margin-bottom: 2rem;
+            }
+
+            @include tablet {
+                flex: 0 0 20%;
+                text-align: left;
+            }
+
+            h4 {
+                color: $white;
+            }
+        }
+
+        &__text {
+            flex: 0 0 100%;
+            text-align: center;
+
+            @include tablet {
+                flex: 0 0 75%;
+                text-align: left;
+            }
+
+            p {
+                line-height: 2.25;
+            }
+        }
+    }
+}
