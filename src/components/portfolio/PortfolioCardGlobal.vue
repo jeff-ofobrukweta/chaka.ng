@@ -5,7 +5,7 @@
         @click="toDetailsPage('global')"
     >
         <div class="portfolio-card__img">
-            <img :src="require(`../../assets/img/portfolio2.svg`)" alt="Portfolio Icon" />
+            <!-- <img :src="require(`../../assets/img/portfolio2.svg`)" alt="Portfolio Icon" /> -->
         </div>
         <h2
             class="cursor-context"
