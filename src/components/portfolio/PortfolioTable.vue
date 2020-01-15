@@ -11,9 +11,9 @@
                 <th>Symbol</th>
                 <th>Order<br />Type</th>
                 <th>Market<br />Type</th>
-                <th>Price</th>
+                <th>Current<br />stock<br />price</th>
                 <th>Units Ordered</th>
-                <th>Invested<br />Amount</th>
+                <th>Investment<br />Value</th>
                 <th>Action</th>
             </thead>
             <tbody v-if="storedata.length >= 1" class="portfolio-table__tbody">
@@ -87,10 +87,10 @@
             <thead class="portfolio-table__thead">
                 <th>Name</th>
                 <th>Symbol</th>
-                <th>Price</th>
+                <th>Current<br />stock<br />price</th>
                 <th>Units Owned</th>
                 <!-- <th>Units<br />Ordered</th> -->
-                <th>Invested<br />Amount</th>
+                 <th>Investment<br />Value</th>
                 <th>
                     Invested<br />
                     Percentage
