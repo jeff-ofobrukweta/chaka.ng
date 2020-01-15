@@ -206,7 +206,7 @@ export default {
             ],
             loading: true,
             tooglegraph: false,
-            Interval: "5Y",
+            Interval: "1W",
             options: [
                 {
                     name: "Normal",
