@@ -5,7 +5,7 @@
         @click="toDetailsPage('open-orders')"
     >
         <div class="portfolio-card__img">
-            <img :src="require(`../../assets/img/portfolio3.svg`)" alt="Portfolio Icon" />
+            <!-- <img :src="require(`../../assets/img/portfolio3.svg`)" alt="Portfolio Icon" /> -->
         </div>
         <h2 class="cursor-context">
             {{ getPortfoliopositionsCarddetails.positions.open.orders.length }}
