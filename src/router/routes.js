@@ -60,7 +60,6 @@ const routes = [
         path: "/about",
         name: "about",
         component: About,
-        redirect: "/",
         beforeEnter: noAuthOnly
     },
     {
@@ -99,7 +98,6 @@ const routes = [
     {
         path: "/faq",
         name: "faq",
-        redirect: "/",
         component: Faq,
         beforeEnter: noAuthOnly
     },

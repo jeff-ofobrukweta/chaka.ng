@@ -36,12 +36,18 @@
                             <router-link class="nav__link" to="/developers" active-class="active"
                                 >Developers</router-link
                             >
-                        </li>
+                        </li> -->
                         <li class="nav__item">
-                            <router-link class="nav__link" to="/faq" active-class="active"
+                            <router-link class="nav__link" :to="{ name: 'faq' }" active-class="active"
                                 >Help</router-link
                             >
                         </li>
+                        <li class="nav__item">
+                            <router-link class="nav__link" :to="{ name: 'about' }" active-class="active"
+                                >About</router-link
+                            >
+                        </li>
+                        <!--
                         <li class="nav__item nav__item--dropdown">
                             <span class="nav__link nav__link--dropdown" href>
                                 More
@@ -125,7 +131,7 @@
                                     <router-link class="nav__link" :to="{ name: 'developers' }"
                                         >Developers</router-link
                                     >
-                                </li>
+                                </li> -->
                                 <li class="nav__item">
                                     <router-link class="nav__link" :to="{ name: 'faq' }"
                                         >Help</router-link
@@ -135,7 +141,7 @@
                                     <router-link class="nav__link" :to="{ name: 'about' }"
                                         >About us</router-link
                                     >
-                                </li> -->
+                                </li>
                             </ul>
                         </div>
                         <ul class="nav__meta">

@@ -157,10 +157,16 @@ export default {
         this.SEARCH_OPENED(false);
         this.MODAL_OPENED(false);
         this.loading = true;
-        await this.GET_LOGGED_USER();
-        this.GET_KYC();
-        this.loading = false;
-        await this.GET_ACCOUNT_SUMMARY();
+        try {
+            await this.GET_LOGGED_USER();
+            this.GET_KYC();
+            this.loading = false;
+            await this.GET_ACCOUNT_SUMMARY();
+        }
+        catch(err){
+            this.loading = false;
+            this.$router.push({name: 'logout'})
+        }
     },
     watch: {
         showPending(val) {
