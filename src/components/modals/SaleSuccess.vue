@@ -36,7 +36,7 @@
                     <div class="form-group stock-vdr__box stock-vdr__center">
                         <label>Quantity</label>
                         <p class="stock-vdr__text stock-vdr__center">
-                            {{ +value.quantity | units(2, true) }}
+                            {{ +value.quantity | units(4, true) }}
                         </p>
                     </div>
                     <div class="form-group stock-vdr__box stock-vdr__center">

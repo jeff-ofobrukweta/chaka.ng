@@ -99,7 +99,6 @@ const routes = [
     {
         path: "/faq",
         name: "faq",
-        redirect: "/",
         component: Faq,
         beforeEnter: noAuthOnly
     },

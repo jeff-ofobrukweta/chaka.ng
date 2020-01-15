@@ -1,8 +1,9 @@
 <template>
     <main class="main" role="main">
         <div class="app-body">
+        <h6 class="section__caption">Questions frequently asked by our visitors</h6>
             <h2 class="app-body__title">Frequently Asked Questions</h2>
-            <FAQ topic="General" />
+            <FAQ />
         </div>
     </main>
 </template>
