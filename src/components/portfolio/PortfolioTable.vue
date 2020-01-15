@@ -87,10 +87,10 @@
             <thead class="portfolio-table__thead">
                 <th>Name</th>
                 <th>Symbol</th>
-                <th>Price</th>
+                <th>Current<br />stock<br />price</th>
                 <th>Units Owned</th>
                 <!-- <th>Units<br />Ordered</th> -->
-                <th>Invested<br />Amount</th>
+                 <th>Investment<br />Value</th>
                 <th>
                     Invested<br />
                     Percentage
