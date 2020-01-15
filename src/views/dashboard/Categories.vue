@@ -74,6 +74,7 @@
                         </button> -->
                         <template >
                             <button
+                                :disabled="page === 0 "
                                 @click="handlescrollinfinitly('regression')"
                                 class="buttton">
                                 ❮ 
