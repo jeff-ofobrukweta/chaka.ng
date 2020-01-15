@@ -2,7 +2,8 @@
     <main class="main" role="main">
         <div class="app-body">
         <h6 class="section__caption">Questions frequently asked by our visitors</h6>
-            <h2 class="app-body__title">Frequently Asked Questions</h2>
+            <h2 class="hero__title">Frequently Asked Questions</h2>
+            <br/>
             <FAQ />
         </div>
     </main>

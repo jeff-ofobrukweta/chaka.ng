@@ -15,7 +15,7 @@
         </div>
 
         <div v-else-if="showError">
-            <img :src="require('../assets/img/caution.svg')" width="24" alt="Reload" /><br/>
+            <img :src="require('../assets/img/caution.svg')" width="24" alt="Reload" /><br />
             <a class="underline pointer" @click="getSheetJson">Reload</a>
         </div>
 
@@ -82,25 +82,25 @@ export default {
 <style lang="scss" scoped>
 .section {
     margin-bottom: 4em;
-	&__list{
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		&--item{
-			margin-bottom: 1.825rem;
-			flex: 0 0 100%;
-			@include tablet{
-				flex: 0 0 48%;
-			margin-bottom: 3rem;
-			}
-		}
-	}
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        &--item {
+            margin-bottom: 1.825rem;
+            flex: 0 0 100%;
+            @include tablet {
+                flex: 0 0 48%;
+                margin-bottom: 3rem;
+            }
+        }
+    }
 }
 .details {
     &__summary {
-		font-weight: bold;
-		transition: 500ms ease-in;
-		cursor: pointer;
+        font-weight: bold;
+        transition: 300ms ease-in;
+        cursor: pointer;
         & ~ * {
             animation: sweep 0.25s ease-in-out;
         }
@@ -122,14 +122,14 @@ export default {
         }
     }
     &__div {
-        padding-left: 2rem;
+        padding-left: 1.5rem;
         font-size: 16px;
         opacity: 0.85;
     }
 }
 [open] {
     .details__summary {
-		color: #2da5ec;
+        color: #2da5ec;
         & ~ * {
             animation: sweep 0.25s ease-in-out;
         }
@@ -142,8 +142,8 @@ export default {
         &:before {
             border-radius: 5px;
             content: "-";
-			color: #2da5ec;
-            font-size: 1.5em;
+            color: #2da5ec;
+            font-size: 1.5rem;
             margin: -10px 10px 0 0;
             padding: 0;
             text-align: center;

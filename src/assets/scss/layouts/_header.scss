@@ -52,7 +52,7 @@
   transition: all 200ms;
 
   @include tablet {
-    padding: 1rem;
+    padding-top: 1rem;
     padding-bottom: 0;
     margin: 0;
   }
@@ -197,7 +197,7 @@
       }
 
       .loader {
-        opacity: 0.5;
+        // opacity: 0.5;&
         border-bottom: 2px solid $white;
 
         &-div {

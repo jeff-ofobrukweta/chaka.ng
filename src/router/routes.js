@@ -60,7 +60,6 @@ const routes = [
         path: "/about",
         name: "about",
         component: About,
-        redirect: "/",
         beforeEnter: noAuthOnly
     },
     {

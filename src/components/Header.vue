@@ -38,8 +38,13 @@
                             >
                         </li> -->
                         <li class="nav__item">
-                            <router-link class="nav__link" to="/faq" active-class="active"
+                            <router-link class="nav__link" :to="{ name: 'faq' }" active-class="active"
                                 >Help</router-link
+                            >
+                        </li>
+                        <li class="nav__item">
+                            <router-link class="nav__link" :to="{ name: 'about' }" active-class="active"
+                                >About</router-link
                             >
                         </li>
                         <!--
@@ -132,11 +137,11 @@
                                         >Help</router-link
                                     >
                                 </li>
-                                <!-- <li class="nav__item">
+                                <li class="nav__item">
                                     <router-link class="nav__link" :to="{ name: 'about' }"
                                         >About us</router-link
                                     >
-                                </li> -->
+                                </li>
                             </ul>
                         </div>
                         <ul class="nav__meta">
