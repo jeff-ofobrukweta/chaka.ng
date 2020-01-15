@@ -267,6 +267,11 @@ import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
     name: "Singlestock",
+    data() {
+        return {
+            loading: true
+        };
+    },
     components: {
         Fragment,
         Linegraph: () => import("../../components/Linegraph/singlestock_linegraph"),
@@ -417,8 +422,11 @@ export default {
                 );
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
-            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload);
-            this.loading = false;
+            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
+                this.loading = false;
+            }).catch((error)=>{
+                this.loading = 'error';
+            });
             this.similarLoading = false;
             this.GET_SIMILAR_STOCKS([...this.getSingleinstrument.similar] || []);
             this.GET_ARTICULE_NEWS(newsSinglestockpayload);
