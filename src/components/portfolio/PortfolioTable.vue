@@ -43,7 +43,7 @@
                         {{ item.netCost | kobo | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
-                        {{ item.quantity | units }}
+                        {{ item.quantity | units(4) }}
                     </td>
                     <td
                         class="cursor-context"
@@ -119,7 +119,7 @@
                         {{ item.netCost | kobo | currency(item.currency) }}
                     </td>
                     <td class="cursor-context" :title="item.quantity">
-                        {{ item.quantity | units }}
+                        {{ item.quantity | units(4) }}
                     </td>
                     <!-- <td class="cursor-context" :title="item.unitsOrdered | units(2, true)">
                         {{ item.unitsOrdered | units }}

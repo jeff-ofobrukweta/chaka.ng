@@ -99,7 +99,7 @@ export default {
     name: "performancebase",
     components: {
         Fragment,
-        Performancegraph: "./performancechart"
+        Performancegraph: () => import("./performancechart")
     },
     data() {
         return {

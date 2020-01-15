@@ -96,6 +96,14 @@
                             class="lazyload v2-landing__phone"
                             alt="Landing Phone"
                         />
+                        <!-- <img
+                            data-sizes="auto"
+                            data-src="https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/landing-desktop.png"
+                            data-srcset="https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/landing-desktop.png"
+                            data-aos="fade-left"
+                            class="lazyload v2-landing__desktop"
+                            alt="Landing Desktop"
+                        /> -->
                         <img
                             data-sizes="auto"
                             :data-src="require('../assets/img/landing-desktop.png')"
@@ -228,24 +236,24 @@
                 <div class="v2-layer__image-box" v-if="getWindowWidth === 'desktop'">
                     <img
                         data-sizes="auto"
-                        :data-src="require('../assets/img/layer-phone1.png')"
-                        :data-srcset="require('../assets/img/layer-phone1.png')"
+                            :data-src="require('../assets/img/layer-phone1.png')"
+                            :data-srcset="require('../assets/img/layer-phone1.png')"
                         data-aos="fade-up-right"
                         class="lazyload v2-layer__phone v2-layer__phone1"
                         alt="Mobile Phone"
                     />
                     <img
                         data-sizes="auto"
-                        :data-src="require('../assets/img/layer-phone2.png')"
-                        :data-srcset="require('../assets/img/layer-phone2.png')"
+                            :data-src="require('../assets/img/layer-phone2.png')"
+                            :data-srcset="require('../assets/img/layer-phone2.png')"
                         data-aos="fade-up-left"
                         class="lazyload v2-layer__phone v2-layer__phone2"
                         alt="Mobile Phone"
                     />
                     <img
                         data-sizes="auto"
-                        :data-src="require('../assets/img/layer-desktop.png')"
-                        :data-srcset="require('../assets/img/layer-desktop.png')"
+                            :data-src="require('../assets/img/layer-desktop.png')"
+                            :data-srcset="require('../assets/img/layer-desktop.png')"
                         data-aos="fade-down-left"
                         class="lazyload v2-layer__desktop"
                         alt="Chaka Desktop"
@@ -604,7 +612,11 @@
                     </router-link>
                 </div>
                 <div class="v2-integration__image-box" data-aos="fade-down">
-                    <img src="../assets/img/integration.png" alt="Easy Integration" width="100%" />
+                    <img
+                        :src="require('../assets/img/integration.png')"
+                        alt="Easy Integration"
+                        width="100%"
+                    />
                 </div>
             </div>
             <div class="v2-landing__stocks">
@@ -838,7 +850,7 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import auth from "../services/validations/auth";
-import fractional from "../assets/img/fractional/fractional.png";
+import fractional from '../assets/img/fractional/fractional.png'
 import minimums from "../assets/img/fractional/low-minimums.png";
 import grow from "../assets/img/fractional/grow.png";
 import "aos/dist/aos.css";

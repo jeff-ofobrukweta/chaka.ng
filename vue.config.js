@@ -1,6 +1,9 @@
 const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const ServiceWorkerWebpackPlugin = require("serviceworker-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
+const path = require("path");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 module.exports = {
@@ -49,14 +52,6 @@ module.exports = {
                             // npm package names are URL-safe, but some servers don't like @ symbols
                             return `npm.vendor-${packageName.replace("@", "")}`;
                         }
-                    }, // common chunk
-                    common: {
-                        name: "common-chunks",
-                        maxSize: 512,
-                        chunks: "async",
-                        priority: 10,
-                        reuseExistingChunk: true,
-                        enforce: true
                     }
                 }
             }
@@ -73,5 +68,20 @@ module.exports = {
             }
         }
     },
-    transpileDependencies: ["vuex-persist"]
+    transpileDependencies: ["vuex-persist"],
+    pwa: {
+        name: "Chaka",
+        themeColor: "#2da5ec",
+        msTileColor: "#293d4a",
+        appleMobileWebAppCapable: "yes",
+        appleMobileWebAppStatusBarStyle: "black",
+
+        // configure the workbox plugin
+        workboxPluginMode: "InjectManifest",
+        workboxOptions: {
+            // swSrc is required in InjectManifest mode.
+            swSrc: "sw.js"
+            // ...other Workbox options...
+        }
+    }
 };

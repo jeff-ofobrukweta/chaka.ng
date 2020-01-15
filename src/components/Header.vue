@@ -180,7 +180,11 @@
                             />
                         </svg>
                     </router-link>
-                    <form class="nav-left__form" v-if="getWindowWidth !== 'mobile'">
+                    <form
+                        class="nav-left__form"
+                        v-if="getWindowWidth !== 'mobile'"
+                        @submit.prevent="startSearch"
+                    >
                         <input
                             type="text"
                             name="search"
@@ -225,13 +229,7 @@
                                             </div>
 
                                             <img
-                                                :src="
-                                                    require(`../assets/img/flags/${
-                                                        stock.countryCode
-                                                            ? stock.countryCode.toLowerCase()
-                                                            : 'zz'
-                                                    }-flag.svg`)
-                                                "
+                                                :src="stockCountry(stock.countryCode)"
                                                 width="16px"
                                                 :alt="stock.symbol"
                                                 class="nav-left__dropdown--country"
@@ -249,7 +247,11 @@
                         </transition>
                     </form>
                     <div class="nav-left__icon" v-else>
-                        <form class="nav-left__form" :class="{ show: isSearchOpened }">
+                        <form
+                            class="nav-left__form"
+                            :class="{ show: isSearchOpened }"
+                            @submit.prevent="startSearch"
+                        >
                             <template v-if="isSearchOpened">
                                 <input
                                     type="text"
@@ -298,13 +300,7 @@
                                                     </div>
 
                                                     <img
-                                                        :src="
-                                                            require(`../assets/img/flags/${
-                                                                stock.countryCode
-                                                                    ? stock.countryCode.toLowerCase()
-                                                                    : 'zz'
-                                                            }-flag.svg`)
-                                                        "
+                                                        :src="stockCountry(stock.countryCode)"
                                                         width="16px"
                                                         :alt="stock.symbol"
                                                         class="nav-left__dropdown--country"
@@ -476,6 +472,11 @@ export default {
         },
         showFund() {
             this.SET_FUND_MODAL(true);
+        },
+        stockCountry(countryCode) {
+            if (countryCode)
+                return `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode.toLowerCase()}-flag.svg`;
+            return "zz";
         },
         async startSearch() {
             this.showSearch = true;
