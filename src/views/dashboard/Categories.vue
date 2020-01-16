@@ -64,14 +64,29 @@
                 </section>
                 <section>
                     <button class="btn-container-main">
-                        <button
+                        <!-- <button
                             v-for="(page, index) in paginate"
                             :key="index"
                             @click="handlescrollinfinitly(page.uid)"
                             class="buttton"
                         >
                             {{ page.sign }}
-                        </button>
+                        </button> -->
+                        <template >
+                            <button
+                                :disabled="page === 0 "
+                                @click="handlescrollinfinitly('regression')"
+                                class="buttton">
+                                ❮ 
+                            </button>
+                            <button
+                                :disabled="page == instrumentPageLength -1 "
+                                @click="handlescrollinfinitly('progression')"
+                                class="buttton">
+                                ❯ 
+                            </button>
+                        </template>
+                        <!-- progression -->
                     </button>
                 </section>
             </section>
@@ -214,6 +229,17 @@ export default {
                 return length;
             }
             return false;
+        },
+        instrumentPageLength() {
+            if (Object.keys(this.getpagination).length > 0) {
+                if (this.getpagination === "") {
+                    return 0;
+                }
+                const length = (this.getpagination.total / 20);
+                const ceilLength = Math.ceil(length);
+                return ceilLength;
+            }
+            return false;
         }
     },
     methods: {
@@ -259,8 +285,10 @@ export default {
                                 });
                             }
                         }
+                        // if the numberof pages is < Math.ceil(totalPaginationlength / 20)
                         else{
-                            const pagenation = {
+                            if(this.page < this.instrumentPageLength - 1){
+                                const pagenation = {
                                 page: ++this.page,
                                 perPage:this.perPage,
                                 slug:this.getInstrumentsPayload.slug
@@ -273,6 +301,10 @@ export default {
                                 this.loaderState = false;
                                 this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
 							});
+                            }
+                            // else if(){
+
+                            // }
                         }
 						// if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
 							

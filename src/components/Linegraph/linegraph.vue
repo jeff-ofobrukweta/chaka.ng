@@ -218,7 +218,7 @@ export default {
                 datasets: [
                     {
                         label: "Stocks",
-                        lineTension: 0.7,
+                        lineTension: 0.2,
                         fill: true,
                         backgroundColor: this.purple_orange_gradient,
                         hoverBackgroundColor: this.purple_orange_gradient,
