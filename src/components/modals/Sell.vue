@@ -58,9 +58,8 @@
                     <p><small>AVAILABLE QUANTITY:</small></p>
                     <p
                         class="cursor-context modal__buy--price"
-                        :title="maxQuantity | units(4, true)"
                     >
-                        {{ maxQuantity | units(4) }} Units
+                        {{ maxQuantity | units(4, true) }} Units
                     </p>
                 </div>
             </template>
