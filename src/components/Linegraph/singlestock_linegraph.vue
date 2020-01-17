@@ -98,7 +98,7 @@
             <template v-else-if="isGraphValid === 2">
                 <div class="portfolio-graph__placeholder caution__big">
                     <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
-                    <a class="caution__reload">Reload</a>
+                    <a title="Click to refresh the page" class="caution__reload">Reload</a>
                 </div>
             </template>
             <template v-else>
