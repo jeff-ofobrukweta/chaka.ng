@@ -60,9 +60,16 @@
     }
 
     #direct {
-        padding: 2em 0px 2em 0px;
+        padding: .6em;
         width: 80px;
         object-fit: contain;
+    }
+    .price {
+        font-style: normal;
+        font-weight: 800;
+        font-size: 1.5em;
+        color: #FFFFFF;
+        text-align: center;
     }
 
 }
