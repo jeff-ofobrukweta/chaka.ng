@@ -28,7 +28,7 @@
                     <img v-else :src="require('../../assets/img/chevron-down.svg')" alt="growth" />
                 </p>
             </div>
-            <div class="stock-table__flex">
+            <div class="stock-table__flex stock-table__flex--full">
                 <p class="stock-table__head">Net Earnings</p>
                 <p
                     class="stock-table__body cursor-context"
@@ -42,7 +42,7 @@
                     }}
                 </p>
             </div>
-            <div class="stock-table__flex stock-table__flex--full">
+            <div class="stock-table__flex">
                 <p class="stock-table__head">Market Cap</p>
                 <p
                     class="stock-table__body cursor-context"
