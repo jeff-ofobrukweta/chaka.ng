@@ -52,6 +52,8 @@
         </template>
         <template v-if="gettagslistsArray.length > 0 && !loadingTags">
             <hr class="division-logger" />
+            <div class="main_parent_nav_container">
+                <div class="inner_parent_nav_container">
             <section
                 class="dashboard__title flex_container_title"
                 v-if="Object.keys(getInstrumentsPayload).length > 0"
@@ -90,6 +92,8 @@
                     </button>
                 </section>
             </section>
+            </div>
+        </div>
             <section v-if="getWindowWidth === 'desktop'">
                 <div class="instrument-base">
                     <template v-if="loading">
@@ -338,7 +342,7 @@ export default {
         },
         async mount() {
             this.loading = true;
-            this.infiniteLoader = true;
+            // this.infiniteLoader = true;
             this.page = 0; //this is to set the page back to the default when tags are clicked.
             this.loadingTags = true;
             await this.GET_TAGS_CATEGORIES(this.currentTag);
