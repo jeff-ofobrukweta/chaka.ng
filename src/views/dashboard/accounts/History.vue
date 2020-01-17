@@ -78,7 +78,6 @@ export default {
             },
             selectedType: "ALL",
             selectedWallet: "ALL",
-            selectedOrderCurrency: null,
             loading: false,
             fromDate: null,
             toDate: null,
@@ -135,39 +134,18 @@ export default {
         },
         getHistory() {
             this.payload.walletPref = this.selectedWallet;
-            if (this.selectedWallet === "ALL") {
-                this.selectedOrderCurrency = null;
-            } else if (this.selectedWallet === "LOCAL") {
-                this.selectedOrderCurrency = "NGN";
-            } else {
-                this.selectedOrderCurrency = "USD";
-            }
             this.orderHistoryCheck();
         },
         handleButtonChange(value) {
             this.selectedType = value;
             this.orderHistoryCheck();
         },
-        orderHistoryCheck() {
+        async orderHistoryCheck() {
             this.loading = true;
             this.SET_ACCOUNT_HISTORY([]);
             this.payload.actionType = this.selectedType;
-            if (this.selectedType !== "ORDER") {
-                this.GET_ACCOUNT_HISTORY(this.payload).then(() => {
-                    this.loading = false;
-                });
-            } else {
-                const payload = {
-                    fromDate: this.payload.fromDate,
-                    toDate: this.payload.toDate
-                };
-                if (this.selectedOrderCurrency) {
-                    payload.currency = this.selectedOrderCurrency;
-                }
-                this.GET_ORDERS_HISTORY(payload).then(() => {
-                    this.loading = false;
-                });
-            }
+            await this.GET_ACCOUNT_HISTORY(this.payload);
+            this.loading = false;
         },
         async mount() {
             this.loading = true;
