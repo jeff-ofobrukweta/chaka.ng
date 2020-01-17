@@ -259,12 +259,11 @@ export default {
                                 perPage:this.perPage,
                                 slug:this.getInstrumentsPayload.slug
                                 };
-                                this.infiniteLoader = true;
-                                this.loaderState = true;
+                                // this.infiniteLoader = true;
+                                this.loading = true
                                 this.SET_INSTRUMENT_BY_TAGS([])
                                 this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-                                    this.infiniteLoader = false;
-                                    this.loaderState = false;
+                                    // this.infiniteLoader = false;
                                     this.loading = false;
                                     this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
                                 });
@@ -274,12 +273,12 @@ export default {
                                 perPage:this.perPage,
                                 slug:this.getInstrumentsPayload.slug
                                 };
-                                this.infiniteLoader = true;
-                                this.loaderState = true;
+                                // this.infiniteLoader = true;
+                                this.loading = true;
                                 this.SET_INSTRUMENT_BY_TAGS([])
                                 this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-                                    this.infiniteLoader = false;
-                                    this.loaderState = false;
+                                    // this.infiniteLoader = false;
+                                    this.loading = false;
                                     this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
                                 });
                             }
@@ -292,12 +291,12 @@ export default {
                                 perPage:this.perPage,
                                 slug:this.getInstrumentsPayload.slug
                             };
-                            this.infiniteLoader = true;
-                            this.loaderState = true;
+                            // this.infiniteLoader = true;
+                            this.loading = true;
                             this.SET_INSTRUMENT_BY_TAGS([])
 							this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-								this.infiniteLoader = false;
-                                this.loaderState = false;
+								// this.infiniteLoader = false;
+                                this.loading = false;
                                 this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
 							});
                             }

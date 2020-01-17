@@ -2,8 +2,7 @@
     <section class="board-container-price">
         <img
             v-if="
-                getPricedetailsonblackcard && getPricedetailsonblackcard.derivedPricePercentage < 0
-            "
+                getPricedetailsonblackcard && getPricedetailsonblackcard.derivedPricePercentage < 0"
             class="direct"
             id="direct"
             :src="require(`../../assets/Instrument_assets/redarrow.svg`)"
@@ -12,8 +11,7 @@
         <img
             v-else-if="
                 !getPricedetailsonblackcard ||
-                    Number.isNaN(getPricedetailsonblackcard.derivedPricePercentage)
-            "
+                Number.isNaN(getPricedetailsonblackcard.derivedPricePercentage)"
             class="middle-loader"
             :src="require('../../assets/img/loader.gif')"
             alt="spin"
