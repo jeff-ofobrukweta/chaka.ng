@@ -4,6 +4,18 @@ if (workbox) {
     workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
     workbox.routing.registerRoute(
+        /\.otf$/,
+        new workbox.strategies.CacheFirst({
+            cacheName: "font-files",
+            plugins: [
+                new workbox.expiration.Plugin({
+                    maxAgeSeconds: 7 * 24 * 60 * 60
+                })
+            ]
+        })
+    );
+
+    workbox.routing.registerRoute(
         /\.css$/,
         new workbox.strategies.CacheFirst({
             cacheName: "css-files",
