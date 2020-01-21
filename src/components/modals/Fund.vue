@@ -88,18 +88,8 @@
             </form>
 
             <section v-if="currency === 'NGN'">
-                <p>
-                    You're now requesting a funds transfer
-                    <span v-if="itemData.amount"
-                        >of
-                        <span class="green">{{ actualValue | currency("NGN", true) }}</span></span
-                    >
-                    into your wallet
-                </p>
-                <p>
-                    Total amount to be debited (including PAYSTACK fees)
-                    <span class="green">{{ paystackValue | currency("NGN", true) }}</span>
-                </p>
+                <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
+                <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
                 <br />
                 <p>To fund your account manually (without PAYSTACK fees), make a transfer to:</p>
                 <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
@@ -117,29 +107,24 @@
             </section>
 
             <section v-else>
-                <p>
+                <p class="text-center">
                     <small class="grey-dark"
                         >EXCHANGE RATE:&nbsp;
                         <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
                     >
                 </p>
+                <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
+                <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
+                <br />
                 <p>
-                    Your
-                    <span v-if="itemData.amount" class="green">{{
-                        itemData.amount | currency("USD", true)
-                    }}</span>
-                    card transaction would be processed as an international charge<template
+                    Your card transaction would be processed as an international charge<template
                         v-if="itemData.amount"
                     >
-                        for <span class="green">{{ actualValue | currency("NGN", true) }}</span> and
+                        for <mark>{{ actualValue | currency("NGN", true) }}</mark> and
                         converted to
 
-                        <span class="green">{{ itemData.amount | currency("USD", true) }}</span>
+                        <mark>{{ itemData.amount | currency("USD", true) }}</mark>
                     </template>
-                </p>
-                <p>
-                    Total amount to be debited (including PAYSTACK fees)
-                    <span class="green">{{ paystackValue | currency("NGN", true) }}</span>
                 </p>
                 <p class="form-info">
                     Please note that if you use an international card, your transaction may incur
@@ -190,18 +175,18 @@ export default {
     },
     computed: {
         ...mapGetters(["getLoggedUser", "getExchangeRate", "getNextKYC", "getWalletTx"]),
-        paystackValue() {
-            if (!this.itemData.amount) return 0;
-            if (this.actualValue > 2500) {
-                const total = (+this.actualValue + 100) / (1 - 0.015);
-                const fees = total - this.actualValue;
-                if (fees >= 2000) {
-                    return this.actualValue + 2000;
-                }
-                return total;
-            }
-            return +this.actualValue / (1 - 0.015);
-        },
+        // paystackValue() {
+        //     if (!this.itemData.amount) return 0;
+        //     if (this.actualValue > 2500) {
+        //         const total = (+this.actualValue + 100) / (1 - 0.015);
+        //         const fees = total - this.actualValue;
+        //         if (fees >= 2000) {
+        //             return this.actualValue + 2000;
+        //         }
+        //         return total;
+        //     }
+        //     return +this.actualValue / (1 - 0.015);
+        // },
         actualValue() {
             if (!this.itemData.amount) return 0;
             if (this.currency === "NGN") return this.itemData.amount;
@@ -268,13 +253,13 @@ export default {
             const handler = PaystackPop.setup({
                 key: process.env.VUE_APP_PAYSTACK_KEY,
                 email: this.getLoggedUser.email,
-                amount: Math.ceil(this.paystackValue) * 100,
+                amount: this.actualValue * 100,
                 firstname: this.getLoggedUser.UserKYC.firstname,
                 lastname: this.getLoggedUser.UserKYC.lastname,
                 ref: this.getWalletTx.reference,
-                metadata: {
-                    service_charge: (Math.ceil(this.paystackValue) - this.itemData.amount) * 100
-                },
+                // metadata: {
+                //     service_charge: (Math.ceil(this.paystackValue) - this.itemData.amount) * 100
+                // },
                 onClose: resp => {
                     this.loading = false;
                     this.flag = "CANCEL";

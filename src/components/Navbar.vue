@@ -141,6 +141,7 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import AccountsMenu from "./modals/AccountsMenu";
+import EventBus from "../event-bus";
 
 export default {
     name: "navbar",
@@ -206,6 +207,11 @@ export default {
             this.MODAL_OPENED(false);
             this.showMenu = false;
         }
+    },
+    mounted() {
+        EventBus.$on("closeMenu", () => {
+            this.closeMenu();
+        });
     }
 };
 </script>

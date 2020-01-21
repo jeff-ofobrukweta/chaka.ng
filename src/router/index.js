@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store/index";
+import EventBus from '../event-bus'
 import routes from "./routes";
 
 Vue.use(VueRouter);
@@ -18,6 +19,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     store.commit("RESET_REQ");
     store.commit("RESET_MODALS");
+    EventBus.$emit('closeMenu')
     store.commit("RESET_COMPONENT_LOADER", true);
     store.commit("SEARCH_OPENED", false);
     next();

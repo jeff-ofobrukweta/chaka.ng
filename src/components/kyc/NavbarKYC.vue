@@ -1,5 +1,5 @@
 <template>
-    <section class="kyc-nav__section" v-if="getNavbarNextKYC.status === 'INCOMPLETE'">
+    <section class="kyc-nav__section">
         <template v-if="getNavbarNextKYC.nextKYC[0] === 'disclosureName'">
             <form @submit.prevent="submitDisclosure">
                 <div class="kyc-nav container">
@@ -382,7 +382,7 @@
 
                 <section class="accounts-settings__submit--modal">
                     <action-button
-                        :disabled="Object.keys(itemData).length < 3"
+                        :disabled="Object.keys(newPhone).length < 3"
                         type="submit"
                         :pending="loading"
                         :classes="['btn-block', 'btn__primary']"
@@ -731,7 +731,7 @@ export default {
         },
         handleDate(e) {
             if (e.target.value) {
-                this.newPhone.dob = new Date(e).toISOString();
+                this.newPhone.dob = new Date(e.target.value).toISOString();
             }
         },
         backToUsePhone() {
@@ -793,6 +793,8 @@ export default {
         }
     },
     async mounted() {
+        this.showNewPhone = true;
+        this.showOTP = true
         await this.GET_NAVBAR_NEXT_KYC();
         if (Object.keys(this.getNavbarNextKYC).length > 0) {
             this.checkNextKYC();
