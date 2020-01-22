@@ -382,7 +382,7 @@
 
                 <section class="accounts-settings__submit--modal">
                     <action-button
-                        :disabled="Object.keys(itemData).length < 3"
+                        :disabled="Object.keys(newPhone).length < 3"
                         type="submit"
                         :pending="loading"
                         :classes="['btn-block', 'btn__primary']"
@@ -731,7 +731,7 @@ export default {
         },
         handleDate(e) {
             if (e.target.value) {
-                this.newPhone.dob = new Date(e).toISOString();
+                this.newPhone.dob = new Date(e.target.value).toISOString();
             }
         },
         backToUsePhone() {
