@@ -15,6 +15,7 @@ import graphs from "./modules/graphs";
 import singlestock from "./modules/singlestock";
 import news from "./modules/news";
 import modals from "./modules/modals";
+import giftcard from "./modules/giftcard";
 
 Vue.use(Vuex);
 
@@ -44,6 +45,7 @@ const initialState = {
     accounts: { ...accounts.state },
     news: { ...news.state },
     modals: { ...modals.state },
+    giftcard: { ...giftcard.state },
     componentLoader: false,
     mobileSearch:false
 };
@@ -147,7 +149,8 @@ export default new Vuex.Store({
         graphs,
         singlestock,
         news,
-        modals
+        modals,
+        giftcard
     },
     strict: debug,
     plugins: [persist.plugin]

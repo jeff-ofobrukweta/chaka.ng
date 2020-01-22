@@ -81,7 +81,6 @@ export default {
 
 <style lang="scss" scoped>
 .section {
-    margin-bottom: 4em;
     &__list {
         display: flex;
         flex-wrap: wrap;

@@ -10,6 +10,70 @@
     margin-top: .5rem;
   }
 
+  &--input {
+
+    border: none;
+    border-bottom: 1px solid $primary;
+    background: transparent !important;
+    padding: 0;
+    width: 100%;
+    transition: all 200ms linear;
+
+    &:focus {
+      border: none;
+      outline: none;
+      border-bottom: 1px solid $primary-dark;
+    }
+  }
+
+  &__range {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 5px;
+    border-radius: 20px;
+    background: $grey-light;
+    outline: none;
+    opacity: 0.85;
+    transition: opacity .2s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none; /* Override default look */
+      appearance: none;
+      border-radius: 50%;
+      border: 5px solid $primary;
+      width: 35px; /* Set a specific slider handle width */
+      height: 35px; /* Slider handle height */
+      background: $white; /* Green background */
+      cursor: pointer; /* Cursor on hover */
+    }
+
+    &::-moz-range-thumb {
+      width: 25px; /* Set a specific slider handle width */
+      height: 25px; /* Slider handle height */
+      background: #4CAF50;
+      cursor: pointer;
+    }
+
+    &::-moz-range-progress {
+      background-color: #43e5f7; 
+    }
+    &::-moz-range-track {  
+      background-color: #9a905d;
+    }
+    /* IE*/
+    &::-ms-fill-lower {
+      background-color: #43e5f7; 
+    }
+    &::-ms-fill-upper {  
+      background-color: #9a905d;
+    }
+  }
+
   &__input {
     width: 100%;
     padding: 0.5rem 1rem;
@@ -24,6 +88,16 @@
 
       &.navbar {
         border-color: $orange;
+      }
+    }
+
+    &--search{
+      border: none;
+      padding: 0.25rem 0.5rem;
+      margin: 0;
+
+      &:focus{
+        outline: none;
       }
     }
 

@@ -76,6 +76,7 @@ export default {
             "getWithdrawModal",
             "getExchangeModal",
             "getWalletSuccess",
+            "getGiftSuccessModal",
             "getSaleSuccess",
             "isSearchOpened",
             "isComponentLoader"
