@@ -47,7 +47,7 @@
                 <p
                     class="stock-table__body cursor-context"
                     :title="
-                        checkforUndefined(instrument.InstrumentDynamic.marketCap) ||
+                        instrument.InstrumentDynamic.marketCap ||
                             0.0 | kobo | currency(instrument.currency, true)
                     "
                 >

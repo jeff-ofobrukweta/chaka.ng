@@ -47,8 +47,8 @@ Vue.use(VueAuthenticate, {
             scope: ["email", "public_profile"],
             scopeDelimiter: ",",
             display: "popup",
-            oauthType: "2.0",
-            popupOptions: { width: 580, height: 400 }
+            // oauthType: "2.0",
+            popupOptions: { width: 452, height: 633 },
         },
         google: {
             clientId: "769520289802-7090leoee2v0ia47ekpjagh0o7jiultm.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
