@@ -61,7 +61,8 @@
 
         <form @submit.prevent="submitOTP" v-else>
             <p class="text-center mb-3">
-                An OTP has been sent to your registered number ({{ getKYC.phone }})
+                    An OTP has been sent to your {{ hashTempPhone ? "new" : "registered" }} number
+                    ({{ hashTempPhone || getKYC.phone }})
             </p>
             <div class="accounts-settings__group--modal">
                 <label class="form__label text-center"
@@ -144,12 +145,28 @@ export default {
             otpData: {},
             countdown: null,
             OTPResend: false,
+            tempPhone: null,
             smsSender: 0,
-            issues: {}
+            issues: {},
+            tempPhone: null,
         };
     },
     computed: {
-        ...mapGetters(['getKYC', 'getCountryCodes'])
+        ...mapGetters(['getKYC', 'getCountryCodes']),
+        hashTempPhone() {
+            if (this.tempPhone) {
+                const hash = String(this.tempPhone)
+                    .split("")
+                    .map((el, index) => {
+                        if (index > 1 && index < 7) {
+                            return "*";
+                        }
+                        return el;
+                    });
+                return hash.join("");
+            }
+            return null;
+        }
     },
     methods: {
         ...mapActions(['GET_KYC', 'USE_BVN_PHONE', 'RESOLVE_OTP', 'GET_COUNTRY_CODES']),
@@ -171,6 +188,7 @@ export default {
             this.resendOTPWhatsapp();
         },
         useNewPhone() {
+            this.tempPhone = this.newPhone.phone;
             // TO-DO
             // Include Phone validation if needed
 
@@ -194,7 +212,7 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
-                    this.itemData = {};
+                    this.newPhone = {};
                 }
             });
         },
@@ -204,6 +222,7 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.$emit('close', true);
+                    this.tempPhone = null
                     this.itemData = {};
                 }
             });
