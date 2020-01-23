@@ -61,7 +61,7 @@
 
         <form @submit.prevent="submitOTP" v-else>
             <p class="text-center mb-3">
-                An OTP has been sent to your registered number ({{ getKYC.phone }})
+                An OTP has been sent to your registered number ({{ tempPhone || getKYC.phone }})
             </p>
             <div class="accounts-settings__group--modal">
                 <label class="form__label text-center"
@@ -144,6 +144,7 @@ export default {
             otpData: {},
             countdown: null,
             OTPResend: false,
+            tempPhone: null,
             smsSender: 0,
             issues: {}
         };
@@ -171,6 +172,7 @@ export default {
             this.resendOTPWhatsapp();
         },
         useNewPhone() {
+            this.tempPhone = this.newPhone.phone
             // TO-DO
             // Include Phone validation if needed
 
@@ -194,7 +196,7 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
-                    this.itemData = {};
+                    this.newPhone = {};
                 }
             });
         },
@@ -204,6 +206,7 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.$emit('close', true);
+                    this.tempPhone = null
                     this.itemData = {};
                 }
             });

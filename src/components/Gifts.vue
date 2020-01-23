@@ -3,8 +3,11 @@
         <div class="app-body">
             <section class="gift__header">
                 <div class="gift__header--text">
-                    <h4 class="hero__title hero__title--small">
+                    <h4 class="hero__title hero__title--small" v-if="!isRedeem">
                         Share the fun of shareholding with a gift of stock.
+                    </h4>
+                    <h4 class="hero__title hero__title--small" v-else>
+                        Cheers! You’ve receieved a gift from someone
                     </h4>
                     <div v-if="getWindowWidth === 'mobile'">
                         <img src="../assets/img/gifts.svg" alt="Gifts" />
@@ -19,7 +22,7 @@
                 </div>
             </section>
 
-            <form @submit.prevent="makeTransaction" novalidate>
+            <form @submit.prevent="makeTransaction" novalidate v-if="!isRedeem">
                 <section>
                     <div class="gift-form__box">
                         <!-- <div>
@@ -38,8 +41,13 @@
                                     v-model="itemData.senderEmail"
                                     required
                                     class="form--input"
+                                    :class="{ invalid: errors.senderEmail }"
+                                    @focus="errors = {}"
                                     placeholder="Your Email Address"
                             /></label>
+                            <p class="form-error" v-if="errors.senderEmail">
+                                <small>{{ errors.senderEmail }}</small>
+                            </p>
                         </div>
                         <div>
                             <label class="grey-dark"
@@ -48,8 +56,13 @@
                                     type="email"
                                     required
                                     class="form--input"
+                                    :class="{ invalid: errors.receiverEmail }"
+                                    @focus="errors = {}"
                                     placeholder="Recipient Email Address"
                             /></label>
+                            <p class="form-error" v-if="errors.receiverEmail">
+                                <small>{{ errors.receiverEmail }}</small>
+                            </p>
                         </div>
                     </div>
                     <!-- <div class="gift-form__box">
@@ -87,7 +100,11 @@
 
                 <section class="gift__stock--section">
                     <div class="gift__stock--title">
-                        <p>SELECT STOCK</p>
+                        <p>
+                            SELECT STOCK<span class="form-error" v-if="errors.instrumentSymbol"
+                                >&nbsp;**</span
+                            >
+                        </p>
                         <div class="gift__stock--search">
                             <svg
                                 width="15"
@@ -131,7 +148,7 @@
                         </template>
                         <template v-else>
                             <div class="gift__stock--border">
-                                There are no instruments starting with&nbsp;<strong>{{
+                                There are no instruments starting with<br /><strong>{{
                                     search
                                 }}</strong>
                             </div>
@@ -205,13 +222,15 @@
                         </div>
                     </div>
                     <div class="gift__amount--right">
-                        <div>
+                        <div v-if="selectedInstrument.logoUrl">
                             <img
-                                v-if="selectedInstrument.logoUrl"
                                 class="gift__total--image"
                                 :src="selectedInstrument.logoUrl"
                                 :alt="selectedInstrument.symbol"
                             />
+                        </div>
+                        <div v-else>
+                            <p class="gift__choice">Gift of choice</p>
                         </div>
                         <div class="gift__total">
                             <p>Amount</p>
@@ -229,8 +248,117 @@
                 </section>
                 <error-block type="gift" />
                 <section class="text-center">
-                    <button class="btn gift__btn btn__primary" type="submit">
+                    <button
+                        class="btn gift__btn btn__primary"
+                        type="submit"
+                        :disabled="Object.keys(errors).length > 0"
+                    >
                         Buy Gift<svg
+                            width="18"
+                            height="10"
+                            viewBox="0 0 18 10"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M11.0007 9.0649V6.85611L1.23842 6.85611C0.965729 6.85611 0.720306 6.63796 0.720306 6.338V3.96559C0.720306 3.6929 0.938459 3.44748 1.23842 3.44748L11.0007 3.44748V1.23868C11.0007 0.829648 11.4643 0.584226 11.8188 0.802379L14.5457 2.68394L17.4635 4.70185C17.7635 4.92001 17.7635 5.35631 17.4635 5.54719L14.5457 7.61964L11.8188 9.50121C11.4643 9.71936 11.0007 9.47394 11.0007 9.0649Z"
+                                fill="white"
+                            />
+                        </svg>
+                    </button>
+                </section>
+            </form>
+
+            <form @submit.prevent="redeemGift" novalidate v-else>
+                <section>
+                    <div class="gift-form__box">
+                        <div>
+                            <label class="grey-dark"
+                                >REDEEM CODE<input
+                                    type="email"
+                                    v-model="redeemData.redeemCode"
+                                    required
+                                    class="form--input"
+                                    :class="{ invalid: errors.redeemCode }"
+                                    @focus="errors = {}"
+                                    placeholder="Enter your redeem code"
+                            /></label>
+                            <p class="form-error" v-if="errors.redeemCode">
+                                <small>{{ errors.redeemCode }}</small>
+                            </p>
+                        </div>
+                        <div></div>
+                    </div>
+                </section>
+
+                <section class="gift__stock--section">
+                    <div class="gift__stock--title">
+                        <p>
+                            SELECT STOCK<span class="form-error" v-if="errors.instrumentSymbol"
+                                >&nbsp;**</span
+                            >
+                        </p>
+                        <div class="gift__stock--search">
+                            <svg
+                                width="15"
+                                height="15"
+                                viewBox="0 0 15 15"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M10.3916 9.46977H9.72651L9.47711 9.22038C10.3084 8.30592 10.8072 7.05893 10.8072 5.72881C10.8072 2.73604 8.39639 0.325195 5.40361 0.325195C2.41084 0.325195 0 2.73604 0 5.72881C0 8.72158 2.41084 11.1324 5.40361 11.1324C6.73373 11.1324 7.98072 10.6336 8.89518 9.8023L9.14458 10.0517V10.7168L13.3012 14.8734L14.5482 13.6264L10.3916 9.46977V9.46977ZM5.40361 9.46988C3.3253 9.46988 1.66265 7.80723 1.66265 5.72892C1.66265 3.6506 3.3253 1.98795 5.40361 1.98795C7.48193 1.98795 9.14458 3.6506 9.14458 5.72892C9.14458 7.80723 7.48193 9.46988 5.40361 9.46988V9.46988Z"
+                                    fill="#828282"
+                                />
+                            </svg>
+                            <input
+                                placeholder="Search"
+                                type="text"
+                                name="search"
+                                class="form__input form__input--search"
+                                v-model="search"
+                                @input="startSearch"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="gift__stock--box">
+                        <template v-if="searchLoading">
+                            <div v-for="i in 5" :key="i" class="gift__stock loader"></div
+                        ></template>
+                        <template v-else-if="filteredSearch.length > 0">
+                            <div
+                                class="gift__stock"
+                                @click="selectStock(stock)"
+                                :class="{ active: stock.symbol === selectedInstrument.symbol }"
+                                v-for="(stock, i) in filteredSearch"
+                                :key="i"
+                            >
+                                <img :src="stock.logoUrl" :alt="stock.symbol" />
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div class="gift__stock--border">
+                                There are no instruments starting with<br /><strong>{{
+                                    search
+                                }}</strong>
+                            </div>
+                        </template>
+                    </div>
+                    <br />
+                </section>
+
+                <error-block type="gift" />
+
+                <section class="text-center">
+                    <button
+                        class="btn gift__btn btn__primary"
+                        type="submit"
+                        :disabled="Object.keys(errors).length > 0"
+                    >
+                        Redeem Gift<svg
                             width="18"
                             height="10"
                             viewBox="0 0 18 10"
@@ -301,12 +429,14 @@ export default {
                 currency: "NGN",
                 instrumentSymbol: null
             },
+            redeemData: {},
             value: this.minValue,
             search: null,
             searchLoading: false,
             errors: {},
             selectedInstrument: {},
-            fromDate: null
+            fromDate: null,
+            isRedeem: true
         };
     },
     computed: {
@@ -326,8 +456,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_MOST_POPULAR", "SEARCH_INSTRUMENTS", "CREATE_GIFTCARD"]),
-        ...mapMutations(['SET_GIFT_SUCCESS_MODAL']),
+        ...mapActions(["GET_MOST_POPULAR", "SEARCH_INSTRUMENTS", "CREATE_GIFTCARD", "REDEEM_GIFTCARD"]),
+        ...mapMutations(["SET_GIFT_SUCCESS_MODAL"]),
         typeAmount() {
             if (
                 this.itemData.amountCash > this.minValue &&
@@ -355,10 +485,50 @@ export default {
             // }
         },
         selectStock(instrument) {
-            this.selectedInstrument = instrument;
-            this.itemData.symbol = instrument.symbol;
+            if (instrument.symbol === this.itemData.instrumentSymbol) {
+                this.selectedInstrument = {};
+                const { instrumentSymbol, ...others } = this.itemData;
+                this.itemData = others;
+            } else {
+                this.selectedInstrument = instrument;
+                this.itemData.instrumentSymbol = instrument.symbol;
+            }
+        },
+        redeemGift() {
+            this.redeemData.receiverEmail = 'test@me.com'
+            if (!this.redeemData.redeemCode) {
+                this.$set(this.errors, "redeemCode", "Redeem code is required");
+            }
+            if (Object.keys(this.errors).length > 0) {
+                return false;
+            }
+            this.REDEEM_GIFTCARD(this.redeemData).then(resp=>{
+                if(resp){
+                    this.SET_GIFT_SUCCESS_MODAL(true)
+                }
+            })
+
+            /**
+             * TO-DO:: Implement redeem gift api call
+             */
+            console.log(this.redeemData);
         },
         makeTransaction() {
+            if (!this.itemData.senderEmail) {
+                this.$set(this.errors, "senderEmail", "Your email is required");
+            }
+            if (!this.itemData.receiverEmail) {
+                this.$set(this.errors, "receiverEmail", "Receiver's email is required");
+            }
+            if (!this.itemData.instrumentSymbol) {
+                this.$set(this.errors, "instrumentSymbol", "Stock is required");
+            }
+            if (!this.itemData.amountCash) {
+                this.$set(this.errors, "amountCash", "Please select amount");
+            }
+            if (Object.keys(this.errors).length > 0) {
+                return false;
+            }
             const handler = PaystackPop.setup({
                 key: process.env.VUE_APP_PAYSTACK_KEY,
                 email: this.itemData.senderEmail,
@@ -386,12 +556,12 @@ export default {
             });
             handler.openIframe();
         },
-         createGift() {
-             this.CREATE_GIFTCARD(this.itemData).then(resp=>{
-                 if(resp){
-                     this.SET_GIFT_SUCCESS_MODAL(true)
-                 }
-             })
+        createGift() {
+            this.CREATE_GIFTCARD(this.itemData).then(resp => {
+                if (resp) {
+                    this.SET_GIFT_SUCCESS_MODAL(true);
+                }
+            });
         }
     },
     async mounted() {

@@ -398,7 +398,7 @@
             </form>
             <form @submit.prevent="submitOTP" v-else>
                 <p class="text-center mb-3">
-                    An OTP has been sent to your registered number ({{ getKYC.phone }})
+                    An OTP has been sent to your registered number ({{ tempPhone || getKYC.phone }})
                 </p>
                 <div class="accounts-settings__group--modal">
                     <label class="form__label text-center"
@@ -515,6 +515,7 @@ export default {
             loading: false,
             showOTP: false,
             showNewPhone: false,
+            tempPhone: null,
             countdown: null,
             smsSender: 0,
             newPhone: {},
@@ -625,6 +626,7 @@ export default {
             });
         },
         useNewPhone() {
+            this.tempPhone = this.newPhone.phone
             // TO-DO
             // Include Phone validation if needed
 
@@ -659,6 +661,7 @@ export default {
                 if (resp) {
                     this.showNextModalBtn();
                     this.showOTP = false;
+                    this.tempPhone = null;
                     this.itemData = {};
                 }
             });

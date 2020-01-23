@@ -15,9 +15,15 @@
                     />
                 </svg>
             </div>
-            <h5 class="stock-vdr__center">Your Giftcard was created successfully</h5>
+            <h5 class="stock-vdr__center">Your Giftcard was {{ title }} successfully</h5>
             <div class="stock-vdr__modal">
-                <p class="text-center grey-cool">You have successfully sent a <strong>{{ giftcard.amountCash | currency(giftcard.currency, true) }}</strong> giftcard to be redeemed by <strong>{{ giftcard.receiverEmail }}</strong> with redeem code {{giftcard.redeemCode}} by {{ giftcard.redeemDate | date }}</p>
+                <p class="text-center grey-cool">
+                    You have successfully sent a
+                    <strong>{{ giftcard.amountCash | currency(giftcard.currency, true) }}</strong>
+                    giftcard to be redeemed by <strong>{{ giftcard.receiverEmail }}</strong> with
+                    redeem code <strong>{{ value.redeemCode }}</strong> by
+                    {{ giftcard.redeemDate | date }}
+                </p>
             </div>
             <div class="text-center">
                 <br />
@@ -35,13 +41,21 @@ import { mapGetters, mapMutations } from "vuex";
 export default {
     name: "gift-success",
     computed: {
-        ...mapGetters(["getGiftSuccess"]),
-        giftcard(){
-            return this.getGiftSuccess.giftcardData
+        ...mapGetters(["getGiftSuccess", "getRedeemSuccess"]),
+        giftcard() {
+            return this.value.giftcardData;
+        },
+        value() {
+            if (Object.keys(this.getGiftSuccess).length > 0) return this.getGiftSuccess;
+            return this.getRedeemSuccess;
+        },
+        title() {
+            if (Object.keys(this.getGiftSuccess).length > 0) return "created";
+            return "redeemed";
         }
     },
     methods: {
-        ...mapMutations(["SET_GIFT_SUCCESS", "MODAL_OPENED"]),
+        ...mapMutations(["SET_GIFT_SUCCESS", "SET_REDEEM_SUCCESS", "MODAL_OPENED"]),
         closeModal() {
             this.MODAL_OPENED(false);
             this.$emit("close");
@@ -49,9 +63,10 @@ export default {
     },
     beforeDestroy() {
         this.SET_GIFT_SUCCESS({});
+        this.SET_REDEEM_SUCCESS({});
     },
-    mounted(){
-        console.log('I got here', this.getGiftSuccess)
+    mounted() {
+        console.log("I got here", this.getGiftSuccess);
     }
 };
 </script>
