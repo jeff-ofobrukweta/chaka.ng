@@ -1,6 +1,6 @@
 <template>
     <section class="dashboard__main">
-        <Gifts />
+        <Gifts dashboard/>
     </section>
 </template>
 

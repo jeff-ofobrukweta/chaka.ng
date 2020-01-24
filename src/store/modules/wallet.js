@@ -3,12 +3,14 @@ import errorFn from "../../services/apiService/error";
 
 const state = {
     exchangeRate: {},
-    walletTx: {}
+    walletTx: {},
+    userCards: []
 };
 
 const getters = {
     getExchangeRate: state => state.exchangeRate,
-    getWalletTx: state => state.walletTx
+    getWalletTx: state => state.walletTx,
+    getUserCards: state => state.userCards
 };
 
 const mutations = {
@@ -17,6 +19,9 @@ const mutations = {
     },
     SET_WALLET_TX(state, payload) {
         state.walletTx = payload;
+    },
+    SET_USER_CARDS(state, payload) {
+        state.userCards = payload;
     }
 };
 
@@ -113,7 +118,25 @@ const actions = {
                     resolve(false);
                 }
             )
-        )
+        ),
+        GET_USER_CARDS: ({ commit, rootState }) =>
+            new Promise(resolve =>
+                api.get(`/users/${rootState.auth.loggedUser.chakaID}/wallets/payment-instruments`).then(
+                    resp => {
+                        if (resp.status >= 200 && resp.status < 400) {
+                            commit("SET_USER_CARDS", resp.data.data.paymentInstruments);
+                            resolve(true);
+                            return true;
+                        }
+                        errorFn(resp, "fund");
+                        resolve(false);
+                    },
+                    error => {
+                        errorFn(error.response, "fund");
+                        resolve(false);
+                    }
+                )
+            )
 };
 
 export default {

@@ -170,6 +170,10 @@ export default {
                     link: "accounts-statements"
                 },
                 {
+                    name: "Gifts",
+                    link: "dashboard-gifts"
+                },
+                {
                     name: "Calculator",
                     link: "dashboard-calculator"
                 },

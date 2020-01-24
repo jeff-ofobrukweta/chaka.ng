@@ -1,5 +1,5 @@
 <template>
-    <section class="kyc-nav__section">
+    <section class="kyc-nav__section" v-if="getNavbarNextKYC.status === 'INCOMPLETE'">
         <template v-if="getNavbarNextKYC.nextKYC[0] === 'disclosureName'">
             <form @submit.prevent="submitDisclosure">
                 <div class="kyc-nav container">
@@ -811,8 +811,6 @@ export default {
         }
     },
     async mounted() {
-        this.showNewPhone = true;
-        this.showOTP = true
         await this.GET_NAVBAR_NEXT_KYC();
         if (Object.keys(this.getNavbarNextKYC).length > 0) {
             this.checkNextKYC();

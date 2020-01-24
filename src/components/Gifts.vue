@@ -3,19 +3,53 @@
         <div class="app-body">
             <section class="gift__header">
                 <div class="gift__header--text">
-                    <h4 class="hero__title hero__title--small" v-if="!isRedeem">
-                        Share the fun of shareholding with a gift of stock.
-                    </h4>
-                    <h4 class="hero__title hero__title--small" v-else>
-                        Cheers! You’ve receieved a gift from someone
-                    </h4>
+                    <template v-if="!isRedeem">
+                        <h4 class="hero__title hero__title--small">
+                            Share the fun of shareholding with a gift of stock.
+                        </h4>
+                        <p class="hero__text">
+                            It's the gift of wealth building. Give either a specific stock or give
+                            them cash and let them build their portfolio.
+                        </p>
+                    </template>
+                    <template v-else>
+                        <h4 class="hero__title hero__title--small">
+                            Cheers! You’ve receieved a gift from someone
+                        </h4>
+                        <br />
+                        <br />
+                        <form novalidate @submit.prevent="redeemGift">
+                            <div class="gift-form__box gift-form__box--redeem">
+                                <div>
+                                    <label class="grey-dark"
+                                        >REDEEM CODE<input
+                                            type="text"
+                                            v-model="redeemData.redeemCode"
+                                            required
+                                            class="form--input"
+                                            :class="{ invalid: errors.redeemCode }"
+                                            @focus="errors = {}"
+                                            placeholder="Enter your redeem code"
+                                    /></label>
+                                    <p class="form-error" v-if="errors.redeemCode">
+                                        <small>{{ errors.redeemCode }}</small>
+                                    </p>
+                                </div>
+                                <div>
+                                    <action-button
+                                        type="submit"
+                                        :disabled="Object.keys(errors).length > 0 || loading"
+                                        :pending="loading"
+                                        :classes="['btn__primary']"
+                                        >Submit</action-button
+                                    >
+                                </div>
+                            </div>
+                        </form>
+                    </template>
                     <div v-if="getWindowWidth === 'mobile'">
                         <img src="../assets/img/gifts.svg" alt="Gifts" />
                     </div>
-                    <p class="hero__text">
-                        It's the gift of wealth building. Give either a specific stock or give them
-                        cash and let them build their portfolio.
-                    </p>
                 </div>
                 <div class="gift__header--image" v-if="getWindowWidth !== 'mobile'">
                     <img src="../assets/img/gifts.svg" alt="Gifts" />
@@ -234,15 +268,9 @@
                         </div>
                         <div class="gift__total">
                             <p>Amount</p>
-                            <p>
+                            <h4>
                                 {{ itemData.amountCash | currency(itemData.currency, true) }}
-                            </p>
-                        </div>
-                        <div class="gift__total">
-                            <p>Total</p>
-                            <p>
-                                {{ itemData.amountCash | currency(itemData.currency, true) }}
-                            </p>
+                            </h4>
                         </div>
                     </div>
                 </section>
@@ -269,28 +297,7 @@
                 </section>
             </form>
 
-            <form @submit.prevent="redeemGift" novalidate v-else>
-                <section>
-                    <div class="gift-form__box">
-                        <div>
-                            <label class="grey-dark"
-                                >REDEEM CODE<input
-                                    type="email"
-                                    v-model="redeemData.redeemCode"
-                                    required
-                                    class="form--input"
-                                    :class="{ invalid: errors.redeemCode }"
-                                    @focus="errors = {}"
-                                    placeholder="Enter your redeem code"
-                            /></label>
-                            <p class="form-error" v-if="errors.redeemCode">
-                                <small>{{ errors.redeemCode }}</small>
-                            </p>
-                        </div>
-                        <div></div>
-                    </div>
-                </section>
-
+            <div v-else>
                 <section class="gift__stock--section">
                     <div class="gift__stock--title">
                         <p>
@@ -347,32 +354,19 @@
                             </div>
                         </template>
                     </div>
-                    <br />
                 </section>
 
                 <error-block type="gift" />
 
-                <section class="text-center">
-                    <button
-                        class="btn gift__btn btn__primary"
-                        type="submit"
-                        :disabled="Object.keys(errors).length > 0"
-                    >
-                        Redeem Gift<svg
-                            width="18"
-                            height="10"
-                            viewBox="0 0 18 10"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M11.0007 9.0649V6.85611L1.23842 6.85611C0.965729 6.85611 0.720306 6.63796 0.720306 6.338V3.96559C0.720306 3.6929 0.938459 3.44748 1.23842 3.44748L11.0007 3.44748V1.23868C11.0007 0.829648 11.4643 0.584226 11.8188 0.802379L14.5457 2.68394L17.4635 4.70185C17.7635 4.92001 17.7635 5.35631 17.4635 5.54719L14.5457 7.61964L11.8188 9.50121C11.4643 9.71936 11.0007 9.47394 11.0007 9.0649Z"
-                                fill="white"
-                            />
-                        </svg>
+                <section class="text-center gift__stock--buttons">
+                    <button class="btn btn__primary" type="button">
+                        Redeem Gift
+                    </button>
+                    <button class="btn btn__primary--outline" type="button">
+                        Leave in wallet
                     </button>
                 </section>
-            </form>
+            </div>
         </div>
 
         <section class="gift__blue">
@@ -408,7 +402,7 @@
             </p>
         </section>
 
-        <EmailSubscribe />
+        <EmailSubscribe v-if="!dashboard" />
     </Fragment>
 </template>
 
@@ -417,6 +411,11 @@ import { Fragment } from "vue-fragment";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
     name: "GiftComponent",
+    props: {
+        dashboard: {
+            type: Boolean
+        }
+    },
     components: {
         Fragment,
         FAQ: () => import("./FAQ"),
@@ -436,7 +435,8 @@ export default {
             errors: {},
             selectedInstrument: {},
             fromDate: null,
-            isRedeem: true
+            loading: false,
+            isRedeem: false
         };
     },
     computed: {
@@ -456,7 +456,12 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_MOST_POPULAR", "SEARCH_INSTRUMENTS", "CREATE_GIFTCARD", "REDEEM_GIFTCARD"]),
+        ...mapActions([
+            "GET_MOST_POPULAR",
+            "SEARCH_INSTRUMENTS",
+            "CREATE_GIFTCARD",
+            "REDEEM_GIFTCARD"
+        ]),
         ...mapMutations(["SET_GIFT_SUCCESS_MODAL"]),
         typeAmount() {
             if (
@@ -494,19 +499,21 @@ export default {
                 this.itemData.instrumentSymbol = instrument.symbol;
             }
         },
-        redeemGift() {
-            this.redeemData.receiverEmail = 'test@me.com'
+        async redeemGift() {
+            this.redeemData.receiverEmail = "test@me.com";
             if (!this.redeemData.redeemCode) {
                 this.$set(this.errors, "redeemCode", "Redeem code is required");
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
-            this.REDEEM_GIFTCARD(this.redeemData).then(resp=>{
-                if(resp){
-                    this.SET_GIFT_SUCCESS_MODAL(true)
+            this.loading = true;
+            await this.REDEEM_GIFTCARD(this.redeemData).then(resp => {
+                if (resp) {
+                    this.SET_GIFT_SUCCESS_MODAL(true);
                 }
-            })
+            });
+            this.loading = false;
 
             /**
              * TO-DO:: Implement redeem gift api call

@@ -37,7 +37,7 @@
         }
     }
 
-    &__choice{
+    &__choice {
         line-height: 1.325;
         padding: 0.625rem;
         max-width: 100px;
@@ -73,6 +73,22 @@
             }
         }
 
+        &--buttons{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            max-width: 350px;
+            margin: 0 auto;
+            &>button{
+
+                @include mobile{
+                    font-size: 0.825rem;
+                }
+                flex: 0 0 48%;
+                max-width: 48%;
+            }
+        }
+
         &--section {
             margin: 1rem 0;
         }
@@ -100,7 +116,7 @@
         padding-top: 0.825rem;
         padding-bottom: 0.825rem;
         border: 4px solid transparent;
-            border-radius: 3px;
+        border-radius: 3px;
         transition: all 200ms linear;
         cursor: pointer;
 
@@ -185,13 +201,17 @@
     }
 
     &__total {
-        margin-top: 1rem;
+        text-align: right;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
-        flex-wrap: wrap;
-
         &--image {
-            height: 50px
+            height: 60px;
+            object-fit: contain;
+            object-position: center;
+        }
+        h4{
+            color: $white;
         }
     }
 
@@ -204,6 +224,13 @@
 
         &--right {
             @extend .gift__header--image;
+            display: flex;
+            justify-content: space-between;
+
+            &>div{
+                flex: 0 0 47%;
+                max-width: 47%;
+            }
 
             @include mobile {
                 flex: 0 0 100%;
@@ -215,7 +242,7 @@
             text-align: left;
             font-weight: bold;
             color: $white;
-            padding: 1.5rem;
+            padding: 1rem;
             max-width: 527px;
             margin-left: auto;
             border-radius: 5px;
@@ -243,7 +270,7 @@
     }
 
     &__blue {
-        margin-top: 3rem;
+        margin-top: 2rem;
         background-color: #E7F3FF;
         margin-bottom: 3rem;
         padding-top: 2rem;
@@ -303,6 +330,20 @@
                 @include tablet {
                     flex: 0 0 45%;
                     max-width: 45%;
+                }
+            }
+
+            &--redeem {
+                align-items: flex-end;
+                @include tablet {
+                    &>div:first-child {
+                        flex: 0 0 65%;
+                        max-width: 65%;
+                    }
+                    &>div:last-child {
+                        flex: 0 0 30%;
+                        max-width: 30%;
+                    }
                 }
             }
 

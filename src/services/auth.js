@@ -41,6 +41,9 @@ export function noAuthOnly(to, from, next) {
     } else if (isLoggedIn()) {
         if (to.name === "calculator") {
             next("/dashboard/calculator");
+        }
+        else if (to.name === "gifts") {
+            next("/dashboard/gifts");
         } else next("/dashboard");
     } else {
         next();
