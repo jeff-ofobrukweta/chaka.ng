@@ -398,7 +398,8 @@
             </form>
             <form @submit.prevent="submitOTP" v-else>
                 <p class="text-center mb-3">
-                    An OTP has been sent to your registered number ({{ getKYC.phone }})
+                    An OTP has been sent to your {{ hashTempPhone ? "new" : "registered" }} number
+                    ({{ hashTempPhone || getKYC.phone }})
                 </p>
                 <div class="accounts-settings__group--modal">
                     <label class="form__label text-center"
@@ -515,6 +516,7 @@ export default {
             loading: false,
             showOTP: false,
             showNewPhone: false,
+            tempPhone: null,
             countdown: null,
             smsSender: 0,
             newPhone: {},
@@ -531,7 +533,21 @@ export default {
             "getCountryCodes",
             "getErrorLog",
             "getKYC"
-        ])
+        ]),
+        hashTempPhone() {
+            if (this.tempPhone) {
+                const hash = String(this.tempPhone)
+                    .split("")
+                    .map((el, index) => {
+                        if (index > 1 && index < 7) {
+                            return "*";
+                        }
+                        return el;
+                    });
+                return hash.join("");
+            }
+            return null;
+        }
         // checkError(){
         //     if(this.itemData.bvn){
         //         if(this.itemData.bvn.length > 11){
@@ -625,6 +641,7 @@ export default {
             });
         },
         useNewPhone() {
+            this.tempPhone = this.newPhone.phone;
             // TO-DO
             // Include Phone validation if needed
 
