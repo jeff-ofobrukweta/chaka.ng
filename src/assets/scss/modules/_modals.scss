@@ -203,10 +203,11 @@
             @include mobile {
                 justify-content: space-between;
 
+                // TO-DO::Change flex, max-width to 30% when Interswitch is ready
                 img,
                 &>div {
-                    flex: 0 0 30%;
-                    max-width: 30%;
+                    flex: 0 0 48%;
+                    max-width: 48%;
                     margin-right: 0;
                 }
             }
