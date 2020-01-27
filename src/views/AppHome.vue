@@ -13,7 +13,7 @@
             </div>
             <div class="v2-app__links">
                 <a
-                    href="https://www.cnbcafrica.com/news/west-africa/2019/11/19/this-nigeria-based-tech-start-up-seeks-to-reduce-barriers-in-cross-border-investing/"
+                    href="https://play.google.com/store/apps/details?id=ng.chaka.android"
                     target="_blank"
                     rel="noreferrer noopener"
                     class="v2-landing__app--link"
@@ -27,10 +27,7 @@
                         alt="Play Store"
                     />
                 </a>
-                <a
-                    href="https://www.cnbcafrica.com/news/west-africa/2019/11/19/this-nigeria-based-tech-start-up-seeks-to-reduce-barriers-in-cross-border-investing/"
-                    target="_blank"
-                    rel="noreferrer noopener"
+                <span
                     class="v2-landing__app--link v2-landing__app--transparent"
                     data-aos="fade-up"
                     data-aos-delay="200"
@@ -41,12 +38,31 @@
                         data-aos-delay="250"
                         alt="Play Store"
                     />
-                </a>
+                </span>
             </div>
             <div class="v2-app__top-images">
-                <img :src="grow" alt="Grow your portfolio" v-if="getWindowWidth !== 'mobile'" />
-                <img :src="fractional" alt="Welcome page" />
-                <img :src="performance" alt="Performance" />
+                <img
+                    :data-src="require('../assets/img/fractional/grow.png')"
+                    :data-srcset="require('../assets/img/fractional/grow.png')"
+                    data-sizes="auto"
+                    alt="Grow your portfolio"
+                    v-if="getWindowWidth !== 'mobile'"
+                    class="lazyload"
+                />
+                <img
+                    :data-src="require('../assets/img/fractional/fractional.png')"
+                    :data-srcset="require('../assets/img/fractional/fractional.png')"
+                    data-sizes="auto"
+                    alt="Welcome page"
+                    class="lazyload"
+                />
+                <img
+                    :data-src="require('../assets/img/fractional/performance.png')"
+                    :data-srcset="require('../assets/img/fractional/performance.png')"
+                    data-sizes="auto"
+                    alt="Performance"
+                    class="lazyload"
+                />
             </div>
         </section>
 
@@ -173,11 +189,11 @@
         </section>
 
         <section class="v2-integration v2-integration__app">
-            <div>
+            <div class="mb-3">
                 <h5 class="section__caption">Download Today</h5>
                 <div class="v2-landing__news">
                     <a
-                        href="https://www.cnbcafrica.com/news/west-africa/2019/11/19/this-nigeria-based-tech-start-up-seeks-to-reduce-barriers-in-cross-border-investing/"
+                        href="https://play.google.com/store/apps/details?id=ng.chaka.android"
                         target="_blank"
                         rel="noreferrer noopener"
                         class="v2-landing__app--link"
@@ -191,8 +207,8 @@
                             alt="Play Store"
                         />
                     </a>
-                    <a
-                        href="https://www.cnbcafrica.com/news/west-africa/2019/11/19/this-nigeria-based-tech-start-up-seeks-to-reduce-barriers-in-cross-border-investing/"
+                    <span
+                        href="#"
                         target="_blank"
                         rel="noreferrer noopener"
                         class="v2-landing__app--link"
@@ -205,7 +221,7 @@
                             data-aos-delay="250"
                             alt="Play Store"
                         />
-                    </a>
+                    </span>
                 </div>
             </div>
             <div>
@@ -385,7 +401,6 @@ import homeAbroad from "../assets/img/fractional/home-abroad.png";
 import fractional from "../assets/img/fractional/fractional.png";
 import minimums from "../assets/img/fractional/low-minimums.png";
 import grow from "../assets/img/fractional/grow.png";
-import performance from "../assets/img/fractional/performance.png";
 import "aos/dist/aos.css";
 import AOS from "aos";
 
@@ -430,8 +445,7 @@ export default {
             interval: null,
             grow: null,
             minimums: null,
-            fractional: null,
-            performance: null
+            fractional: null
         };
     },
     computed: {
@@ -470,7 +484,6 @@ export default {
         this.fractional = fractional;
         this.minimums = minimums;
         this.grow = grow;
-        this.performance = performance;
     },
     created() {
         AOS.init({

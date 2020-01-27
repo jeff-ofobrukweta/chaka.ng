@@ -339,6 +339,7 @@
                 @extend .v2-landing__news--link;
                 padding: 0.5rem 0.825rem;
                 border-radius: 8px;
+                margin-bottom: 0;
 
                 &:first-child {
                     background-color: $primary;
@@ -346,6 +347,10 @@
 
                 &:nth-child(2) {
                     background-color: $black
+                }
+
+                img {
+                    height: 48px
                 }
             }
 
@@ -919,6 +924,14 @@
             width: 100%;
         }
 
+        &__active {
+            background-color: rgba($color: $primary, $alpha: 0.85);
+            display: inline-block;
+            padding: 0.5rem 0.825rem;
+            margin-bottom: 1.25rem;
+            border-radius: 8px;
+        }
+
         &__store {
             display: flex;
             max-width: 400px;
@@ -936,7 +949,7 @@
                 margin-right: auto;
 
                 img {
-                    width: 45%;
+                    // width: 45%;
                     margin-right: 0;
                 }
             }
