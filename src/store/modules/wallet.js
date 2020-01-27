@@ -52,6 +52,9 @@ const actions = {
         return new Promise(resolve =>
             api.post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/deposit/`, payload).then(
                 resp => {
+                    const ammount = parseFloat(resp.data.data.transaction.txAmount)/ 100;
+                    const currency = String(resp.data.data.transaction.currency);
+                    fbq('track', 'fund', {currency: currency, value: ammount});
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_WALLET_TX", resp.data.data.transaction);

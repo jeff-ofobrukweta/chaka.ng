@@ -25,6 +25,7 @@
                             <div id="select" class="dropdown">
                                 <select
                                     class="drop-down"
+                                    v-model="globaltime"
                                     @change="handletimeframe($event)"
                                     :disabled="loading"
                                 >
@@ -85,6 +86,7 @@ export default {
             showKYC: false,
             loading: true,
             emptyData: false,
+            globaltime:null,
             currencyOption: [
                 {
                     symbol: "₦",
@@ -192,7 +194,7 @@ export default {
                 };
                 this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then(res => {
                     this.loading = false;
-                    this.emptyData = res.data.emptyValues || true;
+                    this.emptyData = res.data.emptyValues;
                 });
             });
         },
@@ -207,7 +209,7 @@ export default {
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(res => {
-                this.emptyData = res.data.emptyValues || true;
+                this.emptyData = res.data.emptyValues;
                 this.loading = false;
             });
         },
@@ -217,9 +219,10 @@ export default {
                 currency: "NGN" || this.getPorfolioglobalCurrencyforGraph
             };
             this.loading = true;
+            this.globaltime = this.getPorfolioglobalTimeforGraph;
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then(res => {
                 this.loading = false;
-                this.emptyData = res.data.emptyValues || true;
+                this.emptyData = res.data.emptyValues;
             });
         }
     },

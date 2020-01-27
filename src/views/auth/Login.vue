@@ -98,9 +98,12 @@ export default {
                 return false;
             }
             this.loading = true;
+            fbq('track', 'login');
             this.LOGIN(this.itemData).then(resp => {
                 this.loading = false;
-                if (resp) this.$router.push({ name: "dashboard" });
+                if (resp) {
+                    this.$router.push({ name: "dashboard" })
+                };
             });
         },
         resetError() {

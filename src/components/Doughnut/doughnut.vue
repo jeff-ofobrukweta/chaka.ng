@@ -137,7 +137,9 @@ export default {
             }
         };
     },
-    computed: {},
+    computed: {
+       
+    },
 
     mounted() {
         this.fillData();
@@ -168,8 +170,8 @@ export default {
                 datasets: [
                     {
                         label: 'Data One',
-                        backgroundColor: ['#FFE29D', '#00C48C', '#0052B4', '#FF647C', '#FFA26B'],
-                        data: this.percentage
+                        backgroundColor: ['#00C48C', '#0052B4', '#FF647C', '#FFA26B', '#FFE29D','#370f5f'],
+                        data:  this.percentage 
                     }
                 ]
             };
