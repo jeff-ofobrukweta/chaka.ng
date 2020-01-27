@@ -115,6 +115,7 @@ export default {
                 return false;
             }
             this.loading = true;
+            fbq('track', 'sign up');
             this.REGISTER(this.itemData).then((resp) => {
                 this.loading = false;
                 if (resp) this.$router.push({ name: 'verification-sent' });
