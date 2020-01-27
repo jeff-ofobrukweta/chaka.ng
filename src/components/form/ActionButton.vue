@@ -9,11 +9,12 @@
         <slot></slot>
     </button>
     <button v-else class="btn action btn-loader" disabled :class="[classes]">
-        <img src="../../assets/img/loader.gif" alt="Loader" />
+        <img :src="loader" alt="Loader" />
     </button>
 </template>
 
 <script>
+import loader from '../../assets/img/loader.gif'
 export default {
     name: 'action-button',
     props: {
@@ -40,7 +41,8 @@ export default {
     },
     data() {
         return {
-            clicked: this.pending
+            clicked: this.pending,
+            loader: loader
         };
     },
     methods: {

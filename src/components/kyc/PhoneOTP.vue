@@ -145,6 +145,7 @@ export default {
             otpData: {},
             countdown: null,
             OTPResend: false,
+            tempPhone: null,
             smsSender: 0,
             issues: {},
             tempPhone: null,
@@ -211,7 +212,7 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
-                    this.itemData = {};
+                    this.newPhone = {};
                 }
             });
         },
@@ -221,6 +222,7 @@ export default {
                 this.loading = false;
                 if (resp) {
                     this.$emit('close', true);
+                    this.tempPhone = null
                     this.itemData = {};
                 }
             });

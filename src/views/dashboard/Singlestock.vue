@@ -316,7 +316,8 @@ export default {
             "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
             "SET_NEWS",
             "SET_SINGLE_INSTRUMENT",
-            "SET_BUY_MODAL"
+            "SET_BUY_MODAL",
+            "RESET_MODALS"
         ]),
         authenticate(provider) {
             const this_ = this;
@@ -449,6 +450,7 @@ export default {
         }
     },
     async mounted() {
+        this.RESET_MODALS()
         await this.mountedAction(this.$route.params.symbol);
     },
     beforeRouteUpdate(to, from, next) {
