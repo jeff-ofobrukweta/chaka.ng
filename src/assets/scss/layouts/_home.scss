@@ -334,6 +334,26 @@
             }
         }
 
+        &__app {
+            &--link {
+                @extend .v2-landing__news--link;
+                padding: 0.5rem 0.825rem;
+                border-radius: 8px;
+
+                &:first-child {
+                    background-color: $primary;
+                }
+
+                &:nth-child(2) {
+                    background-color: $black
+                }
+            }
+
+            &--transparent {
+                background-color: transparent !important;
+            }
+        }
+
         .v2-width__md {
             @include mobile {
                 text-align: center;
@@ -576,16 +596,17 @@
             @include desktop {
                 text-align: right;
                 padding-right: 40px;
-                flex: 0 0 41.6666%;
-                max-width: 41.6666%;
             }
 
             img {
-                width: 50%;
                 vertical-align: bottom;
-                max-height: 370px;
+                height: 285px;
                 object-fit: contain;
                 object-position: right;
+
+                @include tablet {
+                    height: 370px
+                }
             }
         }
 
@@ -595,10 +616,6 @@
             display: none;
 
             @include tablet {
-                display: flex;
-            }
-
-            @include desktop {
                 display: flex;
             }
         }
@@ -679,16 +696,10 @@
                 flex: 0 0 58.3333%;
                 max-width: 58.3333%;
             }
-
-            @include desktop {
-                text-align: left;
-                flex: 0 0 58.3333%;
-                max-width: 58.3333%;
-            }
         }
 
         &__height {
-            height: 3rem;
+            // height: 3rem;
 
             @include mobile {
                 height: unset;
@@ -856,6 +867,14 @@
             z-index: -1;
         }
 
+        &__app {
+            @extend .container;
+
+            &::before {
+                display: none;
+            }
+        }
+
         &__image-box {
             @include mobile {
                 max-width: 100%;
@@ -900,11 +919,6 @@
             width: 100%;
         }
 
-        // @include tablet {
-        // 	height: unset;
-        // 	background: none;
-        // 	color: unset;
-        // }
         &__store {
             display: flex;
             max-width: 400px;
@@ -1006,6 +1020,90 @@
                 justify-content: center;
                 flex: 0 0 41.6666%;
                 max-width: 41.6666%;
+            }
+        }
+    }
+
+    &-app {
+        &__text {
+            text-align: center;
+            margin-top: 2rem;
+
+            p {
+                max-width: 650px;
+                margin: 0 auto;
+                line-height: 1.5;
+            }
+        }
+
+        &__links {
+            margin: 2rem auto;
+            display: flex;
+            justify-content: space-between;
+            max-width: 400px;
+
+            &>a {
+                flex: 0 0 47%;
+                margin: 0
+            }
+        }
+
+        &__bar {
+            @extend .v2-invest__mobile--bar;
+
+            &--ticker {
+                @extend .v2-invest__bar--ticker;
+                height: 25%
+            }
+        }
+
+        &__line {
+            @extend .v2-invest__bar;
+            height: 200px;
+        }
+
+        &__dark {
+            &--text {
+                @extend .v2-invest__text;
+
+                @include tablet {
+                    flex: 0 0 50%;
+                }
+            }
+
+            &--image {
+                @extend .v2-invest__image;
+
+                @include tablet {
+                    flex: 0 0 50%;
+
+                    img {
+                        height: 450px;
+
+                    }
+                }
+            }
+        }
+
+        &__top-images {
+            display: flex;
+            max-width: 750px;
+            margin: 3rem auto 6rem;
+            justify-content: space-between;
+
+            img {
+                object-fit: contain;
+                flex: 0 0 45%;
+                max-width: 45%;
+                max-height: 450px;
+            }
+
+            @include tablet {
+                img {
+                    flex: 0 0 30%;
+                    max-width: 30%;
+                }
+
             }
         }
     }

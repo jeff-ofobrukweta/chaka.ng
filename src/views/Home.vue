@@ -236,24 +236,24 @@
                 <div class="v2-layer__image-box" v-if="getWindowWidth === 'desktop'">
                     <img
                         data-sizes="auto"
-                            :data-src="require('../assets/img/layer-phone1.png')"
-                            :data-srcset="require('../assets/img/layer-phone1.png')"
+                        :data-src="require('../assets/img/layer-phone1.png')"
+                        :data-srcset="require('../assets/img/layer-phone1.png')"
                         data-aos="fade-up-right"
                         class="lazyload v2-layer__phone v2-layer__phone1"
                         alt="Mobile Phone"
                     />
                     <img
                         data-sizes="auto"
-                            :data-src="require('../assets/img/layer-phone2.png')"
-                            :data-srcset="require('../assets/img/layer-phone2.png')"
+                        :data-src="require('../assets/img/layer-phone2.png')"
+                        :data-srcset="require('../assets/img/layer-phone2.png')"
                         data-aos="fade-up-left"
                         class="lazyload v2-layer__phone v2-layer__phone2"
                         alt="Mobile Phone"
                     />
                     <img
                         data-sizes="auto"
-                            :data-src="require('../assets/img/layer-desktop.png')"
-                            :data-srcset="require('../assets/img/layer-desktop.png')"
+                        :data-src="require('../assets/img/layer-desktop.png')"
+                        :data-srcset="require('../assets/img/layer-desktop.png')"
                         data-aos="fade-down-left"
                         class="lazyload v2-layer__desktop"
                         alt="Chaka Desktop"
@@ -590,8 +590,8 @@
             </div>
         </section>
 
-        <section class="v2-integration container">
-            <div class="row v2-integration__row">
+        <section class="v2-integration">
+            <div class="row v2-integration__row container">
                 <div class="v2-countries__body">
                     <h2 class="section__title v2-section__title">Easy Integration</h2>
                     <p class="section__text">
@@ -619,7 +619,7 @@
                     />
                 </div>
             </div>
-            <div class="v2-landing__stocks">
+            <div class="v2-landing__stocks container">
                 <h5 class="section__caption">Featured In</h5>
                 <div class="v2-landing__news">
                     <a
@@ -850,7 +850,7 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import auth from "../services/validations/auth";
-import fractional from '../assets/img/fractional/fractional.png'
+import fractional from "../assets/img/fractional/fractional.png";
 import minimums from "../assets/img/fractional/low-minimums.png";
 import grow from "../assets/img/fractional/grow.png";
 import "aos/dist/aos.css";

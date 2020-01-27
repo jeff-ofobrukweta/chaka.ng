@@ -26,6 +26,14 @@
                         <li class="nav__item">
                             <router-link
                                 class="nav__link"
+                                :to="{ name: 'apphome' }"
+                                exact-active-class="active"
+                                >Get the app</router-link
+                            >
+                        </li>
+                        <li class="nav__item">
+                            <router-link
+                                class="nav__link"
                                 to="/calculator"
                                 exact-active-class="active"
                                 >Calculator</router-link
@@ -38,12 +46,18 @@
                             >
                         </li> -->
                         <li class="nav__item">
-                            <router-link class="nav__link" :to="{ name: 'faq' }" active-class="active"
+                            <router-link
+                                class="nav__link"
+                                :to="{ name: 'faq' }"
+                                active-class="active"
                                 >Help</router-link
                             >
                         </li>
                         <li class="nav__item">
-                            <router-link class="nav__link" :to="{ name: 'about' }" active-class="active"
+                            <router-link
+                                class="nav__link"
+                                :to="{ name: 'about' }"
+                                active-class="active"
                                 >About</router-link
                             >
                         </li>
@@ -119,6 +133,11 @@
                                 <li class="nav__item">
                                     <router-link class="nav__link" :to="{ name: 'login' }"
                                         >Log In</router-link
+                                    >
+                                </li>
+                                <li class="nav__item">
+                                    <router-link class="nav__link" :to="{ name: 'apphome' }"
+                                        >Get the app</router-link
                                     >
                                 </li>
                                 <li class="nav__item">
