@@ -3,7 +3,10 @@
         <Navbar />
         <template v-if="!loading && showKYC">
             <transition name="kyc-navbar" v-if="showPending">
-                <KYCPending />
+                <div>
+                    <KYC />
+                    <KYCPending />
+                </div>
             </transition>
             <transition name="kyc-navbar" v-else-if="showNavbarKYC">
                 <KYC />
@@ -76,6 +79,7 @@ export default {
             "getWithdrawModal",
             "getExchangeModal",
             "getWalletSuccess",
+            "getGiftSuccessModal",
             "getSaleSuccess",
             "isSearchOpened",
             "isComponentLoader"
@@ -162,10 +166,9 @@ export default {
             this.GET_KYC();
             this.loading = false;
             await this.GET_ACCOUNT_SUMMARY();
-        }
-        catch(err){
+        } catch (err) {
             this.loading = false;
-            this.$router.push({name: 'logout'})
+            this.$router.push({ name: "logout" });
         }
     },
     watch: {

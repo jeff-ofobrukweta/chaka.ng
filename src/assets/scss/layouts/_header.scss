@@ -65,8 +65,9 @@
     padding-bottom: 0.5rem;
 
     .nav__menu--auth {
-      .btn {
-        padding: 0.25rem 1.825rem;
+      .nav__link--auth {
+        color: $text-color;
+        padding: 0.25rem 1rem;
       }
     }
 
@@ -261,10 +262,16 @@
   }
 
   &__link {
-    padding-bottom: .75rem;
+    padding-bottom: .5rem;
     display: inline-block;
-    padding-top: 0.75rem;
+    padding-top: 0.5rem;
     letter-spacing: 0.05rem;
+    border-bottom: 4px solid transparent;
+    height: 2.5rem;
+
+    img {
+      transition: all 200ms linear;
+    }
 
     &:hover {
       color: $primary;
@@ -274,7 +281,75 @@
       color: $primary;
 
       @include desktop {
-        border-bottom: 4px solid $primary;
+        border-color: $primary;
+      }
+    }
+
+    &.val-active {
+      border-color: transparent;
+
+      img {
+        transform: scale(1.5);
+      }
+    }
+
+    &--app {
+      background-color: $primary;
+      color: $white;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      border-radius: 30px;
+      min-width: 120px;
+      text-align: center;
+
+      &:hover {
+        background-color: $primary-dark;
+        color: $white;
+      }
+
+      &.active {
+        color: $white;
+        background-color: $primary-dark;
+
+        @include desktop {
+          border-color: transparent;
+        }
+      }
+
+      &-val {
+        background-color: $val-red;
+      }
+    }
+
+    &--auth {
+      min-width: 95px;
+      text-align: center;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+
+      &.home {
+        color: $white;
+
+        &-register {
+          background-color: $white;
+          color: $primary;
+          border-radius: 30px;
+        }
+      }
+
+      &.active {
+        color: $primary;
+
+        @include desktop {
+          border-color: transparent
+        }
+      }
+
+      &.val {
+        background-color: $val-red;
+        border-color: $val-red;
+        border-radius: 30px;
+        color: $white !important
       }
     }
 
@@ -299,6 +374,7 @@
 
     @include desktop {
       display: flex;
+      align-items: center;
     }
 
     &--mobile {
