@@ -67,7 +67,7 @@ const routes = [
         component: Valentine
     },
     {
-        path: "/get-the-app",
+        path: "/get-app",
         name: "apphome",
         component: AppHome
     },
