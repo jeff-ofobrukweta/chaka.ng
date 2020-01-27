@@ -10,6 +10,7 @@ const state = {
     withdrawModal: false,
     saleSuccess: false,
     walletSuccess: false,
+    giftSuccessModal: false,
     mostPopular: []
 };
 
@@ -21,6 +22,7 @@ const getters = {
     getWithdrawModal: state => state.withdrawModal,
     getSaleSuccess: state => state.saleSuccess,
     getWalletSuccess: state => state.walletSuccess,
+    getGiftSuccessModal: state => state.giftSuccessModal,
     getMostPopular: state => {
         // const push = [];
         // state.mostPopular.filter(el => {
@@ -60,6 +62,9 @@ const mutations = {
     SET_WALLET_SUCCESS(state, payload) {
         state.walletSuccess = payload;
     },
+    SET_GIFT_SUCCESS_MODAL(state, payload) {
+        state.giftSuccessModal = payload;
+    },
     SET_MOST_POPULAR(state, payload) {
         state.mostPopular = payload;
     },
@@ -71,6 +76,7 @@ const mutations = {
         state.withdrawModal = false;
         state.saleSuccess = false;
         state.walletSuccess = false;
+        state.giftSuccessModal = false
     }
 };
 

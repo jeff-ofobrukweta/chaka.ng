@@ -177,6 +177,9 @@ main {
   &__title {
     margin-bottom: 0.825rem;
     font-size: 3rem;
+    &--small{
+      font-size: 2.5rem;
+    }
   }
 }
 
@@ -197,7 +200,7 @@ main {
     margin: 0;
     text-align: center;
     padding-right: 15px;
-    padding-left: 15px;
+    // padding-left: 15px;
     flex: 0 0 100%;
     width: 100%;
     max-width: 100%;
@@ -216,8 +219,8 @@ main {
     @include desktop {
       text-align: left;
       padding-right: 3rem;
-      max-width: 66.6666%;
-      flex: 0 0 66.6666%;
+      // max-width: 66.6666%;
+      // flex: 0 0 66.6666%;
     }
   }
 
@@ -250,10 +253,10 @@ main {
       flex: 0 0 41.6666%;
     }
 
-    @include desktop {
-      max-width: 0 0 33.3333%;
-      flex: 0 0 33.3333%;
-    }
+    // @include desktop {
+    //   max-width: 0 0 33.3333%;
+    //   flex: 0 0 33.3333%;
+    // }
   }
 
   &__input {
@@ -281,6 +284,10 @@ main {
       transition: 200ms ease-in-out;
       background: rgba($color: $primary-dark, $alpha: 0.9);
       cursor: no-drop;
+    }
+
+    &.btn-val{
+      background-color: $val-red;
     }
   }
 
@@ -331,6 +338,10 @@ main {
   color: $red;
 }
 
+.val-red{
+  color: $val-red
+}
+
 .green {
   color: $green;
 }
@@ -369,6 +380,10 @@ main {
 
 .underline {
   text-decoration: underline;
+}
+
+.mt-4 {
+  margin-top: 2rem;
 }
 
 .mt-3 {

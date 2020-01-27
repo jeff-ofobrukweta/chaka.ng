@@ -98,9 +98,12 @@ export default {
                 return false;
             }
             this.loading = true;
+            fbq('track', 'login');
             this.LOGIN(this.itemData).then(resp => {
                 this.loading = false;
-                if (resp) this.$router.push({ name: "dashboard" });
+                if (resp) {
+                    this.$router.push({ name: "dashboard" })
+                };
             });
         },
         resetError() {
@@ -115,6 +118,7 @@ export default {
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
         this.RESET_ALL();
+        
     }
 };
 </script>

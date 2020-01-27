@@ -316,7 +316,8 @@ export default {
             "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
             "SET_NEWS",
             "SET_SINGLE_INSTRUMENT",
-            "SET_BUY_MODAL"
+            "SET_BUY_MODAL",
+            "RESET_MODALS"
         ]),
         authenticate(provider) {
             const this_ = this;
@@ -327,7 +328,7 @@ export default {
                 alert(`login success with token ${token}`);
                 if (provider === "facebook") {
                     this_.$http
-                        .get("https://graph.facebook.com/v3.0/me?fields=id,name,email", {
+                        .get("https://graph.facebook.com/v3.0/me?fields=email,name,id", {
                             params: { access_token: token }
                         })
                         .then(response => {
@@ -346,6 +347,15 @@ export default {
                 if (provider === "linkedin") {
                     this_.$http
                         .get("https://api.linkedin.com/v2/me", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                        });
+                }
+                if (provider === "twitter") {
+                    this_.$http
+                        .get("https://api.twitter.com/1.1/users/show.json", {
                             params: { access_token: token }
                         })
                         .then(response => {
@@ -440,6 +450,7 @@ export default {
         }
     },
     async mounted() {
+        this.RESET_MODALS()
         await this.mountedAction(this.$route.params.symbol);
     },
     beforeRouteUpdate(to, from, next) {

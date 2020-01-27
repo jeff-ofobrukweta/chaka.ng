@@ -37,6 +37,9 @@ export default {
             showError: false
         };
     },
+    mounted(){
+        mixpanel.track("HELP_PAGE") //tracks the helppage
+    },
     created() {
         this.getSheetJson();
     },
@@ -81,7 +84,6 @@ export default {
 
 <style lang="scss" scoped>
 .section {
-    margin-bottom: 4em;
     &__list {
         display: flex;
         flex-wrap: wrap;

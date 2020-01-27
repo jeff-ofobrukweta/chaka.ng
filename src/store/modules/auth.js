@@ -28,6 +28,7 @@ const actions = {
     REGISTER: ({ commit }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
+        mixpanel.identify(payload.email) // In sign up
         return new Promise(resolve =>
             api.post("/auth/signup", payload).then(
                 resp => {
@@ -112,6 +113,7 @@ const actions = {
     LOGIN: ({ commit }, payload) => {
         commit("RESET_REQ", null, { root: true });
         commit("REQ_INIT", null, { root: true });
+        mixpanel.identify(payload.email) // In sign up
         return new Promise(resolve =>
             api.post("/auth/login", payload).then(
                 resp => {
@@ -120,6 +122,8 @@ const actions = {
                         localStorage.setItem("REFRESH_TOKEN", resp.data.data.refreshToken);
                         commit("SET_LOGGED_IN", true);
                         commit("REQ_SUCCESS", null, { root: true });
+                        console.log('email meant here new 2>>>>>>>>>>>>>',resp)
+                        fbq('track', 'login');
                         resolve(true);
                         return true;
                     } else {

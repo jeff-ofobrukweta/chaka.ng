@@ -17,9 +17,12 @@ const Calculator = () => import(/* webpackChunkName: "calculator" */ "../views/C
 const Terms = () => import(/* webpackChunkName: "terms" */ "../views/Terms");
 const About = () => import(/* webpackChunkName: "about" */ "../views/About");
 const Faq = () => import(/* webpackChunkName: "faq" */ "../views/Faq");
+const Valentine = () => import(/* webpackChunkName: "valentine" */ "../views/Valentine");
+const Gifts = () => import(/* webpackChunkName: "gifts" */ "../views/Gifts");
 const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
 const Disclosures = () => import(/* webpackChunkName: "disclosures" */ "../views/Disclosure");
+const AppHome = () => import(/* webpackChunkName: "app-home" */ "../views/AppHome");
 const DashboardLayout = () =>
     import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
 const Portfolio = () => import(/* webpackChunkName: "portfolio" */ "../views/dashboard/Portfolio");
@@ -32,6 +35,8 @@ const Categories = () =>
     import(/* webpackChunkName: "categories" */ "../views/dashboard/Categories");
 const DashboardCalculator = () =>
     import(/* webpackChunkName: "dashboard-calculator" */ "../views/dashboard/Calculator");
+const DashboardGifts = () =>
+    import(/* webpackChunkName: "dashboard-gifts" */ "../views/dashboard/Gifts");
 const AccountsIndex = () =>
     import(/* webpackChunkName: "accounts-index" */ "../views/dashboard/accounts/Index");
 const AccountsOverview = () =>
@@ -57,6 +62,16 @@ const routes = [
         beforeEnter: noAuthOnly
     },
     {
+        path: "/relationship-calculator",
+        name: "valentine",
+        component: Valentine
+    },
+    {
+        path: "/get-app",
+        name: "apphome",
+        component: AppHome
+    },
+    {
         path: "/about",
         name: "about",
         component: About,
@@ -66,6 +81,12 @@ const routes = [
         path: "/calculator",
         name: "calculator",
         component: Calculator,
+        beforeEnter: noAuthOnly
+    },
+    {
+        path: "/gifts",
+        name: "gifts",
+        component: Gifts,
         beforeEnter: noAuthOnly
     },
     {
@@ -174,6 +195,11 @@ const routes = [
                 path: "calculator",
                 name: "dashboard-calculator",
                 component: DashboardCalculator
+            },
+            {
+                path: "gifts",
+                name: "dashboard-gifts",
+                component: DashboardGifts
             },
             {
                 path: "categories/:category",

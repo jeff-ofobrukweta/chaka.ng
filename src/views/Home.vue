@@ -236,24 +236,24 @@
                 <div class="v2-layer__image-box" v-if="getWindowWidth === 'desktop'">
                     <img
                         data-sizes="auto"
-                            :data-src="require('../assets/img/layer-phone1.png')"
-                            :data-srcset="require('../assets/img/layer-phone1.png')"
+                        :data-src="require('../assets/img/layer-phone1.png')"
+                        :data-srcset="require('../assets/img/layer-phone1.png')"
                         data-aos="fade-up-right"
                         class="lazyload v2-layer__phone v2-layer__phone1"
                         alt="Mobile Phone"
                     />
                     <img
                         data-sizes="auto"
-                            :data-src="require('../assets/img/layer-phone2.png')"
-                            :data-srcset="require('../assets/img/layer-phone2.png')"
+                        :data-src="require('../assets/img/layer-phone2.png')"
+                        :data-srcset="require('../assets/img/layer-phone2.png')"
                         data-aos="fade-up-left"
                         class="lazyload v2-layer__phone v2-layer__phone2"
                         alt="Mobile Phone"
                     />
                     <img
                         data-sizes="auto"
-                            :data-src="require('../assets/img/layer-desktop.png')"
-                            :data-srcset="require('../assets/img/layer-desktop.png')"
+                        :data-src="require('../assets/img/layer-desktop.png')"
+                        :data-srcset="require('../assets/img/layer-desktop.png')"
                         data-aos="fade-down-left"
                         class="lazyload v2-layer__desktop"
                         alt="Chaka Desktop"
@@ -590,8 +590,8 @@
             </div>
         </section>
 
-        <section class="v2-integration container">
-            <div class="row v2-integration__row">
+        <section class="v2-integration">
+            <div class="row v2-integration__row container">
                 <div class="v2-countries__body">
                     <h2 class="section__title v2-section__title">Easy Integration</h2>
                     <p class="section__text">
@@ -619,7 +619,7 @@
                     />
                 </div>
             </div>
-            <div class="v2-landing__stocks">
+            <div class="v2-landing__stocks container">
                 <h5 class="section__caption">Featured In</h5>
                 <div class="v2-landing__news">
                     <a
@@ -804,8 +804,25 @@
                     <div class="v2-mobile__text">
                         <h2 class="hero__title" data-aos="fade-left">
                             Get the
-                            <span class="primary">app</span> soon
+                            <span class="primary">app</span> now
                         </h2>
+                        <div>
+                            <a
+                                href="https://play.google.com/store/apps/details?id=ng.chaka.android"
+                                target="_blank"
+                                rel="noreferrer noopener"
+                                class="v2-mobile__active"
+                                data-aos="fade-up"
+                                data-aos-delay="200"
+                            >
+                                <img
+                                    src="../assets/img/playstore.svg"
+                                    data-aos="fade-up"
+                                    data-aos-delay="250"
+                                    alt="Play Store"
+                                />
+                            </a>
+                        </div>
                         <p
                             class="hero__text v2-mobilie__text"
                             data-aos="fade-left"
@@ -827,7 +844,12 @@
                                 data-aos-delay="200"
                             >
                                 <img src="../assets/img/appstore.svg" alt="App Store" />
-                                <img src="../assets/img/playstore.svg" alt="Play Store" /></div
+                                <a
+                                    target="_blank"
+                                    href="https://play.google.com/store/apps/details?id=ng.chaka.android"
+                                >
+                                    <img src="../assets/img/playstore.svg" alt="Play Store"
+                                /></a></div
                         ></template>
                         <div
                             v-else
@@ -836,7 +858,12 @@
                             data-aos-delay="200"
                         >
                             <img src="../assets/img/appstore-dark.svg" alt="App Store" />
-                            <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
+                            <a
+                                target="_blank"
+                                href="https://play.google.com/store/apps/details?id=ng.chaka.android"
+                            >
+                                <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -850,7 +877,7 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import auth from "../services/validations/auth";
-import fractional from '../assets/img/fractional/fractional.png'
+import fractional from "../assets/img/fractional/fractional.png";
 import minimums from "../assets/img/fractional/low-minimums.png";
 import grow from "../assets/img/fractional/grow.png";
 import "aos/dist/aos.css";
@@ -898,6 +925,7 @@ export default {
         ...mapActions(["REGISTER"]),
         ...mapMutations(["RESET_REQ"]),
         register() {
+            
             this.RESET_REQ();
             if (!this.itemData.email) {
                 this.$set(this.errors, "email", "Field is required");
@@ -911,6 +939,7 @@ export default {
                 return false;
             }
             this.loading = true;
+            mixpanel.identify(this.itemData.email) // In sign up
             this.REGISTER(this.itemData).then(resp => {
                 this.loading = false;
                 if (resp) this.$router.push({ name: "verification-sent" });
@@ -924,6 +953,8 @@ export default {
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+
+        mixpanel.track("HOMEPAGE_VISIT") //tracking Homepage
     },
     created() {
         AOS.init({

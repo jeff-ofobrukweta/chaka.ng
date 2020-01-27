@@ -27,6 +27,7 @@
                 </a>
             </div>
         </div>
+        <GiftSuccess @close="closeGift" v-if="getGiftSuccessModal" />
     </div>
 </template>
 
@@ -39,7 +40,8 @@ export default {
     components: {
         Header: () => import("./components/Header"),
         Footer: () => import("./components/Footer"),
-        Progressbar: () => import("./components/Progressbar")
+        Progressbar: () => import("./components/Progressbar"),
+        GiftSuccess: () => import("./components/modals/GiftSuccess")
     },
     data() {
         return {
@@ -48,11 +50,11 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getStatus", "getProgressbar", "isModalOpened", "isSearchOpened"])
+        ...mapGetters(["getStatus", "getProgressbar", "isModalOpened", "isSearchOpened", "getGiftSuccessModal"])
     },
     methods: {
         ...mapActions(["START_LOADER", "STOP_LOADER"]),
-        ...mapMutations(["SET_WINDOW_WIDTH"]),
+        ...mapMutations(["SET_WINDOW_WIDTH", "SET_GIFT_SUCCESS_MODAL"]),
         handleResize() {
             const width = window.innerWidth;
             if (width < 640) {
@@ -68,6 +70,9 @@ export default {
         readPrivacy() {
             this.acceptCookie();
             this.$router.push({ name: "privacy" });
+        },
+        closeGift() {
+            this.SET_GIFT_SUCCESS_MODAL(false);
         }
     },
     created() {

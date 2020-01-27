@@ -3,12 +3,14 @@ import errorFn from "../../services/apiService/error";
 
 const state = {
     exchangeRate: {},
-    walletTx: {}
+    walletTx: {},
+    userCards: []
 };
 
 const getters = {
     getExchangeRate: state => state.exchangeRate,
-    getWalletTx: state => state.walletTx
+    getWalletTx: state => state.walletTx,
+    getUserCards: state => state.userCards
 };
 
 const mutations = {
@@ -17,6 +19,9 @@ const mutations = {
     },
     SET_WALLET_TX(state, payload) {
         state.walletTx = payload;
+    },
+    SET_USER_CARDS(state, payload) {
+        state.userCards = payload;
     }
 };
 
@@ -30,10 +35,8 @@ const actions = {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_WALLET_TX", resp.data.data.transaction);
-                        dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
-                            resolve(true);
-                            return true;
-                        });
+                        resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "withdraw");
                         resolve(false);
@@ -52,13 +55,15 @@ const actions = {
         return new Promise(resolve =>
             api.post(`/users/${rootState.auth.loggedUser.chakaID}/wallets/deposit/`, payload).then(
                 resp => {
+                    const ammount = parseFloat(resp.data.data.transaction.txAmount) / 100;
+                    const currency = String(resp.data.data.transaction.currency);
+                    fbq("track", "fund", { currency: currency, value: ammount });
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_WALLET_TX", resp.data.data.transaction);
-                        dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
-                            resolve(true);
-                            return true;
-                        });
+                        dispatch("GET_ACCOUNT_SUMMARY", null, { root: true });
+                        resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "fund");
                         resolve(false);
@@ -80,10 +85,8 @@ const actions = {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_WALLET_TX", resp.data.data.transaction);
-                        dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
-                            resolve(true);
-                            return true;
-                        });
+                        resolve(true);
+                        return true;
                     } else {
                         errorFn(resp, "exchange");
                         resolve(false);
@@ -110,6 +113,24 @@ const actions = {
                 },
                 error => {
                     errorFn(error.response, "exchange");
+                    resolve(false);
+                }
+            )
+        ),
+    GET_USER_CARDS: ({ commit, rootState }) =>
+        new Promise(resolve =>
+            api.get(`/users/${rootState.auth.loggedUser.chakaID}/wallets/payment-instruments`).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit("SET_USER_CARDS", resp.data.data.paymentInstruments);
+                        resolve(true);
+                        return true;
+                    }
+                    errorFn(resp, "fund");
+                    resolve(false);
+                },
+                error => {
+                    errorFn(error.response, "fund");
                     resolve(false);
                 }
             )
