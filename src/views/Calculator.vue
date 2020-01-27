@@ -14,6 +14,7 @@ export default {
     },
     mounted() {
         document.title = "Chaka - Calculator";
+        mixpanel.track("CALCULATOR_PAGE") //tracks the calculatorpage
     }
 };
 </script>
