@@ -37,6 +37,9 @@ export default {
             showError: false
         };
     },
+    mounted(){
+        mixpanel.track("HELP_PAGE") //tracks the helppage
+    },
     created() {
         this.getSheetJson();
     },

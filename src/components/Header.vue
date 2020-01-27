@@ -640,6 +640,7 @@ export default {
         EventBus.$on("HIDE_HEADER", payload => {
             if (payload && this.$refs.search) this.$refs.search.blur();
         });
+        mixpanel.track("GETAPP_PAGE") //tracks the getapppage
     },
     watch: {
         isSidebarOpen(val) {
