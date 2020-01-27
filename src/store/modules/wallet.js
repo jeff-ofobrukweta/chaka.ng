@@ -54,6 +54,9 @@ const actions = {
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
+                        const ammount = parseFloat(resp.data.data.transaction.txAmount)/ 100;
+                        const currency = String(resp.data.data.transaction.currency);
+                        fbq('track', 'fund', {currency: currency, value: ammount});
                         commit("SET_WALLET_TX", resp.data.data.transaction);
                         dispatch("GET_ACCOUNT_SUMMARY", null, { root: true }).then(() => {
                             resolve(true);

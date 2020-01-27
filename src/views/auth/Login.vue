@@ -100,7 +100,10 @@ export default {
             this.loading = true;
             this.LOGIN(this.itemData).then(resp => {
                 this.loading = false;
-                if (resp) this.$router.push({ name: "dashboard" });
+                if (resp) {
+                    fbq('track', 'login');
+                    this.$router.push({ name: "dashboard" })
+                };
             });
         },
         resetError() {

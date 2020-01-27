@@ -42,13 +42,14 @@ Vue.use(VueAuthenticate, {
             clientId: "724818008039885", //your Facebook App ID e.g. 12345667890
             redirectUri: "http://localhost:8080/auth/facebook/callback", // Your client app URL
             responseType: "token",
-            authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
-            requiredUrlParams: ["display", "scope"],
-            scope: ["email", "public_profile"],
+            requiredUrlParams: ["scope"],
+            optionalUrlParams: ["display"],
+            scope: ["public_profile","email"],
             scopeDelimiter: ",",
             display: "popup",
-            // oauthType: "2.0",
+            oauthType: "2.0",
             popupOptions: { width: 452, height: 633 },
+            authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
         },
         google: {
             clientId: "769520289802-7090leoee2v0ia47ekpjagh0o7jiultm.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
@@ -68,6 +69,7 @@ Vue.use(VueAuthenticate, {
             clientId: "K5Y6eGGIG3Zuj4yPCR05Veh50", //your Facebook App ID e.g. 12345667890
             redirectUri: "https://test-api.chaka.io/auth/twitter/callback", // Your client app URL
             responseType: "token",
+            oauthType: '1.0',
             authorizationEndpoint: "https://api.twitter.com/oauth/authenticate"
         },
         linkedin: {

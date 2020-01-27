@@ -111,14 +111,14 @@
             >
 
             <!-- boom -->
-            <button @click="authenticate('github')">auth Github</button>
+            <!-- <button @click="authenticate('github')">auth Github</button>
             <button @click="authenticate('facebook')">auth Facebook</button>
             <button @click="authenticate('google')">auth Google</button>
             <button @click="authenticate('twitter')">auth Twitter</button>
             <button @click="authenticate('linkedin')">auth linkedin</button>
             <h2>Result</h2>
             <textarea v-model="token" cols="50" rows="5" />
-            <textarea v-model="profile" cols="50" rows="5" />
+            <textarea v-model="profile" cols="50" rows="5" /> -->
             <!-- end boom -->
 
             <section class="sumary">
@@ -346,6 +346,15 @@ export default {
                 if (provider === "linkedin") {
                     this_.$http
                         .get("https://api.linkedin.com/v2/me", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                        });
+                }
+                if (provider === "twitter") {
+                    this_.$http
+                        .get("https://api.twitter.com/1.1/users/show.json", {
                             params: { access_token: token }
                         })
                         .then(response => {
