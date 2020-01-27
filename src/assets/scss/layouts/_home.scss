@@ -930,6 +930,10 @@
             padding: 0.5rem 0.825rem;
             margin-bottom: 1.25rem;
             border-radius: 8px;
+
+            &--val {
+                background-color: rgba($color: $val-red, $alpha: 0.85);
+            }
         }
 
         &__store {

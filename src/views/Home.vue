@@ -925,6 +925,7 @@ export default {
         ...mapActions(["REGISTER"]),
         ...mapMutations(["RESET_REQ"]),
         register() {
+            
             this.RESET_REQ();
             if (!this.itemData.email) {
                 this.$set(this.errors, "email", "Field is required");
@@ -938,6 +939,7 @@ export default {
                 return false;
             }
             this.loading = true;
+            mixpanel.identify(this.itemData.email) // In sign up
             this.REGISTER(this.itemData).then(resp => {
                 this.loading = false;
                 if (resp) this.$router.push({ name: "verification-sent" });
@@ -951,6 +953,8 @@ export default {
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+
+        mixpanel.track("HOMEPAGE_VISIT") //tracking Homepage
     },
     created() {
         AOS.init({

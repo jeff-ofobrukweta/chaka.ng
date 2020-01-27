@@ -1,0 +1,193 @@
+.val {
+    &-banner {
+        margin-top: 2.5rem;
+
+        @include tablet {
+            margin-bottom: 6rem;
+        }
+
+        &__row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &__text {
+            flex: 0 0 100%;
+
+            @include tablet {
+                flex: 0 0 45%;
+                max-width: 45%;
+            }
+        }
+
+        &__b {
+            &.is-invalid {
+                border-bottom: 3px solid $val-red;
+            }
+        }
+
+        &__image {
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+
+            @include mobile {
+                flex: 0 0 100%;
+            }
+
+            flex: 0 0 55%;
+            position: relative;
+            min-height: 400px;
+
+            img {
+                @include mobile {
+                    position: relative;
+                    right: 0
+                }
+
+                position: absolute;
+                right: -100px;
+                max-width: 600px;
+                width: 100%;
+                object-fit: contain;
+                object-position: center;
+            }
+        }
+
+        &__check {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            margin-bottom: 0.625rem;
+            color: $black;
+            cursor: pointer;
+
+            &--box {
+                flex: 0 0 20px;
+
+                &::before {
+                    content: '';
+                    width: 0.825rem;
+                    display: block;
+                    transform: translateY(2px);
+                    height: 0.825rem;
+                    border: 2px solid $val-red;
+                    transition: all 200ms linear;
+                }
+
+                &.active {
+
+                    &::before {
+                        background-color: $val-red;
+                    }
+                }
+            }
+
+            &--text {
+                font-size: 0.825rem;
+                flex: 0 1 90%;
+            }
+
+            // &.active {
+            //     &--box {
+            //         &::before {
+            //             background-color: $val-red;
+            //             content: '';
+            //             width: 0.825rem;
+            //             display: block;
+            //             transform: translateY(2px);
+            //             height: 0.825rem;
+            //             border: 2px solid $val-red;
+            //         }
+            //     }
+            // }
+        }
+    }
+
+    &-form {
+        &__search {
+            border-radius: 0;
+            padding: 0;
+
+            @include tablet {
+                width: 350px;
+                border: none;
+                border-bottom: 1px solid $val-red;
+            }
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            &.inactive {
+                border-color: $orange;
+            }
+        }
+
+        &__btn {
+            // @extend .container;
+            margin-top: 1rem;
+
+            @include mobile {
+                padding: 0 !important
+            }
+
+            button {
+                min-height: 96px;
+                background-color: $val-red;
+                color: $white;
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                border-radius: 0;
+
+                @include tablet {
+                    width: 350px;
+                    border: none;
+                    border-bottom: 1px solid $val-red;
+                }
+            }
+        }
+
+        &__select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: none;
+            border-bottom: 2px solid $black;
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+            background-color: transparent;
+            height: 42px;
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            &.is-invalid {
+                border-color: $val-red;
+            }
+        }
+
+        &__input {
+            border: none;
+            border-bottom: 2px solid $black;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            width: 90px;
+            text-align: center;
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+            }
+
+            &.is-invalid {
+                border-color: $val-red;
+            }
+        }
+    }
+}

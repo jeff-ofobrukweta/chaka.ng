@@ -42,6 +42,7 @@
                                 @click.passive="subscribe"
                                 id="controlled-input-button"
                                 class="input-controlled-input-main-item subscribe__btn"
+                                :class="{'btn-val': getValTheme}"
                                 value="I want to stay informed"
                                 :disabled="!email"
                                 type="button"
@@ -61,15 +62,22 @@
 import auth from "../services/validations/auth";
 import "aos/dist/aos.css";
 import AOS from "aos";
+import { mapGetters } from 'vuex';
 
 export default {
     name: "email-subscription",
+    /**
+     * VALENTINE TO-DO:: remove when event is over
+     */
     data() {
         return {
             subscribed: false,
             email: null,
             errors: {}
         };
+    },
+    computed: {
+        ...mapGetters(['getValTheme'])
     },
     methods: {
         subscribe() {

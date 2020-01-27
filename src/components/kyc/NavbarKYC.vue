@@ -676,6 +676,7 @@ export default {
                 if (resp) {
                     this.showNextModalBtn();
                     this.showOTP = false;
+                    this.tempPhone = null;
                     this.itemData = {};
                 }
             });

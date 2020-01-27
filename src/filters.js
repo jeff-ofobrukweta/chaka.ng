@@ -57,8 +57,10 @@ const numberFormat = (value, currency, decimalPlaces, showFull) => {
     const locale = currency.substring(0, 2).toLowerCase();
     numeral.locale(locale);
     if (value < 10000 || showFull) {
+        if (decimalPlaces !== 2) return numeral(value).format("$0,0");
         return numeral(value).format("$0,0.00");
     }
+    if (decimalPlaces !== 2) return numeral(value).format("$0,0a");
     return numeral(value).format("$0,0.0a");
 };
 

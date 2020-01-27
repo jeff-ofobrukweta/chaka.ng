@@ -148,6 +148,40 @@
         }
     }
 
+    &-fund {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        font-size: 0.825rem;
+        margin-bottom: 0.625rem;
+
+        &>div {
+            flex: 0 0 49%;
+            max-width: 49%;
+        }
+
+        &__name {
+            text-align: right;
+            font-weight: bold;
+            color: $primary-dark
+        }
+
+        &__value {
+            color: #4f4f4f
+        }
+
+        &__total {
+            font-size: 1.325rem;
+        }
+
+        &__hr {
+            width: 160px;
+            margin: auto;
+            border: 1px solid $border-color;
+            margin-bottom: 0.325rem;
+        }
+    }
+
     &__price {
         padding: 1em 0;
         max-width: 500px;

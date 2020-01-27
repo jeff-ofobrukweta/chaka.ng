@@ -87,9 +87,9 @@
                     />
                     <div>
                         <p class="watchlist-mobile__name capitalize">
-                            {{ instrument.name | truncate(20) }}
+                            {{ instrument.name | truncate(30) }}
                         </p>
-                        <!-- <p class="watchlist-mobile__shares">2 Shares</p> -->
+                        <p class="watchlist-mobile__shares" v-if="quantity !== null">{{quantity | units(4, true)}} Shares</p>
                     </div>
                 </div>
                 <div class="watchlist-mobile__right">
@@ -160,11 +160,12 @@ export default {
         return {
             step: null,
             showKYC: false,
-            loading: false
+            loading: false,
+            quantity: null
         };
     },
     computed: {
-        ...mapGetters(["getNextKYC", "getWatchlist"]),
+        ...mapGetters(["getNextKYC", "getWatchlist", "getlocalstocksowned", "getglobalstocksowned"]),
         watched() {
             const filter = this.getWatchlist.filter(el => el.symbol === this.instrument.symbol);
             if (filter.length <= 0) {
@@ -198,6 +199,24 @@ export default {
                 show: true
             });
         },
+        checkPositions() {
+            let check = [];
+            if (this.instrument.currency === "NGN") {
+                check = this.getlocalstocksowned.filter(
+                    element => element.symbol === this.instrument.symbol
+                );
+            } else {
+                check = this.getglobalstocksowned.filter(
+                    element => element.symbol === this.instrument.symbol
+                );
+            }
+            if (check.length > 0) {
+                const { quantity } = check[0];
+                this.quantity = +quantity;
+                return true;
+            }
+            return false;
+        },
         async removeFromWatchlist() {
             this.loading = true;
             const payload = { symbols: String(this.instrument.symbol) };
@@ -212,6 +231,9 @@ export default {
                 this.loading = false;
             }, 200);
         }
+    },
+    mounted(){
+        this.checkPositions()
     }
 };
 </script>
