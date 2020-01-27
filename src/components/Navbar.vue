@@ -169,17 +169,17 @@ export default {
                     name: "Statements",
                     link: "accounts-statements"
                 },
-                {
-                    name: "Gifts",
-                    link: "dashboard-gifts"
-                },
+                /**
+                 * TO-DO :: Put back when Gifts page is ready
+                 */
+                // {
+                //     name: "Gifts",
+                //     link: "dashboard-gifts"
+                // },
                 {
                     name: "Calculator",
                     link: "dashboard-calculator"
                 },
-                /**
-                 * TO-DO :: Put back when stamps page is ready
-                 */
                 // {
                 //     name: "Ownership",
                 //     link: "accounts-stamps"

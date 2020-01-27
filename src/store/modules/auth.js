@@ -120,6 +120,7 @@ const actions = {
                         localStorage.setItem("REFRESH_TOKEN", resp.data.data.refreshToken);
                         commit("SET_LOGGED_IN", true);
                         commit("REQ_SUCCESS", null, { root: true });
+                        fbq('track', 'login');
                         resolve(true);
                         return true;
                     } else {

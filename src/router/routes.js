@@ -22,6 +22,7 @@ const Gifts = () => import(/* webpackChunkName: "gifts" */ "../views/Gifts");
 const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
 const Disclosures = () => import(/* webpackChunkName: "disclosures" */ "../views/Disclosure");
+const AppHome = () => import(/* webpackChunkName: "app-home" */ "../views/AppHome");
 const DashboardLayout = () =>
     import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
 const Portfolio = () => import(/* webpackChunkName: "portfolio" */ "../views/dashboard/Portfolio");
@@ -64,6 +65,11 @@ const routes = [
         path: "/relationship-calculator",
         name: "valentine",
         component: Valentine
+    },
+    {
+        path: "/get-the-app",
+        name: "apphome",
+        component: AppHome
     },
     {
         path: "/about",

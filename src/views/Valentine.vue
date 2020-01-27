@@ -191,6 +191,23 @@
                             Get the
                             <span class="val-red">app</span> now
                         </h2>
+                        <div>
+                            <a
+                                href="https://play.google.com/store/apps/details?id=ng.chaka.android"
+                                target="_blank"
+                                rel="noreferrer noopener"
+                                class="v2-mobile__active v2-mobile__active--val"
+                                data-aos="fade-up"
+                                data-aos-delay="200"
+                            >
+                                <img
+                                    src="../assets/img/playstore.svg"
+                                    data-aos="fade-up"
+                                    data-aos-delay="250"
+                                    alt="Play Store"
+                                />
+                            </a>
+                        </div>
                         <p
                             class="hero__text v2-mobilie__text"
                             data-aos="fade-left"
@@ -212,7 +229,12 @@
                                 data-aos-delay="200"
                             >
                                 <img src="../assets/img/appstore.svg" alt="App Store" />
-                                <img src="../assets/img/playstore.svg" alt="Play Store" /></div
+                                <a
+                                    target="_blank"
+                                    href="https://play.google.com/store/apps/details?id=ng.chaka.android"
+                                >
+                                    <img src="../assets/img/playstore.svg" alt="Play Store" />
+                                </a></div
                         ></template>
                         <div
                             v-else
@@ -221,7 +243,12 @@
                             data-aos-delay="200"
                         >
                             <img src="../assets/img/appstore-dark.svg" alt="App Store" />
-                            <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
+                            <a
+                                target="_blank"
+                                href="https://play.google.com/store/apps/details?id=ng.chaka.android"
+                            >
+                                <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
+                            </a>
                         </div>
                     </div>
                 </div>

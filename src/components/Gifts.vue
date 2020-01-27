@@ -136,7 +136,7 @@
                     <div class="gift__stock--title">
                         <p>
                             SELECT STOCK<span class="form-error" v-if="errors.instrumentSymbol"
-                                >&nbsp;**</span
+                                >&nbsp;*required</span
                             >
                         </p>
                         <div class="gift__stock--search">
@@ -302,7 +302,7 @@
                     <div class="gift__stock--title">
                         <p>
                             SELECT STOCK<span class="form-error" v-if="errors.instrumentSymbol"
-                                >&nbsp;**</span
+                                >&nbsp;*required</span
                             >
                         </p>
                         <div class="gift__stock--search">

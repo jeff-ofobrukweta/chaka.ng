@@ -27,7 +27,7 @@
             <div class="modal-form__group">
                 <label class="form__label"
                     >Select Payment Mode
-                    <span class="form-error" v-if="issues.source">**</span></label
+                    <span class="form-error" v-if="issues.source">*required</span></label
                 >
                 <div class="modal-fund__images">
                     <img
@@ -36,12 +36,13 @@
                         src="../../assets/img/paystack.png"
                         alt="Pay with paystack"
                     />
-                    <img
+                    <!-- TO-DO:: Put back when interswitch is ready -->
+                    <!-- <img
                         @click="switchMethod('INTERSWITCH')"
                         :class="{ active: activeMethod === 'INTERSWITCH' }"
                         src="../../assets/img/quickteller.png"
                         alt="Pay with quickteller"
-                    />
+                    /> -->
                     <div @click="switchMethod('BANK')" :class="{ active: activeMethod === 'BANK' }">
                         Bank Transfer
                     </div>
@@ -142,7 +143,8 @@
                         />
                     </label>
                 </div>
-                <div class="modal-form__group" v-if="getUserCards.length > 0">
+                <!-- TO-DO:: Put back when saved cards is ready -->
+                <!-- <div class="modal-form__group" v-if="getUserCards.length > 0">
                     <label class="form__label">Select Card</label>
                     <div
                         class="modal-dropdown dropdown"
@@ -224,7 +226,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-info">
                     <small>**Allow up to 1 business day</small>
                 </div>
@@ -243,20 +245,6 @@
             <section v-if="currency === 'NGN'">
                 <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
                 <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
-                <br />
-                <!-- <p>To fund your account manually (without PAYSTACK fees), make a transfer to:</p>
-                <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
-                <p><span class="grey-dark">Bank Name:&nbsp;</span>GTBank</p>
-                <p><span class="grey-dark">Account Number:&nbsp;</span>0467937290</p>
-                <br />
-                <p>
-                    <small class="grey-dark">
-                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section
-                        of your transfer request. Email
-                        <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
-                        completion to confirm manual transfer</small
-                    >
-                </p> -->
             </section>
 
             <section v-else>
@@ -268,40 +256,6 @@
                 </p>
                 <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
                 <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
-                <!-- <br />
-                <p>
-                    Your card transaction would be processed as an international charge<template
-                        v-if="itemData.amount"
-                    >
-                        for <mark>{{ actualValue | currency("NGN", true) }}</mark> and converted to
-
-                        <mark>{{ itemData.amount | currency("USD", true) }}</mark>
-                    </template>
-                </p>
-                <p class="form-info">
-                    Please note that if you use an international card, your transaction may incur
-                    other bank charges that can slightly decrease the funding amount deposited.
-                </p>
-                <br />
-                <p>
-                    To fund your account through a domiciliary account transfer (without PAYSTACK
-                    fees), make a transfer to:
-                </p>
-                <p>
-                    <span class="grey-dark">Account Holder:&nbsp;</span>CITI INV CAP LTD/114 DOLLAR
-                    AC
-                </p>
-                <p><span class="grey-dark">Bank Name:&nbsp;</span>Guaranty Trust Bank</p>
-                <p><span class="grey-dark">Account Number:&nbsp;</span>0536097685</p>
-                <br />
-                <p>
-                    <small class="grey-dark">
-                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section
-                        of your transfer request. Email
-                        <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
-                        completion to confirm manual transfer</small
-                    >
-                </p> -->
             </section>
         </template>
     </modal>
@@ -375,7 +329,7 @@ export default {
             return payload;
         },
         bankTitle() {
-            if (this.selectedCard === "input") return "Enter card details";
+            if (this.selectedCard === "input") return "Add New Card";
             if (Object.keys(this.selectedCard).length > 0) return this.selectedCard.bank;
             return "- Select Card -";
         }
@@ -483,7 +437,11 @@ export default {
     },
     async mounted() {
         if (this.$refs.input) this.$refs.input.focus();
-        await this.GET_USER_CARDS();
+        this.activeMethod = "PAYSTACK";
+        /**
+         * TO-DO:: Put back when saved cards is ready
+         */
+        // await this.GET_USER_CARDS();
         // this.GET_LOGGED_USER();
         this.GET_EXCHANGE_RATE();
     }
