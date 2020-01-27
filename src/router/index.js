@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "../store/index";
-import EventBus from '../event-bus'
+import EventBus from "../event-bus";
 import routes from "./routes";
 
 Vue.use(VueRouter);
@@ -19,9 +19,19 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     store.commit("RESET_REQ");
     store.commit("RESET_MODALS");
-    EventBus.$emit('closeMenu')
+    EventBus.$emit("closeMenu");
     store.commit("RESET_COMPONENT_LOADER", true);
     store.commit("SEARCH_OPENED", false);
+    if (to.name === "valentine") {
+        store.commit("SET_VAL_THEME", true);
+    } else {
+        store.commit("SET_VAL_THEME", false);
+    }
+    if (to.name === "home") {
+        store.commit("SET_HOME_PAGE", true);
+    } else {
+        store.commit("SET_HOME_PAGE", false);
+    }
     next();
 });
 

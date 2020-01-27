@@ -17,6 +17,7 @@ const Calculator = () => import(/* webpackChunkName: "calculator" */ "../views/C
 const Terms = () => import(/* webpackChunkName: "terms" */ "../views/Terms");
 const About = () => import(/* webpackChunkName: "about" */ "../views/About");
 const Faq = () => import(/* webpackChunkName: "faq" */ "../views/Faq");
+const Valentine = () => import(/* webpackChunkName: "valentine" */ "../views/Valentine");
 const Gifts = () => import(/* webpackChunkName: "gifts" */ "../views/Gifts");
 const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logout");
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
@@ -58,6 +59,11 @@ const routes = [
         name: "home",
         component: Home,
         beforeEnter: noAuthOnly
+    },
+    {
+        path: "/relationship-calculator",
+        name: "valentine",
+        component: Valentine
     },
     {
         path: "/about",

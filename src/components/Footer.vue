@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer" :class="{ logged: isLoggedIn }">
+    <footer class="footer" :class="{ logged: isLoggedIn, val: getValTheme }">
         <template v-if="!isLoggedIn">
             <div class="footer-top container">
                 <div class="footer-top__logo">
@@ -109,7 +109,7 @@
                 </p>
                 <p>&copy; 2019 Chaka Technologies Ltd. All Rights Reserved</p>
             </div>
-            <div class="footer-base">
+            <div class="footer-base" :class="{ val: getValTheme }">
                 <router-link :to="{ name: 'terms' }">Terms &amp; Conditions</router-link>
                 <router-link :to="{ name: 'policies' }">Policies &amp; Procedures</router-link>
                 <router-link :to="{ name: 'privacy' }">Privacy Policy</router-link>
@@ -148,8 +148,11 @@ import { mapGetters } from "vuex";
 
 export default {
     name: "app-footer",
+    /**
+     * VALENTINE TO-DO:: Remove when event is over
+     */
     computed: {
-        ...mapGetters(["isLoggedIn", "getWindowWidth"])
+        ...mapGetters(["isLoggedIn", "getWindowWidth", "getValTheme"])
     }
 };
 </script>

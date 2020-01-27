@@ -16,6 +16,7 @@ import singlestock from "./modules/singlestock";
 import news from "./modules/news";
 import modals from "./modules/modals";
 import giftcard from "./modules/giftcard";
+import val from "./modules/val";
 
 Vue.use(Vuex);
 
@@ -46,8 +47,15 @@ const initialState = {
     news: { ...news.state },
     modals: { ...modals.state },
     giftcard: { ...giftcard.state },
+    val: { ...val.state },
     componentLoader: false,
-    mobileSearch:false
+    mobileSearch: false,
+    homePage: false,
+
+    /**
+     * VALENTINE TO-DO:: Remove once event is over
+     */
+    valTheme: false
 };
 
 export default new Vuex.Store({
@@ -58,7 +66,13 @@ export default new Vuex.Store({
         windowWidth: "",
         modalOpened: false,
         mobileSearch: false,
-        componentLoader:false
+        componentLoader: false,
+        homePage: false,
+
+        /**
+         * VALENTINE TO-DO:: Remove once event is over
+         */
+        valTheme: false
     },
     getters: {
         getStatus: state => state.status,
@@ -67,7 +81,13 @@ export default new Vuex.Store({
         getErrorLog: state => state.errorLog,
         isModalOpened: state => state.modalOpened,
         isSearchOpened: state => state.mobileSearch,
-        isComponentLoader: state => state.componentLoader
+        isComponentLoader: state => state.componentLoader,
+        isHomePage: state => state.homePage,
+
+        /**
+         * VALENTINE TO-DO:: Remove once event is over
+         */
+        getValTheme: state => state.valTheme
     },
     mutations: {
         LOGOUT: state => {
@@ -113,10 +133,19 @@ export default new Vuex.Store({
                 } catch (error) {}
             });
         },
-        RESET_COMPONENT_LOADER: (state,payload) => {
+        RESET_COMPONENT_LOADER: (state, payload) => {
             state.componentLoader = payload;
         },
-        
+        SET_HOME_PAGE: (state, payload) => {
+            state.homePage = payload;
+        },
+
+        /**
+         * VALENTINE TO-DO:: Remove once event is over
+         */
+        SET_VAL_THEME: (state, payload) => {
+            state.valTheme = payload;
+        }
     },
     actions: {
         START_LOADER: ({ state, commit }) => {
@@ -150,7 +179,8 @@ export default new Vuex.Store({
         singlestock,
         news,
         modals,
-        giftcard
+        giftcard,
+        val
     },
     strict: debug,
     plugins: [persist.plugin]

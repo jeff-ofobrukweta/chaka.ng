@@ -285,6 +285,10 @@ main {
       background: rgba($color: $primary-dark, $alpha: 0.9);
       cursor: no-drop;
     }
+
+    &.btn-val{
+      background-color: $val-red;
+    }
   }
 
   &__row {
@@ -332,6 +336,10 @@ main {
 
 .red {
   color: $red;
+}
+
+.val-red{
+  color: $val-red
 }
 
 .green {

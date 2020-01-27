@@ -65,8 +65,9 @@
     padding-bottom: 0.5rem;
 
     .nav__menu--auth {
-      .btn {
-        padding: 0.25rem 1.825rem;
+      .nav__link--auth {
+        color: $text-color;
+        padding: 0.25rem 1rem;
       }
     }
 
@@ -265,6 +266,11 @@
     display: inline-block;
     padding-top: 0.75rem;
     letter-spacing: 0.05rem;
+    border-bottom: 4px solid transparent;
+
+    img {
+      transition: all 200ms linear;
+    }
 
     &:hover {
       color: $primary;
@@ -274,7 +280,47 @@
       color: $primary;
 
       @include desktop {
-        border-bottom: 4px solid $primary;
+        border-color: $primary;
+      }
+    }
+
+    &.val-active {
+      border-color: transparent;
+
+      img {
+        transform: scale(1.5);
+      }
+    }
+
+    &--auth {
+      min-width: 95px;
+      text-align: center;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+
+      &.home {
+        color: $white;
+
+        &-register {
+          background-color: $white;
+          color: $primary;
+          border-radius: 30px;
+        }
+      }
+
+      &.active {
+        color: $primary;
+
+        @include desktop {
+          border-color: transparent
+        }
+      }
+
+      &.val {
+        background-color: $val-red;
+        border-color: $val-red;
+        border-radius: 30px;
+        color: $white !important
       }
     }
 
@@ -299,6 +345,7 @@
 
     @include desktop {
       display: flex;
+      align-items: center;
     }
 
     &--mobile {
