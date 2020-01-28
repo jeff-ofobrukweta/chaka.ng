@@ -15,18 +15,18 @@
         <section class="modal__buy--details">
             <div class="modal__buy-left">
                 <div class="modal__buy--image">
-                    <img class="modal__buy--img" :src="instrument.logoUrl" />
+                    <img class="modal__buy--img" :src="instrument.logoUrl" :alt="symbol" />
                 </div>
                 <div class="modal__buy--symbol">
                     <p>{{ instrument.symbol }}</p>
                     <p>
                         <img
                             :src="
-                                (`https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${
+                                `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${
                                     instrument.countryCode
                                         ? instrument.countryCode.toLowerCase()
                                         : 'zz'
-                                }-flag.svg`)
+                                }-flag.svg`
                             "
                             class="watchlist-explore__symbol"
                             alt="US"
@@ -164,7 +164,7 @@
         </form>
         <template v-else>
             <form @submit.prevent="buyInstrument">
-                <div class="stock-vdr">
+                <div class="stock-vdr" v-if="currency === 'USD'">
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box stock-vdr__right">
                             <p>
