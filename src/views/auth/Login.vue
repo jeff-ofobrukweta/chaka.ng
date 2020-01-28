@@ -40,6 +40,7 @@
                         >
                     </div>
                      <button @click="authenticate('google')">auth Google</button>
+                     <button @click="authenticate('facebook')">auth Facebook</button>
                     <!-- boom -->
                     <!-- <button @click="authenticate('github')">auth Github</button>
                     <button @click="authenticate('facebook')">auth Facebook</button>
