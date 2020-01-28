@@ -36,7 +36,7 @@ Vue.use(Toaster, toasterOptions);
 
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, {
-    baseUrl: "https://localhost:8080", // Your API domain
+    baseUrl: "https://5e3059990d31290008ffe300--v2-chaka.netlify.com", // Your API domain
     providers: {
         facebook: {
             clientId: "724818008039885", //your Facebook App ID e.g. 12345667890
