@@ -110,6 +110,7 @@ export default {
                             //     email:response.data.email,
                             //     provider:"FB"
                             // }
+                            console.log('this is the facebook prep>>>>>>>>>>>>>>',response)
                             this.social(response)
                         });
                 }
