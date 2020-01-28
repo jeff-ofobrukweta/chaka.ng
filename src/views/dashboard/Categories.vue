@@ -54,19 +54,19 @@
             <hr class="division-logger" />
             <div class="main_parent_nav_container">
                 <div class="inner_parent_nav_container">
-            <section
-                class="dashboard__title flex_container_title"
-                v-if="Object.keys(getInstrumentsPayload).length > 0"
-            >
-                <section>
-                    <h3>{{ getInstrumentsPayload.name }}</h3>
-                    <p class="dashboard__title--sub" v-if="instrumentLength !== false">
-                        {{ instrumentLength }} Stock{{ instrumentLength === 1 ? "" : "s" }}
-                    </p>
-                </section>
-                <section>
-                    <button class="btn-container-main">
-                        <!-- <button
+                    <section
+                        class="dashboard__title flex_container_title"
+                        v-if="Object.keys(getInstrumentsPayload).length > 0"
+                    >
+                        <section>
+                            <h3>{{ getInstrumentsPayload.name }}</h3>
+                            <p class="dashboard__title--sub" v-if="instrumentLength !== false">
+                                {{ instrumentLength }} Stock{{ instrumentLength === 1 ? "" : "s" }}
+                            </p>
+                        </section>
+                        <section>
+                            <button class="btn-container-main">
+                                <!-- <button
                             v-for="(page, index) in paginate"
                             :key="index"
                             @click="handlescrollinfinitly(page.uid)"
@@ -74,33 +74,36 @@
                         >
                             {{ page.sign }}
                         </button> -->
-                        <template >
-                            <button
-                                :disabled="page === 0 "
-                                @click="handlescrollinfinitly('regression')"
-                                class="buttton">
-                                ❮ 
+                                <template>
+                                    <button
+                                        :disabled="page === 0"
+                                        @click="handlescrollinfinitly('regression')"
+                                        class="buttton"
+                                    >
+                                        ❮
+                                    </button>
+                                    <button
+                                        :disabled="page == instrumentPageLength - 1"
+                                        @click="handlescrollinfinitly('progression')"
+                                        class="buttton"
+                                    >
+                                        ❯
+                                    </button>
+                                </template>
+                                <!-- progression -->
                             </button>
-                            <button
-                                :disabled="page == instrumentPageLength -1 "
-                                @click="handlescrollinfinitly('progression')"
-                                class="buttton">
-                                ❯ 
-                            </button>
-                        </template>
-                        <!-- progression -->
-                    </button>
-                </section>
-            </section>
+                        </section>
+                    </section>
+                </div>
             </div>
-        </div>
             <section v-if="getWindowWidth === 'desktop'">
                 <div class="instrument-base">
                     <template v-if="loading">
                         <InstrumentCard dummy v-for="i in 10" :key="i" :instrument="{}" />
                     </template>
-                    <template 
-                      v-else-if="getInstrumentsListArray && getInstrumentsListArray.length > 0">
+                    <template
+                        v-else-if="getInstrumentsListArray && getInstrumentsListArray.length > 0"
+                    >
                         <InstrumentCard
                             v-for="(instrument, index) in getInstrumentsListArray"
                             :key="index"
@@ -146,16 +149,15 @@
                         </section>
                     </transition-group>
                 </template>
-                
             </section>
-            <div ref="infinitesscrolltrigger" id="scroll-trigger">
+            <!-- <div ref="infinitesscrolltrigger" id="scroll-trigger">
                 <img
                     class="middle-loader"
                     v-if="infiniteLoader"
                     :src="require('../../assets/img/loader.gif')"
                     alt="spin"
                 />
-            </div>
+            </div> -->
         </template>
     </section>
 </template>
@@ -170,9 +172,9 @@ export default {
             page: 0,
             perPage: 20,
             infiniteLoader: false,
-            loaderState:false,
-            InstrumentsListArray:[],
-            paginate:[
+            loaderState: false,
+            InstrumentsListArray: [],
+            paginate: [
                 {
                     name: "Previous",
                     uid: "regression",
@@ -239,7 +241,7 @@ export default {
                 if (this.getpagination === "") {
                     return 0;
                 }
-                const length = (this.getpagination.total / 20);
+                const length = this.getpagination.total / 20;
                 const ceilLength = Math.ceil(length);
                 return ceilLength;
             }
@@ -255,64 +257,64 @@ export default {
         ]),
         ...mapActions(["GET_TAGS_CATEGORIES", "GET_INSTRUMENT_BY_TAGS"]),
         handlescrollinfinitly(signType) {
-					if (signType) {
-                        if(signType == "regression"){
-                            if(this.page == 0){
-                                const pageCount = 0;
-                                const pagenation = {
-                                page:pageCount,
-                                perPage:this.perPage,
-                                slug:this.getInstrumentsPayload.slug
-                                };
-                                // this.infiniteLoader = true;
-                                this.loading = true
-                                this.SET_INSTRUMENT_BY_TAGS([])
-                                this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-                                    // this.infiniteLoader = false;
-                                    this.loading = false;
-                                    this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
-                                });
-                            }else{
-                                const pagenation = {
-                                page: --this.page,
-                                perPage:this.perPage,
-                                slug:this.getInstrumentsPayload.slug
-                                };
-                                // this.infiniteLoader = true;
-                                this.loading = true;
-                                this.SET_INSTRUMENT_BY_TAGS([])
-                                this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-                                    // this.infiniteLoader = false;
-                                    this.loading = false;
-                                    this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
-                                });
-                            }
-                        }
-                        // if the numberof pages is < Math.ceil(totalPaginationlength / 20)
-                        else{
-                            if(this.page < this.instrumentPageLength - 1){
-                                const pagenation = {
-                                page: ++this.page,
-                                perPage:this.perPage,
-                                slug:this.getInstrumentsPayload.slug
-                            };
-                            // this.infiniteLoader = true;
-                            this.loading = true;
-                            this.SET_INSTRUMENT_BY_TAGS([])
-							this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-								// this.infiniteLoader = false;
-                                this.loading = false;
-                                this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
-							});
-                            }
-                            // else if(){
+            if (signType) {
+                if (signType == "regression") {
+                    if (this.page == 0) {
+                        const pageCount = 0;
+                        const pagenation = {
+                            page: pageCount,
+                            perPage: this.perPage,
+                            slug: this.getInstrumentsPayload.slug
+                        };
+                        // this.infiniteLoader = true;
+                        this.loading = true;
+                        this.SET_INSTRUMENT_BY_TAGS([]);
+                        this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+                            // this.infiniteLoader = false;
+                            this.loading = false;
+                            this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
+                        });
+                    } else {
+                        const pagenation = {
+                            page: --this.page,
+                            perPage: this.perPage,
+                            slug: this.getInstrumentsPayload.slug
+                        };
+                        // this.infiniteLoader = true;
+                        this.loading = true;
+                        this.SET_INSTRUMENT_BY_TAGS([]);
+                        this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+                            // this.infiniteLoader = false;
+                            this.loading = false;
+                            this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
+                        });
+                    }
+                }
+                // if the numberof pages is < Math.ceil(totalPaginationlength / 20)
+                else {
+                    if (this.page < this.instrumentPageLength - 1) {
+                        const pagenation = {
+                            page: ++this.page,
+                            perPage: this.perPage,
+                            slug: this.getInstrumentsPayload.slug
+                        };
+                        // this.infiniteLoader = true;
+                        this.loading = true;
+                        this.SET_INSTRUMENT_BY_TAGS([]);
+                        this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+                            // this.infiniteLoader = false;
+                            this.loading = false;
+                            this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
+                        });
+                    }
+                    // else if(){
 
-                            // }
-                        }
-						// if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
-							
-						// }
-					}   
+                    // }
+                }
+                // if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
+
+                // }
+            }
         },
         handleSelect(response) {
             this.loading = true;
@@ -325,7 +327,7 @@ export default {
                 this.SET_INSTRUMENT_BY_TAGS([]);
                 return true;
             }
-          
+
             this.GET_INSTRUMENT_BY_TAGS(payload).then(() => {
                 this.loading = false;
                 this.infiniteLoader = false;
@@ -348,13 +350,19 @@ export default {
             await this.GET_TAGS_CATEGORIES(this.currentTag);
             this.loadingTags = false;
             if (this.gettagslistsArray.length > 0) {
-                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(this.getInstrumentsPayload ? this.getInstrumentsPayload : {});
-                 const payloadGetInstrument = { slug: this.getInstrumentsPayload.slug, page:0, perPage:20};
-                 this.SET_INSTRUMENT_BY_TAGS([])
-                    await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(()=>{
-                        this.infiniteLoader = false;
-                        this.loading = false;
-                        this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray])
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
+                    this.getInstrumentsPayload ? this.getInstrumentsPayload : {}
+                );
+                const payloadGetInstrument = {
+                    slug: this.getInstrumentsPayload.slug,
+                    page: 0,
+                    perPage: 20
+                };
+                this.SET_INSTRUMENT_BY_TAGS([]);
+                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(() => {
+                    this.infiniteLoader = false;
+                    this.loading = false;
+                    this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
                 });
             }
             this.loading = false;
