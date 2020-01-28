@@ -105,6 +105,10 @@ export default {
                         })
                         .then(response => {
                             this_.profile = JSON.stringify(response);
+                            // const payload ={
+                            //     email:response.data.email,
+                            //     provider:"FB"
+                            // }
                             this.social(response)
                         });
                 }
@@ -117,7 +121,7 @@ export default {
                             this_.profile = JSON.stringify(response);
                             const payload ={
                                 email:response.data.email,
-                                provider:"FB"
+                                provider:"GL"
                             }
                             this.social(payload)
                         });
