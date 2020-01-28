@@ -9,7 +9,7 @@
         <section class="modal__buy--details">
             <div class="modal__buy-left">
                 <div class="modal__buy--image">
-                    <img class="modal__buy--img" :src="instrument.logoUrl" />
+                    <img class="modal__buy--img" :src="instrument.logoUrl" :alt="symbol" />
                 </div>
                 <div class="modal__buy--symbol">
                     <p>{{ instrument.symbol }}</p>
@@ -56,9 +56,7 @@
                 </div>
                 <div class="modal__buy--current">
                     <p><small>AVAILABLE QUANTITY:</small></p>
-                    <p
-                        class="cursor-context modal__buy--price"
-                    >
+                    <p class="cursor-context modal__buy--price">
                         {{ maxQuantity | units(4, true) }} Units
                     </p>
                 </div>
@@ -123,7 +121,7 @@
         </form>
         <template v-else>
             <form @submit.prevent="sellInstrument">
-                <div class="stock-vdr">
+                <div class="stock-vdr" v-if="currency === 'USD'">
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box stock-vdr__right">
                             <p>
