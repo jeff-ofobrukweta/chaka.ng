@@ -138,6 +138,34 @@ const actions = {
             )
         );
     },
+    SOCIAL_LOGIN: ({ commit }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        mixpanel.identify(payload.email) // In sign up
+        return new Promise(resolve =>
+            api.post("/auth/social-auth", payload).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        // localStorage.setItem("AUTH_TOKEN", resp.data.data.token);
+                        // localStorage.setItem("REFRESH_TOKEN", resp.data.data.refreshToken);
+                        // commit("SET_LOGGED_IN", true);
+                        // commit("REQ_SUCCESS", null, { root: true });
+                        // console.log('email meant here new 2>>>>>>>>>>>>>',resp)
+                        fbq('track', 'login');
+                        resolve(true);
+                        return true;
+                    } else {
+                        errorFn(resp, "login");
+                        resolve(false);
+                    }
+                },
+                error => {
+                    errorFn(error.response, "login");
+                    resolve(false);
+                }
+            )
+        );
+    },
     GET_LOGGED_USER: ({ commit }) => {
         const token = jwtDecode(localStorage.getItem("AUTH_TOKEN"));
         commit("RESET_REQ", null, { root: true });

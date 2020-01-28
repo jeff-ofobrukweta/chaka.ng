@@ -39,6 +39,18 @@
                             >Login</action-button
                         >
                     </div>
+                     <button @click="authenticate('google')">auth Google</button>
+                    <!-- boom -->
+                    <!-- <button @click="authenticate('github')">auth Github</button>
+                    <button @click="authenticate('facebook')">auth Facebook</button>
+                    <button @click="authenticate('google')">auth Google</button>
+                    <button @click="authenticate('twitter')">auth Twitter</button>
+                    <button @click="authenticate('linkedin')">auth linkedin</button>
+                    <h2>Result</h2>
+                    <textarea v-model="token" cols="50" rows="5" />
+                    <textarea v-model="profile" cols="50" rows="5" /> -->
+                    <!-- end boom -->
+
                     <section class="auth-form__meta">
                         <p>
                             Don't have an account?
@@ -77,8 +89,89 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["LOGIN"]),
+        ...mapActions(["LOGIN","SOCIAL_LOGIN"]),
         ...mapMutations(["RESET_REQ", "RESET_ALL"]),
+        authenticate(provider) {
+            const this_ = this;
+            this.$auth.authenticate(provider).then(caller => {
+                let token = this_.$auth.getToken();
+                // getLoginStatus
+                this_.token = token;
+                alert(`login success with token ${token}`);
+                if (provider === "facebook") {
+                    this_.$http
+                        .get("https://graph.facebook.com/v3.0/me?fields=email,name,id", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                            this.social(response)
+                        });
+                }
+                if (provider === "google") {
+                    this_.$http
+                        .get("https://www.googleapis.com/oauth2/v1/userinfo", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                            const payload ={
+                                email:response.data.email,
+                                provider:"FB"
+                            }
+                            this.social(payload)
+                        });
+                }
+                if (provider === "linkedin") {
+                    this_.$http
+                        .get("https://api.linkedin.com/v2/me", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                            this.social(response)
+                        });
+                }
+                if (provider === "twitter") {
+                    this_.$http
+                        .get("https://api.twitter.com/1.1/users/show.json", {
+                            params: { access_token: token }
+                        })
+                        .then(response => {
+                            this_.profile = JSON.stringify(response);
+                            this.social(response)
+                        });
+                }
+            });
+        },
+        social(payload) {
+            console.log('>>>>>>>>>>>>>>>>>>>>>',payload)
+            // this.RESET_REQ();
+            // if (!this.itemData.email) {
+            //     this.$set(this.errors, "email", "Field is required");
+            // } else if (!auth.email(this.itemData.email)) {
+            //     this.$set(this.errors, "email", "Invalid email");
+            // }
+            // if (!this.itemData.password) {
+            //     this.$set(this.errors, "password", "Field is required");
+            // }
+            // // const p = auth.password(this.itemData.password);
+            // // console.log(p);
+            // // else if(){
+            // //     console.log()
+            // // }
+            // if (Object.keys(this.errors).length > 0) {
+            //     return false;
+            // }
+            // this.loading = true;
+            // fbq('track', 'login');
+            // this.SOCIAL_LOGIN(this.itemData).then(resp => {
+            //     this.loading = false;
+            //     if (resp) {
+            //         this.$router.push({ name: "dashboard" })
+            //     };
+            // });
+        },
         login() {
             this.RESET_REQ();
             if (!this.itemData.email) {
