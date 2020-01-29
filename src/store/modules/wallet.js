@@ -134,7 +134,35 @@ const actions = {
                     resolve(false);
                 }
             )
-        )
+        ),
+    DELETE_USER_CARDS: ({ commit, dispatch, rootState }, payload) => {
+        commit("RESET_REQ", null, { root: true });
+        commit("REQ_INIT", null, { root: true });
+        new Promise(resolve =>
+            api
+                .post(
+                    `/users/${rootState.auth.loggedUser.chakaID}/wallets/payment-instruments`,
+                    null,
+                    { cardID: payload }
+                )
+                .then(
+                    resp => {
+                        if (resp.status >= 200 && resp.status < 400) {
+                            dispatch("GET_USER_CARDS");
+                            // commit("SET_USER_CARDS", resp.data.data.paymentInstruments);
+                            resolve(true);
+                            return true;
+                        }
+                        errorFn(resp, "delete-card");
+                        resolve(false);
+                    },
+                    error => {
+                        errorFn(error.response, "delete-card");
+                        resolve(false);
+                    }
+                )
+        );
+    }
 };
 
 export default {

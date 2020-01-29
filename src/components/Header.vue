@@ -323,7 +323,7 @@
                             v-model="search"
                             placeholder="Search stocks by name, symbol, tag.."
                             class="nav-left__input"
-                            @focus="startSearch"
+                            @focus="beginSearch"
                             @blur="stopSearch"
                             @input="startSearch"
                             autocomplete="off"
@@ -391,9 +391,9 @@
                                     v-model="search"
                                     placeholder="Search stocks by name, symbol, tag.."
                                     class="nav-left__input"
-                                    @focus="startSearch"
+                                    @focus="beginSearch"
                                     @blur="stopSearch"
-                                    @input="startSearch"
+                                    @keyup="startSearch"
                                     autocomplete="off"
                                     ref="mobileInput"
                                 />
@@ -450,7 +450,7 @@
                                 </transition>
                             </template>
                             <img
-                                @click="SEARCH_OPENED(true)"
+                                @click="openSearch"
                                 class="nav-left__form--icon"
                                 src="../assets/img/search.svg"
                                 alt="Search"
@@ -616,6 +616,7 @@ export default {
             return "zz";
         },
         async startSearch() {
+            this.SET_SEARCH_INSTRUMENTS([]);
             this.showSearch = true;
             let payload = {};
             if (!this.search) {
@@ -627,6 +628,19 @@ export default {
             await this.SEARCH_INSTRUMENTS(payload);
             this.searchLoading = false;
         },
+        async beginSearch() {
+            this.SET_SEARCH_INSTRUMENTS([]);
+            this.showSearch = true;
+            let payload = {};
+            if (!this.search) {
+                payload = {
+                    query: "a"
+                };
+                this.searchLoading = true;
+                await this.SEARCH_INSTRUMENTS(payload);
+                this.searchLoading = false;
+            }
+        },
         stopSearch() {
             this.showSearch = false;
             this.search = null;
@@ -634,13 +648,18 @@ export default {
         },
         closeSearch() {
             this.SEARCH_OPENED(false);
+        },
+        openSearch() {
+            this.SEARCH_OPENED(true);
+            setTimeout(() => {
+                this.$refs.mobileInput.focus();
+            }, 100);
         }
     },
     mounted() {
         EventBus.$on("HIDE_HEADER", payload => {
             if (payload && this.$refs.search) this.$refs.search.blur();
         });
-        mixpanel.track("GETAPP_PAGE") //tracks the getapppage
     },
     watch: {
         isSidebarOpen(val) {
@@ -648,13 +667,6 @@ export default {
                 this.$refs.trigger.classList.remove("is-active");
                 this.$refs.trigger.nextElementSibling.classList.remove("show");
                 document.body.classList.remove("no-scroll");
-            }
-        },
-        isSearchOpened(val) {
-            if (val) {
-                setTimeout(() => {
-                    this.$refs.mobileInput.focus();
-                }, 100);
             }
         }
     }

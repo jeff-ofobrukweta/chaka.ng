@@ -24,6 +24,82 @@
         }
     }
 
+    &-card {
+
+        background-color: $primary-dark;
+        flex: 1 1 100%;
+        max-width: 100%;
+        width: 100%;
+        padding: 1rem;
+        color: $white;
+        border-radius: 5px;
+        margin-bottom: 1rem;
+
+        @include tablet {
+            flex: 1 1 32%;
+            max-width: 32%;
+            margin-right: 1.33%;
+        }
+
+        @include desktop {
+            flex: 1 1 24%;
+            max-width: 24%;
+            margin-right: 1%;
+        }
+
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        &__box {
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+
+        &__action {
+            margin-bottom: 1rem;
+            text-align: right;
+
+            svg {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
+
+            @include tablet {
+                margin-bottom: 2rem;
+            }
+        }
+
+        &__number {
+            text-align: right;
+        }
+
+        &__logo {
+            text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            img {
+                object-fit: contain;
+                width: 50px;
+                height: 35px;
+                background: $white;
+                border-radius: 3px;
+            }
+
+            .loading {
+                width: 18px;
+                height: 18px;
+                background-color: transparent;
+            }
+        }
+
+    }
+
     &-overview {
         display: flex;
         flex-wrap: wrap;
@@ -81,10 +157,12 @@
                 max-width: 48%;
             }
 
-            @include desktop {
-                flex: 0 0 30%;
-                max-width: 30%;
-            }
+            // TO-DO:: Change back to 30% when ownership card is ready
+
+            // @include desktop {
+            //     flex: 0 0 30%;
+            //     max-width: 30%;
+            // }
         }
 
         &__flex {
@@ -98,9 +176,11 @@
             margin-right: 1rem;
         }
 
+        // TO-DO:: Change back min-width to 90px when ownership card is ready
+
         &__currency {
-            min-width: 90px;
-            // padding-right: 1rem;
+            // min-width: 90px;
+            min-width: 40%;
             font-weight: bold;
         }
 
