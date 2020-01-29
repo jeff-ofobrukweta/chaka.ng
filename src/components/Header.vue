@@ -98,14 +98,14 @@
                         </li>
 
                         <!-- TO-DO:: Put back when Valentine is ready -->
-                        <li class="nav__item">
+                        <!-- <li class="nav__item">
                             <router-link
                                 class="nav__link"
                                 :to="{ name: 'valentine' }"
                                 active-class="val-active"
                                 ><img src="../assets/img/val/logo.png" width="32px" alt="Valentine"
                             /></router-link>
-                        </li>
+                        </li> -->
 
                         <!--
                         <li class="nav__item nav__item--dropdown">

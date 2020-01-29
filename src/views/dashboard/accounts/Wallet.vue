@@ -129,13 +129,13 @@
             </div>
         </section>
         <br />
-        <template v-if="getUserCards.length > 0">
+        <!-- <template v-if="getUserCards.length > 0">
             <section class="accounts__title">
                 <h3>Payment Cards</h3>
             </section>
             <section class="accounts-card__box">
                 <BankCard v-for="(card, i) in tempCards" :key="i" :card="card" />
-                <!-- <div class="accounts-card">
+                <div class="accounts-card">
                     <div class="accounts-card__action">
                         <img
                             v-if="loading"
@@ -197,9 +197,9 @@
                         </div>
                         <p>**** **** **** {{ card.lastFourDigits }}</p>
                     </div>
-                </div> -->
+                </div>
             </section>
-        </template>
+        </template> -->
 
         <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />
     </div>

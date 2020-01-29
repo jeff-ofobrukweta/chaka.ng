@@ -16,13 +16,7 @@
                                     @focus="errors = {}"
                                     v-model="itemData.duration"
                                 />&nbsp;
-                                <select
-                                    name="interval"
-                                    v-model="itemData.interval"
-                                    class="val-form__select"
-                                    :class="{ 'is-invalid': errors.interval }"
-                                    @focus="errors = {}"
-                                >
+                                <select name="interval" v-model="itemData.interval" class="val-form__select" :class="{ 'is-invalid': errors.interval }" @focus="errors = {}">
                                     <option value="D">Days</option>
                                     <option value="W" selected>Weeks</option>
                                     <option value="M">Months</option>
@@ -62,22 +56,12 @@
                             </h2>
                             <p class="mt-2 mb-1">
                                 <b class="val-banner__b" :class="{ 'is-invalid': errors.symbol }"
-                                    >Please select <span class="val-red">ONE</span> of the
-                                    Portfolio/ETFs provided
-                                    <span v-if="errors.symbol" class="val-red">**</span></b
+                                    >Please select <span class="val-red">ONE</span> of the Portfolio/ETFs provided <span v-if="errors.symbol" class="val-red">**</span></b
                                 >
                             </p>
                             <template v-if="searchStocks.length > 0">
-                                <div
-                                    v-for="(portfolio, i) in searchStocks"
-                                    :key="i"
-                                    class="val-banner__check"
-                                    @click="setActive(portfolio.symbol)"
-                                >
-                                    <div
-                                        class="val-banner__check--box"
-                                        :class="{ active: activePortfolio === portfolio.symbol }"
-                                    ></div>
+                                <div v-for="(portfolio, i) in searchStocks" :key="i" class="val-banner__check" @click="setActive(portfolio.symbol)">
+                                    <div class="val-banner__check--box" :class="{ active: activePortfolio === portfolio.symbol }"></div>
                                     <div class="val-banner__check--text">{{ portfolio.name }}</div>
                                 </div>
                             </template>
@@ -104,33 +88,13 @@
                         <div class=" val-form__btn" v-if="getWindowWidth === 'mobile'">
                             <button class="btn" type="submit">
                                 <span>See Results</span
-                                ><svg
-                                    v-if="!loading"
-                                    width="84"
-                                    height="27"
-                                    viewBox="0 0 84 27"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M0 13.7556H81M81 13.7556L68.5981 2M81 13.7556L68.5981 25"
-                                        stroke="white"
-                                        stroke-width="4"
-                                    />
+                                ><svg v-if="!loading" width="84" height="27" viewBox="0 0 84 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 13.7556H81M81 13.7556L68.5981 2M81 13.7556L68.5981 25" stroke="white" stroke-width="4" />
                                 </svg>
-                                <img
-                                    v-else
-                                    :src="require('../assets/img/loader.gif')"
-                                    alt="Loader"
-                                    width="27px"
-                                />
+                                <img v-else :src="require('../assets/img/loader.gif')" alt="Loader" width="27px" />
                             </button>
                         </div>
-                        <div
-                            class="val-banner__image"
-                            data-aos="fade-left"
-                            data-aos-duration="1000"
-                        >
+                        <div class="val-banner__image" data-aos="fade-left" data-aos-duration="1000">
                             <img
                                 src="../assets/img/val-lovers.png"
                                 data-sizes="auto"
@@ -144,26 +108,10 @@
                     <div class="val-form__btn" v-if="getWindowWidth !== 'mobile'">
                         <button class="btn" type="submit">
                             <span>See Results</span
-                            ><svg
-                                v-if="!loading"
-                                width="84"
-                                height="27"
-                                viewBox="0 0 84 27"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M0 13.7556H81M81 13.7556L68.5981 2M81 13.7556L68.5981 25"
-                                    stroke="white"
-                                    stroke-width="4"
-                                />
+                            ><svg v-if="!loading" width="84" height="27" viewBox="0 0 84 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 13.7556H81M81 13.7556L68.5981 2M81 13.7556L68.5981 25" stroke="white" stroke-width="4" />
                             </svg>
-                            <img
-                                v-else
-                                :src="require('../assets/img/loader.gif')"
-                                alt="Loader"
-                                width="27px"
-                            />
+                            <img v-else :src="require('../assets/img/loader.gif')" alt="Loader" width="27px" />
                         </button>
                     </div>
                 </div>
@@ -173,11 +121,7 @@
         <section class="section v2-mobile">
             <div class="container">
                 <div class="row v2-mobile__row">
-                    <div
-                        class="v2-mobile__image"
-                        data-aos="zoom-in-up"
-                        v-if="getWindowWidth === 'desktop'"
-                    >
+                    <div class="v2-mobile__image" data-aos="zoom-in-up" v-if="getWindowWidth === 'desktop'">
                         <img
                             data-sizes="auto"
                             :data-src="require('../assets/img/chaka-mobile.png')"
@@ -200,53 +144,25 @@
                                 data-aos="fade-up"
                                 data-aos-delay="200"
                             >
-                                <img
-                                    src="../assets/img/playstore.svg"
-                                    data-aos="fade-up"
-                                    data-aos-delay="250"
-                                    alt="Play Store"
-                                />
+                                <img src="../assets/img/playstore.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
                             </a>
                         </div>
-                        <p
-                            class="hero__text v2-mobilie__text"
-                            data-aos="fade-left"
-                            data-aos-delay="200"
-                        >
+                        <p class="hero__text v2-mobilie__text" data-aos="fade-left" data-aos-delay="200">
                             Keep your opportunities closer
                         </p>
                         <template v-if="getWindowWidth !== 'mobile'">
-                            <div
-                                class="v2-mobile__store--logo"
-                                data-aos="fade-left"
-                                data-aos-delay="250"
-                            >
+                            <div class="v2-mobile__store--logo" data-aos="fade-left" data-aos-delay="250">
                                 <img src="../assets/img/val/logo-white.svg" alt="Chaka" />
                             </div>
-                            <div
-                                class="d-none d-md-block v2-mobile__store v2-mobile__store--light"
-                                data-aos="fade-left"
-                                data-aos-delay="200"
-                            >
+                            <div class="d-none d-md-block v2-mobile__store v2-mobile__store--light" data-aos="fade-left" data-aos-delay="200">
                                 <img src="../assets/img/appstore.svg" alt="App Store" />
-                                <a
-                                    target="_blank"
-                                    href="https://play.google.com/store/apps/details?id=ng.chaka.android"
-                                >
+                                <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
                                     <img src="../assets/img/playstore.svg" alt="Play Store" />
                                 </a></div
                         ></template>
-                        <div
-                            v-else
-                            class="d-md-none v2-mobile__store v2-mobile__store--dark"
-                            data-aos="fade-left"
-                            data-aos-delay="200"
-                        >
+                        <div v-else class="d-md-none v2-mobile__store v2-mobile__store--dark" data-aos="fade-left" data-aos-delay="200">
                             <img src="../assets/img/appstore-dark.svg" alt="App Store" />
-                            <a
-                                target="_blank"
-                                href="https://play.google.com/store/apps/details?id=ng.chaka.android"
-                            >
+                            <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
                                 <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
                             </a>
                         </div>
@@ -268,15 +184,9 @@
                                     <p><strong>YOU GET</strong></p>
                                     <div>
                                         <h1>
-                                            {{
-                                                (getValResult.capital + getValResult.netEarning)
-                                                    | kobo
-                                                    | currency("USD")
-                                            }}
+                                            {{ (getValResult.capital + getValResult.netEarning) | kobo | currency("USD", true) }}
                                         </h1>
-                                        <p class="modal-text__net-earning mb-3" :class="colorClass">
-                                            ({{ getValResult.netEarningPercentage }})
-                                        </p>
+                                        <p class="modal-text__net-earning mb-3" :class="colorClass">({{ getValResult.netEarningPercentage }})</p>
                                     </div>
                                     <p>
                                         {{ getValResult.message }}
@@ -288,18 +198,8 @@
                             </div>
                             <div class="modal-socials">
                                 <div><p>Share your result</p></div>
-                                <a
-                                    class="modal__share-button whatsapp"
-                                    target="_blank"
-                                    :href="whatsappLink"
-                                    data-size="large"
-                                    ><svg
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                <a class="modal__share-button whatsapp" target="_blank" :href="whatsappLink" data-size="large"
+                                    ><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M12.5959 10.2593L12.5899 10.2995C11.1413 9.7126 10.9898 9.63442 10.8027 9.86252C10.673 10.0205 10.2948 10.3787 10.1809 10.4847C10.0656 10.5891 9.95095 10.5972 9.7553 10.5249C9.55767 10.4446 8.92329 10.2759 8.1723 9.72973C7.58733 9.30405 7.19471 8.78199 7.07876 8.62136C6.88575 8.35042 7.28957 8.31187 7.65715 7.74643C7.72303 7.63399 7.68943 7.54564 7.64068 7.46586C7.59128 7.38554 7.198 6.59843 7.03331 6.28466C6.87521 5.97196 6.71249 6.01158 6.59062 6.01158C6.21118 5.98481 5.93384 5.98909 5.68944 6.19578C4.6262 7.14566 4.89432 8.12553 5.80406 9.16751C7.59194 11.0694 8.5445 11.4196 10.2863 11.9058C10.7566 12.0273 11.1855 12.0102 11.5247 11.9706C11.9029 11.9219 12.6888 11.5845 12.8528 11.207C13.0208 10.8295 13.0208 10.5163 12.9714 10.444C12.9226 10.3717 12.7935 10.3316 12.5959 10.2593V10.2593Z"
                                             fill="white"
@@ -312,18 +212,8 @@
 
                                     <span>Whatsapp</span></a
                                 >
-                                <a
-                                    class="modal__share-button twitter"
-                                    target="_blank"
-                                    :href="twitterLink"
-                                    data-size="large"
-                                    ><svg
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                <a class="modal__share-button twitter" target="_blank" :href="twitterLink" data-size="large"
+                                    ><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M9.05075 6.19219L9.08223 6.71122L8.55762 6.64767C6.64804 6.40404 4.97978 5.57782 3.56334 4.1902L2.87085 3.50169L2.69248 4.01013C2.31477 5.14353 2.55609 6.34048 3.343 7.14552C3.76269 7.5904 3.66826 7.65396 2.9443 7.38914C2.69248 7.3044 2.47215 7.24085 2.45116 7.27263C2.37772 7.34677 2.62953 8.31069 2.82888 8.69202C3.10168 9.22165 3.65777 9.74068 4.26631 10.0479L4.78043 10.2915L4.17188 10.3021C3.58432 10.3021 3.56334 10.3127 3.62629 10.5351C3.83613 11.2236 4.66502 11.9545 5.58833 12.2723L6.23884 12.4947L5.67227 12.8337C4.83289 13.321 3.84662 13.5964 2.86036 13.6175C2.38821 13.6281 2 13.6705 2 13.7023C2 13.8082 3.28005 14.4014 4.02499 14.6344C6.25983 15.3229 8.91435 15.0264 10.9079 13.8506C12.3243 13.0138 13.7408 11.3507 14.4018 9.74068C14.7585 8.88269 15.1152 7.315 15.1152 6.56293C15.1152 6.07567 15.1467 6.01211 15.7343 5.42953C16.0805 5.09056 16.4058 4.71983 16.4687 4.6139C16.5736 4.41264 16.5632 4.41264 16.0281 4.59272C15.1362 4.91049 15.0103 4.86812 15.451 4.39146C15.7762 4.0525 16.1645 3.43813 16.1645 3.25806C16.1645 3.22628 16.0071 3.27924 15.8287 3.37458C15.6398 3.4805 15.2202 3.63939 14.9054 3.73472L14.3388 3.91479L13.8247 3.56524C13.5414 3.37458 13.1427 3.16273 12.9329 3.09917C12.3978 2.95087 11.5794 2.97206 11.0967 3.14154C9.7852 3.6182 8.95632 4.84694 9.05075 6.19219Z"
                                             fill="white"
@@ -360,18 +250,8 @@
 
                                     <span>Instagram</span></a
                                 > -->
-                                <a
-                                    class="modal__share-button facebook"
-                                    target="_blank"
-                                    :href="facebookLink"
-                                    data-size="large"
-                                    ><svg
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 18 18"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                <a class="modal__share-button facebook" target="_blank" :href="facebookLink" data-size="large"
+                                    ><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M10.3438 16V8.99918H12.2763L12.5324 6.58666H10.3438L10.347 5.37917C10.347 4.74995 10.4068 4.41279 11.3106 4.41279H12.5187V2H10.5859C8.26429 2 7.44714 3.17033 7.44714 5.13846V6.58693H6V8.99945H7.44714V16H10.3438Z"
                                             fill="white"
@@ -447,17 +327,17 @@ export default {
             if (this.getValResult.netEarning >= 0) return "green";
             return "val-red";
         },
-        instagramLink() {
-            return "https://twitter.com/intent/tweet?text=https://chaka.ng/relationship-calculator";
-        },
+        // instagramLink() {
+        //     return "https://twitter.com/intent/tweet?text=This is my relationship net-worth. Find out yours https://chaka.ng/relationship-calculator";
+        // },
         facebookLink() {
             return "https://web.facebook.com/sharer/sharer.php?u=https://chaka.ng/relationship-calculator&hashtag=%23valentine&_rdc=1&_rdr";
         },
         twitterLink() {
-            return "https://twitter.com/intent/tweet?text=https://chaka.ng/relationship-calculator";
+            return "https://twitter.com/intent/tweet?text=This is my relationship net-worth. Find out yours https://chaka.ng/relationship-calculator";
         },
         whatsappLink() {
-            return "https://api.whatsapp.com/send?text=Checkout https://chaka.ng/relationship-calculator";
+            return "https://api.whatsapp.com/send?text=This is my relationship net-worth. Find out yours https://chaka.ng/relationship-calculator";
         }
     },
     methods: {
