@@ -403,5 +403,64 @@
 
     }
 
+    &__share {
+        &-button {
+            box-shadow: 6px 14px 15px rgba($color: $box-shadow, $alpha: 0.3);
+            padding: 0.125rem 0.625rem;
+            color: $white;
+            display: inline-flex;
+            align-items: center;
+            border-radius: 5px;
+            margin-right: 10px;
+            margin-bottom: 0.5rem;
+
+            svg {
+                margin-right: 6px;
+            }
+
+            span {
+                border-left: 1px solid $silver;
+                padding-left: 1rem;
+                font-size: 0.825rem;
+            }
+
+            &.twitter {
+                background-color: #0e76a8;
+
+                &:hover {
+                    background-color: darken($color: #0e76a8, $amount: 10);
+                }
+            }
+
+            &.facebook {
+                background-color: #4267B2;
+
+                &:hover {
+                    background-color: darken($color: #4267B2, $amount: 10);
+                }
+            }
+
+            &.instagram {
+                background-color: #F1486A;
+
+                &:hover {
+                    background-color: darken($color: #F1486A, $amount: 10);
+                }
+            }
+
+            &.whatsapp {
+                background-color: #2CBC36;
+
+                &:hover {
+                    background-color: darken($color: #2CBC36, $amount: 10);
+                }
+            }
+
+            &:hover {
+                color: $white
+            }
+        }
+    }
+
 
 }

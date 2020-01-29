@@ -157,10 +157,12 @@
                 max-width: 48%;
             }
 
-            @include desktop {
-                flex: 0 0 30%;
-                max-width: 30%;
-            }
+            // TO-DO:: Change back to 30% when ownership card is ready
+
+            // @include desktop {
+            //     flex: 0 0 30%;
+            //     max-width: 30%;
+            // }
         }
 
         &__flex {
@@ -174,9 +176,11 @@
             margin-right: 1rem;
         }
 
+        // TO-DO:: Change back min-width to 90px when ownership card is ready
+
         &__currency {
-            min-width: 90px;
-            // padding-right: 1rem;
+            // min-width: 90px;
+            min-width: 40%;
             font-weight: bold;
         }
 
