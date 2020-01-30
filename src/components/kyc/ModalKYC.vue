@@ -406,8 +406,9 @@ export default {
                     this.showDirector = false;
                 }
             }
-            this.formComplete =
-                Object.keys(this.itemData).length >= this.selectedField.fields.length;
+            this.formComplete = this.nin
+                ? true
+                : Object.keys(this.itemData).length >= this.selectedField.fields.length;
         },
         OTPSuccess() {
             this.mount();

@@ -25,24 +25,24 @@
                 <div class="stock-fund__name">Reference No</div>
                 <div class="stock-fund__value">{{ getWalletTx.reference }}</div>
             </div>
-            <hr class="stock-fund__hr">
+            <hr class="stock-fund__hr" />
             <div class="stock-fund">
                 <div class="stock-fund__name">Total</div>
                 <div class="stock-fund__value">
-                    {{ getWalletTx.totalAmount | kobo | currency(getWalletTx.currency) }}
+                    {{ getWalletTx.totalAmount | kobo | currency(getWalletTx.currency, true) }}
                 </div>
             </div>
             <div class="stock-fund">
                 <div class="stock-fund__name">Charges</div>
                 <div class="stock-fund__value">
-                    {{ getWalletTx.fees | kobo | currency(getWalletTx.currency) }}
+                    {{ getWalletTx.fees | kobo | currency(getWalletTx.currency, true) }}
                 </div>
             </div>
-            <hr class="stock-fund__hr">
+            <hr class="stock-fund__hr" />
             <div class="stock-fund">
                 <div class="stock-fund__name">Amount</div>
                 <div class="stock-fund__value stock-fund__total">
-                    {{ getWalletTx.txAmount | kobo | currency(getWalletTx.currency) }}
+                    {{ getWalletTx.txAmount | kobo | currency(getWalletTx.currency, true) }}
                 </div>
             </div>
             <div class="text-center">
