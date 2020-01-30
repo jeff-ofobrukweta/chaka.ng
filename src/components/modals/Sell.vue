@@ -4,12 +4,12 @@
         <template slot="header">{{ modalTitle }}</template>
         <PendingKYC :is-buy-valid="isSellValid" :instrument="instrument" @step="handleStep" />
     </modal>
-    <modal :close-on-click="false" @close="closeModal" v-else class="modal__buy">
+    <modal :close-on-click="false" v-else @close="closeModal" class="modal__buy">
         <template slot="header">Sell {{ instrument.name }} stock</template>
         <section class="modal__buy--details">
             <div class="modal__buy-left">
                 <div class="modal__buy--image">
-                    <img class="modal__buy--img" :src="instrument.logoUrl" />
+                    <img class="modal__buy--img" :src="instrument.logoUrl" :alt="symbol" />
                 </div>
                 <div class="modal__buy--symbol">
                     <p>{{ instrument.symbol }}</p>
@@ -56,9 +56,7 @@
                 </div>
                 <div class="modal__buy--current">
                     <p><small>AVAILABLE QUANTITY:</small></p>
-                    <p
-                        class="cursor-context modal__buy--price"
-                    >
+                    <p class="cursor-context modal__buy--price">
                         {{ maxQuantity | units(4, true) }} Units
                     </p>
                 </div>
@@ -96,12 +94,21 @@
                         type="number"
                         name="quantity"
                         v-model="itemData.quantity"
-                        :disabled="Object.keys(getMarketData).length <= 0"
+                        :disabled="Object.keys(getMarketData).length <= 0 || sellAll"
                         @reset="clearErrors"
                         @input="onTypeQuantity"
                         placeholder="Quantity"
                         :error-message="errors.quantity"
                 /></label>
+                <div class="sell-all">
+                    <input
+                        type="checkbox"
+                        name="sellAll"
+                        id="sellAll"
+                        v-model="sellAll"
+                        @input="sellAllInput"
+                    /><label for="sellAll">Sell All</label>
+                </div>
             </div>
             <error-block type="pre-order" />
             <error-block type="market-data" />
@@ -123,7 +130,7 @@
         </form>
         <template v-else>
             <form @submit.prevent="sellInstrument">
-                <div class="stock-vdr">
+                <div class="stock-vdr" v-if="currency === 'USD'">
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box stock-vdr__right">
                             <p>
@@ -267,7 +274,6 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import KYCTitles from "../../services/kyc/kycTitles";
 import CurrencyInput from "../form/CurrencyInput";
 
 export default {
@@ -286,8 +292,7 @@ export default {
             isQuantity: true,
             errors: {},
             showKYC: false,
-            selectedField: {},
-            allNextKYC: KYCTitles.titles
+            sellAll: false
         };
     },
     computed: {
@@ -352,6 +357,9 @@ export default {
         switchOrder(value) {
             this.orderType = value;
             this.clearErrors();
+        },
+        sellAllInput() {
+            this.onTypeQuantity(this.maxQuantity);
         },
         validateSell() {
             this.RESET_REQ();
@@ -445,6 +453,7 @@ export default {
             }
         },
         onTypeAmount(e) {
+            this.sellAll = false;
             this.itemData.amountCash = e;
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = false;
@@ -492,3 +501,19 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.sell-all {
+    display: flex;
+    align-items: center;
+    margin-top: 0.325rem;
+
+    label {
+        font-size: 0.825rem;
+        text-transform: capitalize;
+        color: $grey-cool;
+        margin-left: 3px;
+        margin-top: 2px;
+    }
+}
+</style>

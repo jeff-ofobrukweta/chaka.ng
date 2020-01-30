@@ -1,7 +1,6 @@
 const CompressionPlugin = require("compression-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-const ServiceWorkerWebpackPlugin = require("serviceworker-webpack-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
 const path = require("path");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
