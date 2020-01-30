@@ -63,7 +63,7 @@
                                 :to="{ name: 'apphome' }"
                                 exact-active-class="active"
                                 :class="{ 'nav__link--app-val': getValTheme }"
-                                >Get app</router-link
+                                >Get App</router-link
                             >
                         </li>
                         <li class="nav__item">
@@ -219,7 +219,7 @@
                                 </li> -->
                                 <li class="nav__item">
                                     <router-link class="nav__link" :to="{ name: 'apphome' }"
-                                        >Get app</router-link
+                                        >Get App</router-link
                                     >
                                 </li>
                                 <li class="nav__item">
