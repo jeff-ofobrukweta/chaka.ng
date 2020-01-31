@@ -4,8 +4,7 @@
             <div class="col-md-7 subscribe__body" data-aos="fade-right">
                 <h2 class="subscribe__title">Stay up to date with news and new features</h2>
                 <p class="section__text">
-                    Join Chaka's mailing list and get updates on Chaka's new features. Also keep
-                    track of the latest news, trends and developments in local and global investment
+                    Join Chaka's mailing list and get updates on Chaka's new features. Also keep track of the latest news, trends and developments in local and global investment
                     markets.
                 </p>
             </div>
@@ -42,7 +41,7 @@
                                 @click.passive="subscribe"
                                 id="controlled-input-button"
                                 class="input-controlled-input-main-item subscribe__btn"
-                                :class="{'btn-val': getValTheme}"
+                                :class="{ 'btn-val': getValTheme }"
                                 value="I want to stay informed"
                                 :disabled="!email"
                                 type="button"
@@ -62,13 +61,10 @@
 import auth from "../services/validations/auth";
 import "aos/dist/aos.css";
 import AOS from "aos";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
     name: "email-subscription",
-    /**
-     * VALENTINE TO-DO:: remove when event is over
-     */
     data() {
         return {
             subscribed: false,
@@ -76,8 +72,11 @@ export default {
             errors: {}
         };
     },
+    /**
+     * VALENTINE TO-DO:: remove when event is over
+     */
     computed: {
-        ...mapGetters(['getValTheme'])
+        ...mapGetters(["getValTheme"])
     },
     methods: {
         subscribe() {
@@ -101,7 +100,7 @@ export default {
             mirror: false,
             startEvent: "DOMContentLoaded",
             anchorPlacement: "top-center",
-            // once: true,
+            once: true,
             offset: 50
         });
     }

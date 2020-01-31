@@ -4,20 +4,10 @@
         <template slot="subheader">
             <div class="modal-sub__box">
                 <div class="modal-sub">
-                    <button
-                        class="btn"
-                        @click="switchCurrency('NGN')"
-                        :class="{ active: currency === 'NGN' }"
-                        :disabled="loading"
-                    >
+                    <button class="btn" @click="switchCurrency('NGN')" :class="{ active: currency === 'NGN' }" :disabled="loading">
                         ₦
                     </button>
-                    <button
-                        class="btn"
-                        @click="switchCurrency('USD')"
-                        :class="{ active: currency === 'USD' }"
-                        :disabled="loading"
-                    >
+                    <button class="btn" @click="switchCurrency('USD')" :class="{ active: currency === 'USD' }" :disabled="loading">
                         $
                     </button>
                 </div>
@@ -25,17 +15,9 @@
         </template>
         <div class="modal-form">
             <div class="modal-form__group">
-                <label class="form__label"
-                    >Select Payment Mode
-                    <span class="form-error" v-if="issues.source">*required</span></label
-                >
+                <label class="form__label">Select Payment Mode <span class="form-error" v-if="issues.source">*required</span></label>
                 <div class="modal-fund__images">
-                    <img
-                        @click="switchMethod('PAYSTACK')"
-                        :class="{ active: activeMethod === 'PAYSTACK' }"
-                        src="../../assets/img/paystack.png"
-                        alt="Pay with paystack"
-                    />
+                    <img @click="switchMethod('PAYSTACK')" :class="{ active: activeMethod === 'PAYSTACK' }" src="../../assets/img/paystack.png" alt="Pay with paystack" />
                     <!-- TO-DO:: Put back when interswitch is ready -->
                     <!-- <img
                         @click="switchMethod('INTERSWITCH')"
@@ -50,41 +32,6 @@
             </div>
         </div>
 
-        <!-- TO-DO :: Put back if dollar funding is blocked for incomplete KYCs -->
-
-        <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
-            <div class="modal-form" v-if="canFundGlobal === 1">
-                <h5 class="text-center mb-2">Verification Incomplete</h5>
-                <p class="text-center">
-                    To continue your verification, click the button below
-                </p>
-                <div class="text-center mt-3">
-                    <kyc-button
-                        ref="globalBtn"
-                        type="button"
-                        :classes="['btn__primary']"
-                        action="global"
-                        @step="handleStep"
-                        >Continue</kyc-button
-                    >
-                </div>
-
-                <modal-kyc
-                    :requiredFields="selectedField.fields"
-                    :title="selectedField.title"
-                    @updated="handleUpdate"
-                    @close="showKYC = false"
-                    v-if="showKYC"
-                />
-            </div>
-            <div class="modal-form" v-if="canFundGlobal === 2">
-                <h5 class="text-center mb-2">Your Verification is Under Review</h5>
-                <p class="text-center">
-                    You will be notified through email when your account gets activated for global
-                    transactions
-                </p>
-            </div>
-        </template> -->
         <template v-if="activeMethod === 'BANK'">
             <div class="modal-form" v-if="currency === 'NGN'">
                 <br />
@@ -95,37 +42,28 @@
                 <br />
                 <p>
                     <small class="grey-dark">
-                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section
-                        of your transfer request. Email
-                        <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
-                        completion to confirm manual transfer</small
+                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section of your transfer request. Email
+                        <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after completion to confirm manual transfer</small
                     >
                 </p>
             </div>
             <div class="modal-form" v-else>
                 <br />
                 <p class="form-info">
-                    Please note that if you use an international card, your transaction may incur
-                    other bank charges that can slightly decrease the funding amount deposited.
+                    Please note that if you use an international card, your transaction may incur other bank charges that can slightly decrease the funding amount deposited.
                 </p>
                 <br />
                 <p>
-                    To fund your account through a domiciliary account transfer (without PAYSTACK
-                    fees), make a transfer to:
+                    To fund your account through a domiciliary account transfer (without PAYSTACK fees), make a transfer to:
                 </p>
-                <p>
-                    <span class="grey-dark">Account Holder:&nbsp;</span>CITI INV CAP LTD/114 DOLLAR
-                    AC
-                </p>
+                <p><span class="grey-dark">Account Holder:&nbsp;</span>CITI INV CAP LTD/114 DOLLAR AC</p>
                 <p><span class="grey-dark">Bank Name:&nbsp;</span>Guaranty Trust Bank</p>
                 <p><span class="grey-dark">Account Number:&nbsp;</span>0536097685</p>
                 <br />
                 <p>
                     <small class="grey-dark">
-                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section
-                        of your transfer request. Email
-                        <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after
-                        completion to confirm manual transfer</small
+                        Please put <mark>{{ getLoggedUser.chakaID }}</mark> in the comments section of your transfer request. Email
+                        <a class="link" href="mailto:payments@chaka.ng">payments@chaka.ng</a> after completion to confirm manual transfer</small
                     >
                 </p>
             </div>
@@ -134,13 +72,7 @@
             <form class="modal-form" @submit.prevent="fundWallet">
                 <div class="modal-form__group">
                     <label class="form__label"
-                        >Amount<currency-input
-                            :currency="currency"
-                            placeholder="Enter Amount"
-                            v-model="itemData.amount"
-                            :error-message="issues.amount"
-                            @reset="handleReset"
-                        />
+                        >Amount<currency-input :currency="currency" placeholder="Enter Amount" v-model="itemData.amount" :error-message="issues.amount" @reset="handleReset" />
                     </label>
                 </div>
                 <!-- TO-DO:: Put back when saved cards is ready -->
@@ -232,13 +164,7 @@
                 </div>
                 <error-block type="fund" />
                 <div class="modal-form__buttons">
-                    <action-button
-                        type="submit"
-                        :disabled="Object.keys(issues).length > 0"
-                        :pending="loading"
-                        :classes="['btn-block', 'btn__primary']"
-                        >Fund</action-button
-                    >
+                    <action-button type="submit" :disabled="Object.keys(issues).length > 0" :pending="loading" :classes="['btn-block', 'btn__primary']">Fund</action-button>
                 </div>
             </form>
 
@@ -250,13 +176,20 @@
             <section v-else>
                 <p class="text-center">
                     <small class="grey-dark"
-                        >EXCHANGE RATE:&nbsp;
-                        <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
+                        >EXCHANGE RATE:&nbsp; <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
                     >
                 </p>
                 <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
                 <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
             </section>
+            <form method="post" action="https://webpay.interswitchng.com/collections/w/pay" style="margin-left: 28px">
+                <strong>Redirect URL:</strong> <input name="site_redirect_url" value="./" /> <strong>Pay Item ID:</strong> <input name="pay_item_id" value="3121516" />
+                <strong>Transaction Reference</strong> <input name="txn_ref" value="1545060437742" /> <strong>Amount:</strong> <input name="amount" value="10000" />
+                <strong>Currency:</strong> <input name="currency" value="566" /> <strong>Customer Name</strong> <input name="cust_name" value="Blank Limited" />
+                <strong>Payment Item Name</strong> <input name="pay_item_name" value="Item A" /> <strong>Display Mode:</strong> <input name="display_mode" value="PAGE" />
+                <strong>Merchant Code</strong> <input name="merchant_code" value="MX12296" /> <strong>Hit submit and complete the transaction</strong>
+                <input type="submit" value="Submit Form" />
+            </form>
         </template>
     </modal>
 </template>
@@ -283,13 +216,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([
-            "getLoggedUser",
-            "getExchangeRate",
-            "getNextKYC",
-            "getWalletTx",
-            "getUserCards"
-        ]),
+        ...mapGetters(["getLoggedUser", "getExchangeRate", "getNextKYC", "getWalletTx", "getUserCards"]),
         // paystackValue() {
         //     if (!this.itemData.amount) return 0;
         //     if (this.actualValue > 2500) {
@@ -387,9 +314,6 @@ export default {
                 firstname: this.getLoggedUser.UserKYC.firstname,
                 lastname: this.getLoggedUser.UserKYC.lastname,
                 ref: this.getWalletTx.reference,
-                // metadata: {
-                //     service_charge: (Math.ceil(this.paystackValue) - this.itemData.amount) * 100
-                // },
                 onClose: resp => {
                     this.loading = false;
                     this.flag = "CANCEL";

@@ -878,6 +878,10 @@
             &::before {
                 display: none;
             }
+
+            &--center {
+                justify-content: center;
+            }
         }
 
         &__image-box {
