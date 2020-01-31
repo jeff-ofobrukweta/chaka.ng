@@ -54,7 +54,7 @@
                             </h2>
                             <p class="mt-2 mb-1">
                                 <b class="val-banner__b" :class="{ 'is-invalid': errors.symbol }"
-                                    >Please select <span class="val-red">ONE</span> of the Portfolio/ETFs provided <span v-if="errors.symbol" class="val-red">**</span></b
+                                    >Select/Type the asset that represents you and bae <span v-if="errors.symbol" class="val-red">**</span></b
                                 >
                             </p>
                             <template v-if="searchStocks.length > 0">
@@ -184,7 +184,7 @@
                     <div class="modal-container">
                         <div class="modal-body">
                             <div class="modal-flex">
-                                <div class="modal-text">
+                                <div class="modal-text" id="toImage">
                                     <p><strong>YOU GET</strong></p>
                                     <div class="modal-text__box">
                                         <h1>
@@ -213,6 +213,12 @@
                                 <div class="modal-image">
                                     <img :src="getValResult.imageUrl" alt="Sample" />
                                 </div>
+                            </div>
+                            <div class="modal-flex">
+                                <!-- <div> -->
+                                    <!-- TO-DO::Put back when final image is ready -->
+                                <!-- <img :src="finalImage" alt="Final image" /> -->
+                                <!-- </div> -->
                             </div>
                             <div class="modal-text__powered" v-if="getWindowWidth !== 'mobile'">
                                 Powered by<svg width="45" height="13" viewBox="0 0 45 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -298,6 +304,7 @@
                 </div>
             </div>
         </transition>
+        <canvas style="display: none" id="canvas"></canvas>
     </main>
 </template>
 
@@ -306,6 +313,7 @@ import { mapActions, mapMutations, mapGetters } from "vuex";
 import "aos/dist/aos.css";
 import EventBus from "../event-bus";
 import AOS from "aos";
+import html2canvas from "html2canvas";
 
 export default {
     name: "Valentine",
@@ -343,7 +351,9 @@ export default {
                     symbol: "SPY"
                 }
             ],
-            showModal: false
+            showModal: false,
+            finalImage: null,
+            tempUrl: null
         };
     },
     computed: {
@@ -359,9 +369,6 @@ export default {
             if (this.getValResult.netEarning >= 0) return "green";
             return "val-red";
         },
-        // instagramLink() {
-        //     return "https://twitter.com/intent/tweet?text=This is my relationship net-worth. Find out yours https://chaka.ng/relationship-calculator";
-        // },
         facebookLink() {
             return "https://web.facebook.com/sharer/sharer.php?u=https://chaka.ng/relationship-calculator&hashtag=%23valentine&_rdc=1&_rdr";
         },
@@ -395,7 +402,7 @@ export default {
             this.MODAL_OPENED(false);
             this.showModal = false;
         },
-        async getResult() {
+        getResult() {
             this.RESET_REQ();
             if (!this.itemData.duration) {
                 this.$set(this.errors, "duration", true);
@@ -415,10 +422,16 @@ export default {
             this.loading = true;
             const payload = { ...this.itemData };
             payload.amount *= 100;
-            await this.GET_VAL_RESULT(payload);
-            this.loading = false;
-            this.showModal = true;
-            this.MODAL_OPENED(true);
+            this.GET_VAL_RESULT(payload).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.showModal = true;
+                    this.MODAL_OPENED(true);
+                    setTimeout(() => {
+                        this.createImage();
+                    }, 100);
+                }
+            });
         },
         checkGiftValue() {
             if (this.amount !== "manual") {
@@ -428,6 +441,46 @@ export default {
         resetSymbols() {
             this.activePortfolio = null;
             this.itemData.symbol = null;
+        },
+        async createImage() {
+            const node = document.querySelector("#toImage");
+            await this.toBase64(this.getValResult.imageUrl);
+            html2canvas(node, { useCORS: true }).then(result => {
+                const imgSrc = result.toDataURL("image/png");
+
+                var canvas = document.createElement("canvas");
+                var context = canvas.getContext("2d");
+                var imageObj1 = new Image();
+                var imageObj2 = new Image();
+                imageObj1.src = imgSrc;
+                imageObj1.onload = () => {
+                    canvas.width = imageObj1.width + 500;
+                    canvas.height = 1000;
+                    context.drawImage(imageObj1, 0, 0, imageObj1.width - 100, imageObj1.height - 100);
+                    imageObj2.src = this.tempUrl;
+                    imageObj2.onload = () => {
+                        context.drawImage(imageObj2, imageObj1.width - 100, 200);
+                        // this.finalImage = canvas.toDataURL("image/png");
+                    };
+                };
+                imageObj2.onerror = err => console.error(err);
+            });
+        },
+        toBase64(url) {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = () => {
+                var reader = new FileReader();
+                reader.readAsDataURL(xhr.response);
+                reader.onload = () => {
+                    reader.onloadend = () => {
+                        this.tempUrl = reader.result;
+                    };
+                };
+            };
+            xhr.onerror = err => console.error(err);
+            xhr.open("GET", url, true);
+            xhr.responseType = "blob";
+            xhr.send();
         }
     },
     mounted() {
@@ -439,8 +492,10 @@ export default {
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
         this.itemData.interval = "Y";
+        this.itemData.duration = 4;
         this.amount = 1000;
         this.checkGiftValue();
+        this.setActive("AAPL");
     },
     created() {
         AOS.init({
@@ -450,7 +505,7 @@ export default {
             mirror: false,
             startEvent: "DOMContentLoaded",
             anchorPlacement: "top-center",
-            // once: true,
+            once: true,
             offset: 50
         });
     }
@@ -545,7 +600,7 @@ export default {
             font-size: 0.725rem;
 
             svg {
-                vertical-align: middle;
+                vertical-align: text-top;
                 margin-left: 2px;
             }
         }

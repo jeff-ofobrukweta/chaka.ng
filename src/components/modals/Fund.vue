@@ -32,41 +32,6 @@
             </div>
         </div>
 
-        <!-- TO-DO :: Put back if dollar funding is blocked for incomplete KYCs -->
-
-        <!-- <template v-if="currency === 'USD' && canFundGlobal !== 3">
-            <div class="modal-form" v-if="canFundGlobal === 1">
-                <h5 class="text-center mb-2">Verification Incomplete</h5>
-                <p class="text-center">
-                    To continue your verification, click the button below
-                </p>
-                <div class="text-center mt-3">
-                    <kyc-button
-                        ref="globalBtn"
-                        type="button"
-                        :classes="['btn__primary']"
-                        action="global"
-                        @step="handleStep"
-                        >Continue</kyc-button
-                    >
-                </div>
-
-                <modal-kyc
-                    :requiredFields="selectedField.fields"
-                    :title="selectedField.title"
-                    @updated="handleUpdate"
-                    @close="showKYC = false"
-                    v-if="showKYC"
-                />
-            </div>
-            <div class="modal-form" v-if="canFundGlobal === 2">
-                <h5 class="text-center mb-2">Your Verification is Under Review</h5>
-                <p class="text-center">
-                    You will be notified through email when your account gets activated for global
-                    transactions
-                </p>
-            </div>
-        </template> -->
         <template v-if="activeMethod === 'BANK'">
             <div class="modal-form" v-if="currency === 'NGN'">
                 <br />
