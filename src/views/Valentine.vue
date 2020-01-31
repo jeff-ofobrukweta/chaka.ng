@@ -6,7 +6,7 @@
                     <div class="val-banner__row">
                         <div class="val-banner__text">
                             <h2>
-                                "We have been together for
+                                "Bae and I have been together for
                                 <input
                                     type="number"
                                     class="val-form__input"
@@ -160,15 +160,16 @@
                             </div>
                             <div class="d-none d-md-block v2-mobile__store v2-mobile__store--light" data-aos="fade-left" data-aos-delay="200">
                                 <img src="../assets/img/appstore.svg" alt="App Store" />
-                                <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
+                                <!-- <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
                                     <img src="../assets/img/playstore.svg" alt="Play Store" />
-                                </a></div
-                        ></template>
+                                </a> -->
+                            </div>
+                        </template>
                         <div v-else class="d-md-none v2-mobile__store v2-mobile__store--dark" data-aos="fade-left" data-aos-delay="200">
                             <img src="../assets/img/appstore-dark.svg" alt="App Store" />
-                            <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
+                            <!-- <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
                                 <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -211,7 +212,7 @@
                                     </p>
                                 </div>
                                 <div class="modal-image">
-                                    <img :src="getValResult.imageUrl" alt="Sample" />
+                                    <img :src="getValResult.imageUrl" :alt="getValResult.netEarningPercentage" />
                                 </div>
                             </div>
                             <div class="modal-flex">
@@ -366,9 +367,8 @@ export default {
             return this.allPortfolios;
         },
         colorClass() {
-            // if (this.getValResult.netEarning >= 0) return "green";
-            // return "val-red";
-            return "green";
+            if (this.getValResult.netEarning >= 0) return "green";
+            return "val-red";
         },
         facebookLink() {
             return `https://web.facebook.com/sharer.php?display=page&u=http://bae.gifts&_rdc=1&_rdr`;
@@ -468,20 +468,22 @@ export default {
             });
         },
         toBase64(url) {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = () => {
-                var reader = new FileReader();
-                reader.readAsDataURL(xhr.response);
-                reader.onload = () => {
-                    reader.onloadend = () => {
-                        this.tempUrl = reader.result;
+            if (url) {
+                var xhr = new XMLHttpRequest();
+                xhr.onload = () => {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(xhr.response);
+                    reader.onload = () => {
+                        reader.onloadend = () => {
+                            this.tempUrl = reader.result;
+                        };
                     };
                 };
-            };
-            xhr.onerror = err => console.error(err);
-            xhr.open("GET", url, true);
-            xhr.responseType = "blob";
-            xhr.send();
+                xhr.onerror = err => console.error(err);
+                xhr.open("GET", url, true);
+                xhr.responseType = "blob";
+                xhr.send();
+            }
         }
     },
     mounted() {
