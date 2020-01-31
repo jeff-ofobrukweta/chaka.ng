@@ -216,7 +216,7 @@
                             </div>
                             <div class="modal-flex">
                                 <!-- <div> -->
-                                    <!-- TO-DO::Put back when final image is ready -->
+                                <!-- TO-DO::Put back when final image is ready -->
                                 <!-- <img :src="finalImage" alt="Final image" /> -->
                                 <!-- </div> -->
                             </div>
@@ -366,17 +366,18 @@ export default {
             return this.allPortfolios;
         },
         colorClass() {
-            if (this.getValResult.netEarning >= 0) return "green";
-            return "val-red";
+            // if (this.getValResult.netEarning >= 0) return "green";
+            // return "val-red";
+            return "green";
         },
         facebookLink() {
-            return "https://web.facebook.com/sharer/sharer.php?u=https://chaka.ng/relationship-calculator&hashtag=%23valentine&_rdc=1&_rdr";
+            return `https://web.facebook.com/sharer.php?display=page&u=http://bae.gifts&_rdc=1&_rdr`;
         },
         twitterLink() {
-            return "https://twitter.com/intent/tweet?text=This is my relationship net-worth. Find out yours https://chaka.ng/relationship-calculator";
+            return `https://twitter.com/intent/tweet?text=Just found out the value of my relationship is ${this.getValResult.netEarningPercentage}, find out yours at http://bae.gifts%0A%0APowered by @chakastocks`;
         },
         whatsappLink() {
-            return "https://api.whatsapp.com/send?text=This is my relationship net-worth. Find out yours https://chaka.ng/relationship-calculator";
+            return `https://api.whatsapp.com/send?text=Just found out the value of my relationship is ${this.getValResult.netEarningPercentage}, find out yours at http://bae.gifts%0A%0APowered by chaka.ng`;
         }
     },
     methods: {
@@ -492,10 +493,8 @@ export default {
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
         this.itemData.interval = "Y";
-        this.itemData.duration = 4;
         this.amount = 1000;
         this.checkGiftValue();
-        this.setActive("AAPL");
     },
     created() {
         AOS.init({

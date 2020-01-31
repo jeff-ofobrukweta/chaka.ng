@@ -100,7 +100,7 @@ export default {
             mirror: false,
             startEvent: "DOMContentLoaded",
             anchorPlacement: "top-center",
-            // once: true,
+            once: true,
             offset: 50
         });
     }
