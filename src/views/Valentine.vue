@@ -539,7 +539,7 @@ export default {
         this.amount = 1000;
         this.checkGiftValue();
         this.itemData.symbol = "AAPL";
-        // this.stockName = "Apple Inc";
+        this.stockName = "Apple Inc";
     },
     created() {
         AOS.init({
