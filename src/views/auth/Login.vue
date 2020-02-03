@@ -101,7 +101,7 @@ export default {
                 alert(`login success with token ${token}`);
                 if (provider === "facebook") {
                     this_.$http
-                        .get("https://graph.facebook.com/v3.0/me?fields=email,name,id", {
+                        .get("https://graph.facebook.com/v5.0/me?fields=email,name,id", {
                             params: { access_token: token }
                         })
                         .then(response => {

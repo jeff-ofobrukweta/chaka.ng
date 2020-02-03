@@ -36,11 +36,13 @@ Vue.use(Toaster, toasterOptions);
 
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, {
-    baseUrl: "https://5e3059990d31290008ffe300--v2-chaka.netlify.com", // Your API domain
+    baseUrl: "http://localhost:8080", // Your API domain
     providers: {
         facebook: {
             clientId: "724818008039885", //your Facebook App ID e.g. 12345667890
-            redirectUri: "https://5e3059990d31290008ffe300--v2-chaka.netlify.com/auth/facebook/callback", // Your client app URL
+            url: 'http://localhost:8080/auth/facebook',
+            authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
+            redirectUri:"http://localhost:8080/auth/google/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
@@ -48,15 +50,14 @@ Vue.use(VueAuthenticate, {
             scopeDelimiter: ",",
             display: "popup",
             oauthType: "2.0",
-            popupOptions: { width: 452, height: 633 },
-            authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
+            popupOptions: { width: 452, height: 633 }
         },
         google: {
             clientId: "769520289802-7090leoee2v0ia47ekpjagh0o7jiultm.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
+            url: 'http://localhost:8080/auth/google',
             redirectUri: "http://localhost:8080/auth/google/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
-            optionalUrlParams: ["display"],
             scope: ["profile", "email"],
             scopePrefix: "openid",
             scopeDelimiter: " ",
