@@ -66,16 +66,9 @@
                                 >
                             </p>
                             <template v-if="searchStocks.length > 0">
-                                <div
-                                    v-for="(portfolio, i) in searchStocks"
-                                    :key="i"
-                                    :class="{ active: activePortfolio === portfolio.symbol }"
-                                    class="val-banner__check"
-                                    @click="setActive(portfolio)"
-                                >
-                                    <div class="val-banner__check--box" :class="{ active: activePortfolio === portfolio.symbol }"></div>
-                                    <div class="val-banner__check--text">{{ portfolio.name }}</div>
-                                </div>
+                                <select name="stock-select" v-model="itemData.symbol" @change="setActive" class="val-form__stock" :class="{ 'is-invalid': errors.amount }">
+                                    <option :value="stock.symbol" selected v-for="(stock, i) in searchStocks" :key="i">{{ stock.name }}</option>
+                                </select>
                             </template>
                             <template v-else>
                                 <small
@@ -378,6 +371,9 @@ export default {
             }
             return this.allPortfolios;
         },
+        // stockName() {
+        //     return this.searchStocks.filter(el => el.symbol === this.itemData.symbol)[0].name;
+        // },
         earningScore() {
             const splice = this.getValResult.netEarningPercentage.split("");
             return `${splice.splice(0, splice.length - 1).join("")}`;
@@ -410,19 +406,29 @@ export default {
         async startSearch() {
             this.resetSymbols();
             const payload = { query: this.search };
+            this.stockName = null;
             await this.SEARCH_INSTRUMENTS(payload);
-        },
-        setActive(portfolio) {
-            this.errors = {};
-            if (portfolio.symbol === this.activePortfolio) {
-                this.itemData.symbol = null;
-                this.activePortfolio = null;
-                this.stockName = null;
-            } else {
-                this.activePortfolio = portfolio.symbol;
-                this.itemData.symbol = portfolio.symbol;
-                this.stockName = portfolio.name;
+            if (this.searchStocks.length > 0) {
+                this.itemData.symbol = this.searchStocks[0].symbol;
+                this.setActive();
             }
+        },
+        setActive() {
+            this.errors = {};
+            const temp = this.searchStocks.filter(el => el.symbol === this.itemData.symbol);
+            if (temp.length > 0) {
+                this.stockName = temp[0].name;
+            }
+            console.log(this.itemData.symbol, this.stockName);
+            // if (portfolio.symbol === this.activePortfolio) {
+            // this.itemData.symbol = null;
+            // this.activePortfolio = null;
+            // this.stockName = null;
+            // } else {
+            // this.activePortfolio = portfolio.symbol;
+            // this.itemData.symbol = portfolio.symbol;
+            // this.stockName = portfolio.name;
+            // }
         },
         closeModal() {
             EventBus.$emit("MODAL_CLOSED");
@@ -477,7 +483,6 @@ export default {
             }
         },
         resetSymbols() {
-            this.activePortfolio = null;
             this.itemData.symbol = null;
         },
         async createImage() {
@@ -534,6 +539,8 @@ export default {
         this.itemData.interval = "Y";
         this.amount = 1000;
         this.checkGiftValue();
+        this.itemData.symbol = "AAPL";
+        // this.stockName = "Apple Inc";
     },
     created() {
         AOS.init({
