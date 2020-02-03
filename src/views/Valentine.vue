@@ -419,7 +419,6 @@ export default {
             if (temp.length > 0) {
                 this.stockName = temp[0].name;
             }
-            console.log(this.itemData.symbol, this.stockName);
             // if (portfolio.symbol === this.activePortfolio) {
             // this.itemData.symbol = null;
             // this.activePortfolio = null;

@@ -3,18 +3,8 @@
         <nav class="nav" role="navigation" :class="{ nav__dashboard: isLoggedIn }">
             <template v-if="!isLoggedIn">
                 <div class="nav-left">
-                    <router-link
-                        class="nav__logo"
-                        :to="{ name: 'home' }"
-                        exact-active-class="active"
-                        ><svg
-                            v-if="getValTheme"
-                            width="148"
-                            height="41"
-                            viewBox="0 0 148 41"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
+                    <router-link class="nav__logo" :to="{ name: 'home' }" exact-active-class="active"
+                        ><svg v-if="getValTheme" width="148" height="41" viewBox="0 0 148 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 fill-rule="evenodd"
                                 clip-rule="evenodd"
@@ -27,13 +17,7 @@
                             />
                         </svg>
 
-                        <svg
-                            v-else
-                            width="146"
-                            height="42"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
+                        <svg v-else width="146" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <title>chaka</title>
                             <path
                                 fill-rule="evenodd"
@@ -58,21 +42,12 @@
                             >
                         </li> -->
                         <li class="nav__item">
-                            <router-link
-                                class="nav__link nav__link--app"
-                                :to="{ name: 'apphome' }"
-                                exact-active-class="active"
-                                :class="{ 'nav__link--app-val': getValTheme }"
+                            <router-link class="nav__link nav__link--app" :to="{ name: 'apphome' }" exact-active-class="active" :class="{ 'nav__link--app-val': getValTheme }"
                                 >Get App</router-link
                             >
                         </li>
                         <li class="nav__item">
-                            <router-link
-                                class="nav__link"
-                                to="/calculator"
-                                exact-active-class="active"
-                                >Calculator</router-link
-                            >
+                            <router-link class="nav__link" to="/calculator" exact-active-class="active">Calculator</router-link>
                         </li>
                         <!-- TO-DO :: Put back when pages are ready -->
                         <!-- <li class="nav__item">
@@ -81,20 +56,10 @@
                             >
                         </li> -->
                         <li class="nav__item">
-                            <router-link
-                                class="nav__link"
-                                :to="{ name: 'faq' }"
-                                active-class="active"
-                                >Help</router-link
-                            >
+                            <router-link class="nav__link" :to="{ name: 'faq' }" active-class="active">Help</router-link>
                         </li>
                         <li class="nav__item">
-                            <router-link
-                                class="nav__link"
-                                :to="{ name: 'about' }"
-                                active-class="active"
-                                >About</router-link
-                            >
+                            <router-link class="nav__link" :to="{ name: 'about' }" active-class="active">About</router-link>
                         </li>
 
                         <!-- TO-DO:: Put back when Valentine is ready -->
@@ -136,20 +101,10 @@
 
                 <ul class="nav__menu">
                     <li class="nav__menu--auth">
-                        <router-link
-                            class="nav__link nav__link--auth"
-                            :class="{ home: isHomePage }"
-                            :to="{ name: 'login' }"
-                            >Log In</router-link
-                        >
+                        <router-link class="nav__link nav__link--auth" :class="{ home: isHomePage }" :to="{ name: 'login' }">Log In</router-link>
                     </li>
                     <li class="nav__menu--auth">
-                        <router-link
-                            class="nav__link nav__link--auth"
-                            :class="{ 'home-register': isHomePage, val: getValTheme }"
-                            :to="{ name: 'register' }"
-                            >Sign Up</router-link
-                        >
+                        <router-link class="nav__link nav__link--auth" :class="{ 'home-register': isHomePage, val: getValTheme }" :to="{ name: 'register' }">Sign Up</router-link>
                     </li>
                 </ul>
 
@@ -162,14 +117,7 @@
                     <div class="nav__menu-wrapper">
                         <div>
                             <router-link to="/" class="nav__logo"
-                                ><svg
-                                    v-if="getValTheme"
-                                    width="148"
-                                    height="41"
-                                    viewBox="0 0 148 41"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                ><svg v-if="getValTheme" width="148" height="41" viewBox="0 0 148 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         fill-rule="evenodd"
                                         clip-rule="evenodd"
@@ -182,13 +130,7 @@
                                     />
                                 </svg>
 
-                                <svg
-                                    v-else
-                                    width="146"
-                                    height="42"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
+                                <svg v-else width="146" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <title>chaka</title>
                                     <path
                                         fill-rule="evenodd"
@@ -204,9 +146,7 @@
                             </router-link>
                             <ul class="nav__mobile-list">
                                 <li class="nav__item">
-                                    <router-link class="nav__link" :to="{ name: 'login' }"
-                                        >Log In</router-link
-                                    >
+                                    <router-link class="nav__link" :to="{ name: 'login' }">Log In</router-link>
                                 </li>
                                 <!-- TO-DO:: Put back when Gifts is ready -->
                                 <!-- <li class="nav__item">
@@ -218,14 +158,10 @@
                                     >
                                 </li> -->
                                 <li class="nav__item">
-                                    <router-link class="nav__link" :to="{ name: 'apphome' }"
-                                        >Get App</router-link
-                                    >
+                                    <router-link class="nav__link" :to="{ name: 'apphome' }">Get App</router-link>
                                 </li>
                                 <li class="nav__item">
-                                    <router-link class="nav__link" :to="{ name: 'calculator' }"
-                                        >Calculator</router-link
-                                    >
+                                    <router-link class="nav__link" :to="{ name: 'calculator' }">Calculator</router-link>
                                 </li>
                                 <!-- TO-DO :: Put back when pages are ready -->
                                 <!-- <li class="nav__item">
@@ -234,32 +170,22 @@
                                     >
                                 </li> -->
                                 <li class="nav__item">
-                                    <router-link class="nav__link" :to="{ name: 'faq' }"
-                                        >Help</router-link
-                                    >
+                                    <router-link class="nav__link" :to="{ name: 'faq' }">Help</router-link>
                                 </li>
                                 <li class="nav__item">
-                                    <router-link class="nav__link" :to="{ name: 'about' }"
-                                        >About us</router-link
-                                    >
+                                    <router-link class="nav__link" :to="{ name: 'about' }">About us</router-link>
                                 </li>
                             </ul>
                         </div>
                         <ul class="nav__meta">
                             <li class="nav__item">
-                                <router-link :to="{ name: 'terms' }" class="nav__meta-link"
-                                    >Terms & Conditions</router-link
-                                >
+                                <router-link :to="{ name: 'terms' }" class="nav__meta-link">Terms & Conditions</router-link>
                             </li>
                             <li class="nav__item">
-                                <router-link :to="{ name: 'policies' }" class="nav__meta-link"
-                                    >Policies & procedures</router-link
-                                >
+                                <router-link :to="{ name: 'policies' }" class="nav__meta-link">Policies & procedures</router-link>
                             </li>
                             <li class="nav__item">
-                                <router-link :to="{ name: 'privacy' }" class="nav__meta-link"
-                                    >Privacy Policy</router-link
-                                >
+                                <router-link :to="{ name: 'privacy' }" class="nav__meta-link">Privacy Policy</router-link>
                             </li>
                         </ul>
                     </div>
@@ -267,19 +193,8 @@
             </template>
             <template v-else>
                 <div class="nav__dashboard--left" :class="{ 'nav__search--left': isSearchOpened }">
-                    <router-link
-                        class="nav__logo"
-                        :class="{ 'nav__search--logo': isSearchOpened }"
-                        :to="{ name: 'home' }"
-                        exact-active-class="active"
-                        ><svg
-                            v-if="getValTheme"
-                            width="148"
-                            height="41"
-                            viewBox="0 0 148 41"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
+                    <router-link class="nav__logo" :class="{ 'nav__search--logo': isSearchOpened }" :to="{ name: 'home' }" exact-active-class="active"
+                        ><svg v-if="getValTheme" width="148" height="41" viewBox="0 0 148 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 fill-rule="evenodd"
                                 clip-rule="evenodd"
@@ -292,13 +207,7 @@
                             />
                         </svg>
 
-                        <svg
-                            v-else
-                            width="146"
-                            height="42"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
+                        <svg v-else width="146" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <title>chaka</title>
                             <path
                                 fill-rule="evenodd"
@@ -312,11 +221,7 @@
                             />
                         </svg>
                     </router-link>
-                    <form
-                        class="nav-left__form"
-                        v-if="getWindowWidth !== 'mobile'"
-                        @submit.prevent="startSearch"
-                    >
+                    <form class="nav-left__form" v-if="getWindowWidth !== 'mobile'" @submit.prevent="startSearch">
                         <input
                             type="text"
                             name="search"
@@ -330,10 +235,7 @@
                             ref="search"
                         />
                         <transition name="kyc-navbar">
-                            <div
-                                class="nav-left__dropdown"
-                                v-if="showSearch && getErrorLog.type !== 'search'"
-                            >
+                            <div class="nav-left__dropdown" v-if="showSearch && getErrorLog.type !== 'search'">
                                 <div v-if="searchLoading && search">
                                     <div class=" loader" v-for="i in 3" :key="i">
                                         <div class="loader-div" />
@@ -348,11 +250,7 @@
                                                 params: { symbol: stock.symbol }
                                             }"
                                         >
-                                            <img
-                                                :src="stock.logoUrl"
-                                                :alt="stock.symbol"
-                                                class="nav-left__dropdown--logo"
-                                            />
+                                            <img :src="stock.logoUrl" :alt="stock.symbol" class="nav-left__dropdown--logo" />
                                             <div>
                                                 <p>
                                                     <small>{{ stock.name | truncate(15) }}</small>
@@ -360,12 +258,7 @@
                                                 <p class="grey-cool">{{ stock.symbol }}</p>
                                             </div>
 
-                                            <img
-                                                :src="stockCountry(stock.countryCode)"
-                                                width="16px"
-                                                :alt="stock.symbol"
-                                                class="nav-left__dropdown--country"
-                                            />
+                                            <img :src="stockCountry(stock.countryCode)" width="16px" :alt="stock.symbol" class="nav-left__dropdown--country" />
                                         </router-link>
                                     </li>
                                 </ul>
@@ -379,11 +272,7 @@
                         </transition>
                     </form>
                     <div class="nav-left__icon" v-else>
-                        <form
-                            class="nav-left__form"
-                            :class="{ show: isSearchOpened }"
-                            @submit.prevent="startSearch"
-                        >
+                        <form class="nav-left__form" :class="{ show: isSearchOpened }" @submit.prevent="startSearch">
                             <template v-if="isSearchOpened">
                                 <input
                                     type="text"
@@ -391,18 +280,13 @@
                                     v-model="search"
                                     placeholder="Search stocks by name, symbol, tag.."
                                     class="nav-left__input"
-                                    @focus="beginSearch"
                                     @blur="stopSearch"
                                     @keyup="startSearch"
                                     autocomplete="off"
                                     ref="mobileInput"
                                 />
                                 <transition name="kyc-navbar">
-                                    <div
-                                        class="nav-left__dropdown"
-                                        @click="closeSearch"
-                                        v-if="showSearch && getErrorLog.type !== 'search'"
-                                    >
+                                    <div class="nav-left__dropdown" @click="closeSearch" v-if="showSearch && getErrorLog.type !== 'search'">
                                         <div v-if="searchLoading && search">
                                             <div class=" loader" v-for="i in 3" :key="i">
                                                 <div class="loader-div" />
@@ -417,26 +301,15 @@
                                                         params: { symbol: stock.symbol }
                                                     }"
                                                 >
-                                                    <img
-                                                        :src="stock.logoUrl"
-                                                        :alt="stock.symbol"
-                                                        class="nav-left__dropdown--logo"
-                                                    />
+                                                    <img :src="stock.logoUrl" :alt="stock.symbol" class="nav-left__dropdown--logo" />
                                                     <div>
                                                         <p>
-                                                            <small>{{
-                                                                stock.name | truncate(15)
-                                                            }}</small>
+                                                            <small>{{ stock.name | truncate(15) }}</small>
                                                         </p>
                                                         <p class="grey-cool">{{ stock.symbol }}</p>
                                                     </div>
 
-                                                    <img
-                                                        :src="stockCountry(stock.countryCode)"
-                                                        width="16px"
-                                                        :alt="stock.symbol"
-                                                        class="nav-left__dropdown--country"
-                                                    />
+                                                    <img :src="stockCountry(stock.countryCode)" width="16px" :alt="stock.symbol" class="nav-left__dropdown--country" />
                                                 </router-link>
                                             </li>
                                         </ul>
@@ -449,13 +322,7 @@
                                     </div>
                                 </transition>
                             </template>
-                            <img
-                                @click="openSearch"
-                                class="nav-left__form--icon"
-                                src="../assets/img/search.svg"
-                                alt="Search"
-                                width="18px"
-                            />
+                            <img @click="openSearch" class="nav-left__form--icon" src="../assets/img/search.svg" alt="Search" width="18px" />
                         </form>
                     </div>
                 </div>
@@ -463,44 +330,18 @@
                 <ul class="nav__dashboard--menu" :class="{ 'nav__search--right': isSearchOpened }">
                     <template v-if="Object.keys(getAccountSummary).length > 0">
                         <p>
-                            <router-link
-                                class="nav__dashboard--mobile"
-                                :to="{ name: 'accounts-wallet' }"
-                            >
+                            <router-link class="nav__dashboard--mobile" :to="{ name: 'accounts-wallet' }">
                                 <strong>Avail</strong>
-                                <span
-                                    :title="
-                                        getAccountSummary.localAvailableToTrade
-                                            | kobo
-                                            | currency('NGN', true)
-                                    "
-                                    >:
-                                    {{
-                                        getAccountSummary.localAvailableToTrade
-                                            | kobo
-                                            | currency("NGN")
-                                    }}</span
+                                <span :title="getAccountSummary.localAvailableToTrade | kobo | currency('NGN', true)"
+                                    >: {{ getAccountSummary.localAvailableToTrade | kobo | currency("NGN") }}</span
                                 >
                                 <span>&nbsp;|&nbsp;</span>
-                                <span
-                                    :title="
-                                        getAccountSummary.globalAvailableToTrade
-                                            | kobo
-                                            | currency('USD', true)
-                                    "
-                                    >{{
-                                        getAccountSummary.globalAvailableToTrade
-                                            | kobo
-                                            | currency("USD")
-                                    }}</span
-                                ></router-link
+                                <span :title="getAccountSummary.globalAvailableToTrade | kobo | currency('USD', true)">{{
+                                    getAccountSummary.globalAvailableToTrade | kobo | currency("USD")
+                                }}</span></router-link
                             >
                         </p>
-                        <router-link
-                            class="wallet-icon"
-                            :to="{ name: 'accounts-wallet' }"
-                            v-if="getWindowWidth === 'mobile'"
-                        >
+                        <router-link class="wallet-icon" :to="{ name: 'accounts-wallet' }" v-if="getWindowWidth === 'mobile'">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -535,10 +376,7 @@
                         </button>
                     </template>
                     <p v-else>
-                        <router-link
-                            class="nav__dashboard--mobile"
-                            :to="{ name: 'accounts-wallet' }"
-                        >
+                        <router-link class="nav__dashboard--mobile" :to="{ name: 'accounts-wallet' }">
                             <strong>Avail:&nbsp;</strong>
                             <span>₦-</span>
                             <span>&nbsp;|&nbsp;</span>
@@ -592,12 +430,7 @@ export default {
     },
     methods: {
         ...mapActions(["SEARCH_INSTRUMENTS"]),
-        ...mapMutations([
-            "SET_KYC_MODAL",
-            "SET_FUND_MODAL",
-            "SET_SEARCH_INSTRUMENTS",
-            "SEARCH_OPENED"
-        ]),
+        ...mapMutations(["SET_KYC_MODAL", "SET_FUND_MODAL", "SET_SEARCH_INSTRUMENTS", "SEARCH_OPENED"]),
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen;
         },
@@ -611,8 +444,7 @@ export default {
             this.SET_FUND_MODAL(true);
         },
         stockCountry(countryCode) {
-            if (countryCode)
-                return `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode.toLowerCase()}-flag.svg`;
+            if (countryCode) return `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode.toLowerCase()}-flag.svg`;
             return "zz";
         },
         async startSearch() {
