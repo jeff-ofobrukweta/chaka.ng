@@ -13,6 +13,8 @@
             align-items: center;
 
             @include mobile {
+                min-height: 100vh;
+
                 &::before {
                     content: '';
                     background-image: url('assets/img/val-lovers.png');
@@ -77,72 +79,6 @@
                 object-fit: contain;
                 object-position: center;
             }
-        }
-
-        &__check {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            margin-bottom: 0.625rem;
-            color: $black;
-            cursor: pointer;
-
-            &--box {
-                flex: 0 0 20px;
-
-                &::before {
-                    content: '';
-                    width: 0.825rem;
-                    display: block;
-                    transform: translateY(2px);
-                    height: 0.825rem;
-                    border: 2px solid $val-red;
-                    transition: all 200ms linear;
-                }
-
-                &.active {
-
-                    &::before {
-                        background-color: $val-red;
-                    }
-                }
-
-                @include mobile {
-                    display: none;
-                }
-            }
-
-            &--text {
-                font-size: 0.825rem;
-                flex: 0 1 90%;
-            }
-
-            @include mobile {
-                border-bottom: 1px solid $border-color;
-                padding-top: 0.5rem;
-                padding-bottom: 0.5rem;
-                font-size: 1rem;
-
-                &.active {
-                    .val-banner__check--text {
-                        color: $val-red
-                    }
-                }
-            }
-
-            // &.active {
-            //     &--box {
-            //         &::before {
-            //             background-color: $val-red;
-            //             content: '';
-            //             width: 0.825rem;
-            //             display: block;
-            //             transform: translateY(2px);
-            //             height: 0.825rem;
-            //             border: 2px solid $val-red;
-            //         }
-            //     }
-            // }
         }
     }
 
