@@ -644,7 +644,7 @@ export default {
                 this.totalValue = parseFloat(this.totalValue);
                 temp = (this.totalValue * 0.5) / 100;
                 tempBroker = temp <= 100 ? 100 : temp;
-                this.localBuyList[4].value = (5 / 100) * tempBroker + tempBroker;
+                this.localBuyList[4].value = (7.5 / 100) * tempBroker + tempBroker;
                 this.total.value =
                     this.totalValue +
                     this.localBuyList[1].value +
@@ -656,7 +656,7 @@ export default {
                 this.globalList[0].value = this.totalValue;
                 temp = this.totalValue / 100;
                 tempBroker = temp <= 2 ? 2 : temp;
-                this.globalList[1].value = (5 / 100) * tempBroker + tempBroker;
+                this.globalList[1].value = (7.5 / 100) * tempBroker + tempBroker;
                 this.total.value = this.totalValue + this.globalList[1].value;
             }
         },
@@ -671,7 +671,7 @@ export default {
                 this.localSellList[3].value = (this.totalValue * 0.075) / 100;
                 temp = (this.totalValue * 0.5) / 100;
                 tempBroker = temp <= 100 ? 100 : temp;
-                this.localSellList[4].value = (5 / 100) * tempBroker + tempBroker;
+                this.localSellList[4].value = (7.5 / 100) * tempBroker + tempBroker;
                 this.total.value =
                     this.totalValue -
                     this.localSellList[1].value -
@@ -682,7 +682,7 @@ export default {
                 this.globalList[0].value = +this.totalValue;
                 temp = this.totalValue / 100;
                 tempBroker = temp <= 2 ? 2 : temp;
-                this.globalList[1].value = (5 / 100) * tempBroker + tempBroker;
+                this.globalList[1].value = (7.5 / 100) * tempBroker + tempBroker;
                 this.total.value = +this.totalValue - this.globalList[1].value;
             }
         },
@@ -701,7 +701,7 @@ export default {
                 this.localBuyList[3].value = (this.totalBuy * 0.075) / 100;
                 temp = (this.totalBuy * 0.5) / 100;
                 tempBrokerBuy = temp <= 100 ? 100 : temp;
-                this.localBuyList[4].value = (5 / 100) * tempBrokerBuy + tempBrokerBuy;
+                this.localBuyList[4].value = (7.5 / 100) * tempBrokerBuy + tempBrokerBuy;
                 if (this.totalBuy) {
                     tempBuy =
                         this.totalBuy +
@@ -717,7 +717,7 @@ export default {
                 this.localSellList[3].value = (this.totalSell * 0.075) / 100;
                 temp = (this.totalSell * 0.5) / 100;
                 tempBrokerSell = temp <= 100 ? 100 : temp;
-                this.localBuyList[4].value = (5 / 100) * tempBrokerSell + tempBrokerSell;
+                this.localBuyList[4].value = (7.5 / 100) * tempBrokerSell + tempBrokerSell;
                 if (this.totalSell) {
                     tempSell =
                         this.totalSell -
