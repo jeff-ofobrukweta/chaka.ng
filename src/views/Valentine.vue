@@ -14,9 +14,17 @@
                                     placeholder="1"
                                     :class="{ 'is-invalid': errors.duration }"
                                     @focus="errors = {}"
+                                    @input="checkDuration"
                                     v-model="itemData.duration"
                                 />&nbsp;
-                                <select name="interval" v-model="itemData.interval" class="val-form__select" :class="{ 'is-invalid': errors.interval }" @focus="errors = {}">
+                                <select
+                                    name="interval"
+                                    v-model="itemData.interval"
+                                    class="val-form__select"
+                                    :class="{ 'is-invalid': errors.interval }"
+                                    @focus="errors = {}"
+                                    @change="checkDuration"
+                                >
                                     <option value="M">Months</option>
                                     <option value="Y" selected>Years</option> </select
                                 >.<br />In this period,
@@ -63,7 +71,7 @@
                                     :key="i"
                                     :class="{ active: activePortfolio === portfolio.symbol }"
                                     class="val-banner__check"
-                                    @click="setActive(portfolio.symbol)"
+                                    @click="setActive(portfolio)"
                                 >
                                     <div class="val-banner__check--box" :class="{ active: activePortfolio === portfolio.symbol }"></div>
                                     <div class="val-banner__check--text">{{ portfolio.name }}</div>
@@ -186,12 +194,15 @@
                         <div class="modal-body">
                             <div class="modal-flex">
                                 <div class="modal-text" id="toImage">
-                                    <p><strong>YOU GET</strong></p>
+                                    <p class="modal-text__net-earning">
+                                        <strong
+                                            ><small>Your relationship, like {{ stockName }} has {{ getValResult.netEarning >= 0 ? "grown" : "fallen" }} </small
+                                            ><span :class="colorClass">{{ getValResult.netEarningPercentage }}</span
+                                            ><small> in the last {{ itemData.duration }} {{ itemData.interval === "M" ? "month" : "year" }} period </small></strong
+                                        >
+                                    </p>
                                     <div class="modal-text__box">
-                                        <h1>
-                                            {{ (getValResult.capital + getValResult.netEarning) | kobo | currency("USD", true) }}
-                                        </h1>
-                                        <p class="modal-text__net-earning" :class="colorClass">({{ getValResult.netEarningPercentage }})</p>
+                                        <h4>({{ (getValResult.capital + getValResult.netEarning) | kobo | currency("USD", true) }})</h4>
                                         <div class="modal-text__powered" v-if="getWindowWidth === 'mobile'">
                                             Powered by<svg width="38" height="10" viewBox="0 0 38 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path
@@ -353,6 +364,7 @@ export default {
                 }
             ],
             showModal: false,
+            stockName: null,
             finalImage: null,
             tempUrl: null
         };
@@ -366,6 +378,10 @@ export default {
             }
             return this.allPortfolios;
         },
+        earningScore() {
+            const splice = this.getValResult.netEarningPercentage.split("");
+            return `${splice.splice(0, splice.length - 1).join("")}`;
+        },
         colorClass() {
             if (this.getValResult.netEarning >= 0) return "green";
             return "val-red";
@@ -374,10 +390,18 @@ export default {
             return `https://web.facebook.com/sharer.php?display=page&u=http://bae.gifts&_rdc=1&_rdr`;
         },
         twitterLink() {
-            return `https://twitter.com/intent/tweet?text=Just found out the value of my relationship is ${this.getValResult.netEarningPercentage}, find out yours at http://bae.gifts%0A%0APowered by @chakastocks`;
+            return `https://twitter.com/intent/tweet?text=Just found out the value of my relationship is ${this.$options.filters.currency(
+                this.earningScore,
+                "USD",
+                true
+            )}, find out yours at http://bae.gifts%0A%0APowered by @chakastocks`;
         },
         whatsappLink() {
-            return `https://api.whatsapp.com/send?text=Just found out the value of my relationship is ${this.getValResult.netEarningPercentage}, find out yours at http://bae.gifts%0A%0APowered by chaka.ng`;
+            return `https://api.whatsapp.com/send?text=Just found out the value of my relationship is ${this.$options.filters.currency(
+                this.earningScore,
+                "USD",
+                true
+            )}, find out yours at http://bae.gifts%0A%0APowered by chaka.ng`;
         }
     },
     methods: {
@@ -388,14 +412,16 @@ export default {
             const payload = { query: this.search };
             await this.SEARCH_INSTRUMENTS(payload);
         },
-        setActive(symbol) {
+        setActive(portfolio) {
             this.errors = {};
-            if (symbol === this.activePortfolio) {
+            if (portfolio.symbol === this.activePortfolio) {
                 this.itemData.symbol = null;
                 this.activePortfolio = null;
+                this.stockName = null;
             } else {
-                this.activePortfolio = symbol;
-                this.itemData.symbol = symbol;
+                this.activePortfolio = portfolio.symbol;
+                this.itemData.symbol = portfolio.symbol;
+                this.stockName = portfolio.name;
             }
         },
         closeModal() {
@@ -428,15 +454,26 @@ export default {
                 if (resp) {
                     this.showModal = true;
                     this.MODAL_OPENED(true);
-                    setTimeout(() => {
-                        this.createImage();
-                    }, 100);
+
+                    /**
+                     * TO-DO:: Put back when ready to implement screenshot
+                     *  */
+                    // setTimeout(() => {
+                    //     this.createImage();
+                    // }, 100);
                 }
             });
         },
         checkGiftValue() {
             if (this.amount !== "manual") {
                 this.itemData.amount = this.amount;
+            }
+        },
+        checkDuration() {
+            if ((this.itemData.interval === "Y" && this.itemData.duration > 5) || (this.itemData.interval === "M" && this.itemData.duration > 60)) {
+                setTimeout(() => {
+                    this.itemData.duration = this.itemData.interval === "M" ? 60 : 5;
+                }, 1000);
             }
         },
         resetSymbols() {
