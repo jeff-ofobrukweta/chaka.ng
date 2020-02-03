@@ -182,14 +182,14 @@
                 <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
                 <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
             </section>
-            <form method="post" action="https://webpay.interswitchng.com/collections/w/pay" style="margin-left: 28px">
+            <!-- <form method="post" action="https://webpay.interswitchng.com/collections/w/pay" style="margin-left: 28px">
                 <strong>Redirect URL:</strong> <input name="site_redirect_url" value="./" /> <strong>Pay Item ID:</strong> <input name="pay_item_id" value="3121516" />
                 <strong>Transaction Reference</strong> <input name="txn_ref" value="1545060437742" /> <strong>Amount:</strong> <input name="amount" value="10000" />
                 <strong>Currency:</strong> <input name="currency" value="566" /> <strong>Customer Name</strong> <input name="cust_name" value="Blank Limited" />
                 <strong>Payment Item Name</strong> <input name="pay_item_name" value="Item A" /> <strong>Display Mode:</strong> <input name="display_mode" value="PAGE" />
                 <strong>Merchant Code</strong> <input name="merchant_code" value="MX12296" /> <strong>Hit submit and complete the transaction</strong>
                 <input type="submit" value="Submit Form" />
-            </form>
+            </form> -->
         </template>
     </modal>
 </template>
