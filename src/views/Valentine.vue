@@ -66,16 +66,9 @@
                                 >
                             </p>
                             <template v-if="searchStocks.length > 0">
-                                <div
-                                    v-for="(portfolio, i) in searchStocks"
-                                    :key="i"
-                                    :class="{ active: activePortfolio === portfolio.symbol }"
-                                    class="val-banner__check"
-                                    @click="setActive(portfolio)"
-                                >
-                                    <div class="val-banner__check--box" :class="{ active: activePortfolio === portfolio.symbol }"></div>
-                                    <div class="val-banner__check--text">{{ portfolio.name }}</div>
-                                </div>
+                                <select name="stock-select" v-model="itemData.symbol" class="val-form__stock" @change="setActive(stock)" :class="{ 'is-invalid': errors.amount }">
+                                    <option :value="stock.symbol" selected v-for="(stock, i) in searchStocks" :key="i">{{ stock.name }}</option>
+                                </select>
                             </template>
                             <template v-else>
                                 <small
@@ -411,16 +404,20 @@ export default {
             this.resetSymbols();
             const payload = { query: this.search };
             await this.SEARCH_INSTRUMENTS(payload);
+            if (this.searchStocks.length > 0) {
+                this.itemData.symbol = this.searchStocks[0].symbol;
+                this.setActive(this.searchStocks[0]);
+            }
         },
         setActive(portfolio) {
             this.errors = {};
             if (portfolio.symbol === this.activePortfolio) {
-                this.itemData.symbol = null;
-                this.activePortfolio = null;
+                // this.itemData.symbol = null;
+                // this.activePortfolio = null;
                 this.stockName = null;
             } else {
-                this.activePortfolio = portfolio.symbol;
-                this.itemData.symbol = portfolio.symbol;
+                // this.activePortfolio = portfolio.symbol;
+                // this.itemData.symbol = portfolio.symbol;
                 this.stockName = portfolio.name;
             }
         },
@@ -477,7 +474,6 @@ export default {
             }
         },
         resetSymbols() {
-            this.activePortfolio = null;
             this.itemData.symbol = null;
         },
         async createImage() {
@@ -534,6 +530,8 @@ export default {
         this.itemData.interval = "Y";
         this.amount = 1000;
         this.checkGiftValue();
+        this.itemData.symbol = "AAPL";
+        this.stockName = "Apple Inc";
     },
     created() {
         AOS.init({
