@@ -878,6 +878,10 @@
             &::before {
                 display: none;
             }
+
+            &--center {
+                justify-content: center;
+            }
         }
 
         &__image-box {
@@ -940,7 +944,7 @@
             display: flex;
             max-width: 400px;
             width: 100%;
-            justify-content: space-between;
+            justify-content: center;
             margin-top: 2em;
             margin-bottom: 3em;
 

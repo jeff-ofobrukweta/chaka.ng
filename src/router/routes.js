@@ -1,14 +1,10 @@
 import { clearSession, requireAuth, noAuthOnly } from "../services/auth";
 
 const Home = () => import(/* webpackChunkName: "home" */ "../views/Home");
-const VerificationSent = () =>
-    import(/* webpackChunkName: "verification-sent" */ "../views/VerificationSent");
-const ForgotPassword = () =>
-    import(/* webpackChunkName: "forgot-password" */ "../views/auth/ForgotPassword");
-const ResetPassword = () =>
-    import(/* webpackChunkName: "reset-password" */ "../views/auth/ResetPassword");
-const ConfirmEmail = () =>
-    import(/* webpackChunkName: "confirm-email" */ "../views/auth/ConfirmEmail");
+const VerificationSent = () => import(/* webpackChunkName: "verification-sent" */ "../views/VerificationSent");
+const ForgotPassword = () => import(/* webpackChunkName: "forgot-password" */ "../views/auth/ForgotPassword");
+const ResetPassword = () => import(/* webpackChunkName: "reset-password" */ "../views/auth/ResetPassword");
+const ConfirmEmail = () => import(/* webpackChunkName: "confirm-email" */ "../views/auth/ConfirmEmail");
 const Login = () => import(/* webpackChunkName: "login" */ "../views/auth/Login");
 const Policies = () => import(/* webpackChunkName: "policies" */ "../views/Policies");
 const Developers = () => import(/* webpackChunkName: "developers" */ "../views/Developers");
@@ -23,36 +19,22 @@ const Logout = () => import(/* webpackChunkName: "logout" */ "../views/auth/Logo
 const Register = () => import(/* webpackChunkName: "register" */ "../views/auth/Register");
 const Disclosures = () => import(/* webpackChunkName: "disclosures" */ "../views/Disclosure");
 const AppHome = () => import(/* webpackChunkName: "app-home" */ "../views/AppHome");
-const DashboardLayout = () =>
-    import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
+const DashboardLayout = () => import(/* webpackChunkName: "dashboard" */ "../layouts/DashboardLayout");
 const Portfolio = () => import(/* webpackChunkName: "portfolio" */ "../views/dashboard/Portfolio");
-const PortfolioDetails = () =>
-    import(/* webpackChunkName: "portfolio-details" */ "../views/dashboard/PortfolioDetails");
+const PortfolioDetails = () => import(/* webpackChunkName: "portfolio-details" */ "../views/dashboard/PortfolioDetails");
 const Explore = () => import(/* webpackChunkName: "explore" */ "../views/dashboard/Explore");
-const ExploreCollection = () =>
-    import(/* webpackChunkName: "explore-collection" */ "../views/dashboard/SingleCollection");
-const Categories = () =>
-    import(/* webpackChunkName: "categories" */ "../views/dashboard/Categories");
-const DashboardCalculator = () =>
-    import(/* webpackChunkName: "dashboard-calculator" */ "../views/dashboard/Calculator");
-const DashboardGifts = () =>
-    import(/* webpackChunkName: "dashboard-gifts" */ "../views/dashboard/Gifts");
-const AccountsIndex = () =>
-    import(/* webpackChunkName: "accounts-index" */ "../views/dashboard/accounts/Index");
-const AccountsOverview = () =>
-    import(/* webpackChunkName: "accounts-overview" */ "../views/dashboard/accounts/Overview");
-const AccountsWallet = () =>
-    import(/* webpackChunkName: "accounts-wallet" */ "../views/dashboard/accounts/Wallet");
-const AccountsStatements = () =>
-    import(/* webpackChunkName: "accounts-statements" */ "../views/dashboard/accounts/Statements");
-const AccountsHistory = () =>
-    import(/* webpackChunkName: "accounts-history" */ "../views/dashboard/accounts/History");
-const AccountsSettings = () =>
-    import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
-const AccountStamps = () =>
-    import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/accounts/Stamps");
-const Singlestock = () =>
-    import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/Singlestock");
+const ExploreCollection = () => import(/* webpackChunkName: "explore-collection" */ "../views/dashboard/SingleCollection");
+const Categories = () => import(/* webpackChunkName: "categories" */ "../views/dashboard/Categories");
+const DashboardCalculator = () => import(/* webpackChunkName: "dashboard-calculator" */ "../views/dashboard/Calculator");
+const DashboardGifts = () => import(/* webpackChunkName: "dashboard-gifts" */ "../views/dashboard/Gifts");
+const AccountsIndex = () => import(/* webpackChunkName: "accounts-index" */ "../views/dashboard/accounts/Index");
+const AccountsOverview = () => import(/* webpackChunkName: "accounts-overview" */ "../views/dashboard/accounts/Overview");
+const AccountsWallet = () => import(/* webpackChunkName: "accounts-wallet" */ "../views/dashboard/accounts/Wallet");
+const AccountsStatements = () => import(/* webpackChunkName: "accounts-statements" */ "../views/dashboard/accounts/Statements");
+const AccountsHistory = () => import(/* webpackChunkName: "accounts-history" */ "../views/dashboard/accounts/History");
+const AccountsSettings = () => import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
+const AccountStamps = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/accounts/Stamps");
+const Singlestock = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/Singlestock");
 
 const routes = [
     {
@@ -62,7 +44,7 @@ const routes = [
         beforeEnter: noAuthOnly
     },
     {
-        path: "/relationship-calculator",
+        path: "/love-calculator",
         name: "valentine",
         component: Valentine
     },

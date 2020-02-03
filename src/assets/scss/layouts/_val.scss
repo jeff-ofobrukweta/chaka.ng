@@ -11,6 +11,22 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+
+            @include mobile {
+                &::before {
+                    content: '';
+                    background-image: url('assets/img/val-lovers.png');
+                    background-size: 400px;
+                    background-position-x: 45vw;
+                    background-position-y: 25%;
+                    background-repeat: no-repeat;
+                    position: absolute;
+                    z-index: -1;
+                    opacity: 0.4;
+                    width: 100%;
+                    height: 100vh;
+                }
+            }
         }
 
         &__text {
@@ -19,6 +35,14 @@
             @include tablet {
                 flex: 0 0 45%;
                 max-width: 45%;
+            }
+
+            h2 {
+                @include mobile {
+                    font-size: 1.5rem;
+                    font-weight: normal;
+                    line-height: 1.325;
+                }
             }
         }
 
@@ -33,7 +57,7 @@
             padding-bottom: 2.5rem;
 
             @include mobile {
-                flex: 0 0 100%;
+                display: none;
             }
 
             flex: 0 0 55%;
@@ -82,11 +106,28 @@
                         background-color: $val-red;
                     }
                 }
+
+                @include mobile {
+                    display: none;
+                }
             }
 
             &--text {
                 font-size: 0.825rem;
                 flex: 0 1 90%;
+            }
+
+            @include mobile {
+                border-bottom: 1px solid $border-color;
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+                font-size: 1rem;
+
+                &.active {
+                    .val-banner__check--text {
+                        color: $val-red
+                    }
+                }
             }
 
             // &.active {
@@ -110,6 +151,29 @@
             border-radius: 0;
             padding: 0;
 
+            @include mobile {
+                border: none;
+                border-bottom: 1px solid $border-color;
+                background-color: $val-red;
+                border-radius: 3px;
+                padding: 0.5rem;
+                color: $white;
+
+                &::placeholder {
+                    color: rgba($color: $white, $alpha: 0.85);
+                }
+
+                &::-ms-input-placeholder {
+                    color: rgba($color: $white, $alpha: 0.85);
+                }
+
+                &::-webkit-input-placeholder {
+                    color: rgba($color: $white, $alpha: 0.85);
+                }
+
+
+            }
+
             @include tablet {
                 width: 350px;
                 border: none;
@@ -131,7 +195,10 @@
             margin-top: 1rem;
 
             @include mobile {
-                padding: 0 !important
+                left: -1.325rem;
+                position: relative;
+                width: 100vw;
+                margin-bottom: 2rem;
             }
 
             button {
@@ -142,6 +209,10 @@
                 justify-content: space-between;
                 width: 100%;
                 border-radius: 0;
+
+                @include mobile {
+                    width: 100vw;
+                }
 
                 @include tablet {
                     width: 350px;
@@ -161,6 +232,19 @@
             margin-top: 0.5rem;
             background-color: transparent;
             height: 42px;
+            border-radius: 0;
+
+            @include mobile {
+                height: 28.5px;
+                min-width: 150px;
+                background-color: $val-red;
+                color: $white;
+                border-color: $val-red;
+                border-radius: 3px;
+                padding-left: 5px;
+                padding-right: 5px;
+                font-size: 1.2rem;
+            }
 
             &:focus {
                 outline: none;
@@ -179,6 +263,12 @@
             margin-bottom: 0.5rem;
             width: 90px;
             text-align: center;
+
+            @include mobile {
+                border: 1px solid $border-color;
+                height: 28.5px;
+                font-size: 1.2rem;
+            }
 
             &:focus {
                 outline: none;
