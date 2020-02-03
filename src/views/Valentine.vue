@@ -66,13 +66,7 @@
                                 >
                             </p>
                             <template v-if="searchStocks.length > 0">
-                                <select
-                                    name="stock-select"
-                                    v-model="itemData.symbol"
-                                    class="val-form__select w-100"
-                                    @change="setActive(stock)"
-                                    :class="{ 'is-invalid': errors.amount }"
-                                >
+                                <select name="stock-select" v-model="itemData.symbol" class="val-form__stock" @change="setActive(stock)" :class="{ 'is-invalid': errors.amount }">
                                     <option :value="stock.symbol" selected v-for="(stock, i) in searchStocks" :key="i">{{ stock.name }}</option>
                                 </select>
                             </template>

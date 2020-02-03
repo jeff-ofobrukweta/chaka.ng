@@ -215,5 +215,17 @@
                 border-color: $val-red;
             }
         }
+
+        &__stock {
+            @extend .val-form__select;
+            @extend .val-form__search;
+            border-color: $val-red;
+            height: unset;
+
+            @include mobile {
+                width: 100%;
+                height: unset;
+            }
+        }
     }
 }
