@@ -387,14 +387,14 @@ export default {
         },
         twitterLink() {
             return `https://twitter.com/intent/tweet?text=Just found out the value of my relationship is ${this.$options.filters.currency(
-                this.earningScore,
+                this.getValResult.capital + this.getValResult.netEarning,
                 "USD",
                 true
             )}, find out yours at http://bae.gifts%0A%0APowered by @chakastocks`;
         },
         whatsappLink() {
             return `https://api.whatsapp.com/send?text=Just found out the value of my relationship is ${this.$options.filters.currency(
-                this.earningScore,
+                this.getValResult.capital + this.getValResult.netEarning,
                 "USD",
                 true
             )}, find out yours at http://bae.gifts%0A%0APowered by chaka.ng`;
@@ -402,7 +402,7 @@ export default {
     },
     methods: {
         ...mapActions(["SEARCH_INSTRUMENTS", "GET_VAL_RESULT"]),
-        ...mapMutations(["MODAL_OPENED", "RESET_REQ"]),
+        ...mapMutations(["MODAL_OPENED", "RESET_REQ", "RESET_ALL"]),
         async startSearch() {
             this.resetSymbols();
             const payload = { query: this.search };
@@ -552,6 +552,7 @@ export default {
             once: true,
             offset: 50
         });
+        this.RESET_ALL();
     }
 };
 </script>
