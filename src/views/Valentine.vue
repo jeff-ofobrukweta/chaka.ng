@@ -387,14 +387,14 @@ export default {
         },
         twitterLink() {
             return `https://twitter.com/intent/tweet?text=Just found out the value of my relationship is ${this.$options.filters.currency(
-                this.getValResult.capital + this.getValResult.netEarning,
+                (this.getValResult.capital + this.getValResult.netEarning) / 100,
                 "USD",
                 true
             )}, find out yours at http://bae.gifts%0A%0APowered by @chakastocks`;
         },
         whatsappLink() {
             return `https://api.whatsapp.com/send?text=Just found out the value of my relationship is ${this.$options.filters.currency(
-                this.getValResult.capital + this.getValResult.netEarning,
+                (this.getValResult.capital + this.getValResult.netEarning) / 100,
                 "USD",
                 true
             )}, find out yours at http://bae.gifts%0A%0APowered by chaka.ng`;
