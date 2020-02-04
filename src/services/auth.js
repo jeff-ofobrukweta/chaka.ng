@@ -45,6 +45,9 @@ export function noAuthOnly(to, from, next) {
             //  TO-DO:: Put back when Gifts is ready
             // next("/dashboard/gifts");
             next("/login");
+        } else if (to.name === "valentine") {
+            resetState();
+            next();
         } else next("/dashboard");
     } else {
         next();
