@@ -371,9 +371,6 @@ export default {
             }
             return this.allPortfolios;
         },
-        // stockName() {
-        //     return this.searchStocks.filter(el => el.symbol === this.itemData.symbol)[0].name;
-        // },
         earningScore() {
             const splice = this.getValResult.netEarningPercentage.split("");
             return `${splice.splice(0, splice.length - 1).join("")}`;
@@ -454,6 +451,7 @@ export default {
             this.loading = true;
             const payload = { ...this.itemData };
             payload.amount *= 100;
+            mixpanel.track("LOVE_PAGE_RESULT");
             this.GET_VAL_RESULT(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
@@ -530,6 +528,7 @@ export default {
     mounted() {
         // this.MODAL_OPENED(true);
         // this.showModal = true;
+        mixpanel.track("LOVE_PAGE");
         document.title = "Chaka - Relationship Net worth Calculator";
         document.getElementsByTagName("meta").keywords.content =
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
