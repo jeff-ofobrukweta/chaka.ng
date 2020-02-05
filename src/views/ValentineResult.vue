@@ -380,11 +380,11 @@ export default {
                 this.showModal = true;
                 this.MODAL_OPENED(true);
 
-                if (resp) {
-                    setTimeout(() => {
-                        this.createImage();
-                    }, 500);
-                }
+                // if (resp) {
+                //     setTimeout(() => {
+                //         this.createImage();
+                //     }, 500);
+                // }
             });
         },
         async createImage() {
