@@ -83,10 +83,13 @@
         }
 
         &__or {
-            width: 350px;
             text-align: center;
             margin-top: 0.625rem;
             margin-bottom: 0.625rem;
+
+            @include tablet {
+                width: 350px;
+            }
         }
     }
 
