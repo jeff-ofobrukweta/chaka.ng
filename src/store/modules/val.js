@@ -2,16 +2,21 @@ import api from "../../services/apiService/api";
 import errorFn from "../../services/apiService/error";
 
 const state = {
-    valResult: []
+    valResult: [],
+    canShare: false
 };
 
 const getters = {
-    getValResult: state => state.valResult
+    getValResult: state => state.valResult,
+    canShare: state => state.canShare
 };
 
 const mutations = {
     SET_VAL_RESULT(state, payload) {
         state.valResult = payload;
+    },
+    SET_CAN_SHARE(state, payload) {
+        state.canShare = payload;
     }
 };
 
