@@ -435,9 +435,12 @@ export default {
                 xhr.send();
             }
         },
+        textToChars(text) {
+            return text.split("").map(c => c.charCodeAt(0));
+        },
         decipher(salt) {
-            const textToChars = text => text.split("").map(c => c.charCodeAt(0));
-            const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
+            // const textToChars = text => text.split("").map(c => c.charCodeAt(0));
+            const applySaltToChar = code => this.textToChars(salt).reduce((a, b) => a ^ b, code);
             return encoded =>
                 encoded
                     .match(/.{1,2}/g)
