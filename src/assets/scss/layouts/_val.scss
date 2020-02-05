@@ -13,7 +13,7 @@
             align-items: center;
 
             @include mobile {
-                min-height: 100vh;
+                padding-top: 2rem;
 
                 &::before {
                     content: '';
@@ -33,6 +33,7 @@
 
         &__text {
             flex: 0 0 100%;
+            width: 100%;
 
             @include tablet {
                 flex: 0 0 45%;
@@ -78,6 +79,16 @@
                 width: 100%;
                 object-fit: contain;
                 object-position: center;
+            }
+        }
+
+        &__or {
+            text-align: center;
+            margin-top: 0.625rem;
+            margin-bottom: 0.625rem;
+
+            @include tablet {
+                width: 350px;
             }
         }
     }
@@ -135,6 +146,7 @@
                 position: relative;
                 width: 100vw;
                 margin-bottom: 2rem;
+                margin-top: 2rem;
             }
 
             button {
