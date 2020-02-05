@@ -281,18 +281,19 @@ export default {
                 }, 500);
             }
         },
-
-        textToChars(text) {
-            return text.split("").map(c => c.charCodeAt(0));
-        },
         cipher(salt) {
+            const textToChars = text => {
+                if (text) {
+                    return text.split("").map(c => c.charCodeAt(0));
+                }
+            };
             const byteHex = n => ("0" + Number(n).toString(16)).substr(-2);
-            const applySaltToChar = code => this.textToChars(salt).reduce((a, b) => a ^ b, code);
+            const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
 
             return text =>
                 text
                     .split("")
-                    .map(this.textToChars)
+                    .map(textToChars)
                     .map(applySaltToChar)
                     .map(byteHex)
                     .join("");
