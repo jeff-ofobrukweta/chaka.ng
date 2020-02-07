@@ -178,7 +178,7 @@
                                 <div class="modal-text" id="toImage">
                                     <p class="modal-text__net-earning">
                                         <strong
-                                            ><small>Your relationship, like {{ stockName }} has {{ getValResult.netEarning >= 0 ? "grown" : "fallen" }} </small
+                                            ><small>Your relationship, like {{ getValResult.stockName }} has {{ getValResult.netEarning >= 0 ? "grown" : "fallen" }} </small
                                             ><span :class="colorClass">{{ getValResult.netEarningPercentage }}</span
                                             ><small> in the last {{ itemData.duration }} {{ itemData.interval === "M" ? "month" : "year" }} period </small></strong
                                         >

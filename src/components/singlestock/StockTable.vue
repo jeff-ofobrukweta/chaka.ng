@@ -46,6 +46,7 @@
                 <p class="stock-table__head">Market Cap</p>
                 <p
                     class="stock-table__body cursor-context"
+                    v-if="instrument.InstrumentDynamic"
                     :title="
                         instrument.InstrumentDynamic.marketCap ||
                             0.0 | kobo | currency(instrument.currency, true)
@@ -61,6 +62,7 @@
                 <p class="stock-table__head">P/E Ratio</p>
                 <p
                     class="stock-table__body cursor-context"
+                    v-if="instrument.InstrumentDynamic"
                     :title="checkforUndefined(instrument.InstrumentDynamic.peRatio) | units(2, true)"
                 >
                     {{ checkforUndefined(instrument.InstrumentDynamic.peRatio) || 0.0 | units(2) }}
@@ -70,6 +72,7 @@
                 <p class="stock-table__head">Dividend Yield</p>
                 <p
                     class="stock-table__body cursor-context"
+                    v-if="instrument.InstrumentDynamic"
                     :title="
                         checkforUndefined(instrument.InstrumentDynamic.dividendYield) | units(2, true)
                     "
@@ -83,6 +86,7 @@
                 <p class="stock-table__head">Volume</p>
                 <p
                     class="stock-table__body cursor-context"
+                    v-if="instrument.InstrumentDynamic"
                     :title="checkforUndefined(instrument.InstrumentDynamic.avgVol30d) | units(2, true)"
                 >
                     {{ checkforUndefined(instrument.InstrumentDynamic.avgVol30d) || 0.0 | units(2) }}
@@ -92,6 +96,7 @@
                 <p class="stock-table__head">52 Weeks High</p>
                 <p
                     class="stock-table__body cursor-context"
+                    v-if="instrument.InstrumentDynamic"
                     :title="
                         checkforUndefined(instrument.InstrumentDynamic.high52) ||
                             0.0 | kobo | currency(instrument.currency, true)
@@ -107,6 +112,7 @@
                 <p class="stock-table__head">52 Weeks Low</p>
                 <p
                     class="stock-table__body cursor-context"
+                    v-if="instrument.InstrumentDynamic"
                     :title="
                         checkforUndefined(instrument.InstrumentDynamic.low52) ||
                             0.0 | kobo | currency(instrument.currency, true)
