@@ -6,7 +6,7 @@
                     <div class="val-banner__row">
                         <div class="val-banner__text">
                             <h2>
-                                We have been together for
+                                "Bae and I have been together for
                                 <input
                                     type="number"
                                     class="val-form__input"
@@ -14,6 +14,7 @@
                                     placeholder="1"
                                     :class="{ 'is-invalid': errors.duration }"
                                     @focus="errors = {}"
+                                    @input="checkDuration"
                                     v-model="itemData.duration"
                                 />&nbsp;
                                 <select
@@ -22,11 +23,10 @@
                                     class="val-form__select"
                                     :class="{ 'is-invalid': errors.interval }"
                                     @focus="errors = {}"
+                                    @change="checkDuration"
                                 >
-                                    <option value="D">Days</option>
-                                    <option value="W" selected>Weeks</option>
                                     <option value="M">Months</option>
-                                    <option value="Y">Years</option> </select
+                                    <option value="Y" selected>Years</option> </select
                                 >.<br />In this period,
                                 <select name="" class="val-form__select" @focus="errors = {}">
                                     <option value="B">Bae has given me</option>
@@ -61,25 +61,14 @@
                                 worth of gifts."
                             </h2>
                             <p class="mt-2 mb-1">
-                                <b class="val-banner__b" :class="{ 'is-invalid': errors.duration }"
-                                    >Please select <span class="val-red">ONE</span> of the
-                                    Portfolio/ETFs provided
-                                    <span v-if="errors.duration" class="val-red">**</span></b
+                                <b class="val-banner__b" :class="{ 'is-invalid': errors.symbol }"
+                                    >Select the asset that represents you and bae <span v-if="errors.symbol" class="val-red">**</span></b
                                 >
                             </p>
                             <template v-if="searchStocks.length > 0">
-                                <div
-                                    v-for="(portfolio, i) in searchStocks"
-                                    :key="i"
-                                    class="val-banner__check"
-                                    @click="setActive(portfolio.symbol)"
-                                >
-                                    <div
-                                        class="val-banner__check--box"
-                                        :class="{ active: activePortfolio === portfolio.symbol }"
-                                    ></div>
-                                    <div class="val-banner__check--text">{{ portfolio.name }}</div>
-                                </div>
+                                <select name="stock-select" v-model="itemData.symbol" @focus="errors = {}" class="val-form__stock" :class="{ 'is-invalid': errors.amount }">
+                                    <option :value="stock.symbol" selected v-for="(stock, i) in searchStocks" :key="i">{{ stock.name }}</option>
+                                </select>
                             </template>
                             <template v-else>
                                 <small
@@ -87,6 +76,7 @@
                                 >
                                 <br />
                             </template>
+                            <p class="val-banner__or">OR</p>
                             <div>
                                 <input
                                     placeholder="Enter Stock/ETF of Choice"
@@ -101,36 +91,16 @@
                             </div>
                             <error-block type="val" />
                         </div>
-                        <div class=" val-form__btn" v-if="getWindowWidth === 'mobile'">
+                        <div class="val-form__btn" v-if="getWindowWidth === 'mobile'">
                             <button class="btn" type="submit">
                                 <span>See Results</span
-                                ><svg
-                                    v-if="loading"
-                                    width="84"
-                                    height="27"
-                                    viewBox="0 0 84 27"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M0 13.7556H81M81 13.7556L68.5981 2M81 13.7556L68.5981 25"
-                                        stroke="white"
-                                        stroke-width="4"
-                                    />
+                                ><svg v-if="!loading" width="84" height="27" viewBox="0 0 84 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 13.7556H81M81 13.7556L68.5981 2M81 13.7556L68.5981 25" stroke="white" stroke-width="4" />
                                 </svg>
-                                <img
-                                    v-else
-                                    :src="require('../assets/img/loader.gif')"
-                                    alt="Loader"
-                                    width="27px"
-                                />
+                                <img v-else :src="require('../assets/img/loader.gif')" alt="Loader" width="27px" />
                             </button>
                         </div>
-                        <div
-                            class="val-banner__image"
-                            data-aos="fade-left"
-                            data-aos-duration="1000"
-                        >
+                        <div class="val-banner__image" data-aos="fade-left" data-aos-duration="1000">
                             <img
                                 src="../assets/img/val-lovers.png"
                                 data-sizes="auto"
@@ -144,26 +114,10 @@
                     <div class="val-form__btn" v-if="getWindowWidth !== 'mobile'">
                         <button class="btn" type="submit">
                             <span>See Results</span
-                            ><svg
-                                v-if="!loading"
-                                width="84"
-                                height="27"
-                                viewBox="0 0 84 27"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M0 13.7556H81M81 13.7556L68.5981 2M81 13.7556L68.5981 25"
-                                    stroke="white"
-                                    stroke-width="4"
-                                />
+                            ><svg v-if="!loading" width="84" height="27" viewBox="0 0 84 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 13.7556H81M81 13.7556L68.5981 2M81 13.7556L68.5981 25" stroke="white" stroke-width="4" />
                             </svg>
-                            <img
-                                v-else
-                                :src="require('../assets/img/loader.gif')"
-                                alt="Loader"
-                                width="27px"
-                            />
+                            <img v-else :src="require('../assets/img/loader.gif')" alt="Loader" width="27px" />
                         </button>
                     </div>
                 </div>
@@ -173,11 +127,7 @@
         <section class="section v2-mobile">
             <div class="container">
                 <div class="row v2-mobile__row">
-                    <div
-                        class="v2-mobile__image"
-                        data-aos="zoom-in-up"
-                        v-if="getWindowWidth === 'desktop'"
-                    >
+                    <div class="v2-mobile__image" data-aos="zoom-in-up" v-if="getWindowWidth === 'desktop'">
                         <img
                             data-sizes="auto"
                             :data-src="require('../assets/img/chaka-mobile.png')"
@@ -200,55 +150,22 @@
                                 data-aos="fade-up"
                                 data-aos-delay="200"
                             >
-                                <img
-                                    src="../assets/img/playstore.svg"
-                                    data-aos="fade-up"
-                                    data-aos-delay="250"
-                                    alt="Play Store"
-                                />
+                                <img src="../assets/img/playstore.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
                             </a>
                         </div>
-                        <p
-                            class="hero__text v2-mobilie__text"
-                            data-aos="fade-left"
-                            data-aos-delay="200"
-                        >
+                        <p class="hero__text v2-mobilie__text" data-aos="fade-left" data-aos-delay="200">
                             Keep your opportunities closer
                         </p>
                         <template v-if="getWindowWidth !== 'mobile'">
-                            <div
-                                class="v2-mobile__store--logo"
-                                data-aos="fade-left"
-                                data-aos-delay="250"
-                            >
+                            <div class="v2-mobile__store--logo" data-aos="fade-left" data-aos-delay="250">
                                 <img src="../assets/img/val/logo-white.svg" alt="Chaka" />
                             </div>
-                            <div
-                                class="d-none d-md-block v2-mobile__store v2-mobile__store--light"
-                                data-aos="fade-left"
-                                data-aos-delay="200"
-                            >
+                            <div class="d-none d-md-block v2-mobile__store v2-mobile__store--light" data-aos="fade-left" data-aos-delay="200">
                                 <img src="../assets/img/appstore.svg" alt="App Store" />
-                                <a
-                                    target="_blank"
-                                    href="https://play.google.com/store/apps/details?id=ng.chaka.android"
-                                >
-                                    <img src="../assets/img/playstore.svg" alt="Play Store" />
-                                </a></div
-                        ></template>
-                        <div
-                            v-else
-                            class="d-md-none v2-mobile__store v2-mobile__store--dark"
-                            data-aos="fade-left"
-                            data-aos-delay="200"
-                        >
+                            </div>
+                        </template>
+                        <div v-else class="d-md-none v2-mobile__store v2-mobile__store--dark" data-aos="fade-left" data-aos-delay="200">
                             <img src="../assets/img/appstore-dark.svg" alt="App Store" />
-                            <a
-                                target="_blank"
-                                href="https://play.google.com/store/apps/details?id=ng.chaka.android"
-                            >
-                                <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -256,55 +173,6 @@
         </section>
 
         <email-subscribe />
-
-        <transition name="modal" v-if="showModal">
-            <div class="modal-mask">
-                <div class="modal__underlay" @click="closeModal"></div>
-                <div class="modal-wrapper">
-                    <div class="modal-container">
-                        <div class="modal-body">
-                            <div class="modal-image">
-                                <img src="../assets/img/val/sample.png" alt="Sample" />
-                            </div>
-                            <div class="modal-text">
-                                <div>
-                                    <p><strong>YOU GET</strong></p>
-                                    <h1>
-                                        {{
-                                            (getValResult.capital + getValResult.netEarning)
-                                                | kobo
-                                                | currency("USD")
-                                        }}
-                                    </h1>
-                                    <p class="small mb-3" :class="colorClass">
-                                        ({{ getValResult.netEarningPercentage }})
-                                    </p>
-                                    <p>
-                                        {{ getValResult.message }}
-                                    </p>
-                                </div>
-                                <button class="modal-button">
-                                    <span>Share Result</span
-                                    ><svg
-                                        width="19"
-                                        height="11"
-                                        viewBox="0 0 19 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M-0.000244141 5.17662H17.5833M17.5833 5.17662L12.8033 0.645836M17.5833 5.17662L12.8033 9.51042"
-                                            stroke="white"
-                                            stroke-width="1.54167"
-                                        />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </transition>
     </main>
 </template>
 
@@ -313,6 +181,7 @@ import { mapActions, mapMutations, mapGetters } from "vuex";
 import "aos/dist/aos.css";
 import EventBus from "../event-bus";
 import AOS from "aos";
+import html2canvas from "html2canvas";
 
 export default {
     name: "Valentine",
@@ -350,47 +219,32 @@ export default {
                     symbol: "SPY"
                 }
             ],
-            showModal: false
+            finalImage: null,
+            tempUrl: null
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "getSearchInstruments", "getValResult", "getErrorLog"]),
+        ...mapGetters(["getWindowWidth", "getSearchInstruments"]),
         searchStocks() {
             if (this.search) {
                 const splice = [...this.getSearchInstruments].splice(0, 5);
                 return splice;
             }
             return this.allPortfolios;
-        },
-        colorClass() {
-            if (this.getValResult.netEarning >= 0) return "green";
-            return "val-red";
         }
     },
     methods: {
         ...mapActions(["SEARCH_INSTRUMENTS", "GET_VAL_RESULT"]),
-        ...mapMutations(["MODAL_OPENED", "RESET_REQ"]),
+        ...mapMutations(["MODAL_OPENED", "RESET_REQ", "RESET_ALL", "SET_CAN_SHARE"]),
         async startSearch() {
-            this.resetSymbols();
+            this.itemData.symbol = null;
             const payload = { query: this.search };
             await this.SEARCH_INSTRUMENTS(payload);
-        },
-        setActive(symbol) {
-            this.errors = {};
-            if (symbol === this.activePortfolio) {
-                this.itemData.symbol = null;
-                this.activePortfolio = null;
-            } else {
-                this.activePortfolio = symbol;
-                this.itemData.symbol = symbol;
+            if (this.searchStocks.length > 0) {
+                this.itemData.symbol = this.searchStocks[0].symbol;
             }
         },
-        closeModal() {
-            EventBus.$emit("MODAL_CLOSED");
-            this.MODAL_OPENED(false);
-            this.showModal = false;
-        },
-        async getResult() {
+        getResult() {
             this.RESET_REQ();
             if (!this.itemData.duration) {
                 this.$set(this.errors, "duration", true);
@@ -410,29 +264,53 @@ export default {
             this.loading = true;
             const payload = { ...this.itemData };
             payload.amount *= 100;
-            await this.GET_VAL_RESULT(payload);
-            this.loading = false;
-            this.showModal = true;
-            this.MODAL_OPENED(true);
+            this.encrypt();
+            mixpanel.track("LOVE_PAGE_RESULT");
+            this.SET_CAN_SHARE(true);
+            this.$router.push({ name: "valentine-result", params: { code: this.encrypted } });
         },
         checkGiftValue() {
             if (this.amount !== "manual") {
                 this.itemData.amount = this.amount;
             }
         },
-        resetSymbols() {
-            this.activePortfolio = null;
-            this.itemData.symbol = null;
+        checkDuration() {
+            if ((this.itemData.interval === "Y" && this.itemData.duration > 5) || (this.itemData.interval === "M" && this.itemData.duration > 60)) {
+                setTimeout(() => {
+                    this.itemData.duration = this.itemData.interval === "M" ? 60 : 5;
+                }, 500);
+            }
+        },
+        cipher(salt) {
+            const textToChars = text => text.split("").map(c => c.charCodeAt(0));
+            const byteHex = n => ("0" + Number(n).toString(16)).substr(-2);
+            const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
+
+            return text =>
+                text
+                    .split("")
+                    .map(textToChars)
+                    .map(applySaltToChar)
+                    .map(byteHex)
+                    .join("");
+        },
+        encrypt() {
+            const cipher = this.cipher(process.env.VUE_APP_CRYPTO_KEY);
+            const text = Object.values(this.itemData).map(el => el);
+            this.encrypted = cipher(text.join("|"));
         }
     },
     mounted() {
-        // this.MODAL_OPENED(true);
-        // this.showModal = true;
+        mixpanel.track("LOVE_PAGE");
         document.title = "Chaka - Relationship Net worth Calculator";
         document.getElementsByTagName("meta").keywords.content =
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+        this.itemData.interval = "Y";
+        this.amount = 1000;
+        this.checkGiftValue();
+        this.itemData.symbol = "AAPL";
     },
     created() {
         AOS.init({
@@ -442,9 +320,10 @@ export default {
             mirror: false,
             startEvent: "DOMContentLoaded",
             anchorPlacement: "top-center",
-            // once: true,
+            once: true,
             offset: 50
         });
+        this.RESET_ALL();
     }
 };
 </script>
@@ -458,20 +337,34 @@ export default {
         }
     }
     &-body {
+        margin: 0;
+        padding: 2rem 3rem;
+
+        @include mobile {
+            padding: 2rem 1.5rem;
+        }
+    }
+    &-flex {
         display: flex;
         flex-wrap: wrap;
-        padding: 0;
-        margin: 0;
     }
     &-image {
+        display: flex;
+        align-items: flex-end;
         img {
-            object-fit: cover;
-            object-position: left -100px;
+            object-fit: contain;
             width: 100%;
             height: 100%;
+            max-height: 350px;
+            padding-left: 2rem;
+            object-position: right;
 
-            @include tablet {
+            @include mobile {
+                object-fit: cover;
                 object-position: center;
+                padding: 0;
+                border-radius: 6px;
+                margin-bottom: 1rem;
             }
         }
         flex: 0 0 100%;
@@ -480,64 +373,72 @@ export default {
             width: 100%;
         }
         @include tablet {
-            flex: 0 0 35%;
-            max-width: 35%;
+            flex: 0 0 60%;
+            max-width: 60%;
         }
     }
     &-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         h1 {
             word-break: break-word;
         }
+        @include mobile {
+            order: 1;
+        }
         @include tablet {
-            .small,
             h1 {
                 display: inline-block;
             }
         }
         @include tablet {
-            padding: 3rem 2rem;
-            flex: 0 0 65%;
-            max-width: 65%;
+            flex: 0 0 40%;
+            max-width: 40%;
         }
 
-        & > div {
-            @include mobile {
-                padding: 2rem;
-                padding-bottom: 1rem;
-            }
+        &__box {
+            margin-bottom: 1rem;
         }
 
-        p {
+        &__message {
             line-height: 2;
         }
-    }
-    &-button {
-        padding: 1rem 0.5rem;
-        background-color: $val-red;
-        color: $white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        border-radius: 0;
 
-        @include mobile {
-            font-size: 1.625rem;
-            justify-content: space-evenly;
+        &__net-earning {
+            font-size: 2rem;
+            font-weight: bold;
+            line-height: 1.2;
         }
 
-        @include tablet {
-            margin-top: 2rem;
-            width: 200px;
-            // border: none;
-            // border-bottom: 1px solid $val-red;
+        &__powered {
+            text-align: right;
+            font-size: 0.725rem;
+
+            svg {
+                vertical-align: text-top;
+                margin-left: 2px;
+            }
+        }
+    }
+    &-socials {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 1rem 0.5rem 1.5rem;
+        border: 1px solid $primary;
+        max-width: 500px;
+        margin: 2rem auto 0;
+        box-shadow: 0px 0px 30px 5px rgba($color: $box-shadow, $alpha: 0.425);
+
+        & > div {
+            flex: 0 0 100%;
+            text-align: center;
+            margin-bottom: 1rem;
         }
     }
     &__underlay {
         background-color: rgba($color: $black, $alpha: 0.625);
     }
-}
-.small {
-    font-size: 1.325rem;
 }
 </style>

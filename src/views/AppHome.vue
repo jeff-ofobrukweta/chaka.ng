@@ -7,8 +7,7 @@
                 </h1>
 
                 <p class="section__text">
-                    Your Investment Passport. Own US, Nigerian, Chinese and global companies like
-                    Apple, Google, Dangote, Alibaba and more from any device.
+                    Your Investment Passport. Own US, Nigerian, Chinese and global companies like Apple, Google, Dangote, Alibaba and more from any device.
                 </p>
             </div>
             <div class="v2-app__links">
@@ -20,24 +19,10 @@
                     data-aos="fade-up"
                     data-aos-delay="200"
                 >
-                    <img
-                        src="../assets/img/playstore.svg"
-                        data-aos="fade-up"
-                        data-aos-delay="250"
-                        alt="Play Store"
-                    />
+                    <img src="../assets/img/playstore.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
                 </a>
-                <span
-                    class="v2-landing__app--link v2-landing__app--transparent"
-                    data-aos="fade-up"
-                    data-aos-delay="200"
-                >
-                    <img
-                        src="../assets/img/appstore-dark.svg"
-                        data-aos="fade-up"
-                        data-aos-delay="250"
-                        alt="Play Store"
-                    />
+                <span class="v2-landing__app--link v2-landing__app--transparent" data-aos="fade-up" data-aos-delay="200">
+                    <img src="../assets/img/appstore-dark.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
                 </span>
             </div>
             <div class="v2-app__top-images">
@@ -82,41 +67,17 @@
                         <br />
                         <div class="v2-invest__pick">
                             <div class="v2-app__line">
-                                <div
-                                    class="v2-app__bar--ticker"
-                                    :style="{ transform: slider }"
-                                ></div>
+                                <div class="v2-app__bar--ticker" :style="{ transform: slider }"></div>
                             </div>
                             <div class="v2-invest__selector">
-                                <h6
-                                    v-for="(text, i) in invest"
-                                    :key="i"
-                                    v-html="text.title"
-                                    @click="clearCarousel(text.id)"
-                                ></h6>
+                                <h6 v-for="(text, i) in invest" :key="i" v-html="text.title" @click="clearCarousel(text.id)"></h6>
                             </div>
                         </div>
                         <div class="v2-invest__mobile">
-                            <div
-                                class="v2-app__bar"
-                                @click="clearCarousel(0)"
-                                :class="{ active: investNumber === 0 }"
-                            ></div>
-                            <div
-                                class="v2-app__bar"
-                                @click="clearCarousel(1)"
-                                :class="{ active: investNumber === 1 }"
-                            ></div>
-                            <div
-                                class="v2-app__bar"
-                                @click="clearCarousel(2)"
-                                :class="{ active: investNumber === 2 }"
-                            ></div>
-                            <div
-                                class="v2-app__bar"
-                                @click="clearCarousel(3)"
-                                :class="{ active: investNumber === 3 }"
-                            ></div>
+                            <div class="v2-app__bar" @click="clearCarousel(0)" :class="{ active: investNumber === 0 }"></div>
+                            <div class="v2-app__bar" @click="clearCarousel(1)" :class="{ active: investNumber === 1 }"></div>
+                            <div class="v2-app__bar" @click="clearCarousel(2)" :class="{ active: investNumber === 2 }"></div>
+                            <div class="v2-app__bar" @click="clearCarousel(3)" :class="{ active: investNumber === 3 }"></div>
                         </div>
                     </div>
                 </div>
@@ -139,10 +100,8 @@
                         </div>
                         <h4>Locally Regulated</h4>
                         <p class="cta__text">
-                            All local equities are offered through a locally licensed brokerage firm
-                            registered with the Nigerian Stock Exchange (NSE), Central Securities
-                            Clearing System (CSCS) and regulated by Nigeria’s Securities and
-                            Exchanges Commission (SEC). See disclosures at bottom of page for more
+                            All local equities are offered through a locally licensed brokerage firm registered with the Nigerian Stock Exchange (NSE), Central Securities Clearing
+                            System (CSCS) and regulated by Nigeria’s Securities and Exchanges Commission (SEC). See disclosures at bottom of page for more
                         </p>
                     </div>
                     <div class="cta__card" data-aos="fade-left" data-aos-delay="500">
@@ -158,12 +117,9 @@
                         </div>
                         <h4>Internationally Regulated</h4>
                         <p class="cta__text">
-                            All global equities are offered through a US brokerage firm that is
-                            regulated by the US Financial Industry Regulatory Authority (FINRA) and
-                            the US Securities and Exchange Commission (SEC). Furthermore Dollar
-                            funds deposited and assets owned are insured by the US Securities
-                            Investor Protection Corporation (SIPC) up to $500,000. See disclosures
-                            at bottom of page for more.
+                            All global equities are offered through a US brokerage firm that is regulated by the US Financial Industry Regulatory Authority (FINRA) and the US
+                            Securities and Exchange Commission (SEC). Furthermore Dollar funds deposited and assets owned are insured by the US Securities Investor Protection
+                            Corporation (SIPC) up to $500,000. See disclosures at bottom of page for more.
                         </p>
                     </div>
                     <div class="cta__card" data-aos="fade-left" data-aos-delay="600">
@@ -179,9 +135,8 @@
                         </div>
                         <h4>Bank Level Encryption</h4>
                         <p class="cta__text">
-                            All website traffic is encrypted and protected by using AES bank level
-                            encryption. This provides security between your device and our servers
-                            ensuring your personal and transaction details are always kept private.
+                            All website traffic is encrypted and protected by using AES bank level encryption. This provides security between your device and our servers ensuring
+                            your personal and transaction details are always kept private.
                         </p>
                     </div>
                 </div>
@@ -190,8 +145,8 @@
 
         <section class="v2-integration v2-integration__app">
             <div class="mb-3">
-                <h5 class="section__caption">Download Today</h5>
-                <div class="v2-landing__news">
+                <h5 class="section__caption text-center">Download Today</h5>
+                <div class="v2-landing__news v2-integration__app--center">
                     <a
                         href="https://play.google.com/store/apps/details?id=ng.chaka.android"
                         target="_blank"
@@ -200,27 +155,10 @@
                         data-aos="fade-up"
                         data-aos-delay="200"
                     >
-                        <img
-                            src="../assets/img/playstore.svg"
-                            data-aos="fade-up"
-                            data-aos-delay="250"
-                            alt="Play Store"
-                        />
+                        <img src="../assets/img/playstore.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
                     </a>
-                    <span
-                        href="#"
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        class="v2-landing__app--link"
-                        data-aos="fade-up"
-                        data-aos-delay="200"
-                    >
-                        <img
-                            src="../assets/img/appstore.svg"
-                            data-aos="fade-up"
-                            data-aos-delay="250"
-                            alt="Play Store"
-                        />
+                    <span href="#" target="_blank" rel="noreferrer noopener" class="v2-landing__app--link" data-aos="fade-up" data-aos-delay="200">
+                        <img src="../assets/img/appstore.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
                     </span>
                 </div>
             </div>
@@ -259,13 +197,7 @@
                             alt="techcrunch"
                         />
                     </a>
-                    <a
-                        href="https://www.youtube.com/watch?v=ctLC7hWFtBM"
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        class="v2-landing__news--link"
-                        data-aos="fade-up"
-                    >
+                    <a href="https://www.youtube.com/watch?v=ctLC7hWFtBM" target="_blank" rel="noreferrer noopener" class="v2-landing__news--link" data-aos="fade-up">
                         <img
                             data-sizes="auto"
                             :data-src="require('../assets/img/news/channels.png')"
@@ -473,13 +405,13 @@ export default {
         }
     },
     mounted() {
-        document.title =
-            "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
+        document.title = "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
         document.getElementsByTagName("meta").keywords.content =
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
 
+        mixpanel.track("GETAPP_PAGE"); //tracks the getapppage
         this.interval = setInterval(this.startCarousel, 5000);
         this.fractional = fractional;
         this.minimums = minimums;

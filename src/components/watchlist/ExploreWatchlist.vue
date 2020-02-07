@@ -6,21 +6,13 @@
         <div class="watchlist-explore__name">
             <img height="30px" :src="instrument.logoUrl" :alt="instrument.symbol" />
             <img
-                :src="
-                    `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${
-                        instrument.countryCode ? instrument.countryCode.toLowerCase() : 'zz'
-                    }-flag.svg`
-                "
+                :src="`https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${instrument.countryCode ? instrument.countryCode.toLowerCase() : 'zz'}-flag.svg`"
                 class="watchlist-explore__symbol"
                 alt="US"
                 width="24px"
             />
         </div>
-        <router-link
-            class="watchlist-explore__flex pointer"
-            tag="div"
-            :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }"
-        >
+        <router-link class="watchlist-explore__flex pointer" tag="div" :to="{ name: 'singlestock', params: { symbol: instrument.symbol } }">
             <p class="light">
                 <strong>{{ instrument.symbol }}</strong>
             </p>
@@ -29,50 +21,25 @@
             </p>
         </router-link>
         <div class="watchlist-explore__flex">
-            <p
-                class="watchlist-explore__change"
-                :class="[instrument.derivedPrice >= 0 ? 'green' : 'red']"
-            >
-                <img
-                    src="../../assets/img/green-arrow.svg"
-                    v-if="+instrument.derivedPrice >= 0"
-                    alt="Gain"
-                />
+            <p class="watchlist-explore__change" :class="[instrument.derivedPrice >= 0 ? 'green' : 'red']">
+                <img src="../../assets/img/green-arrow.svg" v-if="+instrument.derivedPrice >= 0" alt="Gain" />
                 <img src="../../assets/img/red-arrow.svg" v-else alt="Loss" />
                 <small
-                    >{{ +instrument.derivedPricePercentage >= 0 ? "+" : ""
-                    }}{{ +instrument.derivedPrice | units(2) }} ({{
-                        +instrument.derivedPricePercentage | units(2)
-                    }}%)</small
+                    >{{ +instrument.derivedPricePercentage >= 0 ? "+" : "" }}{{ +instrument.derivedPrice | units(2) }} ({{ +instrument.derivedPricePercentage | units(2) }}%)</small
                 >
             </p>
-            <p v-if="instrument.InstrumentDynamic">
-                <strong
-                    class=" cursor-context"
-                    :title="instrument.askPrice | currency(instrument.currency, true)"
-                    >{{ instrument.askPrice | currency(instrument.currency) }}</strong
-                >
+            <p>
+                <strong class=" cursor-context" :title="instrument.askPrice | currency(instrument.currency, true)">{{
+                    instrument.askPrice | currency(instrument.currency)
+                }}</strong>
             </p>
         </div>
         <div class="watchlist-explore__graph--box">
-            <line-chart
-                class="watchlist-explore__graph"
-                :chart-data="datacollection"
-                :options="options"
-                :width="100"
-                :height="50"
-                v-if="chartData.chart"
-            ></line-chart>
+            <line-chart class="watchlist-explore__graph" :chart-data="datacollection" :options="options" :width="100" :height="50" v-if="chartData.chart"></line-chart>
         </div>
         <div class="watchlist-explore__actions">
             <button @click="removeFromWatchlist" v-if="!loading">
-                <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="24" height="24" rx="6" fill="white" />
                     <g clip-path="url(#clip0)">
                         <path
@@ -82,12 +49,7 @@
                     </g>
                     <defs>
                         <clipPath id="clip0">
-                            <rect
-                                width="15"
-                                height="15"
-                                fill="white"
-                                transform="translate(4.5 5.25)"
-                            />
+                            <rect width="15" height="15" fill="white" transform="translate(4.5 5.25)" />
                         </clipPath>
                     </defs>
                 </svg>
@@ -95,14 +57,7 @@
             <button v-else>
                 <img :src="require('../../assets/img/loader.gif')" alt="Loading" width="16px" />
             </button>
-            <kyc-button
-                ref="buyBtn"
-                type="button"
-                :classes="['']"
-                :action="instrument.currency === 'NGN' ? 'local' : 'global'"
-                @step="handleStep"
-                >Buy</kyc-button
-            >
+            <kyc-button ref="buyBtn" type="button" :classes="['']" :action="instrument.currency === 'NGN' ? 'local' : 'global'" @step="handleStep">Buy</kyc-button>
         </div>
 
         <modal-kyc @updated="handleUpdate" @close="showKYC = false" v-if="showKYC" />

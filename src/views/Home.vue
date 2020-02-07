@@ -3,12 +3,7 @@
         <section class="v2-landing container">
             <div class=" v2-landing__vector">
                 <span class="v2-landing__vector--span">
-                    <img
-                        src="../assets/img/landing-vector.svg"
-                        :data-srcset="require('../assets/img/landing-vector.svg')"
-                        class="v2-landing__vector--img"
-                        alt="Landing Vector"
-                    />
+                    <img src="../assets/img/landing-vector.svg" :data-srcset="require('../assets/img/landing-vector.svg')" class="v2-landing__vector--img" alt="Landing Vector" />
                 </span>
             </div>
             <div class="w-100">
@@ -24,43 +19,22 @@
                                 </h1>
 
                                 <p class="section__text">
-                                    Your Investment Passport. Own US, Nigerian, Chinese and global
-                                    companies like Apple, Google, Dangote, Alibaba and more from any
-                                    device.
+                                    Your Investment Passport. Own US, Nigerian, Chinese and global companies like Apple, Google, Dangote, Alibaba and more from any device.
                                 </p>
                             </div>
                             <br />
-                            <br />
-                            <form
-                                class="v2-landing__form row v2-layer__signup"
-                                @submit.prevent="register"
-                            >
+                            <form v-if="getWindowWidth !== 'mobile'" class="v2-landing__form row v2-layer__signup" @submit.prevent="register">
+                                <br />
                                 <div class="v2-landing__input">
-                                    <input
-                                        v-model="itemData.email"
-                                        type="email"
-                                        name="email"
-                                        @focus="errors = {}"
-                                        placeholder="Email"
-                                    />
+                                    <input v-model="itemData.email" type="email" name="email" @focus="errors = {}" placeholder="Email" />
                                     <p class="form-error" v-if="errors.email">
                                         <small>{{ errors.email }}</small>
                                     </p>
                                 </div>
                                 <div class="v2-landing__input">
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        @focus="errors = {}"
-                                        placeholder="Create Password"
-                                        v-model="itemData.password"
-                                    />
+                                    <input type="password" name="password" @focus="errors = {}" placeholder="Create Password" v-model="itemData.password" />
                                     <div class="form-info text-left" v-if="!errors.password">
-                                        <small
-                                            >**Password should contain at least one uppercase
-                                            character, number or symbol and at least 7
-                                            characters</small
-                                        >
+                                        <small>**Password should contain at least one uppercase character, number or symbol and at least 7 characters</small>
                                     </div>
                                     <p class="form-error" v-if="errors.password">
                                         <small>{{ errors.password }}</small>
@@ -69,13 +43,7 @@
                                 <div class=" v2-landing__btn">
                                     <button class="v2-btn v2-btn__primary w-100" type="submit">
                                         Get Started
-                                        <svg
-                                            width="12"
-                                            height="6"
-                                            viewBox="0 0 12 6"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
+                                        <svg width="12" height="6" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M6.8009 5.51985V4.05865L0.342752 4.05865C0.162356 4.05865 0 3.91433 0 3.71589V2.14646C0 1.96606 0.144317 1.8037 0.342752 1.8037L6.8009 1.8037V0.342503C6.8009 0.0719098 7.10757 -0.0904461 7.34209 0.0538701L9.14604 1.2986L11.0763 2.63352C11.2747 2.77784 11.2747 3.06647 11.0763 3.19275L9.14604 4.56375L7.34209 5.80848C7.10757 5.9528 6.8009 5.79044 6.8009 5.51985Z"
                                                 fill="white"
@@ -85,6 +53,22 @@
                                 </div>
                                 <error-block type="register" />
                             </form>
+                            <div class="v2-app__links" v-else>
+                                <a
+                                    href="https://play.google.com/store/apps/details?id=ng.chaka.android"
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                    class="v2-landing__app--link"
+                                    data-aos="fade-up"
+                                    data-aos-delay="200"
+                                >
+                                    <img src="../assets/img/playstore.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
+                                </a>
+                                <span class="v2-landing__app--link v2-landing__app--transparent" data-aos="fade-up" data-aos-delay="200">
+                                    <img src="../assets/img/appstore-dark.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
+                                </span>
+                                <br />
+                            </div>
                         </div>
                     </div>
                     <div class="v2-landing__image-box">
@@ -270,32 +254,17 @@
                         <h2 class="dollar">$2<span class="super-text">$5</span></h2>
                         <h2 class="naira">&#8358;100</h2>
                     </div>
-                    <h4 v-else class="v2-pricing__mobile">
-                        <span class="stroke">$5</span> $2 and N100
-                    </h4>
+                    <h4 v-else class="v2-pricing__mobile"><span class="stroke">$5</span> $2 and N100</h4>
                     <p>Make unlimited trades with industry-low fees on global and local stocks.</p>
                     <br />
                     <div class="text-center mb-2">
-                        <router-link
-                            :to="{ name: 'register' }"
-                            tag="button"
-                            class="btn btn__primary"
-                            >Create Account</router-link
-                        >
+                        <router-link :to="{ name: 'register' }" tag="button" class="btn btn__primary">Create Account</router-link>
                     </div>
                     <p>
                         <router-link class="section__link flex" href :to="{ name: 'calculator' }">
                             Use Calculator
-                            <svg
-                                width="24"
-                                height="24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
-                                    fill="#000"
-                                />
+                            <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="#000" />
                             </svg>
                         </router-link>
                     </p>
@@ -318,10 +287,7 @@
                         </div>
                         <div class="v2-invest__pick">
                             <div class="v2-invest__bar">
-                                <div
-                                    class="v2-invest__bar--ticker"
-                                    :style="{ transform: slider }"
-                                ></div>
+                                <div class="v2-invest__bar--ticker" :style="{ transform: slider }"></div>
                             </div>
                             <div class="v2-invest__selector">
                                 <h6 @click="investNumber = 0">Fractional Shares</h6>
@@ -330,21 +296,9 @@
                             </div>
                         </div>
                         <div class="v2-invest__mobile">
-                            <div
-                                class="v2-invest__mobile--bar"
-                                @click="investNumber = 0"
-                                :class="{ active: investNumber === 0 }"
-                            ></div>
-                            <div
-                                class="v2-invest__mobile--bar"
-                                @click="investNumber = 1"
-                                :class="{ active: investNumber === 1 }"
-                            ></div>
-                            <div
-                                class="v2-invest__mobile--bar"
-                                @click="investNumber = 2"
-                                :class="{ active: investNumber === 2 }"
-                            ></div>
+                            <div class="v2-invest__mobile--bar" @click="investNumber = 0" :class="{ active: investNumber === 0 }"></div>
+                            <div class="v2-invest__mobile--bar" @click="investNumber = 1" :class="{ active: investNumber === 1 }"></div>
+                            <div class="v2-invest__mobile--bar" @click="investNumber = 2" :class="{ active: investNumber === 2 }"></div>
                         </div>
                     </div>
                 </div>
@@ -508,17 +462,13 @@
                         Trade and Invest in 40+ Countries
                     </h2>
                     <p class="section__text">
-                        First-class access to stocks listed on the NG &amp; US stock exchanges as
-                        well as global blue-chip companies from around the world. Your limitless
+                        First-class access to stocks listed on the NG &amp; US stock exchanges as well as global blue-chip companies from around the world. Your limitless
                         investment passport is finally here.
                     </p>
                     <router-link class="section__link link flex" href :to="{ name: 'faq' }">
                         Learn More
                         <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
-                                fill="#000"
-                            />
+                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="#000" />
                         </svg>
                     </router-link>
                 </div>
@@ -541,10 +491,8 @@
                         </div>
                         <h4>Locally Regulated</h4>
                         <p class="cta__text">
-                            All local equities are offered through a locally licensed brokerage firm
-                            registered with the Nigerian Stock Exchange (NSE), Central Securities
-                            Clearing System (CSCS) and regulated by Nigeria’s Securities and
-                            Exchanges Commission (SEC). See disclosures at bottom of page for more
+                            All local equities are offered through a locally licensed brokerage firm registered with the Nigerian Stock Exchange (NSE), Central Securities Clearing
+                            System (CSCS) and regulated by Nigeria’s Securities and Exchanges Commission (SEC). See disclosures at bottom of page for more
                         </p>
                     </div>
                     <div class="cta__card" data-aos="fade-left" data-aos-delay="500">
@@ -560,12 +508,9 @@
                         </div>
                         <h4>Internationally Regulated</h4>
                         <p class="cta__text">
-                            All global equities are offered through a US brokerage firm that is
-                            regulated by the US Financial Industry Regulatory Authority (FINRA) and
-                            the US Securities and Exchange Commission (SEC). Furthermore Dollar
-                            funds deposited and assets owned are insured by the US Securities
-                            Investor Protection Corporation (SIPC) up to $500,000. See disclosures
-                            at bottom of page for more.
+                            All global equities are offered through a US brokerage firm that is regulated by the US Financial Industry Regulatory Authority (FINRA) and the US
+                            Securities and Exchange Commission (SEC). Furthermore Dollar funds deposited and assets owned are insured by the US Securities Investor Protection
+                            Corporation (SIPC) up to $500,000. See disclosures at bottom of page for more.
                         </p>
                     </div>
                     <div class="cta__card" data-aos="fade-left" data-aos-delay="600">
@@ -581,9 +526,8 @@
                         </div>
                         <h4>Bank Level Encryption</h4>
                         <p class="cta__text">
-                            All website traffic is encrypted and protected by using AES bank level
-                            encryption. This provides security between your device and our servers
-                            ensuring your personal and transaction details are always kept private.
+                            All website traffic is encrypted and protected by using AES bank level encryption. This provides security between your device and our servers ensuring
+                            your personal and transaction details are always kept private.
                         </p>
                     </div>
                 </div>
@@ -595,28 +539,19 @@
                 <div class="v2-countries__body">
                     <h2 class="section__title v2-section__title">Easy Integration</h2>
                     <p class="section__text">
-                        Chaka's platform and API are available for both corporate and institutional
-                        clients. From corporates running progressive Employee Investment Programs to
-                        investment advisors, stockbrokers, and fund managers building bespoke tools,
-                        Chaka is interoperable and can be integrated seamlessly into your existing
+                        Chaka's platform and API are available for both corporate and institutional clients. From corporates running progressive Employee Investment Programs to
+                        investment advisors, stockbrokers, and fund managers building bespoke tools, Chaka is interoperable and can be integrated seamlessly into your existing
                         system.
                     </p>
                     <router-link :to="{ name: 'developers' }" class="section__link flex">
                         Contact us for more info
                         <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
-                                fill="#000"
-                            />
+                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="#000" />
                         </svg>
                     </router-link>
                 </div>
                 <div class="v2-integration__image-box" data-aos="fade-down">
-                    <img
-                        :src="require('../assets/img/integration.png')"
-                        alt="Easy Integration"
-                        width="100%"
-                    />
+                    <img :src="require('../assets/img/integration.png')" alt="Easy Integration" width="100%" />
                 </div>
             </div>
             <div class="v2-landing__stocks container">
@@ -654,13 +589,7 @@
                             alt="techcrunch"
                         />
                     </a>
-                    <a
-                        href="https://www.youtube.com/watch?v=ctLC7hWFtBM"
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        class="v2-landing__news--link"
-                        data-aos="fade-up"
-                    >
+                    <a href="https://www.youtube.com/watch?v=ctLC7hWFtBM" target="_blank" rel="noreferrer noopener" class="v2-landing__news--link" data-aos="fade-up">
                         <img
                             data-sizes="auto"
                             :data-src="require('../assets/img/news/channels.png')"
@@ -788,11 +717,7 @@
         <section class="section v2-mobile">
             <div class="container">
                 <div class="row v2-mobile__row">
-                    <div
-                        class="v2-mobile__image"
-                        data-aos="zoom-in-up"
-                        v-if="getWindowWidth === 'desktop'"
-                    >
+                    <div class="v2-mobile__image" data-aos="zoom-in-up" v-if="getWindowWidth === 'desktop'">
                         <img
                             data-sizes="auto"
                             :data-src="require('../assets/img/chaka-mobile.png')"
@@ -815,55 +740,28 @@
                                 data-aos="fade-up"
                                 data-aos-delay="200"
                             >
-                                <img
-                                    src="../assets/img/playstore.svg"
-                                    data-aos="fade-up"
-                                    data-aos-delay="250"
-                                    alt="Play Store"
-                                />
+                                <img src="../assets/img/playstore.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
                             </a>
                         </div>
-                        <p
-                            class="hero__text v2-mobilie__text"
-                            data-aos="fade-left"
-                            data-aos-delay="200"
-                        >
+                        <p class="hero__text v2-mobilie__text" data-aos="fade-left" data-aos-delay="200">
                             Keep your opportunities closer
                         </p>
                         <template v-if="getWindowWidth !== 'mobile'">
-                            <div
-                                class="v2-mobile__store--logo"
-                                data-aos="fade-left"
-                                data-aos-delay="250"
-                            >
+                            <div class="v2-mobile__store--logo" data-aos="fade-left" data-aos-delay="250">
                                 <img src="../assets/img/chaka-logo.svg" alt="Chaka" />
                             </div>
-                            <div
-                                class="d-none d-md-block v2-mobile__store v2-mobile__store--light"
-                                data-aos="fade-left"
-                                data-aos-delay="200"
-                            >
+                            <div class="d-none d-md-block v2-mobile__store v2-mobile__store--light" data-aos="fade-left" data-aos-delay="200">
                                 <img src="../assets/img/appstore.svg" alt="App Store" />
-                                <a
-                                    target="_blank"
-                                    href="https://play.google.com/store/apps/details?id=ng.chaka.android"
-                                >
+                                <!-- <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
                                     <img src="../assets/img/playstore.svg" alt="Play Store"
-                                /></a></div
-                        ></template>
-                        <div
-                            v-else
-                            class="d-md-none v2-mobile__store v2-mobile__store--dark"
-                            data-aos="fade-left"
-                            data-aos-delay="200"
+                                /></a> -->
+                            </div></template
                         >
+                        <div v-else class="d-md-none v2-mobile__store v2-mobile__store--dark" data-aos="fade-left" data-aos-delay="200">
                             <img src="../assets/img/appstore-dark.svg" alt="App Store" />
-                            <a
-                                target="_blank"
-                                href="https://play.google.com/store/apps/details?id=ng.chaka.android"
-                            >
+                            <!-- <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
                                 <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
-                            </a>
+                            </a> -->
                         </div>
                     </div>
                 </div>
@@ -925,7 +823,6 @@ export default {
         ...mapActions(["REGISTER"]),
         ...mapMutations(["RESET_REQ"]),
         register() {
-            
             this.RESET_REQ();
             if (!this.itemData.email) {
                 this.$set(this.errors, "email", "Field is required");
@@ -939,7 +836,7 @@ export default {
                 return false;
             }
             this.loading = true;
-            mixpanel.identify(this.itemData.email) // In sign up
+            mixpanel.identify(this.itemData.email); // In sign up
             this.REGISTER(this.itemData).then(resp => {
                 this.loading = false;
                 if (resp) this.$router.push({ name: "verification-sent" });
@@ -947,14 +844,13 @@ export default {
         }
     },
     mounted() {
-        document.title =
-            "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
+        document.title = "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
         document.getElementsByTagName("meta").keywords.content =
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
 
-        mixpanel.track("HOMEPAGE_VISIT") //tracking Homepage
+        mixpanel.track("HOMEPAGE_VISIT"); //tracking Homepage
     },
     created() {
         AOS.init({

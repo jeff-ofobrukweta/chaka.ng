@@ -95,12 +95,13 @@
                     />
                 </div>
             </Card>
-            <Card
+            <!-- TO-DO:: Put back when Ownership is ready -->
+            <!-- <Card
                 title="Ownerships"
                 :action="{ text: 'See All', link: 'accounts-stamps' }"
                 class="accounts-overview__card"
             >
-            </Card>
+            </Card> -->
             <Card
                 title="More Information"
                 :action="{ text: 'Edit Profile', link: 'accounts-settings' }"

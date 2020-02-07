@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
     EventBus.$emit("closeMenu");
     store.commit("RESET_COMPONENT_LOADER", true);
     store.commit("SEARCH_OPENED", false);
-    if (to.name === "valentine") {
+    if (to.name === "valentine" || to.name === "valentine-result") {
         store.commit("SET_VAL_THEME", true);
     } else {
         store.commit("SET_VAL_THEME", false);
