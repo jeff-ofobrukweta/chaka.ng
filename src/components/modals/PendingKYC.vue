@@ -4,8 +4,7 @@
             <div class="kyc-modal">
                 <div class="text-center">
                     <p class="kyc-modal__small">
-                        You have completed your submissions and your verification is processing. You
-                        can now fund your wallet.
+                        You have completed your submissions and your verification is processing. You can now fund your wallet.
                     </p>
                     <br />
                     <h5 class="grey-cool">Most Popular</h5>
@@ -18,20 +17,12 @@
                             :key="i"
                         >
                             <div>
-                                <img
-                                    :src="stock.logoUrl"
-                                    class="kyc-modal__popular--logo"
-                                    :alt="stock.symbol"
-                                />
+                                <img :src="stock.logoUrl" class="kyc-modal__popular--logo" :alt="stock.symbol" />
                             </div>
                             <h6>{{ stock.symbol | truncate(15) }}</h6>
                             <div>
                                 <img
-                                    :src="
-                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
-                                            stock.countryCode
-                                        )}-flag.svg`
-                                    "
+                                    :src="`https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(stock.countryCode)}-flag.svg`"
                                     class="kyc-modal__popular--flag"
                                     :alt="stock.countryCode"
                                 />
@@ -49,24 +40,15 @@
         <div class="kyc-modal">
             <div class="text-center">
                 <p class="kyc-modal__small">
-                    Your profile is being verified for withdrawals. You can now fund your Naira or
-                    Dollar wallet.
+                    Your profile is being verified for withdrawals. You can now fund your Naira or Dollar wallet.
                 </p>
                 <br />
                 <div>
                     <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                 </div>
-                <div
-                    class="mt-2"
-                    v-if="
-                        getLoggedUser.globalKycStatus === 'NONE' ||
-                            getLoggedUser.localKycStatus === 'NONE'
-                    "
-                >
+                <div class="mt-2" v-if="getLoggedUser.globalKycStatus === 'NONE' || getLoggedUser.localKycStatus === 'NONE'">
                     <small>
-                        <a class="underline" @click="handleStep('default')"
-                            >Continue {{ subtext }} Verification</a
-                        ></small
+                        <a class="underline" @click="handleStep('default')">Continue {{ subtext }} Verification</a></small
                     >
                 </div>
             </div>
@@ -77,28 +59,21 @@
             <div class="kyc-modal">
                 <div class="text-center">
                     <p class="kyc-modal__small">
-                        Your profile is being verified for local trading. You can now fund your
-                        Naira or Dollar wallet.
+                        Your profile is being verified for local trading. <strong>Your local verification will be processed by CSCS. This takes 1-3 business days.</strong><br />You
+                        can now fund your Naira or Dollar wallet.
                     </p>
+                    <p></p>
                     <br />
                     <div class="kyc-modal__single" v-if="Object.keys(instrument).length > 0">
                         <div @click="closeModal" class="kyc-modal__popular--div">
                             <div>
-                                <img
-                                    :src="instrument.logoUrl"
-                                    class="kyc-modal__popular--logo"
-                                    :alt="instrument.symbol"
-                                />
+                                <img :src="instrument.logoUrl" class="kyc-modal__popular--logo" :alt="instrument.symbol" />
                             </div>
                             <h6>{{ instrument.symbol | truncate(10) }}</h6>
                             <p>{{ instrument.name }}</p>
                             <div>
                                 <img
-                                    :src="
-                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
-                                            instrument.countryCode
-                                        )}-flag.svg`
-                                    "
+                                    :src="`https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(instrument.countryCode)}-flag.svg`"
                                     class="kyc-modal__popular--flag"
                                     :alt="instrument.countryCode"
                                 />
@@ -108,21 +83,13 @@
                     <div class="kyc-modal__single" v-else-if="!loading">
                         <div @click="closeModal" class="kyc-modal__popular--div">
                             <div>
-                                <img
-                                    :src="specificStock.logoUrl"
-                                    class="kyc-modal__popular--logo"
-                                    :alt="specificStock.symbol"
-                                />
+                                <img :src="specificStock.logoUrl" class="kyc-modal__popular--logo" :alt="specificStock.symbol" />
                             </div>
                             <h6>{{ specificStock.symbol | truncate(10) }}</h6>
                             <p>{{ specificStock.name }}</p>
                             <div>
                                 <img
-                                    :src="
-                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
-                                            specificStock.countryCode
-                                        )}-flag.svg`
-                                    "
+                                    :src="`https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(specificStock.countryCode)}-flag.svg`"
                                     class="kyc-modal__popular--flag"
                                     :alt="specificStock.countryCode"
                                 />
@@ -133,19 +100,9 @@
                         <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                     </div>
                     <div class="mt-2" v-if="getLoggedUser.globalKycStatus === 'NONE'">
-                        <small v-if="modal">
-                            <a class="underline" @click="handleStep('global')"
-                                >Continue Local Verification</a
-                            ></small
-                        >
+                        <small v-if="modal"> <a class="underline" @click="handleStep('global')">Continue Local Verification</a></small>
                         <small v-else>
-                            <kyc-button
-                                ref="buyBtn"
-                                type="button"
-                                :classes="['underline']"
-                                tag="a"
-                                action="global"
-                                @step="handleStep"
+                            <kyc-button ref="buyBtn" type="button" :classes="['underline']" tag="a" action="global" @step="handleStep"
                                 >Continue Global Verification</kyc-button
                             ></small
                         >
@@ -157,28 +114,21 @@
             <div class="kyc-modal">
                 <div class="text-center">
                     <p class="kyc-modal__small">
-                        Your profile is being verified for global trading. You can now fund your
-                        Naira or Dollar wallet.
+                        Your profile is being verified for global trading. <strong>Your global verification is being processed. This takes 1 business day.</strong><br />
+                        You can now fund your Naira or Dollar wallet.
                     </p>
+                    <p></p>
                     <br />
                     <div class="kyc-modal__single" v-if="Object.keys(instrument).length > 0">
                         <div @click="closeModal" class="kyc-modal__popular--div">
                             <div>
-                                <img
-                                    :src="instrument.logoUrl"
-                                    class="kyc-modal__popular--logo"
-                                    :alt="instrument.symbol"
-                                />
+                                <img :src="instrument.logoUrl" class="kyc-modal__popular--logo" :alt="instrument.symbol" />
                             </div>
                             <h6>{{ instrument.symbol | truncate(10) }}</h6>
                             <p>{{ instrument.name }}</p>
                             <div>
                                 <img
-                                    :src="
-                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
-                                            instrument.countryCode
-                                        )}-flag.svg`
-                                    "
+                                    :src="`https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(instrument.countryCode)}-flag.svg`"
                                     class="kyc-modal__popular--flag"
                                     :alt="instrument.countryCode"
                                 />
@@ -188,21 +138,13 @@
                     <div class="kyc-modal__single" v-else-if="!loading">
                         <div @click="closeModal" class="kyc-modal__popular--div">
                             <div>
-                                <img
-                                    :src="specificStock.logoUrl"
-                                    class="kyc-modal__popular--logo"
-                                    :alt="specificStock.symbol"
-                                />
+                                <img :src="specificStock.logoUrl" class="kyc-modal__popular--logo" :alt="specificStock.symbol" />
                             </div>
                             <h6>{{ specificStock.symbol | truncate(10) }}</h6>
                             <p>{{ specificStock.name }}</p>
                             <div>
                                 <img
-                                    :src="
-                                        `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(
-                                            specificStock.countryCode
-                                        )}-flag.svg`
-                                    "
+                                    :src="`https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${country(specificStock.countryCode)}-flag.svg`"
                                     class="kyc-modal__popular--flag"
                                     :alt="specific.countryCode"
                                 />
@@ -214,19 +156,9 @@
                         <button class="btn btn__primary" @click="showFund">Fund Wallet</button>
                     </div>
                     <div class="mt-2" v-if="getLoggedUser.localKycStatus === 'NONE'">
-                        <small v-if="modal">
-                            <a class="underline" @click="handleStep('local')"
-                                >Continue Local Verification</a
-                            ></small
-                        >
+                        <small v-if="modal"> <a class="underline" @click="handleStep('local')">Continue Local Verification</a></small>
                         <small v-else>
-                            <kyc-button
-                                ref="buyBtn"
-                                type="button"
-                                :classes="['underline']"
-                                tag="a"
-                                action="local"
-                                @step="handleStep"
+                            <kyc-button ref="buyBtn" type="button" :classes="['underline']" tag="a" action="local" @step="handleStep"
                                 >Continue Local Verification</kyc-button
                             ></small
                         >
