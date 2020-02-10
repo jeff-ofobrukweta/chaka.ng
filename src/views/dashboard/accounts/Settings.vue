@@ -15,11 +15,11 @@
             /> -->
             <Uploads
                 form-name="idPhotoUrl"
+                v-if="!getKYC.idPhotoUrl"
                 :image="getKYC.idPhotoUrl"
                 @error="handleUploadError"
                 @success="handleUploadSuccess"
                 @reset="handleReset"
-                v-if="!getKYC.idPhotoUrl"
                 class="mr-3"
             />
             <Uploads
@@ -32,18 +32,7 @@
             />
         </section>
 
-        <error-block
-            type="kyc"
-            :message="showUploadError"
-            status="error"
-            v-if="showUploadError && getErrorLog.source === 'accounts'"
-        />
-        <error-block
-            type="kyc"
-            message="File uploaded successfully"
-            status="success"
-            v-else-if="showUploadSuccess && getErrorLog.source === 'accounts'"
-        />
+        <error-block type="kyc" :message="showUploadError" status="error" v-if="showUploadError" />
 
         <div class="accounts-settings__form">
             <section class="accounts-settings__hero">
@@ -82,22 +71,12 @@
             <template v-if="!getKYC.disclosureName">
                 <error-block type="kyc" v-if="getErrorLog.source === 'accounts'" />
                 <section v-if="!getKYC.disclosureName" class="accounts-settings__submit">
-                    <action-button
-                        type="submit"
-                        :disabled="!itemData.disclosureName"
-                        :pending="loading"
-                        :classes="['btn-block', 'btn__primary']"
-                        >Submit</action-button
-                    >
+                    <action-button type="submit" :disabled="!itemData.disclosureName" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                 </section>
             </template>
         </form>
 
-        <form
-            class="accounts-settings__form"
-            v-if="!getKYC.bvnFetchStatus"
-            @submit.prevent="submitBVN"
-        >
+        <form class="accounts-settings__form" v-if="!getKYC.bvnFetchStatus" @submit.prevent="submitBVN">
             <div class="accounts-settings__title">
                 <h5>BVN Verification</h5>
                 <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('bvn')">edit</a>
@@ -125,12 +104,7 @@
                     <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                         Cancel
                     </button>
-                    <action-button
-                        type="submit"
-                        :pending="loading"
-                        :classes="['btn-block', 'btn__primary']"
-                        >Submit</action-button
-                    >
+                    <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                 </section>
             </template>
         </form>
@@ -145,9 +119,7 @@
             <div class="accounts-settings__form">
                 <div class="accounts-settings__title">
                     <h5>Verify Phone Number</h5>
-                    <a class="accounts-settings__edit" v-if="!edit" @click="editExistingPhone"
-                        >edit</a
-                    >
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editExistingPhone">edit</a>
                 </div>
                 <section class="accounts-settings__hero">
                     <div class="accounts-settings__group">
@@ -165,12 +137,7 @@
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
                         </button>
-                        <action-button
-                            type="submit"
-                            :pending="loading"
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
+                        <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                     </section>
                 </template>
             </div>
@@ -178,26 +145,15 @@
             <form class="accounts-settings__form" @submit.prevent="submitBank">
                 <div class="accounts-settings__title">
                     <h5>Bank Details</h5>
-                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('bank')"
-                        >edit</a
-                    >
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('bank')">edit</a>
                 </div>
                 <section class="accounts-settings__hero">
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Bank Name
                             <template v-if="edit === 'bank'">
-                                <select
-                                    class="form__input form__select"
-                                    v-model="itemData.bankCode"
-                                    @click="issues = {}"
-                                >
-                                    <option
-                                        v-for="(bank, index) in banks"
-                                        :key="index"
-                                        :value="bank.bankCode"
-                                        >{{ bank.name }}</option
-                                    >
+                                <select class="form__input form__select" v-model="itemData.bankCode" @click="issues = {}">
+                                    <option v-for="(bank, index) in banks" :key="index" :value="bank.bankCode">{{ bank.name }}</option>
                                 </select>
                                 <p class="form-error" v-if="issues.bankCode">
                                     <small>{{ issues.bankCode }}</small>
@@ -232,12 +188,7 @@
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
                         </button>
-                        <action-button
-                            type="submit"
-                            :pending="loading"
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
+                        <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                     </section>
                 </template>
             </form>
@@ -245,19 +196,13 @@
             <form class="accounts-settings__form" @submit.prevent="updateKYC">
                 <div class="accounts-settings__title">
                     <h5>Confirm Postal Address</h5>
-                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('postal')"
-                        >edit</a
-                    >
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('postal')">edit</a>
                 </div>
                 <section class="accounts-settings__hero">
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Gender
-                            <select
-                                class="form__input form__select"
-                                v-if="edit === 'postal'"
-                                v-model="itemData.gender"
-                            >
+                            <select class="form__input form__select" v-if="edit === 'postal'" v-model="itemData.gender">
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
@@ -268,13 +213,7 @@
                     </div>
                     <div class="accounts-settings__group">
                         <label class="form__label"
-                            >Address<form-input
-                                type="text"
-                                v-if="edit === 'postal'"
-                                name="address"
-                                v-model="itemData.address"
-                                placeholder="Address"
-                            />
+                            >Address<form-input type="text" v-if="edit === 'postal'" name="address" v-model="itemData.address" placeholder="Address" />
                             <p v-else class="capitalize accounts-settings__data">
                                 {{ getKYC.address || "-" }}
                             </p></label
@@ -329,12 +268,7 @@
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
                         </button>
-                        <action-button
-                            type="submit"
-                            :pending="loading"
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
+                        <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                     </section>
                 </template>
             </form>
@@ -342,19 +276,13 @@
             <form class="accounts-settings__form" @submit.prevent="updateKYC">
                 <div class="accounts-settings__title">
                     <h5>Confirm Employment Details</h5>
-                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('employment')"
-                        >edit</a
-                    >
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('employment')">edit</a>
                 </div>
                 <section class="accounts-settings__hero">
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Status
-                            <select
-                                class="form__input form__select"
-                                v-model="itemData.employmentStatus"
-                                v-if="edit === 'employment'"
-                            >
+                            <select class="form__input form__select" v-model="itemData.employmentStatus" v-if="edit === 'employment'">
                                 <option value="EMPLOYED">Employed</option>
                                 <option value="SELF_EMPLOYED">Self-Employed</option>
                                 <option value="UNEMPLOYED">Unemployed</option>
@@ -364,63 +292,30 @@
                             </p></label
                         >
                     </div>
-                    <template
-                        v-if="
-                            (itemData.employmentStatus === 'EMPLOYED' ||
-                                itemData.employmentStatus === 'SELF_EMPLOYED') &&
-                                this.edit === 'employment'
-                        "
-                    >
+                    <template v-if="(itemData.employmentStatus === 'EMPLOYED' || itemData.employmentStatus === 'SELF_EMPLOYED') && this.edit === 'employment'">
                         <div class="accounts-settings__group">
                             <label class="form__label"
-                                >Company Name<form-input
-                                    type="text"
-                                    name="employment company"
-                                    v-model="itemData.employmentCompany"
-                                    placeholder="Company Name"
-                                />
+                                >Company Name<form-input type="text" name="employment company" v-model="itemData.employmentCompany" placeholder="Company Name" />
                             </label>
                         </div>
                         <div class="accounts-settings__group">
                             <label class="form__label"
                                 >Employment Type
-                                <select
-                                    class="form__input form__select"
-                                    v-model="itemData.employmentType"
-                                >
-                                    <option
-                                        v-for="(type, index) in types"
-                                        :key="index"
-                                        :value="type.value"
-                                        >{{ type.text }}</option
-                                    >
+                                <select class="form__input form__select" v-model="itemData.employmentType">
+                                    <option v-for="(type, index) in types" :key="index" :value="type.value">{{ type.text }}</option>
                                 </select></label
                             >
                         </div>
                         <div class="accounts-settings__group">
                             <label class="form__label"
                                 >Employment Position
-                                <select
-                                    class="form__input form__select"
-                                    v-model="itemData.employmentPosition"
-                                >
-                                    <option
-                                        v-for="(position, index) in positions"
-                                        :key="index"
-                                        :value="position.value"
-                                        >{{ position.text }}</option
-                                    >
+                                <select class="form__input form__select" v-model="itemData.employmentPosition">
+                                    <option v-for="(position, index) in positions" :key="index" :value="position.value">{{ position.text }}</option>
                                 </select></label
                             >
                         </div>
                     </template>
-                    <template
-                        v-else-if="
-                            (getKYC.employmentStatus === 'EMPLOYED' ||
-                                getKYC.employmentStatus === 'SELF_EMPLOYED') &&
-                                this.edit !== 'employment'
-                        "
-                    >
+                    <template v-else-if="(getKYC.employmentStatus === 'EMPLOYED' || getKYC.employmentStatus === 'SELF_EMPLOYED') && this.edit !== 'employment'">
                         <div class="accounts-settings__group">
                             <label class="form__label"
                                 >Company Name
@@ -453,12 +348,7 @@
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
                         </button>
-                        <action-button
-                            type="submit"
-                            :pending="loading"
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
+                        <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                     </section>
                 </template>
             </form>
@@ -466,25 +356,14 @@
             <form class="accounts-settings__form" @submit.prevent="updateKYC">
                 <div class="accounts-settings__title">
                     <h5>Confirm Investment Profile</h5>
-                    <a class="accounts-settings__edit" @click="editBtn('investment')" v-if="!edit"
-                        >edit</a
-                    >
+                    <a class="accounts-settings__edit" @click="editBtn('investment')" v-if="!edit">edit</a>
                 </div>
                 <section class="accounts-settings__hero">
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Investment Objectives
-                            <select
-                                class="form__input form__select"
-                                v-model="itemData.investmentObjectives"
-                                v-if="edit === 'investment'"
-                            >
-                                <option
-                                    v-for="(item, i) in objectives"
-                                    :key="i"
-                                    :value="item.value"
-                                    >{{ item.text }}</option
-                                >
+                            <select class="form__input form__select" v-model="itemData.investmentObjectives" v-if="edit === 'investment'">
+                                <option v-for="(item, i) in objectives" :key="i" :value="item.value">{{ item.text }}</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
                                 {{ checkInv(objectives, getKYC.investmentObjectives) || "-" }}
@@ -494,17 +373,8 @@
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Investment Experience
-                            <select
-                                class="form__input form__select"
-                                v-model="itemData.investmentExperience"
-                                v-if="edit === 'investment'"
-                            >
-                                <option
-                                    v-for="(item, i) in experience"
-                                    :key="i"
-                                    :value="item.value"
-                                    >{{ item.text }}</option
-                                >
+                            <select class="form__input form__select" v-model="itemData.investmentExperience" v-if="edit === 'investment'">
+                                <option v-for="(item, i) in experience" :key="i" :value="item.value">{{ item.text }}</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
                                 {{ checkInv(experience, getKYC.investmentExperience) || "-" }}
@@ -514,17 +384,8 @@
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Annual Income
-                            <select
-                                class="form__input form__select"
-                                v-model="itemData.annualIncome"
-                                v-if="edit === 'investment'"
-                            >
-                                <option
-                                    v-for="(item, i) in annualIncome"
-                                    :key="i"
-                                    :value="item.value"
-                                    >{{ item.text }}</option
-                                >
+                            <select class="form__input form__select" v-model="itemData.annualIncome" v-if="edit === 'investment'">
+                                <option v-for="(item, i) in annualIncome" :key="i" :value="item.value">{{ item.text }}</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
                                 {{ checkInv(annualIncome, getKYC.annualIncome) || "-" }}
@@ -534,14 +395,8 @@
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Net Worth (Cash)
-                            <select
-                                class="form__input form__select"
-                                v-model="itemData.networthLiquid"
-                                v-if="edit === 'investment'"
-                            >
-                                <option v-for="(item, i) in liquid" :key="i" :value="item.value">{{
-                                    item.text
-                                }}</option>
+                            <select class="form__input form__select" v-model="itemData.networthLiquid" v-if="edit === 'investment'">
+                                <option v-for="(item, i) in liquid" :key="i" :value="item.value">{{ item.text }}</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
                                 {{ checkInv(liquid, getKYC.networthLiquid) || "-" }}
@@ -551,14 +406,8 @@
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Net Worth (All Assets)
-                            <select
-                                class="form__input form__select"
-                                v-model="itemData.networthTotal"
-                                v-if="edit === 'investment'"
-                            >
-                                <option v-for="(item, i) in liquid" :key="i" :value="item.value">{{
-                                    item.text
-                                }}</option>
+                            <select class="form__input form__select" v-model="itemData.networthTotal" v-if="edit === 'investment'">
+                                <option v-for="(item, i) in liquid" :key="i" :value="item.value">{{ item.text }}</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
                                 {{ checkInv(liquid, getKYC.networthTotal) || "-" }}
@@ -568,17 +417,8 @@
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Risk Tolerance
-                            <select
-                                class="form__input form__select"
-                                v-model="itemData.riskTolerance"
-                                v-if="edit === 'investment'"
-                            >
-                                <option
-                                    v-for="(item, i) in tolerance"
-                                    :key="i"
-                                    :value="item.value"
-                                    >{{ item.text }}</option
-                                >
+                            <select class="form__input form__select" v-model="itemData.riskTolerance" v-if="edit === 'investment'">
+                                <option v-for="(item, i) in tolerance" :key="i" :value="item.value">{{ item.text }}</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
                                 {{ checkInv(tolerance, getKYC.riskTolerance) || "-" }}
@@ -592,12 +432,7 @@
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
                         </button>
-                        <action-button
-                            type="submit"
-                            :pending="loading"
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
+                        <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                     </section>
                 </template>
             </form>
@@ -605,9 +440,7 @@
             <form class="accounts-settings__form" @submit.prevent="updateKYC">
                 <div class="accounts-settings__title">
                     <h5>Confirm Compliance Status</h5>
-                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('compliance')"
-                        >edit</a
-                    >
+                    <a class="accounts-settings__edit" v-if="!edit" @click="editBtn('compliance')">edit</a>
                 </div>
                 <section class="accounts-settings__hero">
                     <!-- <div class="accounts-settings__group">
@@ -643,22 +476,12 @@
                     <div class="accounts-settings__group">
                         <label class="form__label"
                             >Are you politically exposed?
-                            <select
-                                class="form__input form__select"
-                                v-if="edit === 'compliance'"
-                                v-model="itemData.pepStatus"
-                            >
+                            <select class="form__input form__select" v-if="edit === 'compliance'" v-model="itemData.pepStatus">
                                 <option :value="true">Yes</option>
                                 <option :value="false">No</option>
                             </select>
                             <p v-else class="capitalize accounts-settings__data">
-                                {{
-                                    getKYC.pepStatus === null
-                                        ? "-"
-                                        : getKYC.pepStatus === false
-                                        ? "No"
-                                        : "Yes"
-                                }}
+                                {{ getKYC.pepStatus === null ? "-" : getKYC.pepStatus === false ? "No" : "Yes" }}
                             </p></label
                         >
                     </div>
@@ -681,12 +504,7 @@
                         <button @click="cancelEdit" type="button" class="btn btn-block btn-dark">
                             Cancel
                         </button>
-                        <action-button
-                            type="submit"
-                            :pending="loading"
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
+                        <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                     </section>
                 </template>
             </form>
