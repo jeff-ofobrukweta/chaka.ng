@@ -4,12 +4,7 @@
         <form class="modal-form" @submit.prevent="withdraw">
             <div class="modal-form__group">
                 <label class="form__label"
-                    >Amount<currency-input
-                        currency="NGN"
-                        placeholder="Enter Amount"
-                        v-model="itemData.amount"
-                        :error-message="errors.amount"
-                        @reset="errors = {}"
+                    >Amount<currency-input currency="NGN" placeholder="Enter Amount" v-model="itemData.amount" :error-message="errors.amount" @reset="errors = {}"
                 /></label>
                 <div class="form-info">
                     <small>**Allow up to 1 business day</small>
@@ -17,13 +12,7 @@
             </div>
             <error-block type="withdraw" />
             <div class="modal-form__buttons">
-                <action-button
-                    type="submit"
-                    :disabled="Object.keys(errors).length > 0"
-                    :pending="loading"
-                    :classes="['btn-block', 'btn__primary']"
-                    >Withdraw</action-button
-                >
+                <action-button type="submit" :disabled="Object.keys(errors).length > 0" :pending="loading" :classes="['btn-block', 'btn__primary']">Withdraw</action-button>
             </div>
         </form>
 
@@ -33,14 +22,8 @@
                 <small>
                     You're now requesting a withdrawal
                     <span v-if="itemData.amount"
-                        >of
-                        <span class="green">{{
-                            itemData.amount | currency("NGN", true)
-                        }}</span></span
-                    >&nbsp;into your {{ getKYC.bankAcctNo || "" }}
-                    {{
-                        getKYC.bankAcctName ? `account with ${getKYC.bankAcctName}` : "bank"
-                    }}</small
+                        >of <span class="green">{{ itemData.amount | currency("NGN", true) }}</span></span
+                    >&nbsp;into your {{ getKYC.bankAcctNo || "" }} {{ getKYC.bankAcctName ? `account with ${getKYC.bankAcctName}` : "bank" }}</small
                 >
             </p>
             <br />
@@ -91,10 +74,6 @@ export default {
             this.WITHDRAW_WALLET(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    /**
-                     * close buy modal
-                     * show success modal
-                     */
                     this.$emit("close", true);
                 }
             });
