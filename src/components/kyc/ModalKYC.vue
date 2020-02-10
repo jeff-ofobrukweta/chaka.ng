@@ -1,15 +1,7 @@
 <template>
     <modal @close="closeModal">
         <template slot="header">{{ showPendingStatus ? modalTitle : title }}</template>
-        <PendingKYC
-            v-if="showPendingStatus"
-            modal
-            :type="pendingType"
-            :is-buy-valid="2"
-            :instrument="{}"
-            @step="handleStep"
-            @close="closeModal"
-        />
+        <PendingKYC v-if="showPendingStatus" modal :type="pendingType" :is-buy-valid="2" :instrument="{}" @step="handleStep" @close="closeModal" />
         <div class="kyc-modal__dummy" v-else-if="!showModal"></div>
         <div v-else>
             <PhoneOTP @close="OTPSuccess" v-if="sectionToShow === 'phone'" />
@@ -17,26 +9,14 @@
                 <form class="kyc-modal" @submit.prevent="updateKYC">
                     <div class="text-center mb-1">
                         <p>
-                            <small class="grey-cool"
-                                >Not sure about your NIN number? Dial *346# if you're on MTN/Airtel
-                                https://www.nimc.gov.ng/sms-service/</small
-                            >
+                            <small class="grey-cool">Not sure about your NIN number? Dial *346# if you're on MTN/Airtel https://www.nimc.gov.ng/sms-service/</small>
                         </p>
                     </div>
-                    <Field
-                        :field="ninField"
-                        @input="handleInput"
-                        @click.native="errors = {}"
-                        :error-message="errors.nin"
-                    />
+                    <Field :field="ninField" @input="handleInput" @click.native="errors = {}" :error-message="errors.nin" />
 
                     <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
                     <div class="text-center">
-                        <action-button
-                            type="submit"
-                            :disabled="Object.keys(errors).length > 0 || !formComplete"
-                            :pending="loading"
-                            :classes="['btn__primary']"
+                        <action-button type="submit" :disabled="Object.keys(errors).length > 0 || !formComplete" :pending="loading" :classes="['btn__primary']"
                             >Submit</action-button
                         >
                     </div>
@@ -56,9 +36,7 @@
                         <label class="form__label"
                             >Select ID Type
                             <select class="form__input form__select" v-model="idIndex">
-                                <option v-for="(type, i) in idTypes" :key="i" :value="type.index">{{
-                                    type.name
-                                }}</option>
+                                <option v-for="(type, i) in idTypes" :key="i" :value="type.index">{{ type.name }}</option>
                             </select>
                         </label>
                         <br />
@@ -66,20 +44,15 @@
                     </section>
                     <Fragment v-if="idType">
                         <template v-if="idType !== 'ID_WITH_NO_ADDRESS'">
-                            <Uploads
-                                form-name="idPhotoUrl"
-                                :selected-name="idTypeName"
-                                :id-type="idType"
-                            />
+                            <Uploads form-name="idPhotoUrl" @error="handleUploadError" @reset="showUploadError = false" :selected-name="idTypeName" :id-type="idType" />
                         </template>
                         <template v-else v-for="(field, i) in allFields">
-                            <Uploads
-                                :form-name="field.value"
-                                idType="ID_WITH_NO_ADDRESS"
-                                :key="i"
-                            />
+                            <Uploads :form-name="field.value" idType="ID_WITH_NO_ADDRESS" :key="i" />
                         </template>
                     </Fragment>
+                    <section class="w-100 text-center">
+                        <error-block type="kyc" :message="showUploadError" status="error" v-if="showUploadError" />
+                    </section>
 
                     <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
                 </div>
@@ -92,20 +65,8 @@
                         </p>
                     </div>
                     <div v-for="(field, i) in allFields" :key="i">
-                        <Field
-                            :field="field"
-                            @input="handleInput"
-                            @click.native="errors = {}"
-                            :error-message="errors.bvn"
-                            v-if="field.value === 'bvn'"
-                        />
-                        <Field
-                            v-else-if="field.value === 'bankAcctNo'"
-                            :field="field"
-                            @input="handleInput"
-                            @click.native="errors = {}"
-                            :error-message="errors.bankAcctNo"
-                        />
+                        <Field :field="field" @input="handleInput" @click.native="errors = {}" :error-message="errors.bvn" v-if="field.value === 'bvn'" />
+                        <Field v-else-if="field.value === 'bankAcctNo'" :field="field" @input="handleInput" @click.native="errors = {}" :error-message="errors.bankAcctNo" />
                         <Field
                             v-else-if="field.value === 'bankCode'"
                             :field="field"
@@ -114,12 +75,7 @@
                             :error-message="errors.bankCode"
                             :options="checkOptions(field)"
                         />
-                        <Field
-                            v-else
-                            :field="field"
-                            @input="handleInput"
-                            :options="checkOptions(field)"
-                        />
+                        <Field v-else :field="field" @input="handleInput" :options="checkOptions(field)" />
 
                         <div v-if="field.value === 'pepStatus' && showPepStatus">
                             <div class="kyc-field__group">
@@ -174,12 +130,7 @@
                                         @focus="errors = {}"
                                         :error-message="errors.employmentType"
                                     >
-                                        <option
-                                            v-for="(option, i) in types"
-                                            :key="i"
-                                            :value="option.value"
-                                            >{{ option.text }}</option
-                                        >
+                                        <option v-for="(option, i) in types" :key="i" :value="option.value">{{ option.text }}</option>
                                     </select>
                                     <p class="form-error" v-if="errors.employmentType">
                                         <small>{{ errors.employmentType }}</small>
@@ -196,12 +147,7 @@
                                         v-model="employment.employmentPosition"
                                         :error-message="errors.employmentPosition"
                                     >
-                                        <option
-                                            v-for="(option, i) in positions"
-                                            :key="i"
-                                            :value="option.value"
-                                            >{{ option.text }}</option
-                                        >
+                                        <option v-for="(option, i) in positions" :key="i" :value="option.value">{{ option.text }}</option>
                                     </select>
                                     <p class="form-error" v-if="errors.employmentPosition">
                                         <small>{{ errors.employmentPosition }}</small>
@@ -213,11 +159,7 @@
 
                     <error-block type="kyc" v-if="getErrorLog.source === 'modal'" />
                     <div class="text-center">
-                        <action-button
-                            type="submit"
-                            :disabled="Object.keys(errors).length > 0 || !formComplete"
-                            :pending="loading"
-                            :classes="['btn__primary']"
+                        <action-button type="submit" :disabled="Object.keys(errors).length > 0 || !formComplete" :pending="loading" :classes="['btn__primary']"
                             >Submit</action-button
                         >
                     </div>
@@ -276,6 +218,7 @@ export default {
             allNextKYC: KYCTitles.titles,
             selectedField: {},
             errors: {},
+            showUploadError: false,
             subtitle: null,
             ninField: {
                 name: "NIN",
@@ -323,10 +266,8 @@ export default {
         },
         title() {
             if (this.currentKYC.cardContext === "LOCAL") return "Complete Your Local Verification";
-            if (this.currentKYC.cardContext === "GLOBAL")
-                return "Complete Your Global Verification";
-            if (this.currentKYC.cardContext === "WITHDRAW")
-                return "Complete Your Withdrawal Verification";
+            if (this.currentKYC.cardContext === "GLOBAL") return "Complete Your Global Verification";
+            if (this.currentKYC.cardContext === "WITHDRAW") return "Complete Your Withdrawal Verification";
             return "Complete Your Verification";
         },
         idType() {
@@ -355,12 +296,9 @@ export default {
             return this.getNavbarNextKYC.completedContexts[0];
         },
         modalTitle() {
-            if (this.getNavbarNextKYC.completedContexts.length > 1)
-                return "Processing Verification";
-            if (this.getNavbarNextKYC.completedContexts[0] === "WITHDRAW")
-                return "Processing Withdrawal Verification";
-            if (this.getNavbarNextKYC.completedContexts[0] === "LOCAL")
-                return "Processing Local Verification";
+            if (this.getNavbarNextKYC.completedContexts.length > 1) return "Processing Verification";
+            if (this.getNavbarNextKYC.completedContexts[0] === "WITHDRAW") return "Processing Withdrawal Verification";
+            if (this.getNavbarNextKYC.completedContexts[0] === "LOCAL") return "Processing Local Verification";
             return "Processing Global Verification";
         },
         showModal() {
@@ -368,14 +306,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions([
-            "RESOLVE_BVN",
-            "UPDATE_KYC_BANK",
-            "UPDATE_KYC_NIN",
-            "UPDATE_KYC",
-            "UPLOAD_KYC_FILE",
-            "GET_NEXT_KYC"
-        ]),
+        ...mapActions(["RESOLVE_BVN", "UPDATE_KYC_BANK", "UPDATE_KYC_NIN", "UPDATE_KYC", "UPLOAD_KYC_FILE", "GET_NEXT_KYC"]),
         ...mapMutations(["RESET_REQ", "SET_FUND_MODAL", "SET_KYC_MODAL_ACTION"]),
         async handleStep(step) {
             this.SET_KYC_MODAL_ACTION(step.toUpperCase());
@@ -406,9 +337,7 @@ export default {
                     this.showDirector = false;
                 }
             }
-            this.formComplete = this.nin
-                ? true
-                : Object.keys(this.itemData).length >= this.selectedField.fields.length;
+            this.formComplete = this.nin ? true : Object.keys(this.itemData).length >= this.selectedField.fields.length;
         },
         OTPSuccess() {
             this.mount();
@@ -418,13 +347,7 @@ export default {
                 if (el === "bvn") this.state = "bvn";
                 else if (el === "nin" || this.nin) this.state = "nin";
                 else if (el === "bankCode" || el === "bankAcctNo") this.state = "bank";
-                else if (
-                    el === "employmentStatus" ||
-                    el === "directorOfPublicCo" ||
-                    el === "employedByBroker" ||
-                    el === "pepStatus"
-                )
-                    this.state = "employment";
+                else if (el === "employmentStatus" || el === "directorOfPublicCo" || el === "employedByBroker" || el === "pepStatus") this.state = "employment";
                 else this.state = "default";
             });
             this.loading = true;
@@ -468,11 +391,7 @@ export default {
                     return false;
                 }
                 if (Number.isNaN(+this.itemData.bankAcctNo)) {
-                    this.$set(
-                        this.errors,
-                        "bankAcctNo",
-                        "Account number should be a 10 digit number"
-                    );
+                    this.$set(this.errors, "bankAcctNo", "Account number should be a 10 digit number");
                     this.loading = false;
                     return false;
                 }
@@ -498,11 +417,7 @@ export default {
                         this.$set(this.errors, "employmentCompany", "Company name is required");
                     }
                     if (!this.employment.employmentPosition) {
-                        this.$set(
-                            this.errors,
-                            "employmentPosition",
-                            "Employment position is required"
-                        );
+                        this.$set(this.errors, "employmentPosition", "Employment position is required");
                     }
                 }
                 if (this.showDirector && !this.director.name) {
@@ -580,6 +495,9 @@ export default {
             this.SET_FUND_MODAL(true);
             this.$emit("close");
         },
+        handleUploadError(e) {
+            this.showUploadError = e;
+        },
         mount() {
             this.allFields = [];
             this.selectedField = {};
@@ -603,27 +521,11 @@ export default {
                     }
                 });
             });
-
-            // if (this.currentKYC.status === "INCOMPLETE") {
-            //     if (this.isFileImage || this.allFields.length === this.currentKYC.nextKYC.length) {
-            //         setTimeout(() => {
-            //             this.showModal = true;
-            //         }, 200);
-            //     }
-            // } else {
-            if (
-                this.currentKYC.status === "COMPLETE" &&
-                this.getNavbarNextKYC.completedContexts.length === 0
-            ) {
+            
+            if (this.currentKYC.status === "COMPLETE" && this.getNavbarNextKYC.completedContexts.length === 0) {
                 EventBus.$emit("MODAL_CLOSED");
                 this.$emit("updated", true);
             }
-            //      else {
-            //         setTimeout(() => {
-            //             this.showModal = true;
-            //         }, 500);
-            //     }
-            // }
         }
     },
     mounted() {
