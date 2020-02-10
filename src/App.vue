@@ -9,20 +9,13 @@
             style="z-index: 1000000; position: fixed; bottom: 33px; right: 36px; width: 282px; background: #fff; border-radius: 0.4em; padding: 10px; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px, rgba(0, 0, 0, 0.19) 0px 6px 20px 0px;"
         >
             <p style="font-size: 0.9em; color: #000; text-align: center; padding: 4px;">
-                We use cookies to give you the best experience on our website. By continuing without
-                changing your cookie settings, we assume you agree to this.
+                We use cookies to give you the best experience on our website. By continuing without changing your cookie settings, we assume you agree to this.
             </p>
             <div style="text-align: center">
-                <a
-                    @click="readPrivacy"
-                    style="color: #000; background: #ccc; border: none; padding: 8px; font-size: 0.8em;"
-                >
+                <router-link :to="{ name: 'privacy' }" style="color: #000; background: #ccc; border: none; padding: 8px; font-size: 0.8em;">
                     Read the privacy policy
-                </a>
-                <a
-                    @click="acceptCookie"
-                    style="color: #fff; background: #025aa5; border: none; padding: 8px; margin-left: 10px; width: 90px; font-size: 0.8em;"
-                >
+                </router-link>
+                <a @click="acceptCookie" style="color: #fff; background: #025aa5; border: none; padding: 8px; margin-left: 10px; width: 90px; font-size: 0.8em;">
                     I agree
                 </a>
             </div>
@@ -65,10 +58,9 @@ export default {
         },
         acceptCookie() {
             this.showCookie = false;
-            document.cookie = "__acceptcookie=yes";
+            localStorage.setItem("__ACCEPTCOOKIE", true);
         },
         readPrivacy() {
-            this.acceptCookie();
             this.$router.push({ name: "privacy" });
         },
         closeGift() {
@@ -102,12 +94,12 @@ export default {
         };
         window.addEventListener("resize", this.handleResize);
         this.handleResize();
-        const allCookies = document.cookie.split("; ");
-        const cookie = allCookies.filter(el => el.startsWith("__acceptcookie"));
-        if (cookie.length <= 0 || cookie[0] === "__acceptcookie=no") {
-            document.cookie = "__acceptcookie=no";
+        const acceptCookie = localStorage.getItem("__ACCEPTCOOKIE");
+        if (acceptCookie) {
+            this.showCookie = false;
+        } else {
             this.showCookie = true;
-        } else this.showCookie = false;
+        }
     },
     destroyed() {
         window.removeEventListener("resize", this.handleResize);
