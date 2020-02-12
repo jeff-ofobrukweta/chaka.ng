@@ -21,7 +21,7 @@ setup:
 test:
   stage: test
   script:
-    # - npm run test:unit
+    - npm run test:unit
   only:
     - dev
 
