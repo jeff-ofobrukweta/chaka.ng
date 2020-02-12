@@ -18,12 +18,12 @@ setup:
   only:
     - dev
 
-test:
-  stage: test
-  script:
-    - npm run test:unit
-  only:
-    - dev
+# test:
+#   stage: test
+#   script:
+#     - npm run test:unit
+#   only:
+#     - dev
 
 build:
   stage: build
