@@ -4,15 +4,13 @@
             <h3>Explore</h3>
             <!-- <p class="dashboard__title--sub">See the latest on the stock market</p> -->
         </section>
+        <QuizStrip />
 
         <section class="accounts-statements__downloads loader-gif__big" v-if="loading">
             <img :src="require('../../assets/img/loader.gif')" alt="Loader" />
         </section>
 
-        <div
-            class="caution__big"
-            v-else-if="getErrorLog.type === 'explore' && getExploreNews.length <= 0"
-        >
+        <div class="caution__big" v-else-if="getErrorLog.type === 'explore' && getExploreNews.length <= 0">
             <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
             <a class="caution__reload" @click="mount">Reload</a>
         </div>
@@ -20,19 +18,11 @@
         <section class="explore-section" v-else-if="getExploreNews.length > 0">
             <div class="explore-featured">
                 <div class="explore-featured__image">
-                    <a :href="getExploreNews[0].pageUrl" target="_blank" rel="noreferrer noopener">
-                        <img :src="getExploreNews[0].imageUrl" :alt="getExploreNews[0].name"
-                    /></a>
+                    <a :href="getExploreNews[0].pageUrl" target="_blank" rel="noreferrer noopener"> <img :src="getExploreNews[0].imageUrl" :alt="getExploreNews[0].name"/></a>
                 </div>
                 <div class="explore-featured__text">
                     <h4 class="explore-featured__text--title">
-                        <a
-                            :href="getExploreNews[0].pageUrl"
-                            target="_blank"
-                            rel="noreferrer noopener"
-                        >
-                            {{ getExploreNews[0].name }}</a
-                        >
+                        <a :href="getExploreNews[0].pageUrl" target="_blank" rel="noreferrer noopener"> {{ getExploreNews[0].name }}</a>
                     </h4>
                     <p>
                         {{ getExploreNews[0].description || "" | truncate(380) }}
@@ -48,11 +38,7 @@
             <div class="explore-actions__bottom">
                 <!-- <a class="explore-actions">See All</a> -->
                 <a v-if="loadNews">
-                    <img
-                        :src="require('../../assets/img/loader.gif')"
-                        alt="Loading..."
-                        width="16px"
-                    />
+                    <img :src="require('../../assets/img/loader.gif')" alt="Loading..." width="16px" />
                 </a>
                 <a class="explore-actions" @click="shuffleNews" v-else>Shuffle</a>
             </div>
@@ -72,11 +58,7 @@
                 <div v-if="getWindowWidth !== 'mobile'">
                     <!-- <a class="explore-actions">See All</a> -->
                     <a v-if="loadCollections">
-                        <img
-                            :src="require('../../assets/img/loader.gif')"
-                            alt="Loading..."
-                            width="16px"
-                        />
+                        <img :src="require('../../assets/img/loader.gif')" alt="Loading..." width="16px" />
                     </a>
                     <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
                 </div>
@@ -85,21 +67,12 @@
                 <NewsCard :news="{}" dummy v-for="i in 5" :key="i" />
             </div>
             <div class="card-news__box explore__news" v-else>
-                <NewsCard
-                    :news="item"
-                    v-for="(item, index) in getExploreCollections"
-                    :key="index"
-                    collection
-                />
+                <NewsCard :news="item" v-for="(item, index) in getExploreCollections" :key="index" collection />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
                 <!-- <a class="explore-actions">See All</a> -->
                 <a v-if="loadCollections">
-                    <img
-                        :src="require('../../assets/img/loader.gif')"
-                        alt="Loading..."
-                        width="16px"
-                    />
+                    <img :src="require('../../assets/img/loader.gif')" alt="Loading..." width="16px" />
                 </a>
                 <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
             </div>
@@ -114,11 +87,7 @@
                 <div v-if="getWindowWidth !== 'mobile'">
                     <!-- <a class="explore-actions">See All</a> -->
                     <a class="explore-actions" v-if="loadLearn">
-                        <img
-                            :src="require('../../assets/img/ring-loader.jpeg')"
-                            alt="Loading..."
-                            width="16px"
-                        />
+                        <img :src="require('../../assets/img/ring-loader.jpeg')" alt="Loading..." width="16px" />
                     </a>
                     <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
                 </div>
@@ -132,11 +101,7 @@
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
                 <!-- <a class="explore-actions">See All</a> -->
                 <a class="explore-actions" v-if="loadLearn">
-                    <img
-                        :src="require('../../assets/img/loader.gif')"
-                        alt="Loading..."
-                        width="16px"
-                    />
+                    <img :src="require('../../assets/img/loader.gif')" alt="Loading..." width="16px" />
                 </a>
                 <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
             </div>
@@ -163,21 +128,14 @@
                         />
                     </template>
                 </transition-group>
-                <template v-else
-                    ><p class="text-center">You have no items in your watchlist</p>
-                </template>
+                <template v-else><p class="text-center">You have no items in your watchlist</p> </template>
             </section>
 
             <section class="watchlist-mobile__box" v-else>
                 <template v-if="watchlistLoading">
                     <MobileWatchlist v-for="i in 3" :key="i" :instrument="{}" dummy />
                 </template>
-                <template v-else-if="getWatchlist.length > 0">
-                    <MobileWatchlist
-                        v-for="(instrument, index) in getWatchlist"
-                        :key="index"
-                        :instrument="instrument"
-                /></template>
+                <template v-else-if="getWatchlist.length > 0"> <MobileWatchlist v-for="(instrument, index) in getWatchlist" :key="index" :instrument="instrument"/></template>
                 <template v-else>
                     <p class="text-center">You have no items in your watchlist</p>
                 </template>
@@ -194,7 +152,8 @@ export default {
     components: {
         ExploreWatchlist: () => import("../../components/watchlist/ExploreWatchlist"),
         MobileWatchlist: () => import("../../components/watchlist/MobileWatchlist"),
-        NewsCard: () => import("../../components/cards/NewsCard")
+        NewsCard: () => import("../../components/cards/NewsCard"),
+        QuizStrip: () => import("../../components/QuizStrip")
     },
     data() {
         return {
@@ -206,26 +165,13 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([
-            "getPortfolioSummary",
-            "getWindowWidth",
-            "getExploreNews",
-            "getExploreCollections",
-            "getExploreLearn",
-            "getWatchlist",
-            "getErrorLog"
-        ]),
+        ...mapGetters(["getPortfolioSummary", "getWindowWidth", "getExploreNews", "getExploreCollections", "getExploreLearn", "getWatchlist", "getErrorLog"]),
         otherNews() {
             return [...this.getExploreNews].splice(1);
         }
     },
     methods: {
-        ...mapActions([
-            "GET_EXPLORE_NEWS",
-            "GET_EXPLORE_COLLECTIONS",
-            "GET_EXPLORE_LEARN",
-            "GET_WATCHLIST"
-        ]),
+        ...mapActions(["GET_EXPLORE_NEWS", "GET_EXPLORE_COLLECTIONS", "GET_EXPLORE_LEARN", "GET_WATCHLIST"]),
         async shuffleNews() {
             this.loadNews = true;
             await this.GET_EXPLORE_NEWS({ shuffle: true });

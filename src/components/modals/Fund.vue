@@ -208,7 +208,7 @@ export default {
             loading: false,
             message: null,
             issues: {},
-            currency: "NGN",
+            currency: "USD",
             flag: "START",
             activeMethod: null,
             accountHover: false,

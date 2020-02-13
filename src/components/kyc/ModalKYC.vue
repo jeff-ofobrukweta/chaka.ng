@@ -5,7 +5,8 @@
         <div class="kyc-modal__dummy" v-else-if="!showModal"></div>
         <div v-else>
             <PhoneOTP @close="OTPSuccess" v-if="sectionToShow === 'phone'" />
-            <div v-else-if="sectionToShow === 'nin'">
+            <!-- TO-DO:: Put back when NIN is ready -->
+            <!-- <div v-else-if="sectionToShow === 'nin'">
                 <form class="kyc-modal" @submit.prevent="updateKYC">
                     <div class="text-center mb-1">
                         <p>
@@ -20,11 +21,12 @@
                             >Submit</action-button
                         >
                     </div>
+
                     <div class="text-center mt-2" v-if="!loading">
                         <a @click="skipNIN" class="unerline primary">Skip</a>
                     </div>
                 </form>
-            </div>
+            </div> -->
             <div v-else-if="sectionToShow === 'file'">
                 <div class="kyc-modal kyc-modal__uploads">
                     <div class="text-center mb-1">
@@ -478,16 +480,19 @@ export default {
             }
             return [];
         },
-        skipNIN() {
-            this.loading = true;
-            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
-                this.loading = false;
-                if (resp) {
-                    this.$emit("skipnin");
-                    this.mount();
-                }
-            });
-        },
+        /**
+         * TO-DO:: Put back when NIN is complete
+         */
+        // skipNIN() {
+        //     this.loading = true;
+        //     this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
+        //         this.loading = false;
+        //         if (resp) {
+        //             this.$emit("skipnin");
+        //             this.mount();
+        //         }
+        //     });
+        // },
         closeModal() {
             this.$emit("close");
         },
@@ -521,7 +526,7 @@ export default {
                     }
                 });
             });
-            
+
             if (this.currentKYC.status === "COMPLETE" && this.getNavbarNextKYC.completedContexts.length === 0) {
                 EventBus.$emit("MODAL_CLOSED");
                 this.$emit("updated", true);
