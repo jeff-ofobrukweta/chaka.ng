@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One&display=swap');
+
+.quiz {
+    background: linear-gradient(rgba(41, 61, 74, 0.8), rgba(41, 61, 74, 0.8)), url('assets/img/quiz-strip.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    margin-bottom: 2rem;
+    display: flex;
+    font-family: 'Fredoka One', cursive;
+
+    @include mobile {
+        flex-direction: column;
+    }
+
+    &-box {
+        text-align: center;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        width: 100%;
+    }
+
+    &-svg {
+        text-align: center;
+
+        svg {
+            margin-left: 1rem;
+            vertical-align: middle;
+        }
+
+        @include mobile {
+
+            svg {
+                width: 32px;
+                height: 32px;
+                margin-left: 0.625rem;
+            }
+        }
+
+        @include desktop {
+            display: inline;
+        }
+
+    }
+
+    h2 {
+        color: $white;
+        text-align: center;
+        font-size: 1.325rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        margin-bottom: 1rem;
+        font-weight: inherit;
+
+        @include tablet {
+            font-size: 1.625rem;
+        }
+
+        @include desktop {
+            font-size: 2rem;
+            margin-bottom: 0;
+        }
+
+        @include desktop-lg {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    &-link {
+        background-color: $primary;
+        width: 92px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @include mobile {
+            width: 100%;
+            padding: 1.325rem 0;
+        }
+
+        @include desktop-xl {
+            position: absolute;
+            right: -92px;
+            top: 0;
+            height: 100%;
+        }
+    }
+}
