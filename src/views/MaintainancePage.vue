@@ -38,7 +38,7 @@
           </g>
         </svg>
         <h1>Chaka.ng Under Maintainance</h1>
-        <h2>Sorry for the inconvenience contact support </h2>
+        <h2>Sorry for the inconvenience contact customer support </h2>
       </main>
       <footer></footer>
     </div>
@@ -47,7 +47,7 @@
 
 <script>
 export default {
-    name: 'HelloWorld',
+    name: 'Maintainace',
     components:{},
     methods:{
 
