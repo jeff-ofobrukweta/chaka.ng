@@ -35,6 +35,7 @@ Vue.use(Toaster, toasterOptions);
 // Vue Global Mixins
 
 Vue.use(VueAxios, axios);
+
 Vue.use(VueAuthenticate, {
     baseUrl: "http://localhost:8080", // Your API domain
     providers: {
@@ -42,7 +43,7 @@ Vue.use(VueAuthenticate, {
             clientId: "724818008039885", //your Facebook App ID e.g. 12345667890
             url: 'http://localhost:8080/auth/facebook',
             authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
-            redirectUri:"http://localhost:8080/auth/google/callback", // Your client app URL
+            redirectUri:"http://localhost:8080/auth/facebook/login/callback/", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
