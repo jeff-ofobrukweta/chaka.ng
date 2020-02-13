@@ -7,28 +7,15 @@
                         <h5>Complete Your Verification</h5>
                         <p>
                             <small>
-                                By typing to sign my name below I acknowledge that I have read and
-                                agree to
-                                <a
-                                    class="underline"
-                                    href="https://apps.drivewealth.com/disclosures?sweepType=bank"
-                                    target="_blank"
-                                    rel="noreferrer noopener"
+                                By typing to sign my name below I acknowledge that I have read and agree to
+                                <a class="underline" href="https://apps.drivewealth.com/disclosures?sweepType=bank" target="_blank" rel="noreferrer noopener"
                                     >Drivewealth Disclosures</a
                                 >,
-                                <a
-                                    class="underline"
-                                    href="https://drivewealth.com/customer-account-agreement?lang=en_US"
-                                    target="_blank"
-                                    rel="noreferrer noopener"
+                                <a class="underline" href="https://drivewealth.com/customer-account-agreement?lang=en_US" target="_blank" rel="noreferrer noopener"
                                     >DriveWealth Account Agreement</a
                                 >
                                 and
-                                <a
-                                    class="underline"
-                                    href="https://apps.drivewealth.io/disclosures/?citizenship=NG&showOnlyTaxDoc=true"
-                                    target="_blank"
-                                    rel="noreferrer noopener"
+                                <a class="underline" href="https://apps.drivewealth.io/disclosures/?citizenship=NG&showOnlyTaxDoc=true" target="_blank" rel="noreferrer noopener"
                                     >W8-BEN Agreement Disclosure</a
                                 ></small
                             >
@@ -36,52 +23,21 @@
                     </div>
 
                     <div class="kyc-nav__field">
-                        <Field
-                            :field="disclosureField"
-                            placeholder="Enter your full name"
-                            @input="handleInput"
-                            no-label
-                            inline
-                        />
+                        <Field :field="disclosureField" placeholder="Enter your full name" @input="handleInput" no-label inline />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a @click="hideKYCBtn">Hide</a>
-                        <action-button
-                            type="submit"
-                            :disabled="!itemData.disclosureName"
-                            :pending="loading"
-                            :classes="['btn', 'kyc-nav__button']"
-                        >
-                            <svg
-                                width="30"
-                                height="16"
-                                viewBox="0 0 30 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z"
-                                    fill="white"
-                                /></svg
+                        <action-button type="submit" :disabled="!itemData.disclosureName" :pending="loading" :classes="['btn', 'kyc-nav__button']">
+                            <svg width="30" height="16" viewBox="0 0 30 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z" fill="white" /></svg
                         ></action-button>
                     </div>
                     <div class="kyc-nav__actions" v-else>
-                        <action-button
-                            type="submit"
-                            :pending="loading"
-                            :disabled="!itemData.disclosureName"
-                            icon
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
-                        <a
-                            class="underline"
-                            v-if="getKYC.ninFetchStatus === 'SKIPPED'"
-                            @click="showNextModalBtn('nin')"
+                        <action-button type="submit" :pending="loading" :disabled="!itemData.disclosureName" icon :classes="['btn-block', 'btn__primary']">Submit</action-button>
+                        <!-- TO-DO:: pUt back when NIN is ready -->
+                        <!-- <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
-                        >
+                        > -->
                         <a @click="hideKYCBtn">Hide</a>
                     </div>
                 </div>
@@ -95,67 +51,26 @@
                         <p>
                             <small>Enter your Bank Verification Number</small>
                         </p>
-                        <p
-                            class="skip-button"
-                            v-if="
-                                getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
-                            "
-                        >
-                            <a class="underline" @click="showNextModalBtn('nin')"
-                                ><small>Enter your NIN to fast track your verification</small></a
-                            >
+                        <p class="skip-button" v-if="getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'">
+                            <a class="underline" @click="showNextModalBtn('nin')"><small>Enter your NIN to fast track your verification</small></a>
                         </p>
                     </div>
                     <div class="kyc-nav__field">
-                        <Field
-                            :field="bvnField"
-                            @input="handleInput"
-                            v-model="itemData.bvn"
-                            @click.native="issues = {}"
-                            :error-message="issues.bvn"
-                            navbar
-                            inline
-                            no-label
-                        />
+                        <Field :field="bvnField" @input="handleInput" v-model="itemData.bvn" @click.native="issues = {}" :error-message="issues.bvn" navbar inline no-label />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a @click="hideKYCBtn">Hide</a>
-                        <action-button
-                            :disabled="!itemData.bvn"
-                            type="submit"
-                            :pending="loading"
-                            :classes="['btn', 'kyc-nav__button']"
-                        >
-                            <svg
-                                width="30"
-                                height="16"
-                                viewBox="0 0 30 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z"
-                                    fill="white"
-                                /></svg
+                        <action-button :disabled="!itemData.bvn" type="submit" :pending="loading" :classes="['btn', 'kyc-nav__button']">
+                            <svg width="30" height="16" viewBox="0 0 30 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z" fill="white" /></svg
                         ></action-button>
                     </div>
                     <div class="kyc-nav__actions" v-else>
-                        <action-button
-                            type="submit"
-                            :disabled="!itemData.bvn"
-                            :pending="loading"
-                            icon
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
-                        <a
-                            class="underline"
-                            v-if="getKYC.ninFetchStatus === 'SKIPPED'"
-                            @click="showNextModalBtn('nin')"
+                        <action-button type="submit" :disabled="!itemData.bvn" :pending="loading" icon :classes="['btn-block', 'btn__primary']">Submit</action-button>
+                        <!-- TO-DO:: Put back when NIN is ready -->
+                        <!-- <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
-                        >
+                        > -->
                         <a @click="hideKYCBtn">Hide</a>
                     </div>
                 </div>
@@ -166,35 +81,17 @@
                 <div class="kyc-nav__text kyc-nav__text--stretch">
                     <h5>Verify Phone</h5>
                     <p>
-                        <small
-                            >Do you wish to use your registered phone number({{
-                                getKYC.phone
-                            }})?</small
-                        >
+                        <small>Do you wish to use your registered phone number({{ getKYC.phone }})?</small>
                     </p>
                     <p>
-                        <small
-                            ><a class="underline" @click="showUseNewPhone">Click here</a> to use a
-                            different phone number</small
-                        >
+                        <small><a class="underline" @click="showUseNewPhone">Click here</a> to use a different phone number</small>
                     </p>
                 </div>
                 <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                     <a @click="hideKYCBtn">Hide</a>
                     <button type="button" @click="confirmPhone" class="btn kyc-nav__button">
-                        <svg
-                            width="30"
-                            height="16"
-                            viewBox="0 0 30 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                clip-rule="evenodd"
-                                d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z"
-                                fill="white"
-                            />
+                        <svg width="30" height="16" viewBox="0 0 30 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z" fill="white" />
                         </svg>
                     </button>
                 </div>
@@ -208,7 +105,9 @@
                 </div>
             </div>
         </template>
-        <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'nin'">
+        <!-- TO-DO:: Put back when NIN is ready -->
+
+        <!-- <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'nin'">
             <form @submit.prevent="submitNIN">
                 <div class="kyc-nav container">
                     <div class="kyc-nav__text">
@@ -273,7 +172,7 @@
                     </div>
                 </div>
             </form>
-        </template>
+        </template> -->
         <template v-else>
             <div>
                 <div class="kyc-nav container">
@@ -282,50 +181,26 @@
                         <p>
                             <small>{{ selectedField.subtitle }}</small>
                         </p>
-                        <p
-                            class="skip-button"
-                            v-if="
-                                getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'
-                            "
-                        >
-                            <a class="underline" @click="showNextModalBtn('nin')"
-                                ><small>Enter your NIN to fast track your verification</small></a
-                            >
+                        <p class="skip-button" v-if="getWindowWidth !== 'mobile' && getKYC.ninFetchStatus === 'SKIPPED'">
+                            <a class="underline" @click="showNextModalBtn('nin')"><small>Enter your NIN to fast track your verification</small></a>
                         </p>
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a @click="hideKYCBtn">Hide</a>
                         <button type="button" class="btn kyc-nav__button" @click="showNextModalBtn">
-                            <svg
-                                width="30"
-                                height="16"
-                                viewBox="0 0 30 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z"
-                                    fill="white"
-                                />
+                            <svg width="30" height="16" viewBox="0 0 30 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z" fill="white" />
                             </svg>
                         </button>
                     </div>
                     <div class="kyc-nav__actions" v-else>
-                        <button
-                            @click="showNextModalBtn"
-                            type="buttom"
-                            class="btn btn-block btn__primary"
-                        >
+                        <button @click="showNextModalBtn" type="buttom" class="btn btn-block btn__primary">
                             Continue
                         </button>
-                        <a
-                            class="underline"
-                            v-if="getKYC.ninFetchStatus === 'SKIPPED'"
-                            @click="showNextModalBtn('nin')"
+                        <!-- TO-DO:: Put back when NIN is ready -->
+                        <!-- <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
-                        >
+                        > -->
                         <div>
                             <a @click="hideKYCBtn">Hide</a>
                         </div>
@@ -339,27 +214,15 @@
             <form @submit.prevent="useNewPhone" v-if="showNewPhone">
                 <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
                 <div class="accounts-settings__group--modal">
-                    <label class="form__label"
-                        >Date of Birth
-                        <input
-                            class="form__input"
-                            type="date"
-                            name="dob"
-                            @input="handleDate($event)"
-                    /></label>
+                    <label class="form__label">Date of Birth <input class="form__input" type="date" name="dob" @input="handleDate($event)"/></label>
                 </div>
                 <div class="accounts-settings__group--modal">
                     <label class="form__label"
                         >Select Country
                         <select class="form__input form__select" v-model="newPhone.countryCode">
                             <template v-if="getCountryCodes.length > 0">
-                                <option
-                                    :value="country.callingCodes[0]"
-                                    v-for="(country, index) in getCountryCodes"
-                                    :key="index"
-                                    :selected="country.name === 'Nigeria'"
-                                    >{{ country.name
-                                    }}{{ ` (+${country.callingCodes[0]})` }}</option
+                                <option :value="country.callingCodes[0]" v-for="(country, index) in getCountryCodes" :key="index" :selected="country.name === 'Nigeria'"
+                                    >{{ country.name }}{{ ` (+${country.callingCodes[0]})` }}</option
                                 >
                             </template>
                             <template v-else>
@@ -369,82 +232,38 @@
                     </label>
                 </div>
                 <div class="accounts-settings__group--modal">
-                    <label class="form__label text-center"
-                        >Phone Number
-                        <form-input
-                            type="number"
-                            name="phone"
-                            v-model="newPhone.phone"
-                            placeholder="Enter new phone"
-                    /></label>
+                    <label class="form__label text-center">Phone Number <form-input type="number" name="phone" v-model="newPhone.phone" placeholder="Enter new phone"/></label>
                 </div>
                 <error-block type="kyc-phone" />
 
                 <section class="accounts-settings__submit--modal">
-                    <action-button
-                        :disabled="Object.keys(newPhone).length < 3"
-                        type="submit"
-                        :pending="loading"
-                        :classes="['btn-block', 'btn__primary']"
-                        >Submit</action-button
-                    >
+                    <action-button :disabled="Object.keys(newPhone).length < 3" type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                 </section>
                 <p class="text-center">
-                    <small
-                        ><a @click="backToUsePhone" class="underline primary">Go back</a> to use
-                        your registered phone number</small
-                    >
+                    <small><a @click="backToUsePhone" class="underline primary">Go back</a> to use your registered phone number</small>
                 </p>
             </form>
             <form @submit.prevent="submitOTP" v-else>
-                <p class="text-center mb-3">
-                    An OTP has been sent to your {{ hashTempPhone ? "new" : "registered" }} number
-                    ({{ hashTempPhone || getKYC.phone }})
-                </p>
+                <p class="text-center mb-3">An OTP has been sent to your {{ hashTempPhone ? "new" : "registered" }} number ({{ hashTempPhone || getKYC.phone }})</p>
                 <div class="accounts-settings__group--modal">
-                    <label class="form__label text-center"
-                        >Enter OTP
-                        <form-input
-                            type="number"
-                            name="phone"
-                            v-model="otpData.otp"
-                            placeholder="Enter OTP"
-                    /></label>
+                    <label class="form__label text-center">Enter OTP <form-input type="number" name="phone" v-model="otpData.otp" placeholder="Enter OTP"/></label>
                 </div>
                 <error-block type="kyc-otp" />
 
                 <section class="accounts-settings__submit--modal">
-                    <action-button
-                        type="submit"
-                        :disabled="!otpData.otp"
-                        :pending="loading"
-                        :classes="['btn-block', 'btn__primary']"
-                        >Submit</action-button
-                    >
+                    <action-button type="submit" :disabled="!otpData.otp" :pending="loading" :classes="['btn-block', 'btn__primary']">Submit</action-button>
                 </section>
                 <div class="text-center">
-                    <small
-                        ><a @click="showNewPhone = true" class="underline small"
-                            >Use another phone number</a
-                        ></small
-                    >
+                    <small><a @click="showNewPhone = true" class="underline small">Use another phone number</a></small>
                     <br />
                     <br />
                     <template v-if="!countdown">
                         <div class="accounts-settings__resend">
                             <p>
-                                <small>
-                                    <a class="underline small" @click="resendOTPEmail"
-                                        >Resend Via Email</a
-                                    ></small
-                                >
+                                <small> <a class="underline small" @click="resendOTPEmail">Resend Via Email</a></small>
                             </p>
                             <p>
-                                <small
-                                    ><a class="underline small" @click="resendOTPWhatsapp"
-                                        >Resend Via Whatsapp</a
-                                    ></small
-                                >
+                                <small><a class="underline small" @click="resendOTPWhatsapp">Resend Via Whatsapp</a></small>
                             </p>
                         </div>
                     </template>
@@ -457,14 +276,7 @@
             </form>
         </modal>
 
-        <modal-kyc
-            @updated="handleUpdate"
-            @skipnin="enterNIN = false"
-            @close="showNextModal = false"
-            v-if="showNextModal"
-            navbar
-            :nin="enterNIN"
-        />
+        <modal-kyc @updated="handleUpdate" @skipnin="enterNIN = false" @close="showNextModal = false" v-if="showNextModal" navbar :nin="enterNIN" />
     </section>
 </template>
 
@@ -526,14 +338,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([
-            "getWindowWidth",
-            "getKYC",
-            "getNavbarNextKYC",
-            "getCountryCodes",
-            "getErrorLog",
-            "getKYC"
-        ]),
+        ...mapGetters(["getWindowWidth", "getKYC", "getNavbarNextKYC", "getCountryCodes", "getErrorLog", "getKYC"]),
         hashTempPhone() {
             if (this.tempPhone) {
                 const hash = String(this.tempPhone)
@@ -559,17 +364,7 @@ export default {
         // }
     },
     methods: {
-        ...mapActions([
-            "GET_KYC",
-            "GET_NAVBAR_NEXT_KYC",
-            "UPDATE_KYC",
-            "UPDATE_KYC_NIN",
-            "RESOLVE_BVN",
-            "RESOLVE_OTP",
-            "GET_COUNTRY_CODES",
-            "USE_BVN_PHONE",
-            "GET_MOST_POPULAR"
-        ]),
+        ...mapActions(["GET_KYC", "GET_NAVBAR_NEXT_KYC", "UPDATE_KYC", "UPDATE_KYC_NIN", "RESOLVE_BVN", "RESOLVE_OTP", "GET_COUNTRY_CODES", "USE_BVN_PHONE", "GET_MOST_POPULAR"]),
         ...mapMutations(["SET_SHOW_NAVBAR_KYC"]),
         handleInput(e) {
             this.$set(this.itemData, e.name, e.value);
@@ -614,18 +409,21 @@ export default {
                 }
             });
         },
-        submitNIN() {
-            const payload = { ...this.itemData };
-            payload.source = "navbar";
-            this.loading = true;
-            this.UPDATE_KYC_NIN(payload).then(resp => {
-                this.loading = false;
-                if (resp) {
-                    this.checkNextKYC();
-                    this.itemData = {};
-                }
-            });
-        },
+        /**
+         * TO-DO:: Put back when NIN is ready
+         */
+        // submitNIN() {
+        //     const payload = { ...this.itemData };
+        //     payload.source = "navbar";
+        //     this.loading = true;
+        //     this.UPDATE_KYC_NIN(payload).then(resp => {
+        //         this.loading = false;
+        //         if (resp) {
+        //             this.checkNextKYC();
+        //             this.itemData = {};
+        //         }
+        //     });
+        // },
         useBVNPhone() {
             this.loading = true;
             const payload = {
@@ -733,10 +531,7 @@ export default {
                     return true;
                 }
                 const hours = Math.floor(counting / 60);
-                const minutes =
-                    Math.floor(counting % 60) < 10
-                        ? `0${Math.floor(counting % 60)}`
-                        : Math.floor(counting % 60);
+                const minutes = Math.floor(counting % 60) < 10 ? `0${Math.floor(counting % 60)}` : Math.floor(counting % 60);
                 this.countdown = `${hours}:${minutes}`;
             }, 1000);
         },
@@ -781,16 +576,19 @@ export default {
                 });
             }
         },
-        skipNIN() {
-            this.loading = true;
-            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
-                this.loading = false;
-                if (resp) {
-                    this.itemData = {};
-                }
-                this.showNextModalBtn();
-            });
-        },
+        /**
+         * TO-DO:: Put back when NIN is ready
+         */
+        // skipNIN() {
+        //     this.loading = true;
+        //     this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
+        //         this.loading = false;
+        //         if (resp) {
+        //             this.itemData = {};
+        //         }
+        //         this.showNextModalBtn();
+        //     });
+        // },
         closeNIN() {
             // EventBus.$emit("navbar-trigger");
             // EventBus.$emit("modal-trigger");
