@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`NewsCard-vue renders props.news when passed 1`] = `
+exports[`NewsCard-vue snapshot renders props.news when passed 1`] = `
 <a target="_blank" rel="noreferrer noopener" class="card-news"><img src="https://chaka.ng/dashboard/singlestock/BABA" alt="title" class="card-news__img">
   <div class="card-news__title">
     <h5>news</h5>
