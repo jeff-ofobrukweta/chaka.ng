@@ -2,8 +2,12 @@ import { shallowMount, createLocalVue, mount } from '@vue/test-utils';
 import Vuex from "vuex";
 import Router from 'vue-router'
 import Login from '@/views/auth/Login';
-import Register from '@/views/auth/Register'
 import routes from '@/router/routes'
+import axios from 'axios'
+import { auth, API } from "../services";
+
+import sinon from 'sinon'
+import PubSub from 'pubsub-js'
 
 
 const localVue = createLocalVue();
@@ -12,13 +16,10 @@ localVue.use(Router)
 
 const router = new Router({ routes })
 
-describe('Login Page', () => {
+describe.skip('Login Page', () => {
     let mutations
     let store
     let wrapper
-    const $route = {
-        path: '/login'
-    }
     beforeEach(() => {
         mutations = {
             RESET_ALL: jest.fn()
@@ -75,4 +76,50 @@ describe('Login Page', () => {
         await wrapper.vm.$nextTick()
         expect(wrapper.vm.$route.fullPath).toBe('/forgot-password')
     })
+
+    // it('should make an API to the login endpoint', async () => {
+    //     jest.mock('axios')
+    //     const data = {
+    //         data: {
+    //             hits: [
+    //                 {
+    //                     objectID: '1',
+    //                     title: 'a',
+    //                 },
+    //                 {
+    //                     objectID: '2',
+    //                     title: 'b',
+    //                 },
+    //             ],
+    //         },
+    //     };
+    //     axios.mockResolvedValue()
+    //     axios.post.mockImplementationOnce(() => Promise.resolve(data))
+    //     await expect(auth({ email: 'dev@chaka.ng', password: 'Pa55w0rd' })).resolves.toEqual(data);
+    //     expect(axios.post).toHaveBeenCalledWith(
+    //         `${API}/auth/login`,
+    //     );
+    // })
 });
+
+describe('Making API calls on login page', () => {
+    afterEach(() => {
+        sinon.restore()
+    })
+    it('should test all subscribers', () => {
+        var message = 'sample message'
+        var stub = sinon.stub().throws()
+        var spy1 = sinon.spy()
+        var spy2 = sinon.spy()
+
+        PubSub.subscribe(message, stub)
+        PubSub.subscribe(message, spy1)
+        PubSub.subscribe(message, spy2)
+
+        PubSub.publishSync(message, undefined)
+        console.log(spy1)
+        expect(spy1.called)
+        expect(spy2.called)
+        expect(stub.calledBefore(spy1))
+    })
+})
