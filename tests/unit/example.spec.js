@@ -1,12 +1,14 @@
-// import { shallowMount } from '@vue/test-utils';
-// import HelloWorld from '@/components/HelloWorld.vue';
+import { shallowMount,mount } from '@vue/test-utils';
+import NewsCard from '@/components/cards/NewsCard.vue';
 
-// describe('HelloWorld.vue', () => {
-//     it('renders props.msg when passed', () => {
-//         const msg = 'new message';
-//         const wrapper = shallowMount(HelloWorld, {
-//             propsData: { msg }
-//         });
-//         expect(wrapper.text()).toMatch(msg);
-//     });
-// });
+describe('NewsCard-vue', () => {
+    it('renders props.news when passed', () => {
+        const news = { message: 'foo' }
+        const wrapper = shallowMount(NewsCard,{
+            propsData: { news }
+          })
+        expect(wrapper.find('h5'),text())
+    });
+});
+
+

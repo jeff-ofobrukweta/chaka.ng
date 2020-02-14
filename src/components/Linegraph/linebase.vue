@@ -150,7 +150,13 @@ export default {
             "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
-            if (this.gethistoryportfolioprice.length === 1) {
+            if (
+                this.gethistoryportfolioprice.length <= 0 &&
+                checkForNull.length <= 0 &&
+                this.gethistoryportfoliodate[0] !== null &&
+                !this.emptyData &&
+                this.emptyData != undefined
+            ) {
                 return 1;
             }
             // filter the array for conditions null or undefined or is Not a number
@@ -165,14 +171,7 @@ export default {
             ) {
                 return 2;
             }
-            if (
-                checkForNull.length <= 0 &&
-                this.gethistoryportfoliodate[0] !== null &&
-                !this.emptyData &&
-                this.emptyData != undefined
-            ) {
-                return 3;
-            }
+            
         }
     },
     methods: {

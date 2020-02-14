@@ -36,7 +36,6 @@ const AccountsHistory = () => import(/* webpackChunkName: "accounts-history" */ 
 const AccountsSettings = () => import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
 const AccountStamps = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/accounts/Stamps");
 const Singlestock = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/Singlestock");
-const Maintainance = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/MaintainancePage.vue");
 const routes = [
     {
         path: "/",
@@ -44,12 +43,6 @@ const routes = [
         component: Home,
         beforeEnter: noAuthOnly
     },
-    // {
-    //     path: "/",
-    //     name: "home",
-    //     component: Maintainance,
-    //     beforeEnter: noAuthOnly
-    // },
     {
         path: "/love-calculator",
         name: "valentine",
