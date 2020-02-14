@@ -150,6 +150,10 @@ export default {
             "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
+            // filter the array for conditions null or undefined or is Not a number
+            const checkForNull = this.gethistoryportfolioprice.filter(
+                el => el === null || el === undefined || Number.isNaN(+el)
+            );
             if (
                 this.gethistoryportfolioprice.length <= 0 &&
                 checkForNull.length <= 0 &&
@@ -159,10 +163,7 @@ export default {
             ) {
                 return 1;
             }
-            // filter the array for conditions null or undefined or is Not a number
-            const checkForNull = this.gethistoryportfolioprice.filter(
-                el => el === null || el === undefined || Number.isNaN(+el)
-            );
+            
             if (
                 checkForNull.length > 0 &&
                 this.gethistoryportfoliodate[0] == null &&
