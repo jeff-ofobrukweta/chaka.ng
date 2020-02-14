@@ -36,7 +36,6 @@ const AccountsHistory = () => import(/* webpackChunkName: "accounts-history" */ 
 const AccountsSettings = () => import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
 const AccountStamps = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/accounts/Stamps");
 const Singlestock = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/Singlestock");
-
 const routes = [
     {
         path: "/",
