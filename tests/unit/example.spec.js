@@ -1,5 +1,6 @@
-import { shallowMount,mount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import NewsCard from '@/components/cards/NewsCard.vue';
+import filters from '../../src/filters';
 
 
 
@@ -18,32 +19,45 @@ Route Params: data in the route
 
 // test the news card and check for images link is valid
 describe('NewsCard-vue', () => {
-    it('snapshot renders props.news when passed', () => {
-        const news = {
-            imageUrl:"https://chaka.ng/dashboard/singlestock/BABA",
-            name:"news",
-            title:"title"
-        }
-        const wrapper = mount(NewsCard,{
-            propsData: { news}
-          })
-          expect(wrapper).toMatchSnapshot()
-    });
-});
+  let wrapper;
 
-describe('Validate the news object.vue', () => {
-    it('renders props.msg when passed', () => {
-        const news = {
-            imageUrl:"https://chaka.ng/dashboard/singlestock/BABA",
-            name:"news",
-            title:"title"
-        }
-      const wrapper = shallowMount(NewsCard, {
-        propsData: { news }
-      })
-      console.log('boom',wrapper.text())
-      expect(wrapper.text()).toMatch(news)
-    })
-  })
+  beforeEach(() => {
+    const news = {
+      imageUrl: "https://chaka.ng/dashboard/singlestock/BABA",
+      name: "news",
+      title: "Boomarang Platoon Fowl"
+    }
+    const collection = true ;
+    const dummy =  true 
+    wrapper = mount(NewsCard, {
+      propsData: { news,collection,dummy }
+    });
+  });
+
+
+  it('snapshot renders props.news when passed', () => {
+    expect(wrapper).toMatchSnapshot()
+  });
+
+  it('snapshot renders props.collection when passed', () => {
+    expect(wrapper).toMatchSnapshot()
+  });
+  it('snapshot renders props.dummy when passed', () => {
+    expect(wrapper).toMatchSnapshot()
+  });
+
+  it('renders deep rendering to check for the number of img Tag', () => {
+    expect(wrapper.findAll('img').length == 1)
+  });
+
+  it('test truncate filter from the vue-filters', () => {
+    const news = {
+      imageUrl: "https://chaka.ng/dashboard/singlestock/BABA",
+      name: "news",
+      title: "Boomarang Platoon Fowl"
+    }
+    expect((filters.truncate(news.name, 5).length)).toBeLessThanOrEqual(5)
+  });
+})
 
 

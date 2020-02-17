@@ -1,9 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`NewsCard-vue snapshot renders props.collection when passed 1`] = `
+<div class="card-news loader">
+  <div class="loader-div"></div>
+</div>
+`;
+
+exports[`NewsCard-vue snapshot renders props.dummy when passed 1`] = `
+<div class="card-news loader">
+  <div class="loader-div"></div>
+</div>
+`;
+
 exports[`NewsCard-vue snapshot renders props.news when passed 1`] = `
-<a target="_blank" rel="noreferrer noopener" class="card-news"><img src="https://chaka.ng/dashboard/singlestock/BABA" alt="title" class="card-news__img">
-  <div class="card-news__title">
-    <h5>news</h5>
-  </div>
-</a>
+<div class="card-news loader">
+  <div class="loader-div"></div>
+</div>
 `;
