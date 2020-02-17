@@ -7,7 +7,9 @@ import axios from 'axios'
 import { auth, API } from "../services";
 
 import sinon from 'sinon'
+import { shallow } from 'enzyme'
 import PubSub from 'pubsub-js'
+import { login } from '../services/auth';
 
 
 const localVue = createLocalVue();
@@ -16,7 +18,7 @@ localVue.use(Router)
 
 const router = new Router({ routes })
 
-describe.skip('Login Page', () => {
+describe('Components on Login Page', () => {
     let mutations
     let store
     let wrapper
@@ -68,13 +70,13 @@ describe.skip('Login Page', () => {
     it('should have a link to the register page', async () => {
         wrapper.find({ ref: 'register-link' }).trigger('click')
         await wrapper.vm.$nextTick()
-        expect(wrapper.vm.$route.fullPath).toBe('/register')
+        expect(wrapper.vm.$route.name).toBe('register')
     })
 
     it('should have a link to the forgot password page', async () => {
         wrapper.find({ ref: 'forgot-link' }).trigger('click')
         await wrapper.vm.$nextTick()
-        expect(wrapper.vm.$route.fullPath).toBe('/forgot-password')
+        expect(wrapper.vm.$route.name).toBe('forgot-password')
     })
 
     // it('should make an API to the login endpoint', async () => {
@@ -102,7 +104,25 @@ describe.skip('Login Page', () => {
     // })
 });
 
-describe('Making API calls on login page', () => {
+describe('API calls on Login Page', () => {
+    let mutations
+    let store
+    let wrapper
+    beforeEach(() => {
+        mutations = {
+            RESET_ALL: sinon.spy()
+        };
+        store = new Vuex.Store({
+            state: {},
+            mutations
+        });
+        wrapper = shallowMount(Login, {
+            stubs: ['form-input', 'error-block', 'action-button'],
+            localVue,
+            router,
+            store,
+        });
+    })
     afterEach(() => {
         sinon.restore()
     })
@@ -117,9 +137,44 @@ describe('Making API calls on login page', () => {
         PubSub.subscribe(message, spy2)
 
         PubSub.publishSync(message, undefined)
-        console.log(spy1)
         expect(spy1.called)
         expect(spy2.called)
         expect(stub.calledBefore(spy1))
+    })
+    it('should make an API call when login button clicked', async () => {
+        const credentials = {
+            email: 'dev@chaka.ng',
+            password: 'Pa55w0rd'
+        }
+
+        const url = '/users'
+
+        const post = sinon.stub(axios, 'post')
+        post.yields()
+
+        const callback = sinon.spy()
+        wrapper.find('action-button-stub').trigger('click')
+        await wrapper.vm.$nextTick()
+        login(credentials, callback)
+        post.restore()
+        sinon.assert.calledWith(post, url, credentials)
+    })
+    it('should should contain the right credentials when login button clicked', async () => {
+        const credentials = {
+            email: 'dev@chaka.ng',
+            password: 'Pa55w0rd'
+        }
+
+        const url = '/users'
+
+        const post = sinon.stub(axios, 'post')
+        post.yields()
+
+        const callback = sinon.spy()
+        wrapper.find('action-button-stub').trigger('click')
+        await wrapper.vm.$nextTick()
+        login(credentials, callback)
+        post.restore()
+        sinon.assert.calledWith(post, url, credentials)
     })
 })
