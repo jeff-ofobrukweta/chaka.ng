@@ -13,6 +13,8 @@ import Toaster from "vue-toasted";
 import VueAxios from "vue-axios";
 import VueAuthenticate from "vue-authenticate";
 import axios from "axios";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 Vue.config.productionTip = false;
 
@@ -44,7 +46,7 @@ Vue.use(VueAuthenticate, {
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
-            scope: ["public_profile","email"],
+            scope: ["public_profile", "email"],
             scopeDelimiter: ",",
             display: "popup",
             oauthType: "2.0",
