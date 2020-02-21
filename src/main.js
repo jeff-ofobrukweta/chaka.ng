@@ -40,9 +40,9 @@ Vue.use(VueAuthenticate, {
     providers: {
         facebook: {
             clientId: "724818008039885", //your Facebook App ID e.g. 12345667890
-            url: 'http://localhost:8080/auth/facebook',
+            url: 'https://test-socials.netlify.com/auth/facebook',
             authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
-            redirectUri:"http://localhost:8080/auth/google/callback", // Your client app URL
+            redirectUri:"https://test-socials.netlify.com/auth/google/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
@@ -54,8 +54,8 @@ Vue.use(VueAuthenticate, {
         },
         google: {
             clientId: "769520289802-7090leoee2v0ia47ekpjagh0o7jiultm.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
-            url: 'http://localhost:8080/auth/google',
-            redirectUri: "http://localhost:8080/auth/google/callback", // Your client app URL
+            url: 'https://test-socials.netlify.com/auth/google',
+            redirectUri: "https://test-socials.netlify.com/auth/google/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             scope: ["profile", "email"],
