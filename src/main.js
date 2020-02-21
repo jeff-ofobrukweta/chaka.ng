@@ -53,7 +53,7 @@ Vue.use(VueAuthenticate, {
             popupOptions: { width: 452, height: 633 }
         },
         google: {
-            clientId: "769520289802-7090leoee2v0ia47ekpjagh0o7jiultm.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
+            clientId: "854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
             url: 'https://test-socials.netlify.com/auth/google',
             redirectUri: "https://test-socials.netlify.com/auth/google/callback", // Your client app URL
             responseType: "token",
