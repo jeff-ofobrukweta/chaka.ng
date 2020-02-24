@@ -111,14 +111,14 @@
             >
 
             <!-- boom -->
-            <!-- <button @click="authenticate('github')">auth Github</button>
+            <!-- <button @click="authenticate('github')">auth Github</button> -->
             <button @click="authenticate('facebook')">auth Facebook</button>
             <button @click="authenticate('google')">auth Google</button>
             <button @click="authenticate('twitter')">auth Twitter</button>
             <button @click="authenticate('linkedin')">auth linkedin</button>
             <h2>Result</h2>
             <textarea v-model="token" cols="50" rows="5" />
-            <textarea v-model="profile" cols="50" rows="5" /> -->
+            <textarea v-model="profile" cols="50" rows="5" />
             <!-- end boom -->
 
             <section class="sumary">

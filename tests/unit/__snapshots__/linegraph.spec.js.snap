@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Line Chart Component snapshot renders props.date when passed 1`] = `undefined`;
+
+exports[`Line Chart Component snapshot renders props.price when passed 1`] = `undefined`;
+
+exports[`Line Chart Component snapshot renders props.priceArray when passed into parent Line component 1`] = `undefined`;

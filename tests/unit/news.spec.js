@@ -64,10 +64,12 @@ describe('NewsCard-vue', () => {
     wrapper.destroy();
   });
 
-  test('is a Vue instance', () => {
+  test('is a Vue instance in the news component', () => {
     expect(wrapper.isVueInstance).toBeTruthy();
   });
-
+  it('has main-container class', () => {
+    expect(wrapper.contains('.card-news')).toBe(true);
+  });
 
   it('snapshot renders props.news when passed', () => {
     expect(wrapper).toMatchSnapshot()

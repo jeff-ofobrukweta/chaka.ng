@@ -53,6 +53,7 @@
         "terser-webpack-plugin": "^2.3.4",
         "uglifyjs-webpack-plugin": "^2.2.0",
         "vue-template-compiler": "^2.6.10",
+        "vue-testing-library": "^0.17.0",
         "webpack-bundle-analyzer": "^3.6.0",
         "workbox-webpack-plugin": "^4.3.1"
     }
