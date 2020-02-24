@@ -3,11 +3,11 @@
         <section class="referrals-banner referrals-banner__align">
             <div class="referrals-left">
                 <p class="referrals__text">Rewards Earned</p>
-                <h2>{{ 3242985 | currency("NGN", true) }}</h2>
+                <h2>{{ getLoggedUser.totalRewards || 0 | currency("NGN", true) }}</h2>
             </div>
             <div class="referrals-right" v-if="getWindowWidth !== 'mobile'">
                 <div class="referrals__socials">
-                    <a href="#" class="referrals__socials--link"
+                    <a :href="whatsappLink" target="_blank" class="referrals__socials--link"
                         ><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M11.0027 0H10.9973C4.93213 0 0 4.9335 0 11C0 13.4062 0.7755 15.6365 2.09413 17.4474L0.72325 21.5339L4.95138 20.1823C6.69075 21.3345 8.76562 22 11.0027 22C17.0679 22 22 17.0651 22 11C22 4.93488 17.0679 0 11.0027 0Z"
@@ -19,7 +19,7 @@
                             />
                         </svg>
                     </a>
-                    <a href="#" class="referrals__socials--link"
+                    <a :href="facebookLink" target="_blank" class="referrals__socials--link"
                         ><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0)">
                                 <path
@@ -34,7 +34,7 @@
                             </defs>
                         </svg>
                     </a>
-                    <a href="#" class="referrals__socials--link"
+                    <a :href="twitterLink" target="_blank" class="referrals__socials--link"
                         ><svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0)">
                                 <path
@@ -49,7 +49,7 @@
                             </defs>
                         </svg>
                     </a>
-                    <a href="#" class="referrals__socials--link"
+                    <a :href="emailLink" target="_blank" class="referrals__socials--link"
                         ><svg width="28" height="21" viewBox="0 0 28 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M24.5295 0.116455H3.7041V20.9419H24.5295V0.116455Z" fill="#ECEFF1" />
                             <path d="M14.1162 12.7193L24.5289 20.9419V4.7085L14.1162 12.7193Z" fill="#CFD8DC" />
@@ -68,20 +68,20 @@
                     <p class="grey-dark mb-2">Performance</p>
                     <hr />
                     <div class="referrals__performance--box">
-                        <div>
+                        <!-- <div>
                             <h2>230</h2>
                             <p class="referrals__text">Amount per user</p>
-                        </div>
+                        </div> -->
                         <div>
-                            <h2>230</h2>
+                            <h2>{{ getLoggedUser.totalSignups || 0 }}</h2>
                             <p class="referrals__text">Total Sign ups</p>
                         </div>
                         <div>
-                            <h2>230</h2>
+                            <h2>{{ getLoggedUser.totalTraded || 0 }}</h2>
                             <p class="referrals__text">User Local Trades</p>
                         </div>
                         <div>
-                            <h2>230</h2>
+                            <h2>{{ getLoggedUser.totalTraded || 0 }}</h2>
                             <p class="referrals__text">User Global Trades</p>
                         </div>
                     </div>
@@ -290,7 +290,7 @@
                             />
                         </svg>
                         <p>
-                            <a @click="copyLink" class="referrals__link--text">{{ referralLink }}</a>
+                            <a @click="copyLink" class="referrals__link--text">{{ getLoggedUser.referralCode }}</a>
                         </p>
                     </div>
                 </div>
@@ -298,7 +298,7 @@
         </section>
 
         <section class="referrals__socials" v-if="getWindowWidth === 'mobile'">
-            <a href="#" class="referrals__socials--link"
+            <a :href="whatsappLink" target="_blank" class="referrals__socials--link"
                 ><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M11.0027 0H10.9973C4.93213 0 0 4.9335 0 11C0 13.4062 0.7755 15.6365 2.09413 17.4474L0.72325 21.5339L4.95138 20.1823C6.69075 21.3345 8.76562 22 11.0027 22C17.0679 22 22 17.0651 22 11C22 4.93488 17.0679 0 11.0027 0Z"
@@ -310,7 +310,7 @@
                     />
                 </svg>
             </a>
-            <a href="#" class="referrals__socials--link"
+            <a :href="facebookLink" target="_blank" class="referrals__socials--link"
                 ><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0)">
                         <path
@@ -325,7 +325,7 @@
                     </defs>
                 </svg>
             </a>
-            <a href="#" class="referrals__socials--link"
+            <a :href="twitterLink" target="_blank" class="referrals__socials--link"
                 ><svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0)">
                         <path
@@ -340,7 +340,7 @@
                     </defs>
                 </svg>
             </a>
-            <a href="#" class="referrals__socials--link"
+            <a :href="emailLink" target="_blank" class="referrals__socials--link"
                 ><svg width="28" height="21" viewBox="0 0 28 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M24.5295 0.116455H3.7041V20.9419H24.5295V0.116455Z" fill="#ECEFF1" />
                     <path d="M14.1162 12.7193L24.5289 20.9419V4.7085L14.1162 12.7193Z" fill="#CFD8DC" />
@@ -364,7 +364,7 @@
             <p class="referrals-refer__bold">Note: You get rewarded on referred user's first trade only</p>
         </section>
 
-        <input type="hidden" id="refer-link" :value="referralLink" />
+        <input type="hidden" id="refer-link" :value="getLoggedUser.referralCode" />
     </section>
 </template>
 
@@ -379,7 +379,19 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth"])
+        ...mapGetters(["getWindowWidth", "getLoggedUser"]),
+        facebookLink() {
+            return `https://web.facebook.com/sharer.php?display=page&u=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link ${this.getLoggedUser.referralCode}`;
+        },
+        twitterLink() {
+            return `https://twitter.com/intent/tweet?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link ${this.getLoggedUser.referralCode}`;
+        },
+        whatsappLink() {
+            return `https://api.whatsapp.com/send?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link ${this.getLoggedUser.referralCode}`;
+        },
+        emailLink() {
+            return `mailto:?subject=Refer%20and%20Earn&body=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link ${this.getLoggedUser.referralCode}`;
+        }
     },
     methods: {
         copyLink() {
