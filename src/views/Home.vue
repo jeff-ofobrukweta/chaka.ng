@@ -778,8 +778,6 @@ import auth from "../services/validations/auth";
 import fractional from "../assets/img/fractional/fractional.png";
 import minimums from "../assets/img/fractional/low-minimums.png";
 import grow from "../assets/img/fractional/grow.png";
-import "aos/dist/aos.css";
-import AOS from "aos";
 
 export default {
     name: "Home",

@@ -14,15 +14,15 @@
         <section class="portfolio-networth">
             <h5>
                 <span
-                    v-if="Object.keys(getAccountSummary).length > 0"
+                    v-if="Object.keys(getPortfolioGraphSummary).length > 0"
                     class="cursor-context"
                     :title="
-                        getAccountSummary.netWorth
+                        getPortfolioGraphSummary.netWorth
                             | kobo
-                            | currency(getAccountSummary.currency, true)
+                            | currency(getPortfolioGraphSummary.currency, true)
                     "
                     >{{
-                        getAccountSummary.netWorth | kobo | currency(getAccountSummary.currency,true)
+                        getPortfolioGraphSummary.netWorth | kobo | currency(getPortfolioGraphSummary.currency,true)
                     }}</span
                 >
                 <span v-else>{{ getPorfolioglobalCurrencyforGraph === "NGN" ? "₦" : "$" }}-</span
@@ -151,7 +151,7 @@ export default {
     },
     methods: {
         ...mapActions([
-            "GET_ACCOUNT_SUMMARY",
+            "GET_PORTFOLIO_GRAPH_SUMMARY",
             "GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS",
             "GET_WATCHLIST"
         ]),
@@ -181,14 +181,13 @@ export default {
         this.portfolioCardsLoading = false;
         await this.GET_WATCHLIST(payload);
         this.watchlistLoading = false;
-        await this.GET_ACCOUNT_SUMMARY(currency);
+        await this.GET_PORTFOLIO_GRAPH_SUMMARY(currency);
     },
     computed: {
         ...mapGetters([
             "getWatchlist",
-            "getPortfolioSummary",
             "getPorfolioglobalCurrencyforGraph",
-            "getAccountSummary",
+            "getPortfolioGraphSummary",
             "getPortfoliopositionsCarddetails",
             "getPortfolioDerivedPrice",
             "getPortfolioDerivedChange",
