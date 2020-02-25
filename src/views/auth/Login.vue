@@ -73,7 +73,7 @@
                     <button @click="authenticate('linkedin')">auth linkedin</button> -->
                     <!-- <h2>Result</h2>
                     <textarea v-model="token" cols="50" rows="5" />
-                    <textarea v-model="profile" cols="50" rows="5" /> -->
+                    <textarea v-model="profile" cols="50" rows="5" />
                     <!-- end boom -->
 
                     <section class="auth-form__meta">

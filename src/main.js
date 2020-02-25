@@ -37,13 +37,13 @@ Vue.use(Toaster, toasterOptions);
 Vue.use(VueAxios, axios);
 
 Vue.use(VueAuthenticate, {
-    baseUrl: "http://localhost:8080", // Your API domain
+    baseUrl: "https://test-socials.netlify.com/", // Your API domain
     providers: {
         facebook: {
             clientId: "724818008039885", //your Facebook App ID e.g. 12345667890
-            url: 'http://localhost:8080/auth/facebook',
+            url: 'https://test-socials.netlify.com/auth/facebook',
             authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
-            redirectUri:"http://localhost:8080/auth/facebook/login/callback/", // Your client app URL
+            redirectUri:"https://test-socials.netlify.com/auth/facebook/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
@@ -54,9 +54,9 @@ Vue.use(VueAuthenticate, {
             popupOptions: { width: 452, height: 633 }
         },
         google: {
-            clientId: "769520289802-7090leoee2v0ia47ekpjagh0o7jiultm.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
-            url: 'http://localhost:8080/auth/google',
-            redirectUri: "http://localhost:8080/auth/google/callback", // Your client app URL
+            clientId: "854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
+            url: 'https://test-socials.netlify.com/auth/google',
+            redirectUri: "https://test-socials.netlify.com/auth/google/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             scope: ["profile", "email"],
@@ -69,15 +69,15 @@ Vue.use(VueAuthenticate, {
         },
         twitter: {
             clientId: "K5Y6eGGIG3Zuj4yPCR05Veh50", //your Facebook App ID e.g. 12345667890
-            redirectUri: "https://test-api.chaka.io/auth/twitter/callback", // Your client app URL
+            redirectUri: "https://test-socials.netlify.com/auth/twitter/callback", // Your client app URL
             responseType: "token",
             oauthType: '1.0',
             authorizationEndpoint: "https://api.twitter.com/oauth/authenticate"
         },
         linkedin: {
-            clientId: "774vno6jt44oxb", //your Facebook App ID e.g. 12345667890
-            clientSecret: "lE0STGyjYn2qUzvk",
-            redirectUri: "http://localhost:8080/auth/linkedin/callback", // Your client app URL
+            clientId: "860o4ug5ayplpe", //your Facebook App ID e.g. 12345667890
+            clientSecret: "v7NK1nc5AMmKm3A3",
+            redirectUri: "https://test-socials.netlify.com/auth/linkedin/callback", // Your client app URL
             responseType: "code",
             authorizationEndpoint: "https://www.linkedin.com/oauth/v2/authorization",
             requiredUrlParams: ["state"],
