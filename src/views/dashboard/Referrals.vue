@@ -363,7 +363,13 @@
             <p class="referrals-refer__bold">Note: You get rewarded on referred user's first trade only</p>
         </section>
 
-        <input type="hidden" id="refer-link" :value="`https://chaka.ng/register?referralCode=${getLoggedUser.referralCode}`" />
+        <input
+            type="hidden"
+            id="refer-link"
+            :value="
+                `I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?referralCode=${this.getLoggedUser.referralCode}`
+            "
+        />
     </section>
 </template>
 
@@ -371,12 +377,6 @@
 import { mapGetters } from "vuex";
 export default {
     name: "referrals",
-    components: {},
-    data() {
-        return {
-            referralLink: "chaka.ng/kingsleysharchaka.com/kingsleyshare"
-        };
-    },
     computed: {
         ...mapGetters(["getWindowWidth", "getLoggedUser"]),
         facebookLink() {
@@ -413,7 +413,6 @@ export default {
             testingCodeToCopy.setAttribute("type", "hidden");
             window.getSelection().removeAllRanges();
         }
-    },
-    async mounted() {}
+    }
 };
 </script>
