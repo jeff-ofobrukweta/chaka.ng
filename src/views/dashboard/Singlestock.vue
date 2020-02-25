@@ -111,8 +111,8 @@
             >
 
             <!-- boom -->
-            <!-- <button @click="authenticate('github')">auth Github</button>
-            <button @click="authenticate('facebook')">auth Facebook</button>
+            <!-- <button @click="authenticate('github')">auth Github</button> -->
+            <!-- <button @click="authenticate('facebook')">auth Facebook</button>
             <button @click="authenticate('google')">auth Google</button>
             <button @click="authenticate('twitter')">auth Twitter</button>
             <button @click="authenticate('linkedin')">auth linkedin</button>
@@ -319,51 +319,6 @@ export default {
             "SET_BUY_MODAL",
             "RESET_MODALS"
         ]),
-        authenticate(provider) {
-            const this_ = this;
-            this.$auth.authenticate(provider).then(caller => {
-                let token = this_.$auth.getToken();
-                // getLoginStatus
-                this_.token = token;
-                alert(`login success with token ${token}`);
-                if (provider === "facebook") {
-                    this_.$http
-                        .get("https://graph.facebook.com/v3.0/me?fields=email,name,id", {
-                            params: { access_token: token }
-                        })
-                        .then(response => {
-                            this_.profile = JSON.stringify(response);
-                        });
-                }
-                if (provider === "google") {
-                    this_.$http
-                        .get("https://www.googleapis.com/oauth2/v1/userinfo", {
-                            params: { access_token: token }
-                        })
-                        .then(response => {
-                            this_.profile = JSON.stringify(response);
-                        });
-                }
-                if (provider === "linkedin") {
-                    this_.$http
-                        .get("https://api.linkedin.com/v2/me", {
-                            params: { access_token: token }
-                        })
-                        .then(response => {
-                            this_.profile = JSON.stringify(response);
-                        });
-                }
-                if (provider === "twitter") {
-                    this_.$http
-                        .get("https://api.twitter.com/1.1/users/show.json", {
-                            params: { access_token: token }
-                        })
-                        .then(response => {
-                            this_.profile = JSON.stringify(response);
-                        });
-                }
-            });
-        },
         handleStep(step) {
             // this.step = step.type;
             this.step = step;

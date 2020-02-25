@@ -67,7 +67,7 @@ module.exports = {
             }
         }
     },
-    transpileDependencies: ["vuex-persist"],
+    transpileDependencies: ["vuex-persist", "aos"],
     pwa: {
         name: "Chaka",
         themeColor: "#2da5ec",
