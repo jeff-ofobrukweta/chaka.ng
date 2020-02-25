@@ -74,8 +74,8 @@ Vue.use(VueAuthenticate, {
             authorizationEndpoint: "https://api.twitter.com/oauth/authenticate"
         },
         linkedin: {
-            clientId: "774vno6jt44oxb", //your Facebook App ID e.g. 12345667890
-            clientSecret: "lE0STGyjYn2qUzvk",
+            clientId: "860o4ug5ayplpe", //your Facebook App ID e.g. 12345667890
+            clientSecret: "v7NK1nc5AMmKm3A3",
             redirectUri: "https://test-socials.netlify.com/auth/linkedin/callback", // Your client app URL
             responseType: "code",
             authorizationEndpoint: "https://www.linkedin.com/oauth/v2/authorization",
