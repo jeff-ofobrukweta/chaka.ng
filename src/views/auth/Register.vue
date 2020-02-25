@@ -75,7 +75,7 @@ export default {
             return true;
         },
         referralCode() {
-            return this.$route.query.referralCode;
+            return this.$route.query.code;
         }
     },
     methods: {

@@ -289,7 +289,7 @@
                             />
                         </svg>
                         <p>
-                            <a @click="copyLink" class="referrals__link--text">chaka.ng/register?referralCode={{ getLoggedUser.referralCode }}</a>
+                            <a @click="copyLink" class="referrals__link--text">chaka.ng/register?code={{ getLoggedUser.referralCode }}</a>
                         </p>
                     </div>
                 </div>
@@ -367,7 +367,7 @@
             type="hidden"
             id="refer-link"
             :value="
-                `I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?referralCode=${this.getLoggedUser.referralCode}`
+                `I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`
             "
         />
     </section>
@@ -380,16 +380,16 @@ export default {
     computed: {
         ...mapGetters(["getWindowWidth", "getLoggedUser"]),
         facebookLink() {
-            return `https://web.facebook.com/sharer.php?display=page&u=https://chaka.ng/register?referralCode=${this.getLoggedUser.referralCode}`;
+            return `https://web.facebook.com/sharer.php?display=page&u=https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`;
         },
         twitterLink() {
-            return `https://twitter.com/intent/tweet?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?referralCode=${this.getLoggedUser.referralCode}`;
+            return `https://twitter.com/intent/tweet?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`;
         },
         whatsappLink() {
-            return `https://api.whatsapp.com/send?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?referralCode=${this.getLoggedUser.referralCode}`;
+            return `https://api.whatsapp.com/send?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`;
         },
         emailLink() {
-            return `mailto:?subject=Refer%20and%20Earn&body=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?referralCode=${this.getLoggedUser.referralCode}`;
+            return `mailto:?subject=Refer%20and%20Earn&body=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`;
         }
     },
     methods: {
