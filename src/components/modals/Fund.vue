@@ -34,12 +34,12 @@
 
         <template v-if="activeMethod === 'BANK'">
             <div class="modal-form" v-if="currency === 'NGN'">
+                <p class="text-center"><mark class="warning">For naira payments only</mark></p>
                 <br />
                 <p>To fund your account manually (without charges), make a transfer to:</p>
                 <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
                 <p><span class="grey-dark">Bank Name:&nbsp;</span>GTBank</p>
                 <p><span class="grey-dark">Account Number:&nbsp;</span>0467937290</p>
-                <p class="text-center"><mark class="warning">For naira payments only</mark></p>
                 <br />
                 <p>
                     <small class="grey-dark">
@@ -49,19 +49,15 @@
                 </p>
             </div>
             <div class="modal-form" v-else>
+                <p class="text-center"><mark class="warning">For dollar payments only</mark></p>
                 <br />
 
-                <p class="form-info">
-                    Please note that if you use an international card, your transaction may incur other bank charges that can slightly decrease the funding amount deposited.
-                </p>
-                <br />
                 <p>
                     To fund your account through a domiciliary account transfer (without PAYSTACK fees), make a transfer to:
                 </p>
                 <p><span class="grey-dark">Account Holder:&nbsp;</span>CITI INV CAP LTD/114 DOLLAR AC</p>
                 <p><span class="grey-dark">Bank Name:&nbsp;</span>Guaranty Trust Bank</p>
                 <p><span class="grey-dark">Account Number:&nbsp;</span>0536097685</p>
-                <p class="text-center"><mark class="warning">For dollar payments only</mark></p>
                 <br />
                 <p>
                     <small class="grey-dark">
@@ -172,11 +168,17 @@
             </form>
 
             <section class="text-center">
-                <p v-if="currency === 'USD'" class="mb-1">
-                    <small class="grey-dark"
-                        >EXCHANGE RATE:&nbsp; <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
-                    >
-                </p>
+                <template v-if="currency === 'USD'">
+                    <p class="form-info">
+                        Please note that if you use an international card, your transaction may incur other bank charges that can slightly decrease the funding amount deposited.
+                    </p>
+                    <br />
+                    <p class="mb-1">
+                        <small class="grey-dark"
+                            >EXCHANGE RATE:&nbsp; <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
+                        >
+                    </p>
+                </template>
 
                 <p class="text-center">Paystack Fees</p>
                 <p>Local Cards: <mark>1.5% + &#8358;100</mark></p>
