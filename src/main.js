@@ -13,6 +13,7 @@ import Toaster from "vue-toasted";
 import VueAxios from "vue-axios";
 import VueAuthenticate from "vue-authenticate";
 import axios from "axios";
+import AOS from "aos";
 import "aos/dist/aos.css";
 
 Vue.config.productionTip = false;

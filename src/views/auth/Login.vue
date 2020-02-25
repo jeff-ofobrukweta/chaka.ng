@@ -92,7 +92,7 @@ export default {
                 let token = this_.$auth.getToken();
                 // getLoginStatus
                 this_.token = token;
-                alert(`login success with token ${token}`);
+                // alert(`login success with token ${token}`);
                 if (provider === "facebook") {
                     this_.$http
                         .get("https://graph.facebook.com/v5.0/me?fields=email,name,id", {
