@@ -133,12 +133,11 @@ export default {
                         })
                         .then(response => {
                             this_.profile = JSON.stringify(response);
-                            // const payload ={
-                            //     email:response.data.email,
-                            //     provider:"FB"
-                            // }
-                            console.log('this is the facebook prep>>>>>>>>>>>>>>',response)
-                            this.social(response)
+                            const payload ={
+                                email:response.data.email,
+                                provider:"FB"
+                            }
+                            this.social(payload)
                         });
                 }
                 if (provider === "google") {
@@ -178,27 +177,18 @@ export default {
             });
         },
         social(payload) {
-            console.log('>>>>>>>>>>>>>>>>>>>>>',payload.email)
             this.RESET_REQ();
             if (!payload.email) {
                 this.$set(this.errors, "email", "Field is required");
             } else if (!auth.email(payload.email)) {
                 this.$set(this.errors, "email", "Invalid email");
             }
-            // if (!this.itemData.password) {
-            //     this.$set(this.errors, "password", "Field is required");
-            // }
-            // const p = auth.password(this.itemData.password);
-            // console.log(p);
-            // else if(){
-            //     console.log()
-            // }
             
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             this.loading = true;
-            fbq('track', 'login');
+            fbq('track', 'social_login');
             this.SOCIAL_LOGIN(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
