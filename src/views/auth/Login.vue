@@ -26,7 +26,7 @@
                         <hr class="or-separator_line__x5QkI">
                     </div>
                     <div class="socials_container">
-                     <button type="button" @click="authenticate('google')" class="socials_btn">
+                     <section type="button" @click="authenticate('google')" class="socials_btn">
                          <div class="_provider-button_label__1gtgk">
                           <span style="white-space:nowrap;">Sign in with</span>
                             <svg viewBox="5 -5 30 30" enable-background="new 5 -5 30 30" class="google_img" title="google">
@@ -35,8 +35,8 @@
                                 </path>
                             </svg>
                          </div>
-                    </button>
-                     <button type="button" @click="authenticate('facebook')" class="socials_btn">
+                    </section>
+                     <section type="button" @click="authenticate('facebook')" class="socials_btn">
                          <div class="_provider-button_label__1gtgk">
                          <span style="white-space:nowrap;">Sign in with</span>
                             <svg viewBox="5 -5 30 30" enable-background="new 5 -5 30 30" class="facebook_img" title="facebook">
@@ -44,7 +44,7 @@
                                 </path>
                                 </svg>
                          </div>
-                    </button>
+                    </section>
                     </div>
 
                     <section class="auth-form__meta">
