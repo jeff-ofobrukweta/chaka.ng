@@ -73,11 +73,14 @@ export default {
         formValid() {
             if (this.loading || Object.keys(this.errors).length > 0) return false;
             return true;
+        },
+        referralCode() {
+            return this.$route.query.referralCode;
         }
     },
     methods: {
         ...mapActions(["REGISTER"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapMutations(["RESET_REQ", "RESET_ALL"]),
         register() {
             this.RESET_REQ();
             if (!this.itemData.email) {
@@ -97,6 +100,9 @@ export default {
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
+            if (this.referralCode) {
+                this.itemData.referralCode = this.referralCode;
+            }
             this.loading = true;
             fbq("track", "sign up");
             this.REGISTER(this.itemData).then(resp => {
@@ -110,6 +116,7 @@ export default {
     },
     mounted() {
         document.title = "Chaka - Create Your Chaka Account";
+        this.RESET_ALL();
     }
 };
 </script>

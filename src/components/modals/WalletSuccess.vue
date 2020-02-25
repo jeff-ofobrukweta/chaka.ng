@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="stock-fund">
-                <div class="stock-fund__name">Charges</div>
+                <div class="stock-fund__name">Charges (Paystack)</div>
                 <div class="stock-fund__value">
                     {{ getWalletTx.fees | kobo | currency(getWalletTx.currency, true) }}
                 </div>

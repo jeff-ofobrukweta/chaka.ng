@@ -49,6 +49,8 @@
             </div>
             <div class="modal-form" v-else>
                 <br />
+
+                <p class="text-center"><mark class="warning">This is a dollar account transaction</mark></p>
                 <p class="form-info">
                     Please note that if you use an international card, your transaction may incur other bank charges that can slightly decrease the funding amount deposited.
                 </p>
@@ -168,19 +170,16 @@
                 </div>
             </form>
 
-            <section v-if="currency === 'NGN'">
-                <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
-                <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
-            </section>
-
-            <section v-else>
-                <p class="text-center">
+            <section class="text-center">
+                <p v-if="currency === 'USD'" class="mb-1">
                     <small class="grey-dark"
                         >EXCHANGE RATE:&nbsp; <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
                     >
                 </p>
-                <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
-                <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
+
+                <p class="text-center">Paystack Fees</p>
+                <p>Local Cards: <mark>1.5% + &#8358;100</mark></p>
+                <p>Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
             </section>
             <!-- <form method="post" action="https://webpay.interswitchng.com/collections/w/pay" style="margin-left: 28px">
                 <strong>Redirect URL:</strong> <input name="site_redirect_url" value="./" /> <strong>Pay Item ID:</strong> <input name="pay_item_id" value="3121516" />
