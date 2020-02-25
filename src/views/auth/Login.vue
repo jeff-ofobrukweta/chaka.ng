@@ -6,38 +6,19 @@
                 <p class="auth-form__subtitle">Enter your login details to proceed.</p>
                 <div class="auth-form__group">
                     <label class="form__label"
-                        >Email
-                        <form-input
-                            type="email"
-                            name="email"
-                            v-model="itemData.email"
-                            :error-message="errors.email"
-                            placeholder="Email Address"
-                            @reset="resetError"
+                        >Email <form-input type="email" name="email" v-model="itemData.email" :error-message="errors.email" placeholder="Email Address" @reset="resetError"
                     /></label>
                 </div>
                 <div class="auth-form__group">
                     <label class="form__label"
                         >Password
-                        <form-input
-                            type="password"
-                            name="password"
-                            v-model="itemData.password"
-                            placeholder="Password"
-                            :error-message="errors.password"
-                            @reset="resetError"
+                        <form-input type="password" name="password" v-model="itemData.password" placeholder="Password" :error-message="errors.password" @reset="resetError"
                     /></label>
                 </div>
                 <error-block type="login" />
                 <div class="auth-form__group">
                     <div style="margin: 1rem 0px;">
-                        <action-button
-                            type="submit"
-                            :disabled="!formValid"
-                            :pending="loading"
-                            :classes="['btn-full', 'btn__primary']"
-                            >Login</action-button
-                        >
+                        <action-button type="submit" :disabled="!formValid" :pending="loading" :classes="['btn-full', 'btn__primary']">Login</action-button>
                     </div>
                     <div class="or-separator_flex__6ViaO">
                         <hr class="or-separator_line__x5QkI">
@@ -65,27 +46,13 @@
                          </div>
                     </button>
                     </div>
-                    <!-- boom -->
-                    <!-- <button @click="authenticate('github')">auth Github</button>
-                    <button @click="authenticate('facebook')">auth Facebook</button>
-                    <button @click="authenticate('google')">auth Google</button>
-                    <button @click="authenticate('twitter')">auth Twitter</button>
-                    <button @click="authenticate('linkedin')">auth linkedin</button> -->
-                    <!-- <h2>Result</h2>
-                    <textarea v-model="token" cols="50" rows="5" />
-                    <textarea v-model="profile" cols="50" rows="5" />
-                    <!-- end boom -->
 
                     <section class="auth-form__meta">
                         <p>
                             Don't have an account?
-                            <router-link class="primary" :to="{ name: 'register' }"
-                                >Register now</router-link
-                            >
+                            <router-link class="primary" ref="register-link" :to="{ name: 'register' }">Register now</router-link>
                         </p>
-                        <router-link class="primary" :to="{ name: 'forgot-password' }"
-                            >Forgot Password</router-link
-                        >
+                        <router-link class="primary" ref="forgot-link" :to="{ name: 'forgot-password' }">Forgot Password</router-link>
                     </section>
                 </div>
             </form>
@@ -215,12 +182,12 @@ export default {
                 return false;
             }
             this.loading = true;
-            fbq('track', 'login');
+            fbq("track", "login");
             this.LOGIN(this.itemData).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.$router.push({ name: "dashboard" })
-                };
+                    this.$router.push({ name: "dashboard" });
+                }
             });
         },
         resetError() {
@@ -229,13 +196,12 @@ export default {
     },
     mounted() {
         this.resetError();
-        document.title = "Chaka - Login";
-        document.getElementsByTagName("meta").keywords.content =
-            "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
-        document.getElementsByTagName("meta").description.content =
-            "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+        // document.title = "Chaka - Login";
+        // document.getElementsByTagName("meta").keywords.content =
+        //     "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
+        // document.getElementsByTagName("meta").description.content =
+        //     "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
         this.RESET_ALL();
-        
     }
 };
 </script>

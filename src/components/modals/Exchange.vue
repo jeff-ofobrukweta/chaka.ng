@@ -100,9 +100,7 @@
             <p>
                 <small class="grey-dark"
                     >EXCHANGE RATE:&nbsp;
-                    <span v-if="itemData.currency === 'NGN'"
-                        >₦{{ getExchangeRate.sell }} - $1.00</span
-                    >
+                    <span v-if="itemData.currency === 'NGN'">₦{{ getExchangeRate.sell }} - $1.00</span>
                     <span v-else>$1.00 - ₦{{ getExchangeRate.buy }}</span></small
                 >
             </p>
@@ -118,8 +116,7 @@
                         @reset="errors = {}"
                 /></label>
                 <p class="form-info">
-                    If you exchange before 2.00pm, your exchange will be processed today. After
-                    2.00pm, it will be processed within 1 business day.
+                    If you exchange before 2.00pm, your exchange will be processed today. After 2.00pm, it will be processed within 1 business day.
                 </p>
             </div>
             <error-block type="exchange" />
@@ -129,28 +126,18 @@
                     You're now requesting a
                     <template v-if="itemData.currency === 'NGN'">
                         <span>naira to dollar exchange to an amount of</span>
-                        <span class="green">
-                            {{ (itemData.amount / getExchangeRate.sell) | currency("USD") }}</span
-                        >
+                        <span class="green"> {{ (itemData.amount / getExchangeRate.sell) | currency("USD", true) }}</span>
                     </template>
                     <template v-else>
                         <span>dollar to naira exchange to an amount of</span>
-                        <span class="green">
-                            {{
-                                (itemData.amount / (1 / getExchangeRate.buy)) | currency("NGN")
-                            }}</span
-                        >
+                        <span class="green"> {{ (itemData.amount / (1 / getExchangeRate.buy)) | currency("NGN", true) }}</span>
                     </template>
                 </p>
                 <br />
             </section>
 
             <div class="modal-form__buttons">
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :disabled="Object.keys(errors).length > 0 || !itemData.amount"
-                    :classes="['btn-block', 'btn__primary']"
+                <action-button type="submit" :pending="loading" :disabled="Object.keys(errors).length > 0 || !itemData.amount" :classes="['btn-block', 'btn__primary']"
                     >Exchange</action-button
                 >
             </div>

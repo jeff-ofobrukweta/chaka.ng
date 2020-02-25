@@ -29,19 +29,19 @@
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.localAvailableToWithdraw | kobo | currency("NGN", true) }}
                             </h3>
-                            <p><small>Available To Withdraw</small></p>
+                            <p><small>You can Withdraw</small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.localPendingBalance | kobo | currency("NGN", true) }}
                             </h3>
-                            <p><small>Pending Cash</small></p>
+                            <p><small>Your Incoming Cash</small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.localStocksValue | kobo | currency("NGN", true) }}
                             </h3>
-                            <p><small>Stock Value</small></p>
+                            <p><small>Your Stock Value</small></p>
                         </div>
                     </div>
                 </div>
@@ -59,19 +59,19 @@
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.globalAvailableToWithdraw | kobo | currency("USD", true) }}
                             </h3>
-                            <p><small>Available To Withdraw</small></p>
+                            <p><small>You can Withdraw</small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.globalPendingBalance | kobo | currency("USD", true) }}
                             </h3>
-                            <p><small>Pending Cash</small></p>
+                            <p><small>Your Incoming Cash</small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.globalStocksValue | kobo | currency("USD", true) }}
                             </h3>
-                            <p><small>Stock Value</small></p>
+                            <p><small>Your Stock Value</small></p>
                         </div>
                     </div>
                 </div>

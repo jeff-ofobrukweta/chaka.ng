@@ -1,0 +1,159 @@
+.referrals {
+    &-banner {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+
+        &__align {
+            align-items: center;
+        }
+    }
+
+    &-left {
+        width: 100%;
+
+        @include tablet {
+            flex: 0 0 60%;
+            max-width: 60%;
+        }
+
+        @include desktop {
+            flex: 0 0 73%;
+            max-width: 73%;
+        }
+    }
+
+    &-right {
+        width: 100%;
+
+        @include mobile {
+            margin-top: 1rem;
+        }
+
+        @include tablet {
+            flex: 0 0 38%;
+            max-width: 38%;
+        }
+
+        @include desktop {
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+    }
+
+    &__performance {
+        border-radius: 5px;
+        border: 2px solid $primary;
+        padding: 1rem 1.325rem;
+
+        &--box {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            max-width: 800px;
+
+            &>div {
+                padding: 0.825rem;
+                padding-left: 0;
+                flex-grow: 1;
+            }
+        }
+    }
+
+    &__text {
+        color: $grey-dark;
+        font-size: 12px;
+        margin-bottom: 0.825rem;
+    }
+
+    &__socials {
+        text-align: center;
+
+        @include tablet {
+            text-align: right;
+        }
+
+        &--link {
+            margin-right: 1rem;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        svg {
+            width: 25px;
+            height: 25px;
+        }
+    }
+
+    &__link {
+        &--box {
+            background-color: $primary;
+            border-radius: 5px;
+            padding: 1rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            place-content: center;
+            color: $white;
+            text-align: center;
+            position: relative;
+
+            @include mobile {
+                padding: 2rem
+            }
+        }
+
+        &--text {
+            word-break: break-word;
+            text-decoration: underline;
+        }
+
+        &--copy {
+            position: absolute;
+            right: 1rem;
+            top: 0.825rem;
+        }
+    }
+
+    &-refer {
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+
+        &__text {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            margin-bottom: 1.5rem;
+
+            @include desktop {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        &__p {
+            font-size: 1.825rem;
+
+            @include desktop {
+                max-width: 250px;
+            }
+        }
+
+        &__or {
+            padding: 1.5rem;
+            text-align: center;
+            color: $grey-dark;
+
+            @include desktop {
+                padding: 2.5rem;
+            }
+        }
+
+        &__bold {
+            font-weight: bold;
+        }
+    }
+}

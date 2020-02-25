@@ -36,6 +36,7 @@ const AccountsHistory = () => import(/* webpackChunkName: "accounts-history" */ 
 const AccountsSettings = () => import(/* webpackChunkName: "accounts-settings" */ "../views/dashboard/accounts/Settings");
 const AccountStamps = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/accounts/Stamps");
 const Singlestock = () => import(/* webpackChunkName: "accounts-stamps" */ "../views/dashboard/Singlestock");
+const Referrals = () => import(/* webpackChunkName: "referrals" */ "../views/dashboard/Referrals");
 
 const routes = [
     {
@@ -188,6 +189,11 @@ const routes = [
                 path: "gifts",
                 name: "dashboard-gifts",
                 component: DashboardGifts
+            },
+            {
+                path: "referrals",
+                name: "referrals",
+                component: Referrals
             },
             {
                 path: "categories/:category",

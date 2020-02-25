@@ -2,52 +2,19 @@
     <form class="uploads" @submit.prevent="uploadImage" enctype="multipart/form-data">
         <p class="uploads__name">{{ formDetails.name }}</p>
         <div class="uploads__empty">
-            <input
-                class="uploads__input"
-                accept="image/jpeg,image/png,application/pdf"
-                type="file"
-                :name="formName"
-                @input="handleInput"
-                @focus="handleReset"
-            />
+            <input class="uploads__input" accept="image/jpeg,image/png,application/pdf" type="file" :name="formName" @input="handleInput" @focus="handleReset" />
             <template v-if="uploadedImage">
-                <img
-                    class="uploads__image--local"
-                    :src="uploadedImage"
-                    alt=""
-                    v-if="fileExtension !== 'pdf'"
-                />
-                <img
-                    class="uploads__image--local"
-                    :src="require('../assets/img/pdf.svg')"
-                    alt="PDF"
-                    v-else
-                />
+                <img class="uploads__image--local" :src="uploadedImage" alt="" v-if="fileExtension !== 'pdf'" />
+                <img class="uploads__image--local" :src="require('../assets/img/pdf.svg')" alt="PDF" v-else />
             </template>
-            <img
-                class="uploads__image--local"
-                :src="require('../assets/img/pdf.svg')"
-                alt=""
-                v-else-if="isImagePDF"
-            />
+            <img class="uploads__image--local" :src="require('../assets/img/pdf.svg')" alt="" v-else-if="isImagePDF" />
             <img class="uploads__image--local" :src="image" alt="" v-else-if="image" />
             <div class="uploads__overlay">
-                <img
-                    src="../assets/img/uploads-add.svg"
-                    class="uploads__image--plus"
-                    alt="Upload"
-                />
+                <img src="../assets/img/uploads-add.svg" class="uploads__image--plus" alt="Upload" />
             </div>
         </div>
         <p class="uploads__meta">{{ formDetails.description }}</p>
-        <action-button
-            v-if="uploadedImage"
-            type="submit"
-            icon
-            :pending="loading"
-            :classes="['btn__primary', 'btn-block']"
-            >Upload
-        </action-button>
+        <action-button v-if="uploadedImage" type="submit" icon :pending="loading" :classes="['btn__primary', 'btn-block']">Upload </action-button>
     </form>
 </template>
 
@@ -88,8 +55,7 @@ export default {
                     description: `Upload your ${this.selectedName}`
                 };
             }
-            if (this.formName === "passportUrl")
-                return { name: "Profile Picture", description: "Set Profile Picture" };
+            if (this.formName === "passportUrl") return { name: "Profile Picture", description: "Set Profile Picture" };
             if (this.formName === "idPhotoUrl") {
                 return {
                     name: "Passport/National ID",
@@ -116,12 +82,12 @@ export default {
             const extensions = e.target.value.split(".");
             this.fileExtension = extensions[extensions.length - 1].toLowerCase();
             if (this.file.size > 10 * 1024 * 1024 && this.fileExtension !== "pdf") {
-                this.errorMessage = "Image size is too large. Should not be more than 10MB";
+                this.errorMessage = `Current size is ${parseFloat(this.file.size / 1024 / 1024).toFixed(2)}MB. Image should not exceed 10MB`;
                 this.handleError();
                 return false;
             }
             if (this.file.size > 3 * 1024 * 1024 && this.fileExtension === "pdf") {
-                this.errorMessage = "File size cannot exceed 3MB";
+                this.errorMessage = `Current size is ${parseFloat(this.file.size / 1024 / 1024).toFixed(2)}MB. File should not exceed 3MB`;
                 this.handleError();
                 return false;
             }

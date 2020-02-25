@@ -85,6 +85,7 @@ const actions = {
                     if (resp.status >= 200 && resp.status < 400) {
                         commit("REQ_SUCCESS", null, { root: true });
                         commit("SET_WALLET_TX", resp.data.data.transaction);
+                        dispatch("GET_ACCOUNT_SUMMARY", null, { root: true });
                         resolve(true);
                         return true;
                     } else {
