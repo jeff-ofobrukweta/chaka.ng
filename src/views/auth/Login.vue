@@ -99,6 +99,7 @@ export default {
                             params: { access_token: token }
                         })
                         .then(response => {
+                            console.log('>>>>>>>response_facebook>>>>>>>>>>',response)
                             this_.profile = JSON.stringify(response);
                             const payload ={
                                 email:response.data.email,
