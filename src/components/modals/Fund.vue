@@ -39,6 +39,7 @@
                 <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
                 <p><span class="grey-dark">Bank Name:&nbsp;</span>GTBank</p>
                 <p><span class="grey-dark">Account Number:&nbsp;</span>0467937290</p>
+                <p class="text-center"><mark class="warning">For naira payments only</mark></p>
                 <br />
                 <p>
                     <small class="grey-dark">
@@ -50,7 +51,6 @@
             <div class="modal-form" v-else>
                 <br />
 
-                <p class="text-center"><mark class="warning">This is a dollar account transaction</mark></p>
                 <p class="form-info">
                     Please note that if you use an international card, your transaction may incur other bank charges that can slightly decrease the funding amount deposited.
                 </p>
@@ -61,6 +61,7 @@
                 <p><span class="grey-dark">Account Holder:&nbsp;</span>CITI INV CAP LTD/114 DOLLAR AC</p>
                 <p><span class="grey-dark">Bank Name:&nbsp;</span>Guaranty Trust Bank</p>
                 <p><span class="grey-dark">Account Number:&nbsp;</span>0536097685</p>
+                <p class="text-center"><mark class="warning">For dollar payments only</mark></p>
                 <br />
                 <p>
                     <small class="grey-dark">
