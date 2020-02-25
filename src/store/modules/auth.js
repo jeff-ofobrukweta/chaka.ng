@@ -145,10 +145,11 @@ const actions = {
             api.post("/auth/social-auth", payload).then(
                 resp => {
                     if (resp.status >= 200 && resp.status < 400) {
-                        // localStorage.setItem("AUTH_TOKEN", resp.data.data.token);
-                        // localStorage.setItem("REFRESH_TOKEN", resp.data.data.refreshToken);
-                        // commit("SET_LOGGED_IN", true);
-                        // commit("REQ_SUCCESS", null, { root: true });
+                        // console.log('email meant here new 2kkkkkkk>>>>>>>>>>>>>',resp)
+                        localStorage.setItem("AUTH_TOKEN", resp.data.data.token);
+                        localStorage.setItem("REFRESH_TOKEN", resp.data.data.refreshToken);
+                        commit("SET_LOGGED_IN", true);
+                        commit("REQ_SUCCESS", null, { root: true });
                         // console.log('email meant here new 2>>>>>>>>>>>>>',resp)
                         fbq('track', 'login');
                         resolve(true);
