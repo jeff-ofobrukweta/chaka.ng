@@ -153,12 +153,14 @@ export default {
             }
             this.loading = true;
             fbq('track', 'social_login');
-            this.SOCIAL_LOGIN(payload).then(resp => {
-                this.loading = false;
-                if (resp) {
-                    this.$router.push({ name: "dashboard" })
-                };
-            });
+            if (payload.email && auth.email(payload.email)) {
+                this.SOCIAL_LOGIN(payload).then(resp => {
+                    this.loading = false;
+                    if (resp) {
+                        this.$router.push({ name: "dashboard" })
+                    };
+                });
+            }
         },
         login() {
             this.RESET_REQ();
