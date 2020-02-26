@@ -41,6 +41,7 @@
                                 }}%)</small
                             ></span
                         >
+                        <span v-if="marketDataLoading"><img src="../../assets/img/loader.gif" class="loader__small--inline" alt="Loader"/></span>
                     </p>
                 </div>
                 <div class="modal__buy--current">
@@ -57,7 +58,7 @@
                         :currency="currency"
                         placeholder="Enter Amount"
                         v-model="itemData.amountCash"
-                        :disabled="Object.keys(getMarketData).length <= 0"
+                        :disabled="Object.keys(getMarketData).length <= 0 || marketDataLoading"
                         @reset="clearErrors"
                         @input="onTypeAmount"
                         :error-message="errors.amountCash"
@@ -69,7 +70,7 @@
                         :currency="currency"
                         placeholder="Enter Limit Order Price"
                         v-model="itemData.price"
-                        :disabled="Object.keys(getMarketData).length <= 0"
+                        :disabled="Object.keys(getMarketData).length <= 0 || marketDataLoading"
                         @reset="clearErrors"
                         :error-message="errors.price"
                 /></label>
@@ -81,13 +82,15 @@
                         type="number"
                         name="quantity"
                         v-model="itemData.quantity"
-                        :disabled="Object.keys(getMarketData).length <= 0 || sellAll"
+                        :disabled="Object.keys(getMarketData).length <= 0 || sellAll || marketDataLoading"
                         @reset="clearErrors"
                         @input="onTypeQuantity"
                         placeholder="Quantity"
                         :error-message="errors.quantity"
                 /></label>
-                <div class="sell-all"><input type="checkbox" name="sellAll" id="sellAll" v-model="sellAll" @input="sellAllInput" /><label for="sellAll">Sell All</label></div>
+                <div class="sell-all">
+                    <input :disabled="marketDataLoading" type="checkbox" name="sellAll" id="sellAll" v-model="sellAll" @input="sellAllInput" /><label for="sellAll">Sell All</label>
+                </div>
             </div>
             <error-block type="pre-order" />
             <error-block type="market-data" />
@@ -222,6 +225,7 @@ export default {
         return {
             itemData: {},
             loading: false,
+            marketDataLoading: false,
             showTerms: false,
             orderType: "MARKET",
             showResponse: false,
@@ -410,7 +414,9 @@ export default {
         this.SET_BUY_ORDER({});
         this.SET_SELL_ORDER({});
         if (this.isSellValid === 3) {
-            this.GET_MARKET_DATA(this.symbol);
+            this.marketDataLoading = true;
+            await this.GET_MARKET_DATA(this.symbol);
+            this.marketDataLoading = false;
             await this.GET_ACCOUNT_SUMMARY();
         }
     },
