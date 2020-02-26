@@ -3,12 +3,7 @@
 
     <modal @close="closeModal" v-else-if="isBuyValid !== 3">
         <template slot="header">{{ modalTitle }}</template>
-        <PendingKYC
-            @close="closeModal"
-            :is-buy-valid="isBuyValid"
-            :instrument="instrument"
-            @step="handleStep"
-        />
+        <PendingKYC @close="closeModal" :is-buy-valid="isBuyValid" :instrument="instrument" @step="handleStep" />
     </modal>
     <modal v-else :close-on-click="false" @close="closeModal" class="modal__buy">
         <template slot="header">Buy {{ instrument.name }} stock</template>
@@ -22,11 +17,7 @@
                     <p>
                         <img
                             :src="
-                                `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${
-                                    instrument.countryCode
-                                        ? instrument.countryCode.toLowerCase()
-                                        : 'zz'
-                                }-flag.svg`
+                                `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${instrument.countryCode ? instrument.countryCode.toLowerCase() : 'zz'}-flag.svg`
                             "
                             class="watchlist-explore__symbol"
                             alt="US"
@@ -40,44 +31,26 @@
                     <p><small>CURRENT STOCK PRICE:</small></p>
                     <p v-if="Object.keys(instrument).length <= 0">-</p>
                     <p v-else>
-                        <span class="cursor-context modal__buy--price">{{
-                            getMarketData.ask | currency(currency, true)
-                        }}</span
+                        <span class="cursor-context modal__buy--price">{{ getMarketData.ask | currency(currency, true) }}</span
                         >&nbsp;&nbsp;
-                        <img
-                            v-if="instrument.derivedPrice >= 0"
-                            :src="require('../../assets/img/green-arrow.svg')"
-                            alt="Growth"
-                        />
+                        <img v-if="instrument.derivedPrice >= 0" :src="require('../../assets/img/green-arrow.svg')" alt="Growth" />
                         <img v-else :src="require('../../assets/img/red-arrow.svg')" alt="Growth" />
                         <span :class="[+instrument.derivedPrice >= 0 ? 'green' : 'red']">
                             <small
-                                >{{ +instrument.derivedPrice >= 0 ? "+" : ""
-                                }}{{ +instrument.derivedPrice | units(2) }} ({{
+                                >{{ +instrument.derivedPrice >= 0 ? "+" : "" }}{{ +instrument.derivedPrice | units(2) }} ({{
                                     +instrument.derivedPricePercentage | units(2)
                                 }}%)</small
                             ></span
                         >
+                        <span v-if="marketDataLoading"><img src="../../assets/img/loader.gif" class="loader__small--inline" alt="Loader"/></span>
                     </p>
                 </div>
                 <div class="modal__buy--current">
                     <p><small>AVAILABLE AMOUNT:</small></p>
-                    <p
-                        v-if="currency === 'NGN'"
-                        class="cursor-context modal__buy--price"
-                        :title="
-                            getAccountSummary.localAvailableToTrade | kobo | currency('NGN', true)
-                        "
-                    >
+                    <p v-if="currency === 'NGN'" class="cursor-context modal__buy--price" :title="getAccountSummary.localAvailableToTrade | kobo | currency('NGN', true)">
                         {{ getAccountSummary.localAvailableToTrade | kobo | currency("NGN") }}
                     </p>
-                    <p
-                        v-else
-                        class="cursor-context modal__buy--price"
-                        :title="
-                            getAccountSummary.globalAvailableToTrade | kobo | currency('USD', true)
-                        "
-                    >
+                    <p v-else class="cursor-context modal__buy--price" :title="getAccountSummary.globalAvailableToTrade | kobo | currency('USD', true)">
                         {{ getAccountSummary.globalAvailableToTrade | kobo | currency("USD") }}
                     </p>
                 </div>
@@ -147,17 +120,11 @@
             <error-block type="pre-order" />
             <error-block type="market-data" />
             <div>
-                <a class="primary" @click="switchOrder('LIMIT')" v-if="orderType === 'MARKET'"
-                    >Switch to Limit Order</a
-                >
+                <a class="primary" @click="switchOrder('LIMIT')" v-if="orderType === 'MARKET'">Switch to Limit Order</a>
                 <a class="primary" @click="switchOrder('MARKET')" v-else>Switch to Market Order</a>
             </div>
             <div class="modal-form__buttons">
-                <action-button
-                    type="submit"
-                    :pending="loading"
-                    :disabled="Object.keys(getMarketData).length <= 0 || !isFormValid"
-                    :classes="['btn-block', 'btn__primary']"
+                <action-button type="submit" :pending="loading" :disabled="Object.keys(getMarketData).length <= 0 || !isFormValid" :classes="['btn-block', 'btn__primary']"
                     >Buy</action-button
                 >
             </div>
@@ -171,15 +138,9 @@
                                 {{ getPreOrder.marketData ? getPreOrder.marketData.ask : "-" }}
                             </p>
                             <p>
-                                <span>{{
-                                    getPreOrder.marketData
-                                        ? getPreOrder.marketData.bestAskExchange
-                                        : "-"
-                                }}</span
+                                <span>{{ getPreOrder.marketData ? getPreOrder.marketData.bestAskExchange : "-" }}</span
                                 >--
-                                <span>{{
-                                    getPreOrder.marketData ? getPreOrder.marketData.askSize : "-"
-                                }}</span>
+                                <span>{{ getPreOrder.marketData ? getPreOrder.marketData.askSize : "-" }}</span>
                             </p>
                         </div>
                         <div class="stock-vdr__box">
@@ -187,15 +148,9 @@
                                 {{ getPreOrder.marketData ? getPreOrder.marketData.bid : "-" }}
                             </p>
                             <p>
-                                <span>{{
-                                    getPreOrder.marketData ? getPreOrder.marketData.bidSize : "-"
-                                }}</span
+                                <span>{{ getPreOrder.marketData ? getPreOrder.marketData.bidSize : "-" }}</span
                                 >--
-                                <span>{{
-                                    getPreOrder.marketData
-                                        ? getPreOrder.marketData.bestBidExchange
-                                        : "-"
-                                }}</span>
+                                <span>{{ getPreOrder.marketData ? getPreOrder.marketData.bestBidExchange : "-" }}</span>
                             </p>
                         </div>
                     </div>
@@ -211,37 +166,21 @@
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <p>
-                                {{
-                                    getPreOrder.marketData
-                                        ? getPreOrder.marketData.timeOffset
-                                        : "-" || "-" | date
-                                }}
+                                {{ getPreOrder.marketData ? getPreOrder.marketData.timeOffset : "-" || "-" | date }}
                             </p>
                         </div>
                     </div>
                     <div class="stock-vdr__flex">
                         <div class="stock-vdr__box">
                             <p>
-                                {{
-                                    getPreOrder.marketData
-                                        ? getPreOrder.marketData.lastTrade
-                                        : "-" || "-" | currency(currency)
-                                }}
+                                {{ getPreOrder.marketData ? getPreOrder.marketData.lastTrade : "-" || "-" | currency(currency) }}
                             </p>
                         </div>
                         <div class="stock-vdr__box stock-vdr__right">
                             <p>
-                                <span>{{
-                                    getPreOrder.marketData
-                                        ? getPreOrder.marketData.lastTradeExchange
-                                        : "-"
-                                }}</span
+                                <span>{{ getPreOrder.marketData ? getPreOrder.marketData.lastTradeExchange : "-" }}</span
                                 >--
-                                <span>{{
-                                    getPreOrder.marketData
-                                        ? getPreOrder.marketData.lastTradeSize
-                                        : "-"
-                                }}</span>
+                                <span>{{ getPreOrder.marketData ? getPreOrder.marketData.lastTradeSize : "-" }}</span>
                             </p>
                         </div>
                     </div>
@@ -286,19 +225,10 @@
                 <error-block type="buy" />
                 <div class="form-group">
                     <div class="stock-vdr__buttons">
-                        <button
-                            class="btn btn-block btn__primary--outline"
-                            type="button"
-                            @click.stop="showTerms = false"
-                        >
+                        <button class="btn btn-block btn__primary--outline" type="button" @click.stop="showTerms = false">
                             Back
                         </button>
-                        <action-button
-                            type="submit"
-                            :pending="loading"
-                            :classes="['btn-block', 'btn__primary']"
-                            >Confirm Buy</action-button
-                        >
+                        <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Confirm Buy</action-button>
                     </div>
                 </div>
             </form>
@@ -321,6 +251,7 @@ export default {
         return {
             itemData: {},
             loading: false,
+            marketDataLoading: false,
             showTerms: false,
             orderType: "MARKET",
             showResponse: false,
@@ -334,14 +265,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters([
-            "getBuyModal",
-            "getAccountSummary",
-            "getMarketData",
-            "getPreOrder",
-            "getLoggedUser",
-            "getNextKYC"
-        ]),
+        ...mapGetters(["getBuyModal", "getAccountSummary", "getMarketData", "getPreOrder", "getLoggedUser", "getNextKYC"]),
         isBuyValid() {
             if (this.instrument.currency === "NGN") {
                 if (this.getLoggedUser.localKycStatus === "NONE") return 1;
@@ -373,19 +297,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions([
-            "GET_ACCOUNT_SUMMARY",
-            "BUY_INSTRUMENT",
-            "GET_MARKET_DATA",
-            "GET_PRE_ORDER"
-        ]),
-        ...mapMutations([
-            "SET_MARKET_DATA",
-            "SET_SELL_ORDER",
-            "SET_BUY_ORDER",
-            "RESET_REQ",
-            "SET_FUND_MODAL"
-        ]),
+        ...mapActions(["GET_ACCOUNT_SUMMARY", "BUY_INSTRUMENT", "GET_MARKET_DATA", "GET_PRE_ORDER"]),
+        ...mapMutations(["SET_MARKET_DATA", "SET_SELL_ORDER", "SET_BUY_ORDER", "RESET_REQ", "SET_FUND_MODAL"]),
         closeModal(action) {
             this.$emit("close", action);
         },
@@ -496,7 +409,9 @@ export default {
             }
         },
         switchValue(amount) {
-            this.onTypeAmount(amount);
+            if (!this.marketDataLoading) {
+                this.onTypeAmount(amount);
+            }
         },
         clearErrors() {
             this.errors = {};
@@ -526,7 +441,9 @@ export default {
         this.SET_BUY_ORDER({});
         this.SET_SELL_ORDER({});
         if (this.isBuyValid === 3) {
-            this.GET_MARKET_DATA(this.symbol);
+            this.marketDataLoading = true;
+            await this.GET_MARKET_DATA(this.symbol);
+            this.marketDataLoading = false;
             await this.GET_ACCOUNT_SUMMARY();
         }
     },
