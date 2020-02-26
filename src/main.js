@@ -45,7 +45,7 @@ Vue.use(VueAuthenticate, {
             clientId: "724818008039885", //your Facebook App ID e.g. 12345667890
             url: 'https://test-socials.netlify.com/auth/facebook',
             authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
-            redirectUri:"https://test-socials.netlify.com/auth/facebook/callback", // Your client app URL
+            redirectUri:"https://test-socials.netlify.com/dashboard/portfolio", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
@@ -58,7 +58,7 @@ Vue.use(VueAuthenticate, {
         google: {
             clientId: "854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
             url: 'https://test-socials.netlify.com/auth/google',
-            redirectUri: "https://test-socials.netlify.com/auth/google/callback", // Your client app URL
+            redirectUri: "https://test-socials.netlify.com/dashboard/portfolio", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             scope: ["profile", "email"],
