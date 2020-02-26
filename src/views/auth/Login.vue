@@ -25,8 +25,8 @@
                         <div class="or-separator_text__2YQdZ">or</div>
                         <hr class="or-separator_line__x5QkI">
                     </div>
-                    <div class="socials_container">
-                     <section type="button" @click="authenticate('google')" class="socials_btn">
+                    <div style="cursor: pointer;" class="socials_container">
+                     <section  @click="authenticate('google')" class="socials_btn">
                          <div class="_provider-button_label__1gtgk">
                           <span style="white-space:nowrap;">Sign in with</span>
                             <svg viewBox="5 -5 30 30" enable-background="new 5 -5 30 30" class="google_img" title="google">
@@ -36,7 +36,7 @@
                             </svg>
                          </div>
                     </section>
-                     <section type="button" @click="authenticate('facebook')" class="socials_btn">
+                     <section style="cursor: pointer;" @click="authenticate('facebook')" class="socials_btn">
                          <div class="_provider-button_label__1gtgk">
                          <span style="white-space:nowrap;">Sign in with</span>
                             <svg viewBox="5 -5 30 30" enable-background="new 5 -5 30 30" class="facebook_img" title="facebook">
