@@ -145,12 +145,9 @@ export default {
         },
         social(payload) {
             this.RESET_REQ();
-            if (!payload.email) {
-                this.$set(this.errors, "email", "Field is required");
-            } else if (!auth.email(payload.email)) {
+            if (!payload.email && !auth.email(payload.email)) {
                 this.$set(this.errors, "email", "Invalid email");
             }
-            
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
