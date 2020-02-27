@@ -43,4 +43,4 @@ deploy:
   dependencies:
     - build
   only:
-    - dev
+    - master

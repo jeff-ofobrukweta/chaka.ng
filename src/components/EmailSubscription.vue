@@ -59,7 +59,6 @@
 
 <script>
 import auth from "../services/validations/auth";
-import "aos/dist/aos.css";
 import AOS from "aos";
 import { mapGetters } from "vuex";
 

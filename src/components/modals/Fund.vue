@@ -34,6 +34,7 @@
 
         <template v-if="activeMethod === 'BANK'">
             <div class="modal-form" v-if="currency === 'NGN'">
+                <p class="text-center"><mark class="warning">For naira payments only</mark></p>
                 <br />
                 <p>To fund your account manually (without charges), make a transfer to:</p>
                 <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
@@ -48,11 +49,9 @@
                 </p>
             </div>
             <div class="modal-form" v-else>
+                <p class="text-center"><mark class="warning">For dollar payments only</mark></p>
                 <br />
-                <p class="form-info">
-                    Please note that if you use an international card, your transaction may incur other bank charges that can slightly decrease the funding amount deposited.
-                </p>
-                <br />
+
                 <p>
                     To fund your account through a domiciliary account transfer (without PAYSTACK fees), make a transfer to:
                 </p>
@@ -168,19 +167,22 @@
                 </div>
             </form>
 
-            <section v-if="currency === 'NGN'">
-                <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
-                <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
-            </section>
+            <section class="text-center">
+                <template v-if="currency === 'USD'">
+                    <p class="form-info">
+                        Please note that if you use an international card, your transaction may incur other bank charges that can slightly decrease the funding amount deposited.
+                    </p>
+                    <br />
+                    <p class="mb-1">
+                        <small class="grey-dark"
+                            >EXCHANGE RATE:&nbsp; <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
+                        >
+                    </p>
+                </template>
 
-            <section v-else>
-                <p class="text-center">
-                    <small class="grey-dark"
-                        >EXCHANGE RATE:&nbsp; <span>₦{{ getExchangeRate.sell }} - $1.00</span></small
-                    >
-                </p>
-                <p class="text-center">Local Cards: <mark>1.5% + &#8358;100</mark></p>
-                <p class="text-center">Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
+                <p class="text-center">Paystack Fees</p>
+                <p>Local Cards: <mark>1.5% + &#8358;100</mark></p>
+                <p>Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
             </section>
             <!-- <form method="post" action="https://webpay.interswitchng.com/collections/w/pay" style="margin-left: 28px">
                 <strong>Redirect URL:</strong> <input name="site_redirect_url" value="./" /> <strong>Pay Item ID:</strong> <input name="pay_item_id" value="3121516" />

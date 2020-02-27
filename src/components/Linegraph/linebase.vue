@@ -180,14 +180,14 @@ export default {
             "SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH",
             "SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH"
         ]),
-        ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA", "GET_ACCOUNT_SUMMARY"]),
+        ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA","GET_PORTFOLIO_GRAPH_SUMMARY"]),
         async toogleCurrency(currency, id) {
             if (currency === this.getPorfolioglobalCurrencyforGraph) {
                 return true;
             }
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
             this.loading = true;
-            await this.GET_ACCOUNT_SUMMARY({ currency }).then(() => {
+            await this.GET_PORTFOLIO_GRAPH_SUMMARY({ currency }).then(() => {
                 const defaulttime = {
                     interval: this.getPorfolioglobalTimeforGraph,
                     currency: this.getPorfolioglobalCurrencyforGraph
