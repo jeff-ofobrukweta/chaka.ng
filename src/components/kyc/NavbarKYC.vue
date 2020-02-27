@@ -34,10 +34,9 @@
                     </div>
                     <div class="kyc-nav__actions" v-else>
                         <action-button type="submit" :pending="loading" :disabled="!itemData.disclosureName" icon :classes="['btn-block', 'btn__primary']">Submit</action-button>
-                        <!-- TO-DO:: pUt back when NIN is ready -->
-                        <!-- <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
+                        <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
-                        > -->
+                        >
                         <a @click="hideKYCBtn">Hide</a>
                     </div>
                 </div>
@@ -67,10 +66,9 @@
                     </div>
                     <div class="kyc-nav__actions" v-else>
                         <action-button type="submit" :disabled="!itemData.bvn" :pending="loading" icon :classes="['btn-block', 'btn__primary']">Submit</action-button>
-                        <!-- TO-DO:: Put back when NIN is ready -->
-                        <!-- <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
+                        <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
-                        > -->
+                        >
                         <a @click="hideKYCBtn">Hide</a>
                     </div>
                 </div>
@@ -105,18 +103,14 @@
                 </div>
             </div>
         </template>
-        <!-- TO-DO:: Put back when NIN is ready -->
 
-        <!-- <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'nin'">
+        <template v-else-if="getNavbarNextKYC.nextKYC[0] === 'nin'">
             <form @submit.prevent="submitNIN">
                 <div class="kyc-nav container">
                     <div class="kyc-nav__text">
                         <h5>National Identity</h5>
                         <p>
-                            <small
-                                >Enter your national identity number to fast track your verification
-                                process</small
-                            >
+                            <small>Enter your national identity number to fast track your verification process</small>
                         </p>
                         <p class="skip-button" v-if="getWindowWidth !== 'mobile'">
                             <a class="underline" @click="skipNIN">
@@ -125,46 +119,17 @@
                         </p>
                     </div>
                     <div class="kyc-nav__field">
-                        <Field
-                            :field="ninField"
-                            @input="handleInput"
-                            v-model="itemData.nin"
-                            inline
-                            no-label
-                        />
+                        <Field :field="ninField" @input="handleInput" v-model="itemData.nin" inline no-label />
                     </div>
                     <div class="kyc-nav__actions" v-if="getWindowWidth !== 'mobile'">
                         <a @click="hideKYCBtn">Hide</a>
-                        <action-button
-                            type="submit"
-                            :disabled="!itemData.nin"
-                            :pending="loading"
-                            :classes="['btn', 'kyc-nav__button']"
-                        >
-                            <svg
-                                width="30"
-                                height="16"
-                                viewBox="0 0 30 16"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    clip-rule="evenodd"
-                                    d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z"
-                                    fill="white"
-                                /></svg
+                        <action-button type="submit" :disabled="!itemData.nin" :pending="loading" :classes="['btn', 'kyc-nav__button']">
+                            <svg width="30" height="16" viewBox="0 0 30 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M21.5 0L20.1 1.4L25.7 7H0V9H25.7L20.1 14.6L21.5 16L29.5 8L21.5 0Z" fill="white" /></svg
                         ></action-button>
                     </div>
                     <div class="kyc-nav__actions" v-else>
-                        <action-button
-                            type="submit"
-                            :disabled="!itemData.nin"
-                            :pending="loading"
-                            icon
-                            :classes="['btn-block', 'btn__primary']"
-                            >Submit</action-button
-                        >
+                        <action-button type="submit" :disabled="!itemData.nin" :pending="loading" icon :classes="['btn-block', 'btn__primary']">Submit</action-button>
                         <div>
                             <a class="skip" href="" @click="skipNIN">Skip</a>
                             <a @click="hideKYCBtn">Hide</a>
@@ -172,7 +137,7 @@
                     </div>
                 </div>
             </form>
-        </template> -->
+        </template>
         <template v-else>
             <div>
                 <div class="kyc-nav container">
@@ -197,10 +162,9 @@
                         <button @click="showNextModalBtn" type="buttom" class="btn btn-block btn__primary">
                             Continue
                         </button>
-                        <!-- TO-DO:: Put back when NIN is ready -->
-                        <!-- <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
+                        <a class="underline" v-if="getKYC.ninFetchStatus === 'SKIPPED'" @click="showNextModalBtn('nin')"
                             ><small>Enter your NIN to fast track your verification</small></a
-                        > -->
+                        >
                         <div>
                             <a @click="hideKYCBtn">Hide</a>
                         </div>
@@ -409,21 +373,18 @@ export default {
                 }
             });
         },
-        /**
-         * TO-DO:: Put back when NIN is ready
-         */
-        // submitNIN() {
-        //     const payload = { ...this.itemData };
-        //     payload.source = "navbar";
-        //     this.loading = true;
-        //     this.UPDATE_KYC_NIN(payload).then(resp => {
-        //         this.loading = false;
-        //         if (resp) {
-        //             this.checkNextKYC();
-        //             this.itemData = {};
-        //         }
-        //     });
-        // },
+        submitNIN() {
+            const payload = { ...this.itemData };
+            payload.source = "navbar";
+            this.loading = true;
+            this.UPDATE_KYC_NIN(payload).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.checkNextKYC();
+                    this.itemData = {};
+                }
+            });
+        },
         useBVNPhone() {
             this.loading = true;
             const payload = {
@@ -576,19 +537,16 @@ export default {
                 });
             }
         },
-        /**
-         * TO-DO:: Put back when NIN is ready
-         */
-        // skipNIN() {
-        //     this.loading = true;
-        //     this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
-        //         this.loading = false;
-        //         if (resp) {
-        //             this.itemData = {};
-        //         }
-        //         this.showNextModalBtn();
-        //     });
-        // },
+        skipNIN() {
+            this.loading = true;
+            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.itemData = {};
+                }
+                this.showNextModalBtn();
+            });
+        },
         closeNIN() {
             // EventBus.$emit("navbar-trigger");
             // EventBus.$emit("modal-trigger");
