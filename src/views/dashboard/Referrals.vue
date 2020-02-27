@@ -370,7 +370,7 @@
             id="refer-link"
             :value="
                 `I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${
-                    this.getLoggedUser.UserReferral ? getLoggedUser.UserReferral.referralCode : ''
+                    getLoggedUser.UserReferral ? getLoggedUser.UserReferral.referralCode : ''
                 }`
             "
         />

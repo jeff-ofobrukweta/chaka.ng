@@ -5,8 +5,7 @@
         <div class="kyc-modal__dummy" v-else-if="!showModal"></div>
         <div v-else>
             <PhoneOTP @close="OTPSuccess" v-if="sectionToShow === 'phone'" />
-            <!-- TO-DO:: Put back when NIN is ready -->
-            <!-- <div v-else-if="sectionToShow === 'nin'">
+            <div v-else-if="sectionToShow === 'nin'">
                 <form class="kyc-modal" @submit.prevent="updateKYC">
                     <div class="text-center mb-1">
                         <p>
@@ -26,7 +25,7 @@
                         <a @click="skipNIN" class="unerline primary">Skip</a>
                     </div>
                 </form>
-            </div> -->
+            </div>
             <div v-else-if="sectionToShow === 'file'">
                 <div class="kyc-modal kyc-modal__uploads">
                     <div class="text-center mb-1">
@@ -480,19 +479,16 @@ export default {
             }
             return [];
         },
-        /**
-         * TO-DO:: Put back when NIN is complete
-         */
-        // skipNIN() {
-        //     this.loading = true;
-        //     this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
-        //         this.loading = false;
-        //         if (resp) {
-        //             this.$emit("skipnin");
-        //             this.mount();
-        //         }
-        //     });
-        // },
+        skipNIN() {
+            this.loading = true;
+            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
+                this.loading = false;
+                if (resp) {
+                    this.$emit("skipnin");
+                    this.mount();
+                }
+            });
+        },
         closeModal() {
             this.$emit("close");
         },
