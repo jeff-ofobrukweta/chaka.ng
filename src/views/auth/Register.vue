@@ -40,7 +40,7 @@
                 </div>
                 <error-block type="register" />
                 <div class="auth-form__group">
-                    <div>
+                    <div style="margin: 1rem 0px;">
                         <action-button type="submit" :disabled="!formValid" :pending="loading" :classes="['btn-full', 'btn__primary']">Sign Up</action-button>
                     </div>
                     <div class="or-separator_flex__6ViaO">
