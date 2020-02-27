@@ -45,7 +45,7 @@ Vue.use(VueAuthenticate, {
             clientId:process.env.VUE_REDIRECT_URL_FACEBOOK, //your Facebook App ID e.g. 12345667890
             url: process.env.VUE_OAUTH_URL_FACEBOOK,
             authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
-            redirectUri:VUE_REDIRECT_URL_FACEBOOK, // Your client app URL
+            redirectUri:process.env.VUE_REDIRECT_URL_FACEBOOK, // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
@@ -58,7 +58,7 @@ Vue.use(VueAuthenticate, {
         google: {
             clientId:process.env.VUE_REDIRECT_URL_GOOGLE, //your Facebook App ID e.g. 12345667890
             url: process.env.VUE_OAUTH_URL_GOOGLE,
-            redirectUri: VUE_REDIRECT_URL_GOOGLE, // Your client app URL
+            redirectUri: process.env.VUE_REDIRECT_URL_GOOGLE, // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             scope: ["profile", "email"],
