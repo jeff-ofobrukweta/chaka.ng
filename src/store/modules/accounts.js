@@ -11,7 +11,7 @@ const state = {
 
 const getters = {
     getAccountSummary: state => state.accountSummary,
-    getPortfolioGraphSummary: state => state.portfolioSummary,
+    getPortfolioGraphSummary: state => state.portfolioGraphSummary,
     getAccountHistory: state => state.accountHistory,
     getOrdersHistory: state => state.ordersHistory,
     getStatements: state => state.statements
@@ -22,7 +22,7 @@ const mutations = {
         state.accountSummary = payload;
     },
     SET_PORTFOLIO_GRAPH_SUMMARY(state, payload) {
-        state.portfolioSummary = payload;
+        state.portfolioGraphSummary = payload;
     },
     SET_ACCOUNT_HISTORY(state, payload) {
         state.accountHistory = payload;
