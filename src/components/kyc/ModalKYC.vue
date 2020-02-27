@@ -20,6 +20,7 @@
                             >Submit</action-button
                         >
                     </div>
+
                     <div class="text-center mt-2" v-if="!loading">
                         <a @click="skipNIN" class="unerline primary">Skip</a>
                     </div>
@@ -521,7 +522,7 @@ export default {
                     }
                 });
             });
-            
+
             if (this.currentKYC.status === "COMPLETE" && this.getNavbarNextKYC.completedContexts.length === 0) {
                 EventBus.$emit("MODAL_CLOSED");
                 this.$emit("updated", true);

@@ -144,4 +144,8 @@ mark {
   border-radius: 3px;
   font-size: 85%;
   letter-spacing: 0.05rem;
+
+  &.warning {
+    background-color: rgba($color: $orange, $alpha: 0.45);
+  }
 }

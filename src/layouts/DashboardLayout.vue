@@ -16,10 +16,7 @@
                     <p class="kyc-nav__continue">
                         Continue Verification
                         <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"
-                                fill="#fff"
-                            />
+                            <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" fill="#fff" />
                         </svg>
                     </p>
                 </section>
@@ -85,19 +82,11 @@ export default {
             "isComponentLoader"
         ]),
         showPending() {
-            if (
-                this.getNavbarNextKYC.status === "COMPLETE" &&
-                (this.getLoggedUser.localKycStatus !== "COMPLETE" ||
-                    this.getLoggedUser.globalKycStatus !== "COMPLETE")
-            )
-                return true;
+            if (this.getNavbarNextKYC.status === "COMPLETE" && (this.getLoggedUser.localKycStatus !== "COMPLETE" || this.getLoggedUser.globalKycStatus !== "COMPLETE")) return true;
             return false;
         },
         showKYC() {
-            return (
-                this.getLoggedUser.localKycStatus !== "COMPLETE" &&
-                this.getLoggedUser.globalKycStatus !== "COMPLETE"
-            );
+            return this.getLoggedUser.localKycStatus !== "COMPLETE" && this.getLoggedUser.globalKycStatus !== "COMPLETE";
         }
     },
     methods: {

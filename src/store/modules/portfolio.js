@@ -10,7 +10,7 @@ const state = {
 };
 
 const getters = {
-    getPortfolioSummary: () => state.portfolioSummary,
+    getPortfolioSummary: (state) => state.portfolioSummary,
     // card details getter in Portfolio card
     getPortfoliopositionsCarddetails: state => state.totalpositionsGlobalLocalOpenorderscardDetails,
     // ends here

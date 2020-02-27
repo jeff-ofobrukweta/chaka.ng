@@ -20,7 +20,13 @@
 
   @include desktop {
     width: 100%;
-    max-width: 1360px;
+    max-width: 1256px;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  @include desktop-lg {
+    padding: 0
   }
 }
 
@@ -177,7 +183,8 @@ main {
   &__title {
     margin-bottom: 0.825rem;
     font-size: 3rem;
-    &--small{
+
+    &--small {
       font-size: 2.5rem;
     }
   }
@@ -286,7 +293,7 @@ main {
       cursor: no-drop;
     }
 
-    &.btn-val{
+    &.btn-val {
       background-color: $val-red;
     }
   }
@@ -338,7 +345,7 @@ main {
   color: $red;
 }
 
-.val-red{
+.val-red {
   color: $val-red
 }
 
@@ -522,6 +529,15 @@ main {
       img {
         width: 36px;
       }
+    }
+  }
+
+  &__small {
+    &--inline {
+      width: 14px;
+      height: 14px;
+      vertical-align: middle;
+      margin-left: 5px;
     }
   }
 }

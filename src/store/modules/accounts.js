@@ -3,6 +3,7 @@ import errorFn from "../../services/apiService/error";
 
 const state = {
     accountSummary: {},
+    portfolioGraphSummary:{},
     accountHistory: [],
     ordersHistory: [],
     statements: []
@@ -10,6 +11,7 @@ const state = {
 
 const getters = {
     getAccountSummary: state => state.accountSummary,
+    getPortfolioGraphSummary: state => state.portfolioGraphSummary,
     getAccountHistory: state => state.accountHistory,
     getOrdersHistory: state => state.ordersHistory,
     getStatements: state => state.statements
@@ -18,6 +20,9 @@ const getters = {
 const mutations = {
     SET_ACCOUNT_SUMMARY(state, payload) {
         state.accountSummary = payload;
+    },
+    SET_PORTFOLIO_GRAPH_SUMMARY(state, payload) {
+        state.portfolioGraphSummary = payload;
     },
     SET_ACCOUNT_HISTORY(state, payload) {
         state.accountHistory = payload;
@@ -45,6 +50,24 @@ const actions = {
                 },
                 error => {
                     errorFn(error.response, "accounts");
+                    resolve(false);
+                }
+            )
+        ),
+        GET_PORTFOLIO_GRAPH_SUMMARY: ({ commit, rootState }, payload) =>
+        new Promise(resolve =>
+            api.get(`/users/${rootState.auth.loggedUser.chakaID}/summary`, payload).then(
+                resp => {
+                    if (resp.status >= 200 && resp.status < 400) {
+                        commit("SET_PORTFOLIO_GRAPH_SUMMARY", resp.data.data);
+                        resolve(true);
+                        return true;
+                    }
+                    errorFn(resp, "portfolio");
+                    resolve(false);
+                },
+                error => {
+                    errorFn(error.response, "portfolio");
                     resolve(false);
                 }
             )

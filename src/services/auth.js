@@ -35,7 +35,7 @@ export function isLoggedIn() {
  * @param next - callback to transfer control to the next middleware
  */
 export function noAuthOnly(to, from, next) {
-    if (to.name === "login" && from.path.startsWith("/dashboard")) {
+    if (to.name === "login" && from.path.startsWith("/dashboard") || to.name === "register" && from.path.startsWith("/dashboard")) {
         resetState();
         next();
     } else if (isLoggedIn()) {

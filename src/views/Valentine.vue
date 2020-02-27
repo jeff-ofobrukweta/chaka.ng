@@ -178,7 +178,6 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
-import "aos/dist/aos.css";
 import EventBus from "../event-bus";
 import AOS from "aos";
 import html2canvas from "html2canvas";

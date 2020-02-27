@@ -150,13 +150,20 @@ export default {
             "getPortfolioDerivedChange"
         ]),
         isGraphValid() {
-            if (this.gethistoryportfolioprice.length === 1) {
-                return 1;
-            }
             // filter the array for conditions null or undefined or is Not a number
             const checkForNull = this.gethistoryportfolioprice.filter(
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
+            if (
+                this.gethistoryportfolioprice.length <= 0 &&
+                checkForNull.length <= 0 &&
+                this.gethistoryportfoliodate[0] !== null &&
+                !this.emptyData &&
+                this.emptyData != undefined
+            ) {
+                return 1;
+            }
+            
             if (
                 checkForNull.length > 0 &&
                 this.gethistoryportfoliodate[0] == null &&
@@ -165,14 +172,7 @@ export default {
             ) {
                 return 2;
             }
-            if (
-                checkForNull.length <= 0 &&
-                this.gethistoryportfoliodate[0] !== null &&
-                !this.emptyData &&
-                this.emptyData != undefined
-            ) {
-                return 3;
-            }
+            
         }
     },
     methods: {
@@ -180,14 +180,14 @@ export default {
             "SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH",
             "SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH"
         ]),
-        ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA", "GET_ACCOUNT_SUMMARY"]),
+        ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA","GET_PORTFOLIO_GRAPH_SUMMARY"]),
         async toogleCurrency(currency, id) {
             if (currency === this.getPorfolioglobalCurrencyforGraph) {
                 return true;
             }
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
             this.loading = true;
-            await this.GET_ACCOUNT_SUMMARY({ currency }).then(() => {
+            await this.GET_PORTFOLIO_GRAPH_SUMMARY({ currency }).then(() => {
                 const defaulttime = {
                     interval: this.getPorfolioglobalTimeforGraph,
                     currency: this.getPorfolioglobalCurrencyforGraph

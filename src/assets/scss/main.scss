@@ -11,6 +11,7 @@
 @import "modules/cards";
 @import "modules/tables";
 @import "modules/modals";
+@import "modules/socials";
 
 @import "layouts/home";
 @import "layouts/kyc";
@@ -22,6 +23,7 @@
 @import "layouts/auth";
 @import "layouts/tags";
 @import 'layouts/calculator';
+@import 'layouts/referrals';
 /**
 * VALENTINE TO-DO:: Remove when event is over
 */
@@ -35,5 +37,6 @@
 @import "components/instrument";
 @import "components/uploads";
 @import "components/gifts";
+@import "components/quiz";
 @import "modules/utils";
 @import 'layouts/about';
