@@ -37,15 +37,16 @@ Vue.use(Toaster, toasterOptions);
 // Vue Global Mixins
 
 Vue.use(VueAxios, axios);
+var base_url = window.location.origin;
 
 Vue.use(VueAuthenticate, {
     // baseUrl: "https://localhost:8080", // Your API domain
     providers: {
         facebook: {
             clientId:724818008039885, //your Facebook App ID e.g. 12345667890
-            url:"https://v2-chaka.netlify.com/auth/facebook",
+            url:base_url+"/auth/facebook",
             authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
-            redirectUri:"https://v2-chaka.netlify.com/auth/facebook/callback", // Your client app URL
+            redirectUri:base_url+"/auth/facebook/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
@@ -57,8 +58,8 @@ Vue.use(VueAuthenticate, {
         },
         google: {
             clientId:"854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
-            url:"https://v2-chaka.netlify.com/auth/google",
-            redirectUri:"https://v2-chaka.netlify.com/auth/google/callback", // Your client app URL
+            url:base_url+"/auth/google",
+            redirectUri:base_url+"/auth/google/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             scope: ["profile", "email"],
