@@ -32,6 +32,8 @@
                 </div>
             </div>
 
+            <a data-isw-payment-button data-isw-ref="E45OuL4dNg">Sample</a>
+
             <template v-if="activeMethod === 'BANK'">
                 <div class="modal-form" v-if="currency === 'NGN'">
                     <p class="text-center"><mark class="warning">For naira payments only</mark></p>
@@ -298,12 +300,12 @@
                     <p>Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
                 </section>
             </template>
-            <form hidden id="form1" method="post" action="http://webpay.interswitchng.com/collections/w/pay">
+            <form hidden id="form1" method="post" action="https://qa.interswitchng.com/collections/w/pay">
                 <input name="site_redirect_url" :value="currentRoute" />
-                <input name="pay_item_id" value="1939156" />
+                <input name="pay_item_id" value="7202960" />
                 <input name="txn_ref" id="tranRef" :value="getWalletTx.reference" />
                 <input name="amount" :value="actualValue * 100" />
-                <input name="currency" value="566" />
+                <input name="currency" :value="iswCurrency" />
 
                 <input name="cust_name" :value="userName" />
                 <input name="cust_email" :value="getLoggedUser.email" />
@@ -313,7 +315,7 @@
                 ​
 
                 <input name="display_mode" value="PAGE" />
-                <input name="merchant_code" value="MX1065" />
+                <input name="merchant_code" value="MX13948" />
                 ​
                 <input type="submit" value="Submit Form" />
             </form>
@@ -374,6 +376,10 @@ export default {
             if (this.selectedCard === "input") return "Add New Card";
             if (Object.keys(this.selectedCard).length > 0) return this.selectedCard.bank;
             return "- Select Card -";
+        },
+        iswCurrency() {
+            if (this.currency === "USD") return 840;
+            return 566;
         }
     },
     methods: {
@@ -461,8 +467,48 @@ export default {
             this.RESET_REQ();
         },
         payWithISW() {
-            document.getElementById("tranRef").value = this.getWalletTx.reference;
-            document.getElementById("form1").submit();
+            this.createISWScript();
+            // document.getElementById("tranRef").value = this.getWalletTx.reference;
+            // document.getElementById("form1").submit();
+        },
+        createISWScript() {
+            // const script = document.getElementById("ISWPayment");
+            console.log("I got here");
+            const aTag = document.createElement("a");
+            aTag.setAttribute("data-isw-payment-button", true);
+            aTag.setAttribute("data-isw-ref", "E45OuL4dNg");
+
+            const script = document.createElement("script");
+            script.setAttribute("data-isw-trans-amount", 10000);
+            script.setAttribute("data-isw-customer-ref", 1573717681021);
+            script.setAttribute("data-isw-customer-callback", this.callback);
+            // script.src = "'https://paymentgateway.interswitchgroup.com/paymentgateway/public/js/webpay.js";
+            // document.getElementsByTagName("head")[0].appendChild(script);
+            if (script.readyState) {
+                // IE
+                script.onreadystatechange = () => {
+                    if (script.readyState === "loaded" || script.readyState === "complete") {
+                        console.log("This is the on ready state");
+                        script.onreadystatechange = null;
+                        // this.callback();
+                        aTag.appendChild(script);
+                        aTag.click();
+                        console.log(a);
+                    }
+                };
+            } else {
+                // Others
+                script.onload = () => {
+                    aTag.appendChild(script);
+                    aTag.click();
+                    console.log("This is the on load state");
+                    console.log(a);
+                    // this.callback();
+                };
+            }
+        },
+        callback() {
+            console.log("Hello");
         },
         switchCurrency(currency) {
             this.currency = currency;
@@ -484,7 +530,8 @@ export default {
     async mounted() {
         if (this.$refs.input) this.$refs.input.focus();
         this.activeMethod = "PAYSTACK";
-        this.currentRoute = `v2-chaka.netlify.com${this.$route.fullPath}`;
+        this.currentRoute = `${location.origin}${this.$route.fullPath}`;
+        // this.currentRoute = `https://chaka.io/`;
         /**
          * TO-DO:: Put back when saved cards is ready
          */
