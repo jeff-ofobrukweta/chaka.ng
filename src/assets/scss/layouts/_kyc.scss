@@ -64,6 +64,41 @@
         }
     }
 
+    &-phone {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        input {
+            flex-basis: 85%;
+
+            &::-ms-input-placeholder {
+                color: $silver
+            }
+
+            &::placeholder {
+                color: $silver;
+            }
+
+            &::-webkit-input-placeholder {
+                color: $silver;
+            }
+        }
+
+        &>div {
+            // border: 1px solid $silver;
+            text-align: right;
+            padding-right: 4px;
+            flex-basis: 15%;
+            margin-top: .375rem;
+        }
+
+        .form-error {
+            flex: 0 0 100%
+        }
+    }
+
     &-nav {
         color: $white;
         display: flex;
