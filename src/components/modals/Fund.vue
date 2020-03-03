@@ -32,8 +32,6 @@
                 </div>
             </div>
 
-            <a data-isw-payment-button data-isw-ref="E45OuL4dNg">Sample</a>
-
             <template v-if="activeMethod === 'BANK'">
                 <div class="modal-form" v-if="currency === 'NGN'">
                     <p class="text-center"><mark class="warning">For naira payments only</mark></p>
@@ -70,7 +68,7 @@
                 </div>
             </template>
             <template v-else-if="activeMethod === 'INTERSWITCH'">
-                <form class="modal-form" @submit.prevent="fundWallet">
+                <form class="modal-form" @submit.prevent="fundWallet" v-if="!showISWButton">
                     <div class="modal-form__group">
                         <label class="form__label"
                             >Amount<currency-input :currency="currency" placeholder="Enter Amount" v-model="itemData.amount" :error-message="issues.amount" @reset="handleReset" />
@@ -168,6 +166,9 @@
                         <action-button type="submit" :disabled="Object.keys(issues).length > 0" :pending="loading" :classes="['btn-block', 'btn__primary']">Fund</action-button>
                     </div>
                 </form>
+                <div id="ISWDiv" v-show="showISWButton">
+                    <p>Click the button below to confirm payment of {{ itemData.amount | currency(currency) }}</p>
+                </div>
 
                 <section class="text-center" v-if="currency === 'USD'">
                     <p class="form-info">
@@ -343,7 +344,8 @@ export default {
             accountHover: false,
             selectedCard: {},
             showISWPayment: false,
-            currentRoute: null
+            currentRoute: null,
+            showISWButton: false
         };
     },
     computed: {
@@ -419,7 +421,7 @@ export default {
                         this.loading = false;
                         this.$emit("close", true);
                         return true;
-                    } else if (this.source === "PAYSTACK") {
+                    } else if (this.fundPayload.source === "PAYSTACK") {
                         this.payWithPaystack();
                     } else {
                         this.payWithISW();
@@ -468,53 +470,43 @@ export default {
         },
         payWithISW() {
             this.createISWScript();
-            // document.getElementById("tranRef").value = this.getWalletTx.reference;
-            // document.getElementById("form1").submit();
         },
         createISWScript() {
-            // const script = document.getElementById("ISWPayment");
-            console.log("I got here");
+            const iframe = document.querySelector("iframe");
+            const div = document.querySelector("#ISWDiv");
+            if (div.contains(iframe)) {
+                div.removeChild(iframe);
+            }
             const aTag = document.createElement("a");
             aTag.setAttribute("data-isw-payment-button", true);
             aTag.setAttribute("data-isw-ref", "E45OuL4dNg");
 
             const script = document.createElement("script");
-            script.setAttribute("data-isw-trans-amount", 10000);
+            script.setAttribute("data-isw-trans-amount", this.itemData.amount * 100);
             script.setAttribute("data-isw-customer-ref", 1573717681021);
             script.setAttribute("data-isw-customer-callback", this.callback);
-            // script.src = "'https://paymentgateway.interswitchgroup.com/paymentgateway/public/js/webpay.js";
-            // document.getElementsByTagName("head")[0].appendChild(script);
-            if (script.readyState) {
-                // IE
-                script.onreadystatechange = () => {
-                    if (script.readyState === "loaded" || script.readyState === "complete") {
-                        console.log("This is the on ready state");
-                        script.onreadystatechange = null;
-                        // this.callback();
-                        aTag.appendChild(script);
-                        aTag.click();
-                        console.log(a);
-                    }
-                };
-            } else {
-                // Others
-                script.onload = () => {
-                    aTag.appendChild(script);
-                    aTag.click();
-                    console.log("This is the on load state");
-                    console.log(a);
-                    // this.callback();
-                };
-            }
+            script.setAttribute("data-isw-currency", this.iswCurrency);
+            script.setAttribute("data-cust-name", `${this.getLoggedUser.firstname} ${this.getLoggedUser.lastname}`);
+            script.setAttribute("data-cust-email", this.getLoggedUser.email);
+            script.setAttribute("src", "https://paymentgateway.interswitchgroup.com/paymentgateway/public/js/webpay.js");
+            aTag.appendChild(script);
+            div.appendChild(aTag);
+            this.loading = false;
+            this.showISWButton = true;
         },
-        callback() {
-            console.log("Hello");
+        callback(e) {
+            console.log("Hello:: ", e);
+        },
+        submitForm() {
+            document.getElementById("form1").submit();
         },
         switchCurrency(currency) {
+            this.showISWButton = false;
             this.currency = currency;
             this.handleReset();
         },
         switchMethod(method) {
+            this.showISWButton = false;
             this.issues = {};
             if (method === this.activeMethod) {
                 this.activeMethod = null;
@@ -575,6 +567,14 @@ export default {
     top: 1.5rem;
     .modal-dropdown__card {
         display: flex;
+    }
+}
+
+#ISWDiv {
+    color: $grey-cool;
+    text-align: center;
+    p {
+        margin-bottom: 1rem;
     }
 }
 </style>
