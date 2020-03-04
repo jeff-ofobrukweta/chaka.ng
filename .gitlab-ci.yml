@@ -1,46 +1,110 @@
-image: node:10.15.3
+# image: node:10.15.3
 
-cache:
-  untracked: true
-  paths:
-    - node_modules/
+# cache:
+#   untracked: true
+#   paths:
+#     - node_modules/
 
-stages:
-  - setup
-  - test
-  - build
-  - deploy
+# stages:
+#   - setup
+#   - test
+#   - build
+#   - deploy
 
-setup:
-  stage: setup
-  script:
-    - npm install --save
-  only:
-    - dev
-
-# test:
-#   stage: test
+# setup:
+#   stage: setup
 #   script:
-#     - npm run test:unit
+#     - npm install --save
 #   only:
 #     - dev
 
-build:
+# # test:
+# #   stage: test
+# #   script:
+# #     - npm run test:unit
+# #   only:
+# #     - dev
+
+# build:
+#   stage: build
+#   script:
+#     - npm run build
+#   artifacts:
+#     paths:
+#       - dist
+#   only:
+#     - dev
+
+# deploy:
+#   stage: deploy
+#   script:
+#     - npm i -g netlify-cli
+#     - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
+#   dependencies:
+#     - build
+#   only:
+#     - master
+
+
+
+stages:
+  - build
+  - deploy
+
+build prod:
+  image: node:10.15.0-stretch
   stage: build
+  only:
+    - tags
   script:
+    # Install vuecli
+    - npm install -g @vue/cli@latest
+    # Install dependencies
+    - npm install
+    # Build App
     - npm run build
   artifacts:
     paths:
-      - dist
-  only:
-    - dev
+      # Build folder
+      - dist/
+    expire_in: 1 hour
 
-deploy:
+deploy prod:
+  image: python:latest
   stage: deploy
+  only:
+    - tags
   script:
-    - npm i -g netlify-cli
-    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
-  dependencies:
-    - build
+    - pip install awscli
+    - aws s3 sync ./dist s3://frontend-v1
+
+build stage:
+  image: node:10.15.0-stretch
+  stage: build
   only:
     - master
+  script:
+    # Install vuecli
+    - npm install -g @vue/cli@latest
+    # Install dependencies
+    - npm install
+    # Build App
+    - npm run build
+  artifacts:
+    paths:
+      # Build folder
+      - dist/
+    expire_in: 1 hour
+
+deploy stage:
+  image: python:latest
+  stage: deploy
+  only:
+    - master
+  script:
+    - pip install awscli
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_access_key_id $AWS_SECRET_ACCESS_KEY
+    - aws s3 rm s3://frontend-v1 --recursive
+    - aws s3 sync ./dist s3://frontend-v1 --acl public-read
+
