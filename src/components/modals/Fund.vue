@@ -25,11 +25,13 @@
                             src="../../assets/img/quickteller.png"
                             alt="Pay with quickteller"
                         />
+                        <img @click="switchMethod('MONNIFY')" :class="{ active: activeMethod === 'MONNIFY' }" src="../../assets/img/monify.png" alt="Pay with monnify" />
                         <div @click="switchMethod('BANK')" :class="{ active: activeMethod === 'BANK' }">
                             Bank Transfer
                         </div>
                     </div>
                 </div>
+                <button @click="payWithMonnify()">Pay with Monnify</button>
             </div>
 
             <template v-if="activeMethod === 'BANK'">
@@ -295,10 +297,11 @@
                             >
                         </p>
                     </template>
-
-                    <p class="text-center">Paystack Fees</p>
-                    <p>Local Cards: <mark>1.5% + &#8358;100</mark></p>
-                    <p>Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
+                    <template v-if="activeMethod === 'PAYSTACK'">
+                        <p class="text-center">Paystack Fees</p>
+                        <p>Local Cards: <mark>1.5% + &#8358;100</mark></p>
+                        <p>Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
+                    </template>
                 </section>
             </template>
             <form hidden id="form1" method="post" action="https://qa.interswitchng.com/collections/w/pay">
@@ -402,10 +405,10 @@ export default {
                 this.$set(this.issues, "amount", "Invalid number input");
                 return false;
             }
-            if (+this.itemData.amount < 1000 && this.currency === "NGN") {
-                this.$set(this.issues, "amount", "Minimum funding amount is ₦1000");
-                return false;
-            }
+            // if (+this.itemData.amount < 1000 && this.currency === "NGN") {
+            //     this.$set(this.issues, "amount", "Minimum funding amount is ₦1000");
+            //     return false;
+            // }
             if (+this.itemData.amount < 10 && this.currency === "USD") {
                 this.$set(this.issues, "amount", "Minimum funding amount is $10");
                 return false;
@@ -423,6 +426,8 @@ export default {
                         return true;
                     } else if (this.fundPayload.source === "PAYSTACK") {
                         this.payWithPaystack();
+                    } else if (this.fundPayload.source === "MONNIFY") {
+                        this.payWithMonnify();
                     } else {
                         this.payWithISW();
                     }
@@ -468,8 +473,39 @@ export default {
             handler.openIframe();
             this.RESET_REQ();
         },
+        payWithMonnify() {
+            MonnifySDK.initialize({
+                amount: 5000,
+                currency: "NGN",
+                reference: "" + Math.floor(Math.random() * 1000000000 + 1),
+                customerFullName: "John Doe",
+                customerEmail: "monnify@monnify.com",
+                customerMobileNumber: "08121281921",
+                apiKey: "MK_TEST_SAF7HR5F3F",
+                contractCode: "4934121686",
+                paymentDescription: "Test Pay",
+                isTestMode: true,
+                // incomeSplitConfig: [
+                //     {
+                //         subAccountCode: "MFY_SUB_319452883228",
+                //         feePercentage: 50,
+                //         splitAmount: 1900,
+                //         feeBearer: true
+                //     },
+                // ],
+                onComplete: function(response) {
+                    //Implement what happens when transaction is completed.
+                    console.log(response);
+                },
+                onClose: function(data) {
+                    //Implement what should happen when the modal is closed here
+                    console.log(data);
+                }
+            });
+        },
         payWithISW() {
             this.createISWScript();
+            // this.submitForm();
         },
         createISWScript() {
             const iframe = document.querySelector("iframe");
@@ -479,16 +515,16 @@ export default {
             }
             const aTag = document.createElement("a");
             aTag.setAttribute("data-isw-payment-button", true);
-            aTag.setAttribute("data-isw-ref", "E45OuL4dNg");
+            aTag.setAttribute("data-isw-ref", "8lqZIapXMg");
 
             const script = document.createElement("script");
-            script.setAttribute("data-isw-trans-amount", this.itemData.amount * 100);
-            script.setAttribute("data-isw-customer-ref", 1573717681021);
-            script.setAttribute("data-isw-customer-callback", this.callback);
-            script.setAttribute("data-isw-currency", this.iswCurrency);
-            script.setAttribute("data-cust-name", `${this.getLoggedUser.firstname} ${this.getLoggedUser.lastname}`);
-            script.setAttribute("data-cust-email", this.getLoggedUser.email);
-            script.setAttribute("src", "https://paymentgateway.interswitchgroup.com/paymentgateway/public/js/webpay.js");
+            script.setAttribute("data-isw-trans-amount", 1000);
+            script.setAttribute("data-isw-customer-ref", "43375323re57354");
+            script.setAttribute("data-isw-customer-callback", e => {
+                console.log("Hello:: ", e);
+                debugger;
+            });
+            script.setAttribute("src", "https://qa.interswitchng.com/paymentgateway/public/js/webpay.js");
             aTag.appendChild(script);
             div.appendChild(aTag);
             this.loading = false;
@@ -496,6 +532,7 @@ export default {
         },
         callback(e) {
             console.log("Hello:: ", e);
+            debugger;
         },
         submitForm() {
             document.getElementById("form1").submit();
