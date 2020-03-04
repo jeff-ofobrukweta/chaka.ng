@@ -82,7 +82,7 @@ build stage:
   image: node:10.15.0-stretch
   stage: build
   only:
-    - master
+    - dev
   script:
     # Install vuecli
     - npm install -g @vue/cli@latest
@@ -100,7 +100,7 @@ deploy stage:
   image: python:latest
   stage: deploy
   only:
-    - master
+    - dev
   script:
     - pip install awscli
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
