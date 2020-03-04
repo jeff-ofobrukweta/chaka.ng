@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Line Chart Component snapshot renders props.date when passed 1`] = `
+<div class="small chart__box">
+  <div class="chart__aspect-ratio">
+    <line-chart-stub chartid="line-chart" width="400" height="400" cssclasses="" plugins="" chartdata="[object Object]" options="[object Object]" class="chart__graph" style="width: 100%; height: 350px; margin: 0px -2em;"></line-chart-stub>
+  </div>
+</div>
+`;
+
+exports[`Line Chart Component snapshot renders props.price when passed 1`] = `
+<div class="small chart__box">
+  <div class="chart__aspect-ratio">
+    <line-chart-stub chartid="line-chart" width="400" height="400" cssclasses="" plugins="" chartdata="[object Object]" options="[object Object]" class="chart__graph" style="width: 100%; height: 350px; margin: 0px -2em;"></line-chart-stub>
+  </div>
+</div>
+`;
+
+exports[`Line Chart Component snapshot renders props.priceArray when passed into parent Line component 1`] = `
+<div class="small chart__box">
+  <div class="chart__aspect-ratio">
+    <line-chart-stub chartid="line-chart" width="400" height="400" cssclasses="" plugins="" chartdata="[object Object]" options="[object Object]" class="chart__graph" style="width: 100%; height: 350px; margin: 0px -2em;"></line-chart-stub>
+  </div>
+</div>
+`;
