@@ -519,7 +519,7 @@ export default {
 
             const script = document.createElement("script");
             script.setAttribute("data-isw-trans-amount", 1000);
-            script.setAttribute("data-isw-customer-ref", "43375323re57354");
+            script.setAttribute("data-isw-customer-ref", "" + Math.floor(Math.random() * 1000000000 + 1));
             script.setAttribute("data-isw-customer-callback", e => {
                 console.log("Hello:: ", e);
                 debugger;
