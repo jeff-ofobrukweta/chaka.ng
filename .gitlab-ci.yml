@@ -76,7 +76,7 @@ deploy prod:
     - tags
   script:
     - pip install awscli
-    - aws s3 sync ./dist s3://frontend-v1
+    - aws s3 sync ./dist s3://gitcli.yml
 
 build stage:
   image: node:10.15.0-stretch
@@ -105,6 +105,6 @@ deploy stage:
     - pip install awscli
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_access_key_id $AWS_SECRET_ACCESS_KEY
-    - aws s3 rm s3://frontend-v1 --recursive
-    - aws s3 sync ./dist s3://frontend-v1 --acl public-read
+    - aws s3 rm s3://gitcli.yml --recursive
+    - aws s3 sync ./dist s3://gitcli.yml --acl public-read
 
