@@ -481,18 +481,18 @@ export default {
                 customerFullName: "John Doe",
                 customerEmail: "monnify@monnify.com",
                 customerMobileNumber: "08121281921",
-                apiKey: "MK_TEST_SAF7HR5F3F",
-                contractCode: "4934121686",
+                apiKey: process.env.VUE_APP_MONNIFY_KEY,
+                contractCode: "7456839164",
                 paymentDescription: "Test Pay",
                 isTestMode: true,
-                // incomeSplitConfig: [
-                //     {
-                //         subAccountCode: "MFY_SUB_319452883228",
-                //         feePercentage: 50,
-                //         splitAmount: 1900,
-                //         feeBearer: true
-                //     },
-                // ],
+                incomeSplitConfig: [
+                    {
+                        subAccountCode: "MFY_SUB_361796328391",
+                        feePercentage: 100,
+                        splitAmount: 5000,
+                        feeBearer: true
+                    }
+                ],
                 onComplete: function(response) {
                     //Implement what happens when transaction is completed.
                     console.log(response);
