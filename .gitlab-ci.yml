@@ -48,6 +48,7 @@
 
 
 stages:
+  - setup
   - build
   - deploy
 
@@ -83,11 +84,12 @@ build stage:
   stage: build
   only:
     - dev
-  script:
+  before_script:
     # Install vuecli
     - npm install -g @vue/cli@latest
     # Install dependencies
     - npm install
+  script:
     # Build App
     - npm run build
   artifacts:
@@ -101,8 +103,9 @@ deploy stage:
   stage: deploy
   only:
     - dev
+  before_script:
+    - pip install awscli -q
   script:
-    - pip install awscli
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_access_key_id $AWS_SECRET_ACCESS_KEY
     - aws s3 rm s3://gitcli.yml --recursive
