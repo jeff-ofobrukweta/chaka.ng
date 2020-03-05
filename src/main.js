@@ -43,10 +43,10 @@ Vue.use(VueAuthenticate, {
     // baseUrl: "https://localhost:8080", // Your API domain
     providers: {
         facebook: {
-            clientId:724818008039885, //your Facebook App ID e.g. 12345667890
-            url:base_url+"/auth/facebook",
+            clientId: 724818008039885, //your Facebook App ID e.g. 12345667890
+            url: base_url + "/auth/facebook",
             authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
-            redirectUri:base_url+"/auth/facebook/callback", // Your client app URL
+            redirectUri: base_url + "/auth/facebook/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             optionalUrlParams: ["display"],
@@ -57,9 +57,9 @@ Vue.use(VueAuthenticate, {
             popupOptions: { width: 452, height: 633 }
         },
         google: {
-            clientId:"854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
-            url:base_url+"/auth/google",
-            redirectUri:base_url+"/auth/google/callback", // Your client app URL
+            clientId: "854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.com", //your Facebook App ID e.g. 12345667890
+            url: base_url + "/auth/google",
+            redirectUri: base_url + "/auth/google/callback", // Your client app URL
             responseType: "token",
             requiredUrlParams: ["scope"],
             scope: ["profile", "email"],
