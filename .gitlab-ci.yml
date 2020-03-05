@@ -1,113 +1,91 @@
-# image: node:10.15.3
+image: node:8.12.0-alpine
 
-# cache:
-#   untracked: true
-#   paths:
-#     - node_modules/
+cache:
+  paths:
+    - node_modules/
 
-# stages:
-#   - setup
-#   - test
-#   - build
-#   - deploy
-
-# setup:
-#   stage: setup
-#   script:
-#     - npm install --save
-#   only:
-#     - dev
-
-# # test:
-# #   stage: test
-# #   script:
-# #     - npm run test:unit
-# #   only:
-# #     - dev
-
-# build:
-#   stage: build
-#   script:
-#     - npm run build
-#   artifacts:
-#     paths:
-#       - dist
-#   only:
-#     - dev
-
-# deploy:
-#   stage: deploy
-#   script:
-#     - npm i -g netlify-cli
-#     - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
-#   dependencies:
-#     - build
-#   only:
-#     - master
-
-
+variables:
+  AWS_DEFAULT_REGION: eu-west-2
+  BUCKET_NAME: gitcli.yml
 
 stages:
-  - setup
   - build
   - deploy
 
-build prod:
-  image: node:10.15.0-stretch
+build:
   stage: build
-  only:
-    - tags
+  variables:
+    VUE_APP_ROUTER_BASE: ${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} 
   script:
-    # Install vuecli
-    - npm install -g @vue/cli@latest
-    # Install dependencies
-    - npm install
-    # Build App
-    - npm run build
+   - npm install
+   - npm rebuild node-sass
+   - npm run build
   artifacts:
     paths:
-      # Build folder
       - dist/
     expire_in: 1 hour
+  only:
+    - dev
+  except:
+    - master    
 
-deploy prod:
+deploy_review:
   image: python:latest
   stage: deploy
-  only:
-    - tags
+  dependencies:
+    - build
   script:
     - pip install awscli
-    - aws s3 sync ./dist s3://gitcli.yml
-
-build stage:
-  image: node:10.15.0-stretch
-  stage: build
+    - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
+  environment:
+    name: review/${CI_COMMIT_REF_SLUG}
+    url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
+    on_stop: remove_s3
   only:
     - dev
-  before_script:
-    # Install vuecli
-    - npm install -g @vue/cli@latest
-    # Install dependencies
-    - npm install
-  script:
-    # Build App
-    - npm run build
-  artifacts:
-    paths:
-      # Build folder
-      - dist/
-    expire_in: 1 hour
+  except:
+    - master
 
-deploy stage:
+remove_s3:
   image: python:latest
   stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - pip install awscli
+    - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
+  environment:
+    name: review/${CI_COMMIT_REF_SLUG}
+    action: stop
+  when: manual
+
+build_prod:
+  stage: build
+  before_script:
+   - npm install
+  script:
+   - npm rebuild node-sass
+   - npm run build
+  artifacts:
+    paths:
+      - dist/
   only:
-    - dev
+   - dev     
+
+deploy_production:
+  image: python:latest
+  stage: deploy
+  dependencies:
+    - build_prod
   before_script:
     - pip install awscli -q
   script:
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-    - aws configure set aws_access_key_id $AWS_SECRET_ACCESS_KEY
-    - aws s3 rm s3://gitcli.yml --recursive
-    - aws s3 sync ./dist s3://gitcli.yml --acl public-read
-
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
+    - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
+  environment:
+    name: review/${CI_COMMIT_REF_SLUG}
+    url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
+  only:
+   - dev 
