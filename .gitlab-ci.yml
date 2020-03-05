@@ -83,7 +83,7 @@ deploy_production:
     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
     - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
-    - aws s3 cp s3://bucket-name/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=2592000
+    - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=2592000
     - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
   environment:
     name: review/${CI_COMMIT_REF_SLUG}
