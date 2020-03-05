@@ -5,11 +5,11 @@
             <template slot="subheader">
                 <div class="modal-sub__box">
                     <div class="modal-sub">
-                        <button class="btn" @click="switchCurrency('NGN')" :class="{ active: currency === 'NGN' }" :disabled="loading">
-                            ₦
-                        </button>
                         <button class="btn" @click="switchCurrency('USD')" :class="{ active: currency === 'USD' }" :disabled="loading">
                             $
+                        </button>
+                        <button class="btn" @click="switchCurrency('NGN')" :class="{ active: currency === 'NGN' }" :disabled="loading">
+                            ₦
                         </button>
                     </div>
                 </div>
@@ -18,7 +18,6 @@
                 <div class="modal-form__group">
                     <label class="form__label">Select Payment Mode <span class="form-error" v-if="issues.source">*required</span></label>
                     <div class="modal-fund__images">
-                        <img @click="switchMethod('PAYSTACK')" :class="{ active: activeMethod === 'PAYSTACK' }" src="../../assets/img/paystack.png" alt="Pay with paystack" />
                         <img
                             @click="switchMethod('INTERSWITCH')"
                             :class="{ active: activeMethod === 'INTERSWITCH' }"
@@ -26,12 +25,12 @@
                             alt="Pay with quickteller"
                         />
                         <img @click="switchMethod('MONNIFY')" :class="{ active: activeMethod === 'MONNIFY' }" src="../../assets/img/monify.png" alt="Pay with monnify" />
+                        <img @click="switchMethod('PAYSTACK')" :class="{ active: activeMethod === 'PAYSTACK' }" src="../../assets/img/paystack.png" alt="Pay with paystack" />
                         <div @click="switchMethod('BANK')" :class="{ active: activeMethod === 'BANK' }">
                             Bank Transfer
                         </div>
                     </div>
                 </div>
-                <button @click="payWithMonnify()">Pay with Monnify</button>
             </div>
 
             <template v-if="activeMethod === 'BANK'">
@@ -168,8 +167,11 @@
                         <action-button type="submit" :disabled="Object.keys(issues).length > 0" :pending="loading" :classes="['btn-block', 'btn__primary']">Fund</action-button>
                     </div>
                 </form>
-                <div id="ISWDiv" v-show="showISWButton">
-                    <p>Click the button below to confirm payment of {{ itemData.amount | currency(currency) }}</p>
+                <div v-show="showISWButton">
+                    <div id="ISWDiv">
+                        <p>Click the button below to confirm payment of {{ itemData.amount | currency(currency) }}</p>
+                    </div>
+                    <div class="text-center" v-if="loading"><img :src="require('../../assets/img/loader.gif')" alt="Loading" width="28px" /></div>
                 </div>
 
                 <section class="text-center" v-if="currency === 'USD'">
@@ -298,9 +300,11 @@
                         </p>
                     </template>
                     <template v-if="activeMethod === 'PAYSTACK'">
-                        <p class="text-center">Paystack Fees</p>
-                        <p>Local Cards: <mark>1.5% + &#8358;100</mark></p>
-                        <p>Int'l Cards: <mark>3.9% + &#8358;100</mark></p>
+                        <div class="mark">
+                            <p class="text-center">Paystack Fees</p>
+                            <p>Local Cards: 1.5% + &#8358;100</p>
+                            <p>Int'l Cards: 3.9% + &#8358;100</p>
+                        </div>
                     </template>
                 </section>
             </template>
@@ -405,10 +409,10 @@ export default {
                 this.$set(this.issues, "amount", "Invalid number input");
                 return false;
             }
-            // if (+this.itemData.amount < 1000 && this.currency === "NGN") {
-            //     this.$set(this.issues, "amount", "Minimum funding amount is ₦1000");
-            //     return false;
-            // }
+            if (+this.itemData.amount < 1000 && this.currency === "NGN") {
+                this.$set(this.issues, "amount", "Minimum funding amount is ₦1000");
+                return false;
+            }
             if (+this.itemData.amount < 10 && this.currency === "USD") {
                 this.$set(this.issues, "amount", "Minimum funding amount is $10");
                 return false;
@@ -429,7 +433,7 @@ export default {
                     } else if (this.fundPayload.source === "MONNIFY") {
                         this.payWithMonnify();
                     } else {
-                        this.payWithISW();
+                        this.createISWScript();
                     }
                 } else {
                     this.loading = false;
@@ -475,64 +479,95 @@ export default {
         },
         payWithMonnify() {
             MonnifySDK.initialize({
-                amount: 5000,
+                amount: this.actualValue,
                 currency: "NGN",
-                reference: "" + Math.floor(Math.random() * 1000000000 + 1),
-                customerFullName: "John Doe",
-                customerEmail: "monnify@monnify.com",
-                customerMobileNumber: "08121281921",
+                reference: this.getWalletTx.reference,
+                customerFullName: this.userName,
+                customerEmail: this.getLoggedUser.email,
+                customerMobileNumber: this.getLoggedUser.phone,
                 apiKey: process.env.VUE_APP_MONNIFY_KEY,
-                contractCode: "7456839164",
+                contractCode: process.env.VUE_APP_MONNIFY_CONTRACT_CODE,
                 paymentDescription: "Test Pay",
                 isTestMode: true,
                 incomeSplitConfig: [
                     {
                         subAccountCode: "MFY_SUB_361796328391",
-                        feePercentage: 100,
-                        splitAmount: 5000,
+                        feePercentage: 10,
+                        splitAmount: this.actualValue,
                         feeBearer: true
                     }
                 ],
-                onComplete: function(response) {
-                    //Implement what happens when transaction is completed.
-                    console.log(response);
+                onComplete: response => {
+                    if (response.status === "SUCCESS") {
+                        this.flag = "SUCCESS";
+                        this.FUND_WALLET(this.fundPayload).then(resp => {
+                            this.loading = false;
+                            if (resp) {
+                                this.$emit("close", true);
+                                return true;
+                            }
+                            return false;
+                        });
+                    } else {
+                        this.flag = "FAIL";
+                        this.FUND_WALLET(this.fundPayload).then(resp => {
+                            this.loading = false;
+                            return false;
+                        });
+                    }
                 },
-                onClose: function(data) {
-                    //Implement what should happen when the modal is closed here
-                    console.log(data);
+                onClose: data => {
+                    this.loading = false;
+                    if (this.flag !== "SUCCESS") {
+                        this.flag = "CANCEL";
+                        this.FUND_WALLET(this.fundPayload);
+                    }
                 }
             });
         },
         payWithISW() {
-            this.createISWScript();
-            // this.submitForm();
+            const data = localStorage.isISWBack;
+            if (data !== "undefined") {
+                localStorage.setItem("isISWBack", "undefined");
+                const response = JSON.parse(data);
+                this.showISWButton = false;
+                if (response.resp === "00") {
+                    this.flag = "SUCCESS";
+                    this.FUND_WALLET(this.fundPayload).then(resp => {
+                        this.loading = false;
+                        if (resp) {
+                            this.$emit("close", true);
+                            return true;
+                        }
+                        return false;
+                    });
+                } else {
+                    this.flag = "FAIL";
+                    this.FUND_WALLET(this.fundPayload).then(resp => {
+                        this.loading = false;
+                        return false;
+                    });
+                }
+            }
         },
         createISWScript() {
-            const iframe = document.querySelector("iframe");
             const div = document.querySelector("#ISWDiv");
-            if (div.contains(iframe)) {
-                div.removeChild(iframe);
-            }
             const aTag = document.createElement("a");
             aTag.setAttribute("data-isw-payment-button", true);
-            aTag.setAttribute("data-isw-ref", "8lqZIapXMg");
+            aTag.setAttribute("data-isw-ref", process.env.VUE_APP_ISW_REF);
 
             const script = document.createElement("script");
-            script.setAttribute("data-isw-trans-amount", 1000);
-            script.setAttribute("data-isw-customer-ref", "" + Math.floor(Math.random() * 1000000000 + 1));
-            script.setAttribute("data-isw-customer-callback", e => {
-                console.log("Hello:: ", e);
-                debugger;
-            });
-            script.setAttribute("src", "https://qa.interswitchng.com/paymentgateway/public/js/webpay.js");
+            script.setAttribute("data-isw-trans-amount", this.actualValue * 100);
+            script.setAttribute("type", "text/javascript");
+            script.setAttribute("data-isw-customer-ref", this.getWalletTx.reference);
+            script.setAttribute("data-isw-customer-callback", "ISWCallback");
+            script.setAttribute("src", "http://qa.interswitchng.com/paymentgateway/public/js/webpay.js");
+
             aTag.appendChild(script);
             div.appendChild(aTag);
+
             this.loading = false;
             this.showISWButton = true;
-        },
-        callback(e) {
-            console.log("Hello:: ", e);
-            debugger;
         },
         submitForm() {
             document.getElementById("form1").submit();
@@ -558,7 +593,7 @@ export default {
     },
     async mounted() {
         if (this.$refs.input) this.$refs.input.focus();
-        this.activeMethod = "PAYSTACK";
+        this.activeMethod = "INTERSWITCH";
         this.currentRoute = `${location.origin}${this.$route.fullPath}`;
         // this.currentRoute = `https://chaka.io/`;
         /**
@@ -567,6 +602,23 @@ export default {
         // await this.GET_USER_CARDS();
         // this.GET_LOGGED_USER();
         this.GET_EXCHANGE_RATE();
+        localStorage.setItem("isISWBack", "undefined");
+        window.addEventListener("storage", () => {
+            if (localStorage.isISWBack && localStorage.isISWBack !== "undefined") {
+                this.loading = true;
+                this.payWithISW();
+                return true;
+            }
+        });
+    },
+    beforeDestroy() {
+        localStorage.removeItem("isISWBack");
+        window.removeEventListener("storage", () => {});
+        const iframe = document.querySelector("iframe");
+        const div = document.querySelector("#ISWDiv");
+        if (div.contains(iframe)) {
+            div.removeChild(iframe);
+        }
     }
 };
 </script>

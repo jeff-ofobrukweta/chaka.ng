@@ -252,4 +252,9 @@
         gtag('js', new Date());
         gtag('config', 'UA-142888319-2');
     </script>
+    <script>
+        function ISWCallback(response) {
+            localStorage.setItem('isISWBack', JSON.stringify(response));
+        }
+    </script>
 </html>
