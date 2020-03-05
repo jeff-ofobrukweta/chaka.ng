@@ -561,7 +561,7 @@ export default {
             script.setAttribute("type", "text/javascript");
             script.setAttribute("data-isw-customer-ref", this.getWalletTx.reference);
             script.setAttribute("data-isw-customer-callback", "ISWCallback");
-            script.setAttribute("src", "http://qa.interswitchng.com/paymentgateway/public/js/webpay.js");
+            script.setAttribute("src", process.env.VUE_APP_ISW_URL);
 
             aTag.appendChild(script);
             div.appendChild(aTag);
