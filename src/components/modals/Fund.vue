@@ -363,7 +363,7 @@ export default {
             return this.itemData.amount * this.getExchangeRate.sell;
         },
         userName() {
-            return `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}`;
+            return this.getLoggedUser.UserKYC.firstname ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}` : "User";
         },
         fundPayload() {
             const payload = {
@@ -492,9 +492,9 @@ export default {
                 incomeSplitConfig: [
                     {
                         subAccountCode: "MFY_SUB_361796328391",
-                        feePercentage: 10,
-                        splitAmount: this.actualValue,
-                        feeBearer: true
+                        feePercentage: 0,
+                        splitPercentage: 100,
+                        feeBearer: false
                     }
                 ],
                 onComplete: response => {
@@ -616,8 +616,10 @@ export default {
         window.removeEventListener("storage", () => {});
         const iframe = document.querySelector("iframe");
         const div = document.querySelector("#ISWDiv");
-        if (div.contains(iframe)) {
-            div.removeChild(iframe);
+        if (div) {
+            if (div.contains(iframe)) {
+                div.removeChild(iframe);
+            }
         }
     }
 };
