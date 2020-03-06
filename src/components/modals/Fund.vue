@@ -363,7 +363,7 @@ export default {
             return this.itemData.amount * this.getExchangeRate.sell;
         },
         userName() {
-            return this.getLoggedUser.UserKYC.firstname ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}` : "User";
+            return this.getLoggedUser.UserKYC.firstname ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}` : this.getLoggedUser.email;
         },
         fundPayload() {
             const payload = {
