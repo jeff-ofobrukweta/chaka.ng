@@ -34,7 +34,7 @@ build:
     - master    
 
 deploy_review:
-  image: registry.gitlab.com/gitlab-org/cloud-deploy:latest # see the note below
+  image: python:latest
   stage: deploy
   dependencies:
     - build
