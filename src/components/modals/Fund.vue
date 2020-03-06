@@ -487,16 +487,16 @@ export default {
                 customerMobileNumber: this.getLoggedUser.phone,
                 apiKey: process.env.VUE_APP_MONNIFY_KEY,
                 contractCode: process.env.VUE_APP_MONNIFY_CONTRACT_CODE,
-                paymentDescription: "Test Pay",
-                isTestMode: true,
-                incomeSplitConfig: [
-                    {
-                        subAccountCode: "MFY_SUB_361796328391",
-                        feePercentage: 0,
-                        splitPercentage: 100,
-                        feeBearer: false
-                    }
-                ],
+                paymentDescription: "Test Payment",
+                isTestMode: process.env.VUE_APP_MONNIFY_TEST_MODE,
+                // incomeSplitConfig: [
+                //     {
+                //         subAccountCode: "MFY_SUB_361796328391",
+                //         feePercentage: 0,
+                //         splitPercentage: 100,
+                //         feeBearer: false
+                //     }
+                // ],
                 onComplete: response => {
                     if (response.status === "SUCCESS") {
                         this.flag = "SUCCESS";
