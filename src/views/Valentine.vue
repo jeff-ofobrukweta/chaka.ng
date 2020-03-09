@@ -300,7 +300,7 @@ export default {
         }
     },
     mounted() {
-        mixpanel.track("LOVE_PAGE");
+        // mixpanel.track("LOVE_PAGE");
         document.title = "Chaka - Relationship Net worth Calculator";
         document.getElementsByTagName("meta").keywords.content =
             "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
