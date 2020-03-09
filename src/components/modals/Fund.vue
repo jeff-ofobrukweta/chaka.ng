@@ -89,7 +89,7 @@
                     <br />
 
                     <p>
-                        To fund your account through a domiciliary account transfer (without PAYSTACK fees), make a transfer to:
+                        To fund your account through a domiciliary account transfer (without fees), make a transfer to:
                     </p>
                     <p><span class="grey-dark">Account Holder:&nbsp;</span>CITI INV CAP LTD/114 DOLLAR AC</p>
                     <p><span class="grey-dark">Bank Name:&nbsp;</span>Guaranty Trust Bank</p>
@@ -337,15 +337,15 @@
                     <template v-if="activeMethod === 'PAYSTACK'">
                         <div class="mark">
                             <p class="text-center">Paystack Fees</p>
-                            <p>Local Cards: 1.5% + &#8358;100</p>
+                            <p>Local Cards: 1.5% + &#8358;100 (Capped at &#8358;2000)</p>
                             <p>Int'l Cards: 3.9% + &#8358;100</p>
                         </div>
                     </template>
                     <template v-else-if="activeMethod === 'MONNIFY'">
                         <div class="mark">
                             <p class="text-center">Monnify Fees</p>
-                            <p>Cards: 1.3%</p>
-                            <p>Bank Transfer: 0.75%</p>
+                            <p>Cards: 1.3% (Capped at &#8358;2000)</p>
+                            <p>Bank Transfer: 0.75% (Capped at &#8358;200)</p>
                         </div>
                     </template>
                 </section>
