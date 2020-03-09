@@ -60,7 +60,7 @@ export default {
         // document.getElementsByTagName('meta')['og:title'].content = 'Chaka - About Us';
         // document.getElementsByTagName('meta')['og:description'].content =
         // 	'We started Chaka to remove global investment barriers for Nigerians and make it easy to access opportunities at home and abroad';
-        mixpanel.track("ABOUT_PAGE") //tracks the aboutpage
+        // mixpanel.track("ABOUT_PAGE") //tracks the aboutpage
     }
 };
 </script>

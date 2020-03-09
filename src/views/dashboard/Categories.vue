@@ -296,6 +296,46 @@ export default {
     ]),
     handleremovePin(index) {
       this.tagArrayList.splice(index, 1);
+      if(this.tagArrayList.length >= 1){
+          this.loading = true;
+          this.infiniteLoader = true;
+          this.page = 0; //this is to set the page back to the default when tags are clicked.
+          let collectionSlug = []
+          this.tagArrayList.map((index)=>collectionSlug.push(index.slug))
+          let slugList = String(collectionSlug.join(','));
+          const payload = { slug: slugList, page: 0, perPage: 20 };
+
+          if (payload.slug === "") {
+            this.loading = false;
+            this.SET_INSTRUMENT_BY_TAGS([]);
+            return true;
+          }
+
+          this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
+            this.loading = false;
+            this.infiniteLoader = false;
+            this.loading = false;
+          });
+      }
+      else{
+        this.loading = true;
+          this.infiniteLoader = true;
+          this.page = 0; //this is to set the page back to the default when tags are clicked.
+          this.tagArrayList.push(this.gettagslistsArray[0]);
+          const payload = { slug: this.gettagslistsArray[0].slug, page: 0, perPage: 20 };
+
+          if (payload.slug === "") {
+            this.loading = false;
+            this.SET_INSTRUMENT_BY_TAGS([]);
+            return true;
+          }
+
+          this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
+            this.loading = false;
+            this.infiniteLoader = false;
+            this.loading = false;
+          });
+      }
     },
     handleActiveHighlight(item) {
       let Isactive = this.tagArrayList.filter(active => active.slug === item.slug);
