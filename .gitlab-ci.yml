@@ -33,7 +33,6 @@ build:
   except:
     - master   
     
-    
 # production section for the production pipeline
 deploy_production_review:
   image: python:latest
