@@ -29,7 +29,7 @@ build:
       - dist/
     expire_in: 1 hour
   only:
-    - production
+    - dev
   except:
     - master    
 
@@ -46,7 +46,7 @@ deploy_review:
     url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
     on_stop: remove_s3
   only:
-    - production
+    - dev
   except:
     - master
 
@@ -74,7 +74,7 @@ build_prod:
     paths:
       - dist/
   only:
-   - production     
+   - dev     
 
 deploy_production:
   image: python:latest
@@ -93,4 +93,4 @@ deploy_production:
     name: review/${CI_COMMIT_REF_SLUG}
     url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
   only:
-   - production 
+   - dev 
