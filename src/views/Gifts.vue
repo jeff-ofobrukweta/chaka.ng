@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "Faq",
+    name: "Gifts",
     components: {
         Gifts: () => import("../components/Gifts")
     },
