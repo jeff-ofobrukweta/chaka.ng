@@ -31,9 +31,11 @@ build:
   only:
     - dev
   except:
-    - master    
-
-deploy_review:
+    - master   
+    
+    
+# production section for the production pipeline
+deploy_production_review:
   image: python:latest
   stage: deploy
   dependencies:
@@ -42,7 +44,71 @@ deploy_review:
     - pip install awscli
     - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
   environment:
-    name: review/${CI_COMMIT_REF_SLUG}
+    name: production/review/${CI_COMMIT_REF_SLUG}
+    url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
+    on_stop: remove_s3
+  only:
+    - production
+  except:
+    - master
+
+remove_s3:
+  image: python:latest
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - pip install awscli
+    - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
+  environment:
+    name: production/review/${CI_COMMIT_REF_SLUG}
+    action: stop
+  when: manual
+
+build_staging:
+  stage: build
+  before_script:
+   - npm install
+  script:
+   - npm rebuild node-sass
+   - npm run build
+  artifacts:
+    paths:
+      - dist/
+  only:
+   - production     
+
+deploy_staging:
+  image: python:latest
+  stage: deploy
+  dependencies:
+    - build_stag
+  before_script:
+    - pip install awscli -q
+  script:
+    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+    - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
+    - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
+    - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
+  environment:
+    name: production/review/${CI_COMMIT_REF_SLUG}
+    url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
+  only:
+   - dev 
+# ends production pipeline here
+
+# this is the section for staging review starts here
+deploy_staging_review:
+  image: python:latest
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - pip install awscli
+    - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
+  environment:
+    name: staging/review/${CI_COMMIT_REF_SLUG}
     url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
     on_stop: remove_s3
   only:
@@ -59,11 +125,11 @@ remove_s3:
     - pip install awscli
     - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
   environment:
-    name: review/${CI_COMMIT_REF_SLUG}
+    name: staging/review/${CI_COMMIT_REF_SLUG}
     action: stop
   when: manual
 
-build_prod:
+build_staging:
   stage: build
   before_script:
    - npm install
@@ -76,7 +142,7 @@ build_prod:
   only:
    - dev     
 
-deploy_production:
+deploy_staging:
   image: python:latest
   stage: deploy
   dependencies:
@@ -90,7 +156,8 @@ deploy_production:
     - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
     - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
   environment:
-    name: review/${CI_COMMIT_REF_SLUG}
+    name: staging/review/${CI_COMMIT_REF_SLUG}
     url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
   only:
    - dev 
+# stops the review pieline
