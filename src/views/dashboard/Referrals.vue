@@ -3,7 +3,7 @@
         <section class="referrals-banner referrals-banner__align">
             <div class="referrals-left">
                 <p class="referrals__text">Rewards Earned</p>
-                <h2>{{ getLoggedUser.totalRewards || 0 | currency("NGN", true) }}</h2>
+                <h2>{{ getLoggedUser.UserReferral ? getLoggedUser.UserReferral.totalRewards : 0 | currency("NGN", true) }}</h2>
             </div>
             <div class="referrals-right" v-if="getWindowWidth !== 'mobile'">
                 <div class="referrals__socials">
@@ -72,15 +72,15 @@
                             <p class="referrals__text">Amount per user</p>
                         </div> -->
                         <div>
-                            <h2>{{ getLoggedUser.totalSignups || 0 }}</h2>
+                            <h2>{{ getLoggedUser.UserReferral ? getLoggedUser.UserReferral.totalSignups : 0 }}</h2>
                             <p class="referrals__text">Total Sign ups</p>
                         </div>
                         <div>
-                            <h2>{{ getLoggedUser.totalLocalTraded || 0 }}</h2>
+                            <h2>{{ getLoggedUser.UserReferral ? getLoggedUser.UserReferral.totalLocalTraded : 0 }}</h2>
                             <p class="referrals__text">User Local Trades</p>
                         </div>
                         <div>
-                            <h2>{{ getLoggedUser.totalGlobalTraded || 0 }}</h2>
+                            <h2>{{ getLoggedUser.UserReferral ? getLoggedUser.UserReferral.totalGlobalTraded : 0 }}</h2>
                             <p class="referrals__text">User Global Trades</p>
                         </div>
                     </div>
@@ -289,7 +289,9 @@
                             />
                         </svg>
                         <p>
-                            <a @click="copyLink" class="referrals__link--text">chaka.ng/register?code={{ getLoggedUser.referralCode }}</a>
+                            <a @click="copyLink" class="referrals__link--text"
+                                >chaka.ng/register?code={{ getLoggedUser.UserReferral ? getLoggedUser.UserReferral.referralCode : "" }}</a
+                            >
                         </p>
                     </div>
                 </div>
@@ -355,10 +357,10 @@
             <p class="referrals__text">Refer and Earn</p>
             <div class="referrals-refer__text">
                 <p class="referrals-refer__p">
-                    Earn 100 naira on the referred user's first local trade
+                    Earn &#8358;100 on the referred user's first local trade
                 </p>
                 <p class="referrals-refer__or">or</p>
-                <p class="referrals-refer__p">Earn 1$ on the referred user's first global trade</p>
+                <p class="referrals-refer__p">Earn $1 on the referred user's first global trade</p>
             </div>
             <p class="referrals-refer__bold">Note: You get rewarded on referred user's first trade only</p>
         </section>
@@ -367,7 +369,9 @@
             type="hidden"
             id="refer-link"
             :value="
-                `I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`
+                `I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${
+                    getLoggedUser.UserReferral ? getLoggedUser.UserReferral.referralCode : ''
+                }`
             "
         />
     </section>
@@ -380,16 +384,24 @@ export default {
     computed: {
         ...mapGetters(["getWindowWidth", "getLoggedUser"]),
         facebookLink() {
-            return `https://web.facebook.com/sharer.php?display=page&u=https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`;
+            return `https://web.facebook.com/sharer.php?display=page&u=https://chaka.ng/register?code=${
+                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ""
+            }`;
         },
         twitterLink() {
-            return `https://twitter.com/intent/tweet?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`;
+            return `https://twitter.com/intent/tweet?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${
+                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ""
+            }`;
         },
         whatsappLink() {
-            return `https://api.whatsapp.com/send?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`;
+            return `https://api.whatsapp.com/send?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${
+                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ""
+            }`;
         },
         emailLink() {
-            return `mailto:?subject=Refer%20and%20Earn&body=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${this.getLoggedUser.referralCode}`;
+            return `mailto:?subject=Refer%20and%20Earn&body=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${
+                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ""
+            }`;
         }
     },
     methods: {

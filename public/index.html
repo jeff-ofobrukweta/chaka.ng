@@ -4,6 +4,7 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="icon" href="<%= BASE_URL %>favicon.ico" sizes="16x16" />
         <link
             rel="icon shortcut"
@@ -56,6 +57,12 @@
         <div id="app"></div>
         <!-- built files will be auto injected -->
     </body>
+    <script
+        type="text/javascript"
+        src="https://sandbox.sdk.monnify.com/plugin/monnify.js"
+        defer
+        async
+    ></script>
     <!-- start Mixpanel -->
     <script type="text/javascript" defer async>
         (function(c, a) {
@@ -234,9 +241,9 @@
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script
-        defer
         async
-        src="https://www.googletagmanager.com/gtag/js?id=UA-142888319-2"
+        defer
+        src="https://www.googletagmanager.com/gtag/js?id=AW-720651475"
     ></script>
     <script defer async>
         window.dataLayer = window.dataLayer || [];
@@ -244,6 +251,11 @@
             dataLayer.push(arguments);
         }
         gtag('js', new Date());
-        gtag('config', 'UA-142888319-2');
+        gtag('config', 'AW-720651475');
+    </script>
+    <script>
+        function ISWCallback(response) {
+            localStorage.setItem('isISWBack', JSON.stringify(response));
+        }
     </script>
 </html>

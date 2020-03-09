@@ -778,6 +778,7 @@ import auth from "../services/validations/auth";
 import fractional from "../assets/img/fractional/fractional.png";
 import minimums from "../assets/img/fractional/low-minimums.png";
 import grow from "../assets/img/fractional/grow.png";
+import AOS from "aos";
 
 export default {
     name: "Home",
@@ -848,7 +849,7 @@ export default {
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
 
-        mixpanel.track("HOMEPAGE_VISIT"); //tracking Homepage
+        // mixpanel.track("HOMEPAGE_VISIT"); //tracking Homepage
     },
     created() {
         AOS.init({

@@ -329,6 +329,7 @@
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
 import auth from "../services/validations/auth";
+import AOS from "aos";
 import homeAbroad from "../assets/img/fractional/home-abroad.png";
 import fractional from "../assets/img/fractional/fractional.png";
 import minimums from "../assets/img/fractional/low-minimums.png";
@@ -409,7 +410,7 @@ export default {
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
 
-        mixpanel.track("GETAPP_PAGE"); //tracks the getapppage
+        // mixpanel.track("GETAPP_PAGE"); //tracks the getapppage
         this.interval = setInterval(this.startCarousel, 5000);
         this.fractional = fractional;
         this.minimums = minimums;
