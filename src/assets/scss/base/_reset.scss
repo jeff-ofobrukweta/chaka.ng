@@ -138,7 +138,8 @@ select {
   height: 2.5rem;
 }
 
-mark {
+mark,
+.mark {
   padding: 0.125rem;
   background: rgba($color: $primary, $alpha: 0.3);
   border-radius: 3px;
@@ -148,4 +149,9 @@ mark {
   &.warning {
     background-color: rgba($color: $orange, $alpha: 0.45);
   }
+}
+
+.mark {
+  display: inline-block;
+  padding: 0.325rem 1rem
 }
