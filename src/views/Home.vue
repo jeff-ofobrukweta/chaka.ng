@@ -849,7 +849,7 @@ export default {
         document.getElementsByTagName("meta").description.content =
             "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
 
-        mixpanel.track("HOMEPAGE_VISIT"); //tracking Homepage
+        // mixpanel.track("HOMEPAGE_VISIT"); //tracking Homepage
     },
     created() {
         AOS.init({
