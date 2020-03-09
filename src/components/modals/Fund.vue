@@ -20,14 +20,49 @@
                     <div class="modal-fund__images">
                         <img
                             @click="switchMethod('INTERSWITCH')"
-                            :class="{ active: activeMethod === 'INTERSWITCH' }"
+                            :class="{ active: activeMethod === 'INTERSWITCH', 'no-hover': loading }"
                             src="../../assets/img/quickteller.png"
                             alt="Pay with quickteller"
                         />
-                        <img @click="switchMethod('MONNIFY')" :class="{ active: activeMethod === 'MONNIFY' }" src="../../assets/img/monify.png" alt="Pay with monnify" />
-                        <img @click="switchMethod('PAYSTACK')" :class="{ active: activeMethod === 'PAYSTACK' }" src="../../assets/img/paystack.png" alt="Pay with paystack" />
-                        <div @click="switchMethod('BANK')" :class="{ active: activeMethod === 'BANK' }">
-                            Bank Transfer
+                        <img
+                            @click="switchMethod('MONNIFY')"
+                            :class="{ active: activeMethod === 'MONNIFY', 'no-hover': loading }"
+                            src="../../assets/img/monify.png"
+                            alt="Pay with monnify"
+                        />
+                        <img
+                            @click="switchMethod('PAYSTACK')"
+                            :class="{ active: activeMethod === 'PAYSTACK', 'no-hover': loading }"
+                            src="../../assets/img/paystack.png"
+                            alt="Pay with paystack"
+                        />
+                        <div @click="switchMethod('BANK')" :class="{ active: activeMethod === 'BANK', 'no-hover': loading }">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0)">
+                                    <path d="M10.8398 7.33752H12.4803V11.2656H10.8398V7.33752Z" fill="#8A939A" />
+                                    <path d="M7.73303 7.33752H9.37366V11.2656H7.73303V7.33752Z" fill="#8A939A" />
+                                    <path d="M4.62631 7.33752H6.26694V11.2656H4.62631V7.33752Z" fill="#8A939A" />
+                                    <path d="M1.51971 7.33752H3.16023V11.2656H1.51971V7.33752Z" fill="#8A939A" />
+                                    <path
+                                        d="M13.0273 6.10706V5.6969H0.972839V6.10706C0.972839 6.3336 1.15645 6.51721 1.383 6.51721H12.6171C12.8436 6.51721 13.0273 6.3336 13.0273 6.10706Z"
+                                        fill="#8A939A"
+                                    />
+                                    <path
+                                        d="M13.5896 12.0859H0.410583C0.184036 12.0859 0.000427246 12.2695 0.000427246 12.4961V13.5898C0.000427246 13.8164 0.184036 14 0.410583 14H13.5896C13.8162 14 13.9998 13.8164 13.9998 13.5898V12.4961C13.9998 12.2695 13.8162 12.0859 13.5896 12.0859Z"
+                                        fill="#8A939A"
+                                    />
+                                    <path
+                                        d="M0.410149 4.87659H13.5898C13.7733 4.87659 13.9345 4.75471 13.9845 4.57816C14.0344 4.4016 13.9611 4.21329 13.8048 4.11716L7.21499 0.0608826C7.08319 -0.0202942 6.91688 -0.0202942 6.78497 0.0608826L0.195138 4.11716C0.0388732 4.21339 -0.0343993 4.4016 0.0155883 4.57816C0.0655761 4.75471 0.226754 4.87659 0.410149 4.87659V4.87659ZM6.7212 2.41245H7.27887C7.50541 2.41245 7.68902 2.59605 7.68902 2.8226C7.68902 3.04915 7.50541 3.23276 7.27887 3.23276H6.7212C6.49466 3.23276 6.31105 3.04915 6.31105 2.8226C6.31105 2.59605 6.49466 2.41245 6.7212 2.41245V2.41245Z"
+                                        fill="#8A939A"
+                                    />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0">
+                                        <rect width="14" height="14" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            Bank
                         </div>
                     </div>
                 </div>
@@ -35,7 +70,7 @@
 
             <template v-if="activeMethod === 'BANK'">
                 <div class="modal-form" v-if="currency === 'NGN'">
-                    <p class="text-center"><mark class="warning">For naira payments only</mark></p>
+                    <p class="text-center"><mark class="warning">For Naira Payments Only</mark></p>
                     <br />
                     <p>To fund your account manually (without charges), make a transfer to:</p>
                     <p><span class="grey-dark">Account Holder:&nbsp;</span>Citi Investment Capital</p>
@@ -50,7 +85,7 @@
                     </p>
                 </div>
                 <div class="modal-form" v-else>
-                    <p class="text-center"><mark class="warning">For dollar payments only</mark></p>
+                    <p class="text-center"><mark class="warning">For Dollar Payments Only</mark></p>
                     <br />
 
                     <p>
@@ -167,11 +202,11 @@
                         <action-button type="submit" :disabled="Object.keys(issues).length > 0" :pending="loading" :classes="['btn-block', 'btn__primary']">Fund</action-button>
                     </div>
                 </form>
-                <div v-show="showISWButton">
-                    <div id="ISWDiv">
+                <div v-show="showISWButton" class="ISWDiv-box">
+                    <div class="ISWDiv" id="ISWDiv">
                         <p>Click the button below to confirm payment of {{ itemData.amount | currency(currency) }}</p>
                     </div>
-                    <div class="text-center" v-if="loading"><img :src="require('../../assets/img/loader.gif')" alt="Loading" width="28px" /></div>
+                    <div class="ISWDiv-loading"><img :src="require('../../assets/img/loader.gif')" alt="Loading" width="28px" /></div>
                 </div>
 
                 <section class="text-center" v-if="currency === 'USD'">
@@ -304,6 +339,13 @@
                             <p class="text-center">Paystack Fees</p>
                             <p>Local Cards: 1.5% + &#8358;100</p>
                             <p>Int'l Cards: 3.9% + &#8358;100</p>
+                        </div>
+                    </template>
+                    <template v-else-if="activeMethod === 'MONNIFY'">
+                        <div class="mark">
+                            <p class="text-center">Monnify Fees</p>
+                            <p>Cards: 1.3%</p>
+                            <p>Bank Transfer: 0.75%</p>
                         </div>
                     </template>
                 </section>
@@ -500,7 +542,9 @@ export default {
                 onComplete: response => {
                     if (response.status === "SUCCESS") {
                         this.flag = "SUCCESS";
-                        this.FUND_WALLET(this.fundPayload).then(resp => {
+                        const payload = { ...this.fundPayload };
+                        payload.transactionreference = response.transactionReference;
+                        this.FUND_WALLET(payload).then(resp => {
                             this.loading = false;
                             if (resp) {
                                 this.$emit("close", true);
@@ -578,11 +622,10 @@ export default {
             this.handleReset();
         },
         switchMethod(method) {
+            this.RESET_REQ();
             this.showISWButton = false;
             this.issues = {};
-            if (method === this.activeMethod) {
-                this.activeMethod = null;
-            } else this.activeMethod = method;
+            if (!this.loading) this.activeMethod = method;
         },
         blurFunction() {
             this.accountHover = false;
@@ -594,8 +637,6 @@ export default {
     async mounted() {
         if (this.$refs.input) this.$refs.input.focus();
         this.activeMethod = "INTERSWITCH";
-        this.currentRoute = `${location.origin}${this.$route.fullPath}`;
-        // this.currentRoute = `https://chaka.io/`;
         /**
          * TO-DO:: Put back when saved cards is ready
          */
@@ -661,11 +702,27 @@ export default {
     }
 }
 
-#ISWDiv {
+.ISWDiv {
     color: $grey-cool;
     text-align: center;
+    position: relative;
+    z-index: 1;
     p {
         margin-bottom: 1rem;
     }
+    &-loading {
+        position: absolute;
+        text-align: center;
+        bottom: 6px;
+        left: 0;
+        right: 0;
+    }
+    &-box {
+        position: relative;
+        min-height: 90px;
+    }
+}
+.no-hover {
+    cursor: no-drop;
 }
 </style>
