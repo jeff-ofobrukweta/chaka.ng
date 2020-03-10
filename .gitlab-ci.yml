@@ -6,7 +6,7 @@ cache:
 
 variables:
     AWS_DEFAULT_REGION: eu-west-2
-    # FACEBOOK_CLIENT_ID: 724818008039885
+    FACEBOOK_CLIENT_ID: 724818008039885
     BUCKET_NAME: frontendchaka
     GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
     VUE_APP_API_URL: https://chaka.io
@@ -62,7 +62,7 @@ remove_s3:
         action: stop
     when: manual
 
-build_stag:
+build_prod:
     stage: build
     before_script:
         - npm install
@@ -75,7 +75,7 @@ build_stag:
     only:
         - production
 
-deploy_staging:
+deploy_production:
     image: python:latest
     stage: deploy
     dependencies:
