@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components on Login Page matches snapshot 1`] = `
+<main role="main" class="main">
+  <div class="auth-box">
+    <form novalidate="novalidate" class="auth-form">
+      <h3 class="auth-form__title">Login to Chaka</h3>
+      <p class="auth-form__subtitle">Enter your login details to proceed.</p>
+      <div class="auth-form__group"><label class="form__label">Email <form-input-stub type="email" name="email" placeholder="Email Address"></form-input-stub></label></div>
+      <div class="auth-form__group"><label class="form__label">Password
+          <form-input-stub type="password" name="password" placeholder="Password"></form-input-stub></label></div>
+      <error-block-stub type="login"></error-block-stub>
+      <div class="auth-form__group">
+        <div style="margin: 1rem 0px;">
+          <action-button-stub type="submit" classes="btn-full,btn__primary">Login</action-button-stub>
+        </div>
+        <div class="or-separator_flex__6ViaO">
+          <hr class="or-separator_line__x5QkI">
+          <div class="or-separator_text__2YQdZ">or</div>
+          <hr class="or-separator_line__x5QkI">
+        </div>
+        <div class="socials_container" style="cursor: pointer;">
+          <section class="socials_btn">
+            <div class="_provider-button_label__1gtgk"><span style="white-space: nowrap;">Sign in with</span> <svg viewBox="5 -5 30 30" enable-background="new 5 -5 30 30" title="google" class="google_img">
+                <path fill="#fff" d="M15.3-4.2C11.6-3 8.4-.2 6.6 3.2 6 4.5 5.6 5.7 5.3 7c-.7 3.3-.2 6.7 1.3 9.7 1 1.9 2.4 3.7 4.2 5 1.6 1.3 3.5 2.2 5.6 2.7 2.6.7 5.3.7 7.8.1 2.3-.5 4.5-1.6 6.3-3.2 1.9-1.7 3.2-3.9 3.9-6.2.8-2.6.9-5.3.4-8-4.8 0-9.6 0-14.4 0 0 2 0 3.9 0 5.9 2.8 0 5.6 0 8.3 0-.3 1.9-1.5 3.6-3.1 4.6-1 .7-2.2 1.1-3.4 1.3-1.2.2-2.5.2-3.7 0-1.2-.2-2.4-.7-3.4-1.4-1.6-1.1-2.9-2.8-3.5-4.6-.7-1.9-.7-4 0-5.8.5-1.3 1.2-2.5 2.2-3.5 1.2-1.2 2.8-2.1 4.6-2.5 1.5-.3 3-.2 4.5.2 1.2.4 2.4 1 3.3 1.9.9-.9 1.9-1.8 2.8-2.8.5-.5 1-1 1.5-1.5-1.4-1.3-3.1-2.3-4.9-3-3.3-1.2-7-1.2-10.3-.1z"></path>
+                <path fill="#EA4335" d="M15.3-4.2c3.3-1.1 7-1.1 10.3.1 1.8.7 3.5 1.7 4.9 3-.5.5-1 1-1.5 1.5-.9.9-1.9 1.8-2.8 2.8-.9-.9-2.1-1.5-3.3-1.9-1.4-.4-3-.5-4.5-.2-1.7.4-3.3 1.2-4.6 2.5-1 1-1.8 2.2-2.2 3.5-1.7-1.3-3.3-2.5-5-3.8 1.8-3.5 5-6.2 8.7-7.5z"></path>
+                <path fill="#FBBC05" d="M5.3 7c.3-1.3.7-2.6 1.3-3.7 1.7 1.3 3.3 2.5 5 3.8-.7 1.9-.7 4 0 5.8-1.7 1.3-3.3 2.5-5 3.8-1.5-2.9-2-6.4-1.3-9.7z"></path>
+                <path fill="#4285F4" d="M20.3 7.2c4.8 0 9.6 0 14.4 0 .5 2.6.4 5.4-.4 8-.7 2.4-2 4.6-3.9 6.2-1.6-1.2-3.2-2.5-4.9-3.7 1.6-1.1 2.7-2.8 3.1-4.6-2.8 0-5.6 0-8.3 0 0-2 0-4 0-5.9z"></path>
+                <path fill="#34A853" d="M6.6 16.7c1.7-1.3 3.3-2.5 5-3.8.6 1.8 1.9 3.5 3.5 4.6 1 .7 2.2 1.2 3.4 1.4 1.2.2 2.4.2 3.7 0 1.2-.2 2.4-.6 3.4-1.3 1.6 1.2 3.2 2.5 4.9 3.7-1.8 1.6-3.9 2.7-6.3 3.2-2.6.6-5.3.6-7.8-.1-2-.5-3.9-1.5-5.6-2.7-1.7-1.3-3.2-3-4.2-5z"></path>
+              </svg></div>
+          </section>
+          <section class="socials_btn" style="cursor: pointer;">
+            <div class="_provider-button_label__1gtgk"><span style="white-space: nowrap;">Sign in with</span> <svg viewBox="5 -5 30 30" enable-background="new 5 -5 30 30" title="facebook" class="facebook_img">
+                <path fill="#3C5B9A" d="M33.3-5H6.7C5.7-5 5-4.3 5-3.3v26.7c0 .9.7 1.6 1.7 1.6H21V13.4h-3.9V8.9H21V5.6c0-3.9 2.4-6 5.8-6 1.7 0 3.1.1 3.5.2v4h-2.4c-1.9 0-2.2.9-2.2 2.2v2.9h4.5l-.6 4.5h-3.9V25h7.6c.9 0 1.7-.7 1.7-1.7V-3.3c0-1-.7-1.7-1.7-1.7z"></path>
+              </svg></div>
+          </section>
+        </div>
+        <section class="auth-form__meta">
+          <p>
+            Don't have an account?
+            <a href="#/register" class="primary">Register now</a></p> <a href="#/forgot-password" class="primary">Forgot Password</a>
+        </section>
+      </div>
+    </form>
+  </div>
+</main>
+`;
