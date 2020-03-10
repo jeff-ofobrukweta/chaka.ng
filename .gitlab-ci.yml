@@ -34,67 +34,67 @@ build:
     - master   
     
 # production section for the production pipeline
-deploy_production_review:
-  image: python:latest
-  stage: deploy
-  dependencies:
-    - build
-  script:
-    - pip install awscli
-    - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
-  environment:
-    name: production/review/${CI_COMMIT_REF_SLUG}
-    url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
-    on_stop: remove_s3
-  only:
-    - production
-  except:
-    - master
+# deploy_production_review:
+#   image: python:latest
+#   stage: deploy
+#   dependencies:
+#     - build
+#   script:
+#     - pip install awscli
+#     - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
+#   environment:
+#     name: production/review/${CI_COMMIT_REF_SLUG}
+#     url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
+#     on_stop: remove_s3
+#   only:
+#     - production
+#   except:
+#     - master
 
-remove_s3:
-  image: python:latest
-  stage: deploy
-  variables:
-    GIT_STRATEGY: none
-  script:
-    - pip install awscli
-    - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
-  environment:
-    name: production/review/${CI_COMMIT_REF_SLUG}
-    action: stop
-  when: manual
+# remove_s3:
+#   image: python:latest
+#   stage: deploy
+#   variables:
+#     GIT_STRATEGY: none
+#   script:
+#     - pip install awscli
+#     - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
+#   environment:
+#     name: production/review/${CI_COMMIT_REF_SLUG}
+#     action: stop
+#   when: manual
 
-build_staging:
-  stage: build
-  before_script:
-   - npm install
-  script:
-   - npm rebuild node-sass
-   - npm run build
-  artifacts:
-    paths:
-      - dist/
-  only:
-   - production     
+# build_staging:
+#   stage: build
+#   before_script:
+#   - npm install
+#   script:
+#   - npm rebuild node-sass
+#   - npm run build
+#   artifacts:
+#     paths:
+#       - dist/
+#   only:
+#   - production     
 
-deploy_staging:
-  image: python:latest
-  stage: deploy
-  dependencies:
-    - build_stag
-  before_script:
-    - pip install awscli -q
-  script:
-    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-    - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
-    - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
-    - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
-  environment:
-    name: production/review/${CI_COMMIT_REF_SLUG}
-    url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
-  only:
-   - dev 
+# deploy_staging:
+#   image: python:latest
+#   stage: deploy
+#   dependencies:
+#     - build_stag
+#   before_script:
+#     - pip install awscli -q
+#   script:
+#     - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+#     - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+#     - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
+#     - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
+#     - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
+#   environment:
+#     name: production/review/${CI_COMMIT_REF_SLUG}
+#     url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
+#   only:
+#   - dev 
 # ends production pipeline here
 
 # this is the section for staging review starts here
@@ -106,6 +106,8 @@ deploy_staging_review:
   script:
     - pip install awscli
     - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
+    - false && true; exit_code=$?
+    - if [ $exit_code -ne 0 ]; then echo "Previous command failed"; fi;
   environment:
     name: staging/review/${CI_COMMIT_REF_SLUG}
     url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
@@ -154,6 +156,8 @@ deploy_staging:
     - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
     - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
     - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
+    - false && true; exit_code=$?
+    - if [ $exit_code -ne 0 ]; then echo "Previous command failed"; fi;
   environment:
     name: staging/review/${CI_COMMIT_REF_SLUG}
     url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
