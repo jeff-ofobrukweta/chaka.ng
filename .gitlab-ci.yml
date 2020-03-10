@@ -10,6 +10,7 @@ variables:
     BUCKET_NAME: frontendchaka
     GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
     VUE_APP_API_URL: https://chaka.io
+    # 
 
 stages:
     - build
