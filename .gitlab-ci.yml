@@ -79,7 +79,7 @@ deploy_production:
     image: python:latest
     stage: deploy
     dependencies:
-        - build_prod
+        - build
     before_script:
         - pip install awscli -q
     script:
