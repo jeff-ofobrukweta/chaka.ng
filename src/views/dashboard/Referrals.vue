@@ -357,10 +357,10 @@
             <p class="referrals__text">Refer and Earn</p>
             <div class="referrals-refer__text">
                 <p class="referrals-refer__p">
-                    Earn 100 naira on the referred user's first local trade
+                    Earn &#8358;100 on the referred user's first local trade
                 </p>
                 <p class="referrals-refer__or">or</p>
-                <p class="referrals-refer__p">Earn 1$ on the referred user's first global trade</p>
+                <p class="referrals-refer__p">Earn $1 on the referred user's first global trade</p>
             </div>
             <p class="referrals-refer__bold">Note: You get rewarded on referred user's first trade only</p>
         </section>

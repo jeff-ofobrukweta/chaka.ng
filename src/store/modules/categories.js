@@ -75,6 +75,29 @@ const actions = {
                     resolve(false);
                 })
         );
+    },
+    async GET_INSTRUMENT_BY_FILTER_TAGS({ commit }, params) {
+        return new Promise(resolve =>
+            API_CONTEXT.get(
+                `/tags/search/?slugs=${params.slug}&page=${params.page}&perPage=${params.perPage}`
+            )
+                .then(response => {
+                    if (response.status >= 200 && response.status < 400) {
+                        const { Instruments } = response.data.data.tag;
+                        const { pagination } = response.data;
+                        commit("SET_INSTRUMENT_BY_TAGS", Instruments);
+                        commit("SET_INSTRUMENT_PAGENATION", pagination);
+                        resolve(true);
+                        return true;
+                    }
+                    errorFn(response, "tag-instruments");
+                    resolve(false);
+                })
+                .catch(error => {
+                    errorFn(error.response, "tag-instruments");
+                    resolve(false);
+                })
+        );
     }
 };
 

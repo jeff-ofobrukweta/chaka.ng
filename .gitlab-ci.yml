@@ -1,46 +1,95 @@
-image: node:10.15.3
+image: node:8.12.0-alpine
 
 cache:
-  untracked: true
-  paths:
-    - node_modules/
+    paths:
+        - node_modules/
+
+variables:
+    AWS_DEFAULT_REGION: eu-west-2
+    #   BUCKET_NAME: gitcli.yml
+    FACEBOOK_CLIENT_ID: 724818008039885
+    GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
+    VUE_APP_API_URL: https://chaka.io
 
 stages:
-  - setup
-  - test
-  - build
-  - deploy
-
-setup:
-  stage: setup
-  script:
-    - npm install --save
-  only:
-    - dev
-
-# test:
-#   stage: test
-#   script:
-#     - npm run test:unit
-#   only:
-#     - dev
+    - build
+    - deploy
 
 build:
-  stage: build
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - dist
-  only:
-    - dev
+    stage: build
+    variables:
+        VUE_APP_ROUTER_BASE: ${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
+    script:
+        - npm install
+        - npm rebuild node-sass
+        - npm run build
+    artifacts:
+        paths:
+            - dist/
+        expire_in: 1 hour
+    only:
+        - production
+    except:
+        - master
 
-deploy:
-  stage: deploy
-  script:
-    - npm i -g netlify-cli
-    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
-  dependencies:
-    - build
-  only:
-    - master
+deploy_review:
+    image: python:latest
+    stage: deploy
+    dependencies:
+        - build
+    script:
+        - pip install awscli
+        - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
+    environment:
+        name: production/${CI_COMMIT_REF_SLUG}
+        url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
+        on_stop: remove_s3
+    only:
+        - production
+    except:
+        - master
+
+remove_s3:
+    image: python:latest
+    stage: deploy
+    variables:
+        GIT_STRATEGY: none
+    script:
+        - pip install awscli
+        - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
+    environment:
+        name: production/${CI_COMMIT_REF_SLUG}
+        action: stop
+    when: manual
+
+build_prod:
+    stage: build
+    before_script:
+        - npm install
+    script:
+        - npm rebuild node-sass
+        - npm run build
+    artifacts:
+        paths:
+            - dist/
+    only:
+        - production
+
+deploy_production:
+    image: python:latest
+    stage: deploy
+    dependencies:
+        - build_prod
+    before_script:
+        - pip install awscli -q
+    script:
+        - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+        - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+        - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
+        - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
+        - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
+    environment:
+        name: production/${CI_COMMIT_REF_SLUG}
+        url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/production
+    only:
+        - production

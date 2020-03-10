@@ -178,14 +178,24 @@
                 padding: 0.5rem;
                 box-shadow: 0 2px 8px rgba($color: $box-shadow, $alpha: 0.25);
                 margin-right: 1rem;
+                margin-bottom: 0.5rem;
                 border-radius: 4px;
                 transition: all 200ms linear;
                 border: 2px solid transparent;
                 cursor: pointer;
 
+                @include mobile {
+                    height: 50px;
+                    font-size: 1.325rem;
+                }
+
                 &.active {
                     border-color: $primary;
                     background-color: rgba($color: $primary, $alpha: 0.03);
+                }
+
+                &:last-child {
+                    margin-right: 0;
                 }
             }
 
@@ -197,7 +207,12 @@
                 font-size: 0.825rem;
                 display: inline-flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-evenly;
+
+                @include mobile {
+                    height: 50px;
+                    font-size: 1.325rem;
+                }
             }
 
             @include mobile {
