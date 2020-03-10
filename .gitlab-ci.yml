@@ -8,7 +8,8 @@ variables:
     AWS_DEFAULT_REGION: eu-west-2
     FACEBOOK_CLIENT_ID: 724818008039885
     GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
-    VUE_APP_API_URL: https://api.chaka.io
+    VUE_APP_API_URL: https://test-api.chaka.io
+    # variables here
 
 stages:
     - build
