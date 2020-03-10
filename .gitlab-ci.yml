@@ -32,7 +32,7 @@ build:
     except:
         - master
 
-deploy_review_staging:
+deploy_review:
     image: python:latest
     stage: deploy
     dependencies:
@@ -43,13 +43,13 @@ deploy_review_staging:
     environment:
         name: staging/${CI_COMMIT_REF_SLUG}
         url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
-        on_stop: remove_s3_staging
+        on_stop: remove_s3
     only:
         - dev
     except:
         - master
 
-remove_s3_staging:
+remove_s3:
     image: python:latest
     stage: deploy
     variables:
@@ -58,7 +58,7 @@ remove_s3_staging:
         - pip install awscli
         - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
     environment:
-        name: production/${CI_COMMIT_REF_SLUG}
+        name: staging/${CI_COMMIT_REF_SLUG}
         action: stop
     when: manual
 
@@ -79,7 +79,7 @@ deploy_production:
     image: python:latest
     stage: deploy
     dependencies:
-        - build_stag
+        - build_prod
     before_script:
         - pip install awscli -q
     script:
@@ -90,6 +90,6 @@ deploy_production:
         - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
     environment:
         name: staging/${CI_COMMIT_REF_SLUG}
-        url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/staging
+        url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
     only:
         - dev
