@@ -6,6 +6,8 @@ node_modules
 .env.local
 .env.*.local
 .env
+.gitlab-ci.yml
+
 
 # Log files
 npm-debug.log*
