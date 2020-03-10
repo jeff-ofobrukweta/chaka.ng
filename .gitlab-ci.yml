@@ -15,7 +15,7 @@ variables:
 stages:
   - build
   - staging
-  - Production
+  - production
   - performance
 
 build:
@@ -103,14 +103,14 @@ deploy_production:
 
 deploy_review:
   image: python:latest
-  stage: Production
+  stage: production
   dependencies:
     - build
   script:
     - pip install awscli
     - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
   environment:
-    name: Production/${CI_COMMIT_REF_SLUG}
+    name: production/${CI_COMMIT_REF_SLUG}
     url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
     on_stop: remove_s3
   only:
@@ -120,14 +120,14 @@ deploy_review:
 
 remove_s3:
   image: python:latest
-  stage: Production
+  stage: production
   variables:
     GIT_STRATEGY: none
   script:
     - pip install awscli
     - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
   environment:
-    name: Production/${CI_COMMIT_REF_SLUG}
+    name: production/${CI_COMMIT_REF_SLUG}
     action: stop
   when: manual
 
@@ -146,7 +146,7 @@ build_prod:
 
 deploy_production:
   image: python:latest
-  stage: Production
+  stage: production
   dependencies:
     - build_prod
   before_script:
@@ -158,7 +158,7 @@ deploy_production:
     - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
     - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
   environment:
-    name: Production/${CI_COMMIT_REF_SLUG}
+    name: production/${CI_COMMIT_REF_SLUG}
     url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
   only:
-   - Production 
+   - production 
