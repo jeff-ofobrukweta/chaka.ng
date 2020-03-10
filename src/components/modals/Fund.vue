@@ -18,12 +18,12 @@
                 <div class="modal-form__group">
                     <label class="form__label">Select Payment Mode <span class="form-error" v-if="issues.source">*required</span></label>
                     <div class="modal-fund__images">
-                        <img
+                        <!-- <img
                             @click="switchMethod('INTERSWITCH')"
                             :class="{ active: activeMethod === 'INTERSWITCH', 'no-hover': loading }"
                             src="../../assets/img/quickteller.png"
                             alt="Pay with quickteller"
-                        />
+                        /> -->
                         <img
                             @click="switchMethod('MONNIFY')"
                             :class="{ active: activeMethod === 'MONNIFY', 'no-hover': loading }"
