@@ -43,13 +43,13 @@ deploy_review_staging:
     environment:
         name: staging/${CI_COMMIT_REF_SLUG}
         url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
-        on_stop: remove_s3
+        on_stop: remove_s3_staging
     only:
         - dev
     except:
         - master
 
-remove_s3:
+remove_s3_staging:
     image: python:latest
     stage: deploy
     variables:
