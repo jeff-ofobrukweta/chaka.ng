@@ -405,24 +405,30 @@ export default {
     handleSelect(response) {
       this.loading = true;
       this.infiniteLoader = true;
-      this.tagArrayList.push(response);
-      this.page = 0; //this is to set the page back to the default when tags are clicked.
-      let collectionSlug = []
-      this.tagArrayList.map((index)=>collectionSlug.push(index.slug))
-      let slugList = String(collectionSlug.join(','))
-      const payload = { slug: slugList, page: 0, perPage: 20 };
-      this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response || {});
-      if (payload.slug === "") {
-        this.loading = false;
-        this.SET_INSTRUMENT_BY_TAGS([]);
-        return true;
-      }
+      if(!(this.tagArrayList.includes(response))){
+        this.tagArrayList.push(response);
+        this.page = 0; //this is to set the page back to the default when tags are clicked.
+        let collectionSlug = []
+        this.tagArrayList.map((index)=>collectionSlug.push(index.slug))
+        let slugList = String(collectionSlug.join(','))
+        const payload = { slug: slugList, page: 0, perPage: 20 };
+        this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response || {});
+        if (payload.slug === "") {
+          this.loading = false;
+          this.SET_INSTRUMENT_BY_TAGS([]);
+          return true;
+        }
 
-      this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
+        this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
+          this.loading = false;
+          this.infiniteLoader = false;
+          this.loading = false;
+        });
+      }
+      else{
         this.loading = false;
         this.infiniteLoader = false;
-        this.loading = false;
-      });
+      }
     },
     getNewTags() {
       if (this.selectedTag !== this.currentTag.filter) {
