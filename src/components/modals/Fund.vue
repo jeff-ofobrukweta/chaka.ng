@@ -30,12 +30,6 @@
                             src="../../assets/img/monify.png"
                             alt="Pay with monnify"
                         />
-                        <img
-                            @click="switchMethod('PAYSTACK')"
-                            :class="{ active: activeMethod === 'PAYSTACK', 'no-hover': loading }"
-                            src="../../assets/img/paystack.png"
-                            alt="Pay with paystack"
-                        />
                         <div @click="switchMethod('BANK')" :class="{ active: activeMethod === 'BANK', 'no-hover': loading }">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0)">
@@ -64,6 +58,12 @@
                             </svg>
                             Bank
                         </div>
+                        <img
+                            @click="switchMethod('PAYSTACK')"
+                            :class="{ active: activeMethod === 'PAYSTACK', 'no-hover': loading }"
+                            src="../../assets/img/paystack.png"
+                            alt="Pay with paystack"
+                        />
                     </div>
                 </div>
             </div>
@@ -529,7 +529,7 @@ export default {
                 customerMobileNumber: this.getLoggedUser.phone,
                 apiKey: process.env.VUE_APP_MONNIFY_KEY,
                 contractCode: process.env.VUE_APP_MONNIFY_CONTRACT_CODE,
-                paymentDescription: "Test Payment",
+                paymentDescription: "Chaka Technologies",
                 isTestMode: process.env.VUE_APP_MONNIFY_TEST_MODE,
                 // incomeSplitConfig: [
                 //     {
