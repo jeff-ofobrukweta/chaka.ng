@@ -6,7 +6,6 @@ cache:
 
 variables:
     AWS_DEFAULT_REGION: eu-west-2
-    #   BUCKET_NAME: gitcli.yml
     FACEBOOK_CLIENT_ID: 724818008039885
     GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
     VUE_APP_API_URL: https://chaka.io
@@ -28,7 +27,7 @@ build:
             - dist/
         expire_in: 1 hour
     only:
-        - production
+        - dev
     except:
         - master
 
@@ -41,11 +40,11 @@ deploy_review:
         - pip install awscli
         - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
     environment:
-        name: production/${CI_COMMIT_REF_SLUG}
+        name: staging/${CI_COMMIT_REF_SLUG}
         url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
         on_stop: remove_s3
     only:
-        - production
+        - dev
     except:
         - master
 
@@ -58,11 +57,11 @@ remove_s3:
         - pip install awscli
         - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
     environment:
-        name: production/${CI_COMMIT_REF_SLUG}
+        name: staging/${CI_COMMIT_REF_SLUG}
         action: stop
     when: manual
 
-build_prod:
+build_stag:
     stage: build
     before_script:
         - npm install
@@ -73,13 +72,13 @@ build_prod:
         paths:
             - dist/
     only:
-        - production
+        - dev
 
-deploy_production:
+deploy_staging:
     image: python:latest
     stage: deploy
     dependencies:
-        - build_prod
+        - build
     before_script:
         - pip install awscli -q
     script:
@@ -89,7 +88,7 @@ deploy_production:
         - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
         - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
     environment:
-        name: production/${CI_COMMIT_REF_SLUG}
-        url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/production
+        name: staging/${CI_COMMIT_REF_SLUG}
+        url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
     only:
-        - production
+        - dev
