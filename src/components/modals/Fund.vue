@@ -636,7 +636,7 @@ export default {
     },
     async mounted() {
         if (this.$refs.input) this.$refs.input.focus();
-        this.activeMethod = "INTERSWITCH";
+        this.activeMethod = "MONNIFY";
         /**
          * TO-DO:: Put back when saved cards is ready
          */
