@@ -6,6 +6,7 @@ cache:
 
 variables:
   AWS_DEFAULT_REGION: eu-west-2
+  BUCKET_NAME: chaka.ng
   FACEBOOK_CLIENT_ID: 724818008039885
   GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
   VUE_APP_API_URL: https://chaka.io
@@ -13,9 +14,7 @@ variables:
 
 stages:
   - build
-  - staging
-  - production
-  - performance
+  - deploy
 
 build:
   stage: build
@@ -32,36 +31,35 @@ build:
   only:
     - dev
   except:
-    - master 
+    - master    
 
-
-deploy_staging_review:
+deploy_review:
   image: python:latest
-  stage: staging
+  stage: deploy
   dependencies:
     - build
   script:
     - pip install awscli
     - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
   environment:
-    name: staging/${CI_COMMIT_REF_SLUG}
+    name: review/${CI_COMMIT_REF_SLUG}
     url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
-    on_stop: staging_remove_s3
+    on_stop: remove_s3
   only:
     - dev
   except:
     - master
 
-staging_remove_s3:
+remove_s3:
   image: python:latest
-  stage: staging
+  stage: deploy
   variables:
     GIT_STRATEGY: none
   script:
     - pip install awscli
     - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
   environment:
-    name: staging/${CI_COMMIT_REF_SLUG}
+    name: review/${CI_COMMIT_REF_SLUG}
     action: stop
   when: manual
 
@@ -80,72 +78,7 @@ build_prod:
 
 deploy_production:
   image: python:latest
-  stage: staging
-  dependencies:
-    - build
-  before_script:
-    - pip install awscli -q
-  script:
-    - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID_PRODUCTION
-    - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY_PRODUCTION
-    - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
-    - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
-    - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
-  environment:
-    name: staging/${CI_COMMIT_REF_SLUG}
-    url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
-  only:
-   - dev 
-
-
-
-
-deploy_review:
-  image: python:latest
-  stage: production
-  dependencies:
-    - build
-  script:
-    - pip install awscli
-    - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
-  environment:
-    name: production/${CI_COMMIT_REF_SLUG}
-    url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
-    on_stop: remove_s3
-  only:
-    - Production
-  except:
-    - master
-
-remove_s3:
-  image: python:latest
-  stage: production
-  variables:
-    GIT_STRATEGY: none
-  script:
-    - pip install awscli
-    - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
-  environment:
-    name: production/${CI_COMMIT_REF_SLUG}
-    action: stop
-  when: manual
-
-build_prod:
-  stage: build
-  before_script:
-   - npm install
-  script:
-   - npm rebuild node-sass
-   - npm run build
-  artifacts:
-    paths:
-      - dist/
-  only:
-   - Production     
-
-deploy_production:
-  image: python:latest
-  stage: production
+  stage: deploy
   dependencies:
     - build_prod
   before_script:
@@ -157,7 +90,7 @@ deploy_production:
     - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
     - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
   environment:
-    name: production/${CI_COMMIT_REF_SLUG}
+    name: review/${CI_COMMIT_REF_SLUG}
     url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
   only:
-   - production 
+   - dev 
