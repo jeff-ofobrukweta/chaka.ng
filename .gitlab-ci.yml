@@ -70,7 +70,7 @@ production_deploy_review:
   image: python:latest
   stage: deploy
   dependencies:
-    - build
+    - build_production
   script:
     - pip install awscli
     - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
