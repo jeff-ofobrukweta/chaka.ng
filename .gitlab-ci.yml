@@ -7,14 +7,12 @@ cache:
 variables:
   AWS_DEFAULT_REGION: eu-west-2
   FACEBOOK_CLIENT_ID: 724818008039885
-  BUCKET_NAME: chaka.ng
   GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
   VUE_APP_API_URL: https://chaka.io
   
 
 stages:
   - build
-#   - test
   - deploy
 
 staging_build:
@@ -50,14 +48,6 @@ production_build:
     - production
   except:
     - master
-# test:
-#   stage: test
-#   script:
-#   - npm run test:unit
-#   only:
-#     - dev
-#   except:
-#     - master
 
 staging_deploy_review:
   image: python:latest
@@ -87,7 +77,7 @@ production_deploy_review:
   environment:
     name: production/${CI_COMMIT_REF_SLUG}
     url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
-    on_stop: staging_remove_s3
+    on_stop: production_remove_s3
   only:
     - production
   except:
