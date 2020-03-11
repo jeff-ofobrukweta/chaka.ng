@@ -10,6 +10,14 @@ variables:
     BUCKET_NAME: gitlab-s3bucket-frontend
     GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
     VUE_APP_API_URL: https://chaka.io
+    VUE_APP_CRYPTO_KEY: chakadev
+    VUE_APP_ISW_REF: 8lqZIapXMg
+    VUE_APP_ISW_URL: https://qa.interswitchng.com/paymentgateway/public/js/webpay.js
+    VUE_APP_MONNIFY_CONTRACT_CODE: 434994171518
+    VUE_APP_MONNIFY_KEY: MK_PROD_74GGAWLUEB
+    VUE_APP_MONNIFY_TEST_MODE: "false"
+    VUE_APP_PAYSTACK_KEY: pk_live_815a9359387e1bace2719fb1a855c937d201eb58
+
     # 
 
 stages:
