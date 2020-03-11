@@ -5,17 +5,17 @@ cache:
         - node_modules/
 
 variables:
-    AWS_DEFAULT_REGION: eu-west-2
-    FACEBOOK_CLIENT_ID: 724818008039885
-    GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
-    VUE_APP_CRYPTO_KEY: chakadev
-    VUE_APP_ISW_REF: MG4JUmqGPD
-    VUE_APP_ISW_URL: https://qa.interswitchng.com/paymentgateway/public/js/webpay.js
-    VUE_APP_MONNIFY_CONTRACT_CODE: 7456839164
-    VUE_APP_MONNIFY_KEY: MK_TEST_JC82CV2PRP
+    AWS_DEFAULT_REGION: "eu-west-2"
+    FACEBOOK_CLIENT_ID: "724818008039885"
+    GOOGLE_CLIENT_ID: "854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent."
+    VUE_APP_CRYPTO_KEY: "chakadev"
+    VUE_APP_ISW_REF: "MG4JUmqGPD"
+    VUE_APP_ISW_URL: "https://qa.interswitchng.com/paymentgateway/public/js/webpay.js"
+    VUE_APP_MONNIFY_CONTRACT_CODE: "7456839164"
+    VUE_APP_MONNIFY_KEY: "MK_TEST_JC82CV2PRP"
     VUE_APP_MONNIFY_TEST_MODE: true
-    VUE_APP_PAYSTACK_KEY: pk_test_e5bb55d844be42b8e2d3aad9304af2e2bc8eae0d
-    VUE_APP_API_URL: https://test-api.chaka.io
+    VUE_APP_PAYSTACK_KEY: "pk_test_e5bb55d844be42b8e2d3aad9304af2e2bc8eae0d"
+    VUE_APP_API_URL: "https://test-api.chaka.io"
     # variables here
 
 stages:
