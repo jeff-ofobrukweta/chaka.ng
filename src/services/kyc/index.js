@@ -62,9 +62,11 @@ const kycFields = [
         type: "select"
     },
     {
-        name: "CSCS Number",
-        value: "cscsNumber",
-        type: "number"
+        name: "CSCS Clearing House No.",
+        placeholder: 'Enter your CSCS CHN',
+        value: "cscsCHN",
+        type: "text",
+        optional: true
     },
     {
         name: "Are you a director Of Public Co.",
