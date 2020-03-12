@@ -76,7 +76,7 @@
                             :error-message="errors.bankCode"
                             :options="checkOptions(field)"
                         />
-                        <Field v-else :field="field" @input="handleInput" :options="checkOptions(field)" />
+                        <Field v-else :field="field" @input="handleInput" :error-message="errors[field.value]" :options="checkOptions(field)" />
 
                         <div v-if="field.value === 'pepStatus' && showPepStatus">
                             <div class="kyc-field__group">
@@ -323,22 +323,22 @@ export default {
                 } else {
                     this.showEmployment = false;
                 }
-            }
-            if (e.name === "pepStatus") {
+            } else if (e.name === "pepStatus") {
                 if (e.value === true) {
                     this.showPepStatus = true;
                 } else {
                     this.showPepStatus = false;
                 }
-            }
-            if (e.name === "directorOfPublicCo") {
+            } else if (e.name === "directorOfPublicCo") {
                 if (e.value === true) {
                     this.showDirector = true;
                 } else {
                     this.showDirector = false;
                 }
             }
-            this.formComplete = this.nin ? true : Object.keys(this.itemData).length >= this.selectedField.fields.length;
+            if (e.name === "lg" && e.value) {
+                this.formComplete = true;
+            } else this.formComplete = this.nin ? true : Object.keys(this.itemData).length >= this.selectedField.fields.length;
         },
         OTPSuccess() {
             this.mount();
@@ -348,6 +348,7 @@ export default {
                 if (el === "bvn") this.state = "bvn";
                 else if (el === "nin" || this.nin) this.state = "nin";
                 else if (el === "bankCode" || el === "bankAcctNo") this.state = "bank";
+                else if (el === "lg" || el === "cscsCHN") this.state = "address";
                 else if (el === "employmentStatus" || el === "directorOfPublicCo" || el === "employedByBroker" || el === "pepStatus") this.state = "employment";
                 else this.state = "default";
             });
@@ -444,6 +445,23 @@ export default {
                     payload.directorOfPublicCo = this.director.name;
                 } else {
                     payload.directorOfPublicCo = "";
+                }
+                this.UPDATE_KYC(payload).then(resp => {
+                    this.loading = false;
+                    if (resp) {
+                        this.mount();
+                    }
+                });
+            } else if (this.state === "address") {
+                if (!this.itemData.cscsCHN) {
+                    payload.cscsCHN = "";
+                } else if (String(this.itemData.cscsCHN).length !== 10) {
+                    this.$set(this.errors, "cscsCHN", "CHN should be 10 characters");
+                }
+
+                if (Object.keys(this.errors).length > 0) {
+                    this.loading = false;
+                    return false;
                 }
                 this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
