@@ -76,7 +76,7 @@
                             :error-message="errors.bankCode"
                             :options="checkOptions(field)"
                         />
-                        <Field v-else :field="field" @input="handleInput" :options="checkOptions(field)" />
+                        <Field v-else :field="field" @input="handleInput" :error-message="errors[field.value]" :options="checkOptions(field)" />
 
                         <div v-if="field.value === 'pepStatus' && showPepStatus">
                             <div class="kyc-field__group">
@@ -453,12 +453,15 @@ export default {
                     }
                 });
             } else if (this.state === "address") {
-                if (Object.keys(this.itemData).length <= 0) {
-                    this.loading = false;
-                    return true;
-                }
                 if (!this.itemData.cscsCHN) {
                     payload.cscsCHN = "";
+                } else if (String(this.itemData.cscsCHN).length !== 10) {
+                    this.$set(this.errors, "cscsCHN", "CHN should be 10 characters");
+                }
+
+                if (Object.keys(this.errors).length > 0) {
+                    this.loading = false;
+                    return false;
                 }
                 this.UPDATE_KYC(payload).then(resp => {
                     this.loading = false;
