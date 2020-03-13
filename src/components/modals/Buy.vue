@@ -231,6 +231,9 @@
                         <action-button type="submit" :pending="loading" :classes="['btn-block', 'btn__primary']">Confirm Buy</action-button>
                     </div>
                 </div>
+                <div class="form-info text-center" v-if="getPreOrder.goodFaithViolation">
+                    <small>There's been a Good Faith Violation on your trading account. Please check your email to learn more.</small>
+                </div>
             </form>
         </template>
     </modal>
