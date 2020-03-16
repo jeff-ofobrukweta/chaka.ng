@@ -1,11 +1,7 @@
 <template>
-    <div
-        class="kyc-field__group"
-        :class="{ inline: inline }"
-        v-if="field.type === 'text' || field.type === 'number'"
-    >
+    <div class="kyc-field__group" :class="{ inline: inline }" v-if="field.type === 'text' || field.type === 'number'">
         <label class="form__label"
-            >{{ noLabel ? "" : field.name }}
+            ><span class="form__label--flex">{{ noLabel ? "" : field.name }} <span v-if="field.optional">Optional</span></span>
             <form-input
                 :type="field.type"
                 :name="field.name"
@@ -41,14 +37,10 @@
             >{{ field.name }}
             <select class="form__input" :name="field.name" v-model="value" @change="handleInput">
                 <template v-if="field.value === 'bankCode'">
-                    <option v-for="(option, i) in options" :key="i" :value="option.bankCode">{{
-                        option.name
-                    }}</option>
+                    <option v-for="(option, i) in options" :key="i" :value="option.bankCode">{{ option.name }}</option>
                 </template>
                 <template v-else>
-                    <option v-for="(option, i) in options" :key="i" :value="option.value">{{
-                        option.text
-                    }}</option>
+                    <option v-for="(option, i) in options" :key="i" :value="option.value">{{ option.text }}</option>
                 </template>
             </select></label
         >
@@ -136,6 +128,9 @@ export default {
         },
         idType: {
             type: String
+        },
+        optional: {
+            type: Boolean
         }
     },
     components: {
