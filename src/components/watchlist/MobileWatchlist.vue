@@ -140,10 +140,10 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "watchlist-card",
+    name: 'watchlist-card',
     props: {
         instrument: {
             type: Object,
@@ -165,7 +165,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getNextKYC", "getWatchlist", "getlocalstocksowned", "getglobalstocksowned"]),
+        ...mapGetters(['getNextKYC', 'getWatchlist', 'getlocalstocksowned', 'getglobalstocksowned']),
         watched() {
             const filter = this.getWatchlist.filter(el => el.symbol === this.instrument.symbol);
             if (filter.length <= 0) {
@@ -175,8 +175,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_SINGLESTOCK_INSTRUMENT", "REMOVE_FROM_WATCHLIST", "ADD_TO_WATCHLIST"]),
-        ...mapMutations(["SET_BUY_MODAL"]),
+        ...mapActions(['GET_SINGLESTOCK_INSTRUMENT', 'REMOVE_FROM_WATCHLIST', 'ADD_TO_WATCHLIST']),
+        ...mapMutations(['SET_BUY_MODAL']),
         handleStep(step) {
             this.step = step;
             if (step.kyc) {
@@ -201,7 +201,7 @@ export default {
         },
         checkPositions() {
             let check = [];
-            if (this.instrument.currency === "NGN") {
+            if (this.instrument.currency === 'NGN') {
                 check = this.getlocalstocksowned.filter(
                     element => element.symbol === this.instrument.symbol
                 );
@@ -232,8 +232,8 @@ export default {
             }, 200);
         }
     },
-    mounted(){
-        this.checkPositions()
+    mounted() {
+        this.checkPositions();
     }
 };
 </script>

@@ -125,149 +125,149 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-import auth from "../../services/validations/auth";
+import { mapActions, mapMutations } from 'vuex';
+import auth from '../../services/validations/auth';
 
 export default {
-  name: "Register",
-  data() {
-    return {
-      itemData: {},
-      loading: false,
-      confirmPassword: null,
-      errors: {},
-      token: "",
-      profile: ""
-    };
-  },
-  computed: {
-    formValid() {
-      if (this.loading || Object.keys(this.errors).length > 0) return false;
-      return true;
+    name: 'Register',
+    data() {
+        return {
+            itemData: {},
+            loading: false,
+            confirmPassword: null,
+            errors: {},
+            token: '',
+            profile: ''
+        };
     },
-    referralCode() {
-      return this.$route.query.code;
+    computed: {
+        formValid() {
+            if (this.loading || Object.keys(this.errors).length > 0) return false;
+            return true;
+        },
+        referralCode() {
+            return this.$route.query.code;
+        }
+    },
+    methods: {
+        ...mapActions(['REGISTER', 'SOCIAL_LOGIN']),
+        ...mapMutations(['RESET_REQ', 'RESET_ALL']),
+        register() {
+            this.RESET_REQ();
+            if (!this.itemData.email) {
+                this.$set(this.errors, 'email', 'Field is required');
+            } else if (!auth.email(this.itemData.email)) {
+                this.$set(this.errors, 'email', 'Invalid email');
+            }
+            if (!this.itemData.password) {
+                this.$set(this.errors, 'password', 'Field is required');
+            }
+            if (!this.confirmPassword) {
+                this.$set(this.errors, 'confirmPassword', 'Field is required');
+            } else if (this.confirmPassword !== this.itemData.password) {
+                this.$set(
+                    this.errors,
+                    'confirmPassword',
+                    'Password should match initial password'
+                );
+                return false;
+            }
+            if (Object.keys(this.errors).length > 0) {
+                return false;
+            }
+            if (this.referralCode) {
+                this.itemData.referralCode = this.referralCode;
+            }
+            this.loading = true;
+            fbq('track', 'sign up');
+            this.REGISTER(this.itemData).then((resp) => {
+                this.loading = false;
+                if (resp) this.$router.push({ name: 'verification-sent' });
+            });
+        },
+        social(payload) {
+            this.RESET_REQ();
+            if (!payload.email && !auth.email(payload.email)) {
+                this.$set(this.errors, 'email', 'Invalid email');
+            }
+            if (Object.keys(this.errors).length > 0) {
+                return false;
+            }
+            this.loading = true;
+            fbq('track', 'social_login');
+            if (payload.email && auth.email(payload.email)) {
+                this.SOCIAL_LOGIN(payload).then((resp) => {
+                    this.loading = false;
+                    if (resp) {
+                        this.$router.push({ name: 'dashboard' });
+                    }
+                });
+            }
+        },
+        authenticate(provider) {
+            const this_ = this;
+            this.$auth.authenticate(provider).then((caller) => {
+                const token = this_.$auth.getToken();
+                // getLoginStatus
+                this_.token = token;
+                // alert(`login success with token ${token}`);
+                if (provider === 'facebook') {
+                    this_.$http
+                        .get('https://graph.facebook.com/v5.0/me?fields=email,name,id', {
+                            params: { access_token: token }
+                        })
+                        .then((response) => {
+                            this_.profile = JSON.stringify(response);
+                            const payload = {
+                                email: response.data.email,
+                                provider: 'FB'
+                            };
+                            this.social(payload);
+                        });
+                }
+                if (provider === 'google') {
+                    this_.$http
+                        .get('https://www.googleapis.com/oauth2/v1/userinfo', {
+                            params: { access_token: token }
+                        })
+                        .then((response) => {
+                            this_.profile = JSON.stringify(response);
+                            const payload = {
+                                email: response.data.email,
+                                provider: 'GL'
+                            };
+                            this.social(payload);
+                        });
+                }
+                if (provider === 'linkedin') {
+                    this_.$http
+                        .get('https://api.linkedin.com/v2/me', {
+                            params: { access_token: token }
+                        })
+                        .then((response) => {
+                            this_.profile = JSON.stringify(response);
+                            this.social(response);
+                        });
+                }
+                if (provider === 'twitter') {
+                    this_.$http
+                        .get('https://api.twitter.com/1.1/users/show.json', {
+                            params: { access_token: token }
+                        })
+                        .then((response) => {
+                            this_.profile = JSON.stringify(response);
+                            this.social(response);
+                        });
+                }
+            });
+        },
+        resetError() {
+            this.errors = {};
+        }
+    },
+    mounted() {
+        document.title = 'Chaka - Create Your Chaka Account';
+        this.RESET_ALL();
     }
-  },
-  methods: {
-    ...mapActions(["REGISTER", "SOCIAL_LOGIN"]),
-    ...mapMutations(["RESET_REQ", "RESET_ALL"]),
-    register() {
-      this.RESET_REQ();
-      if (!this.itemData.email) {
-        this.$set(this.errors, "email", "Field is required");
-      } else if (!auth.email(this.itemData.email)) {
-        this.$set(this.errors, "email", "Invalid email");
-      }
-      if (!this.itemData.password) {
-        this.$set(this.errors, "password", "Field is required");
-      }
-      if (!this.confirmPassword) {
-        this.$set(this.errors, "confirmPassword", "Field is required");
-      } else if (this.confirmPassword !== this.itemData.password) {
-        this.$set(
-          this.errors,
-          "confirmPassword",
-          "Password should match initial password"
-        );
-        return false;
-      }
-      if (Object.keys(this.errors).length > 0) {
-        return false;
-      }
-      if (this.referralCode) {
-        this.itemData.referralCode = this.referralCode;
-      }
-      this.loading = true;
-      fbq("track", "sign up");
-      this.REGISTER(this.itemData).then(resp => {
-        this.loading = false;
-        if (resp) this.$router.push({ name: "verification-sent" });
-      });
-    },
-    social(payload) {
-      this.RESET_REQ();
-      if (!payload.email && !auth.email(payload.email)) {
-        this.$set(this.errors, "email", "Invalid email");
-      }
-      if (Object.keys(this.errors).length > 0) {
-        return false;
-      }
-      this.loading = true;
-      fbq("track", "social_login");
-      if (payload.email && auth.email(payload.email)) {
-        this.SOCIAL_LOGIN(payload).then(resp => {
-          this.loading = false;
-          if (resp) {
-            this.$router.push({ name: "dashboard" });
-          }
-        });
-      }
-    },
-    authenticate(provider) {
-      const this_ = this;
-      this.$auth.authenticate(provider).then(caller => {
-        let token = this_.$auth.getToken();
-        // getLoginStatus
-        this_.token = token;
-        // alert(`login success with token ${token}`);
-        if (provider === "facebook") {
-          this_.$http
-            .get("https://graph.facebook.com/v5.0/me?fields=email,name,id", {
-              params: { access_token: token }
-            })
-            .then(response => {
-              this_.profile = JSON.stringify(response);
-              const payload = {
-                email: response.data.email,
-                provider: "FB"
-              };
-              this.social(payload);
-            });
-        }
-        if (provider === "google") {
-          this_.$http
-            .get("https://www.googleapis.com/oauth2/v1/userinfo", {
-              params: { access_token: token }
-            })
-            .then(response => {
-              this_.profile = JSON.stringify(response);
-              const payload = {
-                email: response.data.email,
-                provider: "GL"
-              };
-              this.social(payload);
-            });
-        }
-        if (provider === "linkedin") {
-          this_.$http
-            .get("https://api.linkedin.com/v2/me", {
-              params: { access_token: token }
-            })
-            .then(response => {
-              this_.profile = JSON.stringify(response);
-              this.social(response);
-            });
-        }
-        if (provider === "twitter") {
-          this_.$http
-            .get("https://api.twitter.com/1.1/users/show.json", {
-              params: { access_token: token }
-            })
-            .then(response => {
-              this_.profile = JSON.stringify(response);
-              this.social(response);
-            });
-        }
-      });
-    },
-    resetError() {
-      this.errors = {};
-    }
-  },
-  mounted() {
-    document.title = "Chaka - Create Your Chaka Account";
-    this.RESET_ALL();
-  }
 };
 </script>

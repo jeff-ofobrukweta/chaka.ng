@@ -6,9 +6,9 @@
 
 <script>
 export default {
-    name: "DashboardGifts",
+    name: 'DashboardGifts',
     components: {
-        Gifts: () => import("../../components/Gifts")
+        Gifts: () => import('../../components/Gifts')
     }
 };
 </script>

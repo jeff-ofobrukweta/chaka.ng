@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-    name: "FAQ",
+    name: 'FAQ',
     props: {
         topic: String
     },
@@ -37,8 +37,8 @@ export default {
             showError: false
         };
     },
-    mounted(){
-        mixpanel.track("HELP_PAGE") //tracks the helppage
+    mounted() {
+        mixpanel.track('HELP_PAGE'); // tracks the helppage
     },
     created() {
         this.getSheetJson();
@@ -48,9 +48,9 @@ export default {
             this.showError = false;
             axios
                 .get(
-                    "https://spreadsheets.google.com/feeds/list/1Lr5utKlIAPT6840FwIjMvSwgQ1zZbCYGlM_g7BDoJ0Y/1/public/values?alt=json"
+                    'https://spreadsheets.google.com/feeds/list/1Lr5utKlIAPT6840FwIjMvSwgQ1zZbCYGlM_g7BDoJ0Y/1/public/values?alt=json'
                 )
-                .then(response => {
+                .then((response) => {
                     // JSON responses are automatically parsed.
                     this.posts = response.data.feed.entry;
                     if (this.topic) {
@@ -59,7 +59,7 @@ export default {
                         this.entries = this.posts;
                     }
                 })
-                .catch(e => {
+                .catch((e) => {
                     this.showError = e;
                 });
             /* const xhr = new XMLHttpRequest();

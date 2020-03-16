@@ -1,3 +1,3 @@
-const newsUrl = "https://chaka.ng/dashboard/singlestock/BABA";
+const newsUrl = 'https://chaka.ng/dashboard/singlestock/BABA';
 
-export {newsUrl};
+export { newsUrl };

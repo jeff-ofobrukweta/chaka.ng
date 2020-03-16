@@ -68,12 +68,12 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "sale-success",
+    name: 'sale-success',
     computed: {
-        ...mapGetters(["getBuyOrder", "getSellOrder"]),
+        ...mapGetters(['getBuyOrder', 'getSellOrder']),
         value() {
             if (Object.keys(this.getSellOrder).length > 0) return this.getSellOrder;
             return this.getBuyOrder;
@@ -84,10 +84,10 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(["SET_BUY_ORDER", "SET_SELL_ORDER", "MODAL_OPENED"]),
+        ...mapMutations(['SET_BUY_ORDER', 'SET_SELL_ORDER', 'MODAL_OPENED']),
         closeModal() {
             this.MODAL_OPENED(false);
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     beforeDestroy() {

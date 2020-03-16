@@ -92,14 +92,14 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import { Fragment } from "vue-fragment";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { Fragment } from 'vue-fragment';
 
 export default {
-    name: "performancebase",
+    name: 'performancebase',
     components: {
         Fragment,
-        Performancegraph: () => import("./performancechart")
+        Performancegraph: () => import('./performancechart')
     },
     data() {
         return {
@@ -108,7 +108,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getPositionBarperformancepercentage", "getPositionBarperformancesymbol"]),
+        ...mapGetters(['getPositionBarperformancepercentage', 'getPositionBarperformancesymbol']),
         isGraphValid() {
             if (this.getPositionBarperformancepercentage.length <= 0) {
                 return 1;
@@ -123,14 +123,14 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA"]),
+        ...mapActions(['GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA']),
         async reload() {
             this.loading = true;
             await this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();
             this.loading = false;
         },
         toDetailsPage(type) {
-            this.$router.push({ name: "portfolio-details", params: { type } });
+            this.$router.push({ name: 'portfolio-details', params: { type } });
         }
     },
     async mounted() {

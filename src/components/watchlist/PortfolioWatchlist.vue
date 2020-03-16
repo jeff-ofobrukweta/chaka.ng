@@ -67,10 +67,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-    name: "watchlist-portfolio",
+    name: 'watchlist-portfolio',
     props: {
         instrument: {
             type: Object,
@@ -87,19 +87,19 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getNextKYC"]),
+        ...mapGetters(['getNextKYC']),
         color() {
-            if (this.instrument.derivedPricePercentage > 25) return "dark-green";
-            if (this.instrument.derivedPricePercentage > 10) return "green";
-            if (this.instrument.derivedPricePercentage >= 0) return "light-green";
-            if (this.instrument.derivedPricePercentage >= -5) return "light-red";
-            if (this.instrument.derivedPricePercentage >= -10) return "red";
-            return "dark-red";
+            if (this.instrument.derivedPricePercentage > 25) return 'dark-green';
+            if (this.instrument.derivedPricePercentage > 10) return 'green';
+            if (this.instrument.derivedPricePercentage >= 0) return 'light-green';
+            if (this.instrument.derivedPricePercentage >= -5) return 'light-red';
+            if (this.instrument.derivedPricePercentage >= -10) return 'red';
+            return 'dark-red';
         }
     },
     methods: {
-        ...mapActions(["REMOVE_FROM_WATCHLIST"]),
-        ...mapMutations(["SET_BUY_MODAL"]),
+        ...mapActions(['REMOVE_FROM_WATCHLIST']),
+        ...mapMutations(['SET_BUY_MODAL']),
         handleStep(step) {
             if (step.kyc) {
                 this.showKYC = true;

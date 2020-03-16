@@ -128,21 +128,21 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-    name: "portfolio-card",
+    name: 'portfolio-card',
     data() {
         return {
             hover: false
         };
     },
     computed: {
-        ...mapGetters(["getPortfoliopositionsCarddetails"])
+        ...mapGetters(['getPortfoliopositionsCarddetails'])
     },
     methods: {
         toDetailsPage(type) {
-            this.$router.push({ name: "portfolio-details", params: { type } });
+            this.$router.push({ name: 'portfolio-details', params: { type } });
         }
     }
 };

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export const API = 'https://test-api.chaka.io';
 
@@ -7,4 +7,4 @@ export const login = (user, callback) => {
         email: user.email,
         password: user.password
     }, callback);
-}
+};

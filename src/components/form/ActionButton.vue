@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import loader from '../../assets/img/loader.gif'
+import loader from '../../assets/img/loader.gif';
+
 export default {
     name: 'action-button',
     props: {
@@ -42,7 +43,7 @@ export default {
     data() {
         return {
             clicked: this.pending,
-            loader: loader
+            loader
         };
     },
     methods: {

@@ -8,13 +8,13 @@
 
 <script>
 export default {
-    name: "AppCalculator",
+    name: 'AppCalculator',
     components: {
-        Calculator: () => import("../components/Calculator")
+        Calculator: () => import('../components/Calculator')
     },
     mounted() {
-        document.title = "Chaka - Calculator";
-        mixpanel.track("CALCULATOR_PAGE") //tracks the calculatorpage
+        document.title = 'Chaka - Calculator';
+        mixpanel.track('CALCULATOR_PAGE'); // tracks the calculatorpage
     }
 };
 </script>

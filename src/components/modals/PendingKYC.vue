@@ -170,11 +170,11 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import { Fragment } from "vue-fragment";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { Fragment } from 'vue-fragment';
 
 export default {
-    name: "PendingKYC",
+    name: 'PendingKYC',
     components: {
         Fragment
     },
@@ -198,31 +198,31 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getLoggedUser", "getMostPopular", "getKycModalAction"]),
+        ...mapGetters(['getLoggedUser', 'getMostPopular', 'getKycModalAction']),
         specificStock() {
             const stock = this.getMostPopular.filter(el => el.type === this.type);
             return stock;
         },
         subtext() {
-            if (this.getKycModalAction === "LOCAL") return "Local";
-            return "Global";
+            if (this.getKycModalAction === 'LOCAL') return 'Local';
+            return 'Global';
         }
     },
     methods: {
-        ...mapActions(["GET_MOST_POPULAR"]),
-        ...mapMutations(["SET_FUND_MODAL"]),
+        ...mapActions(['GET_MOST_POPULAR']),
+        ...mapMutations(['SET_FUND_MODAL']),
         country(code) {
-            return code ? code.toLowerCase() : "zz";
+            return code ? code.toLowerCase() : 'zz';
         },
         showFund() {
             this.SET_FUND_MODAL(true);
-            this.$emit("close");
+            this.$emit('close');
         },
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         handleStep(step) {
-            this.$emit("step", step);
+            this.$emit('step', step);
         }
     },
     async mounted() {

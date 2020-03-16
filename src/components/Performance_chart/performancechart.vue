@@ -115,7 +115,7 @@ export default {
                             position: 'left',
                             ticks: {
                                 beginAtZero: true,
-                                scaleBeginAtZero : true,
+                                scaleBeginAtZero: true,
                                 fontColor: '#8A939A',
                                 padding: 0,
                                 fontSize: 10,
@@ -253,9 +253,9 @@ export default {
         this.symbol = [];
         next();
     },
-    beforeRouteUpdate (to, from, next) {
+    beforeRouteUpdate(to, from, next) {
         this.GET_POSITION_PERFORMANCE_THINBARCHART_GRAPH_DATA();
-        next()
+        next();
     }
 };
 </script>

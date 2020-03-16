@@ -58,12 +58,12 @@
 </template>
 
 <script>
-import auth from "../services/validations/auth";
-import AOS from "aos";
-import { mapGetters } from "vuex";
+import AOS from 'aos';
+import { mapGetters } from 'vuex';
+import auth from '../services/validations/auth';
 
 export default {
-    name: "email-subscription",
+    name: 'email-subscription',
     data() {
         return {
             subscribed: false,
@@ -75,14 +75,14 @@ export default {
      * VALENTINE TO-DO:: remove when event is over
      */
     computed: {
-        ...mapGetters(["getValTheme"])
+        ...mapGetters(['getValTheme'])
     },
     methods: {
         subscribe() {
             if (!this.email) {
-                this.$set(this.errors, "email", "Field is required");
+                this.$set(this.errors, 'email', 'Field is required');
             } else if (!auth.email(this.email)) {
-                this.$set(this.errors, "email", "Invalid email");
+                this.$set(this.errors, 'email', 'Invalid email');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
@@ -95,10 +95,10 @@ export default {
         AOS.init({
             duration: 400,
             delay: 100,
-            easing: "ease-in-out",
+            easing: 'ease-in-out',
             mirror: false,
-            startEvent: "DOMContentLoaded",
-            anchorPlacement: "top-center",
+            startEvent: 'DOMContentLoaded',
+            anchorPlacement: 'top-center',
             once: true,
             offset: 50
         });

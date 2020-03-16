@@ -6,9 +6,9 @@
 
 <script>
 export default {
-    name: "DashboardCalculator",
+    name: 'DashboardCalculator',
     components: {
-        Calculator: () => import("../../components/Calculator")
+        Calculator: () => import('../../components/Calculator')
     }
 };
 </script>

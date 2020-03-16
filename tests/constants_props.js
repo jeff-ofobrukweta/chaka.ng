@@ -1,7 +1,7 @@
 const priceArray = {
     price: []
-}
-const currency = {price:"NGN"};
+};
+const currency = { price: 'NGN' };
 const date = [];
 
 export {

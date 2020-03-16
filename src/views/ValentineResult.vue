@@ -276,14 +276,14 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from "vuex";
-import EventBus from "../event-bus";
-import html2canvas from "html2canvas";
+import { mapActions, mapMutations, mapGetters } from 'vuex';
+import html2canvas from 'html2canvas';
+import EventBus from '../event-bus';
 
 export default {
-    name: "ValentineResult",
+    name: 'ValentineResult',
     components: {
-        EmailSubscribe: () => import("../components/EmailSubscription")
+        EmailSubscribe: () => import('../components/EmailSubscription')
     },
     data() {
         return {
@@ -296,24 +296,24 @@ export default {
             activePortfolio: null,
             allPortfolios: [
                 {
-                    name: "Apple Inc",
-                    symbol: "AAPL"
+                    name: 'Apple Inc',
+                    symbol: 'AAPL'
                 },
                 {
-                    name: "Netflix Inc.",
-                    symbol: "NFLX"
+                    name: 'Netflix Inc.',
+                    symbol: 'NFLX'
                 },
                 {
-                    name: "Tesla Inc.",
-                    symbol: "TSLA"
+                    name: 'Tesla Inc.',
+                    symbol: 'TSLA'
                 },
                 {
-                    name: "Guaranty Trust Bank",
-                    symbol: "GUARANTY"
+                    name: 'Guaranty Trust Bank',
+                    symbol: 'GUARANTY'
                 },
                 {
-                    name: "S&P 500 (SPDR ETF)",
-                    symbol: "SPY"
+                    name: 'S&P 500 (SPDR ETF)',
+                    symbol: 'SPY'
                 }
             ],
             showModal: false,
@@ -324,7 +324,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "getSearchInstruments", "getValResult", "getErrorLog", "canShare"]),
+        ...mapGetters(['getWindowWidth', 'getSearchInstruments', 'getValResult', 'getErrorLog', 'canShare']),
         searchStocks() {
             if (this.search) {
                 const splice = [...this.getSearchInstruments].splice(0, 5);
@@ -333,12 +333,12 @@ export default {
             return this.allPortfolios;
         },
         earningScore() {
-            const splice = this.getValResult.netEarningPercentage.split("");
-            return `${splice.splice(0, splice.length - 1).join("")}`;
+            const splice = this.getValResult.netEarningPercentage.split('');
+            return `${splice.splice(0, splice.length - 1).join('')}`;
         },
         colorClass() {
-            if (this.getValResult.netEarning >= 0) return "green";
-            return "val-red";
+            if (this.getValResult.netEarning >= 0) return 'green';
+            return 'val-red';
         },
         facebookLink() {
             return `https://web.facebook.com/sharer.php?display=page&u=http://bae.gifts/${this.code}&_rdc=1&_rdr`;
@@ -346,14 +346,14 @@ export default {
         twitterLink() {
             return `https://twitter.com/intent/tweet?text=Just found out the value of my relationship is ${this.$options.filters.currency(
                 (this.getValResult.capital + this.getValResult.netEarning) / 100,
-                "USD",
+                'USD',
                 true
             )}, find out yours at http://bae.gifts/${this.code}%0A%0APowered by @chakastocks`;
         },
         whatsappLink() {
             return `https://api.whatsapp.com/send?text=Just found out the value of my relationship is ${this.$options.filters.currency(
                 (this.getValResult.capital + this.getValResult.netEarning) / 100,
-                "USD",
+                'USD',
                 true
             )}, find out yours at http://bae.gifts/${this.code}%0A%0APowered by chaka.ng`;
         },
@@ -362,20 +362,20 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_VAL_RESULT"]),
-        ...mapMutations(["MODAL_OPENED", "SET_CAN_SHARE"]),
+        ...mapActions(['GET_VAL_RESULT']),
+        ...mapMutations(['MODAL_OPENED', 'SET_CAN_SHARE']),
         closeModal() {
-            EventBus.$emit("MODAL_CLOSED");
+            EventBus.$emit('MODAL_CLOSED');
             this.MODAL_OPENED(false);
             this.showModal = false;
-            this.$router.replace({ name: "valentine" });
+            this.$router.replace({ name: 'valentine' });
         },
         getResult() {
             this.loading = true;
             const payload = { ...this.itemData };
             payload.amount *= 100;
-            mixpanel.track("LOVE_PAGE_RESULT");
-            this.GET_VAL_RESULT(payload).then(resp => {
+            mixpanel.track('LOVE_PAGE_RESULT');
+            this.GET_VAL_RESULT(payload).then((resp) => {
                 this.loading = false;
                 this.showModal = true;
                 this.MODAL_OPENED(true);
@@ -388,17 +388,17 @@ export default {
             });
         },
         async createImage() {
-            const node = document.querySelector("#toImage");
+            const node = document.querySelector('#toImage');
             await this.toBase64(this.getValResult.imageUrl);
-            console.log("Temp URL result to base 64", this.tempUrl);
+            console.log('Temp URL result to base 64', this.tempUrl);
             html2canvas(node, { useCORS: true })
-                .then(result => {
-                    const imgSrc = result.toDataURL("image/png");
+                .then((result) => {
+                    const imgSrc = result.toDataURL('image/png');
 
-                    var canvas = document.createElement("canvas");
-                    var context = canvas.getContext("2d");
-                    var imageObj1 = new Image();
-                    var imageObj2 = new Image();
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    const imageObj1 = new Image();
+                    const imageObj2 = new Image();
                     imageObj1.src = imgSrc;
                     imageObj1.onload = () => {
                         canvas.width = imageObj1.width + 500;
@@ -407,21 +407,21 @@ export default {
                         imageObj2.src = this.tempUrl;
                         imageObj2.onload = () => {
                             context.drawImage(imageObj2, imageObj1.width - 100, 200);
-                            this.finalImage = canvas.toDataURL("image/png");
+                            this.finalImage = canvas.toDataURL('image/png');
                         };
                     };
-                    imageObj1.onerror = err => console.log("Image 1 is", err);
-                    imageObj2.onerror = err => console.error("Image 2 is", err);
+                    imageObj1.onerror = err => console.log('Image 1 is', err);
+                    imageObj2.onerror = err => console.error('Image 2 is', err);
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.error(err);
                 });
         },
         toBase64(url) {
             if (url) {
-                var xhr = new XMLHttpRequest();
+                const xhr = new XMLHttpRequest();
                 xhr.onload = () => {
-                    var reader = new FileReader();
+                    const reader = new FileReader();
                     reader.readAsDataURL(xhr.response);
                     reader.onload = () => {
                         reader.onloadend = () => {
@@ -430,25 +430,24 @@ export default {
                     };
                 };
                 xhr.onerror = err => console.error(err);
-                xhr.open("GET", url, true);
-                xhr.responseType = "blob";
+                xhr.open('GET', url, true);
+                xhr.responseType = 'blob';
                 xhr.send();
             }
         },
         decipher(salt) {
-            const textToChars = text => text.split("").map(c => c.charCodeAt(0));
+            const textToChars = text => text.split('').map(c => c.charCodeAt(0));
             const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
-            return encoded =>
-                encoded
-                    .match(/.{1,2}/g)
-                    .map(hex => parseInt(hex, 16))
-                    .map(applySaltToChar)
-                    .map(charCode => String.fromCharCode(charCode))
-                    .join("");
+            return encoded => encoded
+                .match(/.{1,2}/g)
+                .map(hex => parseInt(hex, 16))
+                .map(applySaltToChar)
+                .map(charCode => String.fromCharCode(charCode))
+                .join('');
         },
         decrypt() {
             const decipher = this.decipher(process.env.VUE_APP_CRYPTO_KEY);
-            const result = decipher(this.code).split("|");
+            const result = decipher(this.code).split('|');
             this.itemData.interval = result[0];
             this.amount = result[1];
             this.itemData.amount = result[1];
@@ -458,12 +457,10 @@ export default {
         }
     },
     mounted() {
-        mixpanel.track("LOVE_PAGE");
-        document.title = "Chaka - Relationship Net worth Calculator";
-        document.getElementsByTagName("meta").keywords.content =
-            "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
-        document.getElementsByTagName("meta").description.content =
-            "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+        mixpanel.track('LOVE_PAGE');
+        document.title = 'Chaka - Relationship Net worth Calculator';
+        document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+        document.getElementsByTagName('meta').description.content = 'Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.';
         this.decrypt();
     },
     beforeDestroy() {
