@@ -477,5 +477,29 @@
         }
     }
 
+    &__download {
+        text-align: center;
+
+        &--link {
+            background-color: $primary;
+            border-radius: 4px;
+            padding: 0.325rem 0.5rem;
+            display: inline-flex;
+
+            img {
+                max-width: 100px;
+            }
+        }
+
+        &--images {
+            margin-top: 1rem;
+
+            img {
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+    }
+
 
 }
