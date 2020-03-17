@@ -138,7 +138,7 @@ export default {
         };
     },
     computed: {
-       
+
     },
 
     mounted() {
@@ -170,16 +170,16 @@ export default {
                 datasets: [
                     {
                         label: 'Data One',
-                        backgroundColor: ['#00C48C', '#0052B4', '#FF647C', '#FFA26B', '#FFE29D','#370f5f'],
-                        data:  this.percentage 
+                        backgroundColor: ['#00C48C', '#0052B4', '#FF647C', '#FFA26B', '#FFE29D', '#370f5f'],
+                        data: this.percentage
                     }
                 ]
             };
         }
     },
-     beforeRouteUpdate (to, from, next) {
+    beforeRouteUpdate(to, from, next) {
         this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA();
-        next()
+        next();
     }
 };
 </script>

@@ -1,5 +1,5 @@
-import api from "../../services/apiService/api";
-import errorFn from "../../services/apiService/error";
+import api from '../../services/apiService/api';
+import errorFn from '../../services/apiService/error';
 
 const state = {
     exploreNews: [],
@@ -44,88 +44,80 @@ const actions = {
     GET_EXPLORE_NEWS: ({ commit }, payload) =>
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
-        new Promise(resolve =>
-            api.get("/news/explore/editorials", { ...payload }).then(
-                resp => {
-                    if (resp.status >= 200 && resp.status < 400) {
-                        // commit("REQ_SUCCESS", null, { root: true });
-                        commit("SET_EXPLORE_NEWS", resp.data.data.articles);
-                        resolve(true);
-                        return true;
-                    }
-                    errorFn(resp, "explore");
-                    resolve(false);
-                },
-                error => {
-                    errorFn(error.response, "explore");
-                    resolve(false);
+        new Promise(resolve => api.get('/news/explore/editorials', { ...payload }).then(
+            (resp) => {
+                if (resp.status >= 200 && resp.status < 400) {
+                    // commit("REQ_SUCCESS", null, { root: true });
+                    commit('SET_EXPLORE_NEWS', resp.data.data.articles);
+                    resolve(true);
+                    return true;
                 }
-            )
-        ),
+                errorFn(resp, 'explore');
+                resolve(false);
+            },
+            (error) => {
+                errorFn(error.response, 'explore');
+                resolve(false);
+            }
+        )),
     GET_EXPLORE_COLLECTIONS: ({ commit }, payload) =>
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
-        new Promise(resolve =>
-            api.get("/news/explore/collections", payload).then(
-                resp => {
-                    if (resp.status >= 200 && resp.status < 400) {
-                        // commit("REQ_SUCCESS", null, { root: true });
-                        commit("SET_EXPLORE_COLLECTIONS", resp.data.collections);
-                        resolve(true);
-                        return true;
-                    }
-                    errorFn(resp, "explore");
-                    resolve(false);
-                },
-                error => {
-                    errorFn(error.response, "explore");
-                    resolve(false);
+        new Promise(resolve => api.get('/news/explore/collections', payload).then(
+            (resp) => {
+                if (resp.status >= 200 && resp.status < 400) {
+                    // commit("REQ_SUCCESS", null, { root: true });
+                    commit('SET_EXPLORE_COLLECTIONS', resp.data.collections);
+                    resolve(true);
+                    return true;
                 }
-            )
-        ),
+                errorFn(resp, 'explore');
+                resolve(false);
+            },
+            (error) => {
+                errorFn(error.response, 'explore');
+                resolve(false);
+            }
+        )),
     GET_EXPLORE_LEARN: ({ commit }, payload) =>
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
-        new Promise(resolve =>
-            api.get("/news/explore/learn", payload).then(
-                resp => {
-                    if (resp.status >= 200 && resp.status < 400) {
-                        // commit("REQ_SUCCESS", null, { root: true });
-                        commit("SET_EXPLORE_LEARN", resp.data.data.articles);
-                        resolve(true);
-                        return true;
-                    }
-                    errorFn(resp, "explore");
-                    resolve(false);
-                },
-                error => {
-                    errorFn(error.response, "explore");
-                    resolve(false);
+        new Promise(resolve => api.get('/news/explore/learn', payload).then(
+            (resp) => {
+                if (resp.status >= 200 && resp.status < 400) {
+                    // commit("REQ_SUCCESS", null, { root: true });
+                    commit('SET_EXPLORE_LEARN', resp.data.data.articles);
+                    resolve(true);
+                    return true;
                 }
-            )
-        ),
+                errorFn(resp, 'explore');
+                resolve(false);
+            },
+            (error) => {
+                errorFn(error.response, 'explore');
+                resolve(false);
+            }
+        )),
     GET_SINGLE_COLLECTION: ({ commit, state }) => {
         /**
          * @param payload: an array pf stock symbols
          */
-        const temp = state.collectionStocks.join(",");
-        return new Promise(resolve =>
-            api.get(`/instruments/?symbols=${temp}`).then(
-                resp => {
-                    if (resp.status >= 200 && resp.status < 400) {
-                        commit("SET_SINGLE_COLLECTION", resp.data.data.instruments);
-                        resolve(true);
-                        return true;
-                    }
-                    errorFn(resp, "explore-collection");
-                    resolve(false);
-                },
-                error => {
-                    errorFn(error.response, "explore-collection");
-                    resolve(false);
+        const temp = state.collectionStocks.join(',');
+        return new Promise(resolve => api.get(`/instruments/?symbols=${temp}`).then(
+            (resp) => {
+                if (resp.status >= 200 && resp.status < 400) {
+                    commit('SET_SINGLE_COLLECTION', resp.data.data.instruments);
+                    resolve(true);
+                    return true;
                 }
-            )
-        );
+                errorFn(resp, 'explore-collection');
+                resolve(false);
+            },
+            (error) => {
+                errorFn(error.response, 'explore-collection');
+                resolve(false);
+            }
+        ));
     }
 };
 

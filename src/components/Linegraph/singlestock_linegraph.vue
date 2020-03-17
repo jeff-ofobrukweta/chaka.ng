@@ -150,77 +150,77 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import EventBus from "../../event-bus";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "Linechartgraphchild",
+    name: 'Linechartgraphchild',
     data() {
         return {
             buttonoption: [
                 {
-                    name: "1 DAY",
-                    time: "1D",
+                    name: '1 DAY',
+                    time: '1D',
                     id: 1
                 },
                 {
-                    name: "1 WEEK",
-                    time: "1W",
+                    name: '1 WEEK',
+                    time: '1W',
                     id: 2
                 },
                 {
-                    name: "1 MONTH",
-                    time: "1M",
+                    name: '1 MONTH',
+                    time: '1M',
                     id: 3
                 },
                 {
-                    name: "3 MONTHS",
-                    time: "3M",
+                    name: '3 MONTHS',
+                    time: '3M',
                     id: 4
                 },
                 {
-                    name: "1 YEAR",
-                    time: "1Y",
+                    name: '1 YEAR',
+                    time: '1Y',
                     id: 5
                 },
                 {
-                    name: "5 YEARS",
-                    time: "5Y",
+                    name: '5 YEARS',
+                    time: '5Y',
                     id: 6
                 }
             ],
             currencyOption: [
                 {
-                    symbol: "₦",
-                    currency: "NGN",
+                    symbol: '₦',
+                    currency: 'NGN',
                     id: 0,
-                    description: "convert to Naira value"
+                    description: 'convert to Naira value'
                 },
                 {
-                    symbol: "$",
-                    currency: "USD",
+                    symbol: '$',
+                    currency: 'USD',
                     id: 1,
-                    description: "convert to Dollar value"
+                    description: 'convert to Dollar value'
                 }
             ],
             loading: true,
             tooglegraph: false,
-            Interval: "1W",
+            Interval: '1W',
             options: [
                 {
-                    name: "Normal",
+                    name: 'Normal',
                     state: true,
                     id: 0
                 },
                 {
-                    name: "Technical",
+                    name: 'Technical',
                     state: false,
                     id: 1
                 }
             ],
-            activeButton: "",
-            currentId: "",
+            activeButton: '',
+            currentId: '',
             step: null,
             showKYC: false,
             type: null,
@@ -231,8 +231,8 @@ export default {
     },
     components: {
         Fragment,
-        Graph: () => import("./linegraph"),
-        TechnicalChart: () => import("../Technicalgraph")
+        Graph: () => import('./linegraph'),
+        TechnicalChart: () => import('../Technicalgraph')
     },
     props: {
         instrument: {
@@ -246,17 +246,17 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "getOpenPrice",
-            "getDates",
-            "getSingleinstrument",
-            "getPricedetailsonblackcard",
-            "getSinglestockglobalTimeforGraph",
-            "getSinglestockglobalCurrencyforGraph",
-            "getSinglestockIntervalposition",
-            "getWindowWidth",
-            "getNextKYC",
-            "getlocalstocksowned",
-            "getglobalstocksowned"
+            'getOpenPrice',
+            'getDates',
+            'getSingleinstrument',
+            'getPricedetailsonblackcard',
+            'getSinglestockglobalTimeforGraph',
+            'getSinglestockglobalCurrencyforGraph',
+            'getSinglestockIntervalposition',
+            'getWindowWidth',
+            'getNextKYC',
+            'getlocalstocksowned',
+            'getglobalstocksowned'
         ]),
         isGraphValid() {
             if (this.loading || this.getOpenPrice.length <= 0) {
@@ -274,19 +274,19 @@ export default {
     },
     methods: {
         ...mapMutations([
-            "SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH",
-            "SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH",
-            "SET_SINGLESTOCK_POSITIONS_FOR_SELECT",
-            "SET_BUY_MODAL",
-            "SET_SELL_MODAL",
-            "SET_LINE_SINGLESTOCK_CHARTDATA",
-            "SET_LINE_SINGLESTOCK_CHART_DATE",
-            "SET_PRICE_INFO_ON_BLACKCARD"
+            'SET_GLOBALSTORE_SINGLESTOCKHISTORY_INTERVAL_FOR_GRAPH',
+            'SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH',
+            'SET_SINGLESTOCK_POSITIONS_FOR_SELECT',
+            'SET_BUY_MODAL',
+            'SET_SELL_MODAL',
+            'SET_LINE_SINGLESTOCK_CHARTDATA',
+            'SET_LINE_SINGLESTOCK_CHART_DATE',
+            'SET_PRICE_INFO_ON_BLACKCARD'
         ]),
-        ...mapActions(["GET_LINECHART_SINGLESTOCK_GRAPH_DATA"]),
+        ...mapActions(['GET_LINECHART_SINGLESTOCK_GRAPH_DATA']),
         checkPositions() {
             let check = [];
-            if (this.getSingleinstrument.currency === "NGN") {
+            if (this.getSingleinstrument.currency === 'NGN') {
                 check = this.getlocalstocksowned.filter(
                     element => element.symbol === this.getSingleinstrument.symbol
                 );
@@ -315,9 +315,9 @@ export default {
         },
         async mountAction() {
             this.checkPositions();
-            //set the currency as the component mount to the global state
+            // set the currency as the component mount to the global state
             this.SET_GLOBALSTORE_SINGLESTOCKHISTORY_CURRENCY_FOR_GRAPH(this.instrument.currency);
-            if (this.getSinglestockglobalCurrencyforGraph == "USD") {
+            if (this.getSinglestockglobalCurrencyforGraph == 'USD') {
                 this.currentId = 1;
             } else {
                 this.currentId = 0;
@@ -332,7 +332,7 @@ export default {
             this.SET_PRICE_INFO_ON_BLACKCARD({});
             await this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
                 //  call back state like loader state here
-                EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
+                EventBus.$emit('GET_DAYS', this.getSinglestockglobalTimeforGraph);
                 this.loading = false;
             });
         },
@@ -346,7 +346,7 @@ export default {
                 symbol: this.$route.params.symbol
             };
             this.GET_LINECHART_SINGLESTOCK_GRAPH_DATA(payloadsinglestock).then(() => {
-                EventBus.$emit("GET_DAYS", this.getSinglestockglobalTimeforGraph);
+                EventBus.$emit('GET_DAYS', this.getSinglestockglobalTimeforGraph);
                 this.loading = false;
             });
         },
@@ -379,7 +379,7 @@ export default {
             }
         },
         showSale() {
-            if (this.step.nextAction === "buy") {
+            if (this.step.nextAction === 'buy') {
                 this.SET_BUY_MODAL({
                     instrument: this.instrument,
                     currency: this.currency,

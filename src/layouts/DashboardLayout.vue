@@ -42,22 +42,22 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "dashboard-layout",
+    name: 'dashboard-layout',
     components: {
-        Navbar: () => import("../components/Navbar"),
-        KYC: () => import("../components/kyc/NavbarKYC"),
-        KYCPending: () => import("../components/kyc/NavbarKYCPending"),
-        ExchangeModal: () => import("../components/modals/Exchange"),
-        WithdrawModal: () => import("../components/modals/Withdraw"),
-        BuyModal: () => import("../components/modals/Buy"),
-        SellModal: () => import("../components/modals/Sell"),
-        SaleSuccess: () => import("../components/modals/SaleSuccess"),
-        FundModal: () => import("../components/modals/Fund"),
-        WalletSuccess: () => import("../components/modals/WalletSuccess"),
+        Navbar: () => import('../components/Navbar'),
+        KYC: () => import('../components/kyc/NavbarKYC'),
+        KYCPending: () => import('../components/kyc/NavbarKYCPending'),
+        ExchangeModal: () => import('../components/modals/Exchange'),
+        WithdrawModal: () => import('../components/modals/Withdraw'),
+        BuyModal: () => import('../components/modals/Buy'),
+        SellModal: () => import('../components/modals/Sell'),
+        SaleSuccess: () => import('../components/modals/SaleSuccess'),
+        FundModal: () => import('../components/modals/Fund'),
+        WalletSuccess: () => import('../components/modals/WalletSuccess'),
         Fragment
     },
     data() {
@@ -67,43 +67,43 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "showNavbarKYC",
-            "getLoggedUser",
-            "getNavbarNextKYC",
-            "getBuyModal",
-            "getSellModal",
-            "getFundModal",
-            "getWithdrawModal",
-            "getExchangeModal",
-            "getWalletSuccess",
-            "getGiftSuccessModal",
-            "getSaleSuccess",
-            "isSearchOpened",
-            "isComponentLoader"
+            'showNavbarKYC',
+            'getLoggedUser',
+            'getNavbarNextKYC',
+            'getBuyModal',
+            'getSellModal',
+            'getFundModal',
+            'getWithdrawModal',
+            'getExchangeModal',
+            'getWalletSuccess',
+            'getGiftSuccessModal',
+            'getSaleSuccess',
+            'isSearchOpened',
+            'isComponentLoader'
         ]),
         showPending() {
-            if (this.getNavbarNextKYC.status === "COMPLETE" && (this.getLoggedUser.localKycStatus !== "COMPLETE" || this.getLoggedUser.globalKycStatus !== "COMPLETE")) return true;
+            if (this.getNavbarNextKYC.status === 'COMPLETE' && (this.getLoggedUser.localKycStatus !== 'COMPLETE' || this.getLoggedUser.globalKycStatus !== 'COMPLETE')) return true;
             return false;
         },
         showKYC() {
-            return this.getLoggedUser.localKycStatus !== "COMPLETE" && this.getLoggedUser.globalKycStatus !== "COMPLETE";
+            return this.getLoggedUser.localKycStatus !== 'COMPLETE' && this.getLoggedUser.globalKycStatus !== 'COMPLETE';
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY", "GET_KYC"]),
+        ...mapActions(['GET_LOGGED_USER', 'GET_ACCOUNT_SUMMARY', 'GET_KYC']),
         ...mapMutations([
-            "SET_BUY_MODAL",
-            "SET_SELL_MODAL",
-            "SET_FUND_MODAL",
-            "SET_EXCHANGE_MODAL",
-            "SET_WITHDRAW_MODAL",
-            "SET_KYC_MODAL",
-            "SET_SALE_SUCCESS",
-            "SET_WALLET_SUCCESS",
-            "RESET_MODALS",
-            "SEARCH_OPENED",
-            "MODAL_OPENED",
-            "SET_SHOW_NAVBAR_KYC"
+            'SET_BUY_MODAL',
+            'SET_SELL_MODAL',
+            'SET_FUND_MODAL',
+            'SET_EXCHANGE_MODAL',
+            'SET_WITHDRAW_MODAL',
+            'SET_KYC_MODAL',
+            'SET_SALE_SUCCESS',
+            'SET_WALLET_SUCCESS',
+            'RESET_MODALS',
+            'SEARCH_OPENED',
+            'MODAL_OPENED',
+            'SET_SHOW_NAVBAR_KYC'
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});
@@ -145,7 +145,7 @@ export default {
         }
     },
     async mounted() {
-        document.title = "Chaka - Dashboard";
+        document.title = 'Chaka - Dashboard';
         this.RESET_MODALS();
         this.SEARCH_OPENED(false);
         this.MODAL_OPENED(false);
@@ -157,7 +157,7 @@ export default {
             await this.GET_ACCOUNT_SUMMARY();
         } catch (err) {
             this.loading = false;
-            this.$router.push({ name: "logout" });
+            this.$router.push({ name: 'logout' });
         }
     },
     watch: {

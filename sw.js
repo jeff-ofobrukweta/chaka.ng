@@ -1,4 +1,4 @@
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 
 if (workbox) {
     workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
@@ -6,7 +6,7 @@ if (workbox) {
     workbox.routing.registerRoute(
         /\.otf$/,
         new workbox.strategies.CacheFirst({
-            cacheName: "font-files",
+            cacheName: 'font-files',
             plugins: [
                 new workbox.expiration.Plugin({
                     maxAgeSeconds: 7 * 24 * 60 * 60
@@ -18,7 +18,7 @@ if (workbox) {
     workbox.routing.registerRoute(
         /\.css$/,
         new workbox.strategies.CacheFirst({
-            cacheName: "css-files",
+            cacheName: 'css-files',
             plugins: [
                 new workbox.expiration.Plugin({
                     maxAgeSeconds: 5 * 24 * 60 * 60
@@ -30,7 +30,7 @@ if (workbox) {
     workbox.routing.registerRoute(
         /\.(?:png|jpg|jpeg|svg|gif)$/,
         new workbox.strategies.CacheFirst({
-            cacheName: "image-files",
+            cacheName: 'image-files',
             plugins: [
                 new workbox.expiration.Plugin({
                     maxEntries: 15,
@@ -44,7 +44,7 @@ if (workbox) {
     workbox.routing.registerRoute(
         /\.js$/,
         new workbox.strategies.StaleWhileRevalidate({
-            cacheName: "js-files",
+            cacheName: 'js-files',
             plugins: [
                 new workbox.expiration.Plugin({
                     maxAgeSeconds: 5 * 24 * 60 * 60
@@ -53,5 +53,5 @@ if (workbox) {
         })
     );
 } else {
-    console.log(`Boo! Workbox didn't load 😬`);
+    console.log('Boo! Workbox didn\'t load 😬');
 }

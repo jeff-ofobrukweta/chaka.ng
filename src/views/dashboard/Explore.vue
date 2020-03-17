@@ -145,15 +145,15 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    name: "explore",
+    name: 'explore',
     components: {
-        ExploreWatchlist: () => import("../../components/watchlist/ExploreWatchlist"),
-        MobileWatchlist: () => import("../../components/watchlist/MobileWatchlist"),
-        NewsCard: () => import("../../components/cards/NewsCard"),
-        QuizStrip: () => import("../../components/QuizStrip")
+        ExploreWatchlist: () => import('../../components/watchlist/ExploreWatchlist'),
+        MobileWatchlist: () => import('../../components/watchlist/MobileWatchlist'),
+        NewsCard: () => import('../../components/cards/NewsCard'),
+        QuizStrip: () => import('../../components/QuizStrip')
     },
     data() {
         return {
@@ -165,13 +165,13 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getPortfolioSummary", "getWindowWidth", "getExploreNews", "getExploreCollections", "getExploreLearn", "getWatchlist", "getErrorLog"]),
+        ...mapGetters(['getPortfolioSummary', 'getWindowWidth', 'getExploreNews', 'getExploreCollections', 'getExploreLearn', 'getWatchlist', 'getErrorLog']),
         otherNews() {
             return [...this.getExploreNews].splice(1);
         }
     },
     methods: {
-        ...mapActions(["GET_EXPLORE_NEWS", "GET_EXPLORE_COLLECTIONS", "GET_EXPLORE_LEARN", "GET_WATCHLIST"]),
+        ...mapActions(['GET_EXPLORE_NEWS', 'GET_EXPLORE_COLLECTIONS', 'GET_EXPLORE_LEARN', 'GET_WATCHLIST']),
         async shuffleNews() {
             this.loadNews = true;
             await this.GET_EXPLORE_NEWS({ shuffle: true });
@@ -183,7 +183,7 @@ export default {
             this.loadCollections = null;
         },
         async shuffleLearn() {
-            this.loadLearn = "learn";
+            this.loadLearn = 'learn';
             await this.GET_EXPLORE_LEARN({ shuffle: true });
             this.loadLearn = null;
         },

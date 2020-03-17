@@ -227,10 +227,11 @@
 </template>
 
 <script>
-import {Fragment} from 'vue-fragment';
+import { Fragment } from 'vue-fragment';
+
 export default {
-    name: "stock-table",
-    components:{
+    name: 'stock-table',
+    components: {
         Fragment
     },
     props: {
@@ -244,7 +245,7 @@ export default {
     },
     methods: {
         checkforUndefined(payload) {
-            if (payload === undefined || Number.isNaN(payload) || payload == "" || payload == null) {return "-";}
+            if (payload === undefined || Number.isNaN(payload) || payload == '' || payload == null) { return '-'; }
             return payload;
         }
     }

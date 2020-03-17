@@ -83,11 +83,11 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import { mapActions, mapGetters } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-    name: "phone-otp",
+    name: 'phone-otp',
     components: {
         Fragment
     },
@@ -112,18 +112,18 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getCountryCodes"]),
+        ...mapGetters(['getKYC', 'getCountryCodes']),
         hashTempPhone() {
             if (this.tempPhone) {
                 const hash = String(this.tempPhone)
-                    .split("")
+                    .split('')
                     .map((el, index) => {
                         if (index > 1 && index < 7) {
-                            return "*";
+                            return '*';
                         }
                         return el;
                     });
-                return hash.join("");
+                return hash.join('');
             }
             return null;
         },
@@ -132,13 +132,13 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_KYC", "USE_BVN_PHONE", "RESOLVE_OTP", "GET_COUNTRY_CODES"]),
+        ...mapActions(['GET_KYC', 'USE_BVN_PHONE', 'RESOLVE_OTP', 'GET_COUNTRY_CODES']),
         useBVNPhone() {
             this.loading = true;
             const payload = {
                 smsSender: this.smsSender
             };
-            this.USE_BVN_PHONE(payload).then(resp => {
+            this.USE_BVN_PHONE(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -158,7 +158,7 @@ export default {
 
             if (Number.isNaN(+this.newPhone.phone)) {
                 this.issues = {
-                    phone: "Phone should be a number"
+                    phone: 'Phone should be a number'
                 };
                 return false;
             }
@@ -173,7 +173,7 @@ export default {
                 return false;
             }
             this.loading = true;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -183,10 +183,10 @@ export default {
         },
         submitOTP() {
             this.loading = true;
-            this.RESOLVE_OTP(this.otpData).then(resp => {
+            this.RESOLVE_OTP(this.otpData).then((resp) => {
                 this.loading = false;
                 if (resp) {
-                    this.$emit("close", true);
+                    this.$emit('close', true);
                     this.tempPhone = null;
                     this.itemData = {};
                 }
@@ -194,7 +194,7 @@ export default {
         },
         handleDate(e) {
             if (e.target.value) {
-                this.$set(this.newPhone, "dob", new Date(e.target.value).toISOString());
+                this.$set(this.newPhone, 'dob', new Date(e.target.value).toISOString());
             }
         },
         resendOTPEmail() {
@@ -207,7 +207,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 if (resp) {
                     this.OTPResend = false;
                     this.itemData = {};
@@ -225,7 +225,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 if (resp) {
                     this.OTPResend = false;
                     this.itemData = {};
@@ -255,13 +255,13 @@ export default {
             this.showNewPhone = true;
         },
         close() {
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     async mounted() {
         if (this.editOldPhone) {
             this.showNewPhone = true;
-            this.newPhone.countryCode = "234";
+            this.newPhone.countryCode = '234';
         } else {
             this.useBVNPhone();
         }

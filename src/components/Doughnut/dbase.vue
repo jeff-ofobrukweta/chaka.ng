@@ -93,12 +93,12 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-    name: "dbase",
+    name: 'dbase',
     components: {
-        DoughnutGraph: () => import("./doughnut")
+        DoughnutGraph: () => import('./doughnut')
     },
     data() {
         return {
@@ -107,7 +107,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getDoughnutWeightsymbol", "getDoughnutWeightpercentage"]),
+        ...mapGetters(['getDoughnutWeightsymbol', 'getDoughnutWeightpercentage']),
         isGraphValid() {
             if (this.getDoughnutWeightpercentage.length <= 0) {
                 return 1;
@@ -122,14 +122,14 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA"]),
+        ...mapActions(['GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA']),
         async reload() {
             this.loading = true;
             await this.GET_POSITION_WEIGHT_DOUGHNUT_GRAPH_DATA();
             this.loading = false;
         },
         toDetailsPage(type) {
-            this.$router.push({ name: "portfolio-details", params: { type } });
+            this.$router.push({ name: 'portfolio-details', params: { type } });
         }
     },
     async mounted() {

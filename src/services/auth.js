@@ -1,15 +1,15 @@
-import store from "../store/index";
+import store from '../store/index';
 
 /**
  * Resets state and calls logout mutation
  */
 function resetState() {
     // store.commit("LOGOUT");
-    store.commit("SET_LOGGED_USER", {});
+    store.commit('SET_LOGGED_USER', {});
     // store.commit("RESET_ALL");
-    store.commit("SET_LOGGED_IN", false);
-    localStorage.removeItem("AUTH_TOKEN");
-    localStorage.removeItem("REFRESH_TOKEN");
+    store.commit('SET_LOGGED_IN', false);
+    localStorage.removeItem('AUTH_TOKEN');
+    localStorage.removeItem('REFRESH_TOKEN');
     return true;
 }
 
@@ -35,20 +35,20 @@ export function isLoggedIn() {
  * @param next - callback to transfer control to the next middleware
  */
 export function noAuthOnly(to, from, next) {
-    if (to.name === "login" && from.path.startsWith("/dashboard") || to.name === "register" && from.path.startsWith("/dashboard")) {
+    if (to.name === 'login' && from.path.startsWith('/dashboard') || to.name === 'register' && from.path.startsWith('/dashboard')) {
         resetState();
         next();
     } else if (isLoggedIn()) {
-        if (to.name === "calculator") {
-            next("/dashboard/calculator");
-        } else if (to.name === "gifts") {
+        if (to.name === 'calculator') {
+            next('/dashboard/calculator');
+        } else if (to.name === 'gifts') {
             //  TO-DO:: Put back when Gifts is ready
             // next("/dashboard/gifts");
-            next("/login");
-        } else if (to.name === "valentine" || to.name === "valentine-result") {
+            next('/login');
+        } else if (to.name === 'valentine' || to.name === 'valentine-result') {
             resetState();
             next();
-        } else next("/dashboard");
+        } else next('/dashboard');
     } else {
         next();
     }
@@ -64,7 +64,7 @@ export function requireAuth(to, from, next) {
     if (isLoggedIn()) {
         next();
     } else {
-        next({ name: "login" });
+        next({ name: 'login' });
     }
 }
 
@@ -72,5 +72,5 @@ export function requireAuth(to, from, next) {
  * clears the current session
  */
 export function clearSession(to, from, next) {
-    next({ name: "login" });
+    next({ name: 'login' });
 }
