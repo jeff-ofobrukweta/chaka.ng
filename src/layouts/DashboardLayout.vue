@@ -38,6 +38,7 @@
         <ExchangeModal @close="closeExchange" v-if="getExchangeModal" />
         <WithdrawModal @close="closeWithdraw" v-if="getWithdrawModal" />
         <WalletSuccess @close="closeWallet" v-if="getWalletSuccess" />
+        <DownloadApp @close="closeDownloadApp" v-if="getDownloadApp" />
     </Fragment>
 </template>
 
@@ -58,6 +59,7 @@ export default {
         SaleSuccess: () => import("../components/modals/SaleSuccess"),
         FundModal: () => import("../components/modals/Fund"),
         WalletSuccess: () => import("../components/modals/WalletSuccess"),
+        DownloadApp: () => import("../components/modals/DownloadApp"),
         Fragment
     },
     data() {
@@ -78,8 +80,10 @@ export default {
             "getWalletSuccess",
             "getGiftSuccessModal",
             "getSaleSuccess",
+            "getDownloadApp",
             "isSearchOpened",
-            "isComponentLoader"
+            "isComponentLoader",
+            "getWindowWidth"
         ]),
         showPending() {
             if (this.getNavbarNextKYC.status === "COMPLETE" && (this.getLoggedUser.localKycStatus !== "COMPLETE" || this.getLoggedUser.globalKycStatus !== "COMPLETE")) return true;
@@ -100,6 +104,7 @@ export default {
             "SET_KYC_MODAL",
             "SET_SALE_SUCCESS",
             "SET_WALLET_SUCCESS",
+            "SET_DOWNLOAD_APP",
             "RESET_MODALS",
             "SEARCH_OPENED",
             "MODAL_OPENED",
@@ -142,6 +147,12 @@ export default {
         },
         closeWallet() {
             this.SET_WALLET_SUCCESS(false);
+        },
+        closeDownloadApp() {
+            const showDownload = localStorage.getItem("downloadApp");
+            const newValue = "" + showDownload[0] + 0;
+            localStorage.setItem("downloadApp", newValue);
+            this.SET_DOWNLOAD_APP(false);
         }
     },
     async mounted() {
@@ -158,6 +169,32 @@ export default {
         } catch (err) {
             this.loading = false;
             this.$router.push({ name: "logout" });
+        }
+
+        // Check if device is mobile
+        if (this.getWindowWidth === "mobile") {
+            // Get day to show download app modal
+            const date = new Date();
+            const downloadDay = date.getDay() + 1;
+            const showDownload = localStorage.getItem("downloadApp");
+
+            // Get user device OS
+            const userAgent = navigator.userAgent.toLowerCase();
+            var isAndroid = userAgent.indexOf("android") > -1;
+
+            if (!showDownload) {
+                const temp = "" + downloadDay + 1;
+                localStorage.setItem("downloadApp", temp);
+                setTimeout(() => {
+                    this.SET_DOWNLOAD_APP(true);
+                }, 3000);
+            } else {
+                if (+showDownload[0] === downloadDay && +showDownload[1] === 1) {
+                    setTimeout(() => {
+                        this.SET_DOWNLOAD_APP(true);
+                    }, 3000);
+                }
+            }
         }
     },
     watch: {

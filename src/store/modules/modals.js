@@ -11,6 +11,7 @@ const state = {
     saleSuccess: false,
     walletSuccess: false,
     giftSuccessModal: false,
+    downloadApp: false,
     mostPopular: []
 };
 
@@ -23,22 +24,10 @@ const getters = {
     getSaleSuccess: state => state.saleSuccess,
     getWalletSuccess: state => state.walletSuccess,
     getGiftSuccessModal: state => state.giftSuccessModal,
-    getMostPopular: state => {
-        // const push = [];
-        // state.mostPopular.filter(el => {
-        //     if (el.currency === "USD" && push.length === 0) {
-        //         push.push(el);
-        //     }
-        // });
-        // state.mostPopular.filter(el => {
-        //     if (el.currency === "NGN" && push.length === 1) {
-        //         push.push(el);
-        //     }
-        // });
-        // return push;
-        return state.mostPopular;
-    }
-};
+    getMostPopular: state =>
+        state.mostPopular,
+    getDownloadApp: state => state.downloadApp
+}
 
 const mutations = {
     SET_BUY_MODAL(state, payload) {
@@ -68,6 +57,9 @@ const mutations = {
     SET_MOST_POPULAR(state, payload) {
         state.mostPopular = payload;
     },
+    SET_DOWNLOAD_APP(state, payload) {
+        state.downloadApp = payload;
+    },
     RESET_MODALS(state) {
         state.buyModal = {};
         state.sellModal = {};
@@ -77,6 +69,7 @@ const mutations = {
         state.saleSuccess = false;
         state.walletSuccess = false;
         state.giftSuccessModal = false
+        state.downloadApp = false
     }
 };
 
