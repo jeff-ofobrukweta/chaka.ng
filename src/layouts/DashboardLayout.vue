@@ -182,17 +182,19 @@ export default {
             const userAgent = navigator.userAgent.toLowerCase();
             var isAndroid = userAgent.indexOf("android") > -1;
 
-            if (!showDownload) {
-                const temp = "" + downloadDay + 1;
-                localStorage.setItem("downloadApp", temp);
-                setTimeout(() => {
-                    this.SET_DOWNLOAD_APP(true);
-                }, 3000);
-            } else {
-                if (+showDownload[0] === downloadDay && +showDownload[1] === 1) {
+            if (isAndroid) {
+                if (!showDownload) {
+                    const temp = "" + downloadDay + 1;
+                    localStorage.setItem("downloadApp", temp);
                     setTimeout(() => {
                         this.SET_DOWNLOAD_APP(true);
                     }, 3000);
+                } else {
+                    if (+showDownload[0] === downloadDay && +showDownload[1] === 1) {
+                        setTimeout(() => {
+                            this.SET_DOWNLOAD_APP(true);
+                        }, 3000);
+                    }
                 }
             }
         }
