@@ -68,54 +68,53 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
-import EventBus from "../../event-bus";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "Blackcard",
+    name: 'Blackcard',
     data() {
         return {
             timingStatement: null,
-            valueTiming: ""
+            valueTiming: ''
         };
     },
     computed: {
-        ...mapGetters(["getPricedetailsonblackcard"])
+        ...mapGetters(['getPricedetailsonblackcard'])
     },
     methods: {
-        ...mapMutations(["SET_PRICE_INFO_ON_BLACKCARD"]),
+        ...mapMutations(['SET_PRICE_INFO_ON_BLACKCARD']),
         checkTimevariantForPriceCardonToogle(value) {
             switch (value) {
-                case "1D":
-                    this.timingStatement = "Last 24 Hours";
-                    return this.timingStatement;
-                case "1W":
-                    this.timingStatement = "Last One Week";
-                    return this.timingStatement;
-                case "1M":
-                    this.timingStatement = "Last One Month";
-                    return this.timingStatement;
-                case "3M":
-                    this.timingStatement = "Last Three Months";
-                    return this.timingStatement;
-                case "1Y":
-                    this.timingStatement = "Last One Year";
-                    return this.timingStatement;
-                case "5Y":
-                    this.timingStatement = "Last Five Years";
-                    return this.timingStatement;
-                default:
-                    this.timingStatement = "Last Five Years";
-                    return this.timingStatement;
+            case '1D':
+                this.timingStatement = 'Last 24 Hours';
+                return this.timingStatement;
+            case '1W':
+                this.timingStatement = 'Last One Week';
+                return this.timingStatement;
+            case '1M':
+                this.timingStatement = 'Last One Month';
+                return this.timingStatement;
+            case '3M':
+                this.timingStatement = 'Last Three Months';
+                return this.timingStatement;
+            case '1Y':
+                this.timingStatement = 'Last One Year';
+                return this.timingStatement;
+            case '5Y':
+                this.timingStatement = 'Last Five Years';
+                return this.timingStatement;
+            default:
+                this.timingStatement = 'Last Five Years';
+                return this.timingStatement;
             }
         },
         checkforUndefined(payload) {
             const response = parseFloat(payload);
-            if (response === undefined || Number.isNaN(response) || response == "") {
+            if (response === undefined || Number.isNaN(response) || response == '') {
                 return 0.0;
-            } else {
-                return response;
             }
+            return response;
         }
     },
     props: {
@@ -130,7 +129,7 @@ export default {
     },
     mounted() {
         this.SET_PRICE_INFO_ON_BLACKCARD({});
-        EventBus.$on("GET_DAYS", payLoad => {
+        EventBus.$on('GET_DAYS', (payLoad) => {
             this.valueTiming = payLoad;
             if (this.getPricedetailsonblackcard) {
                 this.checkTimevariantForPriceCardonToogle(this.valueTiming);

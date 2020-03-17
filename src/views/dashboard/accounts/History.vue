@@ -61,70 +61,70 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "accounts-history",
+    name: 'accounts-history',
     components: {
-        HistoryTable: () => import("../../../components/accounts/HistoryTable")
+        HistoryTable: () => import('../../../components/accounts/HistoryTable')
     },
     data() {
         return {
             payload: {
                 fromDate: null,
                 toDate: null,
-                actionType: "ALL",
-                walletPref: "ALL"
+                actionType: 'ALL',
+                walletPref: 'ALL'
             },
-            selectedType: "ALL",
-            selectedWallet: "ALL",
+            selectedType: 'ALL',
+            selectedWallet: 'ALL',
             loading: false,
             fromDate: null,
             toDate: null,
             walletPref: [
                 {
-                    name: "All",
-                    value: "ALL"
+                    name: 'All',
+                    value: 'ALL'
                 },
                 {
-                    name: "Local",
-                    value: "LOCAL"
+                    name: 'Local',
+                    value: 'LOCAL'
                 },
                 {
-                    name: "Global",
-                    value: "GLOBAL"
+                    name: 'Global',
+                    value: 'GLOBAL'
                 }
             ],
             actionTypes: [
                 {
-                    name: "All",
-                    value: "ALL"
+                    name: 'All',
+                    value: 'ALL'
                 },
                 {
-                    name: "Order",
-                    value: "ORDER"
+                    name: 'Order',
+                    value: 'ORDER'
                 },
                 {
-                    name: "Withdrawal",
-                    value: "DEBIT"
+                    name: 'Withdrawal',
+                    value: 'DEBIT'
                 },
                 // {
                 //     name: 'Transfer',
                 //     value: 'TRANSFER'
                 // },
                 {
-                    name: "Deposit",
-                    value: "CREDIT"
+                    name: 'Deposit',
+                    value: 'CREDIT'
                 }
             ]
         };
     },
     computed: {
-        ...mapGetters(["getAccountHistory", "getErrorLog"])
+        ...mapGetters(['getAccountHistory', 'getErrorLog'])
     },
     methods: {
-        ...mapActions(["GET_ACCOUNT_HISTORY", "GET_ORDERS_HISTORY"]),
-        ...mapMutations(["SET_ACCOUNT_HISTORY"]),
+        ...mapActions(['GET_ACCOUNT_HISTORY', 'GET_ORDERS_HISTORY']),
+        ...mapMutations(['SET_ACCOUNT_HISTORY']),
         handleDate(e) {
             if (e.target.value) {
                 this.payload.fromDate = new Date(this.fromDate).toISOString();

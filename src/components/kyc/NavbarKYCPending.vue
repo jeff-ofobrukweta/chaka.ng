@@ -40,19 +40,19 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapGetters } from "vuex";
+import { mapMutations, mapActions, mapGetters } from 'vuex';
 
 export default {
-    name: "kyc-pending",
+    name: 'kyc-pending',
     methods: {
-        ...mapMutations(["SET_FUND_MODAL"]),
-        ...mapActions(["GET_MOST_POPULAR"]),
+        ...mapMutations(['SET_FUND_MODAL']),
+        ...mapActions(['GET_MOST_POPULAR']),
         showFund() {
             this.SET_FUND_MODAL(true);
         }
     },
     computed: {
-        ...mapGetters(["getMostPopular"])
+        ...mapGetters(['getMostPopular'])
     },
     mounted() {
         this.GET_MOST_POPULAR();

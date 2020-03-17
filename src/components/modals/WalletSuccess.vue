@@ -70,21 +70,21 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "wallet-success",
+    name: 'wallet-success',
     computed: {
-        ...mapGetters(["getWalletTx", "getKYC"]),
+        ...mapGetters(['getWalletTx', 'getKYC']),
         source() {
-            if (this.getWalletTx.source === "WALLET") return "Exchange";
-            if (this.getWalletTx.actionType === "CREDIT") return "Deposit";
-            return "Withdrawal";
+            if (this.getWalletTx.source === 'WALLET') return 'Exchange';
+            if (this.getWalletTx.actionType === 'CREDIT') return 'Deposit';
+            return 'Withdrawal';
         },
         txText() {
-            if (this.source === "Exchange") {
+            if (this.source === 'Exchange') {
                 return `Your exchange of ${this.$options.filters.currency(this.getWalletTx.txAmount / 100, this.getWalletTx.currency, true)} into your ${
-                    this.getWalletTx.currency === "USD" ? "dollar" : "naira"
+                    this.getWalletTx.currency === 'USD' ? 'dollar' : 'naira'
                 } account is being processed. This takes 1 business day`;
             }
             return `Your withdrawal of <strong>${this.$options.filters.currency(this.getWalletTx.txAmount / 100, this.getWalletTx.currency, true)}</strong> into your ${
@@ -93,10 +93,10 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(["SET_WALLET_TX", "MODAL_OPENED"]),
+        ...mapMutations(['SET_WALLET_TX', 'MODAL_OPENED']),
         closeModal() {
             this.MODAL_OPENED(false);
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     beforeDestroy() {

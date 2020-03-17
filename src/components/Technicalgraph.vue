@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import VueTradingView from "vue-trading-view";
-import exchangeIDmaping from "../services/mixins/technicalgraphexchangeIDmapping";
+import VueTradingView from 'vue-trading-view';
+import exchangeIDmaping from '../services/mixins/technicalgraphexchangeIDmapping';
 
 export default {
-    name: "TechnicalChart",
+    name: 'TechnicalChart',
     mixins: [exchangeIDmaping],
     props: {
         symbol: String,
@@ -31,7 +31,7 @@ export default {
             loaded: false,
             options: {
                 symbol: `${this.exchangeIDmaping(this.exchangeID)}:${this.symbol}`,
-                theme: "Light",
+                theme: 'Light',
                 autosize: true,
                 fullscreen: false
             }

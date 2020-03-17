@@ -123,38 +123,38 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    name: "accounts-overview",
+    name: 'accounts-overview',
     components: {
-        Card: () => import("../../../layouts/AccountsCard")
+        Card: () => import('../../../layouts/AccountsCard')
     },
     computed: {
-        ...mapGetters(["getLoggedUser", "getAccountSummary"]),
+        ...mapGetters(['getLoggedUser', 'getAccountSummary']),
         username() {
             if (this.getLoggedUser.UserKYC) {
                 if (this.getLoggedUser.UserKYC.firstname) {
                     return this.getLoggedUser.UserKYC
                         ? `${this.getLoggedUser.UserKYC.firstname} ${this.getLoggedUser.UserKYC.lastname}`
-                        : "-";
+                        : '-';
                 }
             }
-            return "-";
+            return '-';
         },
         localStatus() {
-            if (this.getLoggedUser.localKycStatus === "COMPLETE") return "Approved";
-            if (this.getLoggedUser.localKycStatus === "PENDING") return "Pending";
-            return "Incomplete";
+            if (this.getLoggedUser.localKycStatus === 'COMPLETE') return 'Approved';
+            if (this.getLoggedUser.localKycStatus === 'PENDING') return 'Pending';
+            return 'Incomplete';
         },
         globalStatus() {
-            if (this.getLoggedUser.globalKycStatus === "COMPLETE") return "Approved";
-            if (this.getLoggedUser.globalKycStatus === "PENDING") return "Pending";
-            return "Incomplete";
+            if (this.getLoggedUser.globalKycStatus === 'COMPLETE') return 'Approved';
+            if (this.getLoggedUser.globalKycStatus === 'PENDING') return 'Pending';
+            return 'Incomplete';
         }
     },
     methods: {
-        ...mapActions(["GET_ACCOUNT_SUMMARY", "GET_LOGGED_USER"])
+        ...mapActions(['GET_ACCOUNT_SUMMARY', 'GET_LOGGED_USER'])
     },
     async mounted() {
         await Promise.all([this.GET_LOGGED_USER(), this.GET_ACCOUNT_SUMMARY()]);

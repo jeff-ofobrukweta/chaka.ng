@@ -9,7 +9,7 @@
 							<p
 								class="hero__text"
 							>To use Chaka’s API and integrate with a wide selection of capital market tools, reach out to us</p>
-						 
+
 						</div>
 					</div>
 					<div class="col-md-7">
@@ -22,7 +22,7 @@
 					</div>
 				</div>
 			</div>
-		</section> 
+		</section>
 
 		<section class="section section--pad">
 			<div class="container">
@@ -79,16 +79,14 @@
 
 <script>
 export default {
-	name: 'Developers',
-	mounted() {
-		document.title = 'Chaka - Developers';
-		document.getElementsByTagName('meta')['keywords'].content =
-			'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
-		document.getElementsByTagName('meta')['description'].content =
-			'Integrate Chaka into your application, service or workflow';
-		// document.getElementsByTagName('meta')['og:title'].content = 'Chaka - Developers';
-		// document.getElementsByTagName('meta')['og:description'].content =
-		// 	'Integrate Chaka into your application, service or workflow';
-	}
+    name: 'Developers',
+    mounted() {
+        document.title = 'Chaka - Developers';
+        document.getElementsByTagName('meta').keywords.content =			'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+        document.getElementsByTagName('meta').description.content =			'Integrate Chaka into your application, service or workflow';
+        // document.getElementsByTagName('meta')['og:title'].content = 'Chaka - Developers';
+        // document.getElementsByTagName('meta')['og:description'].content =
+        // 	'Integrate Chaka into your application, service or workflow';
+    }
 };
 </script>

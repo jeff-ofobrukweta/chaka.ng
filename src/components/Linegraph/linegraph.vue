@@ -12,25 +12,25 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
-import numeral from "numeral";
-import LineChart from "./linegraph_config";
-import EventBus from "../../event-bus";
+import { mapGetters, mapMutations } from 'vuex';
+import numeral from 'numeral';
+import LineChart from './linegraph_config';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "linechartgraph",
+    name: 'linechartgraph',
     components: {
         LineChart
     },
     data() {
         return {
-            min: "",
-            max: "",
+            min: '',
+            max: '',
             purple_orange_gradient: null,
             graphstyle: {
-                width: "100%",
-                height: "350px",
-                margin: "0px -2em"
+                width: '100%',
+                height: '350px',
+                margin: '0px -2em'
             },
             interval: 10,
             datacollection: {},
@@ -38,7 +38,7 @@ export default {
                 scales: {
                     xAxes: [
                         {
-                            distribution: "linear",
+                            distribution: 'linear',
                             display: true,
                             ticks: {
                                 maxTicksLimit: 8,
@@ -46,20 +46,20 @@ export default {
                             },
                             gridLines: {
                                 display: true,
-                                labelString: "Date",
+                                labelString: 'Date',
                                 drawBorder: false
                             },
                             time: {
                                 displayFormats: {
-                                    millisecond: "MMM DD",
-                                    second: "MMM DD",
-                                    minute: "MMM DD",
-                                    hour: "MMM DD",
-                                    day: "MMM DD",
-                                    week: "MMM DD",
-                                    month: "MMM DD",
-                                    quarter: "MMM DD",
-                                    year: "MMM DD"
+                                    millisecond: 'MMM DD',
+                                    second: 'MMM DD',
+                                    minute: 'MMM DD',
+                                    hour: 'MMM DD',
+                                    day: 'MMM DD',
+                                    week: 'MMM DD',
+                                    month: 'MMM DD',
+                                    quarter: 'MMM DD',
+                                    year: 'MMM DD'
                                 }
                             }
                         }
@@ -71,10 +71,10 @@ export default {
                                 display: true
                                 // labelString: 'Price'
                             },
-                            position: "left",
+                            position: 'left',
                             ticks: {
                                 beginAtZero: false,
-                                fontColor: "#8A939A",
+                                fontColor: '#8A939A',
                                 padding: 0,
                                 fontSize: 10,
                                 suggestedMin: this.min,
@@ -82,10 +82,9 @@ export default {
                                 max: this.max,
                                 min: this.min,
                                 // stepSize: 5,
-                                callback: value =>
-                                    this.currency == "NGN"
-                                        ? `N${numeral(value).format("0.00a")}`
-                                        : `$${numeral(value).format("0.00a")}`
+                                callback: value => (this.currency == 'NGN'
+                                    ? `N${numeral(value).format('0.00a')}`
+                                    : `$${numeral(value).format('0.00a')}`)
                             },
                             gridLines: {
                                 display: false,
@@ -96,7 +95,7 @@ export default {
                 },
                 animation: {
                     duration: 1000,
-                    easing: "easeOutSine"
+                    easing: 'easeOutSine'
                 },
                 hover: {
                     animationDuration: 0 // duration of animations when hovering an item
@@ -117,13 +116,13 @@ export default {
                     }
                 },
                 tooltips: {
-                    mode: "index",
+                    mode: 'index',
                     intersect: false,
-                    titleFontColor: "#ffffff",
-                    bodyFontColor: "#ffffff",
+                    titleFontColor: '#ffffff',
+                    bodyFontColor: '#ffffff',
                     titleFontSize: 15,
-                    bodyFontSize: "15",
-                    backgroundColor: "#293D4A",
+                    bodyFontSize: '15',
+                    backgroundColor: '#293D4A',
                     xPadding: 10,
                     yPadding: 8,
                     displayColors: false,
@@ -140,12 +139,12 @@ export default {
                             //     : `N${numeral(data.datasets[0].data[tooltipItem.index]).format(
                             //         '0.00a'
                             //     )}`;
-                                if( this.currency == "USD"){
-                                    return `$ ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`
-                                }
-                                else{
-                                    return`N ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`
-                                }
+                            if (this.currency == 'USD') {
+                                return `$ ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`;
+                            }
+
+                            return `N ${numeral(data.datasets[0].data[tooltipItem.index]).format('0.00a')}`;
+
                             // return `Price: ${currency}`;
                         },
                         afterLabel(tooltipItem, data) {
@@ -154,7 +153,7 @@ export default {
                         }
                     },
                     hover: {
-                        mode: "index",
+                        mode: 'index',
                         intersect: false
                     }
                 },
@@ -170,8 +169,8 @@ export default {
     },
     async mounted() {
         // EventBus.$on('fillData', (data) => {
-            this.fillData();
-            this.handlescaling();
+        this.fillData();
+        this.handlescaling();
         // });
     },
 
@@ -204,12 +203,12 @@ export default {
             return true;
         },
         fillData() {
-            const ctx = document.getElementById("line-chart").getContext("2d");
+            const ctx = document.getElementById('line-chart').getContext('2d');
             this.purple_orange_gradient = ctx.createLinearGradient(3, 0, 0, 270);
-            this.purple_orange_gradient.addColorStop(0, "#2DA5ECF2");
-            this.purple_orange_gradient.addColorStop(0.35, "#49b0ed99");
-            this.purple_orange_gradient.addColorStop(0.47, "#2DA5EC87");
-            this.purple_orange_gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+            this.purple_orange_gradient.addColorStop(0, '#2DA5ECF2');
+            this.purple_orange_gradient.addColorStop(0.35, '#49b0ed99');
+            this.purple_orange_gradient.addColorStop(0.47, '#2DA5EC87');
+            this.purple_orange_gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
             ctx.fillStyle = this.purple_orange_gradient;
             ctx.save();
 
@@ -217,20 +216,20 @@ export default {
                 labels: this.date,
                 datasets: [
                     {
-                        label: "Stocks",
+                        label: 'Stocks',
                         lineTension: 0,
                         fill: true,
                         backgroundColor: this.purple_orange_gradient,
                         hoverBackgroundColor: this.purple_orange_gradient,
-                        borderColor: "#1178B9",
+                        borderColor: '#1178B9',
                         borderWidth: 1.7,
                         showLine: true,
-                        borderJoinStyle: "round",
-                        pointBackgroundColor: "#1178B9",
+                        borderJoinStyle: 'round',
+                        pointBackgroundColor: '#1178B9',
                         pointBorderWidth: 3,
                         pointHoverRadius: 6,
-                        pointHoverBackgroundColor: "#2DA5EC",
-                        pointHoverBorderColor: "rgba(220,220,220,1)",
+                        pointHoverBackgroundColor: '#2DA5EC',
+                        pointHoverBorderColor: 'rgba(220,220,220,1)',
                         pointHoverBorderWidth: 2,
                         pointRadius: 0,
                         pointHitRadius: 1,

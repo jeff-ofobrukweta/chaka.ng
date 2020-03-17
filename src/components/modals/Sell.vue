@@ -212,14 +212,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
-import CurrencyInput from "../form/CurrencyInput";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import CurrencyInput from '../form/CurrencyInput';
 
 export default {
-    name: "sell-modal",
+    name: 'sell-modal',
     components: {
         CurrencyInput,
-        PendingKYC: () => import("./PendingKYC")
+        PendingKYC: () => import('./PendingKYC')
     },
     data() {
         return {
@@ -227,7 +227,7 @@ export default {
             loading: false,
             marketDataLoading: false,
             showTerms: false,
-            orderType: "MARKET",
+            orderType: 'MARKET',
             showResponse: false,
             isQuantity: true,
             errors: {},
@@ -236,15 +236,15 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getAccountSummary", "getMarketData", "getPreOrder", "getLoggedUser", "getNextKYC", "getSellModal"]),
+        ...mapGetters(['getAccountSummary', 'getMarketData', 'getPreOrder', 'getLoggedUser', 'getNextKYC', 'getSellModal']),
         isSellValid() {
-            if (this.instrument.currency === "NGN") {
-                if (this.getLoggedUser.localKycStatus === "NONE") return 1;
-                if (this.getLoggedUser.localKycStatus === "PENDING") return 2;
+            if (this.instrument.currency === 'NGN') {
+                if (this.getLoggedUser.localKycStatus === 'NONE') return 1;
+                if (this.getLoggedUser.localKycStatus === 'PENDING') return 2;
                 return 3;
             }
-            if (this.getLoggedUser.globalKycStatus === "NONE") return 1;
-            if (this.getLoggedUser.globalKycStatus === "PENDING") return 2;
+            if (this.getLoggedUser.globalKycStatus === 'NONE') return 1;
+            if (this.getLoggedUser.globalKycStatus === 'PENDING') return 2;
             return 3;
         },
         isFormValid() {
@@ -266,15 +266,15 @@ export default {
             return this.getSellModal.stockPage;
         },
         modalTitle() {
-            if (this.currency === "NGN") return "Processing Local Verification";
-            return "Processing Global Verification";
+            if (this.currency === 'NGN') return 'Processing Local Verification';
+            return 'Processing Global Verification';
         }
     },
     methods: {
-        ...mapActions(["GET_ACCOUNT_SUMMARY", "SELL_INSTRUMENT", "GET_MARKET_DATA", "GET_PRE_ORDER"]),
-        ...mapMutations(["SET_MARKET_DATA", "SET_SELL_ORDER", "SET_BUY_ORDER", "RESET_REQ", "SET_FUND_MODAL"]),
+        ...mapActions(['GET_ACCOUNT_SUMMARY', 'SELL_INSTRUMENT', 'GET_MARKET_DATA', 'GET_PRE_ORDER']),
+        ...mapMutations(['SET_MARKET_DATA', 'SET_SELL_ORDER', 'SET_BUY_ORDER', 'RESET_REQ', 'SET_FUND_MODAL']),
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         switchOrder(value) {
             this.orderType = value;
@@ -285,21 +285,21 @@ export default {
         },
         validateSell() {
             this.RESET_REQ();
-            if (this.orderType === "MARKET") {
+            if (this.orderType === 'MARKET') {
                 if (!this.itemData.amountCash) {
-                    this.$set(this.errors, "amountCash", "Amount is required");
+                    this.$set(this.errors, 'amountCash', 'Amount is required');
                 } else if (Number.isNaN(+this.itemData.amountCash)) {
-                    this.$set(this.errors, "quantity", "Invalid quantity");
+                    this.$set(this.errors, 'quantity', 'Invalid quantity');
                 }
             } else if (!this.itemData.price) {
-                this.$set(this.errors, "price", "Limit price is required");
+                this.$set(this.errors, 'price', 'Limit price is required');
             } else if (Number.isNaN(+this.itemData.price)) {
-                this.$set(this.errors, "quantity", "Invalid quantity");
+                this.$set(this.errors, 'quantity', 'Invalid quantity');
             }
             if (!this.itemData.quantity) {
-                this.$set(this.errors, "quantity", "Quantity is required");
+                this.$set(this.errors, 'quantity', 'Quantity is required');
             } else if (Number.isNaN(+this.itemData.quantity)) {
-                this.$set(this.errors, "quantity", "Invalid quantity");
+                this.$set(this.errors, 'quantity', 'Invalid quantity');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
@@ -308,17 +308,17 @@ export default {
             const payload = {
                 currency: this.currency,
                 instrumentSymbol: this.symbol,
-                orderSide: "SELL",
+                orderSide: 'SELL',
                 orderType: this.orderType
             };
-            if (this.orderType === "LIMIT") {
+            if (this.orderType === 'LIMIT') {
                 payload.price = +this.itemData.price * 100;
                 payload.quantity = +this.itemData.quantity;
             } else {
                 payload.amountCash = +this.itemData.amountCash * 100;
             }
             this.loading = true;
-            this.GET_PRE_ORDER(payload).then(resp => {
+            this.GET_PRE_ORDER(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.itemData.instrumentSymbol = this.symbol;
@@ -333,7 +333,7 @@ export default {
         },
         sellInstrument() {
             let value = {};
-            if (this.orderType === "MARKET") {
+            if (this.orderType === 'MARKET') {
                 if (this.isQuantity) {
                     const { price, amountCash, ...newTemp } = this.itemData;
                     newTemp.quantity = +newTemp.quantity;
@@ -350,14 +350,14 @@ export default {
                 value = newTemp;
             }
             this.loading = true;
-            this.SELL_INSTRUMENT(value).then(resp => {
+            this.SELL_INSTRUMENT(value).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     /**
                      * close buy modal
                      * show success modal
                      */
-                    this.$emit("close", true);
+                    this.$emit('close', true);
                 }
             });
         },
@@ -366,7 +366,7 @@ export default {
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = true;
                 if (e) {
-                    if (this.currency === "NGN" && this.orderType === "MARKET") {
+                    if (this.currency === 'NGN' && this.orderType === 'MARKET') {
                         this.itemData.amountCash = e * this.getMarketData.dayMax;
                     } else {
                         this.itemData.amountCash = e * this.getMarketData.bid;
@@ -379,7 +379,7 @@ export default {
             this.itemData.amountCash = e;
             if (Object.keys(this.getMarketData).length > 0) {
                 this.isQuantity = false;
-                if (this.currency === "NGN" && this.orderType === "MARKET") {
+                if (this.currency === 'NGN' && this.orderType === 'MARKET') {
                     this.itemData.quantity = +e / +this.getMarketData.dayMax;
                 } else {
                     this.itemData.quantity = +e / +this.getMarketData.bid;
@@ -406,7 +406,7 @@ export default {
         },
         showFund() {
             this.SET_FUND_MODAL(true);
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     async mounted() {

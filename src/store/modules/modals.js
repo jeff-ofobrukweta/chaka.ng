@@ -1,6 +1,6 @@
-import api from "../../services/apiService/api";
-import errorFn from "../../services/apiService/error";
-import { getRandomInteger } from "../../services/helpers";
+import api from '../../services/apiService/api';
+import errorFn from '../../services/apiService/error';
+import { getRandomInteger } from '../../services/helpers';
 
 const state = {
     buyModal: {},
@@ -75,26 +75,24 @@ const mutations = {
 
 const actions = {
     GET_MOST_POPULAR: ({ commit }) => {
-        const globals = ["AAPL", "AMZN", "NFLX", "TSLA"];
-        const locals = ["GUARANTY", "ZENITHBANK", "MTNN", "AIRTELAFRI"];
+        const globals = ['AAPL', 'AMZN', 'NFLX', 'TSLA'];
+        const locals = ['GUARANTY', 'ZENITHBANK', 'MTNN', 'AIRTELAFRI'];
         const payload = [globals[getRandomInteger(3)], locals[getRandomInteger(3)]];
-        new Promise(resolve =>
-            api.get(`/instruments/?symbols=${payload.join(",")}`).then(
-                resp => {
-                    if (resp.status >= 200 && resp.status < 400) {
-                        commit("SET_MOST_POPULAR", resp.data.data.instruments);
-                        resolve(true);
-                        return true;
-                    }
-                    errorFn(resp, "most-popular");
-                    resolve(false);
-                },
-                error => {
-                    errorFn(error.response, "most-popular");
-                    resolve(false);
+        new Promise(resolve => api.get(`/instruments/?symbols=${payload.join(',')}`).then(
+            (resp) => {
+                if (resp.status >= 200 && resp.status < 400) {
+                    commit('SET_MOST_POPULAR', resp.data.data.instruments);
+                    resolve(true);
+                    return true;
                 }
-            )
-        );
+                errorFn(resp, 'most-popular');
+                resolve(false);
+            },
+            (error) => {
+                errorFn(error.response, 'most-popular');
+                resolve(false);
+            }
+        ));
     }
 };
 
