@@ -1,65 +1,53 @@
 <template>
     <section class="table-accounts__box">
         <table class="table-accounts">
+            <thead v-if="type === 'CREDIT'" class="table-accounts__thead">
+                <th>Status</th>
+                <th>Amount</th>
+                <!-- <th>Fees</th> -->
+                <th>Payment Method</th>
+                <th>Date</th>
+                <th>Time</th>
+            </thead>
+            <thead v-else class="table-accounts__thead">
+                <th>Status</th>
+                <th>Amount</th>
+                <!-- <th>Fees</th> -->
+                <th>Date</th>
+                <th>Time</th>
+            </thead>
             <tbody class="table-accounts__tbody">
                 <template v-if="type !== 'ORDER'">
                     <tr v-for="(item, index) in history" :key="index">
-                        <td>{{ item.actionType }}</td>
+                        <td>
+                            <span>{{ item.status | capitalize }}</span>
+                        </td>
+                        <td class="cursor-context" :title="item.txAmount || item.amountCash | kobo | currency(item.currency, true)">
+                            {{ item.txAmount || item.amountCash | kobo | currency(item.currency, true) }}
+                        </td>
+                        <!-- <td>{{ item.actionType }}</td> -->
                         <template v-if="type === 'TRANSFER'">
                             <td v-if="item.currency === 'NGN'">NGN - USD</td>
                             <td v-else>USD - NGN</td>
                         </template>
-                        <td
-                            class="cursor-context"
-                            :title="
-                                item.txAmount ||
-                                    item.amountCash | kobo | currency(item.currency, true)
-                            "
-                        >
-                            Amount:
-                            {{ item.txAmount || item.amountCash | kobo | currency(item.currency) }}
-                        </td>
-                        <td>
-                            Status:
-                            <span
-                                :class="{
-                                    orange: item.status === 'PENDING' || item.status === 'QUEUED',
-                                    green: item.status === 'SUCCESS' || item.status === 'FILLED',
-                                    red: item.status === 'CANCELLED' || item.status === 'REJECTED'
-                                }"
-                                >{{ item.status }}</span
-                            >
-                        </td>
+                        <template v-if="type === 'CREDIT'">
+                            <td>{{ item.source | capitalize }}</td>
+                        </template>
                         <td>{{ item.createdAt | date }}</td>
-                        <td>{{ item.time }}</td>
+                        <td>{{ item.createdAt | time(true) }}</td>
                     </tr>
                 </template>
                 <template v-else>
                     <tr v-for="(item, index) in history" :key="index">
-                        <td>ORDER</td>
-                        <td
-                            class="cursor-context"
-                            :title="
-                                item.txAmount ||
-                                    item.amountCash | kobo | currency(item.currency, true)
-                            "
-                        >
-                            Amount:
-                            {{ item.txAmount || item.amountCash | kobo | currency(item.currency) }}
-                        </td>
+                        <!-- <td>ORDER</td> -->
                         <td>
-                            Status:
-                            <span
-                                :class="{
-                                    orange: item.status === 'PENDING' || item.status === 'QUEUED',
-                                    green: item.status === 'SUCCESS' || item.status === 'FILLED',
-                                    red: item.status === 'CANCELLED' || item.status === 'REJECTED'
-                                }"
-                                >{{ item.status }}</span
-                            >
+                            <span>{{ item.status | capitalize }}</span>
+                        </td>
+                        <td class="cursor-context" :title="item.txAmount || item.amountCash | kobo | currency(item.currency, true)">
+                            {{ item.txAmount || item.amountCash | kobo | currency(item.currency, true) }}
                         </td>
                         <td>{{ item.createdAt | date }}</td>
-                        <td>{{ item.time }}</td>
+                        <td>{{ item.createdAt | time(true) }}</td>
                     </tr>
                 </template>
             </tbody>
@@ -69,7 +57,7 @@
 
 <script>
 export default {
-    name: 'table-accounts',
+    name: "table-accounts",
     props: {
         history: {
             type: Array,
