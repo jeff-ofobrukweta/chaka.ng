@@ -143,9 +143,18 @@ export default {
         return [year, month, day].join('-');
     },
 
-    resolveTime(value) {
+    resolveTime(value, timeOnly) {
         const date = new Date(value);
         if (typeof date === 'object' && !Number.isNaN(date.getDate())) {
+            if (timeOnly) {
+                return `${date.toLocaleString('en-NG', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                })}`
+
+            }
             return `${date.toLocaleString('en-NG', {
                 hour: 'numeric',
                 minute: 'numeric',
@@ -164,5 +173,14 @@ export default {
             }
         }
         return text;
+    },
+
+    capitalize(text) {
+        if (text) {
+            const small = text.toLowerCase()
+            const temp = small.charAt(0).toUpperCase() + small.slice(1)
+            return temp
+        }
+        return text
     }
 };
