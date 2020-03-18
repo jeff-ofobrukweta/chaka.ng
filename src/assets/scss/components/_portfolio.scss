@@ -11,14 +11,16 @@
         transition: all 200ms;
         box-shadow: 6.8535px 15.4204px 17.1338px rgba(164, 164, 164, 0.3);
 
-        .table-section{
+        .table-section {
             height: 100px;
         }
-        .btn-viewmore{
+
+        .btn-viewmore {
             display: flex;
             justify-content: flex-end;
-            section:hover{
-                background:#2da5ec;
+
+            section:hover {
+                background: #2da5ec;
                 padding: 5px 29px;
                 margin: 0px -12px;
                 height: 40px;
@@ -26,14 +28,16 @@
                 box-shadow: 13.1282px 29.5385px 32.8205px rgba(164, 164, 164, 0.3);
                 transform: all 0.35;
             }
-            section{
+
+            section {
                 // background:#2da5ec;
                 padding: 5px 29px;
                 margin: 0px -12px;
                 height: 40px;
                 border-radius: 2px;
                 position: relative;
-                #Capa_1{
+
+                #Capa_1 {
                     padding: 5px 0px;
                     position: absolute;
                     right: 8px;
@@ -41,7 +45,7 @@
                 }
             }
         }
-        
+
         @include tablet {
             max-width: 33.3333%;
             flex: 0 0 33.3333%;
@@ -133,7 +137,7 @@
     &-table {
         width: 100%;
         text-align: center;
-        min-width: 900px;
+        min-width: 800px;
         border-collapse: separate;
         border-spacing: 0 1rem;
         margin-top: -1rem;
@@ -143,7 +147,7 @@
             color: $white;
 
             th {
-                padding: 1.325rem 4px
+                padding: 1rem 4px
             }
         }
 

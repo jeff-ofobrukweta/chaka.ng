@@ -121,13 +121,19 @@ textarea {
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-outer-spin-button,
-input[type="date"]::-webkit-inner-spin-button {
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-clear-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+input[type="date"] {
+  padding-right: 0;
 }
 
 a {

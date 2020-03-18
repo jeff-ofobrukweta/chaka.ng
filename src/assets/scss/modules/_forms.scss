@@ -90,7 +90,7 @@
 
   &__input {
     width: 100%;
-    padding: 0.5rem 1rem;
+    padding: 0.35rem 1rem;
     border: 1px solid $silver;
     background-color: $white;
     border-radius: 5px;
@@ -146,6 +146,10 @@
 
     &-wrapper {
       width: 100%;
+    }
+
+    &[type="date"] {
+      margin: 0;
     }
   }
 
