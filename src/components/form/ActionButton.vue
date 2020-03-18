@@ -1,23 +1,15 @@
 <template>
-    <button
-        v-if="!pending"
-        :disabled="disabled"
-        class="btn action"
-        :class="[classes]"
-        @click="handleClick($event)"
-    >
+    <button v-if="!pending" :disabled="disabled" class="btn action" :class="[classes]" @click="handleClick($event)">
         <slot></slot>
     </button>
-    <button v-else class="btn action btn-loader" disabled :class="[classes]">
-        <img :src="loader" alt="Loader" />
-    </button>
+    <button v-else class="btn action btn-loader" disabled :class="[classes]"><slot /><img :src="loader" alt="Loader" /></button>
 </template>
 
 <script>
-import loader from '../../assets/img/loader.gif';
+import loader from "../../assets/img/loader.gif";
 
 export default {
-    name: 'action-button',
+    name: "action-button",
     props: {
         classes: {
             type: Array,
@@ -29,7 +21,7 @@ export default {
         },
         pendingText: {
             type: String,
-            default: 'Pending...'
+            default: "Pending..."
         },
         disabled: {
             type: Boolean,
@@ -49,7 +41,7 @@ export default {
     methods: {
         handleClick(e) {
             this.clicked = true;
-            this.$emit('click', e);
+            this.$emit("click", e);
         }
     }
 };

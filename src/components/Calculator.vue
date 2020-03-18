@@ -89,13 +89,36 @@
             </div>
             <div class="calculator-body" v-if="getWindowWidth !== 'mobile'">
                 <div class="calculator-body__select">
-                    <input v-model="selectStock" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" @blur="endSearch" />
-                    <!-- <option value="none">Enter stock name</option>
-                        <option value="APPL">Apple Inc.</option>
-                        <option value="TSLA">Tesla Inc</option> -->
-                    <datalist id="searchstocks">
+                    <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" @blur="endSearch" />
+                    <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
+                    <div class="calculator-dropdown" v-if="search && !searchLoading && search !== selectedStock">
+                        <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
+                            <li v-for="(stock, i) in filteredSearch" :key="i" class="calculator-dropdown__li">
+                                <a @click="selectStock(stock)">
+                                    <div class="calculator-dropdown__box">
+                                        <img :src="stock.logoUrl" :alt="stock.symbol" class="calculator-dropdown__logo" />
+                                        <div>
+                                            <p>
+                                                <small>{{ stock.name | truncate(40) }}</small>
+                                            </p>
+                                            <p class="grey-cool">{{ stock.symbol }}</p>
+                                        </div>
+                                    </div>
+
+                                    <img :src="stockCountry(stock.countryCode)" width="16px" :alt="stock.symbol" class="calculator-dropdown__country" />
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="calculator-dropdown__empty" v-else>
+                            <p>
+                                There are no instruments related to
+                                <strong>{{ search }}</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- <datalist id="searchstocks">
                         <option :value="stock.symbol" v-for="(stock, i) in filteredSearch" :key="i">{{ stock.name }}</option>
-                    </datalist>
+                    </datalist> -->
                 </div>
                 <div class="calculator-body__select">
                     <select v-model="selectOption" class="form-control" @change="changeOption">
@@ -241,10 +264,12 @@ export default {
         return {
             selectOption: "buy",
             selectZone: "local",
-            selectStock: "",
+            search: "",
+            selectedStock: "",
             buy: null,
             sell: null,
             quantity: null,
+            searchLoading: false,
             fees: [
                 {
                     title: `
@@ -379,19 +404,30 @@ export default {
             this.clearFields();
         },
         async startSearch() {
-            console.log("started search");
+            // if (!this.selectedStock) {
             this.SET_SEARCH_INSTRUMENTS([]);
-            if (this.selectStock) {
-                const payload = { query: this.selectStock };
-                console.log(payload);
-                // this.searchLoading = true;
+            if (this.search) {
+                const payload = { query: this.search };
+                this.searchLoading = true;
                 await this.SEARCH_INSTRUMENTS(payload);
-                // this.searchLoading = false;
+                this.searchLoading = false;
             }
+            // } else {
+            //     this.search = this.selectedStock;
+            // }
         },
         endSearch() {
-            // this.selectStock = "";
-            // this.SET_SEARCH_INSTRUMENTS([])
+            // this.search = "";
+            // this.SET_SEARCH_INSTRUMENTS([]);
+        },
+        selectStock(stock) {
+            console.log(stock);
+            this.selectedStock = stock.symbol;
+            this.search = this.selectedStock;
+        },
+        stockCountry(countryCode) {
+            if (countryCode) return `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode.toLowerCase()}-flag.svg`;
+            return "zz";
         },
         changeZone() {
             this.clearFields();
