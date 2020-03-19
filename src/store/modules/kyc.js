@@ -9,7 +9,8 @@ const state = {
     nextKYC: {},
     navbarNextKYC: {},
     kycModalAction: 'DEFAULT',
-    countryCodes: []
+    countryCodes: [],
+    showNIN: false
 };
 
 const getters = {
@@ -18,7 +19,8 @@ const getters = {
     getNextKYC: state => state.nextKYC,
     getNavbarNextKYC: state => state.navbarNextKYC,
     getKycModalAction: state => state.kycModalAction,
-    getCountryCodes: state => state.countryCodes
+    getCountryCodes: state => state.countryCodes,
+    shouldShowNIN: state => state.showNIN
 };
 
 const mutations = {
@@ -39,6 +41,9 @@ const mutations = {
     },
     SET_COUNTRY_CODES(state, payload) {
         state.countryCodes = payload;
+    },
+    SET_SHOW_NIN(state, payload) {
+        state.showNIN = payload
     }
 };
 
@@ -47,6 +52,7 @@ const actions = {
         (resp) => {
             if (resp.status >= 200 && resp.status < 400) {
                 commit('SET_KYC', resp.data.data.kyc);
+                commit('SET_SHOW_NIN', resp.data.data.config.send_nin_in_next_kyc);
                 resolve(true);
                 return true;
             }

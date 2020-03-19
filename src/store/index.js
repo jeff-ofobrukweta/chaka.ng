@@ -17,6 +17,7 @@ import news from './modules/news';
 import modals from './modules/modals';
 import giftcard from './modules/giftcard';
 import val from './modules/val';
+import calculator from './modules/calculator'
 
 Vue.use(Vuex);
 
@@ -48,6 +49,7 @@ const initialState = {
     modals: { ...modals.state },
     giftcard: { ...giftcard.state },
     val: { ...val.state },
+    calculator: { ...calculator.state },
     componentLoader: false,
     mobileSearch: false,
     homePage: false,
@@ -130,7 +132,7 @@ export default new Vuex.Store({
             Object.keys(state).forEach((key) => {
                 try {
                     Object.assign(state[key], initialState[key]);
-                } catch (error) {}
+                } catch (error) { }
             });
         },
         RESET_COMPONENT_LOADER: (state, payload) => {
@@ -180,7 +182,8 @@ export default new Vuex.Store({
         news,
         modals,
         giftcard,
-        val
+        val,
+        calculator
     },
     strict: debug,
     plugins: [persist.plugin]
