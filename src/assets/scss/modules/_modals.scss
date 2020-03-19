@@ -485,18 +485,22 @@
             border-radius: 4px;
             padding: 0.325rem 0.5rem;
             display: inline-flex;
+            width: 50%;
+            max-width: 250px;
+            justify-content: center;
 
             img {
-                max-width: 100px;
+                width: 85%;
+                max-width: 150px;
             }
         }
 
         &--images {
-            margin-top: 1rem;
+            margin-bottom: 1rem;
 
             img {
-                width: 80%;
-                max-width: 300px;
+                width: 60%;
+                max-width: 250px;
             }
         }
     }

@@ -27,7 +27,7 @@
                         </div>
                         <div>
                             <h3 class="cursor-context">
-                                {{ getAccountSummary.localAvailableToWithdraw | kobo | currency("NGN", true) }}
+                                {{ checkForNegative(getAccountSummary.localAvailableToWithdraw, "NGN") }}
                             </h3>
                             <p><small>You can Withdraw</small></p>
                         </div>
@@ -57,7 +57,7 @@
                         </div>
                         <div>
                             <h3 class="cursor-context">
-                                {{ getAccountSummary.globalAvailableToWithdraw | kobo | currency("USD", true) }}
+                                {{ checkForNegative(getAccountSummary.globalAvailableToWithdraw, "USD") }}
                             </h3>
                             <p><small>You can Withdraw</small></p>
                         </div>
@@ -124,13 +124,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex';
-import loader from '../../../assets/img/loader.gif';
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import loader from "../../../assets/img/loader.gif";
 
 export default {
-    name: 'accounts-wallet',
+    name: "accounts-wallet",
     components: {
-        BankCard: () => import('../../../components/accounts/BankCard')
+        BankCard: () => import("../../../components/accounts/BankCard")
     },
     data() {
         return {
@@ -139,7 +139,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getAccountSummary', 'getNextKYC', 'getUserCards']),
+        ...mapGetters(["getAccountSummary", "getNextKYC", "getUserCards"]),
         pageAvailable() {
             return Object.keys(this.getAccountSummary).length > 0;
         },
@@ -148,8 +148,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['GET_ACCOUNT_SUMMARY', 'GET_USER_CARDS']),
-        ...mapMutations(['SET_FUND_MODAL', 'SET_WITHDRAW_MODAL', 'SET_EXCHANGE_MODAL']),
+        ...mapActions(["GET_ACCOUNT_SUMMARY", "GET_USER_CARDS"]),
+        ...mapMutations(["SET_FUND_MODAL", "SET_WITHDRAW_MODAL", "SET_EXCHANGE_MODAL"]),
         handleStep(step) {
             this.step = step;
             if (step.kyc) {
@@ -172,6 +172,13 @@ export default {
         },
         showExchange() {
             this.SET_EXCHANGE_MODAL(true);
+        },
+        checkForNegative(value, currency) {
+            const temp = this.$options.filters.currency(Math.abs(value / 100), currency, true);
+            if (+value < 0) {
+                return `(${temp})`;
+            }
+            return temp;
         }
     },
     async mounted() {
