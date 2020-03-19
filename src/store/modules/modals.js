@@ -24,10 +24,9 @@ const getters = {
     getSaleSuccess: state => state.saleSuccess,
     getWalletSuccess: state => state.walletSuccess,
     getGiftSuccessModal: state => state.giftSuccessModal,
-    getMostPopular: state =>
-        state.mostPopular,
+    getMostPopular: state => state.mostPopular,
     getDownloadApp: state => state.downloadApp
-}
+};
 
 const mutations = {
     SET_BUY_MODAL(state, payload) {
@@ -68,8 +67,8 @@ const mutations = {
         state.withdrawModal = false;
         state.saleSuccess = false;
         state.walletSuccess = false;
-        state.giftSuccessModal = false
-        state.downloadApp = false
+        state.giftSuccessModal = false;
+        state.downloadApp = false;
     }
 };
 

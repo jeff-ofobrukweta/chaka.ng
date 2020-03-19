@@ -43,7 +43,7 @@ const mutations = {
         state.countryCodes = payload;
     },
     SET_SHOW_NIN(state, payload) {
-        state.showNIN = payload
+        state.showNIN = payload;
     }
 };
 

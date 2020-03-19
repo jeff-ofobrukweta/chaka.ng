@@ -6,11 +6,11 @@
 
 <script>
 export default {
-    name: "tooltip",
+    name: 'tooltip',
     props: {
         tag: {
             type: String,
-            default: "span"
+            default: 'span'
         },
         tooltip: {
             type: String,

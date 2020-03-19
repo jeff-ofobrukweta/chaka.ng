@@ -177,15 +177,14 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from 'vuex';
-import AOS from 'aos';
-import html2canvas from 'html2canvas';
-import EventBus from '../event-bus';
+import { mapActions, mapMutations, mapGetters } from "vuex";
+import AOS from "aos";
+import html2canvas from "html2canvas";
 
 export default {
-    name: 'Valentine',
+    name: "Valentine",
     components: {
-        EmailSubscribe: () => import('../components/EmailSubscription')
+        EmailSubscribe: () => import("../components/EmailSubscription")
     },
     data() {
         return {
@@ -198,24 +197,24 @@ export default {
             activePortfolio: null,
             allPortfolios: [
                 {
-                    name: 'Apple Inc',
-                    symbol: 'AAPL'
+                    name: "Apple Inc",
+                    symbol: "AAPL"
                 },
                 {
-                    name: 'Netflix Inc.',
-                    symbol: 'NFLX'
+                    name: "Netflix Inc.",
+                    symbol: "NFLX"
                 },
                 {
-                    name: 'Tesla Inc.',
-                    symbol: 'TSLA'
+                    name: "Tesla Inc.",
+                    symbol: "TSLA"
                 },
                 {
-                    name: 'Guaranty Trust Bank',
-                    symbol: 'GUARANTY'
+                    name: "Guaranty Trust Bank",
+                    symbol: "GUARANTY"
                 },
                 {
-                    name: 'S&P 500 (SPDR ETF)',
-                    symbol: 'SPY'
+                    name: "S&P 500 (SPDR ETF)",
+                    symbol: "SPY"
                 }
             ],
             finalImage: null,
@@ -223,7 +222,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getWindowWidth', 'getSearchInstruments']),
+        ...mapGetters(["getWindowWidth", "getSearchInstruments"]),
         searchStocks() {
             if (this.search) {
                 const splice = [...this.getSearchInstruments].splice(0, 5);
@@ -233,8 +232,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['SEARCH_INSTRUMENTS', 'GET_VAL_RESULT']),
-        ...mapMutations(['MODAL_OPENED', 'RESET_REQ', 'RESET_ALL', 'SET_CAN_SHARE']),
+        ...mapActions(["SEARCH_INSTRUMENTS", "GET_VAL_RESULT"]),
+        ...mapMutations(["MODAL_OPENED", "RESET_REQ", "RESET_ALL", "SET_CAN_SHARE"]),
         async startSearch() {
             this.itemData.symbol = null;
             const payload = { query: this.search };
@@ -246,16 +245,16 @@ export default {
         getResult() {
             this.RESET_REQ();
             if (!this.itemData.duration) {
-                this.$set(this.errors, 'duration', true);
+                this.$set(this.errors, "duration", true);
             }
             if (!this.itemData.amount) {
-                this.$set(this.errors, 'amount', true);
+                this.$set(this.errors, "amount", true);
             }
             if (!this.itemData.symbol) {
-                this.$set(this.errors, 'symbol', true);
+                this.$set(this.errors, "symbol", true);
             }
             if (!this.itemData.interval) {
-                this.$set(this.errors, 'interval', true);
+                this.$set(this.errors, "interval", true);
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
@@ -264,58 +263,61 @@ export default {
             const payload = { ...this.itemData };
             payload.amount *= 100;
             this.encrypt();
-            mixpanel.track('LOVE_PAGE_RESULT');
+            mixpanel.track("LOVE_PAGE_RESULT");
             this.SET_CAN_SHARE(true);
-            this.$router.push({ name: 'valentine-result', params: { code: this.encrypted } });
+            this.$router.push({ name: "valentine-result", params: { code: this.encrypted } });
         },
         checkGiftValue() {
-            if (this.amount !== 'manual') {
+            if (this.amount !== "manual") {
                 this.itemData.amount = this.amount;
             }
         },
         checkDuration() {
-            if ((this.itemData.interval === 'Y' && this.itemData.duration > 5) || (this.itemData.interval === 'M' && this.itemData.duration > 60)) {
+            if ((this.itemData.interval === "Y" && this.itemData.duration > 5) || (this.itemData.interval === "M" && this.itemData.duration > 60)) {
                 setTimeout(() => {
-                    this.itemData.duration = this.itemData.interval === 'M' ? 60 : 5;
+                    this.itemData.duration = this.itemData.interval === "M" ? 60 : 5;
                 }, 500);
             }
         },
         cipher(salt) {
-            const textToChars = text => text.split('').map(c => c.charCodeAt(0));
-            const byteHex = n => (`0${Number(n).toString(16)}`).substr(-2);
+            const textToChars = text => text.split("").map(c => c.charCodeAt(0));
+            const byteHex = n => `0${Number(n).toString(16)}`.substr(-2);
             const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
 
-            return text => text
-                .split('')
-                .map(textToChars)
-                .map(applySaltToChar)
-                .map(byteHex)
-                .join('');
+            return text =>
+                text
+                    .split("")
+                    .map(textToChars)
+                    .map(applySaltToChar)
+                    .map(byteHex)
+                    .join("");
         },
         encrypt() {
             const cipher = this.cipher(process.env.VUE_APP_CRYPTO_KEY);
             const text = Object.values(this.itemData).map(el => el);
-            this.encrypted = cipher(text.join('|'));
+            this.encrypted = cipher(text.join("|"));
         }
     },
     mounted() {
         // mixpanel.track("LOVE_PAGE");
-        document.title = 'Chaka - Relationship Net worth Calculator';
-        document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
-        document.getElementsByTagName('meta').description.content = 'Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.';
-        this.itemData.interval = 'Y';
+        document.title = "Chaka - Relationship Net worth Calculator";
+        document.getElementsByTagName("meta").keywords.content =
+            "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
+        document.getElementsByTagName("meta").description.content =
+            "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+        this.itemData.interval = "Y";
         this.amount = 1000;
         this.checkGiftValue();
-        this.itemData.symbol = 'AAPL';
+        this.itemData.symbol = "AAPL";
     },
     created() {
         AOS.init({
             duration: 400,
             delay: 100,
-            easing: 'ease-in-out',
+            easing: "ease-in-out",
             mirror: false,
-            startEvent: 'DOMContentLoaded',
-            anchorPlacement: 'top-center',
+            startEvent: "DOMContentLoaded",
+            anchorPlacement: "top-center",
             once: true,
             offset: 50
         });

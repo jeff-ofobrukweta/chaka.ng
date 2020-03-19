@@ -16,22 +16,21 @@ const mutations = {
 };
 
 const actions = {
-    GET_CALC_INSTRUMENT: ({ commit }, payload) =>
-        new Promise(resolve => api.get('instruments/mini-data', { ...payload }).then(
-            (resp) => {
-                if (resp.status >= 200 && resp.status < 400) {
-                    commit('SET_CALC_INSTRUMENT', resp.data.data.instrument);
-                    resolve(true);
-                    return true;
-                }
-                errorFn(resp, 'calculator');
-                resolve(false);
-            },
-            (error) => {
-                errorFn(error.response, 'calculator');
-                resolve(false);
+    GET_CALC_INSTRUMENT: ({ commit }, payload) => new Promise(resolve => api.get('instruments/mini-data', { ...payload }).then(
+        (resp) => {
+            if (resp.status >= 200 && resp.status < 400) {
+                commit('SET_CALC_INSTRUMENT', resp.data.data.instrument);
+                resolve(true);
+                return true;
             }
-        ))
+            errorFn(resp, 'calculator');
+            resolve(false);
+        },
+        (error) => {
+            errorFn(error.response, 'calculator');
+            resolve(false);
+        }
+    ))
 };
 
 export default {

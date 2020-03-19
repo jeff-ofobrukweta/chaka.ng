@@ -255,45 +255,45 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
-import Field from "./KYCField";
-import KYCTitles from "../../services/kyc/kycTitles";
-import EventBus from "../../event-bus";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+import Field from './KYCField';
+import KYCTitles from '../../services/kyc/kycTitles';
+import EventBus from '../../event-bus';
 
 export default {
-    name: "kyc-navbar",
+    name: 'kyc-navbar',
     components: {
         Field
     },
     data() {
         return {
             disclosureField: {
-                name: "Disclosure Name",
-                type: "text",
-                value: "disclosureName",
-                placeholder: "Enter your full name"
+                name: 'Disclosure Name',
+                type: 'text',
+                value: 'disclosureName',
+                placeholder: 'Enter your full name'
             },
             bvnField: {
-                name: "BVN",
-                value: "bvn",
-                type: "number",
-                placeholder: "Enter your BVN number"
+                name: 'BVN',
+                value: 'bvn',
+                type: 'number',
+                placeholder: 'Enter your BVN number'
             },
             OTPField: {
-                name: "OTP",
-                value: "otp",
-                type: "number"
+                name: 'OTP',
+                value: 'otp',
+                type: 'number'
             },
             ninField: {
-                name: "NIN",
-                value: "nin",
-                type: "number",
-                placeholder: "Enter your NIN number"
+                name: 'NIN',
+                value: 'nin',
+                type: 'number',
+                placeholder: 'Enter your NIN number'
             },
             ninFields: {
-                title: "National Identity Number",
-                subtitle: "Enter your NIN details",
-                fields: ["nin"]
+                title: 'National Identity Number',
+                subtitle: 'Enter your NIN details',
+                fields: ['nin']
             },
             selectedField: {},
             showNextModal: false,
@@ -312,18 +312,18 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "getKYC", "getNavbarNextKYC", "getCountryCodes", "getErrorLog", "getKYC", "shouldShowNIN"]),
+        ...mapGetters(['getWindowWidth', 'getKYC', 'getNavbarNextKYC', 'getCountryCodes', 'getErrorLog', 'getKYC', 'shouldShowNIN']),
         hashTempPhone() {
             if (this.tempPhone) {
                 const hash = String(this.tempPhone)
-                    .split("")
+                    .split('')
                     .map((el, index) => {
                         if (index > 1 && index < 7) {
-                            return "*";
+                            return '*';
                         }
                         return el;
                     });
-                return hash.join("");
+                return hash.join('');
             }
             return null;
         }
@@ -338,16 +338,16 @@ export default {
         // }
     },
     methods: {
-        ...mapActions(["GET_KYC", "GET_NAVBAR_NEXT_KYC", "UPDATE_KYC", "UPDATE_KYC_NIN", "RESOLVE_BVN", "RESOLVE_OTP", "GET_COUNTRY_CODES", "USE_BVN_PHONE", "GET_MOST_POPULAR"]),
-        ...mapMutations(["SET_SHOW_NAVBAR_KYC"]),
+        ...mapActions(['GET_KYC', 'GET_NAVBAR_NEXT_KYC', 'UPDATE_KYC', 'UPDATE_KYC_NIN', 'RESOLVE_BVN', 'RESOLVE_OTP', 'GET_COUNTRY_CODES', 'USE_BVN_PHONE', 'GET_MOST_POPULAR']),
+        ...mapMutations(['SET_SHOW_NAVBAR_KYC']),
         handleInput(e) {
             this.$set(this.itemData, e.name, e.value);
         },
         submitDisclosure() {
             const payload = { ...this.itemData };
-            payload.source = "navbar";
+            payload.source = 'navbar';
             this.loading = true;
-            this.UPDATE_KYC(payload).then(resp => {
+            this.UPDATE_KYC(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showNextModalBtn();
@@ -358,13 +358,13 @@ export default {
         submitBVN() {
             if (Number.isNaN(+this.itemData.bvn)) {
                 this.issues = {
-                    bvn: "BVN should be a number"
+                    bvn: 'BVN should be a number'
                 };
                 return false;
             }
             if (this.itemData.bvn.length < 11) {
                 this.issues = {
-                    bvn: "BVN should be 11 digits"
+                    bvn: 'BVN should be 11 digits'
                 };
                 return false;
             }
@@ -372,9 +372,9 @@ export default {
                 return false;
             }
             const payload = { ...this.itemData };
-            payload.source = "navbar";
+            payload.source = 'navbar';
             this.loading = true;
-            this.RESOLVE_BVN(payload).then(resp => {
+            this.RESOLVE_BVN(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.confirmPhone();
@@ -385,9 +385,9 @@ export default {
         },
         submitNIN() {
             const payload = { ...this.itemData };
-            payload.source = "navbar";
+            payload.source = 'navbar';
             this.loading = true;
-            this.UPDATE_KYC_NIN(payload).then(resp => {
+            this.UPDATE_KYC_NIN(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.checkNextKYC();
@@ -400,7 +400,7 @@ export default {
             const payload = {
                 smsSender: this.smsSender
             };
-            this.USE_BVN_PHONE(payload).then(resp => {
+            this.USE_BVN_PHONE(payload).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showOTP = true;
@@ -430,7 +430,7 @@ export default {
             //     return false;
             // }
             this.loading = true;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -440,7 +440,7 @@ export default {
         },
         submitOTP() {
             this.loading = true;
-            this.RESOLVE_OTP(this.otpData).then(resp => {
+            this.RESOLVE_OTP(this.otpData).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.showNextModalBtn();
@@ -461,7 +461,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 if (resp) {
                     this.showOTP = false;
                     this.OTPResend = false;
@@ -480,7 +480,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then(resp => {
+            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
                 if (resp) {
                     this.showOTP = false;
                     this.OTPResend = false;
@@ -523,7 +523,7 @@ export default {
             this.resendOTPWhatsapp();
         },
         showNextModalBtn(nin) {
-            if (nin === "nin") {
+            if (nin === 'nin') {
                 this.enterNIN = true;
             } else {
                 this.closeNIN();
@@ -537,8 +537,8 @@ export default {
             this.resetFields();
             if (Object.keys(this.getNavbarNextKYC).length > 0) {
                 this.selectedField = {};
-                this.allNextKYC.forEach(element => {
-                    element.fields.forEach(el => {
+                this.allNextKYC.forEach((element) => {
+                    element.fields.forEach((el) => {
                         if (el === this.getNavbarNextKYC.nextKYC[0]) {
                             this.selectedField = element;
                             this.selectedField.fields = this.getNavbarNextKYC.nextKYC;
@@ -549,7 +549,7 @@ export default {
         },
         skipNIN() {
             this.loading = true;
-            this.UPDATE_KYC_NIN({ nin: "skip" }).then(resp => {
+            this.UPDATE_KYC_NIN({ nin: 'skip' }).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.itemData = {};
@@ -583,17 +583,17 @@ export default {
         }
         await this.GET_COUNTRY_CODES();
         await this.GET_KYC();
-        EventBus.$on("navbar-trigger", () => {
+        EventBus.$on('navbar-trigger', () => {
             this.checkNextKYC();
         });
         await this.GET_MOST_POPULAR();
     },
     watch: {
-        "itemData.bvn": function(newVal) {
+        'itemData.bvn': function (newVal) {
             if (newVal) {
                 if (newVal.length > 11) {
                     this.issues = {
-                        bvn: "BVN should be 11 digits"
+                        bvn: 'BVN should be 11 digits'
                     };
                 } else {
                     this.issues = {};

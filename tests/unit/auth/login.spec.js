@@ -1,13 +1,13 @@
 import { shallowMount, createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Router from 'vue-router';
-import Login from '@/views/auth/Login';
-import routes from '@/router/routes';
 import axios from 'axios';
 
 import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import PubSub from 'pubsub-js';
+import routes from '@/router/routes';
+import Login from '@/views/auth/Login';
 import { auth, API } from '../services';
 import { login } from '../services/auth';
 
