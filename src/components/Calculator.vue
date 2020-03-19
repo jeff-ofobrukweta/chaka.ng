@@ -13,6 +13,35 @@
                     <br />
                     <div class="calculator-body" v-if="getWindowWidth === 'mobile'">
                         <div class="calculator-body__select">
+                            <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" />
+                            <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
+                            <div class="calculator-dropdown" v-if="showSearchResults">
+                                <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
+                                    <li v-for="(stock, i) in filteredSearch" :key="i" class="calculator-dropdown__li">
+                                        <a @click="selectStock(stock.symbol)">
+                                            <div class="calculator-dropdown__box">
+                                                <img :src="stock.logoUrl" :alt="stock.symbol" class="calculator-dropdown__logo" />
+                                                <div>
+                                                    <p>
+                                                        <small>{{ stock.name | truncate(40) }}</small>
+                                                    </p>
+                                                    <p class="grey-cool">{{ stock.symbol }}</p>
+                                                </div>
+                                            </div>
+
+                                            <img :src="stockCountry(stock.countryCode)" width="16px" :alt="stock.symbol" class="calculator-dropdown__country" />
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="calculator-dropdown__empty" v-else>
+                                    <p>
+                                        There are no instruments related to
+                                        <strong>{{ search }}</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="calculator-body__select">
                             <select v-model="selectOption" class="form-control" @change="changeOption">
                                 <option value="buy">Buy</option>
                                 <option value="sell">Sell</option>
@@ -89,7 +118,7 @@
             </div>
             <div class="calculator-body" v-if="getWindowWidth !== 'mobile'">
                 <div class="calculator-body__select">
-                    <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" @blur="endSearch" />
+                    <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" />
                     <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
                     <div class="calculator-dropdown" v-if="showSearchResults">
                         <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
@@ -411,7 +440,6 @@ export default {
             }
         },
         async startSearch() {
-            // if (!this.selectedStock) {
             this.SET_SEARCH_INSTRUMENTS([]);
             if (this.search) {
                 const payload = { query: this.search };
@@ -419,18 +447,13 @@ export default {
                 await this.SEARCH_INSTRUMENTS(payload);
                 this.searchLoading = false;
             }
-            // } else {
-            //     this.search = this.selectedStock;
-            // }
-        },
-        endSearch() {
-            // this.search = "";
-            // this.SET_SEARCH_INSTRUMENTS([]);
         },
         async selectStock(symbol) {
             this.selectedStock = symbol;
             this.search = this.selectedStock;
+            this.searchLoading = true;
             await this.GET_CALC_INSTRUMENT({ symbols: this.selectedStock });
+            this.searchLoading = false;
             this.selectZone = this.getCalcInstrument.currency === "USD" ? "global" : "local";
             if (this.selectOption === "sell") {
                 this.sell = this.calcAskPrice;
@@ -450,7 +473,6 @@ export default {
             this.selectedStock = "";
         },
         changeBuy() {
-            console.log(this.calcAskPrice, this.buy);
             if (this.calcAskPrice !== this.buy) {
                 this.selectedStock = null;
                 this.search = "";
