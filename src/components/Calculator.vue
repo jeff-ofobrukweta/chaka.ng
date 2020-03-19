@@ -91,10 +91,10 @@
                 <div class="calculator-body__select">
                     <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" @blur="endSearch" />
                     <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
-                    <div class="calculator-dropdown" v-if="search && !searchLoading && search !== selectedStock">
+                    <div class="calculator-dropdown" v-if="showSearchResults">
                         <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
                             <li v-for="(stock, i) in filteredSearch" :key="i" class="calculator-dropdown__li">
-                                <a @click="selectStock(stock)">
+                                <a @click="selectStock(stock.symbol)">
                                     <div class="calculator-dropdown__box">
                                         <img :src="stock.logoUrl" :alt="stock.symbol" class="calculator-dropdown__logo" />
                                         <div>
@@ -116,9 +116,6 @@
                             </p>
                         </div>
                     </div>
-                    <!-- <datalist id="searchstocks">
-                        <option :value="stock.symbol" v-for="(stock, i) in filteredSearch" :key="i">{{ stock.name }}</option>
-                    </datalist> -->
                 </div>
                 <div class="calculator-body__select">
                     <select v-model="selectOption" class="form-control" @change="changeOption">
@@ -266,6 +263,7 @@ export default {
             selectZone: "local",
             search: "",
             selectedStock: "",
+            hideSearch: true,
             buy: null,
             sell: null,
             quantity: null,
@@ -391,17 +389,26 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "getSearchInstruments"]),
+        ...mapGetters(["getWindowWidth", "getSearchInstruments", "getCalcInstrument"]),
         filteredSearch() {
             const splice = [...this.getSearchInstruments].splice(0, 4);
             return splice;
+        },
+        showSearchResults() {
+            return this.search && !this.searchLoading && this.search !== this.selectedStock;
+        },
+        calcAskPrice() {
+            return this.getCalcInstrument.InstrumentDynamic.askPrice / 100;
         }
     },
     methods: {
         ...mapMutations(["SET_SEARCH_INSTRUMENTS"]),
-        ...mapActions(["SEARCH_INSTRUMENTS"]),
-        changeOption() {
-            this.clearFields();
+        ...mapActions(["SEARCH_INSTRUMENTS", "GET_CALC_INSTRUMENT"]),
+        async changeOption() {
+            await this.clearFields();
+            if (this.selectedStock) {
+                this.selectStock(this.selectedStock);
+            }
         },
         async startSearch() {
             // if (!this.selectedStock) {
@@ -420,19 +427,34 @@ export default {
             // this.search = "";
             // this.SET_SEARCH_INSTRUMENTS([]);
         },
-        selectStock(stock) {
-            console.log(stock);
-            this.selectedStock = stock.symbol;
+        async selectStock(symbol) {
+            this.selectedStock = symbol;
             this.search = this.selectedStock;
+            await this.GET_CALC_INSTRUMENT({ symbols: this.selectedStock });
+            this.selectZone = this.getCalcInstrument.currency === "USD" ? "global" : "local";
+            if (this.selectOption === "sell") {
+                this.sell = this.calcAskPrice;
+                this.changeSell();
+            } else {
+                this.buy = this.calcAskPrice;
+                this.changeBuy();
+            }
         },
         stockCountry(countryCode) {
             if (countryCode) return `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode.toLowerCase()}-flag.svg`;
             return "zz";
         },
-        changeZone() {
-            this.clearFields();
+        async changeZone() {
+            await this.clearFields();
+            this.search = "";
+            this.selectedStock = "";
         },
         changeBuy() {
+            console.log(this.calcAskPrice, this.buy);
+            if (this.calcAskPrice !== this.buy) {
+                this.selectedStock = null;
+                this.search = "";
+            }
             const localZone = this.selectZone === "local";
             if (this.selectOption !== "profit") {
                 if (!this.buy && this.quantity) {
@@ -478,6 +500,10 @@ export default {
             }
         },
         changeSell() {
+            if (this.calcAskPrice !== this.sell && this.selectOption === "sell") {
+                this.selectedStock = null;
+                this.search = "";
+            }
             const localZone = this.selectZone === "local";
             if (this.selectOption !== "profit") {
                 if (!this.sell && this.quantity) {
@@ -680,6 +706,7 @@ export default {
             });
             this.globalList[0].value = 0;
             this.globalList[1].value = 0;
+            return true;
         }
     },
     watch: {
