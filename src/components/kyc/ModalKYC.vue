@@ -323,23 +323,13 @@ export default {
                 } else {
                     this.showEmployment = false;
                 }
-<<<<<<< HEAD
-            }
-            if (e.name === 'pepStatus') {
-=======
             } else if (e.name === "pepStatus") {
->>>>>>> 78403038d787e2befe94196dcb86d48b806d5735
                 if (e.value === true) {
                     this.showPepStatus = true;
                 } else {
                     this.showPepStatus = false;
                 }
-<<<<<<< HEAD
-            }
-            if (e.name === 'directorOfPublicCo') {
-=======
             } else if (e.name === "directorOfPublicCo") {
->>>>>>> 78403038d787e2befe94196dcb86d48b806d5735
                 if (e.value === true) {
                     this.showDirector = true;
                 } else {
@@ -354,14 +344,6 @@ export default {
             this.mount();
         },
         updateKYC() {
-<<<<<<< HEAD
-            Object.keys(this.itemData).forEach((el) => {
-                if (el === 'bvn') this.state = 'bvn';
-                else if (el === 'nin' || this.nin) this.state = 'nin';
-                else if (el === 'bankCode' || el === 'bankAcctNo') this.state = 'bank';
-                else if (el === 'employmentStatus' || el === 'directorOfPublicCo' || el === 'employedByBroker' || el === 'pepStatus') this.state = 'employment';
-                else this.state = 'default';
-=======
             Object.keys(this.itemData).forEach(el => {
                 if (el === "bvn") this.state = "bvn";
                 else if (el === "nin" || this.nin) this.state = "nin";
@@ -369,7 +351,6 @@ export default {
                 else if (el === "lg" || el === "cscsCHN") this.state = "address";
                 else if (el === "employmentStatus" || el === "directorOfPublicCo" || el === "employedByBroker" || el === "pepStatus") this.state = "employment";
                 else this.state = "default";
->>>>>>> 78403038d787e2befe94196dcb86d48b806d5735
             });
             this.loading = true;
             const payload = { ...this.itemData };

@@ -29,18 +29,21 @@
                     </p>
                 </div>
             </div>
-            <div class="card-news__box explore__news" v-if="loadNews">
+            <div class="card-news__box explore__news scrolling__overflow" v-if="loadNews">
                 <NewsCard :news="{}" dummy v-for="i in 5" :key="i" />
             </div>
-            <div class="card-news__box explore__news" v-else>
+            <div class="card-news__box explore__news scrolling__overflow" v-else>
                 <NewsCard :news="item" v-for="(item, index) in otherNews" :key="index" />
             </div>
             <div class="explore-actions__bottom">
-                <!-- <a class="explore-actions">See All</a> -->
-                <a v-if="loadNews">
-                    <img :src="require('../../assets/img/loader.gif')" alt="Loading..." width="16px" />
-                </a>
-                <a class="explore-actions" @click="shuffleNews" v-else>Shuffle</a>
+                 <a class="explore-actions" @click="shuffleNews" >
+                        <button v-if="loadNews" class="buttonload">
+                        <i class="fa fa-spinner fa-spin"></i>Loading
+                        </button>
+                        <button v-else class="buttonload">
+                        more
+                        </button>
+                    </a>
             </div>
         </section>
 
@@ -56,11 +59,14 @@
                     <!-- <p class="explore__title--sub">See the latest on the stock market</p> -->
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
-                    <!-- <a class="explore-actions">See All</a> -->
-                    <a v-if="loadCollections">
-                        <img :src="require('../../assets/img/loader.gif')" alt="Loading..." width="16px" />
+                    <a class="explore-actions" @click="shuffleCollections" >
+                        <button v-if="loadCollections" class="buttonload">
+                        <i class="fa fa-spinner fa-spin"></i>Loading
+                        </button>
+                        <button v-else class="buttonload">
+                        more
+                        </button>
                     </a>
-                    <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
                 </div>
             </section>
             <div class="card-news__box explore__news" v-if="loadCollections">
@@ -68,13 +74,17 @@
             </div>
             <div class="card-news__box explore__news" v-else>
                 <NewsCard :news="item" v-for="(item, index) in getExploreCollections" :key="index" collection />
+
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
-                <!-- <a class="explore-actions">See All</a> -->
-                <a v-if="loadCollections">
-                    <img :src="require('../../assets/img/loader.gif')" alt="Loading..." width="16px" />
+                <a class="explore-actions" @click="shuffleCollections" >
+                        <button v-if="loadCollections" class="buttonload">
+                        <i class="fa fa-spinner fa-spin"></i>Loading
+                        </button>
+                        <button v-else class="buttonload">
+                        more
+                        </button>
                 </a>
-                <a class="explore-actions" @click="shuffleCollections" v-else>Shuffle</a>
             </div>
         </section>
 
@@ -85,25 +95,32 @@
                     <!-- <p class="explore__title--sub">See the latest on the stock market</p> -->
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
-                    <!-- <a class="explore-actions">See All</a> -->
-                    <a class="explore-actions" v-if="loadLearn">
-                        <img :src="require('../../assets/img/ring-loader.jpeg')" alt="Loading..." width="16px" />
+                     <a class="explore-actions" @click="shuffleLearn" >
+                        <button v-if="loadLearn" class="buttonload">
+                        <i class="fa fa-spinner fa-spin"></i>Loading
+                        </button>
+                        <button v-else class="buttonload">
+                        more
+                        </button>
                     </a>
-                    <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
                 </div>
             </section>
-            <div class="card-news__box explore__news" v-if="loadLearn">
+            <div class="card-news__box" v-if="loadLearn">
                 <NewsCard :news="{}" dummy v-for="i in 5" :key="i" />
             </div>
-            <div class="card-news__box explore__news" v-else>
+            <div class="card-news__box" v-else>
                 <NewsCard :news="item" v-for="(item, index) in getExploreLearn" :key="index" />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
-                <!-- <a class="explore-actions">See All</a> -->
-                <a class="explore-actions" v-if="loadLearn">
-                    <img :src="require('../../assets/img/loader.gif')" alt="Loading..." width="16px" />
+                <a class="explore-actions" @click="shuffleLearn" >
+                    <button v-if="loadLearn" class="buttonload">
+                     <i class="fa fa-spinner fa-spin"></i>Loading
+                    </button>
+                     <button v-else class="buttonload">
+                     more
+                    </button>
                 </a>
-                <a class="explore-actions" @click="shuffleLearn" v-else>Shuffle</a>
+                
             </div>
         </section>
         <!-- </template> -->
@@ -147,6 +164,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 
+
+const options = {
+	root: null /* uses the page as root */,
+	rootMargin: '400px',
+	threshold: 0
+};
+
 export default {
     name: 'explore',
     components: {
@@ -157,6 +181,7 @@ export default {
     },
     data() {
         return {
+            infiniteLoader: false,
             loading: false,
             loadNews: null,
             loadCollections: null,
@@ -172,19 +197,45 @@ export default {
     },
     methods: {
         ...mapActions(['GET_EXPLORE_NEWS', 'GET_EXPLORE_COLLECTIONS', 'GET_EXPLORE_LEARN', 'GET_WATCHLIST']),
+
+        handlescrollinfinitly(from, to) {
+			this.observer = new IntersectionObserver((entries, observer) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						// const pagenation = {
+						// 	page: ++this.page,
+						// 	slug: this.getActiveSlug.slug
+						// };
+						// if (this.newInstrument.length !== this.GETSTOCKLENGTH_DISCOVER) {
+						// 	this.infiniteLoader = true;
+						// 	this.loaderState = true;
+						// 	this.GETALL_STOCKS_COLLECTIONS_LISTS(pagenation).then(() => {
+						// 		this.infiniteLoader = false;
+						// 		this.loaderState = false;
+						// 		this.newInstrument.push(...this.GETSTOCKSLIST);
+						// 	});
+						// }
+					}
+				});
+			}, options);
+		},
+
+
+
+
         async shuffleNews() {
             this.loadNews = true;
-            await this.GET_EXPLORE_NEWS({ shuffle: true });
+            await this.GET_EXPLORE_NEWS();
             this.loadNews = null;
         },
         async shuffleCollections() {
             this.loadCollections = true;
-            await this.GET_EXPLORE_COLLECTIONS({ shuffle: true });
+            await this.GET_EXPLORE_COLLECTIONS();
             this.loadCollections = null;
         },
         async shuffleLearn() {
             this.loadLearn = 'learn';
-            await this.GET_EXPLORE_LEARN({ shuffle: true });
+            await this.GET_EXPLORE_LEARN();
             this.loadLearn = null;
         },
         async mount() {
