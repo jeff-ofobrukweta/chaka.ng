@@ -13,7 +13,7 @@
                     <br />
                     <div class="calculator-body" v-if="getWindowWidth === 'mobile'">
                         <div class="calculator-body__select">
-                            <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" />
+                            <input v-model="search" list="searchstocks" placeholder="Search stocks by name, symbol..." class="form__input" @input="startSearch" />
                             <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
                             <div class="calculator-dropdown" v-if="showSearchResults">
                                 <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
@@ -118,7 +118,7 @@
             </div>
             <div class="calculator-body" v-if="getWindowWidth !== 'mobile'">
                 <div class="calculator-body__select">
-                    <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" />
+                    <input v-model="search" list="searchstocks" placeholder="Search stocks by name, symbol..." class="form__input" @input="startSearch" />
                     <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
                     <div class="calculator-dropdown" v-if="showSearchResults">
                         <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
@@ -274,24 +274,24 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
-    name: 'calculator',
+    name: "calculator",
     props: {
         dashboard: {
             type: Boolean
         }
     },
     components: {
-        CurrencyInput: () => import('./form/CurrencyInput')
+        CurrencyInput: () => import("./form/CurrencyInput")
     },
     data() {
         return {
-            selectOption: 'buy',
-            selectZone: 'local',
-            search: '',
-            selectedStock: '',
+            selectOption: "buy",
+            selectZone: "local",
+            search: "",
+            selectedStock: "",
             hideSearch: true,
             buy: null,
             sell: null,
@@ -334,82 +334,82 @@ export default {
             ],
             localBuyList: [
                 {
-                    name: 'Investment',
+                    name: "Investment",
                     value: 0
                 },
                 {
-                    name: 'SEC Fees',
+                    name: "SEC Fees",
                     value: 0
                 },
                 {
-                    name: 'CSCS Fees',
+                    name: "CSCS Fees",
                     value: 0
                 },
                 {
-                    name: 'Stamp Duties',
+                    name: "Stamp Duties",
                     value: 0
                 },
                 {
-                    name: 'Brokerage Fees (VAT Inclusive)',
+                    name: "Brokerage Fees (VAT Inclusive)",
                     value: 0
                 }
             ],
             localSellList: [
                 {
-                    name: 'Investment',
+                    name: "Investment",
                     value: 0
                 },
                 {
-                    name: 'NSE Fees',
+                    name: "NSE Fees",
                     value: 0
                 },
                 {
-                    name: 'CSCS Fees',
+                    name: "CSCS Fees",
                     value: 0
                 },
                 {
-                    name: 'Stamp Duties',
+                    name: "Stamp Duties",
                     value: 0
                 },
                 {
-                    name: 'Brokerage Fees (VAT Inclusive)',
+                    name: "Brokerage Fees (VAT Inclusive)",
                     value: 0
                 }
             ],
             localProfitList: [
                 {
-                    name: 'Investment',
+                    name: "Investment",
                     value: 0
                 },
                 {
-                    name: 'NSE/SEC Fees',
+                    name: "NSE/SEC Fees",
                     value: 0
                 },
                 {
-                    name: 'CSCS Fees',
+                    name: "CSCS Fees",
                     value: 0
                 },
                 {
-                    name: 'Stamp Duties',
+                    name: "Stamp Duties",
                     value: 0
                 },
                 {
-                    name: 'Brokerage Fees (VAT Inclusive)',
+                    name: "Brokerage Fees (VAT Inclusive)",
                     value: 0
                 }
             ],
             globalList: [
                 {
-                    name: 'Investment',
+                    name: "Investment",
                     value: 0
                 },
                 {
-                    name: 'Broker & Regulatory Fee (VAT Inclusive)',
+                    name: "Broker & Regulatory Fee",
                     value: 0
                 }
             ],
             total: {
-                name: 'Total',
+                name: "Total",
                 value: 0
             },
             totalValue: 0,
@@ -418,7 +418,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getWindowWidth', 'getSearchInstruments', 'getCalcInstrument']),
+        ...mapGetters(["getWindowWidth", "getSearchInstruments", "getCalcInstrument"]),
         filteredSearch() {
             const splice = [...this.getSearchInstruments].splice(0, 4);
             return splice;
@@ -427,12 +427,13 @@ export default {
             return this.search && !this.searchLoading && this.search !== this.selectedStock;
         },
         calcAskPrice() {
-            return this.getCalcInstrument.InstrumentDynamic.askPrice / 100;
+            if (Object.keys(this.getCalcInstrument).length > 0) return this.getCalcInstrument.InstrumentDynamic.askPrice / 100;
+            return 0;
         }
     },
     methods: {
-        ...mapMutations(['SET_SEARCH_INSTRUMENTS']),
-        ...mapActions(['SEARCH_INSTRUMENTS', 'GET_CALC_INSTRUMENT']),
+        ...mapMutations(["SET_SEARCH_INSTRUMENTS"]),
+        ...mapActions(["SEARCH_INSTRUMENTS", "GET_CALC_INSTRUMENT"]),
         async changeOption() {
             await this.clearFields();
             if (this.selectedStock) {
@@ -454,8 +455,8 @@ export default {
             this.searchLoading = true;
             await this.GET_CALC_INSTRUMENT({ symbols: this.selectedStock });
             this.searchLoading = false;
-            this.selectZone = this.getCalcInstrument.currency === 'USD' ? 'global' : 'local';
-            if (this.selectOption === 'sell') {
+            this.selectZone = this.getCalcInstrument.currency === "USD" ? "global" : "local";
+            if (this.selectOption === "sell") {
                 this.sell = this.calcAskPrice;
                 this.changeSell();
             } else {
@@ -465,20 +466,20 @@ export default {
         },
         stockCountry(countryCode) {
             if (countryCode) return `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode.toLowerCase()}-flag.svg`;
-            return 'zz';
+            return "zz";
         },
         async changeZone() {
             await this.clearFields();
-            this.search = '';
-            this.selectedStock = '';
+            this.search = "";
+            this.selectedStock = "";
         },
         changeBuy() {
             if (this.calcAskPrice !== this.buy) {
                 this.selectedStock = null;
-                this.search = '';
+                this.search = "";
             }
-            const localZone = this.selectZone === 'local';
-            if (this.selectOption !== 'profit') {
+            const localZone = this.selectZone === "local";
+            if (this.selectOption !== "profit") {
                 if (!this.buy && this.quantity) {
                     this.totalValue = 0;
                     this.total.value = 0;
@@ -495,7 +496,7 @@ export default {
                 } else {
                     this.totalValue = this.buy * this.quantity;
                 }
-                this.calculateBuy(localZone ? 'local' : 'global');
+                this.calculateBuy(localZone ? "local" : "global");
             } else {
                 if (!this.buy) {
                     this.totalBuy = 0;
@@ -518,16 +519,16 @@ export default {
                     this.totalBuy = this.buy * this.quantity;
                     this.totalSell = this.sell * this.quantity;
                 }
-                this.calculateProfit(localZone ? 'local' : 'global');
+                this.calculateProfit(localZone ? "local" : "global");
             }
         },
         changeSell() {
-            if (this.calcAskPrice !== this.sell && this.selectOption === 'sell') {
+            if (this.calcAskPrice !== this.sell && this.selectOption === "sell") {
                 this.selectedStock = null;
-                this.search = '';
+                this.search = "";
             }
-            const localZone = this.selectZone === 'local';
-            if (this.selectOption !== 'profit') {
+            const localZone = this.selectZone === "local";
+            if (this.selectOption !== "profit") {
                 if (!this.sell && this.quantity) {
                     this.totalValue = 0;
                     this.total.value = 0;
@@ -544,7 +545,7 @@ export default {
                 } else {
                     this.totalValue = this.sell * this.quantity;
                 }
-                this.calculateSell(localZone ? 'local' : 'global');
+                this.calculateSell(localZone ? "local" : "global");
             } else {
                 if (!this.buy) {
                     this.totalBuy = 0;
@@ -567,12 +568,12 @@ export default {
                     this.totalBuy = this.buy * this.quantity;
                     this.totalSell = this.sell * this.quantity;
                 }
-                this.calculateProfit(localZone ? 'local' : 'global');
+                this.calculateProfit(localZone ? "local" : "global");
             }
         },
         changeQty() {
-            const localZone = this.selectZone === 'local';
-            if (this.selectOption === 'buy') {
+            const localZone = this.selectZone === "local";
+            if (this.selectOption === "buy") {
                 if (!this.quantity) {
                     this.totalValue = this.buy || 0;
                 } else if (!this.totalValue) {
@@ -580,8 +581,8 @@ export default {
                 } else {
                     this.totalValue = this.buy * this.quantity;
                 }
-                this.calculateBuy(localZone ? 'local' : 'global');
-            } else if (this.selectOption === 'sell') {
+                this.calculateBuy(localZone ? "local" : "global");
+            } else if (this.selectOption === "sell") {
                 if (!this.quantity) {
                     this.totalValue = this.sell || 0;
                 } else if (!this.totalValue) {
@@ -589,7 +590,7 @@ export default {
                 } else {
                     this.totalValue = this.sell * this.quantity;
                 }
-                this.calculateSell(localZone ? 'local' : 'global');
+                this.calculateSell(localZone ? "local" : "global");
             } else {
                 if (!this.buy) {
                     this.totalBuy = 0;
@@ -612,13 +613,13 @@ export default {
                     this.totalBuy = this.buy * this.quantity;
                     this.totalSell = this.sell * this.quantity;
                 }
-                this.calculateProfit(localZone ? 'local' : 'global');
+                this.calculateProfit(localZone ? "local" : "global");
             }
         },
         calculateBuy(zone) {
             let temp = 0;
             let tempBroker = 0;
-            if (zone === 'local') {
+            if (zone === "local") {
                 this.localBuyList[0].value = +this.totalValue;
                 this.localBuyList[1].value = (this.totalValue * 0.3) / 100;
                 this.localBuyList[2].value = (this.totalValue * 0.063) / 100;
@@ -628,12 +629,12 @@ export default {
                 tempBroker = temp <= 100 ? 100 : temp;
                 this.localBuyList[4].value = (7.5 / 100) * tempBroker + tempBroker;
                 this.total.value = this.totalValue + this.localBuyList[1].value + this.localBuyList[2].value + this.localBuyList[3].value + this.localBuyList[4].value;
-            } else if (zone === 'global') {
+            } else if (zone === "global") {
                 this.totalValue = +this.totalValue;
                 this.globalList[0].value = this.totalValue;
                 temp = this.totalValue / 100;
                 tempBroker = temp <= 2 ? 2 : temp;
-                this.globalList[1].value = (7.5 / 100) * tempBroker + tempBroker;
+                this.globalList[1].value = tempBroker;
                 this.total.value = this.totalValue + this.globalList[1].value;
             }
         },
@@ -641,7 +642,7 @@ export default {
             let temp = 0;
             let tempBroker = 0;
             this.totalValue = parseFloat(this.totalValue);
-            if (zone === 'local') {
+            if (zone === "local") {
                 this.localSellList[0].value = +this.totalValue;
                 this.localSellList[1].value = (this.totalValue * 0.3) / 100;
                 this.localSellList[2].value = (this.totalValue * 0.378) / 100;
@@ -650,11 +651,11 @@ export default {
                 tempBroker = temp <= 100 ? 100 : temp;
                 this.localSellList[4].value = (7.5 / 100) * tempBroker + tempBroker;
                 this.total.value = this.totalValue - this.localSellList[1].value - this.localSellList[2].value - this.localSellList[3].value - this.localSellList[4].value;
-            } else if (zone === 'global') {
+            } else if (zone === "global") {
                 this.globalList[0].value = +this.totalValue;
                 temp = this.totalValue / 100;
                 tempBroker = temp <= 2 ? 2 : temp;
-                this.globalList[1].value = (7.5 / 100) * tempBroker + tempBroker;
+                this.globalList[1].value = tempBroker;
                 this.total.value = +this.totalValue - this.globalList[1].value;
             }
         },
@@ -666,7 +667,7 @@ export default {
             let tempBrokerSell = 0;
             this.totalBuy = parseFloat(this.totalBuy);
             this.totalSell = parseFloat(this.totalSell);
-            if (zone === 'local') {
+            if (zone === "local") {
                 this.localBuyList[0].value = this.totalBuy;
                 this.localBuyList[1].value = (this.totalBuy * 0.3) / 100;
                 this.localBuyList[2].value = (this.totalBuy * 0.063) / 100;
@@ -697,7 +698,7 @@ export default {
                 this.localProfitList[3].value = this.localBuyList[3].value + this.localSellList[3].value;
                 this.localProfitList[4].value = this.localBuyList[4].value + (this.totalSell ? this.localSellList[4].value : 0);
                 this.total.value = tempSell - tempBuy;
-            } else if (zone === 'global') {
+            } else if (zone === "global") {
                 const sellCharge = this.totalSell / 100;
                 const buyCharge = this.totalBuy / 100;
                 let tempSellCharge = 0;
