@@ -7,20 +7,16 @@ cache:
 variables:
     AWS_DEFAULT_REGION: eu-west-2
     FACEBOOK_CLIENT_ID: 724818008039885
+    BUCKET_NAME: frontend.cicd
     GOOGLE_CLIENT_ID: 854648413334-hiia36vlrq2c13m357jo4tgraho43h88.apps.googleusercontent.
-    BUCKET_NAME: gitcli.yml
-    VUE_APP_API_URL: https://test-api.chaka.io
+    VUE_APP_API_URL: https://chaka.io
     VUE_APP_CRYPTO_KEY: chakadev
-    VUE_APP_ISW_REF: MG4JUmqGPD
+    VUE_APP_ISW_REF: 8lqZIapXMg
     VUE_APP_ISW_URL: https://qa.interswitchng.com/paymentgateway/public/js/webpay.js
-    VUE_APP_MONNIFY_CONTRACT_CODE: 7456839164
-    VUE_APP_MONNIFY_KEY: MK_TEST_JC82CV2PRP
-    VUE_APP_MONNIFY_TEST_MODE: "true"
-    VUE_APP_PAYSTACK_KEY: pk_test_e5bb55d844be42b8e2d3aad9304af2e2bc8eae0d
-
-
-    
-    # variables here
+    VUE_APP_MONNIFY_CONTRACT_CODE: 434994171518
+    VUE_APP_MONNIFY_KEY: MK_PROD_74GGAWLUEB
+    VUE_APP_MONNIFY_TEST_MODE: 'false'
+    VUE_APP_PAYSTACK_KEY: pk_live_815a9359387e1bace2719fb1a855c937d201eb58
 
 stages:
     - build
@@ -39,7 +35,7 @@ build:
             - dist/
         expire_in: 1 hour
     only:
-        - dev
+        - production
     except:
         - master
 
@@ -52,11 +48,11 @@ deploy_review:
         - pip install awscli
         - aws s3 cp dist s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA} --recursive
     environment:
-        name: staging/${CI_COMMIT_REF_SLUG}
+        name: production/${CI_COMMIT_REF_SLUG}
         url: http://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_COMMIT_REF_SLUG}/${CI_COMMIT_SHA}
         on_stop: remove_s3
     only:
-        - dev
+        - production
     except:
         - master
 
@@ -69,11 +65,11 @@ remove_s3:
         - pip install awscli
         - aws s3 rm s3://${BUCKET_NAME}/${CI_COMMIT_REF_SLUG} --recursive
     environment:
-        name: staging/${CI_COMMIT_REF_SLUG}
+        name: production/${CI_COMMIT_REF_SLUG}
         action: stop
     when: manual
 
-build_stag:
+build_prod:
     stage: build
     before_script:
         - npm install
@@ -84,9 +80,9 @@ build_stag:
         paths:
             - dist/
     only:
-        - dev
+        - production
 
-deploy_staging:
+deploy_production:
     image: python:latest
     stage: deploy
     dependencies:
@@ -97,10 +93,10 @@ deploy_staging:
         - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
         - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
         - aws s3 cp dist s3://${BUCKET_NAME}/ --recursive
-        - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=604800
+        - aws s3 cp s3://${BUCKET_NAME}/ s3://${BUCKET_NAME}/ --metadata-directive REPLACE --recursive --cache-control max-age=3600
         - aws s3 sync ./dist s3://${BUCKET_NAME} --acl public-read
     environment:
-        name: staging/${CI_COMMIT_REF_SLUG}
-        url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/dev
+        name: production/${CI_COMMIT_REF_SLUG}
+        url: https://${BUCKET_NAME}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com/production
     only:
-        - dev
+        - production
