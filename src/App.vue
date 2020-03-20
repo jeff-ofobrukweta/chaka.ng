@@ -25,16 +25,16 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapActions } from 'vuex';
-import EventBus from './event-bus';
+import { mapMutations, mapGetters, mapActions } from "vuex";
+import EventBus from "./event-bus";
 
 export default {
-    name: 'app',
+    name: "app",
     components: {
-        Header: () => import('./components/Header'),
-        Footer: () => import('./components/Footer'),
-        Progressbar: () => import('./components/Progressbar'),
-        GiftSuccess: () => import('./components/modals/GiftSuccess')
+        Header: () => import("./components/Header"),
+        Footer: () => import("./components/Footer"),
+        Progressbar: () => import("./components/Progressbar"),
+        GiftSuccess: () => import("./components/modals/GiftSuccess")
     },
     data() {
         return {
@@ -43,25 +43,25 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(['getStatus', 'getProgressbar', 'isModalOpened', 'isSearchOpened', 'getGiftSuccessModal'])
+        ...mapGetters(["getStatus", "getProgressbar", "isModalOpened", "isSearchOpened", "getGiftSuccessModal"])
     },
     methods: {
-        ...mapActions(['START_LOADER', 'STOP_LOADER']),
-        ...mapMutations(['SET_WINDOW_WIDTH', 'SET_GIFT_SUCCESS_MODAL']),
+        ...mapActions(["START_LOADER", "STOP_LOADER"]),
+        ...mapMutations(["SET_WINDOW_WIDTH", "SET_GIFT_SUCCESS_MODAL"]),
         handleResize() {
             const width = window.innerWidth;
             if (width < 640) {
-                this.SET_WINDOW_WIDTH('mobile');
+                this.SET_WINDOW_WIDTH("mobile");
             } else if (width < 968) {
-                this.SET_WINDOW_WIDTH('tablet');
-            } else this.SET_WINDOW_WIDTH('desktop');
+                this.SET_WINDOW_WIDTH("tablet");
+            } else this.SET_WINDOW_WIDTH("desktop");
         },
         acceptCookie() {
             this.showCookie = false;
-            localStorage.setItem('__ACCEPTCOOKIE', true);
+            localStorage.setItem("__ACCEPTCOOKIE", true);
         },
         readPrivacy() {
-            this.$router.push({ name: 'privacy' });
+            this.$router.push({ name: "privacy" });
         },
         closeGift() {
             this.SET_GIFT_SUCCESS_MODAL(false);
@@ -72,29 +72,29 @@ export default {
         this.prevScrollpos = window.pageYOffset;
         window.onscroll = () => {
             const currentScrollPos = window.pageYOffset;
-            const nav = document.getElementById('nav');
-            const header = document.getElementById('header');
-            if (currentScrollPos < 30) {
-                if (nav) nav.classList.remove('scroll');
-                header.classList.remove('scroll');
-            } else if (currentScrollPos >= 50) {
-                if (nav) nav.classList.add('scroll');
-                header.classList.add('scroll');
-            }
-            if (this.prevScrollpos <= currentScrollPos && currentScrollPos > 80) {
-                if (nav) nav.classList.add('push');
-                header.classList.add('hide');
-                EventBus.$emit('HIDE_HEADER', true);
-            } else {
-                if (nav) nav.classList.remove('push');
-                header.classList.remove('hide');
-                EventBus.$emit('HIDE_HEADER', false);
-            }
+            const nav = document.getElementById("nav");
+            const header = document.getElementById("header");
+            // if (currentScrollPos < 30) {
+            //     if (nav) nav.classList.remove('scroll');
+            //     header.classList.remove('scroll');
+            // } else if (currentScrollPos >= 50) {
+            //     if (nav) nav.classList.add('scroll');
+            //     header.classList.add('scroll');
+            // }
+            // if (this.prevScrollpos <= currentScrollPos && currentScrollPos > 80) {
+            //     if (nav) nav.classList.add('push');
+            //     header.classList.add('hide');
+            //     EventBus.$emit('HIDE_HEADER', true);
+            // } else {
+            //     if (nav) nav.classList.remove('push');
+            //     header.classList.remove('hide');
+            //     EventBus.$emit('HIDE_HEADER', false);
+            // }
             this.prevScrollpos = currentScrollPos;
         };
-        window.addEventListener('resize', this.handleResize);
+        window.addEventListener("resize", this.handleResize);
         this.handleResize();
-        const acceptCookie = localStorage.getItem('__ACCEPTCOOKIE');
+        const acceptCookie = localStorage.getItem("__ACCEPTCOOKIE");
         if (acceptCookie) {
             this.showCookie = false;
         } else {
@@ -102,11 +102,11 @@ export default {
         }
     },
     destroyed() {
-        window.removeEventListener('resize', this.handleResize);
+        window.removeEventListener("resize", this.handleResize);
     },
     watch: {
         getStatus(val) {
-            if (val === 'loading') {
+            if (val === "loading") {
                 this.START_LOADER();
             } else {
                 this.STOP_LOADER();
@@ -114,16 +114,16 @@ export default {
         },
         isModalOpened(val) {
             if (val) {
-                document.querySelector('body').classList.add('no-scroll');
+                document.querySelector("body").classList.add("no-scroll");
             } else {
-                document.querySelector('body').classList.remove('no-scroll');
+                document.querySelector("body").classList.remove("no-scroll");
             }
         },
         isSearchOpened(val) {
             if (val) {
-                document.querySelector('body').classList.add('no-scroll');
+                document.querySelector("body").classList.add("no-scroll");
             } else {
-                document.querySelector('body').classList.remove('no-scroll');
+                document.querySelector("body").classList.remove("no-scroll");
             }
         }
     }
