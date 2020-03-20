@@ -709,7 +709,7 @@
             </div>
         </section>
 
-        <section class="section v2-future">
+         <section class="section v2-future">
             <div class="v2-future__image">
                 <img src="../assets/img/soundcloud 2 1.png" width="60%" />
             </div>
@@ -740,7 +740,7 @@
                     </div>
                 </a>
             </div>
-        </section>
+        </section> 
 
         <section class="section v2-mobile">
             <div class="container">
