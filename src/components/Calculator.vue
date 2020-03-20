@@ -211,6 +211,13 @@
                         {{ total.value | currency(selectZone === "local" ? "NGN" : "USD") }}
                     </h4>
                 </div>
+                <div class="calculator__data-row" v-if="selectedStock">
+                    <h4></h4>
+                    <router-link :to="{ name: 'singlestock', params: { symbol: selectedStock } }" class="btn btn__white btn-block" v-if="selectOption === 'sell'" tag="buttton"
+                        >Sell</router-link
+                    >
+                    <router-link :to="{ name: 'singlestock', params: { symbol: selectedStock } }" class="btn btn__white btn-block" v-else tag="button">Buy</router-link>
+                </div>
             </div>
         </section>
 
