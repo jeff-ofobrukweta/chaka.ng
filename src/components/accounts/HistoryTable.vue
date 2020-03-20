@@ -1,18 +1,12 @@
 <template>
     <section class="table-accounts__box">
         <table class="table-accounts">
-            <thead v-if="type === 'CREDIT'" class="table-accounts__thead">
+            <thead class="table-accounts__thead">
                 <th>Status</th>
                 <th>Amount</th>
-                <!-- <th>Fees</th> -->
-                <th>Payment Method</th>
-                <th>Date</th>
-                <th>Time</th>
-            </thead>
-            <thead v-else class="table-accounts__thead">
-                <th>Status</th>
-                <th>Amount</th>
-                <!-- <th>Fees</th> -->
+                <th v-if="type === 'CREDIT'">Payment Method</th>
+                <th v-else-if="type === 'ORDER'">Fees</th>
+                <th v-else-if="type === 'ALL'">Type</th>
                 <th>Date</th>
                 <th>Time</th>
             </thead>
@@ -25,12 +19,10 @@
                         <td class="cursor-context" :title="item.txAmount || item.amountCash | kobo | currency(item.currency, true)">
                             {{ item.txAmount || item.amountCash | kobo | currency(item.currency, true) }}
                         </td>
-                        <!-- <td>{{ item.actionType }}</td> -->
-                        <template v-if="type === 'TRANSFER'">
-                            <td v-if="item.currency === 'NGN'">NGN - USD</td>
-                            <td v-else>USD - NGN</td>
+                        <template v-if="type === 'ALL'">
+                            <td>{{ actionType(item.actionType) }}</td>
                         </template>
-                        <template v-if="type === 'CREDIT'">
+                        <template v-else-if="type === 'CREDIT'">
                             <td>{{ item.source | capitalize }}</td>
                         </template>
                         <td>{{ item.createdAt | date }}</td>
@@ -39,13 +31,13 @@
                 </template>
                 <template v-else>
                     <tr v-for="(item, index) in history" :key="index">
-                        <!-- <td>ORDER</td> -->
                         <td>
                             <span>{{ item.status | capitalize }}</span>
                         </td>
                         <td class="cursor-context" :title="item.txAmount || item.amountCash | kobo | currency(item.currency, true)">
                             {{ item.txAmount || item.amountCash | kobo | currency(item.currency, true) }}
                         </td>
+                        <td>{{ item.orderDetails.chargeCash | kobo | currency(item.currency, true) }}</td>
                         <td>{{ item.createdAt | date }}</td>
                         <td>{{ item.createdAt | time(true) }}</td>
                     </tr>
@@ -57,7 +49,7 @@
 
 <script>
 export default {
-    name: 'table-accounts',
+    name: "table-accounts",
     props: {
         history: {
             type: Array,
@@ -66,6 +58,13 @@ export default {
         type: {
             type: String,
             required: true
+        }
+    },
+    methods: {
+        actionType(value) {
+            if (value === "CREDIT") return "Deposit";
+            if (value === "DEBIT") return "Withdrawal";
+            return "Order";
         }
     }
 };
