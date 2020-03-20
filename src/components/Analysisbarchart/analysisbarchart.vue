@@ -216,10 +216,10 @@ export default {
         this.handlescaling();
     },
     methods: {
-        ...mapActions(["GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA"]),
+        ...mapActions(['GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA']),
         ...mapMutations([
-            "SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE",
-            "SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION"
+            'SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE',
+            'SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION'
         ]),
         handlescaling() {
             if (this.getOpenPrice) {
@@ -266,10 +266,10 @@ export default {
     beforeRouteUpdate(to, from, next) {
         this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE([]);
         this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION([]);
-        const payload = {symbol: to.params.symbol};
-        this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then((res)=>{
-            if(!res){
-                this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION({})
+        const payload = { symbol: to.params.symbol };
+        this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then((res) => {
+            if (!res) {
+                this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION({});
             }
         });
         next();

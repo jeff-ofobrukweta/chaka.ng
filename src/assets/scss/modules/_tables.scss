@@ -1,6 +1,7 @@
 .table {
     &-accounts {
         @extend .portfolio-table;
+        position: relative;
 
         &__box {
             @extend .portfolio-table__box
@@ -23,6 +24,11 @@
                     }
                 }
             }
+        }
+
+        &__thead {
+            @extend .portfolio-table__thead;
+            background-color: $primary !important;
         }
     }
 }

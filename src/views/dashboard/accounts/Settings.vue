@@ -516,19 +516,19 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
-const Types = () => import("../../../services/kyc/employmentTypes");
-const Positions = () => import("../../../services/kyc/employmentPosition");
-const Banks = () => import("../../../services/kyc/banks");
-const LG = () => import("../../../services/kyc/lgNames");
+const Types = () => import('../../../services/kyc/employmentTypes');
+const Positions = () => import('../../../services/kyc/employmentPosition');
+const Banks = () => import('../../../services/kyc/banks');
+const LG = () => import('../../../services/kyc/lgNames');
 
 export default {
-    name: "accounts-settings",
+    name: 'accounts-settings',
     components: {
-        Uploads: () => import("../../../components/FileUpload"),
-        PhoneOTP: () => import("../../../components/kyc/PhoneOTP"),
-        vSelect: () => import("vue-select")
+        Uploads: () => import('../../../components/FileUpload'),
+        PhoneOTP: () => import('../../../components/kyc/PhoneOTP'),
+        vSelect: () => import('vue-select')
     },
     data() {
         return {
@@ -537,7 +537,7 @@ export default {
             edit: null,
             loading: false,
             bvnData: {},
-            employmentStatus: "EMPLOYRD",
+            employmentStatus: 'EMPLOYRD',
             selectedLg: {},
             selectedCountry: {},
             lgNames: [],
@@ -555,82 +555,82 @@ export default {
             issues: {},
             objectives: [
                 {
-                    text: "Protection",
-                    value: "PROTECTION"
+                    text: 'Protection',
+                    value: 'PROTECTION'
                 },
                 {
-                    text: "Growth",
-                    value: "GROWTH"
+                    text: 'Growth',
+                    value: 'GROWTH'
                 },
                 {
-                    text: "Income",
-                    value: "INCOME"
+                    text: 'Income',
+                    value: 'INCOME'
                 }
             ],
             tolerance: [
                 {
-                    text: "Conservative",
-                    value: "CONSERVATIVE"
+                    text: 'Conservative',
+                    value: 'CONSERVATIVE'
                 },
                 {
-                    text: "Neutral",
-                    value: "NEUTRAL"
+                    text: 'Neutral',
+                    value: 'NEUTRAL'
                 },
                 {
-                    text: "Risk Seeking",
-                    value: "RISK-SEEKING"
+                    text: 'Risk Seeking',
+                    value: 'RISK-SEEKING'
                 }
             ],
             annualIncome: [
                 {
-                    text: "Less than ₦500K",
-                    value: "LESS_THAN_500K"
+                    text: 'Less than ₦500K',
+                    value: 'LESS_THAN_500K'
                 },
                 {
-                    text: "₦500K - ₦5M",
-                    value: "500K_5MILLION"
+                    text: '₦500K - ₦5M',
+                    value: '500K_5MILLION'
                 },
                 {
-                    text: "₦5M+",
-                    value: "GREATER_THAN_5MILLION"
+                    text: '₦5M+',
+                    value: 'GREATER_THAN_5MILLION'
                 }
             ],
             liquid: [
                 {
-                    text: "Less than ₦500K",
-                    value: "<N5m"
+                    text: 'Less than ₦500K',
+                    value: '<N5m'
                 },
                 {
-                    text: "₦500K - ₦5M",
-                    value: "N5m-N50m"
+                    text: '₦500K - ₦5M',
+                    value: 'N5m-N50m'
                 },
                 {
-                    text: "₦5M+",
-                    value: "N50m+"
+                    text: '₦5M+',
+                    value: 'N50m+'
                 }
             ],
             experience: [
                 {
-                    text: "0 - 2 Yrs",
-                    value: "YRS_0_2"
+                    text: '0 - 2 Yrs',
+                    value: 'YRS_0_2'
                 },
                 {
-                    text: "2 - 5 Yrs",
-                    value: "YRS_3_5"
+                    text: '2 - 5 Yrs',
+                    value: 'YRS_3_5'
                 },
                 {
-                    text: "5 Yrs+",
-                    value: "YRS_5_plus"
+                    text: '5 Yrs+',
+                    value: 'YRS_5_plus'
                 }
             ]
         };
     },
     computed: {
-        ...mapGetters(["getKYC", "getLoggedUser", "getErrorLog"])
+        ...mapGetters(['getKYC', 'getLoggedUser', 'getErrorLog'])
     },
     methods: {
-        ...mapActions(["GET_KYC", "UPDATE_KYC", "UPDATE_KYC_BANK", "RESOLVE_BVN", "RESET_REQ"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapActions(['GET_KYC', 'UPDATE_KYC', 'UPDATE_KYC_BANK', 'RESOLVE_BVN', 'RESET_REQ']),
+        ...mapMutations(['RESET_REQ']),
         editBtn(name) {
             this.edit = name;
             this.showUploadError = null;
@@ -643,9 +643,9 @@ export default {
         },
         updateKYC() {
             const payload = { ...this.itemData };
-            payload.source = "accounts";
+            payload.source = 'accounts';
             this.loading = true;
-            this.UPDATE_KYC(payload).then(resp => {
+            this.UPDATE_KYC(payload).then((resp) => {
                 this.loading = false;
                 this.edit = null;
                 if (resp) this.temData = {};
@@ -654,13 +654,13 @@ export default {
         submitBVN() {
             if (Number.isNaN(+this.bvnData.bvn)) {
                 this.issues = {
-                    bvn: "BVN should be a number"
+                    bvn: 'BVN should be a number'
                 };
                 return false;
             }
             if (this.bvnData.bvn.length < 11) {
                 this.issues = {
-                    bvn: "BVN should be 11 digits"
+                    bvn: 'BVN should be 11 digits'
                 };
                 return false;
             }
@@ -668,9 +668,9 @@ export default {
                 return false;
             }
             const payload = { ...this.bvnData };
-            payload.source = "accounts";
+            payload.source = 'accounts';
             this.loading = true;
-            this.RESOLVE_BVN(payload).then(resp => {
+            this.RESOLVE_BVN(payload).then((resp) => {
                 if (resp) {
                     this.bvnData = {};
                     this.edit = null;
@@ -680,28 +680,28 @@ export default {
         },
         submitBank() {
             if (!this.itemData.bankAcctNo) {
-                this.$set(this.issues, "bankAcctNo", "Account number is required");
+                this.$set(this.issues, 'bankAcctNo', 'Account number is required');
             }
             if (!this.itemData.bankCode) {
-                this.$set(this.issues, "bankCode", "Bank name is required");
+                this.$set(this.issues, 'bankCode', 'Bank name is required');
             }
             if (Object.keys(this.issues).length > 0) {
                 return false;
             }
             if (Number.isNaN(+this.itemData.bankAcctNo)) {
-                this.$set(this.issues, "bankAcctNo", "Account number should be 10 digits");
+                this.$set(this.issues, 'bankAcctNo', 'Account number should be 10 digits');
                 return false;
             }
             if (this.itemData.bankAcctNo.length < 10) {
-                this.$set(this.issues, "bankAcctNo", "Account number should be 10 digits");
+                this.$set(this.issues, 'bankAcctNo', 'Account number should be 10 digits');
             }
             if (Object.keys(this.issues).length > 0) {
                 return false;
             }
             const payload = { ...this.itemData };
-            payload.source = "accounts";
+            payload.source = 'accounts';
             this.loading = true;
-            this.UPDATE_KYC_BANK(payload).then(resp => {
+            this.UPDATE_KYC_BANK(payload).then((resp) => {
                 if (resp) {
                     this.itemData = {};
                     this.edit = null;
@@ -742,7 +742,7 @@ export default {
             if (value) {
                 // EventBus.$emit("navbar-trigger");
                 // EventBus.$emit("modal-trigger");
-                this.$emit("updated");
+                this.$emit('updated');
             }
             this.showOTP = false;
             this.showNewPhone = false;
@@ -761,21 +761,21 @@ export default {
         await Promise.all([this.GET_KYC()]);
     },
     watch: {
-        "bvnData.bvn": function(newVal) {
+        'bvnData.bvn': function (newVal) {
             if (newVal) {
                 if (newVal.length > 11) {
                     this.issues = {
-                        bvn: "BVN should be 11 digits"
+                        bvn: 'BVN should be 11 digits'
                     };
                 } else {
                     this.issues = {};
                 }
             }
         },
-        "itemData.bankAcctNo": function(newVal) {
+        'itemData.bankAcctNo': function (newVal) {
             if (newVal) {
                 if (newVal.length > 10) {
-                    this.issues.bankAcctNo = "Account number should be 10 digits";
+                    this.issues.bankAcctNo = 'Account number should be 10 digits';
                 } else {
                     this.issues = {};
                 }

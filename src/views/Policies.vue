@@ -39,6 +39,6 @@
 
 <script>
 export default {
-    name: "Policies"
+    name: 'Policies'
 };
 </script>

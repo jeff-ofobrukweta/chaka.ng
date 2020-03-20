@@ -76,29 +76,29 @@
     </div>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-    name: "Linechartgraphchild",
+    name: 'Linechartgraphchild',
     data() {
         return {
             showKYC: false,
             loading: true,
             emptyData: false,
-            globaltime:null,
+            globaltime: null,
             currencyOption: [
                 {
-                    symbol: "₦",
-                    currency: "NGN",
+                    symbol: '₦',
+                    currency: 'NGN',
                     id: 0,
-                    description: "convert to Naira value"
+                    description: 'convert to Naira value'
                 },
                 {
-                    symbol: "$",
-                    currency: "USD",
+                    symbol: '$',
+                    currency: 'USD',
                     id: 1,
-                    description: "convert to Dollar value"
+                    description: 'convert to Dollar value'
                 }
             ],
             buttonoption: [
@@ -108,28 +108,28 @@ export default {
                 //     id: 1
                 // },
                 {
-                    name: "1 WEEK",
-                    time: "1W",
+                    name: '1 WEEK',
+                    time: '1W',
                     id: 2
                 },
                 {
-                    name: "1 MONTH",
-                    time: "1M",
+                    name: '1 MONTH',
+                    time: '1M',
                     id: 3
                 },
                 {
-                    name: "3 MONTHS",
-                    time: "3M",
+                    name: '3 MONTHS',
+                    time: '3M',
                     id: 4
                 },
                 {
-                    name: "1 YEAR",
-                    time: "1Y",
+                    name: '1 YEAR',
+                    time: '1Y',
                     id: 5
                 },
                 {
-                    name: "5 YEARS",
-                    time: "5Y",
+                    name: '5 YEARS',
+                    time: '5Y',
                     id: 6
                 }
             ],
@@ -137,17 +137,17 @@ export default {
         };
     },
     components: {
-        Graph: () => import("./linegraph")
+        Graph: () => import('./linegraph')
     },
     computed: {
         ...mapGetters([
-            "gethistoryportfolioprice",
-            "gethistoryportfoliodate",
-            "getPorfolioglobalCurrencyforGraph",
-            "getPorfolioglobalTimeforGraph",
-            "getAccountSummary",
-            "getPortfolioDerivedPrice",
-            "getPortfolioDerivedChange"
+            'gethistoryportfolioprice',
+            'gethistoryportfoliodate',
+            'getPorfolioglobalCurrencyforGraph',
+            'getPorfolioglobalTimeforGraph',
+            'getAccountSummary',
+            'getPortfolioDerivedPrice',
+            'getPortfolioDerivedChange'
         ]),
         isGraphValid() {
             // filter the array for conditions null or undefined or is Not a number
@@ -155,32 +155,31 @@ export default {
                 el => el === null || el === undefined || Number.isNaN(+el)
             );
             if (
-                this.gethistoryportfolioprice.length <= 0 &&
-                checkForNull.length <= 0 &&
-                this.gethistoryportfoliodate[0] !== null &&
-                !this.emptyData &&
-                this.emptyData != undefined
+                this.gethistoryportfolioprice.length <= 0
+                && checkForNull.length <= 0
+                && this.gethistoryportfoliodate[0] !== null
+                && !this.emptyData
+                && this.emptyData != undefined
             ) {
                 return 1;
             }
-            
+
             if (
-                checkForNull.length > 0 &&
-                this.gethistoryportfoliodate[0] == null &&
-                this.emptyData &&
-                this.emptyData == undefined
+                checkForNull.length > 0
+                && this.gethistoryportfoliodate[0] == null
+                && this.emptyData
+                && this.emptyData == undefined
             ) {
                 return 2;
             }
-            
         }
     },
     methods: {
         ...mapMutations([
-            "SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH",
-            "SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH"
+            'SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH',
+            'SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH'
         ]),
-        ...mapActions(["GET_LINECHART_PORTFOLIO_GRAPH_DATA","GET_PORTFOLIO_GRAPH_SUMMARY"]),
+        ...mapActions(['GET_LINECHART_PORTFOLIO_GRAPH_DATA', 'GET_PORTFOLIO_GRAPH_SUMMARY']),
         async toogleCurrency(currency, id) {
             if (currency === this.getPorfolioglobalCurrencyforGraph) {
                 return true;
@@ -192,7 +191,7 @@ export default {
                     interval: this.getPorfolioglobalTimeforGraph,
                     currency: this.getPorfolioglobalCurrencyforGraph
                 };
-                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then(res => {
+                this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then((res) => {
                     this.loading = false;
                     this.emptyData = res.data.emptyValues;
                 });
@@ -208,7 +207,7 @@ export default {
                 interval: this.getPorfolioglobalTimeforGraph,
                 currency: this.getPorfolioglobalCurrencyforGraph
             };
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then(res => {
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then((res) => {
                 this.emptyData = res.data.emptyValues;
                 this.loading = false;
             });
@@ -216,11 +215,11 @@ export default {
         async mountedActions() {
             const payload = {
                 interval: this.getPorfolioglobalTimeforGraph,
-                currency: "NGN" || this.getPorfolioglobalCurrencyforGraph
+                currency: 'NGN' || this.getPorfolioglobalCurrencyforGraph
             };
             this.loading = true;
             this.globaltime = this.getPorfolioglobalTimeforGraph;
-            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then(res => {
+            await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payload).then((res) => {
                 this.loading = false;
                 this.emptyData = res.data.emptyValues;
             });

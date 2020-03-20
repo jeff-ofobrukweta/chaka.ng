@@ -898,14 +898,15 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from "vuex";
-import auth from "../services/validations/auth";
-import fractional from "../assets/img/fractional/fractional.png";
-import minimums from "../assets/img/fractional/low-minimums.png";
-import grow from "../assets/img/fractional/grow.png";
-import AOS from "aos";
+import { mapActions, mapMutations, mapGetters } from 'vuex';
+import AOS from 'aos';
+import auth from '../services/validations/auth';
+import fractional from '../assets/img/fractional/fractional.png';
+import minimums from '../assets/img/fractional/low-minimums.png';
+import grow from '../assets/img/fractional/grow.png';
 
 export default {
+<<<<<<< HEAD
   name: "Home",
   components: {
     EmailSubscribe: () => import("../components/EmailSubscription")
@@ -965,6 +966,87 @@ export default {
         this.loading = false;
         if (resp) this.$router.push({ name: "verification-sent" });
       });
+=======
+    name: 'Home',
+    components: {
+        EmailSubscribe: () => import('../components/EmailSubscription')
+    },
+    data() {
+        return {
+            investNumber: 0,
+            invest: [
+                {
+                    title: 'Fractional Shares',
+                    text: 'Invest in any global stock with any amount of money, no matter the price per share.',
+                    image: fractional
+                },
+                {
+                    title: 'Low Minimums',
+                    text: 'Start trading with as low as $10 or N1, 000.',
+                    image: minimums
+                },
+                {
+                    title: 'Grow',
+                    text: 'Learn more about investing with access to content from our in-house team.',
+                    image: grow
+                }
+            ],
+            itemData: {},
+            loading: false,
+            message: null,
+            errors: {}
+        };
+    },
+    computed: {
+        ...mapGetters(['getWindowWidth']),
+        slider() {
+            const num = this.investNumber * 50;
+            return `translateY(${num}px)`;
+        }
+    },
+    methods: {
+        ...mapActions(['REGISTER']),
+        ...mapMutations(['RESET_REQ']),
+        register() {
+            this.RESET_REQ();
+            if (!this.itemData.email) {
+                this.$set(this.errors, 'email', 'Field is required');
+            } else if (!auth.email(this.itemData.email)) {
+                this.$set(this.errors, 'email', 'Invalid email');
+            }
+            if (!this.itemData.password) {
+                this.$set(this.errors, 'password', 'Field is required');
+            }
+            if (Object.keys(this.errors).length > 0) {
+                return false;
+            }
+            this.loading = true;
+            mixpanel.identify(this.itemData.email); // In sign up
+            this.REGISTER(this.itemData).then((resp) => {
+                this.loading = false;
+                if (resp) this.$router.push({ name: 'verification-sent' });
+            });
+        }
+    },
+    mounted() {
+        document.title = 'Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets';
+        document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+        document.getElementsByTagName('meta').description.content = 'Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.';
+
+        // mixpanel.track("HOMEPAGE_VISIT"); //tracking Homepage
+    },
+    created() {
+        AOS.init({
+            duration: 400,
+            delay: 100,
+            easing: 'ease-in-out',
+            mirror: false,
+            startEvent: 'DOMContentLoaded',
+            anchorPlacement: 'top-center',
+            // once: true,
+            offset: 50
+        });
+>>>>>>> d445afa2c215cee9e81c6d0d16c42295d6d20a7e
     }
   },
   mounted() {

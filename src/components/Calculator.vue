@@ -6,139 +6,96 @@
                     <h2 class="hero__title">Do the Maths for yourself.</h2>
                     <br />
                     <p class="hero__text">
-                        Calculate your costs upfront using our brokerage calculator. Know your
-                        entire brokerage costs and other charges even before you execute your trades
-                        - for both local and global stocks.
+                        Calculate your costs upfront using our brokerage calculator. Know your entire brokerage costs and other charges even before you execute your trades - for
+                        both local and global stocks.
                     </p>
 
                     <br />
                     <div class="calculator-body" v-if="getWindowWidth === 'mobile'">
                         <div class="calculator-body__select">
-                            <select
-                                v-model="selectOption"
-                                class="form-control"
-                                @change="changeOption"
-                            >
+                            <input v-model="search" list="searchstocks" placeholder="Search stocks by name, symbol..." class="form__input" @input="startSearch" />
+                            <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
+                            <div class="calculator-dropdown" v-if="showSearchResults">
+                                <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
+                                    <li v-for="(stock, i) in filteredSearch" :key="i" class="calculator-dropdown__li">
+                                        <a @click="selectStock(stock.symbol)">
+                                            <div class="calculator-dropdown__box">
+                                                <img :src="stock.logoUrl" :alt="stock.symbol" class="calculator-dropdown__logo" />
+                                                <div>
+                                                    <p>
+                                                        <small>{{ stock.name | truncate(40) }}</small>
+                                                    </p>
+                                                    <p class="grey-cool">{{ stock.symbol }}</p>
+                                                </div>
+                                            </div>
+
+                                            <img :src="stockCountry(stock.countryCode)" width="16px" :alt="stock.symbol" class="calculator-dropdown__country" />
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="calculator-dropdown__empty" v-else>
+                                    <p>
+                                        There are no instruments related to
+                                        <strong>{{ search }}</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="calculator-body__select">
+                            <select v-model="selectOption" class="form-control" @change="changeOption">
                                 <option value="buy">Buy</option>
                                 <option value="sell">Sell</option>
                                 <option value="profit">Net Profit</option>
                             </select>
                         </div>
                         <div class="calculator-body__form">
-                            <div
-                                class="calculator-body__form--group"
-                                v-if="selectOption !== 'sell'"
-                            >
+                            <div class="calculator-body__form--group" v-if="selectOption !== 'sell'">
                                 <label>
                                     <span v-if="selectOption === 'buy'">SHARE PRICE</span>
                                     <span v-else>BUY PRICE</span>
-                                    <span
-                                        v-html="selectZone === 'local' ? '(&#8358;)' : '($)'"
-                                    ></span>
-                                    <currency-input
-                                        :currency="selectZone === 'local' ? 'NGN' : 'USD'"
-                                        placeholder="Price"
-                                        v-model="buy"
-                                        @input="changeBuy"
-                                    />
+                                    <span v-html="selectZone === 'local' ? '(&#8358;)' : '($)'"></span>
+                                    <currency-input :currency="selectZone === 'local' ? 'NGN' : 'USD'" placeholder="Price" v-model="buy" @input="changeBuy" />
                                 </label>
                             </div>
                             <div class="calculator-body__form--group" v-if="selectOption !== 'buy'">
                                 <label>
                                     <span v-if="selectOption === 'sell'">SHARE PRICE</span>
                                     <span v-else>SELL PRICE</span>
-                                    <span
-                                        v-html="selectZone === 'local' ? '(&#8358;)' : '($)'"
-                                    ></span>
-                                    <currency-input
-                                        :currency="selectZone === 'local' ? 'NGN' : 'USD'"
-                                        placeholder="Price"
-                                        v-model="sell"
-                                        @input="changeSell"
-                                    />
+                                    <span v-html="selectZone === 'local' ? '(&#8358;)' : '($)'"></span>
+                                    <currency-input :currency="selectZone === 'local' ? 'NGN' : 'USD'" placeholder="Price" v-model="sell" @input="changeSell" />
                                 </label>
                             </div>
                             <div class="calculator-body__form--group">
-                                <label for
-                                    >NO. OF SHARES
-                                    <form-input
-                                        name="quantity"
-                                        type="number"
-                                        placeholder="0"
-                                        v-model="quantity"
-                                        @input="changeQty"
-                                        :min="0"
-                                /></label>
+                                <label for>NO. OF SHARES <form-input name="quantity" type="number" placeholder="0" v-model="quantity" @input="changeQty" :min="0"/></label>
                             </div>
                         </div>
                         <div class="calculator-body__radio">
                             <label for="nse">
-                                <input
-                                    type="radio"
-                                    name="calculator"
-                                    id="market-order"
-                                    value="local"
-                                    v-model="selectZone"
-                                    @change="changeZone"
-                                />
+                                <input type="radio" name="calculator" id="market-order" value="local" v-model="selectZone" @change="changeZone" />
                                 Local</label
                             >
-                            <label for="bse">
-                                <input
-                                    type="radio"
-                                    name="calculator"
-                                    id="bse"
-                                    value="global"
-                                    v-model="selectZone"
-                                    @change="changeZone"
-                                />Global</label
-                            >
+                            <label for="bse"> <input type="radio" name="calculator" id="bse" value="global" v-model="selectZone" @change="changeZone" />Global</label>
                         </div>
-                        <ul
-                            class="calculator__data"
-                            v-if="selectOption === 'buy' && selectZone === 'local'"
-                        >
-                            <li
-                                v-for="(list, index) in localBuyList"
-                                :key="index"
-                                class="calculator__data-row"
-                            >
+                        <ul class="calculator__data" v-if="selectOption === 'buy' && selectZone === 'local'">
+                            <li v-for="(list, index) in localBuyList" :key="index" class="calculator__data-row">
                                 <p>{{ list.name }}</p>
                                 <h6>{{ list.value | currency("NGN") }}</h6>
                             </li>
                         </ul>
-                        <ul
-                            class="calculator__data"
-                            v-else-if="selectOption === 'sell' && selectZone === 'local'"
-                        >
-                            <li
-                                v-for="(list, index) in localSellList"
-                                :key="index"
-                                class="calculator__data-row"
-                            >
+                        <ul class="calculator__data" v-else-if="selectOption === 'sell' && selectZone === 'local'">
+                            <li v-for="(list, index) in localSellList" :key="index" class="calculator__data-row">
                                 <p>{{ list.name }}</p>
                                 <h6>{{ list.value | currency("NGN") }}</h6>
                             </li>
                         </ul>
-                        <ul
-                            class="calculator__data"
-                            v-else-if="selectOption === 'profit' && selectZone === 'local'"
-                        >
-                            <li
-                                v-for="(list, index) in localProfitList"
-                                :key="index"
-                                class="calculator__data-row"
-                            >
+                        <ul class="calculator__data" v-else-if="selectOption === 'profit' && selectZone === 'local'">
+                            <li v-for="(list, index) in localProfitList" :key="index" class="calculator__data-row">
                                 <p>{{ list.name }}</p>
                                 <h6>{{ list.value | currency("NGN") }}</h6>
                             </li>
                         </ul>
                         <ul class="calculator__data" v-else-if="selectZone === 'global'">
-                            <li
-                                v-for="(list, index) in globalList"
-                                :key="index"
-                                class="calculator__data-row"
-                            >
+                            <li v-for="(list, index) in globalList" :key="index" class="calculator__data-row">
                                 <p>{{ list.name }}</p>
                                 <h6>{{ list.value | currency("USD") }}</h6>
                             </li>
@@ -161,6 +118,35 @@
             </div>
             <div class="calculator-body" v-if="getWindowWidth !== 'mobile'">
                 <div class="calculator-body__select">
+                    <input v-model="search" list="searchstocks" placeholder="Search stocks by name, symbol..." class="form__input" @input="startSearch" />
+                    <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
+                    <div class="calculator-dropdown" v-if="showSearchResults">
+                        <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
+                            <li v-for="(stock, i) in filteredSearch" :key="i" class="calculator-dropdown__li">
+                                <a @click="selectStock(stock.symbol)">
+                                    <div class="calculator-dropdown__box">
+                                        <img :src="stock.logoUrl" :alt="stock.symbol" class="calculator-dropdown__logo" />
+                                        <div>
+                                            <p>
+                                                <small>{{ stock.name | truncate(40) }}</small>
+                                            </p>
+                                            <p class="grey-cool">{{ stock.symbol }}</p>
+                                        </div>
+                                    </div>
+
+                                    <img :src="stockCountry(stock.countryCode)" width="16px" :alt="stock.symbol" class="calculator-dropdown__country" />
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="calculator-dropdown__empty" v-else>
+                            <p>
+                                There are no instruments related to
+                                <strong>{{ search }}</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="calculator-body__select">
                     <select v-model="selectOption" class="form-control" @change="changeOption">
                         <option value="buy">Buy</option>
                         <option value="sell">Sell</option>
@@ -173,12 +159,7 @@
                             <span v-if="selectOption === 'buy'">SHARE PRICE</span>
                             <span v-else>BUY PRICE</span>
                             <span v-html="selectZone === 'local' ? '(&#8358;)' : '($)'"></span>
-                            <currency-input
-                                :currency="selectZone === 'local' ? 'NGN' : 'USD'"
-                                placeholder="Buy Price"
-                                v-model="buy"
-                                @input="changeBuy"
-                            />
+                            <currency-input :currency="selectZone === 'local' ? 'NGN' : 'USD'" placeholder="Buy Price" v-model="buy" @input="changeBuy" />
                         </label>
                     </div>
                     <div class="calculator-body__form--group" v-if="selectOption !== 'buy'">
@@ -186,94 +167,40 @@
                             <span v-if="selectOption === 'sell'">SHARE PRICE</span>
                             <span v-else>SELL PRICE</span>
                             <span v-html="selectZone === 'local' ? '(&#8358;)' : '($)'"></span>
-                            <currency-input
-                                :currency="selectZone === 'local' ? 'NGN' : 'USD'"
-                                placeholder="Sell Price"
-                                v-model="sell"
-                                @input="changeSell"
-                            />
+                            <currency-input :currency="selectZone === 'local' ? 'NGN' : 'USD'" placeholder="Sell Price" v-model="sell" @input="changeSell" />
                         </label>
                     </div>
                     <div class="calculator-body__form--group">
-                        <label for
-                            >NO. OF SHARES
-                            <form-input
-                                name="quantity"
-                                type="number"
-                                placeholder="0"
-                                v-model="quantity"
-                                @input="changeQty"
-                        /></label>
+                        <label for>NO. OF SHARES <form-input name="quantity" type="number" placeholder="0" v-model="quantity" @input="changeQty"/></label>
                     </div>
                 </div>
                 <div class="calculator-body__radio">
                     <label for="nse">
-                        <input
-                            type="radio"
-                            name="calculator"
-                            id="market-order"
-                            value="local"
-                            v-model="selectZone"
-                            @change="changeZone"
-                        />
+                        <input type="radio" name="calculator" id="market-order" value="local" v-model="selectZone" @change="changeZone" />
                         Local</label
                     >
-                    <label for="bse">
-                        <input
-                            type="radio"
-                            name="calculator"
-                            id="bse"
-                            value="global"
-                            v-model="selectZone"
-                            @change="changeZone"
-                        />Global</label
-                    >
+                    <label for="bse"> <input type="radio" name="calculator" id="bse" value="global" v-model="selectZone" @change="changeZone" />Global</label>
                 </div>
-                <ul
-                    class="calculator__data"
-                    v-if="selectOption === 'buy' && selectZone === 'local'"
-                >
-                    <li
-                        v-for="(list, index) in localBuyList"
-                        :key="index"
-                        class="calculator__data-row"
-                    >
+                <ul class="calculator__data" v-if="selectOption === 'buy' && selectZone === 'local'">
+                    <li v-for="(list, index) in localBuyList" :key="index" class="calculator__data-row">
                         <p>{{ list.name }}</p>
                         <h6>{{ list.value | currency("NGN") }}</h6>
                     </li>
                 </ul>
-                <ul
-                    class="calculator__data"
-                    v-else-if="selectOption === 'sell' && selectZone === 'local'"
-                >
-                    <li
-                        v-for="(list, index) in localSellList"
-                        :key="index"
-                        class="calculator__data-row"
-                    >
+                <ul class="calculator__data" v-else-if="selectOption === 'sell' && selectZone === 'local'">
+                    <li v-for="(list, index) in localSellList" :key="index" class="calculator__data-row">
                         <p>{{ list.name }}</p>
                         <h6>{{ list.value | currency("NGN") }}</h6>
                     </li>
                 </ul>
-                <ul
-                    class="calculator__data"
-                    v-else-if="selectOption === 'profit' && selectZone === 'local'"
-                >
-                    <li
-                        v-for="(list, index) in localProfitList"
-                        :key="index"
-                        class="calculator__data-row"
-                    >
+                <ul class="calculator__data" v-else-if="selectOption === 'profit' && selectZone === 'local'">
+                    <li v-for="(list, index) in localProfitList" :key="index" class="calculator__data-row">
                         <p>{{ list.name }}</p>
                         <h6>{{ list.value | currency("NGN") }}</h6>
                     </li>
                 </ul>
                 <ul class="calculator__data" v-else-if="selectZone === 'global'">
-                    <li
-                        v-for="(list, index) in globalList"
-                        :key="index"
-                        class="calculator__data-row"
-                    >
+                    <li v-for="(list, index) in globalList" :key="index" class="calculator__data-row">
                         <p>{{ list.name }}</p>
                         <h6>{{ list.value | currency("USD") }}</h6>
                     </li>
@@ -283,6 +210,13 @@
                     <h4>
                         {{ total.value | currency(selectZone === "local" ? "NGN" : "USD") }}
                     </h4>
+                </div>
+                <div class="calculator__data-row" v-if="selectedStock">
+                    <h4></h4>
+                    <router-link :to="{ name: 'singlestock', params: { symbol: selectedStock } }" class="btn btn__white btn-block" v-if="selectOption === 'sell'" tag="buttton"
+                        >Sell</router-link
+                    >
+                    <router-link :to="{ name: 'singlestock', params: { symbol: selectedStock } }" class="btn btn__white btn-block" v-else tag="button">Buy</router-link>
                 </div>
             </div>
         </section>
@@ -320,9 +254,7 @@
                     <h4 class="card-pricing__title">Global</h4>
                     <div class="card-pricing__body card-pricing__global">
                         <div class="card-pricing__section">
-                            <h4 class="v2-pricing__mobile">
-                                <span class="stroke">$5</span> $2 or 1%
-                            </h4>
+                            <h4 class="v2-pricing__mobile"><span class="stroke">$5</span> $2 or 1%</h4>
                             <p>Broker Commissions</p>
                         </div>
                         <div class="card-pricing__section">
@@ -349,7 +281,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
     name: "calculator",
@@ -365,9 +297,13 @@ export default {
         return {
             selectOption: "buy",
             selectZone: "local",
+            search: "",
+            selectedStock: "",
+            hideSearch: true,
             buy: null,
             sell: null,
             quantity: null,
+            searchLoading: false,
             fees: [
                 {
                     title: `
@@ -475,7 +411,7 @@ export default {
                     value: 0
                 },
                 {
-                    name: "Broker & Regulatory Fee (VAT Inclusive)",
+                    name: "Broker & Regulatory Fee",
                     value: 0
                 }
             ],
@@ -489,16 +425,66 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth"])
+        ...mapGetters(["getWindowWidth", "getSearchInstruments", "getCalcInstrument"]),
+        filteredSearch() {
+            const splice = [...this.getSearchInstruments].splice(0, 4);
+            return splice;
+        },
+        showSearchResults() {
+            return this.search && !this.searchLoading && this.search !== this.selectedStock;
+        },
+        calcAskPrice() {
+            if (Object.keys(this.getCalcInstrument).length > 0) return this.getCalcInstrument.InstrumentDynamic.askPrice / 100;
+            return 0;
+        }
     },
     methods: {
-        changeOption() {
-            this.clearFields();
+        ...mapMutations(["SET_SEARCH_INSTRUMENTS"]),
+        ...mapActions(["SEARCH_INSTRUMENTS", "GET_CALC_INSTRUMENT"]),
+        async changeOption() {
+            await this.clearFields();
+            if (this.selectedStock) {
+                this.selectStock(this.selectedStock);
+            }
         },
-        changeZone() {
-            this.clearFields();
+        async startSearch() {
+            this.SET_SEARCH_INSTRUMENTS([]);
+            if (this.search) {
+                const payload = { query: this.search };
+                this.searchLoading = true;
+                await this.SEARCH_INSTRUMENTS(payload);
+                this.searchLoading = false;
+            }
+        },
+        async selectStock(symbol) {
+            this.selectedStock = symbol;
+            this.search = this.selectedStock;
+            this.searchLoading = true;
+            await this.GET_CALC_INSTRUMENT({ symbols: this.selectedStock });
+            this.searchLoading = false;
+            this.selectZone = this.getCalcInstrument.currency === "USD" ? "global" : "local";
+            if (this.selectOption === "sell") {
+                this.sell = this.calcAskPrice;
+                this.changeSell();
+            } else {
+                this.buy = this.calcAskPrice;
+                this.changeBuy();
+            }
+        },
+        stockCountry(countryCode) {
+            if (countryCode) return `https://chaka-storage.s3-eu-west-1.amazonaws.com/images/ui/flags/${countryCode.toLowerCase()}-flag.svg`;
+            return "zz";
+        },
+        async changeZone() {
+            await this.clearFields();
+            this.search = "";
+            this.selectedStock = "";
         },
         changeBuy() {
+            if (this.calcAskPrice !== this.buy) {
+                this.selectedStock = null;
+                this.search = "";
+            }
             const localZone = this.selectZone === "local";
             if (this.selectOption !== "profit") {
                 if (!this.buy && this.quantity) {
@@ -544,6 +530,10 @@ export default {
             }
         },
         changeSell() {
+            if (this.calcAskPrice !== this.sell && this.selectOption === "sell") {
+                this.selectedStock = null;
+                this.search = "";
+            }
             const localZone = this.selectZone === "local";
             if (this.selectOption !== "profit") {
                 if (!this.sell && this.quantity) {
@@ -645,18 +635,13 @@ export default {
                 temp = (this.totalValue * 0.5) / 100;
                 tempBroker = temp <= 100 ? 100 : temp;
                 this.localBuyList[4].value = (7.5 / 100) * tempBroker + tempBroker;
-                this.total.value =
-                    this.totalValue +
-                    this.localBuyList[1].value +
-                    this.localBuyList[2].value +
-                    this.localBuyList[3].value +
-                    this.localBuyList[4].value;
+                this.total.value = this.totalValue + this.localBuyList[1].value + this.localBuyList[2].value + this.localBuyList[3].value + this.localBuyList[4].value;
             } else if (zone === "global") {
                 this.totalValue = +this.totalValue;
                 this.globalList[0].value = this.totalValue;
                 temp = this.totalValue / 100;
                 tempBroker = temp <= 2 ? 2 : temp;
-                this.globalList[1].value = (7.5 / 100) * tempBroker + tempBroker;
+                this.globalList[1].value = tempBroker;
                 this.total.value = this.totalValue + this.globalList[1].value;
             }
         },
@@ -672,17 +657,12 @@ export default {
                 temp = (this.totalValue * 0.5) / 100;
                 tempBroker = temp <= 100 ? 100 : temp;
                 this.localSellList[4].value = (7.5 / 100) * tempBroker + tempBroker;
-                this.total.value =
-                    this.totalValue -
-                    this.localSellList[1].value -
-                    this.localSellList[2].value -
-                    this.localSellList[3].value -
-                    this.localSellList[4].value;
+                this.total.value = this.totalValue - this.localSellList[1].value - this.localSellList[2].value - this.localSellList[3].value - this.localSellList[4].value;
             } else if (zone === "global") {
                 this.globalList[0].value = +this.totalValue;
                 temp = this.totalValue / 100;
                 tempBroker = temp <= 2 ? 2 : temp;
-                this.globalList[1].value = (7.5 / 100) * tempBroker + tempBroker;
+                this.globalList[1].value = tempBroker;
                 this.total.value = +this.totalValue - this.globalList[1].value;
             }
         },
@@ -703,12 +683,7 @@ export default {
                 tempBrokerBuy = temp <= 100 ? 100 : temp;
                 this.localBuyList[4].value = (7.5 / 100) * tempBrokerBuy + tempBrokerBuy;
                 if (this.totalBuy) {
-                    tempBuy =
-                        this.totalBuy +
-                        this.localBuyList[1].value +
-                        this.localBuyList[2].value +
-                        this.localBuyList[3].value +
-                        this.localBuyList[4].value;
+                    tempBuy = this.totalBuy + this.localBuyList[1].value + this.localBuyList[2].value + this.localBuyList[3].value + this.localBuyList[4].value;
                 }
 
                 this.localSellList[0].value = this.totalSell;
@@ -719,25 +694,16 @@ export default {
                 tempBrokerSell = temp <= 100 ? 100 : temp;
                 this.localBuyList[4].value = (7.5 / 100) * tempBrokerSell + tempBrokerSell;
                 if (this.totalSell) {
-                    tempSell =
-                        this.totalSell -
-                        this.localSellList[1].value -
-                        this.localSellList[2].value -
-                        this.localSellList[3].value -
-                        this.localSellList[4].value;
+                    tempSell = this.totalSell - this.localSellList[1].value - this.localSellList[2].value - this.localSellList[3].value - this.localSellList[4].value;
                 }
 
                 // this.localProfitList[0].value =
                 //     this.localSellList[0].value - this.localBuyList[0].value;
                 this.localProfitList[0].value = this.localBuyList[0].value;
-                this.localProfitList[1].value =
-                    this.localBuyList[1].value + this.localSellList[1].value;
-                this.localProfitList[2].value =
-                    this.localBuyList[2].value + this.localSellList[2].value;
-                this.localProfitList[3].value =
-                    this.localBuyList[3].value + this.localSellList[3].value;
-                this.localProfitList[4].value =
-                    this.localBuyList[4].value + (this.totalSell ? this.localSellList[4].value : 0);
+                this.localProfitList[1].value = this.localBuyList[1].value + this.localSellList[1].value;
+                this.localProfitList[2].value = this.localBuyList[2].value + this.localSellList[2].value;
+                this.localProfitList[3].value = this.localBuyList[3].value + this.localSellList[3].value;
+                this.localProfitList[4].value = this.localBuyList[4].value + (this.totalSell ? this.localSellList[4].value : 0);
                 this.total.value = tempSell - tempBuy;
             } else if (zone === "global") {
                 const sellCharge = this.totalSell / 100;
@@ -770,6 +736,7 @@ export default {
             });
             this.globalList[0].value = 0;
             this.globalList[1].value = 0;
+            return true;
         }
     },
     watch: {

@@ -378,51 +378,52 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
+
 export default {
-    name: "referrals",
+    name: 'referrals',
     computed: {
-        ...mapGetters(["getWindowWidth", "getLoggedUser"]),
+        ...mapGetters(['getWindowWidth', 'getLoggedUser']),
         facebookLink() {
             return `https://web.facebook.com/sharer.php?display=page&u=https://chaka.ng/register?code=${
-                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ""
+                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ''
             }`;
         },
         twitterLink() {
             return `https://twitter.com/intent/tweet?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${
-                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ""
+                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ''
             }`;
         },
         whatsappLink() {
             return `https://api.whatsapp.com/send?text=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${
-                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ""
+                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ''
             }`;
         },
         emailLink() {
             return `mailto:?subject=Refer%20and%20Earn&body=I use Chaka to invest in Nigerian and US companies like Apple, Amazon, GTBank right from my phone. You can sign up in less than 5 minutes and also have a chance to refer others and earn. Sign up link https://chaka.ng/register?code=${
-                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ""
+                this.getLoggedUser.UserReferral ? this.getLoggedUser.UserReferral.referralCode : ''
             }`;
         }
     },
     methods: {
         copyLink() {
-            let testingCodeToCopy = document.querySelector("#refer-link");
-            testingCodeToCopy.setAttribute("type", "text");
+            const testingCodeToCopy = document.querySelector('#refer-link');
+            testingCodeToCopy.setAttribute('type', 'text');
 
             testingCodeToCopy.select();
 
             try {
-                var successful = document.execCommand("copy");
-                this.$toasted.show("Referral link copied", {
-                    type: "success"
+                const successful = document.execCommand('copy');
+                this.$toasted.show('Referral link copied', {
+                    type: 'success'
                 });
             } catch (err) {
-                this.$toasted.show("There was an error copying your referral code. Try again", {
-                    type: "error"
+                this.$toasted.show('There was an error copying your referral code. Try again', {
+                    type: 'error'
                 });
             }
 
-            testingCodeToCopy.setAttribute("type", "hidden");
+            testingCodeToCopy.setAttribute('type', 'hidden');
             window.getSelection().removeAllRanges();
         }
     }

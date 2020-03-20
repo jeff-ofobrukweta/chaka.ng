@@ -30,7 +30,7 @@
                          <div class="_provider-button_label__1gtgk">
                           <span style="white-space:nowrap;">Sign in with</span>
                             <svg viewBox="5 -5 30 30" enable-background="new 5 -5 30 30" class="google_img" title="google">
-                                <path fill="#fff" 
+                                <path fill="#fff"
                                 d="M15.3-4.2C11.6-3 8.4-.2 6.6 3.2 6 4.5 5.6 5.7 5.3 7c-.7 3.3-.2 6.7 1.3 9.7 1 1.9 2.4 3.7 4.2 5 1.6 1.3 3.5 2.2 5.6 2.7 2.6.7 5.3.7 7.8.1 2.3-.5 4.5-1.6 6.3-3.2 1.9-1.7 3.2-3.9 3.9-6.2.8-2.6.9-5.3.4-8-4.8 0-9.6 0-14.4 0 0 2 0 3.9 0 5.9 2.8 0 5.6 0 8.3 0-.3 1.9-1.5 3.6-3.1 4.6-1 .7-2.2 1.1-3.4 1.3-1.2.2-2.5.2-3.7 0-1.2-.2-2.4-.7-3.4-1.4-1.6-1.1-2.9-2.8-3.5-4.6-.7-1.9-.7-4 0-5.8.5-1.3 1.2-2.5 2.2-3.5 1.2-1.2 2.8-2.1 4.6-2.5 1.5-.3 3-.2 4.5.2 1.2.4 2.4 1 3.3 1.9.9-.9 1.9-1.8 2.8-2.8.5-.5 1-1 1.5-1.5-1.4-1.3-3.1-2.3-4.9-3-3.3-1.2-7-1.2-10.3-.1z"></path><path fill="#EA4335" d="M15.3-4.2c3.3-1.1 7-1.1 10.3.1 1.8.7 3.5 1.7 4.9 3-.5.5-1 1-1.5 1.5-.9.9-1.9 1.8-2.8 2.8-.9-.9-2.1-1.5-3.3-1.9-1.4-.4-3-.5-4.5-.2-1.7.4-3.3 1.2-4.6 2.5-1 1-1.8 2.2-2.2 3.5-1.7-1.3-3.3-2.5-5-3.8 1.8-3.5 5-6.2 8.7-7.5z"></path><path fill="#FBBC05" d="M5.3 7c.3-1.3.7-2.6 1.3-3.7 1.7 1.3 3.3 2.5 5 3.8-.7 1.9-.7 4 0 5.8-1.7 1.3-3.3 2.5-5 3.8-1.5-2.9-2-6.4-1.3-9.7z"></path><path fill="#4285F4" d="M20.3 7.2c4.8 0 9.6 0 14.4 0 .5 2.6.4 5.4-.4 8-.7 2.4-2 4.6-3.9 6.2-1.6-1.2-3.2-2.5-4.9-3.7 1.6-1.1 2.7-2.8 3.1-4.6-2.8 0-5.6 0-8.3 0 0-2 0-4 0-5.9z"></path><path fill="#34A853" d="M6.6 16.7c1.7-1.3 3.3-2.5 5-3.8.6 1.8 1.9 3.5 3.5 4.6 1 .7 2.2 1.2 3.4 1.4 1.2.2 2.4.2 3.7 0 1.2-.2 2.4-.6 3.4-1.3 1.6 1.2 3.2 2.5 4.9 3.7-1.8 1.6-3.9 2.7-6.3 3.2-2.6.6-5.3.6-7.8-.1-2-.5-3.9-1.5-5.6-2.7-1.7-1.3-3.2-3-4.2-5z">
                                 </path>
                             </svg>
@@ -61,19 +61,19 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-import auth from "../../services/validations/auth";
-import store from "../../store/index";
+import { mapActions, mapMutations } from 'vuex';
+import auth from '../../services/validations/auth';
+import store from '../../store/index';
 
 export default {
-    name: "Login",
+    name: 'Login',
     data() {
         return {
             itemData: {},
             errors: {},
             loading: false,
-            token:"",
-            profile:""
+            token: '',
+            profile: ''
 
         };
     },
@@ -84,61 +84,61 @@ export default {
         }
     },
     methods: {
-        ...mapActions(["LOGIN","SOCIAL_LOGIN"]),
-        ...mapMutations(["RESET_REQ", "RESET_ALL"]),
+        ...mapActions(['LOGIN', 'SOCIAL_LOGIN']),
+        ...mapMutations(['RESET_REQ', 'RESET_ALL']),
         authenticate(provider) {
             const this_ = this;
-            this.$auth.authenticate(provider).then(caller => {
-                let token = this_.$auth.getToken();
+            this.$auth.authenticate(provider).then((caller) => {
+                const token = this_.$auth.getToken();
                 // getLoginStatus
                 this_.token = token;
                 // alert(`login success with token ${token}`);
-                if (provider === "facebook") {
+                if (provider === 'facebook') {
                     this_.$http
-                        .get("https://graph.facebook.com/v5.0/me?fields=email,name,id", {
+                        .get('https://graph.facebook.com/v5.0/me?fields=email,name,id', {
                             params: { access_token: token }
                         })
-                        .then(response => {
+                        .then((response) => {
                             this_.profile = JSON.stringify(response);
-                            const payload ={
-                                email:response.data.email,
-                                provider:"FB"
-                            }
-                            this.social(payload)
+                            const payload = {
+                                email: response.data.email,
+                                provider: 'FB'
+                            };
+                            this.social(payload);
                         });
                 }
-                if (provider === "google") {
+                if (provider === 'google') {
                     this_.$http
-                        .get("https://www.googleapis.com/oauth2/v1/userinfo", {
+                        .get('https://www.googleapis.com/oauth2/v1/userinfo', {
                             params: { access_token: token }
                         })
-                        .then(response => {
+                        .then((response) => {
                             this_.profile = JSON.stringify(response);
-                            const payload ={
-                                email:response.data.email,
-                                provider:"GL"
-                            }
-                            this.social(payload)
+                            const payload = {
+                                email: response.data.email,
+                                provider: 'GL'
+                            };
+                            this.social(payload);
                         });
                 }
-                if (provider === "linkedin") {
+                if (provider === 'linkedin') {
                     this_.$http
-                        .get("https://api.linkedin.com/v2/me", {
+                        .get('https://api.linkedin.com/v2/me', {
                             params: { access_token: token }
                         })
-                        .then(response => {
+                        .then((response) => {
                             this_.profile = JSON.stringify(response);
-                            this.social(response)
+                            this.social(response);
                         });
                 }
-                if (provider === "twitter") {
+                if (provider === 'twitter') {
                     this_.$http
-                        .get("https://api.twitter.com/1.1/users/show.json", {
+                        .get('https://api.twitter.com/1.1/users/show.json', {
                             params: { access_token: token }
                         })
-                        .then(response => {
+                        .then((response) => {
                             this_.profile = JSON.stringify(response);
-                            this.social(response)
+                            this.social(response);
                         });
                 }
             });
@@ -146,7 +146,7 @@ export default {
         social(payload) {
             this.RESET_REQ();
             if (!payload.email && !auth.email(payload.email)) {
-                this.$set(this.errors, "email", "Invalid email");
+                this.$set(this.errors, 'email', 'Invalid email');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
@@ -154,23 +154,23 @@ export default {
             this.loading = true;
             fbq('track', 'social_login');
             if (payload.email && auth.email(payload.email)) {
-                this.SOCIAL_LOGIN(payload).then(resp => {
+                this.SOCIAL_LOGIN(payload).then((resp) => {
                     this.loading = false;
                     if (resp) {
-                        this.$router.push({ name: "dashboard" })
-                    };
+                        this.$router.push({ name: 'dashboard' });
+                    }
                 });
             }
         },
         login() {
             this.RESET_REQ();
             if (!this.itemData.email) {
-                this.$set(this.errors, "email", "Field is required");
+                this.$set(this.errors, 'email', 'Field is required');
             } else if (!auth.email(this.itemData.email)) {
-                this.$set(this.errors, "email", "Invalid email");
+                this.$set(this.errors, 'email', 'Invalid email');
             }
             if (!this.itemData.password) {
-                this.$set(this.errors, "password", "Field is required");
+                this.$set(this.errors, 'password', 'Field is required');
             }
             // const p = auth.password(this.itemData.password);
             // console.log(p);
@@ -181,11 +181,11 @@ export default {
                 return false;
             }
             this.loading = true;
-            fbq("track", "login");
-            this.LOGIN(this.itemData).then(resp => {
+            fbq('track', 'login');
+            this.LOGIN(this.itemData).then((resp) => {
                 this.loading = false;
                 if (resp) {
-                    this.$router.push({ name: "dashboard" });
+                    this.$router.push({ name: 'dashboard' });
                 }
             });
         },

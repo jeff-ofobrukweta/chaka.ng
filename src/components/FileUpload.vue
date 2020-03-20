@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
-    name: "uploads",
+    name: 'uploads',
     props: {
         image: {
             type: String
@@ -55,38 +55,38 @@ export default {
                     description: `Upload your ${this.selectedName}`
                 };
             }
-            if (this.formName === "passportUrl") return { name: "Profile Picture", description: "Set Profile Picture" };
-            if (this.formName === "idPhotoUrl") {
+            if (this.formName === 'passportUrl') return { name: 'Profile Picture', description: 'Set Profile Picture' };
+            if (this.formName === 'idPhotoUrl') {
                 return {
-                    name: "Passport/National ID",
+                    name: 'Passport/National ID',
                     description: "Upload your National ID, Voter's Card or International Passport"
                 };
             }
             return {
-                name: "Address Proof",
-                description: "Upload your Utility bill or Bank Statement"
+                name: 'Address Proof',
+                description: 'Upload your Utility bill or Bank Statement'
             };
         },
         isImagePDF() {
             if (this.image) {
                 const stripped = this.image.substr(this.image.length - 3);
-                return stripped.toLowerCase() === "pdf";
+                return stripped.toLowerCase() === 'pdf';
             }
         }
     },
     methods: {
-        ...mapActions(["UPLOAD_KYC_FILE", "UPDATE_KYC"]),
+        ...mapActions(['UPLOAD_KYC_FILE', 'UPDATE_KYC']),
         async handleInput(e) {
             this.handleReset();
             this.file = e.target.files[0];
-            const extensions = e.target.value.split(".");
+            const extensions = e.target.value.split('.');
             this.fileExtension = extensions[extensions.length - 1].toLowerCase();
-            if (this.file.size > 10 * 1024 * 1024 && this.fileExtension !== "pdf") {
+            if (this.file.size > 10 * 1024 * 1024 && this.fileExtension !== 'pdf') {
                 this.errorMessage = `Current size is ${parseFloat(this.file.size / 1024 / 1024).toFixed(2)}MB. Image should not exceed 10MB`;
                 this.handleError();
                 return false;
             }
-            if (this.file.size > 3 * 1024 * 1024 && this.fileExtension === "pdf") {
+            if (this.file.size > 3 * 1024 * 1024 && this.fileExtension === 'pdf') {
                 this.errorMessage = `Current size is ${parseFloat(this.file.size / 1024 / 1024).toFixed(2)}MB. File should not exceed 3MB`;
                 this.handleError();
                 return false;
@@ -101,13 +101,13 @@ export default {
             };
         },
         handleError() {
-            this.$emit("error", this.errorMessage);
+            this.$emit('error', this.errorMessage);
         },
         handleReset() {
-            this.$emit("reset");
+            this.$emit('reset');
         },
         handleSuccess() {
-            this.$emit("success");
+            this.$emit('success');
         },
         async uploadImage() {
             const formData = new FormData();
@@ -116,11 +116,11 @@ export default {
             if (this.idType) {
                 await this.UPDATE_KYC({ idType: this.idType });
             }
-            this.UPLOAD_KYC_FILE(formData).then(resp => {
+            this.UPLOAD_KYC_FILE(formData).then((resp) => {
                 this.loading = false;
                 if (resp) {
                     this.$toasted.show(`${this.formDetails.name} uploaded successful`, {
-                        type: "success"
+                        type: 'success'
                     });
                     this.uploadedImage = null;
                     this.fileExtension = null;

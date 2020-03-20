@@ -18,23 +18,17 @@
                 <div class="modal-form__group">
                     <label class="form__label">Select Payment Mode <span class="form-error" v-if="issues.source">*required</span></label>
                     <div class="modal-fund__images">
-                        <img
+                        <!-- <img
                             @click="switchMethod('INTERSWITCH')"
                             :class="{ active: activeMethod === 'INTERSWITCH', 'no-hover': loading }"
                             src="../../assets/img/quickteller.png"
                             alt="Pay with quickteller"
-                        />
+                        /> -->
                         <img
                             @click="switchMethod('MONNIFY')"
                             :class="{ active: activeMethod === 'MONNIFY', 'no-hover': loading }"
                             src="../../assets/img/monify.png"
                             alt="Pay with monnify"
-                        />
-                        <img
-                            @click="switchMethod('PAYSTACK')"
-                            :class="{ active: activeMethod === 'PAYSTACK', 'no-hover': loading }"
-                            src="../../assets/img/paystack.png"
-                            alt="Pay with paystack"
                         />
                         <div @click="switchMethod('BANK')" :class="{ active: activeMethod === 'BANK', 'no-hover': loading }">
                             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,6 +58,12 @@
                             </svg>
                             Bank
                         </div>
+                        <img
+                            @click="switchMethod('PAYSTACK')"
+                            :class="{ active: activeMethod === 'PAYSTACK', 'no-hover': loading }"
+                            src="../../assets/img/paystack.png"
+                            alt="Pay with paystack"
+                        />
                     </div>
                 </div>
             </div>
@@ -362,11 +362,10 @@
                 <input name="cust_mobile_no" value="08029075365" />
                 <input name="pay_item_name" value="Item A" />
                 <input name="display_merchant_name" value="Chaka Technologies" />
-                ​
 
                 <input name="display_mode" value="PAGE" />
                 <input name="merchant_code" value="MX13948" />
-                ​
+
                 <input type="submit" value="Submit Form" />
             </form>
         </modal>
@@ -470,7 +469,8 @@ export default {
                         this.loading = false;
                         this.$emit("close", true);
                         return true;
-                    } else if (this.fundPayload.source === "PAYSTACK") {
+                    }
+                    if (this.fundPayload.source === "PAYSTACK") {
                         this.payWithPaystack();
                     } else if (this.fundPayload.source === "MONNIFY") {
                         this.payWithMonnify();
@@ -529,7 +529,7 @@ export default {
                 customerMobileNumber: this.getLoggedUser.phone,
                 apiKey: process.env.VUE_APP_MONNIFY_KEY,
                 contractCode: process.env.VUE_APP_MONNIFY_CONTRACT_CODE,
-                paymentDescription: "Test Payment",
+                paymentDescription: "Chaka Technologies",
                 isTestMode: process.env.VUE_APP_MONNIFY_TEST_MODE,
                 // incomeSplitConfig: [
                 //     {
@@ -562,7 +562,7 @@ export default {
                 },
                 onClose: data => {
                     this.loading = false;
-                    if (this.flag !== "SUCCESS") {
+                    if (this.flag === "START") {
                         this.flag = "CANCEL";
                         this.FUND_WALLET(this.fundPayload);
                     }
@@ -636,7 +636,7 @@ export default {
     },
     async mounted() {
         if (this.$refs.input) this.$refs.input.focus();
-        this.activeMethod = "INTERSWITCH";
+        this.activeMethod = "MONNIFY";
         /**
          * TO-DO:: Put back when saved cards is ready
          */

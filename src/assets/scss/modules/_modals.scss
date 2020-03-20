@@ -186,6 +186,7 @@
 
                 @include mobile {
                     height: 50px;
+                    font-size: 1.325rem;
                 }
 
                 &.active {
@@ -210,6 +211,7 @@
 
                 @include mobile {
                     height: 50px;
+                    font-size: 1.325rem;
                 }
             }
 
@@ -471,6 +473,34 @@
 
             &:hover {
                 color: $white
+            }
+        }
+    }
+
+    &__download {
+        text-align: center;
+
+        &--link {
+            background-color: $primary;
+            border-radius: 4px;
+            padding: 0.325rem 0.5rem;
+            display: inline-flex;
+            width: 50%;
+            max-width: 250px;
+            justify-content: center;
+
+            img {
+                width: 85%;
+                max-width: 150px;
+            }
+        }
+
+        &--images {
+            margin-bottom: 1rem;
+
+            img {
+                width: 60%;
+                max-width: 250px;
             }
         }
     }

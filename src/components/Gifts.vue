@@ -407,10 +407,11 @@
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+
 export default {
-    name: "GiftComponent",
+    name: 'GiftComponent',
     props: {
         dashboard: {
             type: Boolean
@@ -418,14 +419,14 @@ export default {
     },
     components: {
         Fragment,
-        FAQ: () => import("./FAQ"),
-        EmailSubscribe: () => import("./EmailSubscription"),
-        CurrencyInput: () => import("./form/CurrencyInput")
+        FAQ: () => import('./FAQ'),
+        EmailSubscribe: () => import('./EmailSubscription'),
+        CurrencyInput: () => import('./form/CurrencyInput')
     },
     data() {
         return {
             itemData: {
-                currency: "NGN",
+                currency: 'NGN',
                 instrumentSymbol: null
             },
             redeemData: {},
@@ -440,15 +441,15 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "getMostPopular", "getSearchInstruments"]),
+        ...mapGetters(['getWindowWidth', 'getMostPopular', 'getSearchInstruments']),
         maxValue() {
-            return this.itemData.currency === "USD" ? 10000 : 5000000;
+            return this.itemData.currency === 'USD' ? 10000 : 5000000;
         },
         minValue() {
-            return this.itemData.currency === "USD" ? 10 : 1000;
+            return this.itemData.currency === 'USD' ? 10 : 1000;
         },
         inputStep() {
-            return this.itemData.currency === "USD" ? 100 : 1000;
+            return this.itemData.currency === 'USD' ? 100 : 1000;
         },
         filteredSearch() {
             const splice = [...this.getSearchInstruments].splice(0, 5);
@@ -457,27 +458,27 @@ export default {
     },
     methods: {
         ...mapActions([
-            "GET_MOST_POPULAR",
-            "SEARCH_INSTRUMENTS",
-            "CREATE_GIFTCARD",
-            "REDEEM_GIFTCARD"
+            'GET_MOST_POPULAR',
+            'SEARCH_INSTRUMENTS',
+            'CREATE_GIFTCARD',
+            'REDEEM_GIFTCARD'
         ]),
-        ...mapMutations(["SET_GIFT_SUCCESS_MODAL"]),
+        ...mapMutations(['SET_GIFT_SUCCESS_MODAL']),
         typeAmount() {
             if (
-                this.itemData.amountCash > this.minValue &&
-                this.itemData.amountCash <= this.maxValue
+                this.itemData.amountCash > this.minValue
+                && this.itemData.amountCash <= this.maxValue
             ) {
                 this.value = +this.itemData.amountCash;
             }
         },
         checkAmount() {
             if (+this.itemData.amountCash < this.minValue) {
-                this.$set(this.itemData, "amountCash", this.minValue);
+                this.$set(this.itemData, 'amountCash', this.minValue);
                 return true;
             }
             if (+this.itemData.amountCash > this.maxValue) {
-                this.$set(this.itemData, "amountCash", this.maxValue);
+                this.$set(this.itemData, 'amountCash', this.maxValue);
             }
             this.value = +this.itemData.amountCash;
         },
@@ -500,15 +501,15 @@ export default {
             }
         },
         async redeemGift() {
-            this.redeemData.receiverEmail = "test@me.com";
+            this.redeemData.receiverEmail = 'test@me.com';
             if (!this.redeemData.redeemCode) {
-                this.$set(this.errors, "redeemCode", "Redeem code is required");
+                this.$set(this.errors, 'redeemCode', 'Redeem code is required');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             this.loading = true;
-            await this.REDEEM_GIFTCARD(this.redeemData).then(resp => {
+            await this.REDEEM_GIFTCARD(this.redeemData).then((resp) => {
                 if (resp) {
                     this.SET_GIFT_SUCCESS_MODAL(true);
                 }
@@ -522,16 +523,16 @@ export default {
         },
         makeTransaction() {
             if (!this.itemData.senderEmail) {
-                this.$set(this.errors, "senderEmail", "Your email is required");
+                this.$set(this.errors, 'senderEmail', 'Your email is required');
             }
             if (!this.itemData.receiverEmail) {
-                this.$set(this.errors, "receiverEmail", "Receiver's email is required");
+                this.$set(this.errors, 'receiverEmail', "Receiver's email is required");
             }
             if (!this.itemData.instrumentSymbol) {
-                this.$set(this.errors, "instrumentSymbol", "Stock is required");
+                this.$set(this.errors, 'instrumentSymbol', 'Stock is required');
             }
             if (!this.itemData.amountCash) {
-                this.$set(this.errors, "amountCash", "Please select amount");
+                this.$set(this.errors, 'amountCash', 'Please select amount');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
@@ -540,13 +541,13 @@ export default {
                 key: process.env.VUE_APP_PAYSTACK_KEY,
                 email: this.itemData.senderEmail,
                 amount: this.itemData.amountCash * 100,
-                onClose: resp => {
+                onClose: (resp) => {
                     // this.loading = false;
                     // this.flag = "CANCEL";
                     // this.FUND_WALLET(this.fundPayload);
                 },
-                callback: response => {
-                    if (response.status === "success") {
+                callback: (response) => {
+                    if (response.status === 'success') {
                         this.itemData.paymentReference = response.reference;
                         this.createGift();
                         // this.flag = "SUCCESS";
@@ -564,7 +565,7 @@ export default {
             handler.openIframe();
         },
         createGift() {
-            this.CREATE_GIFTCARD(this.itemData).then(resp => {
+            this.CREATE_GIFTCARD(this.itemData).then((resp) => {
                 if (resp) {
                     this.SET_GIFT_SUCCESS_MODAL(true);
                 }
@@ -572,14 +573,14 @@ export default {
         }
     },
     async mounted() {
-        this.itemData.currency = "NGN";
+        this.itemData.currency = 'NGN';
         // this.itemData.senderEmail = "test@me.com";
         // this.itemData.receiverEmail = "janet@chaka.ng";
         // this.itemData.instrumentSymbol = 'AAPL'
         this.value = this.minValue;
         this.fromDate = this.$options.filters.reverseDate(Date.now());
         const payload = {
-            query: "a"
+            query: 'a'
         };
         await this.SEARCH_INSTRUMENTS(payload);
         /**
@@ -591,7 +592,7 @@ export default {
         value() {
             this.itemData.amountCash = +this.value;
         },
-        "itemData.currency"() {
+        'itemData.currency': function () {
             this.value = this.minValue;
         }
     }

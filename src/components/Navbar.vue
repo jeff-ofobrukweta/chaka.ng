@@ -85,12 +85,12 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
-import AccountsMenu from "./modals/AccountsMenu";
-import EventBus from "../event-bus";
+import { mapGetters, mapMutations } from 'vuex';
+import AccountsMenu from './modals/AccountsMenu';
+import EventBus from '../event-bus';
 
 export default {
-    name: "navbar",
+    name: 'navbar',
     components: {
         AccountsMenu
     },
@@ -100,20 +100,20 @@ export default {
             showMenu: false,
             routes: [
                 {
-                    name: "Overview",
-                    link: "accounts-overview"
+                    name: 'Overview',
+                    link: 'accounts-overview'
                 },
                 {
-                    name: "Wallet",
-                    link: "accounts-wallet"
+                    name: 'Wallet',
+                    link: 'accounts-wallet'
                 },
                 {
-                    name: "History",
-                    link: "accounts-history"
+                    name: 'History',
+                    link: 'accounts-history'
                 },
                 {
-                    name: "Statements",
-                    link: "accounts-statements"
+                    name: 'Statements',
+                    link: 'accounts-statements'
                 },
                 /**
                  * TO-DO :: Put back when Gifts page is ready
@@ -123,32 +123,32 @@ export default {
                 //     link: "dashboard-gifts"
                 // },
                 {
-                    name: "Calculator",
-                    link: "dashboard-calculator"
+                    name: 'Calculator',
+                    link: 'dashboard-calculator'
                 },
                 {
-                    name: "Referrals",
-                    link: "referrals"
+                    name: 'Referrals',
+                    link: 'referrals'
                 },
                 {
-                    name: "Settings",
-                    link: "accounts-settings"
+                    name: 'Settings',
+                    link: 'accounts-settings'
                 },
                 {
-                    name: "Logout",
-                    link: "logout"
+                    name: 'Logout',
+                    link: 'logout'
                 }
             ]
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth", "getInstrumentsPayload"]),
+        ...mapGetters(['getWindowWidth', 'getInstrumentsPayload']),
         isAccountActive() {
-            return this.$route.name.startsWith("accounts");
+            return this.$route.name.startsWith('accounts');
         }
     },
     methods: {
-        ...mapMutations(["MODAL_OPENED"]),
+        ...mapMutations(['MODAL_OPENED']),
         linkClick(route) {
             if (this.$route.name !== route) this.$router.push({ name: route });
             this.$refs.accounts.blur();
@@ -159,7 +159,7 @@ export default {
         }
     },
     mounted() {
-        EventBus.$on("closeMenu", () => {
+        EventBus.$on('closeMenu', () => {
             this.closeMenu();
         });
     }
