@@ -5,7 +5,7 @@
                 <th>Status</th>
                 <th>Amount</th>
                 <th v-if="type === 'CREDIT'">Payment Method</th>
-                <th v-else-if="type === 'ORDER'">Fees</th>
+                <th v-if="type === 'ORDER'">Fees</th>
                 <th v-else-if="type === 'ALL'">Type</th>
                 <th>Date</th>
                 <th>Time</th>
