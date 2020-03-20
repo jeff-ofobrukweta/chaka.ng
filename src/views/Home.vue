@@ -731,7 +731,7 @@
             <div class="v2-future__youtubespotifyicon">
                 <div class="v2-future__youtubespotifyicon--youtubeicon">
                     <a href="https://www.youtube.com/channel/UCaVpSKp8dH4zK1ikK0TpUyA/" target="_blank">
-                        <img src="../assets/img/youtube 1.svg" width="45px"  object-fit: contain/>
+                        <img src="../assets/img/youtube 1.svg" width="45px" />
                     </a>
                 </div>
                 <a href="https://soundcloud.com/chakaownthefuture" target="_blank">
