@@ -731,12 +731,12 @@
             <div class="v2-future__youtubespotifyicon">
                 <div class="v2-future__youtubespotifyicon--youtubeicon">
                     <a href="https://www.youtube.com/channel/UCaVpSKp8dH4zK1ikK0TpUyA/" target="_blank">
-                        <img src="../assets/img/youtube 1.svg" width="30px" />
+                        <img src="../assets/img/youtube 1.svg" width="45px"  object-fit: contain/>
                     </a>
                 </div>
                 <a href="https://soundcloud.com/chakaownthefuture" target="_blank">
                     <div class="v2-future__youtubespotifyicon--spotifyicon">
-                        <img src="../assets/img/Group.svg" width="30px" />
+                        <img src="../assets/img/Group.svg" width="45px" />
                     </div>
                 </a>
             </div>
