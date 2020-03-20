@@ -45,10 +45,13 @@
 
                             <transition name="kyc-navbar">
                                 <p v-if="showLocalWarning && negativeLocal">
-                                    <mark class="warning">
-                                        You’ve used some of your unsettled balance to buy stocks. It takes 2-3 business days for sold funds to settle. Please see Good Faith
-                                        Violations for more. </mark
-                                    >&nbsp;<a href="#" class="underline primary" @click.prevent="showLocalWarning = false">Hide</a>
+                                    <mark class="warning"> You’ve used some of your unsettled balance to buy stocks. It takes 2-3 business days for sold funds to settle.</mark>
+                                    <small
+                                        >Please see
+                                        <a class="underline primary" href="https://chaka.crunch.help/trading-investing-stocks/what-is-good-faith-violations" target="_blank"
+                                            >Good Faith Violations for more.</a
+                                        >&nbsp;<a href="#" class="underline primary" @click.prevent="showLocalWarning = false">Hide</a>
+                                    </small>
                                 </p>
                             </transition>
                         </div>
@@ -96,10 +99,13 @@
 
                             <transition name="kyc-navbar">
                                 <p v-if="showGlobalWarning && negativeGlobal">
-                                    <mark class="warning">
-                                        You’ve used some of your unsettled balance to buy stocks. It takes 2-3 business days for sold funds to settle. Please see Good Faith
-                                        Violations for more.</mark
-                                    >&nbsp;<a href="#" class="underline primary" @click.prevent="showGlobalWarning = false">Hide</a>
+                                    <mark class="warning"> You’ve used some of your unsettled balance to buy stocks. It takes 2-3 business days for sold funds to settle.</mark>
+                                    <small
+                                        >Please see
+                                        <a class="underline primary" href="https://chaka.crunch.help/trading-investing-stocks/what-is-good-faith-violations" target="_blank"
+                                            >Good Faith Violations for more.</a
+                                        >&nbsp;<a href="#" class="underline primary" @click.prevent="showGlobalWarning = false">Hide</a></small
+                                    >
                                 </p>
                             </transition>
                         </div>
