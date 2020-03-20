@@ -1,15 +1,13 @@
-const CompressionPlugin = require("compression-webpack-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
-const WorkboxPlugin = require("workbox-webpack-plugin");
-const path = require("path");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const CompressionPlugin = require('compression-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
     configureWebpack: {
         plugins: [
             new CompressionPlugin({
-                algorithm: "gzip"
+                algorithm: 'gzip'
             })
             // new BundleAnalyzerPlugin()
         ],
@@ -31,7 +29,7 @@ module.exports = {
                 })
             ],
             splitChunks: {
-                chunks: "all",
+                chunks: 'all',
                 maxInitialRequests: Infinity,
                 minSize: 0,
                 cacheGroups: {
@@ -40,7 +38,7 @@ module.exports = {
                     },
                     vendor: {
                         test: /[\\/]node_modules[\\/]/,
-                        chunks: "all",
+                        chunks: 'all',
                         name(module) {
                             // get the name. E.g. node_modules/packageName/not/this/part.js
                             // or node_modules/packageName
@@ -49,14 +47,14 @@ module.exports = {
                             )[1];
 
                             // npm package names are URL-safe, but some servers don't like @ symbols
-                            return `npm.vendor-${packageName.replace("@", "")}`;
+                            return `npm.vendor-${packageName.replace('@', '')}`;
                         }
                     }
                 }
             }
         }
     },
-    lintOnSave: process.env.NODE_ENV !== "production",
+    lintOnSave: process.env.NODE_ENV !== 'production',
     css: {
         loaderOptions: {
             sass: {
@@ -67,19 +65,19 @@ module.exports = {
             }
         }
     },
-    transpileDependencies: ["vuex-persist", "aos"],
+    transpileDependencies: ['vuex-persist', 'aos'],
     pwa: {
-        name: "Chaka",
-        themeColor: "#2da5ec",
-        msTileColor: "#293d4a",
-        appleMobileWebAppCapable: "yes",
-        appleMobileWebAppStatusBarStyle: "black",
+        name: 'Chaka',
+        themeColor: '#2da5ec',
+        msTileColor: '#293d4a',
+        appleMobileWebAppCapable: 'yes',
+        appleMobileWebAppStatusBarStyle: 'black',
 
         // configure the workbox plugin
-        workboxPluginMode: "InjectManifest",
+        workboxPluginMode: 'InjectManifest',
         workboxOptions: {
             // swSrc is required in InjectManifest mode.
-            swSrc: "sw.js"
+            swSrc: 'sw.js'
             // ...other Workbox options...
         }
     }

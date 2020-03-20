@@ -1,22 +1,23 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import VuexPersistence from "vuex-persist";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import VuexPersistence from 'vuex-persist';
 
-import auth from "./modules/auth";
-import accounts from "./modules/accounts";
-import explore from "./modules/explore";
-import kyc from "./modules/kyc";
-import portfolio from "./modules/portfolio";
-import stamps from "./modules/stamps";
-import wallet from "./modules/wallet";
-import watchlist from "./modules/watchlist";
-import categories from "./modules/categories";
-import graphs from "./modules/graphs";
-import singlestock from "./modules/singlestock";
-import news from "./modules/news";
-import modals from "./modules/modals";
-import giftcard from "./modules/giftcard";
-import val from "./modules/val";
+import auth from './modules/auth';
+import accounts from './modules/accounts';
+import explore from './modules/explore';
+import kyc from './modules/kyc';
+import portfolio from './modules/portfolio';
+import stamps from './modules/stamps';
+import wallet from './modules/wallet';
+import watchlist from './modules/watchlist';
+import categories from './modules/categories';
+import graphs from './modules/graphs';
+import singlestock from './modules/singlestock';
+import news from './modules/news';
+import modals from './modules/modals';
+import giftcard from './modules/giftcard';
+import val from './modules/val';
+import calculator from './modules/calculator';
 
 Vue.use(Vuex);
 
@@ -25,13 +26,13 @@ const persist = new VuexPersistence({
 });
 
 let interval = null;
-const debug = process.env.VUE_APP_NODE_ENV !== "production";
+const debug = process.env.VUE_APP_NODE_ENV !== 'production';
 
 const initialState = {
-    status: "",
+    status: '',
     errorLog: {},
     progressbar: 0,
-    windowWidth: "",
+    windowWidth: '',
     modalOpened: false,
     auth: { ...auth.state },
     explore: { ...explore.state },
@@ -48,6 +49,7 @@ const initialState = {
     modals: { ...modals.state },
     giftcard: { ...giftcard.state },
     val: { ...val.state },
+    calculator: { ...calculator.state },
     componentLoader: false,
     mobileSearch: false,
     homePage: false,
@@ -60,10 +62,10 @@ const initialState = {
 
 export default new Vuex.Store({
     state: {
-        status: "",
+        status: '',
         errorLog: {},
         progressbar: 0,
-        windowWidth: "",
+        windowWidth: '',
         modalOpened: false,
         mobileSearch: false,
         componentLoader: false,
@@ -90,11 +92,11 @@ export default new Vuex.Store({
         getValTheme: state => state.valTheme
     },
     mutations: {
-        LOGOUT: state => {
-            localStorage.removeItem("AUTH_TOKEN");
+        LOGOUT: (state) => {
+            localStorage.removeItem('AUTH_TOKEN');
             state.loggedUser = {};
         },
-        BEGIN_LOADER: state => {
+        BEGIN_LOADER: (state) => {
             if (state.progressbar === 0) state.progressbar = 30;
             state.progressbar += 5;
         },
@@ -104,14 +106,14 @@ export default new Vuex.Store({
         SET_WINDOW_WIDTH: (state, width) => {
             state.windowWidth = width;
         },
-        REQ_INIT: state => {
-            state.status = "loading";
+        REQ_INIT: (state) => {
+            state.status = 'loading';
         },
-        REQ_SUCCESS: state => {
-            state.status = "success";
+        REQ_SUCCESS: (state) => {
+            state.status = 'success';
         },
-        REQ_ERROR: state => {
-            state.status = "error";
+        REQ_ERROR: (state) => {
+            state.status = 'error';
         },
         LOG_ERROR: (state, error) => {
             state.errorLog = error;
@@ -122,15 +124,15 @@ export default new Vuex.Store({
         SEARCH_OPENED: (state, payload) => {
             state.mobileSearch = payload;
         },
-        RESET_REQ: state => {
-            state.status = "";
+        RESET_REQ: (state) => {
+            state.status = '';
             state.errorLog = {};
         },
-        RESET_ALL: state => {
-            Object.keys(state).forEach(key => {
+        RESET_ALL: (state) => {
+            Object.keys(state).forEach((key) => {
                 try {
                     Object.assign(state[key], initialState[key]);
-                } catch (error) {}
+                } catch (error) { }
             });
         },
         RESET_COMPONENT_LOADER: (state, payload) => {
@@ -151,17 +153,17 @@ export default new Vuex.Store({
         START_LOADER: ({ state, commit }) => {
             interval = setInterval(() => {
                 if (state.progressbar < 80) {
-                    commit("BEGIN_LOADER");
+                    commit('BEGIN_LOADER');
                 }
             }, 500);
         },
         STOP_LOADER: ({ commit }) => {
             clearInterval(interval);
             setTimeout(() => {
-                commit("END_LOADER", 100);
+                commit('END_LOADER', 100);
             }, 200);
             setTimeout(() => {
-                commit("END_LOADER", 0);
+                commit('END_LOADER', 0);
             }, 1000);
         }
     },
@@ -180,7 +182,8 @@ export default new Vuex.Store({
         news,
         modals,
         giftcard,
-        val
+        val,
+        calculator
     },
     strict: debug,
     plugins: [persist.plugin]

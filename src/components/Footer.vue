@@ -144,15 +144,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-    name: "app-footer",
+    name: 'app-footer',
     /**
      * VALENTINE TO-DO:: Remove when event is over
      */
     computed: {
-        ...mapGetters(["isLoggedIn", "getWindowWidth", "getValTheme"])
+        ...mapGetters(['isLoggedIn', 'getWindowWidth', 'getValTheme'])
     }
 };
 </script>

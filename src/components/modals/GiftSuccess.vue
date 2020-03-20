@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "gift-success",
+    name: 'gift-success',
     computed: {
-        ...mapGetters(["getGiftSuccess", "getRedeemSuccess"]),
+        ...mapGetters(['getGiftSuccess', 'getRedeemSuccess']),
         giftcard() {
             return this.value.giftcardData;
         },
@@ -50,15 +50,15 @@ export default {
             return this.getRedeemSuccess;
         },
         title() {
-            if (Object.keys(this.getGiftSuccess).length > 0) return "created";
-            return "redeemed";
+            if (Object.keys(this.getGiftSuccess).length > 0) return 'created';
+            return 'redeemed';
         }
     },
     methods: {
-        ...mapMutations(["SET_GIFT_SUCCESS", "SET_REDEEM_SUCCESS", "MODAL_OPENED"]),
+        ...mapMutations(['SET_GIFT_SUCCESS', 'SET_REDEEM_SUCCESS', 'MODAL_OPENED']),
         closeModal() {
             this.MODAL_OPENED(false);
-            this.$emit("close");
+            this.$emit('close');
         }
     },
     beforeDestroy() {
@@ -66,7 +66,7 @@ export default {
         this.SET_REDEEM_SUCCESS({});
     },
     mounted() {
-        console.log("I got here", this.getGiftSuccess);
+        console.log('I got here', this.getGiftSuccess);
     }
 };
 </script>

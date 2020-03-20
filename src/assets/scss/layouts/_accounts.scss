@@ -9,6 +9,15 @@
         justify-content: space-between;
         align-items: center;
 
+        &--div {
+            display: flex;
+            align-items: center;
+
+            @include mobile {
+                margin-top: 0.625rem;
+            }
+        }
+
         select {
             width: 100%;
             margin-top: 1rem;
@@ -18,7 +27,7 @@
         @include tablet {
 
             select {
-                width: 10rem;
+                width: 6rem;
             }
 
         }
@@ -354,14 +363,21 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            margin-bottom: 2.5rem;
+
+            @include mobile {
+                margin-bottom: 0.5rem;
+            }
+
+            @include tablet {
+                margin-right: 0.5rem;
+            }
 
             input {
                 @include mobile {
                     width: 45%
                 }
 
-                width: 10rem;
+                width: 7rem;
 
                 &:first-child {
                     margin-right: 10px;

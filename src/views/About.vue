@@ -47,16 +47,14 @@
 
 <script>
 export default {
-    name: "About",
+    name: 'About',
     components: {
-        EmailSubscribe: () => import("../components/EmailSubscription")
+        EmailSubscribe: () => import('../components/EmailSubscription')
     },
     mounted() {
-        document.title = "Chaka - About Us";
-        document.getElementsByTagName("meta")["keywords"].content =
-            "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
-        document.getElementsByTagName("meta")["description"].content =
-            "We started Chaka to remove global investment barriers for Nigerians and make it easy to access opportunities at home and abroad";
+        document.title = 'Chaka - About Us';
+        document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+        document.getElementsByTagName('meta').description.content = 'We started Chaka to remove global investment barriers for Nigerians and make it easy to access opportunities at home and abroad';
         // document.getElementsByTagName('meta')['og:title'].content = 'Chaka - About Us';
         // document.getElementsByTagName('meta')['og:description'].content =
         // 	'We started Chaka to remove global investment barriers for Nigerians and make it easy to access opportunities at home and abroad';

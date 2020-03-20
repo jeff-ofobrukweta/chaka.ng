@@ -918,7 +918,7 @@
             background-position: center;
             background-repeat: no-repeat;
             color: $white;
-            height: 450px;
+            height: 500px;
             display: flex;
             align-items: center;
             margin-bottom: 2rem;
@@ -1007,7 +1007,7 @@
             display: none;
 
             img {
-                width: 110%;
+                width: 100%;
                 max-width: 640px;
             }
 
@@ -1128,6 +1128,69 @@
             }
         }
     }
+
+    &-future {
+        background-color: #293D4A;
+        padding-bottom: 1rem;
+
+        @include desktop {
+            padding-bottom: 4rem;
+        }
+
+        &__image {
+            display: flex;
+            justify-content: center;
+            padding-top: 22px;
+        }
+
+        &__btn {
+            text-align: center;
+            margin-top: 1.8rem;
+            margin-bottom: 1.2rem;
+
+            svg {
+                margin-left: 34px;
+            }
+        }
+
+        &__see {
+            text-align: center;
+
+            p {
+                color: #FFFFFF;
+                font-family: SF Pro Text;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 25px;
+            }
+        }
+
+        &__youtubespotifyicon {
+            display: flex;
+            justify-content: center;
+            padding-top: 5px;
+            padding-bottom: 20px;
+
+            &--youtubeicon {
+                border-right: 1px solid #FFFFFF;
+                padding-right: 11px;
+                height: 30px;
+            }
+
+            &--spotifyicon {
+                padding-left: 11px;
+            }
+
+        }
+
+
+
+
+    }
+
+
+
 }
 
 .row {

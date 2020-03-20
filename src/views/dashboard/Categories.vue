@@ -194,305 +194,308 @@
   </section>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
-  name: "Categories",
-  data() {
-    return {
-      newInstrument: [],
-      tagArrayList: [],
-      page: 0,
-      perPage: 20,
-      infiniteLoader: false,
-      loaderState: false,
-      InstrumentsListArray: [],
-      paginate: [
-        {
-          name: "Previous",
-          uid: "regression",
-          sign: "❮ "
-        },
-        {
-          name: "Next",
-          uid: "progression",
-          sign: "❯ "
-        }
-      ],
+    name: 'Categories',
+    data() {
+        return {
+            newInstrument: [],
+            tagArrayList: [],
+            page: 0,
+            perPage: 20,
+            infiniteLoader: false,
+            loaderState: false,
+            InstrumentsListArray: [],
+            paginate: [
+                {
+                    name: 'Previous',
+                    uid: 'regression',
+                    sign: '❮ '
+                },
+                {
+                    name: 'Next',
+                    uid: 'progression',
+                    sign: '❯ '
+                }
+            ],
 
-      //
-      loading: false,
-      loadingTags: false,
-      selectedTag: "ALL",
-      currentTag: { filter: "ALL" },
-      tagCategories: [
-        {
-          name: "All",
-          value: "ALL"
-        },
-        {
-          name: "Featured",
-          value: "FEATURED"
-        },
-        {
-          name: "Industries",
-          value: "INDUSTRIES"
-        },
-        {
-          name: "Countries",
-          value: "COUNTRIES"
-        }
-      ]
-    };
-  },
-  components: {
-    InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-    InstrumentMobile: () =>
-      import("../../components/watchlist/MobileWatchlist"),
-    Tag: () => import("../../components/SingleTag")
-  },
-  computed: {
-    ...mapGetters([
-      "gettagslistsArray",
-      "getInstrumentsListArray",
-      "getWindowWidth",
-      "getInstrumentsPayload",
-      "getErrorLog",
-      "getpagination"
-    ]),
-    instrumentLength() {
-      if (Object.keys(this.getpagination).length > 0) {
-        if (this.getpagination === "") {
-          return 0;
-        }
-        const length = this.getpagination.total;
-        return length;
-      }
-      return false;
-    },
-    instrumentPageLength() {
-      if (Object.keys(this.getpagination).length > 0) {
-        if (this.getpagination === "") {
-          return 0;
-        }
-        const length = this.getpagination.total / 20;
-        const ceilLength = Math.ceil(length);
-        return ceilLength;
-      }
-      return false;
-    }
-  },
-  methods: {
-    ...mapMutations([
-      "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
-      "SET_INSTRUMENT_BY_TAGS",
-      "SET_TAGS_LISTS",
-      "SET_SLUG_FOR_INSTRUMENT"
-    ]),
-    ...mapActions([
-      "GET_TAGS_CATEGORIES",
-      "GET_INSTRUMENT_BY_TAGS",
-      "GET_INSTRUMENT_BY_FILTER_TAGS"
-    ]),
-    handleremovePin(index) {
-      this.tagArrayList.splice(index, 1);
-      if(this.tagArrayList.length >= 1){
-          this.loading = true;
-          this.infiniteLoader = true;
-          this.page = 0; //this is to set the page back to the default when tags are clicked.
-          let collectionSlug = []
-          this.tagArrayList.map((index)=>collectionSlug.push(index.slug))
-          let slugList = String(collectionSlug.join(','));
-          const payload = { slug: slugList, page: 0, perPage: 20 };
-
-          if (payload.slug === "") {
-            this.loading = false;
-            this.SET_INSTRUMENT_BY_TAGS([]);
-            return true;
-          }
-
-          this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
-            this.loading = false;
-            this.infiniteLoader = false;
-            this.loading = false;
-          });
-      }
-      else{
-        this.loading = true;
-          this.infiniteLoader = true;
-          this.page = 0; //this is to set the page back to the default when tags are clicked.
-          this.tagArrayList.push(this.gettagslistsArray[0]);
-          const payload = { slug: this.gettagslistsArray[0].slug, page: 0, perPage: 20 };
-
-          if (payload.slug === "") {
-            this.loading = false;
-            this.SET_INSTRUMENT_BY_TAGS([]);
-            return true;
-          }
-
-          this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
-            this.loading = false;
-            this.infiniteLoader = false;
-            this.loading = false;
-          });
-      }
-    },
-    handleActiveHighlight(item) {
-      let Isactive = this.tagArrayList.filter(active => active.slug === item.slug);
-        if(Isactive.length >= 1) {return true;}
-        else{return false}
-    },
-    handlescrollinfinitly(signType) {
-      if (signType) {
-        if (signType == "regression") {
-          if (this.page == 0) {
-            const pageCount = 0;
-            const pagenation = {
-              page: pageCount,
-              perPage: this.perPage,
-              slug: this.getInstrumentsPayload.slug
-            };
-            // this.infiniteLoader = true;
-            this.loading = true;
-            this.SET_INSTRUMENT_BY_TAGS([]);
-            this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-              // this.infiniteLoader = false;
-              this.loading = false;
-              this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
-            });
-          } else {
-            const pagenation = {
-              page: --this.page,
-              perPage: this.perPage,
-              slug: this.getInstrumentsPayload.slug
-            };
-            // this.infiniteLoader = true;
-            this.loading = true;
-            this.SET_INSTRUMENT_BY_TAGS([]);
-            this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-              // this.infiniteLoader = false;
-              this.loading = false;
-              this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
-            });
-          }
-        }
-        // if the numberof pages is < Math.ceil(totalPaginationlength / 20)
-        else {
-          if (this.page < this.instrumentPageLength - 1) {
-            const pagenation = {
-              page: ++this.page,
-              perPage: this.perPage,
-              slug: this.getInstrumentsPayload.slug
-            };
-            // this.infiniteLoader = true;
-            this.loading = true;
-            this.SET_INSTRUMENT_BY_TAGS([]);
-            this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
-              // this.infiniteLoader = false;
-              this.loading = false;
-              this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
-            });
-          }
-          // else if(){
-
-          // }
-        }
-        // if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
-
-        // }
-      }
-    },
-    handleSelect(response) {
-      this.loading = true;
-      this.infiniteLoader = true;
-      this.tagArrayList.push(response);
-      this.page = 0; //this is to set the page back to the default when tags are clicked.
-      let collectionSlug = []
-      this.tagArrayList.map((index)=>collectionSlug.push(index.slug))
-      let slugList = String(collectionSlug.join(','))
-      const payload = { slug: slugList, page: 0, perPage: 20 };
-      this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response || {});
-      if (payload.slug === "") {
-        this.loading = false;
-        this.SET_INSTRUMENT_BY_TAGS([]);
-        return true;
-      }
-
-      this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
-        this.loading = false;
-        this.infiniteLoader = false;
-        this.loading = false;
-      });
-    },
-    getNewTags() {
-      if (this.selectedTag !== this.currentTag.filter) {
-        this.SET_TAGS_LISTS([]);
-        this.SET_INSTRUMENT_BY_TAGS([]);
-        this.currentTag.filter = this.selectedTag;
-        this.OnclickhandleTaToogle();
-      }
-    },
-    async mount() {
-      this.loading = true;
-      // this.infiniteLoader = true;
-      this.page = 0; //this is to set the page back to the default when tags are clicked.
-      this.loadingTags = true;
-      await this.GET_TAGS_CATEGORIES(this.currentTag);
-      this.loadingTags = false;
-      if (this.gettagslistsArray.length > 0) {
-        this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
-          this.getInstrumentsPayload ? this.getInstrumentsPayload : {}
-        );
-        this.tagArrayList.push(this.getInstrumentsPayload);
-        const payloadGetInstrument = {
-          slug: this.getInstrumentsPayload.slug,
-          page: 0,
-          perPage: 20
+            //
+            loading: false,
+            loadingTags: false,
+            selectedTag: 'ALL',
+            currentTag: { filter: 'ALL' },
+            tagCategories: [
+                {
+                    name: 'All',
+                    value: 'ALL'
+                },
+                {
+                    name: 'Featured',
+                    value: 'FEATURED'
+                },
+                {
+                    name: 'Industries',
+                    value: 'INDUSTRIES'
+                },
+                {
+                    name: 'Countries',
+                    value: 'COUNTRIES'
+                }
+            ]
         };
-        this.SET_INSTRUMENT_BY_TAGS([]);
-        await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(() => {
-          this.infiniteLoader = false;
-          this.loading = false;
-          this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
-        });
-      }
-      this.loading = false;
     },
-    async OnclickhandleTaToogle() {
-      this.loading = true;
-      this.loadingTags = true;
-      this.page = 0; //this is to set the page back to the default when tags are clicked.
-      await this.GET_TAGS_CATEGORIES(this.currentTag);
-      this.loadingTags = false;
-      if (this.gettagslistsArray.length > 0) {
-        this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
-          this.gettagslistsArray ? this.gettagslistsArray[0] : {}
-        );
-        this.tagArrayList = [];
-        this.tagArrayList.push(this.gettagslistsArray[0]);
-        const payloadGetInstrument = {
-          slug: this.getInstrumentsPayload.slug,
-          page: 0,
-          perPage: 20
-        };
+    components: {
+        InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
+        InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
+        Tag: () => import('../../components/SingleTag')
+    },
+    computed: {
+        ...mapGetters([
+            'gettagslistsArray',
+            'getInstrumentsListArray',
+            'getWindowWidth',
+            'getInstrumentsPayload',
+            'getErrorLog',
+            'getpagination'
+        ]),
+        instrumentLength() {
+            if (Object.keys(this.getpagination).length > 0) {
+                if (this.getpagination === '') {
+                    return 0;
+                }
+                const length = this.getpagination.total;
+                return length;
+            }
+            return false;
+        },
+        instrumentPageLength() {
+            if (Object.keys(this.getpagination).length > 0) {
+                if (this.getpagination === '') {
+                    return 0;
+                }
+                const length = this.getpagination.total / 20;
+                const ceilLength = Math.ceil(length);
+                return ceilLength;
+            }
+            return false;
+        }
+    },
+    methods: {
+        ...mapMutations([
+            'SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS',
+            'SET_INSTRUMENT_BY_TAGS',
+            'SET_TAGS_LISTS',
+            'SET_SLUG_FOR_INSTRUMENT'
+        ]),
+        ...mapActions([
+            'GET_TAGS_CATEGORIES',
+            'GET_INSTRUMENT_BY_TAGS',
+            'GET_INSTRUMENT_BY_FILTER_TAGS'
+        ]),
+        handleremovePin(index) {
+            this.tagArrayList.splice(index, 1);
+            if (this.tagArrayList.length >= 1) {
+                this.loading = true;
+                this.infiniteLoader = true;
+                this.page = 0; // this is to set the page back to the default when tags are clicked.
+                const collectionSlug = [];
+                this.tagArrayList.map(index => collectionSlug.push(index.slug));
+                const slugList = String(collectionSlug.join(','));
+                const payload = { slug: slugList, page: 0, perPage: 20 };
 
-        await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
-      }
-      this.loading = false;
-    }
-  },
-  async mounted() {
-    await this.mount();
-  },
-  beforeRouteLeave(to, from, next) {
-    this.SET_INSTRUMENT_BY_TAGS([]);
-    next();
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.page = 0; //this is to set the page back to the default when tags are clicked.
-    next();
-  },
-  watch: {}
+                if (payload.slug === '') {
+                    this.loading = false;
+                    this.SET_INSTRUMENT_BY_TAGS([]);
+                    return true;
+                }
+
+                this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
+                    this.loading = false;
+                    this.infiniteLoader = false;
+                    this.loading = false;
+                });
+            } else {
+                this.loading = true;
+                this.infiniteLoader = true;
+                this.page = 0; // this is to set the page back to the default when tags are clicked.
+                this.tagArrayList.push(this.gettagslistsArray[0]);
+                const payload = { slug: this.gettagslistsArray[0].slug, page: 0, perPage: 20 };
+
+                if (payload.slug === '') {
+                    this.loading = false;
+                    this.SET_INSTRUMENT_BY_TAGS([]);
+                    return true;
+                }
+
+                this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
+                    this.loading = false;
+                    this.infiniteLoader = false;
+                    this.loading = false;
+                });
+            }
+        },
+        handleActiveHighlight(item) {
+            const Isactive = this.tagArrayList.filter(active => active.slug === item.slug);
+            if (Isactive.length >= 1) { return true; }
+            return false;
+        },
+        handlescrollinfinitly(signType) {
+            if (signType) {
+                if (signType == 'regression') {
+                    if (this.page == 0) {
+                        const pageCount = 0;
+                        const pagenation = {
+                            page: pageCount,
+                            perPage: this.perPage,
+                            slug: this.getInstrumentsPayload.slug
+                        };
+                        // this.infiniteLoader = true;
+                        this.loading = true;
+                        this.SET_INSTRUMENT_BY_TAGS([]);
+                        this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+                            // this.infiniteLoader = false;
+                            this.loading = false;
+                            this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
+                        });
+                    } else {
+                        const pagenation = {
+                            page: --this.page,
+                            perPage: this.perPage,
+                            slug: this.getInstrumentsPayload.slug
+                        };
+                        // this.infiniteLoader = true;
+                        this.loading = true;
+                        this.SET_INSTRUMENT_BY_TAGS([]);
+                        this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+                            // this.infiniteLoader = false;
+                            this.loading = false;
+                            this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
+                        });
+                    }
+                }
+                // if the numberof pages is < Math.ceil(totalPaginationlength / 20)
+                else {
+                    if (this.page < this.instrumentPageLength - 1) {
+                        const pagenation = {
+                            page: ++this.page,
+                            perPage: this.perPage,
+                            slug: this.getInstrumentsPayload.slug
+                        };
+                        // this.infiniteLoader = true;
+                        this.loading = true;
+                        this.SET_INSTRUMENT_BY_TAGS([]);
+                        this.GET_INSTRUMENT_BY_TAGS(pagenation).then(() => {
+                            // this.infiniteLoader = false;
+                            this.loading = false;
+                            this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
+                        });
+                    }
+                    // else if(){
+
+                    // }
+                }
+                // if (this.newInstrument.length !== this.getInstrumentsListArray.length) {
+
+                // }
+            }
+        },
+        handleSelect(response) {
+            this.loading = true;
+            this.infiniteLoader = true;
+            if (!(this.tagArrayList.includes(response))) {
+                this.tagArrayList.push(response);
+                this.page = 0; // this is to set the page back to the default when tags are clicked.
+                const collectionSlug = [];
+                this.tagArrayList.map(index => collectionSlug.push(index.slug));
+                const slugList = String(collectionSlug.join(','));
+                const payload = { slug: slugList, page: 0, perPage: 20 };
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(response || {});
+                if (payload.slug === '') {
+                    this.loading = false;
+                    this.SET_INSTRUMENT_BY_TAGS([]);
+                    return true;
+                }
+
+                this.GET_INSTRUMENT_BY_FILTER_TAGS(payload).then(() => {
+                    this.loading = false;
+                    this.infiniteLoader = false;
+                    this.loading = false;
+                });
+            } else {
+                this.loading = false;
+                this.infiniteLoader = false;
+            }
+        },
+        getNewTags() {
+            if (this.selectedTag !== this.currentTag.filter) {
+                this.SET_TAGS_LISTS([]);
+                this.SET_INSTRUMENT_BY_TAGS([]);
+                this.currentTag.filter = this.selectedTag;
+                this.OnclickhandleTaToogle();
+            }
+        },
+        async mount() {
+            this.loading = true;
+            // this.infiniteLoader = true;
+            this.page = 0; // this is to set the page back to the default when tags are clicked.
+            this.loadingTags = true;
+            await this.GET_TAGS_CATEGORIES(this.currentTag);
+            this.loadingTags = false;
+            if (this.gettagslistsArray.length > 0) {
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
+                    this.getInstrumentsPayload ? this.getInstrumentsPayload : {}
+                );
+                this.tagArrayList.push(this.getInstrumentsPayload);
+                const payloadGetInstrument = {
+                    slug: this.getInstrumentsPayload.slug,
+                    page: 0,
+                    perPage: 20
+                };
+                this.SET_INSTRUMENT_BY_TAGS([]);
+                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument).then(() => {
+                    this.infiniteLoader = false;
+                    this.loading = false;
+                    this.SET_INSTRUMENT_BY_TAGS([...this.getInstrumentsListArray]);
+                });
+            }
+            this.loading = false;
+        },
+        async OnclickhandleTaToogle() {
+            this.loading = true;
+            this.loadingTags = true;
+            this.page = 0; // this is to set the page back to the default when tags are clicked.
+            await this.GET_TAGS_CATEGORIES(this.currentTag);
+            this.loadingTags = false;
+            if (this.gettagslistsArray.length > 0) {
+                this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(
+                    this.gettagslistsArray ? this.gettagslistsArray[0] : {}
+                );
+                this.tagArrayList = [];
+                this.tagArrayList.push(this.gettagslistsArray[0]);
+                const payloadGetInstrument = {
+                    slug: this.getInstrumentsPayload.slug,
+                    page: 0,
+                    perPage: 20
+                };
+
+                await this.GET_INSTRUMENT_BY_TAGS(payloadGetInstrument);
+            }
+            this.loading = false;
+        }
+    },
+    async mounted() {
+        await this.mount();
+    },
+    beforeRouteLeave(to, from, next) {
+        this.SET_INSTRUMENT_BY_TAGS([]);
+        next();
+    },
+    beforeRouteUpdate(to, from, next) {
+        this.page = 0; // this is to set the page back to the default when tags are clicked.
+        next();
+    },
+    watch: {}
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
     <main class="main" role="main">
         <section class="v2-landing container">
-            <div class=" v2-landing__vector">
+            <div class="v2-landing__vector">
                 <span class="v2-landing__vector--span">
                     <img src="../assets/img/landing-vector.svg" :data-srcset="require('../assets/img/landing-vector.svg')" class="v2-landing__vector--img" alt="Landing Vector" />
                 </span>
@@ -11,12 +11,8 @@
                     <div class="v2-landing__text">
                         <div class="v2-width__md">
                             <div data-aos="fade" class="v2-landing__hero">
-                                <h5 class="section__caption">
-                                    Your Investment Passport
-                                </h5>
-                                <h1 class="hero__title">
-                                    Trade Global &amp; Local Stock Markets
-                                </h1>
+                                <h5 class="section__caption">Your Investment Passport</h5>
+                                <h1 class="hero__title">Trade Global &amp; Local Stock Markets</h1>
 
                                 <p class="section__text">
                                     Your Investment Passport. Own US, Nigerian, Chinese and global companies like Apple, Google, Dangote, Alibaba and more from any device.
@@ -40,7 +36,7 @@
                                         <small>{{ errors.password }}</small>
                                     </p>
                                 </div>
-                                <div class=" v2-landing__btn">
+                                <div class="v2-landing__btn">
                                     <button class="v2-btn v2-btn__primary w-100" type="submit">
                                         Get Started
                                         <svg width="12" height="6" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +83,7 @@
                             data-aos="fade-left"
                             class="lazyload v2-landing__desktop"
                             alt="Landing Desktop"
-                        /> -->
+            />-->
                         <img
                             data-sizes="auto"
                             :data-src="require('../assets/img/landing-desktop.png')"
@@ -251,7 +247,10 @@
                 <div class="v2-pricing__row">
                     <h5 class="grey-dark text-center">PRICING</h5>
                     <div class="v2-pricing__money" v-if="getWindowWidth === 'desktop'">
-                        <h2 class="dollar">$2<span class="super-text">$5</span></h2>
+                        <h2 class="dollar">
+                            $2
+                            <span class="super-text">$5</span>
+                        </h2>
                         <h2 class="naira">&#8358;100</h2>
                     </div>
                     <h4 v-else class="v2-pricing__mobile"><span class="stroke">$5</span> $2 and N100</h4>
@@ -279,9 +278,7 @@
                         <img :src="invest[investNumber].image" alt="Invest" />
                     </div>
                     <div class="v2-invest__text">
-                        <h2 class="hero__title v2-section__title">
-                            {{ invest[investNumber].title }}
-                        </h2>
+                        <h2 class="hero__title v2-section__title">{{ invest[investNumber].title }}</h2>
                         <div class="v2-invest__height">
                             <p class="section__text">{{ invest[investNumber].text }}</p>
                         </div>
@@ -458,9 +455,7 @@
                 </div>
                 <div class="v2-countries__body" data-aos="fade-left">
                     <h6 class="section__caption">No Investment Barriers</h6>
-                    <h2 class="section__title v2-section__title">
-                        Trade and Invest in 40+ Countries
-                    </h2>
+                    <h2 class="section__title v2-section__title">Trade and Invest in 40+ Countries</h2>
                     <p class="section__text">
                         First-class access to stocks listed on the NG &amp; US stock exchanges as well as global blue-chip companies from around the world. Your limitless
                         investment passport is finally here.
@@ -714,6 +709,39 @@
             </div>
         </section>
 
+        <!-- <section class="section v2-future">
+            <div class="v2-future__image">
+                <img src="../assets/img/soundcloud 2 1.png" width="60%" />
+            </div>
+            <div class="v2-future__btn">
+                <button class="v2-btn v2-btn__primary">
+                    <router-link :to="{ name: 'register' }" tag="v2-future__btn">Sign up</router-link>
+
+                    <svg width="12" height="6" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M6.8009 5.51985V4.05865L0.342752 4.05865C0.162356 4.05865 0 3.91433 0 3.71589V2.14646C0 1.96606 0.144317 1.8037 0.342752 1.8037L6.8009 1.8037V0.342503C6.8009 0.0719098 7.10757 -0.0904461 7.34209 0.0538701L9.14604 1.2986L11.0763 2.63352C11.2747 2.77784 11.2747 3.06647 11.0763 3.19275L9.14604 4.56375L7.34209 5.80848C7.10757 5.9528 6.8009 5.79044 6.8009 5.51985Z"
+                            fill="white"
+                        />
+                    </svg>
+                </button>
+            </div>
+            <div class="v2-future__see">
+                <p>See every other episode here</p>
+            </div>
+            <div class="v2-future__youtubespotifyicon">
+                <div class="v2-future__youtubespotifyicon--youtubeicon">
+                    <a href="https://www.youtube.com/channel/UCaVpSKp8dH4zK1ikK0TpUyA/" target="_blank">
+                        <img src="../assets/img/youtube 1.svg" width="30px" />
+                    </a>
+                </div>
+                <a href="https://soundcloud.com/chakaownthefuture" target="_blank">
+                    <div class="v2-future__youtubespotifyicon--spotifyicon">
+                        <img src="../assets/img/Group.svg" width="30px" />
+                    </div>
+                </a>
+            </div>
+        </section> -->
+
         <section class="section v2-mobile">
             <div class="container">
                 <div class="row v2-mobile__row">
@@ -743,9 +771,7 @@
                                 <img src="../assets/img/playstore.svg" data-aos="fade-up" data-aos-delay="250" alt="Play Store" />
                             </a>
                         </div>
-                        <p class="hero__text v2-mobilie__text" data-aos="fade-left" data-aos-delay="200">
-                            Keep your opportunities closer
-                        </p>
+                        <p class="hero__text v2-mobilie__text" data-aos="fade-left" data-aos-delay="200">Keep your opportunities closer</p>
                         <template v-if="getWindowWidth !== 'mobile'">
                             <div class="v2-mobile__store--logo" data-aos="fade-left" data-aos-delay="250">
                                 <img src="../assets/img/chaka-logo.svg" alt="Chaka" />
@@ -754,14 +780,14 @@
                                 <img src="../assets/img/appstore.svg" alt="App Store" />
                                 <!-- <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
                                     <img src="../assets/img/playstore.svg" alt="Play Store"
-                                /></a> -->
-                            </div></template
-                        >
+                /></a>-->
+                            </div>
+                        </template>
                         <div v-else class="d-md-none v2-mobile__store v2-mobile__store--dark" data-aos="fade-left" data-aos-delay="200">
                             <img src="../assets/img/appstore-dark.svg" alt="App Store" />
                             <!-- <a target="_blank" href="https://play.google.com/store/apps/details?id=ng.chaka.android">
                                 <img src="../assets/img/playstore-dark.svg" alt="Play Store" />
-                            </a> -->
+              </a>-->
                         </div>
                     </div>
                 </div>
@@ -774,11 +800,11 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from "vuex";
+import AOS from "aos";
 import auth from "../services/validations/auth";
 import fractional from "../assets/img/fractional/fractional.png";
 import minimums from "../assets/img/fractional/low-minimums.png";
 import grow from "../assets/img/fractional/grow.png";
-import AOS from "aos";
 
 export default {
     name: "Home",
@@ -791,17 +817,17 @@ export default {
             invest: [
                 {
                     title: "Fractional Shares",
-                    text: `Invest in any global stock with any amount of money, no matter the price per share.`,
+                    text: "Invest in any global stock with any amount of money, no matter the price per share.",
                     image: fractional
                 },
                 {
                     title: "Low Minimums",
-                    text: `Start trading with as low as $10 or N1, 000.`,
+                    text: "Start trading with as low as $10 or N1, 000.",
                     image: minimums
                 },
                 {
                     title: "Grow",
-                    text: `Learn more about investing with access to content from our in-house team.`,
+                    text: "Learn more about investing with access to content from our in-house team.",
                     image: grow
                 }
             ],

@@ -8,30 +8,30 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-    name: "hbase",
+    name: 'hbase',
     data() {
         return {
             HvaseCardloader: false
         };
     },
     components: {
-        HorizontalGraph: () => import("./horizontalgraph")
+        HorizontalGraph: () => import('./horizontalgraph')
     },
     computed: {
-        ...mapGetters(["getActionanalysis", "getValueanalysis"])
+        ...mapGetters(['getActionanalysis', 'getValueanalysis'])
     },
     methods: {
-        ...mapActions(["GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA"]),
+        ...mapActions(['GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA']),
         ...mapMutations([
-            "SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE",
-            "SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION"
+            'SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE',
+            'SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION'
         ]),
         mountedActions(params) {
             const payload = { symbol: params };
-            this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then(res => {
+            this.GET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_DATA(payload).then((res) => {
                 if (!res) {
                     this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_VALUE([]);
                     this.SET_HORIZONTALBARCHART_ANALYSTSRATING_GRAPH_ACTION([]);

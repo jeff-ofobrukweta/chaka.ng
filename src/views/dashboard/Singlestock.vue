@@ -250,11 +250,11 @@
     </Fragment>
 </template>
 <script>
-import { Fragment } from "vue-fragment";
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-    name: "Singlestock",
+    name: 'Singlestock',
     data() {
         return {
             loading: true
@@ -262,50 +262,49 @@ export default {
     },
     components: {
         Fragment,
-        Linegraph: () => import("../../components/Linegraph/singlestock_linegraph"),
-        Cardblue: () => import("../../components/Linegraph/blackpriceboard"),
-        StockTable: () => import("../../components/singlestock/StockTable"),
-        Horizontalchart: () => import("../../components/Horizontalbar/hbase"),
-        Analysisbarchart: () => import("../../components/Analysisbarchart/analysisbarchartbase"),
-        InstrumentCard: () => import("../../components/Instrument/InstrumentCard"),
-        InstrumentMobile: () => import("../../components/watchlist/MobileWatchlist"),
-        NewsCard: () => import("../../components/cards/NewsCard")
+        Linegraph: () => import('../../components/Linegraph/singlestock_linegraph'),
+        Cardblue: () => import('../../components/Linegraph/blackpriceboard'),
+        StockTable: () => import('../../components/singlestock/StockTable'),
+        Horizontalchart: () => import('../../components/Horizontalbar/hbase'),
+        Analysisbarchart: () => import('../../components/Analysisbarchart/analysisbarchartbase'),
+        InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
+        InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
+        NewsCard: () => import('../../components/cards/NewsCard')
     },
     computed: {
         ...mapGetters([
-            "getWindowWidth",
-            "getSingleinstrument",
-            "getPricedetailsonblackcard",
-            "getSimilarStocks",
-            "getlocalstocksowned",
-            "getglobalstocksowned",
-            "getNextKYC",
-            "getWatchlist",
-            "getNews",
-            "getInstrumentsPayload"
+            'getWindowWidth',
+            'getSingleinstrument',
+            'getPricedetailsonblackcard',
+            'getSimilarStocks',
+            'getlocalstocksowned',
+            'getglobalstocksowned',
+            'getNextKYC',
+            'getWatchlist',
+            'getNews',
+            'getInstrumentsPayload'
         ]),
         countryCode() {
-            if (this.getSingleinstrument.countryCode)
-                return this.getSingleinstrument.countryCode.toLowerCase();
-            return "zz";
+            if (this.getSingleinstrument.countryCode) { return this.getSingleinstrument.countryCode.toLowerCase(); }
+            return 'zz';
         }
     },
     methods: {
         ...mapActions([
-            "GET_WATCHLIST",
-            "GET_SIMILAR_STOCKS",
-            "GET_SINGLESTOCK_INSTRUMENT",
-            "GET_ARTICULE_NEWS",
-            "ADD_TO_WATCHLIST",
-            "REMOVE_FROM_WATCHLIST",
-            "GET_SOCIAL_OAUTH_FACEBOOK"
+            'GET_WATCHLIST',
+            'GET_SIMILAR_STOCKS',
+            'GET_SINGLESTOCK_INSTRUMENT',
+            'GET_ARTICULE_NEWS',
+            'ADD_TO_WATCHLIST',
+            'REMOVE_FROM_WATCHLIST',
+            'GET_SOCIAL_OAUTH_FACEBOOK'
         ]),
         ...mapMutations([
-            "SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS",
-            "SET_NEWS",
-            "SET_SINGLE_INSTRUMENT",
-            "SET_BUY_MODAL",
-            "RESET_MODALS"
+            'SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS',
+            'SET_NEWS',
+            'SET_SINGLE_INSTRUMENT',
+            'SET_BUY_MODAL',
+            'RESET_MODALS'
         ]),
         handleStep(step) {
             // this.step = step.type;
@@ -375,9 +374,9 @@ export default {
                 );
                 // filter the arr at this point to get if the current stock is in the watchlist
             });
-            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(()=>{
+            await this.GET_SINGLESTOCK_INSTRUMENT(singlestockpayload).then(() => {
                 this.loading = false;
-            }).catch((error)=>{
+            }).catch((error) => {
                 this.loading = 'error';
             });
             this.similarLoading = false;
@@ -387,13 +386,13 @@ export default {
         setTagPayload(valuePayload) {
             this.SET_TAGS_PAYLOAD__INSTRUMENT_BY_TAGS(valuePayload);
             this.$router.push({
-                name: "categories",
+                name: 'categories',
                 params: { category: this.getInstrumentsPayload.slug }
             });
         }
     },
     async mounted() {
-        this.RESET_MODALS()
+        this.RESET_MODALS();
         await this.mountedAction(this.$route.params.symbol);
     },
     beforeRouteUpdate(to, from, next) {
@@ -417,39 +416,39 @@ export default {
             description: true,
             watchdisable: true,
             checkIfStockInWatchlist: [],
-            token: "",
-            profile: "",
+            token: '',
+            profile: '',
 
             news: [
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 },
                 {
                     title:
-                        "cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ",
-                    link: "https://google.com",
-                    image: "../../assets/img/news/news.png"
+                        'cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC cwiurhbfjda ca bviusbf viu HAVC ',
+                    link: 'https://google.com',
+                    image: '../../assets/img/news/news.png'
                 }
             ]
         };

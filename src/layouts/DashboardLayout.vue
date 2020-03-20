@@ -38,26 +38,28 @@
         <ExchangeModal @close="closeExchange" v-if="getExchangeModal" />
         <WithdrawModal @close="closeWithdraw" v-if="getWithdrawModal" />
         <WalletSuccess @close="closeWallet" v-if="getWalletSuccess" />
+        <DownloadApp @close="closeDownloadApp" v-if="getDownloadApp" />
     </Fragment>
 </template>
 
 <script>
-import { Fragment } from "vue-fragment";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { Fragment } from 'vue-fragment';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "dashboard-layout",
+    name: 'dashboard-layout',
     components: {
-        Navbar: () => import("../components/Navbar"),
-        KYC: () => import("../components/kyc/NavbarKYC"),
-        KYCPending: () => import("../components/kyc/NavbarKYCPending"),
-        ExchangeModal: () => import("../components/modals/Exchange"),
-        WithdrawModal: () => import("../components/modals/Withdraw"),
-        BuyModal: () => import("../components/modals/Buy"),
-        SellModal: () => import("../components/modals/Sell"),
-        SaleSuccess: () => import("../components/modals/SaleSuccess"),
-        FundModal: () => import("../components/modals/Fund"),
-        WalletSuccess: () => import("../components/modals/WalletSuccess"),
+        Navbar: () => import('../components/Navbar'),
+        KYC: () => import('../components/kyc/NavbarKYC'),
+        KYCPending: () => import('../components/kyc/NavbarKYCPending'),
+        ExchangeModal: () => import('../components/modals/Exchange'),
+        WithdrawModal: () => import('../components/modals/Withdraw'),
+        BuyModal: () => import('../components/modals/Buy'),
+        SellModal: () => import('../components/modals/Sell'),
+        SaleSuccess: () => import('../components/modals/SaleSuccess'),
+        FundModal: () => import('../components/modals/Fund'),
+        WalletSuccess: () => import('../components/modals/WalletSuccess'),
+        DownloadApp: () => import('../components/modals/DownloadApp'),
         Fragment
     },
     data() {
@@ -67,43 +69,46 @@ export default {
     },
     computed: {
         ...mapGetters([
-            "showNavbarKYC",
-            "getLoggedUser",
-            "getNavbarNextKYC",
-            "getBuyModal",
-            "getSellModal",
-            "getFundModal",
-            "getWithdrawModal",
-            "getExchangeModal",
-            "getWalletSuccess",
-            "getGiftSuccessModal",
-            "getSaleSuccess",
-            "isSearchOpened",
-            "isComponentLoader"
+            'showNavbarKYC',
+            'getLoggedUser',
+            'getNavbarNextKYC',
+            'getBuyModal',
+            'getSellModal',
+            'getFundModal',
+            'getWithdrawModal',
+            'getExchangeModal',
+            'getWalletSuccess',
+            'getGiftSuccessModal',
+            'getSaleSuccess',
+            'getDownloadApp',
+            'isSearchOpened',
+            'isComponentLoader',
+            'getWindowWidth'
         ]),
         showPending() {
-            if (this.getNavbarNextKYC.status === "COMPLETE" && (this.getLoggedUser.localKycStatus !== "COMPLETE" || this.getLoggedUser.globalKycStatus !== "COMPLETE")) return true;
+            if (this.getNavbarNextKYC.status === 'COMPLETE' && (this.getLoggedUser.localKycStatus !== 'COMPLETE' || this.getLoggedUser.globalKycStatus !== 'COMPLETE')) return true;
             return false;
         },
         showKYC() {
-            return this.getLoggedUser.localKycStatus !== "COMPLETE" && this.getLoggedUser.globalKycStatus !== "COMPLETE";
+            return this.getLoggedUser.localKycStatus !== 'COMPLETE' && this.getLoggedUser.globalKycStatus !== 'COMPLETE';
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "GET_ACCOUNT_SUMMARY", "GET_KYC"]),
+        ...mapActions(['GET_LOGGED_USER', 'GET_ACCOUNT_SUMMARY', 'GET_KYC']),
         ...mapMutations([
-            "SET_BUY_MODAL",
-            "SET_SELL_MODAL",
-            "SET_FUND_MODAL",
-            "SET_EXCHANGE_MODAL",
-            "SET_WITHDRAW_MODAL",
-            "SET_KYC_MODAL",
-            "SET_SALE_SUCCESS",
-            "SET_WALLET_SUCCESS",
-            "RESET_MODALS",
-            "SEARCH_OPENED",
-            "MODAL_OPENED",
-            "SET_SHOW_NAVBAR_KYC"
+            'SET_BUY_MODAL',
+            'SET_SELL_MODAL',
+            'SET_FUND_MODAL',
+            'SET_EXCHANGE_MODAL',
+            'SET_WITHDRAW_MODAL',
+            'SET_KYC_MODAL',
+            'SET_SALE_SUCCESS',
+            'SET_WALLET_SUCCESS',
+            'SET_DOWNLOAD_APP',
+            'RESET_MODALS',
+            'SEARCH_OPENED',
+            'MODAL_OPENED',
+            'SET_SHOW_NAVBAR_KYC'
         ]),
         closeBuy(e) {
             this.SET_SELL_MODAL({});
@@ -142,10 +147,16 @@ export default {
         },
         closeWallet() {
             this.SET_WALLET_SUCCESS(false);
+        },
+        closeDownloadApp() {
+            const showDownload = localStorage.getItem('downloadApp');
+            const newValue = `${showDownload[0]}${0}`;
+            localStorage.setItem('downloadApp', newValue);
+            this.SET_DOWNLOAD_APP(false);
         }
     },
     async mounted() {
-        document.title = "Chaka - Dashboard";
+        document.title = 'Chaka - Dashboard';
         this.RESET_MODALS();
         this.SEARCH_OPENED(false);
         this.MODAL_OPENED(false);
@@ -157,7 +168,33 @@ export default {
             await this.GET_ACCOUNT_SUMMARY();
         } catch (err) {
             this.loading = false;
-            this.$router.push({ name: "logout" });
+            this.$router.push({ name: 'logout' });
+        }
+
+        // Check if device is mobile
+        if (this.getWindowWidth === 'mobile') {
+            // Get day to show download app modal
+            const date = new Date();
+            const downloadDay = date.getDay() + 1;
+            const showDownload = localStorage.getItem('downloadApp');
+
+            // Get user device OS
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isAndroid = userAgent.indexOf('android') > -1;
+
+            if (isAndroid) {
+                if (!showDownload) {
+                    const temp = `${downloadDay}${1}`;
+                    localStorage.setItem('downloadApp', temp);
+                    setTimeout(() => {
+                        this.SET_DOWNLOAD_APP(true);
+                    }, 3000);
+                } else if (+showDownload[0] === downloadDay && +showDownload[1] === 1) {
+                    setTimeout(() => {
+                        this.SET_DOWNLOAD_APP(true);
+                    }, 3000);
+                }
+            }
         }
     },
     watch: {

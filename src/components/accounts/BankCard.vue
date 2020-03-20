@@ -23,17 +23,18 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
+
 export default {
-    name: "bank-card",
-    props: ["card"],
+    name: 'bank-card',
+    props: ['card'],
     data() {
         return {
             loading: false
         };
     },
     methods: {
-        ...mapActions(["DELETE_USER_CARDS"]),
+        ...mapActions(['DELETE_USER_CARDS']),
         async deleteCard() {
             this.loading = true;
             await this.DELETE_USER_CARDS(this.card.id);

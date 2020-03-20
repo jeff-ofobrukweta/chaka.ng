@@ -327,44 +327,44 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from "vuex";
-import auth from "../services/validations/auth";
-import AOS from "aos";
-import homeAbroad from "../assets/img/fractional/home-abroad.png";
-import fractional from "../assets/img/fractional/fractional.png";
-import minimums from "../assets/img/fractional/low-minimums.png";
-import grow from "../assets/img/fractional/grow.png";
+import { mapActions, mapMutations, mapGetters } from 'vuex';
+import AOS from 'aos';
+import auth from '../services/validations/auth';
+import homeAbroad from '../assets/img/fractional/home-abroad.png';
+import fractional from '../assets/img/fractional/fractional.png';
+import minimums from '../assets/img/fractional/low-minimums.png';
+import grow from '../assets/img/fractional/grow.png';
 
 export default {
-    name: "Home",
+    name: 'Home',
     components: {
-        EmailSubscribe: () => import("../components/EmailSubscription")
+        EmailSubscribe: () => import('../components/EmailSubscription')
     },
     data() {
         return {
             investNumber: 0,
             invest: [
                 {
-                    title: "Home & Abroad",
-                    text: `First-class access to stocks listed on the NG & US stock exchanges as well as global blue-chip companies from around the world.`,
+                    title: 'Home & Abroad',
+                    text: 'First-class access to stocks listed on the NG & US stock exchanges as well as global blue-chip companies from around the world.',
                     image: homeAbroad,
                     id: 0
                 },
                 {
-                    title: "Fractional Investing",
-                    text: `Invest in any global stock with any amount of money, no matter the price per share.`,
+                    title: 'Fractional Investing',
+                    text: 'Invest in any global stock with any amount of money, no matter the price per share.',
                     image: fractional,
                     id: 1
                 },
                 {
-                    title: "Low Minimums, Low Fees",
-                    text: `Start trading with as low as $10 or N1, 000 and make unlimited trades with industry-low fees on global and local stocks.`,
+                    title: 'Low Minimums, Low Fees',
+                    text: 'Start trading with as low as $10 or N1, 000 and make unlimited trades with industry-low fees on global and local stocks.',
                     image: minimums,
                     id: 2
                 },
                 {
-                    title: "Fund in Naira & Dollars",
-                    text: `Deposit money in Dollars or Naira through your favourite channels, including your bank cards, bank transfers, and through your domiciliary account.`,
+                    title: 'Fund in Naira & Dollars',
+                    text: 'Deposit money in Dollars or Naira through your favourite channels, including your bank cards, bank transfers, and through your domiciliary account.',
                     image: grow,
                     id: 3
                 }
@@ -380,14 +380,14 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth"]),
+        ...mapGetters(['getWindowWidth']),
         slider() {
             const num = this.investNumber * 50;
             return `translateY(${num}px)`;
         }
     },
     methods: {
-        ...mapMutations(["RESET_REQ"]),
+        ...mapMutations(['RESET_REQ']),
         clearCarousel(num) {
             clearInterval(this.interval);
             this.investNumber = num;
@@ -404,11 +404,9 @@ export default {
         }
     },
     mounted() {
-        document.title = "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
-        document.getElementsByTagName("meta").keywords.content =
-            "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
-        document.getElementsByTagName("meta").description.content =
-            "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+        document.title = 'Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets';
+        document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+        document.getElementsByTagName('meta').description.content = 'Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.';
 
         // mixpanel.track("GETAPP_PAGE"); //tracks the getapppage
         this.interval = setInterval(this.startCarousel, 5000);
@@ -420,10 +418,10 @@ export default {
         AOS.init({
             duration: 400,
             delay: 100,
-            easing: "ease-in-out",
+            easing: 'ease-in-out',
             mirror: false,
-            startEvent: "DOMContentLoaded",
-            anchorPlacement: "top-center",
+            startEvent: 'DOMContentLoaded',
+            anchorPlacement: 'top-center',
             // once: true,
             offset: 50
         });

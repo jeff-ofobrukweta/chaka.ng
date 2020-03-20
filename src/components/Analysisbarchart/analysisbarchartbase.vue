@@ -14,31 +14,31 @@
     <div v-else class="container-packet"></div>
 </template>
 <script>
-import { mapGetters, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-    name: "performancebase",
+    name: 'performancebase',
     data() {
         return {
             VerticalaseCardloader: false
         };
     },
     components: {
-        Analysisbarchart: () => import("./analysisbarchart")
+        Analysisbarchart: () => import('./analysisbarchart')
     },
     computed: {
-        ...mapGetters(["getActionperformance", "getValueperformance"])
+        ...mapGetters(['getActionperformance', 'getValueperformance'])
     },
     methods: {
         // GET_BARCHART_PERFORMANCERATING_GRAPH_DATA
-        ...mapActions(["GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA"]),
+        ...mapActions(['GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA']),
         ...mapMutations([
-            "SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION",
-            "SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE"
+            'SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION',
+            'SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE'
         ]),
         mountedActions(params) {
             const payload = { symbol: params };
-            this.GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA(payload).then(res => {
+            this.GET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_DATA(payload).then((res) => {
                 if (!res) {
                     this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_VALUE([]);
                     this.SET_VERTICALBARCHART_PERFORMANCERATING_GRAPH_ACTION([]);

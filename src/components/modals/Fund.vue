@@ -362,11 +362,10 @@
                 <input name="cust_mobile_no" value="08029075365" />
                 <input name="pay_item_name" value="Item A" />
                 <input name="display_merchant_name" value="Chaka Technologies" />
-                ​
 
                 <input name="display_mode" value="PAGE" />
                 <input name="merchant_code" value="MX13948" />
-                ​
+
                 <input type="submit" value="Submit Form" />
             </form>
         </modal>
@@ -470,7 +469,8 @@ export default {
                         this.loading = false;
                         this.$emit("close", true);
                         return true;
-                    } else if (this.fundPayload.source === "PAYSTACK") {
+                    }
+                    if (this.fundPayload.source === "PAYSTACK") {
                         this.payWithPaystack();
                     } else if (this.fundPayload.source === "MONNIFY") {
                         this.payWithMonnify();
@@ -562,7 +562,7 @@ export default {
                 },
                 onClose: data => {
                     this.loading = false;
-                    if (this.flag !== "SUCCESS") {
+                    if (this.flag === "START") {
                         this.flag = "CANCEL";
                         this.FUND_WALLET(this.fundPayload);
                     }
