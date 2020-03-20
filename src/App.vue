@@ -74,22 +74,22 @@ export default {
             const currentScrollPos = window.pageYOffset;
             const nav = document.getElementById("nav");
             const header = document.getElementById("header");
-            // if (currentScrollPos < 30) {
-            //     if (nav) nav.classList.remove('scroll');
-            //     header.classList.remove('scroll');
-            // } else if (currentScrollPos >= 50) {
-            //     if (nav) nav.classList.add('scroll');
-            //     header.classList.add('scroll');
-            // }
-            // if (this.prevScrollpos <= currentScrollPos && currentScrollPos > 80) {
-            //     if (nav) nav.classList.add('push');
-            //     header.classList.add('hide');
-            //     EventBus.$emit('HIDE_HEADER', true);
-            // } else {
-            //     if (nav) nav.classList.remove('push');
-            //     header.classList.remove('hide');
-            //     EventBus.$emit('HIDE_HEADER', false);
-            // }
+            if (currentScrollPos < 30) {
+                if (nav) nav.classList.remove("scroll");
+                header.classList.remove("scroll");
+            } else if (currentScrollPos >= 50) {
+                if (nav) nav.classList.add("scroll");
+                header.classList.add("scroll");
+            }
+            if (this.prevScrollpos <= currentScrollPos && currentScrollPos > 80) {
+                if (nav) nav.classList.add("push");
+                header.classList.add("hide");
+                EventBus.$emit("HIDE_HEADER", true);
+            } else {
+                if (nav) nav.classList.remove("push");
+                header.classList.remove("hide");
+                EventBus.$emit("HIDE_HEADER", false);
+            }
             this.prevScrollpos = currentScrollPos;
         };
         window.addEventListener("resize", this.handleResize);
