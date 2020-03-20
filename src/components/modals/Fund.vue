@@ -531,16 +531,8 @@ export default {
                 contractCode: process.env.VUE_APP_MONNIFY_CONTRACT_CODE,
                 paymentDescription: "Chaka Technologies",
                 isTestMode: process.env.VUE_APP_MONNIFY_TEST_MODE,
-                // incomeSplitConfig: [
-                //     {
-                //         subAccountCode: "MFY_SUB_361796328391",
-                //         feePercentage: 0,
-                //         splitPercentage: 100,
-                //         feeBearer: false
-                //     }
-                // ],
                 onComplete: response => {
-                    if (response.status === "SUCCESS") {
+                    if (response.paymentStatus === "PAID") {
                         this.flag = "SUCCESS";
                         const payload = { ...this.fundPayload };
                         payload.transactionreference = response.transactionReference;
@@ -552,6 +544,10 @@ export default {
                             }
                             return false;
                         });
+                    } else if (response.paymentStatus === "USER_CANCELLED") {
+                        this.loading = false;
+                        this.flag = "CANCEL";
+                        this.FUND_WALLET(this.fundPayload);
                     } else {
                         this.flag = "FAIL";
                         this.FUND_WALLET(this.fundPayload).then(resp => {
