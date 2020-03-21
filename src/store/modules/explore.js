@@ -3,6 +3,9 @@ import errorFn from '../../services/apiService/error';
 
 const state = {
     exploreNews: [],
+    explorepaginationNewsPag:{},
+    explorepaginationCollectionPag:{},
+    explorepaginationLearnPag:{},
     exploreLearn: [],
     exploreCollections: [],
     singleCollection: [],
@@ -12,6 +15,9 @@ const state = {
 
 const getters = {
     getExploreNews: state => state.exploreNews,
+    getExploreNewsTotal: state => state.explorepaginationNewsPag,
+    getExploreCollectionsTotal: state => state.explorepaginationNewsPag,
+    getExploreLearnTotal: state => state.explorepaginationLearnPag,
     getExploreLearn: state => state.exploreLearn,
     getExploreCollections: state => state.exploreCollections,
     getSingleCollection: state => state.singleCollection,
@@ -22,6 +28,15 @@ const getters = {
 const mutations = {
     SET_EXPLORE_NEWS(state, payload) {
         state.exploreNews = payload;
+    },
+    SET_EXPLORE_NEWS_PAGINATION_TOTAL(state, payload){
+        state.explorepaginationNewsPag = payload;
+    },
+    SET_EXPLORE_COLLECTIONS_PAGINATION_TOTAL(state, payload){
+        state.explorepaginationCollectionPag = payload;
+    },
+    SET_EXPLORE_LEARN_PAGINATION_TOTAL(state, payload){
+        state.explorepaginationLearnPag = payload;
     },
     SET_EXPLORE_LEARN(state, payload) {
         state.exploreLearn = payload;
@@ -41,13 +56,15 @@ const mutations = {
 };
 
 const actions = {
-    GET_EXPLORE_NEWS: ({ commit }, payload) =>
+     GET_EXPLORE_NEWS: async ({ commit }, payload) =>{
+        console.log('this is the payload part',payload)
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
-        new Promise(resolve => api.get('/news/explore/editorials', { ...payload }).then(
+        await new Promise(resolve => api.get(`/news/explore/collections?perPage=${payload.perPage}&page=${payload.page}`).then(
             (resp) => {
                 if (resp.status >= 200 && resp.status < 400) {
                     // commit("REQ_SUCCESS", null, { root: true });
+                    commit('SET_EXPLORE_NEWS_PAGINATION_TOTAL', resp.data.pagination);
                     commit('SET_EXPLORE_NEWS', resp.data.data.articles);
                     resolve(true);
                     return true;
@@ -59,15 +76,16 @@ const actions = {
                 errorFn(error.response, 'explore');
                 resolve(false);
             }
-        )),
-    GET_EXPLORE_COLLECTIONS: ({ commit }, payload) =>
+        ))},
+    GET_EXPLORE_COLLECTIONS: ({ commit }, payload) =>{
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
-        new Promise(resolve => api.get('/news/explore/collections', payload).then(
+        new Promise(resolve => api.get(`/news/explore/collections?perPage=${payload.perPage}&page=${payload.page}`).then(
             (resp) => {
                 if (resp.status >= 200 && resp.status < 400) {
                     // commit("REQ_SUCCESS", null, { root: true });
-                    commit('SET_EXPLORE_COLLECTIONS', resp.data.collections);
+                    commit('SET_EXPLORE_COLLECTIONS_PAGINATION_TOTAL', resp.data.pagination);
+                    commit('SET_EXPLORE_COLLECTIONS', resp.data.data.articles);
                     resolve(true);
                     return true;
                 }
@@ -78,14 +96,16 @@ const actions = {
                 errorFn(error.response, 'explore');
                 resolve(false);
             }
-        )),
-    GET_EXPLORE_LEARN: ({ commit }, payload) =>
+        ))},
+    GET_EXPLORE_LEARN: ({ commit }, payload) =>{
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         new Promise(resolve => api.get('/news/explore/learn', payload).then(
             (resp) => {
                 if (resp.status >= 200 && resp.status < 400) {
                     // commit("REQ_SUCCESS", null, { root: true });
+                    commit('SET_EXPLORE_LEARN_PAGINATION_TOTAL', resp.data.data.pagination);
+                    //the pagination here is not uniform from the api vheck object from api
                     commit('SET_EXPLORE_LEARN', resp.data.data.articles);
                     resolve(true);
                     return true;
@@ -97,7 +117,7 @@ const actions = {
                 errorFn(error.response, 'explore');
                 resolve(false);
             }
-        )),
+        ))},
     GET_SINGLE_COLLECTION: ({ commit, state }) => {
         /**
          * @param payload: an array pf stock symbols

@@ -6,20 +6,29 @@
     background: transparent;
     color: #2da5ec;
     padding: .45rem .6rem;
-    border-radius: 5px;
-    border: 1px solid #2da5ec;
+    border: 1px solid transparent;
     i{
         margin-right: 10px;
     }
 }
 .buttonload:hover{
-    background: #2da5ec;
-    color: #ffffff;
+    color: #2da5ec;
     padding: .45rem .6rem;
-    border-radius: 5px;
-    border: 1px solid #2da5ec;
     i{
         margin-right: 10px;
+    }
+}
+.btn-container-main{
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0;
+    margin: 8px 0;
+    .buttton{
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
     }
 }
 

@@ -108,14 +108,6 @@
             </section>
             <section>
               <button class="btn-container-main">
-                <!-- <button
-                            v-for="(page, index) in paginate"
-                            :key="index"
-                            @click="handlescrollinfinitly(page.uid)"
-                            class="buttton"
-                        >
-                            {{ page.sign }}
-                </button>-->
                 <template>
                   <button
                     :disabled="page === 0"
