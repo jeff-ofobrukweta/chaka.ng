@@ -99,7 +99,7 @@
                 </a> -->
                 <button class="btn-container-main">
                         <button :disabled="collection_page === 0"  @click="shuffleCollections('regression')"  class="buttton">❮</button>
-                        <button :disabled="collection_page == ExploreNewsLength - 1" @click="shuffleCollections('progression')" class="buttton">❯</button>
+                        <button :disabled="(collection_page == ExploreNewsLength - 1)" @click="shuffleCollections('progression')" class="buttton">❯</button>
                 </button>
             </div>
         </section>
@@ -319,11 +319,11 @@ export default {
                 }
                 // if the numberof pages is < Math.ceil(totalPaginationlength / 10)
                 else if(signType == 'progression') {
-                    if (this.page < this.ExploreNewsLength - 1) {
-                        const pagenation = {
+                     const pagenation = {
                             page: ++this.page,
                             perPage: this.perPage
                         };
+                    if (this.page < this.ExploreNewsLength - 1) {
                         this.loadNews = true;
                         await this.GET_EXPLORE_NEWS(pagenation);
                             this.loadNews = false;
@@ -366,11 +366,11 @@ export default {
                 }
                 // if the numberof pages is < Math.ceil(totalPaginationlength / 10)
                 else if(signType == 'progression'){
-                    if (this.collection_page < this.ExploreCollectionsLength - 1) {
-                        const pagenation = {
+                    const pagenation = {
                             page: ++this.collection_page,
                             perPage: this.collection_perPage
                         };
+                    if (this.collection_page < this.ExploreCollectionsLength - 1) {
                         this.loadCollections = true;
                         console.log('>>>>>>>>>>>>>>>5',this.loadCollections)
                         // this.SET_EXPLORE_NEWS([]);
@@ -383,10 +383,7 @@ export default {
             }
         },
         async shuffleLearn(signType) {
-            // this.loadLearn = 'learn';
-            // await this.GET_EXPLORE_LEARN();
-            // this.loadLearn = null;
-
+            this.loadLearn = true;
             if (signType) {
                 if (signType == 'regression') {
                     if (this.learn_page == 0) {
@@ -414,11 +411,12 @@ export default {
                 }
                 // if the numberof pages is < Math.ceil(totalPaginationlength / 10)
                 else if(signType == 'progression'){
-                    if (this.learn_page < this.ExploreLearnLength - 1) {
-                        const pagenation = {
+                    const pagenation = {
                             page: ++this.learn_page,
                             perPage: this.learn_perPage
                         };
+                    if (this.learn_page < this.ExploreLearnLength - 1) {
+                        
                         this.loadLearn = true;
                         console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                         // this.SET_EXPLORE_NEWS([]);
@@ -456,6 +454,7 @@ export default {
                 page: 0,
                 perPage: 10
         };
+        
         await this.GET_EXPLORE_NEWS(payload);
         this.loading = false;
         this.watchlistLoading = true;
