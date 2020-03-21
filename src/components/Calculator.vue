@@ -13,7 +13,7 @@
                     <br />
                     <div class="calculator-body" v-if="getWindowWidth === 'mobile'">
                         <div class="calculator-body__select">
-                            <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" />
+                            <input v-model="search" list="searchstocks" placeholder="Search stocks by name, symbol..." class="form__input" @input="startSearch" />
                             <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
                             <div class="calculator-dropdown" v-if="showSearchResults">
                                 <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
@@ -118,7 +118,7 @@
             </div>
             <div class="calculator-body" v-if="getWindowWidth !== 'mobile'">
                 <div class="calculator-body__select">
-                    <input v-model="search" list="searchstocks" placeholder="Search stocks..." class="form__input" @input="startSearch" />
+                    <input v-model="search" list="searchstocks" placeholder="Search stocks by name, symbol..." class="form__input" @input="startSearch" />
                     <img v-if="searchLoading" :src="require('../assets/img/loader.gif')" class="calculator-body__loader" alt="Loading..." width="20px" />
                     <div class="calculator-dropdown" v-if="showSearchResults">
                         <ul v-if="getSearchInstruments.length > 0" class="calculator-dropdown__ul">
@@ -210,6 +210,13 @@
                     <h4>
                         {{ total.value | currency(selectZone === "local" ? "NGN" : "USD") }}
                     </h4>
+                </div>
+                <div class="calculator__data-row" v-if="selectedStock">
+                    <h4></h4>
+                    <router-link :to="{ name: 'singlestock', params: { symbol: selectedStock } }" class="btn btn__white btn-block" v-if="selectOption === 'sell'" tag="buttton"
+                        >Sell</router-link
+                    >
+                    <router-link :to="{ name: 'singlestock', params: { symbol: selectedStock } }" class="btn btn__white btn-block" v-else tag="button">Buy</router-link>
                 </div>
             </div>
         </section>
@@ -404,7 +411,7 @@ export default {
                     value: 0
                 },
                 {
-                    name: "Broker & Regulatory Fee (VAT Inclusive)",
+                    name: "Broker & Regulatory Fee",
                     value: 0
                 }
             ],
@@ -427,7 +434,8 @@ export default {
             return this.search && !this.searchLoading && this.search !== this.selectedStock;
         },
         calcAskPrice() {
-            return this.getCalcInstrument.InstrumentDynamic.askPrice / 100;
+            if (Object.keys(this.getCalcInstrument).length > 0) return this.getCalcInstrument.InstrumentDynamic.askPrice / 100;
+            return 0;
         }
     },
     methods: {
@@ -633,7 +641,7 @@ export default {
                 this.globalList[0].value = this.totalValue;
                 temp = this.totalValue / 100;
                 tempBroker = temp <= 2 ? 2 : temp;
-                this.globalList[1].value = (7.5 / 100) * tempBroker + tempBroker;
+                this.globalList[1].value = tempBroker;
                 this.total.value = this.totalValue + this.globalList[1].value;
             }
         },
@@ -654,7 +662,7 @@ export default {
                 this.globalList[0].value = +this.totalValue;
                 temp = this.totalValue / 100;
                 tempBroker = temp <= 2 ? 2 : temp;
-                this.globalList[1].value = (7.5 / 100) * tempBroker + tempBroker;
+                this.globalList[1].value = tempBroker;
                 this.total.value = +this.totalValue - this.globalList[1].value;
             }
         },

@@ -14,10 +14,10 @@
 
 <script>
 export default {
-    name: "download-app",
+    name: 'download-app',
     methods: {
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         }
     }
 };

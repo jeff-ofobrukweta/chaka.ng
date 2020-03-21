@@ -101,7 +101,7 @@ Vue.filter('date', filters.resolveDate);
 Vue.filter('time', filters.resolveTime);
 Vue.filter('units', filters.units);
 Vue.filter('reverseDate', filters.reverseDate);
-Vue.filter('capitalize', filters.capitalize)
+Vue.filter('capitalize', filters.capitalize);
 
 new Vue({
     router,

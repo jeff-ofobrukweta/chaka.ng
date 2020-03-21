@@ -152,8 +152,7 @@ export default {
                     minute: '2-digit',
                     second: '2-digit',
                     hour12: true
-                })}`
-
+                })}`;
             }
             return `${date.toLocaleString('en-NG', {
                 hour: 'numeric',
@@ -177,10 +176,10 @@ export default {
 
     capitalize(text) {
         if (text) {
-            const small = text.toLowerCase()
-            const temp = small.charAt(0).toUpperCase() + small.slice(1)
-            return temp
+            const small = text.toLowerCase();
+            const temp = small.charAt(0).toUpperCase() + small.slice(1);
+            return temp;
         }
-        return text
+        return text;
     }
 };

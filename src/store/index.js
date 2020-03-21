@@ -17,7 +17,7 @@ import news from './modules/news';
 import modals from './modules/modals';
 import giftcard from './modules/giftcard';
 import val from './modules/val';
-import calculator from './modules/calculator'
+import calculator from './modules/calculator';
 
 Vue.use(Vuex);
 
