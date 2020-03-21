@@ -391,7 +391,6 @@ export default {
             // this.loadLearn = 'learn';
             // await this.GET_EXPLORE_LEARN();
             // this.loadLearn = null;
-            console.log('here',signType)
 
             if (signType) {
                 if (signType == 'regression') {
@@ -404,6 +403,7 @@ export default {
                          this.loadLearn = true;
                         this.GET_EXPLORE_LEARN(pagenation).then(() => {
                             this.loadLearn = null;
+                            console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                         });
                     } else {
                         const pagenation = {
@@ -413,6 +413,7 @@ export default {
                         this.loadLearn = true;
                         this.GET_EXPLORE_LEARN(pagenation).then(() => {
                             this.loadLearn = null;
+                            console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                         });
                     }
                 }
@@ -424,6 +425,7 @@ export default {
                             perPage: this.learn_perPage
                         };
                         this.loadLearn = true;
+                        console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                         // this.SET_EXPLORE_NEWS([]);
                         await this.GET_EXPLORE_LEARN(pagenation);
                             this.loadLearn = false;
