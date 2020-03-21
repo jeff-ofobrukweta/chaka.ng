@@ -208,15 +208,15 @@ export default {
         return {
             infiniteLoader: false,
             loading: false,
-            collection_page:0,
             learn_page:0,
             learn_perPage:10,
             loadNews: null,
-            loadCollections: null,
-            loadLearn: null,
+            loadCollections: true,
+            loadLearn: true,
             watchlistLoading: false,
             page: 0,
             perPage: 10,
+            collection_page:0,
             collection_perPage:10,
         };
     },
@@ -293,9 +293,6 @@ export default {
 
 
         async shuffleNews(signType) {
-            // this.loadNews = true;
-            // await this.GET_EXPLORE_NEWS();
-            // this.loadNews = null;
             if (signType) {
                 if (signType == 'regression') {
                     if (this.page == 0) {
@@ -328,10 +325,8 @@ export default {
                             perPage: this.perPage
                         };
                         this.loadNews = true;
-                        // this.SET_EXPLORE_NEWS([]);
                         await this.GET_EXPLORE_NEWS(pagenation);
                             this.loadNews = false;
-                            console.log('>>>>>>>>>>>>>>>news',this.loadNews)
                             this.SET_EXPLORE_NEWS([...this.getExploreNews]);
                     }
                 }
@@ -345,12 +340,12 @@ export default {
             if (signType) {
                 if (signType == 'regression') {
                     if (this.collection_page == 0) {
+                        this.loadCollections = true;
                         const pageCount = 0;
                         const pagenation = {
                             page: pageCount,
                             perPage: this.collection_perPage
                         };
-                         this.loadCollections = true;
                          console.log('>>>>>>>>>>>>>>>1',this.loadCollections)
                         await this.GET_EXPLORE_COLLECTIONS(pagenation).then(() => {
                             this.loadCollections = null;
@@ -370,7 +365,7 @@ export default {
                     }
                 }
                 // if the numberof pages is < Math.ceil(totalPaginationlength / 10)
-                else{
+                else if(signType == 'progression'){
                     if (this.collection_page < this.ExploreCollectionsLength - 1) {
                         const pagenation = {
                             page: ++this.collection_page,
@@ -380,7 +375,7 @@ export default {
                         console.log('>>>>>>>>>>>>>>>5',this.loadCollections)
                         // this.SET_EXPLORE_NEWS([]);
                         await this.GET_EXPLORE_COLLECTIONS(pagenation);
-                            this.loadCollections = false;
+                            this.loadCollections = null;
                             console.log('>>>>>>>>>>>>>>>6',this.loadCollections)
                             this.SET_EXPLORE_COLLECTIONS([...this.getExploreCollections]);
                     }
@@ -418,7 +413,7 @@ export default {
                     }
                 }
                 // if the numberof pages is < Math.ceil(totalPaginationlength / 10)
-                else if(signType == 'progression') {
+                else if(signType == 'progression'){
                     if (this.learn_page < this.ExploreLearnLength - 1) {
                         const pagenation = {
                             page: ++this.learn_page,
@@ -428,7 +423,7 @@ export default {
                         console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                         // this.SET_EXPLORE_NEWS([]);
                         await this.GET_EXPLORE_LEARN(pagenation);
-                            this.loadLearn = false;
+                            this.loadLearn = null;
                             console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                             this.SET_EXPLORE_NEWS([...this.getExploreLearn]);
                     }
@@ -454,7 +449,6 @@ export default {
         }
     },
     async mounted() {
-        this.loading = true;
         if (this.getExploreNews.length > 0) {
             this.loading = false;
         }
@@ -472,6 +466,8 @@ export default {
         await this.GET_WATCHLIST();
         this.watchlistLoading = false;
         await Promise.all([this.GET_EXPLORE_COLLECTIONS(payload), this.GET_EXPLORE_LEARN(payload)]);
+        this.loadCollections = null;
+        this.loadLearn = null;
         
         
     }

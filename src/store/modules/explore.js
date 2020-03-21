@@ -57,14 +57,15 @@ const mutations = {
 
 const actions = {
      GET_EXPLORE_NEWS: async ({ commit }, payload) =>{
-        console.log('this is the payload part',payload)
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
-        await new Promise(resolve => api.get(`/news/explore/collections?perPage=${payload.perPage}&page=${payload.page}`).then(
+        console.log('>>>>>>>hello>>>>>>>')
+        await new Promise(resolve => api.get(`/news/explore/editorials?perPage=${payload.perPage}&page=${payload.page}`).then(
             (resp) => {
                 if (resp.status >= 200 && resp.status < 400) {
                     // commit("REQ_SUCCESS", null, { root: true });
-                    commit('SET_EXPLORE_NEWS_PAGINATION_TOTAL', resp.data.pagination);
+                    console.log('>>>>>>>>>>>>>>',resp.data)
+                    commit('SET_EXPLORE_NEWS_PAGINATION_TOTAL', resp.data.data.pagination);
                     commit('SET_EXPLORE_NEWS', resp.data.data.articles);
                     resolve(true);
                     return true;
