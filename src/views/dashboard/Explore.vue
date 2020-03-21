@@ -189,13 +189,6 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 
-
-const options = {
-	root: null /* uses the page as root */,
-	rootMargin: '400px',
-	threshold: 0
-};
-
 export default {
     name: 'explore',
     components: {
@@ -267,31 +260,6 @@ export default {
         ]),
         ...mapActions(['GET_EXPLORE_NEWS', 'GET_EXPLORE_COLLECTIONS', 'GET_EXPLORE_LEARN', 'GET_WATCHLIST']),
 
-        handlescrollinfinitly(from, to) {
-			this.observer = new IntersectionObserver((entries, observer) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						// const pagenation = {
-						// 	page: ++this.page,
-						// 	slug: this.getActiveSlug.slug
-						// };
-						// if (this.newInstrument.length !== this.GETSTOCKLENGTH_DISCOVER) {
-						// 	this.infiniteLoader = true;
-						// 	this.loaderState = true;
-						// 	this.GETALL_STOCKS_COLLECTIONS_LISTS(pagenation).then(() => {
-						// 		this.infiniteLoader = false;
-						// 		this.loaderState = false;
-						// 		this.newInstrument.push(...this.GETSTOCKSLIST);
-						// 	});
-						// }
-					}
-				});
-			}, options);
-		},
-
-
-
-
         async shuffleNews(signType) {
             if (signType) {
                 if (signType == 'regression') {
@@ -333,9 +301,6 @@ export default {
             }
         },
         async shuffleCollections(signType) {
-            // this.loadCollections = true;
-            // await this.GET_EXPLORE_COLLECTIONS();
-            // this.loadCollections = null;
 
             if (signType) {
                 if (signType == 'regression') {
@@ -383,7 +348,6 @@ export default {
             }
         },
         async shuffleLearn(signType) {
-            this.loadLearn = true;
             if (signType) {
                 if (signType == 'regression') {
                     if (this.learn_page == 0) {
@@ -416,14 +380,14 @@ export default {
                             perPage: this.learn_perPage
                         };
                     if (this.learn_page < this.ExploreLearnLength - 1) {
-                        
                         this.loadLearn = true;
                         console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                         // this.SET_EXPLORE_NEWS([]);
-                        await this.GET_EXPLORE_LEARN(pagenation);
+                        await this.GET_EXPLORE_LEARN(pagenation).then(()=>{
                             this.loadLearn = null;
                             console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                             this.SET_EXPLORE_NEWS([...this.getExploreLearn]);
+                        })
                     }
                 }
             }
