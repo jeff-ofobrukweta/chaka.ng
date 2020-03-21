@@ -711,7 +711,7 @@
 
          <section class="section v2-future">
             <div class="v2-future__image">
-                <img src="../assets/img/soundcloud 2 1.png" width="60%" />
+                <img src="../assets/img/soundcloud 2 1.png" />
             </div>
             <div class="v2-future__btn">
                 <button class="v2-btn v2-btn__primary">
