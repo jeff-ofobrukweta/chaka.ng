@@ -397,7 +397,7 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getLoggedUser", "getExchangeRate", "getNextKYC", "getWalletTx", "getUserCards"]),
+        ...mapGetters(["getLoggedUser", "getExchangeRate", "getWalletTx", "getUserCards"]),
         actualValue() {
             if (!this.itemData.amount) return 0;
             if (this.currency === "NGN") return this.itemData.amount;
