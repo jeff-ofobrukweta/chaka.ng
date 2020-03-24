@@ -24,24 +24,51 @@
 .tooltip {
     border: 3px solid #fff;
     display: inline-block;
-    font-size: .875em;
-    padding: .75em;
+    font-size: 14px;
+    letter-spacing: initial;
+    line-height: 1.1rem;
+    color: $grey-cool;
+    font-weight: normal;
+    padding: .5rem 0.75rem;
     position: absolute;
-    text-align: center;
-    background: #eaeaea;
-    background: linear-gradient(to bottom, #fdfdfd 0%, #eaeaea 100%);
-    box-shadow: 0px 0px 6px 2px rgba(110, 110, 110, 0.4);
-    color: #242424;
+    top: 0;
+    background-color: $white;
+    box-shadow: 0px 7px 64px rgba($color: $black, $alpha: 0.07);
+    transition: all 100ms;
+    min-width: 200px;
 
     &-span {
-        background: #ffe4e1;
-        border: 2px dotted #c00;
         cursor: default;
         display: inline-block;
-        padding: 5px
+        padding: 3px;
+        position: relative;
+        cursor: pointer;
+
+        &:focus {
+            outline: 0;
+            box-shadow: none;
+        }
+
+        &:focus-within {
+            outline: 0;
+            box-shadow: none;
+        }
     }
 
     img {
         display: block
+    }
+
+    &-enter-active {
+        transition: opacity 0.3s
+    }
+
+    &-leave-active {
+        transition: opacity 0.5s
+    }
+
+    &-enter,
+    &-leave-to {
+        opacity: 0
     }
 }
