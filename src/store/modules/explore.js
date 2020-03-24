@@ -59,12 +59,10 @@ const actions = {
      GET_EXPLORE_NEWS: async ({ commit }, payload) =>{
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
-        console.log('>>>>>>>hello>>>>>>>')
         await new Promise(resolve => api.get(`/news/explore/editorials?perPage=${payload.perPage}&page=${payload.page}`).then(
             (resp) => {
                 if (resp.status >= 200 && resp.status < 400) {
                     // commit("REQ_SUCCESS", null, { root: true });
-                    console.log('>>>>>>>>>>>>>>',resp.data)
                     commit('SET_EXPLORE_NEWS_PAGINATION_TOTAL', resp.data.data.pagination);
                     commit('SET_EXPLORE_NEWS', resp.data.data.articles);
                     resolve(true);
@@ -85,7 +83,8 @@ const actions = {
             (resp) => {
                 if (resp.status >= 200 && resp.status < 400) {
                     // commit("REQ_SUCCESS", null, { root: true });
-                    commit('SET_EXPLORE_COLLECTIONS_PAGINATION_TOTAL', resp.data.pagination);
+                    // commit('SET_EXPLORE_COLLECTIONS_PAGINATION_TOTAL', resp.data.pagination);
+                     commit('SET_EXPLORE_NEWS_PAGINATION_TOTAL', resp.data.data.pagination);
                     commit('SET_EXPLORE_COLLECTIONS', resp.data.data.articles);
                     resolve(true);
                     return true;
@@ -106,7 +105,6 @@ const actions = {
                 if (resp.status >= 200 && resp.status < 400) {
                     // commit("REQ_SUCCESS", null, { root: true });
                     commit('SET_EXPLORE_LEARN_PAGINATION_TOTAL', resp.data.data.pagination);
-                    //the pagination here is not uniform from the api vheck object from api
                     commit('SET_EXPLORE_LEARN', resp.data.data.articles);
                     resolve(true);
                     return true;

@@ -89,14 +89,6 @@
                 <NewsCard :news="item" v-for="(item, index) in getExploreCollections" :key="index"/>
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
-                <!-- <a class="explore-actions" @click="shuffleCollections" >
-                        <button v-if="loadCollections" class="buttonload">
-                        <i class="fa fa-spinner fa-spin"></i>Loading
-                        </button>
-                        <button v-else class="buttonload">
-                        more
-                        </button>
-                </a> -->
                 <button class="btn-container-main">
                         <button :disabled="collection_page === 0"  @click="shuffleCollections('regression')"  class="buttton">❮</button>
                         <button :disabled="(collection_page == ExploreNewsLength - 1)" @click="shuffleCollections('progression')" class="buttton">❯</button>
@@ -269,7 +261,7 @@ export default {
                             page: pageCount,
                             perPage: this.perPage
                         };
-                         this.loadNews = true;
+                        this.loadNews = true;
                         this.GET_EXPLORE_NEWS(pagenation).then(() => {
                             this.loadNews = null;
                         });
@@ -278,7 +270,6 @@ export default {
                             page: --this.page,
                             perPage: this.perPage,
                         };
-                        console.log('this is the pagger',pagenation.page)
                         this.loadNews = true;
                         this.GET_EXPLORE_NEWS(pagenation).then(() => {
                             this.loadNews = null;
@@ -301,20 +292,17 @@ export default {
             }
         },
         async shuffleCollections(signType) {
-
             if (signType) {
                 if (signType == 'regression') {
                     if (this.collection_page == 0) {
-                        this.loadCollections = true;
                         const pageCount = 0;
                         const pagenation = {
                             page: pageCount,
                             perPage: this.collection_perPage
                         };
-                         console.log('>>>>>>>>>>>>>>>1',this.loadCollections)
+                        // this.loadCollections = true;
                         await this.GET_EXPLORE_COLLECTIONS(pagenation).then(() => {
                             this.loadCollections = null;
-                            console.log('>>>>>>>>>>>>>>>2',this.loadCollections)
                         });
                     } else {
                         const pagenation = {
@@ -322,10 +310,8 @@ export default {
                             perPage: this.collection_perPage,
                         };
                         this.loadCollections = true;
-                        console.log('>>>>>>>>>>>>>>>3',this.loadCollections)
                         await this.GET_EXPLORE_COLLECTIONS(pagenation).then(() => {
                             this.loadCollections = null;
-                            console.log('>>>>>>>>>>>>>>>4',this.loadCollections)
                         });
                     }
                 }
@@ -337,11 +323,9 @@ export default {
                         };
                     if (this.collection_page < this.ExploreCollectionsLength - 1) {
                         this.loadCollections = true;
-                        console.log('>>>>>>>>>>>>>>>5',this.loadCollections)
                         // this.SET_EXPLORE_NEWS([]);
                         await this.GET_EXPLORE_COLLECTIONS(pagenation);
                             this.loadCollections = null;
-                            console.log('>>>>>>>>>>>>>>>6',this.loadCollections)
                             this.SET_EXPLORE_COLLECTIONS([...this.getExploreCollections]);
                     }
                 }
@@ -357,19 +341,17 @@ export default {
                             perPage: this.learn_perPage
                         };
                          this.loadLearn = true;
-                        this.GET_EXPLORE_LEARN(pagenation).then(() => {
+                        await this.GET_EXPLORE_LEARN(pagenation).then(() => {
                             this.loadLearn = null;
-                            console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                         });
-                    } else {
+                    } else if(this.learn_page > 0){
                         const pagenation = {
                             page: --this.learn_page,
                             perPage: this.learn_perPage,
                         };
                         this.loadLearn = true;
                         this.GET_EXPLORE_LEARN(pagenation).then(() => {
-                            this.loadLearn = null;
-                            console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
+                            this.loadLearn = false;
                         });
                     }
                 }
@@ -381,11 +363,9 @@ export default {
                         };
                     if (this.learn_page < this.ExploreLearnLength - 1) {
                         this.loadLearn = true;
-                        console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
                         // this.SET_EXPLORE_NEWS([]);
                         await this.GET_EXPLORE_LEARN(pagenation).then(()=>{
-                            this.loadLearn = null;
-                            console.log('>>>>>>>>>>>>>>>news',this.loadLearn)
+                            this.loadLearn = false;
                             this.SET_EXPLORE_NEWS([...this.getExploreLearn]);
                         })
                     }
@@ -428,11 +408,10 @@ export default {
 
         await this.GET_WATCHLIST();
         this.watchlistLoading = false;
-        await Promise.all([this.GET_EXPLORE_COLLECTIONS(payload), this.GET_EXPLORE_LEARN(payload)]);
-        this.loadCollections = null;
-        this.loadLearn = null;
-        
-        
+        await Promise.all([this.GET_EXPLORE_COLLECTIONS(payload), this.GET_EXPLORE_LEARN(payload)]).then(()=>{
+            this.loadCollections = null;
+            this.loadLearn = null;
+        });
     }
 };
 </script>
