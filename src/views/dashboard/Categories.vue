@@ -61,7 +61,7 @@
           >
             <section>
               <div class="categories_page" v-if="tagArrayList.length === 1">
-                <h3>{{ getInstrumentsPayload.name }}</h3>
+                <h3>{{ tagArrayList[0].name}}</h3>
                 <p
                   class="dashboard__title--sub"
                   v-if="instrumentLength !== false"
@@ -108,14 +108,6 @@
             </section>
             <section>
               <button class="btn-container-main">
-                <!-- <button
-                            v-for="(page, index) in paginate"
-                            :key="index"
-                            @click="handlescrollinfinitly(page.uid)"
-                            class="buttton"
-                        >
-                            {{ page.sign }}
-                </button>-->
                 <template>
                   <button
                     :disabled="page === 0"
