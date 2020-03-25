@@ -178,7 +178,9 @@ import loader from "../../../assets/img/loader.gif";
 export default {
     name: "accounts-wallet",
     components: {
-        BankCard: () => import("../../../components/accounts/BankCard")
+        BankCard: () => import("../../../components/accounts/BankCard"),
+        
+
     },
     data() {
         return {
