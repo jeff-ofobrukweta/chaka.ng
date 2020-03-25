@@ -10,7 +10,24 @@
                 </svg>
             </div>
             <h5 class="stock-vdr__center">Your Transaction was successful</h5>
-            <br />
+            <div class="stock-fund__summary--box">
+                <hr />
+                <div class="stock-fund__summary">
+                    <div class="stock-fund__summary--div">
+                        <h5 class="grey-cool">AVAIL TO TRADE</h5>
+                        <h5>{{ getWalletBalance.availableToTrade | kobo | currency(getWalletTx.currency, true) }}</h5>
+                    </div>
+                    <div class="stock-fund__summary--div">
+                        <h5 class="grey-cool">AVAIL TO WITHDRAW</h5>
+                        <h5>{{ getWalletBalance.availableToWithdraw | kobo | currency(getWalletTx.currency, true) }}</h5>
+                    </div>
+                    <div class="stock-fund__summary--div">
+                        <h5 class="grey-cool">PENDING CASH</h5>
+                        <h5>{{ getWalletBalance.pendingCash | kobo | currency(getWalletTx.currency, true) }}</h5>
+                    </div>
+                </div>
+                <hr />
+            </div>
             <div class="stock-fund">
                 <div class="stock-fund__name">Date</div>
                 <div class="stock-fund__value">{{ getWalletTx.createdAt | date }}</div>
@@ -70,21 +87,21 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
-    name: 'wallet-success',
+    name: "wallet-success",
     computed: {
-        ...mapGetters(['getWalletTx', 'getKYC']),
+        ...mapGetters(["getWalletTx", "getKYC", "getWalletBalance"]),
         source() {
-            if (this.getWalletTx.source === 'WALLET') return 'Exchange';
-            if (this.getWalletTx.actionType === 'CREDIT') return 'Deposit';
-            return 'Withdrawal';
+            if (this.getWalletTx.source === "WALLET") return "Exchange";
+            if (this.getWalletTx.actionType === "CREDIT") return "Deposit";
+            return "Withdrawal";
         },
         txText() {
-            if (this.source === 'Exchange') {
+            if (this.source === "Exchange") {
                 return `Your exchange of ${this.$options.filters.currency(this.getWalletTx.txAmount / 100, this.getWalletTx.currency, true)} into your ${
-                    this.getWalletTx.currency === 'USD' ? 'dollar' : 'naira'
+                    this.getWalletTx.currency === "USD" ? "dollar" : "naira"
                 } account is being processed. This takes 1 business day`;
             }
             return `Your withdrawal of <strong>${this.$options.filters.currency(this.getWalletTx.txAmount / 100, this.getWalletTx.currency, true)}</strong> into your ${
@@ -93,10 +110,10 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['SET_WALLET_TX', 'MODAL_OPENED']),
+        ...mapMutations(["SET_WALLET_TX", "MODAL_OPENED"]),
         closeModal() {
             this.MODAL_OPENED(false);
-            this.$emit('close');
+            this.$emit("close");
         }
     },
     beforeDestroy() {

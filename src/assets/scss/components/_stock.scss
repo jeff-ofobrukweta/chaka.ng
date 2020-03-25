@@ -180,6 +180,46 @@
             border: 1px solid $border-color;
             margin-bottom: 0.325rem;
         }
+
+        &__summary {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-top: 1.625rem;
+            padding-bottom: 0.5rem;
+
+            &--div {
+                flex: 1 0 32%;
+                margin-bottom: 1rem;
+                padding-left: 0.325rem;
+                padding-right: 0.325rem;
+
+                @include tablet {
+                    flex: 0 0 32%;
+                    max-width: 32%;
+                    word-break: break-word;
+                }
+
+                h5 {
+                    text-align: center;
+
+                    &:first-child {
+                        margin-bottom: 0.5rem;
+                        font-size: 12px;
+                    }
+                }
+            }
+
+            &--box {
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+
+                hr {
+                    border: 1px solid $border-color;
+                }
+            }
+        }
     }
 
     &__price {

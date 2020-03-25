@@ -4,12 +4,14 @@ import errorFn from '../../services/apiService/error';
 const state = {
     exchangeRate: {},
     walletTx: {},
+    walletBalance: {},
     userCards: []
 };
 
 const getters = {
     getExchangeRate: state => state.exchangeRate,
     getWalletTx: state => state.walletTx,
+    getWalletBalance: state => state.walletBalance,
     getUserCards: state => state.userCards
 };
 
@@ -19,6 +21,9 @@ const mutations = {
     },
     SET_WALLET_TX(state, payload) {
         state.walletTx = payload;
+    },
+    SET_WALLET_BALANCE(state, payload) {
+        state.walletBalance = payload;
     },
     SET_USER_CARDS(state, payload) {
         state.userCards = payload;
@@ -57,6 +62,7 @@ const actions = {
                 if (resp.status >= 200 && resp.status < 400) {
                     commit('REQ_SUCCESS', null, { root: true });
                     commit('SET_WALLET_TX', resp.data.data.transaction);
+                    commit('SET_WALLET_BALANCE', resp.data.data.walletBalance);
                     dispatch('GET_ACCOUNT_SUMMARY', null, { root: true });
                     resolve(true);
                     return true;
