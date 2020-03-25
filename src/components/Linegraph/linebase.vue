@@ -78,6 +78,7 @@
 <script>
 import { Fragment } from 'vue-fragment';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
+import EventBus from '../../event-bus';
 
 export default {
     name: 'Linechartgraphchild',
@@ -186,6 +187,7 @@ export default {
             }
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_CURRENCY_FOR_GRAPH(currency);
             this.loading = true;
+            EventBus.$emit('CURRENCY_EMIT', true);
             await this.GET_PORTFOLIO_GRAPH_SUMMARY({ currency }).then(() => {
                 const defaulttime = {
                     interval: this.getPorfolioglobalTimeforGraph,
@@ -194,6 +196,7 @@ export default {
                 this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(defaulttime).then((res) => {
                     this.loading = false;
                     this.emptyData = res.data.emptyValues;
+                    EventBus.$emit('CURRENCY_EMIT', false);
                 });
             });
         },
@@ -202,6 +205,7 @@ export default {
                 return true;
             }
             this.loading = true;
+            EventBus.$emit('INTERVAL_EMIT', true);
             this.SET_GLOBALSTORE_PORTFOLIOHISTORY_INTERVAL_FOR_GRAPH(e.target.value);
             const payloadsinglestock = {
                 interval: this.getPorfolioglobalTimeforGraph,
@@ -210,6 +214,7 @@ export default {
             await this.GET_LINECHART_PORTFOLIO_GRAPH_DATA(payloadsinglestock).then((res) => {
                 this.emptyData = res.data.emptyValues;
                 this.loading = false;
+                EventBus.$emit('INTERVAL_EMIT', false);
             });
         },
         async mountedActions() {

@@ -14,7 +14,7 @@
         <section class="portfolio-networth">
             <h5>
                 <span
-                    v-if="Object.keys(getPortfolioGraphSummary).length > 0"
+                    v-if="!priceLoader && (Object.keys(getPortfolioGraphSummary).length > 0)"
                     class="cursor-context"
                     :title="
                         getPortfolioGraphSummary.netWorth
@@ -23,11 +23,12 @@
                     "
                     >{{
                         getPortfolioGraphSummary.netWorth | kobo | currency(getPortfolioGraphSummary.currency,true)
-                    }}</span
-                >
-                <span v-else>{{ getPorfolioglobalCurrencyforGraph === "NGN" ? "₦" : "$" }}-</span
-                ><span class="text-light">&nbsp;|&nbsp;</span>
-                <span class="derived">
+                    }}</span>
+                <span v-else-if="priceLoader"><i class="fa fa-spinner fa-spin"></i></span>
+                <span v-else>{{ getPorfolioglobalCurrencyforGraph === "NGN" ? "₦" : "$" }}-</span>
+                <span class="text-light">&nbsp;|&nbsp;</span>
+                <span v-if="priceLoader"><i class="fa fa-spinner fa-spin"></i></span>
+                <span v-else class="derived">
                     <span :class="[getPortfolioDerivedPrice < 0 ? 'red' : 'green']">{{
                         getPortfolioDerivedPrice | units(2)
                     }}</span>
@@ -97,6 +98,7 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
+import EventBus from '../../event-bus';
 
 export default {
     name: 'portfolio',
@@ -143,6 +145,7 @@ export default {
                     description: ''
                 }
             ],
+            priceLoader:true,
             watchlistInterval: '1D',
             cacheWatchlistInterval: '1D',
             watchlistLoading: true,
@@ -173,6 +176,12 @@ export default {
         }
     },
     async mounted() {
+         EventBus.$on('INTERVAL_EMIT', (res) =>{
+            this.priceLoader = res;
+        });
+        EventBus.$on('CURRENCY_EMIT', (resp) =>{
+            this.priceLoader = resp;
+        });
         const payload = { interval: '1D' };
         const currency = { currency: this.getPorfolioglobalCurrencyforGraph };
         this.watchlistLoading = true;
@@ -181,7 +190,12 @@ export default {
         this.portfolioCardsLoading = false;
         await this.GET_WATCHLIST(payload);
         this.watchlistLoading = false;
-        await this.GET_PORTFOLIO_GRAPH_SUMMARY(currency);
+        this.priceLoader = true;
+        this.currencyLoader = true;
+        await this.GET_PORTFOLIO_GRAPH_SUMMARY(currency).then((response)=>{
+           this.priceLoader = false;
+           this.currencyLoader = false;
+        });
     },
     computed: {
         ...mapGetters([

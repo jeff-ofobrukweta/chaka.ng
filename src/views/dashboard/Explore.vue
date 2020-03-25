@@ -78,7 +78,7 @@
                     </a> -->
                     <button data-v-7df3679e="" class="btn-container-main">
                         <button :disabled="collection_page === 0"  @click="shuffleCollections('regression')"  class="buttton">❮</button>
-                        <button :disabled="collection_page == ExploreCollectionsLength - 1" @click="shuffleCollections('progression')" class="buttton">❯</button>
+                        <button :disabled="(collection_page == ExploreCollectionsLength - 1)" @click="shuffleCollections('progression')" class="buttton">❯</button>
                     </button>
                 </div>
             </section>
