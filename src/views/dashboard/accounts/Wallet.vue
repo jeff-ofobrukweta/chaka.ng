@@ -59,7 +59,7 @@
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.localPendingBalance | kobo | currency("NGN", true) }}
                             </h3>
-                            <p><small>Your Incoming Cash<ToolTip tooltip="Money that is on its way to your walletpending approval and isn’t available to trade or withdraw yet."/>
+                            <p><small>Your Incoming Cash<ToolTip tooltip="Money that is on its way to your wallet and isn't available to trade or withdraw yet."/>
 </small></p>
                         </div>
                         <div>
@@ -114,7 +114,7 @@
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.globalPendingBalance | kobo | currency("USD", true) }}
                             </h3>
-                            <p><small>Your Incoming Cash<ToolTip tooltip="Money that is on its way to your walletpending approval and isn’t available to trade or withdraw yet."/></small></p>
+                            <p><small>Your Incoming Cash<ToolTip tooltip="Money that is on its way to your wallet and isn't available to trade or withdraw yet."/></small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
