@@ -54,7 +54,7 @@
 main {
     overflow-x: hidden;
     padding-top: 65px;
-    min-height: 60vh;
+    min-height: 70vh;
     margin-top: -75px;
 }
 
@@ -599,6 +599,18 @@ main {
             margin-bottom: 1rem;
         }
     }
+}
+
+// .is-interactive {
+//     width: 100%;
+// }
+
+// .vc-container {
+//     width: 100% !important;
+// }
+
+.vc-popover-content-wrapper {
+    min-width: 200px;
 }
 
 @keyframes loaderGradient {

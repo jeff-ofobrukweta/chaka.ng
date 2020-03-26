@@ -37,8 +37,8 @@ const mutations = {
 
 const actions = {
     GET_ACCOUNT_SUMMARY: ({ commit, rootState }, payload) => {
-        const newPayload = { ...payload }
-        newPayload.platform = 'web'
+        const newPayload = { ...payload };
+        newPayload.platform = 'web';
         new Promise(resolve => api.get(`/users/${rootState.auth.loggedUser.chakaID}/summary`, newPayload).then(
             (resp) => {
                 if (resp.status >= 200 && resp.status < 400) {
@@ -53,7 +53,7 @@ const actions = {
                 errorFn(error.response, 'accounts');
                 resolve(false);
             }
-        ))
+        ));
     },
     GET_PORTFOLIO_GRAPH_SUMMARY: ({ commit, rootState }, payload) => new Promise(resolve => api.get(`/users/${rootState.auth.loggedUser.chakaID}/summary`, payload).then(
         (resp) => {

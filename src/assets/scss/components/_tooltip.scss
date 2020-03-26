@@ -1,34 +1,6 @@
-// .b-tooltip {
-//     border: 3px solid #fff;
-//     display: inline-block;
-//     font-size: .875em;
-//     padding: .75em;
-//     position: absolute;
-//     text-align: center
-// }
-
-// .b-tooltip-light {
-//     background: #eaeaea;
-//     background: linear-gradient(to bottom, #fdfdfd 0%, #eaeaea 100%);
-//     box-shadow: 0px 0px 6px 2px rgba(110, 110, 110, 0.4);
-//     color: #242424
-// }
-
-// .b-tooltip-dark {
-//     background: #242424;
-//     background: linear-gradient(to bottom, #6e6e6e 0%, #242424 100%);
-//     box-shadow: 0px 0px 6px 2px #6e6e6e;
-//     color: #fff
-// }
-
 .tooltip {
     border: 3px solid #fff;
     display: inline-block;
-    font-size: 14px;
-    letter-spacing: initial;
-    line-height: 1.1rem;
-    color: $grey-cool;
-    font-weight: normal;
     padding: .5rem 0.75rem;
     position: absolute;
     top: 0;
@@ -36,6 +8,15 @@
     box-shadow: 0px 7px 64px rgba($color: $black, $alpha: 0.07);
     transition: all 100ms;
     min-width: 200px;
+
+    p {
+        font-size: 14px;
+        letter-spacing: initial;
+        line-height: 1.1rem;
+        color: $grey-cool;
+        font-weight: normal;
+        font-style: normal;
+    }
 
     &-span {
         cursor: default;
