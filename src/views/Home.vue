@@ -740,7 +740,7 @@
                     </div>
                 </a>
             </div>
-        </section> 
+        </section>
 
         <section class="section v2-mobile">
             <div class="container">
@@ -799,35 +799,35 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from "vuex";
-import AOS from "aos";
-import auth from "../services/validations/auth";
-import fractional from "../assets/img/fractional/fractional.png";
-import minimums from "../assets/img/fractional/low-minimums.png";
-import grow from "../assets/img/fractional/grow.png";
+import { mapActions, mapMutations, mapGetters } from 'vuex';
+import AOS from 'aos';
+import auth from '../services/validations/auth';
+import fractional from '../assets/img/fractional/fractional.png';
+import minimums from '../assets/img/fractional/low-minimums.png';
+import grow from '../assets/img/fractional/grow.png';
 
 export default {
-    name: "Home",
+    name: 'Home',
     components: {
-        EmailSubscribe: () => import("../components/EmailSubscription")
+        EmailSubscribe: () => import('../components/EmailSubscription')
     },
     data() {
         return {
             investNumber: 0,
             invest: [
                 {
-                    title: "Fractional Shares",
-                    text: "Invest in any global stock with any amount of money, no matter the price per share.",
+                    title: 'Fractional Shares',
+                    text: 'Invest in any global stock with any amount of money, no matter the price per share.',
                     image: fractional
                 },
                 {
-                    title: "Low Minimums",
-                    text: "Start trading with as low as $10 or N1, 000.",
+                    title: 'Low Minimums',
+                    text: 'Start trading with as low as $10 or N1, 000.',
                     image: minimums
                 },
                 {
-                    title: "Grow",
-                    text: "Learn more about investing with access to content from our in-house team.",
+                    title: 'Grow',
+                    text: 'Learn more about investing with access to content from our in-house team.',
                     image: grow
                 }
             ],
@@ -838,42 +838,40 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getWindowWidth"]),
+        ...mapGetters(['getWindowWidth']),
         slider() {
             const num = this.investNumber * 50;
             return `translateY(${num}px)`;
         }
     },
     methods: {
-        ...mapActions(["REGISTER"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapActions(['REGISTER']),
+        ...mapMutations(['RESET_REQ']),
         register() {
             this.RESET_REQ();
             if (!this.itemData.email) {
-                this.$set(this.errors, "email", "Field is required");
+                this.$set(this.errors, 'email', 'Field is required');
             } else if (!auth.email(this.itemData.email)) {
-                this.$set(this.errors, "email", "Invalid email");
+                this.$set(this.errors, 'email', 'Invalid email');
             }
             if (!this.itemData.password) {
-                this.$set(this.errors, "password", "Field is required");
+                this.$set(this.errors, 'password', 'Field is required');
             }
             if (Object.keys(this.errors).length > 0) {
                 return false;
             }
             this.loading = true;
             mixpanel.identify(this.itemData.email); // In sign up
-            this.REGISTER(this.itemData).then(resp => {
+            this.REGISTER(this.itemData).then((resp) => {
                 this.loading = false;
-                if (resp) this.$router.push({ name: "verification-sent" });
+                if (resp) this.$router.push({ name: 'verification-sent' });
             });
         }
     },
     mounted() {
-        document.title = "Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets";
-        document.getElementsByTagName("meta").keywords.content =
-            "nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse";
-        document.getElementsByTagName("meta").description.content =
-            "Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.";
+        document.title = 'Chaka - Your Investment Passport to Trade Nigerian, US & International Stock Markets';
+        document.getElementsByTagName('meta').keywords.content = 'nigerian stock exchange, US stock market, nigeria stock market, online investment, investing, capital market, stock trading, stockbroker, stocks, shares, investment passport, chaka, nse, nyse';
+        document.getElementsByTagName('meta').description.content = 'Invest and Trade thousands of companies across 40+ countries through the Nigerian and US Stock Exchanges. Regulated in both Nigeria and the US by Securities Exchange Commission, FINRA, IRS and SIPC.';
 
         // mixpanel.track("HOMEPAGE_VISIT"); //tracking Homepage
     },
@@ -881,10 +879,10 @@ export default {
         AOS.init({
             duration: 400,
             delay: 100,
-            easing: "ease-in-out",
+            easing: 'ease-in-out',
             mirror: false,
-            startEvent: "DOMContentLoaded",
-            anchorPlacement: "top-center",
+            startEvent: 'DOMContentLoaded',
+            anchorPlacement: 'top-center',
             // once: true,
             offset: 50
         });
