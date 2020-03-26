@@ -49,7 +49,7 @@
 
 <script>
 export default {
-    name: "table-accounts",
+    name: 'table-accounts',
     props: {
         history: {
             type: Array,
@@ -62,9 +62,9 @@ export default {
     },
     methods: {
         actionType(value) {
-            if (value === "CREDIT") return "Deposit";
-            if (value === "DEBIT") return "Withdrawal";
-            return "Order";
+            if (value === 'CREDIT') return 'Deposit';
+            if (value === 'DEBIT') return 'Withdrawal';
+            return 'Order';
         }
     }
 };

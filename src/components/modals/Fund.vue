@@ -373,12 +373,12 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-    name: "fund-modal",
+    name: 'fund-modal',
     components: {
-        CurrencyInput: () => import("../form/CurrencyInput")
+        CurrencyInput: () => import('../form/CurrencyInput')
     },
     data() {
         return {
@@ -386,8 +386,8 @@ export default {
             loading: false,
             message: null,
             issues: {},
-            currency: "USD",
-            flag: "START",
+            currency: 'USD',
+            flag: 'START',
             activeMethod: null,
             accountHover: false,
             selectedCard: {},
@@ -397,10 +397,10 @@ export default {
         };
     },
     computed: {
-        ...mapGetters(["getLoggedUser", "getExchangeRate", "getWalletTx", "getUserCards"]),
+        ...mapGetters(['getLoggedUser', 'getExchangeRate', 'getWalletTx', 'getUserCards']),
         actualValue() {
             if (!this.itemData.amount) return 0;
-            if (this.currency === "NGN") return this.itemData.amount;
+            if (this.currency === 'NGN') return this.itemData.amount;
             return this.itemData.amount * this.getExchangeRate.sell;
         },
         userName() {
@@ -416,63 +416,63 @@ export default {
             if (Object.keys(this.selectedCard).length > 0) {
                 payload.card = this.selectedCard.id;
             }
-            if (this.flag === "START") {
+            if (this.flag === 'START') {
                 return payload;
             }
             payload.reference = this.getWalletTx.reference;
             return payload;
         },
         bankTitle() {
-            if (this.selectedCard === "input") return "Add New Card";
+            if (this.selectedCard === 'input') return 'Add New Card';
             if (Object.keys(this.selectedCard).length > 0) return this.selectedCard.bank;
-            return "- Select Card -";
+            return '- Select Card -';
         },
         iswCurrency() {
-            if (this.currency === "USD") return 840;
+            if (this.currency === 'USD') return 840;
             return 566;
         }
     },
     methods: {
-        ...mapActions(["GET_LOGGED_USER", "FUND_WALLET", "GET_EXCHANGE_RATE", "GET_USER_CARDS"]),
-        ...mapMutations(["RESET_REQ"]),
+        ...mapActions(['GET_LOGGED_USER', 'FUND_WALLET', 'GET_EXCHANGE_RATE', 'GET_USER_CARDS']),
+        ...mapMutations(['RESET_REQ']),
         closeModal() {
-            this.$emit("close");
+            this.$emit('close');
         },
         fundWallet() {
             if (!this.fundPayload.source) {
-                this.$set(this.issues, "source", true);
+                this.$set(this.issues, 'source', true);
             }
             if (!this.itemData.amount) {
-                this.$set(this.issues, "amount", "Amount is required");
+                this.$set(this.issues, 'amount', 'Amount is required');
                 return false;
             }
-            if (typeof +this.itemData.amount !== "number") {
-                this.$set(this.issues, "amount", "Invalid number input");
+            if (typeof +this.itemData.amount !== 'number') {
+                this.$set(this.issues, 'amount', 'Invalid number input');
                 return false;
             }
-            if (+this.itemData.amount < 1000 && this.currency === "NGN") {
-                this.$set(this.issues, "amount", "Minimum funding amount is ₦1000");
+            if (+this.itemData.amount < 1000 && this.currency === 'NGN') {
+                this.$set(this.issues, 'amount', 'Minimum funding amount is ₦1000');
                 return false;
             }
-            if (+this.itemData.amount < 10 && this.currency === "USD") {
-                this.$set(this.issues, "amount", "Minimum funding amount is $10");
+            if (+this.itemData.amount < 10 && this.currency === 'USD') {
+                this.$set(this.issues, 'amount', 'Minimum funding amount is $10');
                 return false;
             }
             if (Object.keys(this.issues).length > 0) {
                 return false;
             }
             this.loading = true;
-            this.flag = "START";
-            this.FUND_WALLET(this.fundPayload).then(resp => {
+            this.flag = 'START';
+            this.FUND_WALLET(this.fundPayload).then((resp) => {
                 if (resp) {
                     if (Object.keys(this.selectedCard).length > 0) {
                         this.loading = false;
-                        this.$emit("close", true);
+                        this.$emit('close', true);
                         return true;
                     }
-                    if (this.fundPayload.source === "PAYSTACK") {
+                    if (this.fundPayload.source === 'PAYSTACK') {
                         this.payWithPaystack();
-                    } else if (this.fundPayload.source === "MONNIFY") {
+                    } else if (this.fundPayload.source === 'MONNIFY') {
                         this.payWithMonnify();
                     } else {
                         this.createISWScript();
@@ -491,25 +491,25 @@ export default {
                 firstname: this.getLoggedUser.UserKYC.firstname,
                 lastname: this.getLoggedUser.UserKYC.lastname,
                 ref: this.getWalletTx.reference,
-                onClose: resp => {
+                onClose: (resp) => {
                     this.loading = false;
-                    this.flag = "CANCEL";
+                    this.flag = 'CANCEL';
                     this.FUND_WALLET(this.fundPayload);
                 },
-                callback: response => {
-                    if (response.status === "success") {
-                        this.flag = "SUCCESS";
-                        this.FUND_WALLET(this.fundPayload).then(resp => {
+                callback: (response) => {
+                    if (response.status === 'success') {
+                        this.flag = 'SUCCESS';
+                        this.FUND_WALLET(this.fundPayload).then((resp) => {
                             this.loading = false;
                             if (resp) {
-                                this.$emit("close", true);
+                                this.$emit('close', true);
                                 return true;
                             }
                             return false;
                         });
                     } else {
-                        this.flag = "FAIL";
-                        this.FUND_WALLET(this.fundPayload).then(resp => {
+                        this.flag = 'FAIL';
+                        this.FUND_WALLET(this.fundPayload).then((resp) => {
                             this.loading = false;
                             return false;
                         });
@@ -522,44 +522,44 @@ export default {
         payWithMonnify() {
             MonnifySDK.initialize({
                 amount: this.actualValue,
-                currency: "NGN",
+                currency: 'NGN',
                 reference: this.getWalletTx.reference,
                 customerFullName: this.userName,
                 customerEmail: this.getLoggedUser.email,
                 customerMobileNumber: this.getLoggedUser.phone,
                 apiKey: process.env.VUE_APP_MONNIFY_KEY,
                 contractCode: process.env.VUE_APP_MONNIFY_CONTRACT_CODE,
-                paymentDescription: "Chaka Technologies",
+                paymentDescription: 'Chaka Technologies',
                 isTestMode: process.env.VUE_APP_MONNIFY_TEST_MODE,
-                onComplete: response => {
-                    if (response.paymentStatus === "PAID") {
-                        this.flag = "SUCCESS";
+                onComplete: (response) => {
+                    if (response.paymentStatus === 'PAID') {
+                        this.flag = 'SUCCESS';
                         const payload = { ...this.fundPayload };
                         payload.transactionreference = response.transactionReference;
-                        this.FUND_WALLET(payload).then(resp => {
+                        this.FUND_WALLET(payload).then((resp) => {
                             this.loading = false;
                             if (resp) {
-                                this.$emit("close", true);
+                                this.$emit('close', true);
                                 return true;
                             }
                             return false;
                         });
-                    } else if (response.paymentStatus === "USER_CANCELLED") {
+                    } else if (response.paymentStatus === 'USER_CANCELLED') {
                         this.loading = false;
-                        this.flag = "CANCEL";
+                        this.flag = 'CANCEL';
                         this.FUND_WALLET(this.fundPayload);
                     } else {
-                        this.flag = "FAIL";
-                        this.FUND_WALLET(this.fundPayload).then(resp => {
+                        this.flag = 'FAIL';
+                        this.FUND_WALLET(this.fundPayload).then((resp) => {
                             this.loading = false;
                             return false;
                         });
                     }
                 },
-                onClose: data => {
+                onClose: (data) => {
                     this.loading = false;
-                    if (this.flag === "START") {
-                        this.flag = "CANCEL";
+                    if (this.flag === 'START') {
+                        this.flag = 'CANCEL';
                         this.FUND_WALLET(this.fundPayload);
                     }
                 }
@@ -567,23 +567,23 @@ export default {
         },
         payWithISW() {
             const data = localStorage.isISWBack;
-            if (data !== "undefined") {
-                localStorage.setItem("isISWBack", "undefined");
+            if (data !== 'undefined') {
+                localStorage.setItem('isISWBack', 'undefined');
                 const response = JSON.parse(data);
                 this.showISWButton = false;
-                if (response.resp === "00") {
-                    this.flag = "SUCCESS";
-                    this.FUND_WALLET(this.fundPayload).then(resp => {
+                if (response.resp === '00') {
+                    this.flag = 'SUCCESS';
+                    this.FUND_WALLET(this.fundPayload).then((resp) => {
                         this.loading = false;
                         if (resp) {
-                            this.$emit("close", true);
+                            this.$emit('close', true);
                             return true;
                         }
                         return false;
                     });
                 } else {
-                    this.flag = "FAIL";
-                    this.FUND_WALLET(this.fundPayload).then(resp => {
+                    this.flag = 'FAIL';
+                    this.FUND_WALLET(this.fundPayload).then((resp) => {
                         this.loading = false;
                         return false;
                     });
@@ -591,17 +591,17 @@ export default {
             }
         },
         createISWScript() {
-            const div = document.querySelector("#ISWDiv");
-            const aTag = document.createElement("a");
-            aTag.setAttribute("data-isw-payment-button", true);
-            aTag.setAttribute("data-isw-ref", process.env.VUE_APP_ISW_REF);
+            const div = document.querySelector('#ISWDiv');
+            const aTag = document.createElement('a');
+            aTag.setAttribute('data-isw-payment-button', true);
+            aTag.setAttribute('data-isw-ref', process.env.VUE_APP_ISW_REF);
 
-            const script = document.createElement("script");
-            script.setAttribute("data-isw-trans-amount", this.actualValue * 100);
-            script.setAttribute("type", "text/javascript");
-            script.setAttribute("data-isw-customer-ref", this.getWalletTx.reference);
-            script.setAttribute("data-isw-customer-callback", "ISWCallback");
-            script.setAttribute("src", process.env.VUE_APP_ISW_URL);
+            const script = document.createElement('script');
+            script.setAttribute('data-isw-trans-amount', this.actualValue * 100);
+            script.setAttribute('type', 'text/javascript');
+            script.setAttribute('data-isw-customer-ref', this.getWalletTx.reference);
+            script.setAttribute('data-isw-customer-callback', 'ISWCallback');
+            script.setAttribute('src', process.env.VUE_APP_ISW_URL);
 
             aTag.appendChild(script);
             div.appendChild(aTag);
@@ -610,7 +610,7 @@ export default {
             this.showISWButton = true;
         },
         submitForm() {
-            document.getElementById("form1").submit();
+            document.getElementById('form1').submit();
         },
         switchCurrency(currency) {
             this.showISWButton = false;
@@ -632,16 +632,16 @@ export default {
     },
     async mounted() {
         if (this.$refs.input) this.$refs.input.focus();
-        this.activeMethod = "MONNIFY";
+        this.activeMethod = 'MONNIFY';
         /**
          * TO-DO:: Put back when saved cards is ready
          */
         // await this.GET_USER_CARDS();
         // this.GET_LOGGED_USER();
         this.GET_EXCHANGE_RATE();
-        localStorage.setItem("isISWBack", "undefined");
-        window.addEventListener("storage", () => {
-            if (localStorage.isISWBack && localStorage.isISWBack !== "undefined") {
+        localStorage.setItem('isISWBack', 'undefined');
+        window.addEventListener('storage', () => {
+            if (localStorage.isISWBack && localStorage.isISWBack !== 'undefined') {
                 this.loading = true;
                 this.payWithISW();
                 return true;
@@ -649,10 +649,10 @@ export default {
         });
     },
     beforeDestroy() {
-        localStorage.removeItem("isISWBack");
-        window.removeEventListener("storage", () => {});
-        const iframe = document.querySelector("iframe");
-        const div = document.querySelector("#ISWDiv");
+        localStorage.removeItem('isISWBack');
+        window.removeEventListener('storage', () => {});
+        const iframe = document.querySelector('iframe');
+        const div = document.querySelector('#ISWDiv');
         if (div) {
             if (div.contains(iframe)) {
                 div.removeChild(iframe);

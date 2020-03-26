@@ -241,10 +241,7 @@ export default {
         InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
         InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
         Tag: () => import('../../components/SingleTag')
-        
 
-        
-       
 
     },
     computed: {
