@@ -1,6 +1,6 @@
 <template>
     <div v-if="HvaseCardloader" class="container-packet">
-        <h1 class="title-name">Analyst Rating</h1>
+        <h1 class="title-name">Analyst Rating<ToolTip tooltip="View your positionsEach stock you own is shown here as a percentage of your total stock holdings."/></h1>
         <h1 class="subtitle-name">Views of top investment analysts</h1>
         <section class="graphholder">
             <HorizontalGraph :actions="getActionanalysis" :values="getValueanalysis" />
@@ -18,7 +18,8 @@ export default {
         };
     },
     components: {
-        HorizontalGraph: () => import('./horizontalgraph')
+        HorizontalGraph: () => import('./horizontalgraph'),
+        ToolTip: () => import("../ToolTip")
     },
     computed: {
         ...mapGetters(['getActionanalysis', 'getValueanalysis'])
