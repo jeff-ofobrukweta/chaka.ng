@@ -13,7 +13,7 @@
                     <p>
                         We started Chaka to remove global investment barriers between Africa and the
                         rest of the world making it easier to access opportunities at home and
-                        abroad. We believe that Africans should have ample opportunities to travel,
+                        abroad We believe that Africans should have ample opportunities to travel,
                         trade and invest around the world. We also believe it should be easier for
                         the world to trade and invest in Africa.
                     </p>

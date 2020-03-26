@@ -1,7 +1,7 @@
 <template>
     <section class="dashboard__main">
         <section class="dashboard__title">
-            <h3>Explore</h3>
+            <h3>Explore <ToolTip tooltip="See the latest on the stock market."/></h3>
             <!-- <p class="dashboard__title--sub">See the latest on the stock market</p> -->
         </section>
         <QuizStrip />
@@ -64,7 +64,7 @@
         <section class="explore-section" v-if=" getExploreCollections && getExploreCollections.length > 0">
             <section class="explore__title">
                 <div>
-                    <h3>Collections</h3>
+                    <h3>Collections <ToolTip tooltip="Discover new stocks based on curated themes."/></h3>
                     <!-- <p class="explore__title--sub">See the latest on the stock market</p> -->
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
@@ -99,7 +99,7 @@
         <section class="explore-section" v-if="getExploreLearn.length > 0">
             <section class="explore__title">
                 <div>
-                    <h3>Learn</h3>
+                    <h3>Learn <ToolTip tooltip="Everything you need to know about investments."/></h3>
                     <!-- <p class="explore__title--sub">See the latest on the stock market</p> -->
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
@@ -144,7 +144,7 @@
 
         <section v-if="getWatchlist.length > 0">
             <section class="dashboard__title">
-                <h3>Watchlist</h3>
+                <h3>Watchlist <ToolTip tooltip="Keep a close watch on the top stocks you love and their performance."/></h3>
                 <!-- <p class="dashboard__title--sub">See the latest on the stock market</p> -->
             </section>
 
@@ -187,7 +187,8 @@ export default {
         ExploreWatchlist: () => import('../../components/watchlist/ExploreWatchlist'),
         MobileWatchlist: () => import('../../components/watchlist/MobileWatchlist'),
         NewsCard: () => import('../../components/cards/NewsCard'),
-        QuizStrip: () => import('../../components/QuizStrip')
+        QuizStrip: () => import('../../components/QuizStrip'),
+        ToolTip: () => import("../../components/ToolTip")
     },
     data() {
         return {
