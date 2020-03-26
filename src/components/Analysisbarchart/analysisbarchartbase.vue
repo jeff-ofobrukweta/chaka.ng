@@ -1,6 +1,6 @@
 <template>
     <div v-if="VerticalaseCardloader" class="container-packet">
-        <h1 class="title-name">Performance Rating<ToolTip tooltip=" Last year financial performance of this company"/></h1>
+        <h1 class="title-name">Performance Rating<ToolTip tooltip="Last year financial performance of this company"/></h1>
         <h1 class="subtitle-name">Key company financial performance</h1>
         <section class="graphholder">
             <Analysisbarchart
