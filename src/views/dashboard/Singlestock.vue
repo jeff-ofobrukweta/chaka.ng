@@ -269,7 +269,8 @@ export default {
         Analysisbarchart: () => import('../../components/Analysisbarchart/analysisbarchartbase'),
         InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
         InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
-        NewsCard: () => import('../../components/cards/NewsCard')
+        NewsCard: () => import('../../components/cards/NewsCard'),
+        ToolTip: () => import("../../components/ToolTip")
     },
     computed: {
         ...mapGetters([

@@ -88,14 +88,14 @@
                 <th>Name</th>
                 <th>Symbol</th>
                 <th>Current<br />stock<br />price</th>
-                <th>Units Owned</th>
+                <th>Units Owned<ToolTip tooltip="Number of shares you own in this company."/></th>
                 <!-- <th>Units<br />Ordered</th> -->
-                 <th>Investment<br />Value</th>
+                 <th>Investment<br />Value<ToolTip tooltip="Number of shares you own in this company."/></th>
                 <th>
                     Invested<br />
-                    Percentage
+                    Percentage<ToolTip tooltip="Percentage of this stock in your total stock holdings"/>
                 </th>
-                <th>P/L</th>
+                <th>P/L<ToolTip tooltip="Money you have gained or lost since you invested in this company"/></th>
                 <th>+/-</th>
             </thead>
             <tbody v-if="storedata.length >= 1" class="portfolio-table__tbody">
@@ -185,6 +185,10 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
     name: 'portfolio-table',
+    components: {
+        ToolTip: () => import("../../components/ToolTip")
+      
+    },
     props: {
         storedata: {
             type: Array,

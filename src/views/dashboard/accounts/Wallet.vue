@@ -23,7 +23,7 @@
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.localAvailableToTrade | kobo | currency("NGN", true) }}
                             </h3>
-                            <p><small>Available To Trade</small></p>
+                            <p><small>Available To Trade<ToolTip tooltip=" Available to trade: Money you can use to buy a stock."/></small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
@@ -41,7 +41,7 @@
                                     </svg>
                                 </i>
                             </h3>
-                            <p><small>You can Withdraw</small></p>
+                            <p><small>You can Withdraw<ToolTip tooltip=" Money available to withdraw to your bank account. If the amount has a bracket, it means this money is yet to settle from your last stock sale and you’ve bought before your cash has settled.Please see Good faith violation for more"/></small></p>
 
                             <transition name="kyc-navbar">
                                 <p v-if="showLocalWarning && negativeLocal">
@@ -59,13 +59,14 @@
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.localPendingBalance | kobo | currency("NGN", true) }}
                             </h3>
-                            <p><small>Your Incoming Cash</small></p>
+                            <p><small>Your Incoming Cash<ToolTip tooltip=" Money that is on its way to your walletpending approval and isn’t available to trade or withdraw yet."/>
+</small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.localStocksValue | kobo | currency("NGN", true) }}
                             </h3>
-                            <p><small>Your Stock Value</small></p>
+                            <p><small>Your Stock Value<ToolTip tooltip=" The current value of your owned stocks."  /></small></p>
                         </div>
                     </div>
                 </div>
@@ -77,7 +78,7 @@
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.globalAvailableToTrade | kobo | currency("USD", true) }}
                             </h3>
-                            <p><small>Available To Trade</small></p>
+                            <p><small>Available To Trade<ToolTip tooltip=" Available to trade: Money you can use to buy a stock."/></small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
@@ -95,7 +96,7 @@
                                     </svg>
                                 </i>
                             </h3>
-                            <p><small>You can Withdraw</small></p>
+                            <p><small>You can Withdraw<ToolTip tooltip=" Money available to withdraw to your bank account. If the amount has a bracket, it means this money is yet to settle from your last stock sale and you’ve bought before your cash has settled.Please see Good faith violation for more"/></small></p>
 
                             <transition name="kyc-navbar">
                                 <p v-if="showGlobalWarning && negativeGlobal">
@@ -113,13 +114,13 @@
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.globalPendingBalance | kobo | currency("USD", true) }}
                             </h3>
-                            <p><small>Your Incoming Cash</small></p>
+                            <p><small>Your Incoming Cash<ToolTip tooltip=" Money that is on its way to your walletpending approval and isn’t available to trade or withdraw yet."/></small></p>
                         </div>
                         <div>
                             <h3 class="cursor-context">
                                 {{ getAccountSummary.globalStocksValue | kobo | currency("USD", true) }}
                             </h3>
-                            <p><small>Your Stock Value</small></p>
+                            <p><small>Your Stock Value<ToolTip tooltip=" The current value of your owned stocks."/></small></p>
                         </div>
                     </div>
                 </div>
@@ -178,8 +179,10 @@ import loader from '../../../assets/img/loader.gif';
 export default {
     name: 'accounts-wallet',
     components: {
-        BankCard: () => import('../../../components/accounts/BankCard')
-
+        BankCard: () => import("../../../components/accounts/BankCard"),
+        ToolTip: () => import("../../../components/ToolTip")
+        
+        
 
     },
     data() {

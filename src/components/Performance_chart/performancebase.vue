@@ -1,7 +1,7 @@
 <template>
     <div class="container-packet">
         <section class="dashboard__title">
-            <h3>Performance</h3>
+            <h3>Performance<ToolTip tooltip="Performance of each stock in your portfolio. Green means you are making money, red means your stock has declined in value."/></h3>
             <p class="dashboard__title--sub">See your stock performances</p>
         </section>
         <template v-if="loading">
@@ -99,7 +99,8 @@ export default {
     name: 'performancebase',
     components: {
         Fragment,
-        Performancegraph: () => import('./performancechart')
+        Performancegraph: () => import('./performancechart'),
+        ToolTip: () => import("../ToolTip")
     },
     data() {
         return {
