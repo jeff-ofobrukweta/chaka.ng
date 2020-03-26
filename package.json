@@ -22,6 +22,7 @@
     "pubsub-js": "^1.8.0",
     "register-service-worker": "^1.6.2",
     "sinon": "^8.1.1",
+    "v-calendar": "^1.0.1",
     "vue": "^2.6.10",
     "vue-authenticate": "^1.4.1",
     "vue-axios": "^2.1.5",

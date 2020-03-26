@@ -2,11 +2,15 @@
     <div>
         <section class="accounts__title">
             <h3>Statements</h3>
-            <select class="form__input" @change="marketChange" v-model="market">
-                <option v-for="(option, i) in markets" :key="i" :value="option.value">{{
-                    option.name
-                }}</option>
-            </select>
+            <div class="accounts__title--div">
+                <section class="accounts-statements__date" v-if="getWindowWidth !== 'mobile'">
+                    <input class="form__input" type="date" name="start" @input="handleDate($event)" v-model="fromDate" />to
+                    <input class="form__input" type="date" name="start" @input="handleDate($event)" v-model="toDate" />
+                </section>
+                <select class="form__input no-margin" @change="marketChange" v-model="market">
+                    <option v-for="(option, i) in markets" :key="i" :value="option.value">{{ option.name }}</option>
+                </select>
+            </div>
         </section>
         <section class="accounts-statements__all">
             <button
@@ -19,40 +23,21 @@
                 {{ button.name }}
             </button>
         </section>
-        <section class="accounts-statements__date">
-            <input
-                class="form__input"
-                type="date"
-                name="start"
-                @input="handleDate($event)"
-                v-model="fromDate"
-            />to
-            <input
-                class="form__input"
-                type="date"
-                name="start"
-                @input="handleDate($event)"
-                v-model="toDate"
-            />
+        <section class="accounts-statements__date" v-if="getWindowWidth === 'mobile'">
+            <input class="form__input" type="date" name="start" @input="handleDate($event)" v-model="fromDate" />to
+            <input class="form__input" type="date" name="start" @input="handleDate($event)" v-model="toDate" />
         </section>
 
         <section class="accounts-statements__downloads loader-gif__big" v-if="loading">
             <img :src="require('../../../assets/img/loader.gif')" alt="Loader" />
         </section>
-        <div
-            class="caution__big"
-            v-else-if="getErrorLog.type === 'statements' && getStatements.length <= 0"
-        >
+        <div class="caution__big" v-else-if="getErrorLog.type === 'statements' && getStatements.length <= 0">
             <img :src="require('../../../assets/img/caution.svg')" alt="Caution" />
             <a class="caution__reload" @click="mount">Reload</a>
         </div>
 
         <section class="accounts-statements__downloads" v-else-if="getStatements.length > 0">
-            <StatementsCard
-                v-for="(statement, i) in getStatements"
-                :key="i"
-                :statement="statement"
-            />
+            <StatementsCard v-for="(statement, i) in getStatements" :key="i" :statement="statement" />
         </section>
 
         <section class="empty-center" v-else>
@@ -63,58 +48,58 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from 'vuex';
+import { mapActions, mapMutations, mapGetters } from "vuex";
 
 export default {
-    name: 'accounts-statements',
+    name: "accounts-statements",
     components: {
-        StatementsCard: () => import('../../../components/accounts/StatementsCard')
+        StatementsCard: () => import("../../../components/accounts/StatementsCard")
     },
     data() {
         return {
             payload: {
                 fromDate: null,
                 toDate: null,
-                market: 'GLOBAL'
+                market: "GLOBAL"
             },
             loading: false,
-            market: 'GLOBAL',
-            reportType: 'STATEMENT',
+            market: "GLOBAL",
+            reportType: "STATEMENT",
             selectedOrderCurrency: null,
             fromDate: null,
             toDate: null,
             markets: [
                 {
-                    name: 'Local',
-                    value: 'LOCAL'
+                    name: "Local",
+                    value: "LOCAL"
                 },
                 {
-                    name: 'Global',
-                    value: 'GLOBAL'
+                    name: "Global",
+                    value: "GLOBAL"
                 }
             ],
             reportTypes: [
                 {
-                    name: 'Statement',
-                    value: 'STATEMENT'
+                    name: "Statement",
+                    value: "STATEMENT"
                 },
                 {
-                    name: 'Confirmations',
-                    value: 'TRADE'
+                    name: "Confirmations",
+                    value: "TRADE"
                 },
                 {
-                    name: 'Tax',
-                    value: 'TAX'
+                    name: "Tax",
+                    value: "TAX"
                 }
             ]
         };
     },
     computed: {
-        ...mapGetters(['getStatements', 'getErrorLog'])
+        ...mapGetters(["getStatements", "getErrorLog", "getWindowWidth"])
     },
     methods: {
-        ...mapActions(['GET_STATEMENTS']),
-        ...mapMutations(['SET_STATEMENTS']),
+        ...mapActions(["GET_STATEMENTS"]),
+        ...mapMutations(["SET_STATEMENTS"]),
         handleDate(e) {
             if (e.target.value) {
                 this.payload.fromDate = new Date(this.fromDate).toISOString();

@@ -3,7 +3,16 @@
         <form @submit.prevent="useNewPhone" v-if="showNewPhone">
             <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
             <div class="accounts-settings__group--modal">
-                <label class="form__label">Date of Birth <input class="form__input" type="date" name="dob" @input="handleDate($event)"/></label>
+                <label class="form__label">Date of Birth</label>
+                <DatePicker mode="single" v-model="date" :popover="{ visibility: 'click' }"
+                    ><input
+                        id="date"
+                        slot-scope="{ inputProps, inputEvents }"
+                        :class="['form__input']"
+                        placeholder="Select your date of birth"
+                        v-bind="inputProps"
+                        v-on="inputEvents"
+                /></DatePicker>
             </div>
             <div class="accounts-settings__group--modal">
                 <label class="form__label"
@@ -83,13 +92,15 @@
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment';
-import { mapActions, mapGetters } from 'vuex';
+import { Fragment } from "vue-fragment";
+import { mapActions, mapGetters } from "vuex";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
 
 export default {
-    name: 'phone-otp',
+    name: "phone-otp",
     components: {
-        Fragment
+        Fragment,
+        DatePicker
     },
     props: {
         editOldPhone: {
@@ -108,22 +119,23 @@ export default {
             smsSender: 0,
             issues: {},
             tempPhone: null,
-            callingCode: 234
+            callingCode: 234,
+            date: null
         };
     },
     computed: {
-        ...mapGetters(['getKYC', 'getCountryCodes']),
+        ...mapGetters(["getKYC", "getCountryCodes"]),
         hashTempPhone() {
             if (this.tempPhone) {
                 const hash = String(this.tempPhone)
-                    .split('')
+                    .split("")
                     .map((el, index) => {
                         if (index > 1 && index < 7) {
-                            return '*';
+                            return "*";
                         }
                         return el;
                     });
-                return hash.join('');
+                return hash.join("");
             }
             return null;
         },
@@ -132,13 +144,13 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['GET_KYC', 'USE_BVN_PHONE', 'RESOLVE_OTP', 'GET_COUNTRY_CODES']),
+        ...mapActions(["GET_KYC", "USE_BVN_PHONE", "RESOLVE_OTP", "GET_COUNTRY_CODES"]),
         useBVNPhone() {
             this.loading = true;
             const payload = {
                 smsSender: this.smsSender
             };
-            this.USE_BVN_PHONE(payload).then((resp) => {
+            this.USE_BVN_PHONE(payload).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -158,7 +170,7 @@ export default {
 
             if (Number.isNaN(+this.newPhone.phone)) {
                 this.issues = {
-                    phone: 'Phone should be a number'
+                    phone: "Phone should be a number"
                 };
                 return false;
             }
@@ -173,7 +185,7 @@ export default {
                 return false;
             }
             this.loading = true;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 this.loading = false;
                 if (resp) {
                     this.showNewPhone = false;
@@ -183,18 +195,21 @@ export default {
         },
         submitOTP() {
             this.loading = true;
-            this.RESOLVE_OTP(this.otpData).then((resp) => {
+            this.RESOLVE_OTP(this.otpData).then(resp => {
                 this.loading = false;
                 if (resp) {
-                    this.$emit('close', true);
+                    this.$emit("close", true);
                     this.tempPhone = null;
                     this.itemData = {};
                 }
             });
         },
-        handleDate(e) {
-            if (e.target.value) {
-                this.$set(this.newPhone, 'dob', new Date(e.target.value).toISOString());
+        handleDate() {
+            if (this.date) {
+                const date = new Date(this.date);
+                const timeLag = date.getTimezoneOffset() * 60 * 1000;
+                const offsetDate = new Date(date.getTime() - timeLag);
+                this.$set(this.newPhone, "dob", offsetDate.toISOString());
             }
         },
         resendOTPEmail() {
@@ -207,7 +222,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 if (resp) {
                     this.OTPResend = false;
                     this.itemData = {};
@@ -225,7 +240,7 @@ export default {
             }
             this.loading = true;
             this.newPhone.smsSender = this.smsSender;
-            this.USE_BVN_PHONE(this.newPhone).then((resp) => {
+            this.USE_BVN_PHONE(this.newPhone).then(resp => {
                 if (resp) {
                     this.OTPResend = false;
                     this.itemData = {};
@@ -255,13 +270,13 @@ export default {
             this.showNewPhone = true;
         },
         close() {
-            this.$emit('close');
+            this.$emit("close");
         }
     },
     async mounted() {
         if (this.editOldPhone) {
             this.showNewPhone = true;
-            this.newPhone.countryCode = '234';
+            this.newPhone.countryCode = "234";
         } else {
             this.useBVNPhone();
         }
@@ -280,6 +295,11 @@ export default {
         //         }
         //     }
         // }
+        date(val) {
+            if (val) {
+                this.handleDate();
+            }
+        }
     }
 };
 </script>

@@ -22,7 +22,7 @@
                         <h5>{{ getWalletBalance.availableToWithdraw | kobo | currency(getWalletTx.currency, true) }}</h5>
                     </div>
                     <div class="stock-fund__summary--div">
-                        <h5 class="grey-cool">PENDING CASH</h5>
+                        <h5 class="grey-cool">INCOMING CASH</h5>
                         <h5>{{ getWalletBalance.pendingCash | kobo | currency(getWalletTx.currency, true) }}</h5>
                     </div>
                 </div>

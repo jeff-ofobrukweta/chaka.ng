@@ -148,7 +148,8 @@
       width: 100%;
     }
 
-    &[type="date"] {
+    &[type="date"],
+    &.date {
       margin: 0;
     }
   }
