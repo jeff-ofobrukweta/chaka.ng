@@ -1,8 +1,9 @@
 <template>
     <section class="dashboard__main">
+        <section></section>
         <section class="portfolio-title">
             <div>
-                <h3>Holdings</h3>
+                <h3>Holdings<ToolTip tooltip="This is composed of your stock and cash holdings. Watch how your portfolio is performing periodically" /></h3>
                 <p class="dashboard__title--sub">Portfolio</p>
             </div>
             <section class="portfolio-title__fund">
@@ -53,18 +54,11 @@
         <section class="portfolio-watch">
             <div class="explore__title">
                 <div>
-                    <h3>Watchlist</h3>
+                    <h3>Watchlist<ToolTip tooltip="Keep a close watch on the top stocks you love and their performance."/></h3>
                     <p class="explore__title--sub">Keep a close watch on top stocks</p>
                 </div>
-                <select
-                    :disabled="getWatchlist.length <= 0 || watchlistLoading"
-                    class="form__input"
-                    v-model="watchlistInterval"
-                    @change="handlewatchlistintervalToogle"
-                >
-                    <option v-for="(item, index) in interval" :key="index" :value="item.value">{{
-                        item.name
-                    }}</option>
+                <select :disabled="getWatchlist.length <= 0 || watchlistLoading" class="form__input" v-model="watchlistInterval" @change="handlewatchlistintervalToogle">
+                    <option v-for="(item, index) in interval" :key="index" :value="item.value">{{ item.name }}</option>
                 </select>
             </div>
             <error-block type="watchlist" />
@@ -74,23 +68,15 @@
             <template v-else-if="getWatchlist.length <= 0 && getErrorLog.type === 'watchlist'">
                 <div class="caution__big">
                     <img :src="require('../../assets/img/caution.svg')" alt="Caution" />
-                    <a class="caution__reload" @click="handlewatchlistintervalToogle(true)"
-                        >Reload</a
-                    >
+                    <a class="caution__reload" @click="handlewatchlistintervalToogle(true)">Reload</a>
                 </div>
             </template>
             <section class="watchlist-portfolio__box" v-else-if="getWatchlist.length > 0">
-                <WatchlistCard
-                    v-for="(instrument, index) in getWatchlist"
-                    :key="index"
-                    :instrument="instrument"
-                />
+                <WatchlistCard v-for="(instrument, index) in getWatchlist" :key="index" :instrument="instrument" />
             </section>
             <section class="empty-center" v-else>
                 <p>You have no items in your watchlist</p>
-                <router-link :to="{ name: 'categories' }" class="btn btn__primary btn-block"
-                    >Discover</router-link
-                >
+                <router-link :to="{ name: 'categories' }" class="btn btn__primary btn-block">Discover</router-link>
             </section>
         </section>
     </section>
@@ -109,7 +95,8 @@ export default {
         PortfolioCardOpenorders: () => import('../../components/portfolio/PortfolioCardOpenorders'),
         Linegraph: () => import('../../components/Linegraph/linebase'),
         Doughnut: () => import('../../components/Doughnut/dbase'),
-        Performancebarchart: () => import('../../components/Performance_chart/performancebase')
+        Performancebarchart: () => import('../../components/Performance_chart/performancebase'),
+        ToolTip: () => import('../../components/ToolTip')
     },
     data() {
         return {
@@ -153,11 +140,7 @@ export default {
         };
     },
     methods: {
-        ...mapActions([
-            'GET_PORTFOLIO_GRAPH_SUMMARY',
-            'GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS',
-            'GET_WATCHLIST'
-        ]),
+        ...mapActions(['GET_PORTFOLIO_GRAPH_SUMMARY', 'GET_POSITIONS_HELD_FOR_PORTFOLIOCARDS', 'GET_WATCHLIST']),
         ...mapMutations(['SET_WATCHLIST', 'SET_FUND_MODAL']),
         showFund() {
             this.SET_FUND_MODAL(true);

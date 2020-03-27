@@ -1,8 +1,8 @@
 <template>
     <div class="container-packet">
         <section class="dashboard__title">
-            <h3>Positions</h3>
-            <p class="dashboard__title--sub">View your positions</p>
+            <h3>Positions<ToolTip tooltip="View your positions. Each stock you own is shown here as a percentage of your total stock holdings."/></h3>
+            <p class="dashboard__title--sub"></p>
         </section>
         <template v-if="loading">
             <div class="graphholder container-packet__placeholder loader-gif__big">
@@ -98,7 +98,8 @@ import { mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
     name: 'dbase',
     components: {
-        DoughnutGraph: () => import('./doughnut')
+        DoughnutGraph: () => import('./doughnut'),
+        ToolTip: () => import("../ToolTip")
     },
     data() {
         return {

@@ -232,7 +232,7 @@
             </section>
             <section class="news-container">
                 <section class="dashboard__title">
-                    <h3>News</h3>
+                    <h3>News <ToolTip tooltip="Get the latest market news." /></h3>
                     <!-- <p class="dashboard__title--sub">Discover new stocks</p> -->
                 </section>
                 <section class="news-container-main">
@@ -269,7 +269,8 @@ export default {
         Analysisbarchart: () => import('../../components/Analysisbarchart/analysisbarchartbase'),
         InstrumentCard: () => import('../../components/Instrument/InstrumentCard'),
         InstrumentMobile: () => import('../../components/watchlist/MobileWatchlist'),
-        NewsCard: () => import('../../components/cards/NewsCard')
+        NewsCard: () => import('../../components/cards/NewsCard'),
+        ToolTip: () => import("../../components/ToolTip")
     },
     computed: {
         ...mapGetters([

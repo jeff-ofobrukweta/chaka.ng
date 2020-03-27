@@ -3,7 +3,16 @@
         <form @submit.prevent="useNewPhone" v-if="showNewPhone">
             <p class="text-center mb-3">Enter your details to confirm your new phone number</p>
             <div class="accounts-settings__group--modal">
-                <label class="form__label">Date of Birth <input class="form__input" type="date" name="dob" @input="handleDate($event)"/></label>
+                <label class="form__label">Date of Birth</label>
+                <DatePicker mode="single" v-model="date" :popover="{ visibility: 'click' }"
+                    ><input
+                        id="date"
+                        slot-scope="{ inputProps, inputEvents }"
+                        :class="['form__input']"
+                        placeholder="Select your date of birth"
+                        v-bind="inputProps"
+                        v-on="inputEvents"
+                /></DatePicker>
             </div>
             <div class="accounts-settings__group--modal">
                 <label class="form__label"
@@ -85,11 +94,13 @@
 <script>
 import { Fragment } from 'vue-fragment';
 import { mapActions, mapGetters } from 'vuex';
+import DatePicker from 'v-calendar/lib/components/date-picker.umd';
 
 export default {
     name: 'phone-otp',
     components: {
-        Fragment
+        Fragment,
+        DatePicker
     },
     props: {
         editOldPhone: {
@@ -108,7 +119,8 @@ export default {
             smsSender: 0,
             issues: {},
             tempPhone: null,
-            callingCode: 234
+            callingCode: 234,
+            date: null
         };
     },
     computed: {
@@ -192,9 +204,12 @@ export default {
                 }
             });
         },
-        handleDate(e) {
-            if (e.target.value) {
-                this.$set(this.newPhone, 'dob', new Date(e.target.value).toISOString());
+        handleDate() {
+            if (this.date) {
+                const date = new Date(this.date);
+                const timeLag = date.getTimezoneOffset() * 60 * 1000;
+                const offsetDate = new Date(date.getTime() - timeLag);
+                this.$set(this.newPhone, 'dob', offsetDate.toISOString());
             }
         },
         resendOTPEmail() {
@@ -280,6 +295,11 @@ export default {
         //         }
         //     }
         // }
+        date(val) {
+            if (val) {
+                this.handleDate();
+            }
+        }
     }
 };
 </script>

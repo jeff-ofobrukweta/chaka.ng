@@ -3,9 +3,9 @@ import errorFn from '../../services/apiService/error';
 
 const state = {
     exploreNews: [],
-    explorepaginationNewsPag:{},
-    explorepaginationCollectionPag:{},
-    explorepaginationLearnPag:{},
+    explorepaginationNewsPag: {},
+    explorepaginationCollectionPag: {},
+    explorepaginationLearnPag: {},
     exploreLearn: [],
     exploreCollections: [],
     singleCollection: [],
@@ -30,13 +30,13 @@ const mutations = {
     SET_EXPLORE_NEWS(state, payload) {
         state.exploreNews = payload;
     },
-    SET_EXPLORE_NEWS_PAGINATION_TOTAL(state, payload){
+    SET_EXPLORE_NEWS_PAGINATION_TOTAL(state, payload) {
         state.explorepaginationNewsPag = payload;
     },
-    SET_EXPLORE_COLLECTIONS_PAGINATION_TOTAL(state, payload){
+    SET_EXPLORE_COLLECTIONS_PAGINATION_TOTAL(state, payload) {
         state.explorepaginationCollectionPag = payload;
     },
-    SET_EXPLORE_LEARN_PAGINATION_TOTAL(state, payload){
+    SET_EXPLORE_LEARN_PAGINATION_TOTAL(state, payload) {
         state.explorepaginationLearnPag = payload;
     },
     SET_EXPLORE_LEARN(state, payload) {
@@ -57,7 +57,7 @@ const mutations = {
 };
 
 const actions = {
-     GET_EXPLORE_NEWS: async ({ commit }, payload) =>{
+    GET_EXPLORE_NEWS: async ({ commit }, payload) => {
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         await new Promise(resolve => api.get(`/news/explore/editorials?perPage=${payload.perPage}&page=${payload.page}`).then(
@@ -76,8 +76,9 @@ const actions = {
                 errorFn(error.response, 'explore');
                 resolve(false);
             }
-        ))},
-    GET_EXPLORE_COLLECTIONS: ({ commit }, payload) =>{
+        ));
+    },
+    GET_EXPLORE_COLLECTIONS: ({ commit }, payload) => {
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         new Promise(resolve => api.get(`/news/explore/collections?perPage=${payload.perPage}&page=${payload.page}`).then(
@@ -95,8 +96,9 @@ const actions = {
                 errorFn(error.response, 'explore');
                 resolve(false);
             }
-        ))},
-    GET_EXPLORE_LEARN: ({ commit }, payload) =>{
+        ));
+    },
+    GET_EXPLORE_LEARN: ({ commit }, payload) => {
         // commit("RESET_REQ", null, { root: true });
         // commit("REQ_INIT", null, { root: true });
         new Promise(resolve => api.get('/news/explore/learn', payload).then(
@@ -115,7 +117,8 @@ const actions = {
                 errorFn(error.response, 'explore');
                 resolve(false);
             }
-        ))},
+        ));
+    },
     GET_SINGLE_COLLECTION: ({ commit, state }) => {
         /**
          * @param payload: an array pf stock symbols

@@ -1,7 +1,7 @@
 <template>
     <section class="dashboard__main">
         <section class="dashboard__title">
-            <h3>Explore</h3>
+            <h3>Explore <ToolTip tooltip="See the latest on the stock market." /></h3>
             <!-- <p class="dashboard__title--sub">See the latest on the stock market</p> -->
         </section>
         <QuizStrip />
@@ -36,7 +36,7 @@
                 <NewsCard :news="item" v-for="(item, index) in otherNews" :key="index" />
             </div>
             <div class="explore-actions__bottom">
-                 <!-- <a class="explore-actions" @click="shuffleNews" >
+                <!-- <a class="explore-actions" @click="shuffleNews" >
                         <button v-if="loadNews" class="buttonload">
                         <i class="fa fa-spinner fa-spin"></i>Loading
                         </button>
@@ -44,15 +44,13 @@
                         more
                         </button>
                     </a> -->
-                    <button data-v-7df3679e="" class="btn-container-main">
-                        <span>
-                            <button v-if="loadNews" class="buttonload">
-                             <i class="fa fa-spinner fa-spin"></i>Loading
-                            </button>
-                            <button v-else :disabled="page === 0"  @click="shuffleNews('regression')" class="buttton">❮</button>
-                        </span>
-                        <button :disabled="page == ExploreNewsLength - 1" @click="shuffleNews('progression')" class="buttton">❯</button>
-                    </button>
+                <button data-v-7df3679e="" class="btn-container-main">
+                    <span>
+                        <button v-if="loadNews" class="buttonload"><i class="fa fa-spinner fa-spin"></i>Loading</button>
+                        <button v-else :disabled="page === 0" @click="shuffleNews('regression')" class="buttton">❮</button>
+                    </span>
+                    <button :disabled="page == ExploreNewsLength - 1" @click="shuffleNews('progression')" class="buttton">❯</button>
+                </button>
             </div>
         </section>
 
@@ -61,10 +59,10 @@
             <p>There are no news available at the moment</p>
         </section>
 
-        <section class="explore-section" v-if=" getExploreCollections && getExploreCollections.length > 0">
+        <section class="explore-section" v-if="getExploreCollections && getExploreCollections.length > 0">
             <section class="explore__title">
                 <div>
-                    <h3>Collections</h3>
+                    <h3>Collections <ToolTip tooltip="Discover new stocks based on curated themes." /></h3>
                     <!-- <p class="explore__title--sub">See the latest on the stock market</p> -->
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
@@ -86,12 +84,12 @@
                 <NewsCard :news="{}" dummy v-for="i in 5" :key="i" />
             </div>
             <div class="card-news__box explore__news" v-else>
-                <NewsCard :news="item" v-for="(item, index) in getExploreCollections" :key="index"/>
+                <NewsCard :news="item" v-for="(item, index) in getExploreCollections" :key="index" />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
                 <button class="btn-container-main">
-                        <button :disabled="collection_page === 0"  @click="shuffleCollections('regression')"  class="buttton">❮</button>
-                        <button :disabled="(collection_page == ExploreNewsLength - 1)" @click="shuffleCollections('progression')" class="buttton">❯</button>
+                    <button :disabled="collection_page === 0" @click="shuffleCollections('regression')" class="buttton">❮</button>
+                    <button :disabled="collection_page == ExploreNewsLength - 1" @click="shuffleCollections('progression')" class="buttton">❯</button>
                 </button>
             </div>
         </section>
@@ -99,11 +97,11 @@
         <section class="explore-section" v-if="getExploreLearn.length > 0">
             <section class="explore__title">
                 <div>
-                    <h3>Learn</h3>
+                    <h3>Learn <ToolTip tooltip="Everything you need to know about investments." /></h3>
                     <!-- <p class="explore__title--sub">See the latest on the stock market</p> -->
                 </div>
                 <div v-if="getWindowWidth !== 'mobile'">
-                     <!-- <a class="explore-actions" @click="shuffleLearn" >
+                    <!-- <a class="explore-actions" @click="shuffleLearn" >
                         <button v-if="loadLearn" class="buttonload">
                         <i class="fa fa-spinner fa-spin"></i>Loading
                         </button>
@@ -112,8 +110,8 @@
                         </button>
                     </a> -->
                     <button data-v-7df3679e="" class="btn-container-main">
-                        <button :disabled="learn_page === 0"   @click="shuffleLearn('regression')"  class="buttton">❮</button>
-                        <button :disabled="learn_page == ExploreLearnLength - 1"   @click="shuffleLearn('progression')"  class="buttton">❯</button>
+                        <button :disabled="learn_page === 0" @click="shuffleLearn('regression')" class="buttton">❮</button>
+                        <button :disabled="learn_page == ExploreLearnLength - 1" @click="shuffleLearn('progression')" class="buttton">❯</button>
                     </button>
                 </div>
             </section>
@@ -124,7 +122,7 @@
                 <NewsCard :news="item" v-for="(item, index) in getExploreLearn" :key="index" />
             </div>
             <div class="explore-actions__bottom" v-if="getWindowWidth === 'mobile'">
-                <a class="explore-actions" @click="shuffleLearn" >
+                <a class="explore-actions" @click="shuffleLearn">
                     <!-- <button v-if="loadLearn" class="buttonload">
                      <i class="fa fa-spinner fa-spin"></i>Loading
                     </button>
@@ -133,18 +131,17 @@
                     </button> -->
                     <!-- ExploreLearnLength -->
                     <button data-v-7df3679e="" class="btn-container-main">
-                        <button :disabled="learn_page === 0"  @click="shuffleLearn('regression')" class="buttton">❮</button>
-                        <button :disabled="learn_page == ExploreLearnLength - 1"  @click="shuffleLearn('progression')" class="buttton">❯</button>
+                        <button :disabled="learn_page === 0" @click="shuffleLearn('regression')" class="buttton">❮</button>
+                        <button :disabled="learn_page == ExploreLearnLength - 1" @click="shuffleLearn('progression')" class="buttton">❯</button>
                     </button>
                 </a>
-                
             </div>
         </section>
         <!-- </template> -->
 
         <section v-if="getWatchlist.length > 0">
             <section class="dashboard__title">
-                <h3>Watchlist</h3>
+                <h3>Watchlist <ToolTip tooltip="Keep a close watch on the top stocks you love and their performance." /></h3>
                 <!-- <p class="dashboard__title--sub">See the latest on the stock market</p> -->
             </section>
 
@@ -187,14 +184,15 @@ export default {
         ExploreWatchlist: () => import('../../components/watchlist/ExploreWatchlist'),
         MobileWatchlist: () => import('../../components/watchlist/MobileWatchlist'),
         NewsCard: () => import('../../components/cards/NewsCard'),
-        QuizStrip: () => import('../../components/QuizStrip')
+        QuizStrip: () => import('../../components/QuizStrip'),
+        ToolTip: () => import('../../components/ToolTip')
     },
     data() {
         return {
             infiniteLoader: false,
             loading: false,
-            learn_page:0,
-            learn_perPage:10,
+            learn_page: 0,
+            learn_perPage: 10,
             loadNews: null,
             apendNews:[],
             apendCollections:[],
@@ -203,12 +201,23 @@ export default {
             watchlistLoading: false,
             page: 0,
             perPage: 10,
-            collection_page:0,
-            collection_perPage:10,
+            collection_page: 0,
+            collection_perPage: 10
         };
     },
     computed: {
-        ...mapGetters(['getPortfolioSummary','getExploreCollectionsTotal','getExploreLearnTotal', 'getWindowWidth','getExploreNewsTotal', 'getExploreNews', 'getExploreCollections', 'getExploreLearn', 'getWatchlist', 'getErrorLog']),
+        ...mapGetters([
+            'getPortfolioSummary',
+            'getExploreCollectionsTotal',
+            'getExploreLearnTotal',
+            'getWindowWidth',
+            'getExploreNewsTotal',
+            'getExploreNews',
+            'getExploreCollections',
+            'getExploreLearn',
+            'getWatchlist',
+            'getErrorLog'
+        ]),
         otherNews() {
             return [...this.getExploreNews].splice(1);
         },
@@ -248,10 +257,7 @@ export default {
         //
     },
     methods: {
-        ...mapMutations([
-            'SET_EXPLORE_NEWS',
-            'SET_EXPLORE_COLLECTIONS'
-        ]),
+        ...mapMutations(['SET_EXPLORE_NEWS', 'SET_EXPLORE_COLLECTIONS']),
         ...mapActions(['GET_EXPLORE_NEWS', 'GET_EXPLORE_COLLECTIONS', 'GET_EXPLORE_LEARN', 'GET_WATCHLIST']),
 
         async shuffleNews(signType) {
@@ -270,7 +276,7 @@ export default {
                     } else {
                         const pagenation = {
                             page: --this.page,
-                            perPage: this.perPage,
+                            perPage: this.perPage
                         };
                         this.loadNews = true;
                         this.GET_EXPLORE_NEWS(pagenation).then((response) => {
@@ -281,11 +287,11 @@ export default {
                     }
                 }
                 // if the numberof pages is < Math.ceil(totalPaginationlength / 10)
-                else if(signType == 'progression') {
-                     const pagenation = {
-                            page: ++this.page,
-                            perPage: this.perPage
-                        };
+                else if (signType == 'progression') {
+                    const pagenation = {
+                        page: ++this.page,
+                        perPage: this.perPage
+                    };
                     if (this.page < this.ExploreNewsLength - 1) {
                         this.loadNews = true;
                         await this.GET_EXPLORE_NEWS(pagenation);
@@ -330,7 +336,7 @@ export default {
                     } else {
                         const pagenation = {
                             page: --this.collection_page,
-                            perPage: this.collection_perPage,
+                            perPage: this.collection_perPage
                         };
                         this.loadCollections = true;
                         await this.GET_EXPLORE_COLLECTIONS(pagenation).then(() => {
@@ -365,14 +371,14 @@ export default {
                             page: pageCount,
                             perPage: this.learn_perPage
                         };
-                         this.loadLearn = true;
+                        this.loadLearn = true;
                         await this.GET_EXPLORE_LEARN(pagenation).then(() => {
                             this.loadLearn = null;
                         });
-                    } else if(this.learn_page > 0){
+                    } else if (this.learn_page > 0) {
                         const pagenation = {
                             page: --this.learn_page,
-                            perPage: this.learn_perPage,
+                            perPage: this.learn_perPage
                         };
                         this.loadLearn = true;
                         this.GET_EXPLORE_LEARN(pagenation).then(() => {
@@ -381,18 +387,18 @@ export default {
                     }
                 }
                 // if the numberof pages is < Math.ceil(totalPaginationlength / 10)
-                else if(signType == 'progression'){
+                else if (signType == 'progression') {
                     const pagenation = {
-                            page: ++this.learn_page,
-                            perPage: this.learn_perPage
-                        };
+                        page: ++this.learn_page,
+                        perPage: this.learn_perPage
+                    };
                     if (this.learn_page < this.ExploreLearnLength - 1) {
                         this.loadLearn = true;
                         // this.SET_EXPLORE_NEWS([]);
-                        await this.GET_EXPLORE_LEARN(pagenation).then(()=>{
+                        await this.GET_EXPLORE_LEARN(pagenation).then(() => {
                             this.loadLearn = false;
                             this.SET_EXPLORE_NEWS([...this.getExploreLearn]);
-                        })
+                        });
                     }
                 }
             }
@@ -409,8 +415,8 @@ export default {
             if (this.getExploreLearn.length <= 0) {
                 this.GET_EXPLORE_LEARN(payload);
             }
-            
-            await this.GET_EXPLORE_NEWS(payload)
+
+            await this.GET_EXPLORE_NEWS(payload);
             this.loading = false;
             // this.SET_INSTRUMENT_BY_TAGS([...this.getExploreNews]);
         }
@@ -419,9 +425,9 @@ export default {
         if (this.getExploreNews.length > 0) {
             this.loading = false;
         }
-         const payload = {
-                page: 0,
-                perPage: 10
+        const payload = {
+            page: 0,
+            perPage: 10
         };
         this.page= 0,
         this.perPage= 10,
@@ -436,7 +442,7 @@ export default {
 
         await this.GET_WATCHLIST();
         this.watchlistLoading = false;
-        await Promise.all([this.GET_EXPLORE_COLLECTIONS(payload), this.GET_EXPLORE_LEARN(payload)]).then(()=>{
+        await Promise.all([this.GET_EXPLORE_COLLECTIONS(payload), this.GET_EXPLORE_LEARN(payload)]).then(() => {
             this.loadCollections = null;
             this.loadLearn = null;
         });
