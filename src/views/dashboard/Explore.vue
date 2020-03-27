@@ -77,8 +77,8 @@
                         </button>
                     </a> -->
                     <button data-v-7df3679e="" class="btn-container-main">
-                        <button :disabled="collection_page === 0"  @click="shuffleCollections('regression')"  class="buttton">❮</button>
-                        <button :disabled="(collection_page == ExploreCollectionsLength - 1)" @click="shuffleCollections('progression')" class="buttton">❯</button>
+                        <button :disabled="collection_page  == 0"  @click="shuffleCollections('regression')"  class="buttton">❮</button>
+                        <button :disabled="(collection_page == (this.ExploreCollectionsLength - 1))" @click="shuffleCollections('progression')" class="buttton">❯</button>
                     </button>
                 </div>
             </section>
@@ -196,6 +196,8 @@ export default {
             learn_page:0,
             learn_perPage:10,
             loadNews: null,
+            apendNews:[],
+            apendCollections:[],
             loadCollections: true,
             loadLearn: true,
             watchlistLoading: false,
@@ -215,8 +217,8 @@ export default {
                 if (this.getExploreNewsTotal === '') {
                     return 0;
                 }
-                const length = this.getExploreNewsTotal.total / 10;
-                const ceilLength = Math.ceil(length);
+                let length = this.getExploreNewsTotal.total / 10;
+                let ceilLength = Math.ceil(length);
                 return ceilLength;
             }
             return false;
@@ -226,8 +228,8 @@ export default {
                 if (this.getExploreCollectionsTotal === '') {
                     return 0;
                 }
-                const length = this.getExploreCollectionsTotal.total / 10;
-                const ceilLength = Math.ceil(length);
+                let length = this.getExploreCollectionsTotal.pages;
+                let ceilLength = length;
                 return ceilLength;
             }
             return false;
@@ -271,7 +273,9 @@ export default {
                             perPage: this.perPage,
                         };
                         this.loadNews = true;
-                        this.GET_EXPLORE_NEWS(pagenation).then(() => {
+                        this.GET_EXPLORE_NEWS(pagenation).then((response) => {
+                            // this.handlesplicenews([...this.getExploreNews]);
+                            this.SET_EXPLORE_NEWS([...this.getExploreNews]);
                             this.loadNews = null;
                         });
                     }
@@ -286,10 +290,29 @@ export default {
                         this.loadNews = true;
                         await this.GET_EXPLORE_NEWS(pagenation);
                             this.loadNews = false;
-                            this.SET_EXPLORE_NEWS([...this.getExploreNews]);
+                            this.handlenewsAppend([...this.getExploreNews]);
+                            this.SET_EXPLORE_NEWS([...this.apendNews]);
                     }
                 }
             }
+        },
+        handlenewsAppend(newsPayload){
+            this.apendNews = this.apendNews.concat(newsPayload)
+            return this.apendNews;
+        },
+        handlesplicenews(newsPayload){
+            if (this.apendNews.length > 10){
+                this.apendNews = this.apendNews.splice(0,newsPayload[newsPayload.length - 1]) //arr.splice(2,2)
+                return this.apendNews;
+            }
+        },
+        handlecollectionAppend(collectionPayload){
+            this.apendCollections = this.apendCollections.concat(collectionPayload)
+            return this.apendCollections;
+        },
+        handlesplicecollections(newsPayload){
+            this.apendCollections = this.apendCollections.splice(newsPayload[this.apendCollections.length - 1],10) //arr.splice(2,2)
+            return this.apendCollections;
         },
         async shuffleCollections(signType) {
             if (signType) {
@@ -311,23 +334,25 @@ export default {
                         };
                         this.loadCollections = true;
                         await this.GET_EXPLORE_COLLECTIONS(pagenation).then(() => {
+                            this.handlesplicecollections([...this.getExploreCollections])
                             this.loadCollections = null;
                         });
                     }
                 }
                 // if the numberof pages is < Math.ceil(totalPaginationlength / 10)
                 else if(signType == 'progression'){
-                    const pagenation = {
-                            page: ++this.collection_page,
-                            perPage: this.collection_perPage
+                    if (this.collection_page < this.ExploreCollectionsLength) {
+                        const pagenation = {
+                                page: ++this.collection_page,
+                                perPage: this.collection_perPage
                         };
-                    if (this.collection_page < this.ExploreCollectionsLength - 1) {
                         this.loadCollections = true;
-                        // this.SET_EXPLORE_NEWS([]);
                         await this.GET_EXPLORE_COLLECTIONS(pagenation);
+                            this.handlecollectionAppend([...this.getExploreCollections])
+                            this.SET_EXPLORE_COLLECTIONS([...this.apendCollections]);
                             this.loadCollections = null;
-                            this.SET_EXPLORE_COLLECTIONS([...this.getExploreCollections]);
                     }
+                    return
                 }
             }
         },
@@ -398,7 +423,10 @@ export default {
                 page: 0,
                 perPage: 10
         };
-        
+        this.page= 0,
+        this.perPage= 10,
+        this.collection_page=0,
+
         await this.GET_EXPLORE_NEWS(payload);
         this.loading = false;
         this.watchlistLoading = true;

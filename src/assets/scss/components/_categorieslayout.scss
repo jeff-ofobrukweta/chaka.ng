@@ -48,13 +48,15 @@
     width: 48px;
 }
 
+
+
 ::-webkit-scrollbar{
     height: 4px;
     width: 4px;
-    background: gray;
+    background: transparent;
 }
 ::-webkit-scrollbar-thumb:horizontal{
-    background: #000;
+    background: transparent;
     border-radius: 10px;
 }
 .form__input_select_opacity{

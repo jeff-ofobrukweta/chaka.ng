@@ -10,6 +10,7 @@ const state = {
     exploreCollections: [],
     singleCollection: [],
     collectionStocks: [],
+    apendNews:[],
     selectedCollection: {}
 };
 
@@ -82,9 +83,7 @@ const actions = {
         new Promise(resolve => api.get(`/news/explore/collections?perPage=${payload.perPage}&page=${payload.page}`).then(
             (resp) => {
                 if (resp.status >= 200 && resp.status < 400) {
-                    // commit("REQ_SUCCESS", null, { root: true });
-                    // commit('SET_EXPLORE_COLLECTIONS_PAGINATION_TOTAL', resp.data.pagination);
-                     commit('SET_EXPLORE_NEWS_PAGINATION_TOTAL', resp.data.data.pagination);
+                    commit('SET_EXPLORE_NEWS_PAGINATION_TOTAL', resp.data.data.pagination);
                     commit('SET_EXPLORE_COLLECTIONS', resp.data.data.articles);
                     resolve(true);
                     return true;

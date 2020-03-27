@@ -1,7 +1,7 @@
 <template>
     <Fragment v-if="instrument">
         <div class="stock-table">
-            <div class="stock-table__flex">
+            <!-- <div class="stock-table__flex">
                 <p class="stock-table__head">No. of Shares</p>
                 <p
                     class="stock-table__body cursor-context"
@@ -9,8 +9,8 @@
                 >
                     {{ checkforUndefined(instrument.unitsOwned) || 0.0 | units(2, true) }}
                 </p>
-            </div>
-            <div class="stock-table__flex">
+            </div> -->
+            <!-- <div class="stock-table__flex">
                 <p class="stock-table__head">Value of Shares</p>
                 <p
                     class="stock-table__body stock-table__img cursor-context"
@@ -27,8 +27,8 @@
                     <section :title="'No current value'" v-else-if="!instrument.currentValue"></section>
                     <img v-else :src="require('../../assets/img/chevron-down.svg')" alt="growth" />
                 </p>
-            </div>
-            <div class="stock-table__flex stock-table__flex--full">
+            </div> -->
+            <!-- <div class="stock-table__flex stock-table__flex--full">
                 <p class="stock-table__head">Net Earnings</p>
                 <p
                     class="stock-table__body cursor-context"
@@ -41,7 +41,7 @@
                         checkforUndefined(instrument.netEarnings) || 0.0 | kobo |currency(instrument.currency)
                     }}
                 </p>
-            </div>
+            </div> -->
             <div class="stock-table__flex">
                 <p class="stock-table__head">Market Cap</p>
                 <p
