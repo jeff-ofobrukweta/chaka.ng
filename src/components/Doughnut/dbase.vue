@@ -1,7 +1,7 @@
 <template>
     <div class="container-packet">
         <section class="dashboard__title">
-            <h3>Positions<ToolTip tooltip="View your positionsEach stock you own is shown here as a percentage of your total stock holdings."/></h3>
+            <h3>Positions<ToolTip tooltip="View your positions. Each stock you own is shown here as a percentage of your total stock holdings."/></h3>
             <p class="dashboard__title--sub"></p>
         </section>
         <template v-if="loading">

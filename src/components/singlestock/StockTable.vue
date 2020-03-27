@@ -43,7 +43,7 @@
                 </p>
             </div>
             <div class="stock-table__flex">
-                <p class="stock-table__head">Market Cap<ToolTip tooltip="Size of a company and how much it is worth on the stock exchange"/></p>
+                <p class="stock-table__head">Market Cap<ToolTip tooltip="The size of a company and how much it is worth on the stock exchange"/></p>
                 <p
                     class="stock-table__body cursor-context"
                     v-if="instrument.InstrumentDynamic"
@@ -83,7 +83,7 @@
                 </p>
             </div>
             <div class="stock-table__flex">
-                <p class="stock-table__head">Volume<ToolTip tooltip="number of shares traded on the stock exchange during the day's trading session."/></p>
+                <p class="stock-table__head">Volume<ToolTip tooltip="Number of shares traded on the stock exchange during the day's trading session."/></p>
                 <p
                     class="stock-table__body cursor-context"
                     v-if="instrument.InstrumentDynamic"
@@ -93,7 +93,7 @@
                 </p>
             </div>
             <div class="stock-table__flex">
-                <p class="stock-table__head">52 Weeks High<ToolTip tooltip="the highest price of the stock in the past year (52 weeks)"/></p>
+                <p class="stock-table__head">52 Weeks High<ToolTip tooltip="The highest price of the stock in the past year (52 weeks)"/></p>
                 <p
                     class="stock-table__body cursor-context"
                     v-if="instrument.InstrumentDynamic"
@@ -109,7 +109,7 @@
                 </p>
             </div>
             <div class="stock-table__flex">
-                <p class="stock-table__head">52 Weeks Low<ToolTip tooltip="the highest price of the stock in the past year (52 weeks)"/></p>
+                <p class="stock-table__head">52 Weeks Low<ToolTip tooltip="The highest price of the stock in the past year (52 weeks)"/></p>
                 <p
                     class="stock-table__body cursor-context"
                     v-if="instrument.InstrumentDynamic"
@@ -163,7 +163,7 @@
                 </p>
             </div>
             <div class="stock-table__flex stock-table__flex--full">
-                <p class="stock-table__head">Market Cap<ToolTip tooltip="Size of a company and how much it is worth on the stock exchange"/></p>
+                <p class="stock-table__head">Market Cap<ToolTip tooltip="The size of a company and how much it is worth on the stock exchange"/></p>
                 <p
                     class="stock-table__body cursor-context"
                     :title="'0.00'"
@@ -192,7 +192,7 @@
                 </p>
             </div>
             <div class="stock-table__flex">
-                <p class="stock-table__head">Volume<ToolTip tooltip="number of shares traded on the stock exchange during the day's trading session."/></p>
+                <p class="stock-table__head">Volume<ToolTip tooltip="Number of shares traded on the stock exchange during the day's trading session."/></p>
                 <p
                     class="stock-table__body cursor-context"
                    :title="'0.00'"
@@ -201,7 +201,7 @@
                 </p>
             </div>
             <div class="stock-table__flex">
-                <p class="stock-table__head">52 Weeks High<ToolTip tooltip="the highest price of the stock in the past year (52 weeks)"/></p>
+                <p class="stock-table__head">52 Weeks High<ToolTip tooltip="The highest price of the stock in the past year (52 weeks)"/></p>
                 <p
                     class="stock-table__body cursor-context"
                     :title="'0.00'"
@@ -212,7 +212,7 @@
                 </p>
             </div>
             <div class="stock-table__flex">
-                <p class="stock-table__head">52 Weeks Low<ToolTip tooltip="the highest price of the stock in the past year (52 weeks)"/></p>
+                <p class="stock-table__head">52 Weeks Low<ToolTip tooltip="The highest price of the stock in the past year (52 weeks)"/></p>
                 <p
                     class="stock-table__body cursor-context"
                     :title="'0.00'"
